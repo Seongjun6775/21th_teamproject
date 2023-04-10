@@ -1,17 +1,33 @@
 package com.ktds.fr.rv.vo;		
-		
+	
+/**
+ * 리뷰(RV)
+ * @author User
+ *
+ */
 public class RvVO {		
 		
-	private String rvId;	
-	private String mbrId;	
-	private String odrId;	
+	// 리뷰ID
+	private String rvId; 
+	// 회원 ID
+	private String mbrId;
+	// 주문 ID
+	private String odrId;
+	// 제목
 	private String rvTtl;	
+	// 내용
 	private String rvCntnt;	
+	// 좋아요/싫어요
 	private String rvLkDslk;	
+	// 등록일
 	private String rvRgstDt;	
+	// 수정일
 	private String mdfyDt;	
-	private String useYn;	
+	// 사용유무
+	private String useYn;
+	// 삭제여부
 	private String delYn;	
+	
 	public String getRvId() {	
 		return rvId;
 	}	

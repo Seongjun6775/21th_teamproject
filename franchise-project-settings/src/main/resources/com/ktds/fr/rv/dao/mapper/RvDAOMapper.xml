@@ -4,6 +4,98 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Rv">
 
+	<insert id="createNewRv"
+			parameterType="com.ktds.fr.rv.vo.RvVO">
+		INSERT INTO RV
+		  (RV_ID
+	     , MBR_ID
+	     , ODR_ID
+	     , RV_TTL
+	     , RV_CNTNT
+	     , RV_LK_DSLK
+	     , RV_RGST_DT
+	     , MDFY_DT
+	     , USE_YN
+	     , DEL_YN)
+		 VALUES
+		  ('RV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_RV_PK.NEXTVAL, 5, '0')
+		 , #{mbrId}
+		 , #{odrId}
+		 , #{rvTtl}
+		 , #{rvCntnt}
+		 , NVL(#{rvLkDslk}, 'T') 
+		 , SYSDATE
+		 , SYSDATE
+		 , NVL(#{useYn}, 'Y') 
+		 , NVL(#{delYn}, 'N') )		
+	</insert>
 
-
+	<select id="readAllRvList"
+			parameterType="com.ktds.fr.rv.vo.RvVO"
+			resultType="com.ktds.fr.rv.vo.RvVO">
+		SELECT RV_ID
+			 , MBR_ID
+			 , ODR_ID
+			 , RV_TTL
+			 , RV_CNTNT
+			 , RV_LK_DSLK
+			 , TO_CHAR(RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , USE_YN
+			 , DEL_YN
+		  FROM RV	
+		 WHERE USE_YN = 'Y'
+		   AND DEL_YN = 'N'	
+	</select>
+	
+	<select id="readOneRvVO"
+			parameterType="com.ktds.fr.rv.vo.RvVO"
+			resultType="com.ktds.fr.rv.vo.RvVO">
+		SELECT RV_ID
+		  	 , MBR_ID
+		  	 , ODR_ID
+		  	 , RV_TTL
+		  	 , RV_CNTNT
+		  	 , RV_LK_DSLK
+		  	 , TO_CHAR(RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		  	 , USE_YN
+		  	 , DEL_YN
+		  FROM RV
+		 WHERE USE_YN = 'Y'
+		   AND DEL_YN = 'N'		
+	</select>
+	
+	<select id="readAllRvByStrId"
+			parameterType="string"
+			resultType="com.ktds.fr.rv.vo.RvVO">
+		
+	</select>
+	
+	<select id="readOneRvVOByStrId"
+			parameterType="string"
+			resultType="com.ktds.fr.rv.vo.RvVO">
+		
+	</select>
+	
+	<update id="deleteAllRvList"
+			parameterType="arraylist">
+		UPDATE RV
+		   SET USE_YN = 'N'
+		     , DEL_YN = 'Y'
+		 WHERE RV_ID IN
+		 <foreach collection="list" item="rvId" open="(" close=")" separator=", ">
+		 	#{rvId}
+		 </foreach>	
+	</update>
+	
+	<update id="deleteOneRvByRvId"
+			parameterType="string">
+		UPDATE RV
+		   SET USE_YN = 'N' 
+		     , DEL_YN = 'Y' 
+		 WHERE RV_ID = #{_parameter}
+	</update>
+	
 </mapper>
+
