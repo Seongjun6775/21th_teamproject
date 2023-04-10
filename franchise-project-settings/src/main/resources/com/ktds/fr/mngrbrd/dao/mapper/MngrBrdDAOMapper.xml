@@ -3,7 +3,122 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MngrBrd">
+	
+	<select id="readAllMngrBrds"
+			parameterType="parameterType"
+			resultType="resultType">
+			
+		
+	</select>
+	
+	<resultMap id="brdMap" type="com.ktds.fr.mngrbrd.vo.MngrBrdVO"  autoMapping="true">
+		<association property="MbrVO"
+			javaType="com.ktds.fr.mbr.vo.MbrVO" 
+			autoMapping="true">
+			<id property="mbrId" column="MBR_ID"/>			 
+		</association>
+		
+		<collection property="replyList"
+					ofType="com.ktds.fr.rpl.vo.RplVO"
+					autoMapping="true">
+			<id property="rplId" column="RPL_ID"/>
+			<result property="" column=""/>
+			<result property="" column=""/>
+			<result property="" column=""/>
+			
+			
+			
+		
+		
+					
+		</collection>
+	
+	
+	
+	</resultMap>
+	
+	
+	<select id="readOneMngrBrdByMngrBrdId"
+			parameterType="string"
+			resultType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+		SELECT B.MNGR_BRD_ID
+		     , B.MNGR_BRD_TTL
+		     , B.MNGR_BRD_CNTNT
+		     , B.MNGR_ID
+		     , TO_CHAR(B.MNGR_BRD_WRT_DT ,'YYYY-MM-DD HH24:MI:SS') MNGR_BRD_WRT_DT
+		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , B.MDFYR
+		     , B.USE_YN
+		     , B.DEL_YN
+		     , M.MBR
+		     , M.MBR_NM
+		     , R.RPL_ID
+             , R.RPL_CNTNT
+             , R.MBR_ID R_MBR_ID
+             , R.ALTCL_ID
+             , R.RPL_PRNT_RPL 
+             , R.RPL_WRT_DT R_RPL_WRT_DT
+             , R.MDFY_DT R_MDFY_DT
+          FROM FRAN.MNGR_BRD B
+         INNER JOIN MBR M 
+            ON B.MNGR_ID = M.MBR_ID
+          LEFT OUTER JOIN RPL R
+            ON B.MNGR_BRD_ID = R.ALTCL_ID
+         WHERE B.MNGR_BRD_ID = #{_parameter}
+         START WITH R.RPL_PRNT_RPL IS NULL
+       CONNECT BY PRIOR R.RPL_ID = R.RPL_PRNT_RPL
+		
+	</select>
 
 
+	<insert id="createNewMngrBrd"
+			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+		<selectKey keyProperty="mngrBrdId" 
+				   resultType="string"
+				   order="BEFORE">
+			SELECT 'BR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MNGR_BRD_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>		
+			
+		INSERT INTO FRAN.MNGR_BRD
+         (MNGR_BRD_ID
+        , MNGR_BRD_TTL
+        , MNGR_BRD_CNTNT
+        , MNGR_ID
+        , MNGR_BRD_WRT_DT
+        , MDFY_DT
+        , MDFYR
+        , USE_YN
+        , DEL_YN)
+        VALUES
+         (#{mngrBrdId}
+        , #{mngrBrdTtl}
+        , #{mngrBrdCntnt}
+        , #{mngrId}
+        , SYSDATE
+        , SYSDATE
+        , #{mdfyr}
+        , NVL(#{useYn},'N') 
+        , 'N' )	
+	</insert>
+
+	<update id="updateOneMngrBrd"
+			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+		UPDATE FRAN.MNGR_BRD
+           SET MNGR_BRD_TTL = #{mngrBrdTtl}
+             , MNGR_BRD_CNTNT = #{mngrBrdCntnt}      
+             , MDFY_DT = SYSDATE
+             , MDFYR = #{mdfyr}
+             , NVL(#{useYn},'N')
+		 WHERE MNGR_BRD_ID = #{_parameter}
+	</update>
+	
+
+	<update id="deleteOneMngrBrd"
+			parameterType="string">
+	    UPDATE FRAN.MNGR_BRD
+           SET DEL_YN='Y' 
+		 WHERE MNGR_BRD_ID = #{_parameter}	
+	</update>
 
 </mapper>
