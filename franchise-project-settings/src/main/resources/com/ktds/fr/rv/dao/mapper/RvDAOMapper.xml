@@ -69,13 +69,35 @@
 	<select id="readAllRvByStrId"
 			parameterType="string"
 			resultType="com.ktds.fr.rv.vo.RvVO">
-		
+			<!-- INNER JOIN 후 수정 필요 -->
+		SELECT RV_ID
+			 , MBR_ID
+			 , ODR_ID
+			 , RV_TTL
+			 , RV_CNTNT
+			 , RV_LK_DSLK
+			 , RV_RGST_DT
+			 , MDFY_DT
+			 , USE_YN
+			 , DEL_YN
+		  FROM RV		
 	</select>
 	
 	<select id="readOneRvVOByStrId"
 			parameterType="string"
 			resultType="com.ktds.fr.rv.vo.RvVO">
-		
+			<!-- INNER JOIN 후 수정 필요 -->
+		SELECT RV_ID
+			 , MBR_ID
+			 , ODR_ID
+			 , RV_TTL
+			 , RV_CNTNT
+			 , RV_LK_DSLK
+			 , RV_RGST_DT
+			 , MDFY_DT
+			 , USE_YN
+			 , DEL_YN
+		  FROM RV	
 	</select>
 	
 	<update id="deleteAllRvList"
