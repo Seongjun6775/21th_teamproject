@@ -87,10 +87,6 @@
 	
 	<insert id="createNewMbr"
 			parameterType="com.ktds.fr.mbr.vo.MbrVO">
-		<selectKey keyProperty="mbrId" resultType="string" order="BEFORE">
-			SELECT 'MV-' || TO_CHAR(SYSDATE, 'YYYYMMDD')|| '-' || LPAD(SEQ_MBR_PK.NEXTVAL, 5, '0')
-			  FROM DUAL
-		</selectKey>
 		INSERT INTO FRAN.MBR
 			 ( MBR_ID
 			 , MBR_NM
@@ -112,7 +108,7 @@
 	    	 , 0
 	    	 , 'N' 
 	    	 , #{mbrPwdSlt}
-	    	 , 'MEMBER'
+	    	 , #{mbrLvl}
 	    	 , 0
 	    	 , SYSDATE
 	    	 , 'Y'
