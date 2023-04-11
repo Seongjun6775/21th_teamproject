@@ -12,11 +12,37 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
+		var valueUtil = new ValueUtil();
+		var idMinLength = 5;
 		
 		$("#mbrId").keyup(function(){
 			var mbrIdVal = $(this).val();
 			mbrIdVal = mbrIdVal.replace(/\s/gi, "");
 			$("#mbrId").val(mbrIdVal);
+			if(mbrIdVal.length == 0){
+				$("#ableId").hide();
+				$("#idLen").hide();
+				$("#dupId").hide();
+				return;
+			}
+				
+			$.get("${context}/api/mbr/check/"+mbrIdVal,function(response){
+				if(response.status == "200 OK"){
+					if(mbrIdVal.length >= 1 && mbrIdVal.length < idMinLength){
+						$("#ableId").hide();
+						$("#idLen").show();
+						$("#dupId").hide();
+					}else if(mbrIdVal.length >= idMinLength){
+						$("#ableId").show();
+						$("#idLen").hide();
+						$("#dupId").hide();
+					}
+				}else{
+					$("#ableId").hide();
+					$("#idLen").hide();
+					$("#dupId").show();	
+				}
+			});
 		});
 		$("#mbrPwd").keyup(function(){
 			var mbrPwd = $(this).val();
@@ -39,7 +65,22 @@
 			$("#mbrEml").val(mbrEml);
 		});
 		
-		$("#mbr_regist_btn").click(function(){
+		$("#mbr_regist_btn").click(function(event){
+			event.preventDefault();
+			var dupStatus = $("#dupId").css("display");
+			if(!valueUtil.requires("#mbrId")){
+				return;
+			}
+			if(dupStatus == "inline"){
+				alert("이미 사용중인 아이디 입니다.");
+				return;
+			}
+			if(!valueUtil.requires("#mbrPwd")){
+				return;
+			}
+			if(!valueUtil.requires("#mbrEml")){
+				return;
+			}
 			$.post("${context}/api/mbr/regist", $("#regist_form").serialize(), function(response){
 				
 			});
@@ -51,7 +92,10 @@
 
 	<form id="regist_form">
 		<label for="mbrId" >ID</label>
-		<input type="text" id="mbrId" name="mbrId" maxlength="12" placeholder="ID"/>
+		<input type="text" id="mbrId" name="mbrId" maxlength="12" placeholder="ID" data-field-name="ID"/>
+		<span id="dupId" style="display: none;">이미 사용중인 아이디입니다.</span>
+		<span id="ableId" style="display: none;">사용가능한 아이디입니다.</span>
+		<span id="idLen" style="display: none;">아이디가 너무 짧습니다.</span>
 		<label for="mbrPwd" >PWD</label>
 		<input type="password" id="mbrPwd" name="mbrPwd" maxlength="12" placeholder="비밀번호"/>
 		<label for="mbrPwdChck" >PWD</label>

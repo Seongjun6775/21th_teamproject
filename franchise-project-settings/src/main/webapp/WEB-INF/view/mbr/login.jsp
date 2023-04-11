@@ -13,12 +13,18 @@
 <script type="text/javascript">
 	$().ready(function(){
 		$("#login_btn").click(function(){
-			var data ={
+/* 			var data ={
 					mbrId: $("#mbrID").val(),
 					mbrPwd: $("#mbrPwd").val()
-			}
-			$.post("${context}/api/login", form.serialize(), function(response){
-				
+			} */
+			$.post("${context}/api/mbr/login", $("#login_form").serialize, function(res){
+				console.log(res)
+				if(res.status == "200 OK"){
+					alert("로그인");
+				}
+				else{
+					alert("아이디 비밀번호를 확인하세요.");
+				}
 			});
 		});
 	});
@@ -29,7 +35,7 @@
 		<label for="mbrId" >ID</label>
 		<input type="text" id="mbrId" name="mbrId" placeholder="ID를 입력하세요."/>
 		<label for="mbrPwd">PASSWORD</label>
-		<input type="password" id="mbrPwd" name="brPwd" placeholder="PASSWORD를 입력하세요."/>
+		<input type="password" id="mbrPwd" name="mbrPwd" placeholder="PASSWORD를 입력하세요."/>
 		<button id="login_btn">로그인</button>
 	</form>
 </body>

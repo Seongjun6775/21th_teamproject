@@ -11,7 +11,7 @@
 		  FROM FRAN.MBR
 		 WHERE MBR_ID=#{_parameter}
 		   AND USE_YN='Y'
-		   AND DEL_YN='Y'
+		   AND DEL_YN='N'
 	</select>
 	
 	<select id="readLgnBlockYnById"
@@ -21,7 +21,7 @@
 		  FROM FRAN.MBR
 		 WHERE MBR_ID=#{_parameter}
 		   AND USE_YN='Y'
-		   AND DEL_YN='Y'
+		   AND DEL_YN='N'
 	</select>
 	
 	<select id="readOneMbrByMbrIdAndMbrPwd"

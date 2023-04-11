@@ -1,10 +1,13 @@
 package com.ktds.fr.mbr.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ktds.fr.common.api.exceptions.ApiArgsException;
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.service.MbrService;
@@ -21,7 +24,13 @@ public class RestMbrController {
 		//TODO 필수값 체크, 세션, 
 		//비밀번호 있는지 체크
 		//
-		return new ApiResponseVO();
+		MbrVO mbr = mbrService.readOneMbrByMbrIdAndMbrPwd(mbrVO);
+		if(mbr == null) {
+			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요");
+		}else {
+			
+		}
+		return new ApiResponseVO(ApiStatus.OK);
 	}
 	//회원의 회원가입
 	@PostMapping("/api/mbr/regist")
@@ -42,4 +51,18 @@ public class RestMbrController {
 		boolean createResult = mbrService.createNewMbr(mbrVO);
 		return new ApiResponseVO();
 	}
+	//회원 아이디 체크
+	@GetMapping("/api/mbr/check/{mbrId}")
+	public ApiResponseVO doCheckMbrId(@PathVariable String mbrId) {
+		if( mbrId ==null || mbrId.length() == 0) {
+			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디는 필수값 입니다.");
+		}
+		boolean readResult = mbrService.readCountMbrById(mbrId);
+		if(!readResult) {
+			//중복아이디 없음
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		return new ApiResponseVO(ApiStatus.FAIL);
+	}
+	
 }
