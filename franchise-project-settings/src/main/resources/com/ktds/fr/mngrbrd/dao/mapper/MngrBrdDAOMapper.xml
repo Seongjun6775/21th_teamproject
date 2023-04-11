@@ -32,7 +32,7 @@
 	
 	
 		<select id="readAllMngrBrds"
-			resultType="resultType">
+			resultMap="brdMap">
 			SELECT B.MNGR_BRD_ID
 		     , B.MNGR_BRD_TTL
 		     , B.MNGR_BRD_CNTNT
@@ -42,7 +42,7 @@
 		     , B.MDFYR
 		     , B.USE_YN
 		     , B.DEL_YN
-		     , M.MBR
+		     , M.MBR_ID
 		     , M.MBR_NM
 		     , R.RPL_ID
              , R.RPL_CNTNT
@@ -75,7 +75,7 @@
 		     , B.MDFYR
 		     , B.USE_YN
 		     , B.DEL_YN
-		     , M.MBR
+		     , M.MBR_ID
 		     , M.MBR_NM
 		     , R.RPL_ID
              , R.RPL_CNTNT
