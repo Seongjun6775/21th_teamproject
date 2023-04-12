@@ -28,6 +28,7 @@ public class MbrServiceImpl implements MbrService {
 
 	@Override	//로그인
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO) {
+		log.info("아이디는 {}",mbrVO.getMbrId());
 		//아이디 차단 여부
 		String loginBlockYn = mbrDAO.readLgnBlockYnById(mbrVO.getMbrId());
 		if(loginBlockYn == null) {
@@ -54,6 +55,10 @@ public class MbrServiceImpl implements MbrService {
 			mbrDAO.updateMbrLgnSucc(mbrVO);
 			// TODO 로그인 이력 수정하기
 			LgnHistVO lgnHistVO = new LgnHistVO();
+			lgnHistVO.setLgnHistActn("login");
+			lgnHistVO.setMbrId(mbrVO.getMbrId());
+			lgnHistVO.setLgnHistIp(mbrVO.getMbrRcntLgnIp());
+			lgnHistDAO.createMbrLgnHist(lgnHistVO);
 		}
 		
 		return loginData;
