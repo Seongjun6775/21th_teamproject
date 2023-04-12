@@ -1,5 +1,7 @@
 package com.ktds.fr.mbr.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,9 @@ import com.ktds.fr.mbr.vo.MbrVO;
 @RestController
 public class RestMbrController {
 	
+	private static final Logger log = LoggerFactory.getLogger(RestMbrController.class);
+
+	
 	@Autowired
 	private MbrService mbrService;
 	
@@ -23,14 +28,24 @@ public class RestMbrController {
 	public ApiResponseVO doLogin(MbrVO mbrVO) {
 		//TODO 필수값 체크, 세션, 
 		//비밀번호 있는지 체크
-		//
+		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
+			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
+		}
+		if(mbrVO.getMbrPwd() == null || mbrVO.getMbrPwd().length() == 0) {
+			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
+		}
+		log.info("아이디 {}", mbrVO.getMbrId());
+		log.info("비밀번호 {}", mbrVO.getMbrPwd());
+		
 		MbrVO mbr = mbrService.readOneMbrByMbrIdAndMbrPwd(mbrVO);
 		if(mbr == null) {
 			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요");
 		}else {
 			
 		}
-		return new ApiResponseVO(ApiStatus.OK);
+		//TODO 로그인시 메인 화면으로 가도록 redirect 주소 바꿔주자
+		//현재는 시험용
+		return new ApiResponseVO(ApiStatus.OK, "/login");
 	}
 	//회원의 회원가입
 	@PostMapping("/api/mbr/regist")

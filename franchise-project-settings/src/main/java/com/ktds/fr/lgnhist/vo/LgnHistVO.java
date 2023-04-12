@@ -1,41 +1,51 @@
-package com.ktds.fr.lgnhist.vo;		
-		
-public class LgnHistVO {		
-		
-	private String lgnHistId;	
-	private String mbrId;	
-	private String lgnHistActn;	
-	private String lgnHistDt;	
-	private String lgnHistIp;	
-	public String getLgnHistId() {	
+package com.ktds.fr.lgnhist.vo;
+
+public class LgnHistVO {
+
+	private String lgnHistId;
+	private String mbrId;
+	private String lgnHistActn;
+	private String lgnHistDt;
+	private String lgnHistIp;
+
+	public String getLgnHistId() {
 		return lgnHistId;
-	}	
-	public void setLgnHistId(String lgnHistId) {	
+	}
+
+	public void setLgnHistId(String lgnHistId) {
 		this.lgnHistId = lgnHistId;
-	}	
-	public String getMbrId() {	
+	}
+
+	public String getMbrId() {
 		return mbrId;
-	}	
-	public void setMbrId(String mbrId) {	
+	}
+
+	public void setMbrId(String mbrId) {
 		this.mbrId = mbrId;
-	}	
-	public String getLgnHistActn() {	
+	}
+
+	public String getLgnHistActn() {
 		return lgnHistActn;
-	}	
-	public void setLgnHistActn(String lgnHistActn) {	
+	}
+
+	public void setLgnHistActn(String lgnHistActn) {
 		this.lgnHistActn = lgnHistActn;
-	}	
-	public String getLgnHistDt() {	
+	}
+
+	public String getLgnHistDt() {
 		return lgnHistDt;
-	}	
-	public void setLgnHistDt(String lgnHistDt) {	
+	}
+
+	public void setLgnHistDt(String lgnHistDt) {
 		this.lgnHistDt = lgnHistDt;
-	}	
-	public String getLgnHistIp() {	
+	}
+
+	public String getLgnHistIp() {
 		return lgnHistIp;
-	}	
-	public void setLgnHistIp(String lgnHistIp) {	
+	}
+
+	public void setLgnHistIp(String lgnHistIp) {
 		this.lgnHistIp = lgnHistIp;
-	}	
-		
-}		
+	}
+
+}
