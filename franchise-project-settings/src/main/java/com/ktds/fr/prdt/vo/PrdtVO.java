@@ -22,7 +22,7 @@ public class PrdtVO {
 	private MbrVO prdtRgstrMbrVO;
 	private MbrVO mdfyrMbrVO;
 	
-	private String isDeleteIMG;
+	private String isDeleteImg;
 	
 	public String getPrdtId() {	
 		return prdtId;
@@ -114,11 +114,11 @@ public class PrdtVO {
 	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
 		this.cmmnCdVO = cmmnCdVO;
 	}
-	public String getIsDeleteIMG() {
-		return isDeleteIMG;
+	public String getIsDeleteImg() {
+		return isDeleteImg;
 	}
-	public void setIsDeleteIMG(String isDeleteIMG) {
-		this.isDeleteIMG = isDeleteIMG;
+	public void setIsDeleteImg(String isDeleteImg) {
+		this.isDeleteImg = isDeleteImg;
 	}
 	
 }		
