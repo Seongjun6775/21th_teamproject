@@ -12,8 +12,9 @@
 
 	$().ready(function() {
 		
+		var ntId = ("${nt.ntId}");
+		
 		$("#del_btn").click(function() {
-			var ntId = ("${nt.ntId}");
 			var delYn = ("${nt.delYn}");
 			if (delYn == "Y") {
 				alert("이미 삭제 처리된 쪽지입니다!");
@@ -35,6 +36,26 @@
 		
 		$("#list_btn").click(function() {
 			location.href = "${context}/nt/mstrlist";
+		});
+		
+		
+		$("#upd_btn").click(function() {
+			var delYn = ("${nt.delYn}");
+			var ntRdDt = ("${nt.ntRdDt}");
+			
+			if (delYn == "Y") {
+				alert("이미 삭제된 쪽지는 수정할 수 없습니다!");
+			}
+			else {
+				if (ntRdDt == "") {
+					location.href = "${context}/nt/update/" + ntId;
+				}
+				else {
+					alert("이미 수신한 쪽지는 수정할 수 없습니다!");
+					return;
+				}
+			}
+			
 		});
 		
 		

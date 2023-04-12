@@ -8,9 +8,9 @@ public interface NtService {
 	
 	public boolean createNewNt(NtVO ntVO);
 	
-	public List<NtVO> readAllNt();
+	public List<NtVO> readAllNt(NtVO ntVO);
 	
-	public boolean updateOneNtByNtId(String ntId);
+	public boolean updateOneNtByNtId(NtVO ntVO);
 	
 	public boolean deleteOneNtByNtId(String ntId);
 	

@@ -1,5 +1,7 @@
 package com.ktds.fr.nt.web;
 
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class NtController {
 		
 		//TODO 세션 받아와서 master 계정 맞는지 확인
 		
-		List<NtVO> allNtList = ntService.readAllNt();
+		List<NtVO> allNtList = ntService.readAllNt(ntVO);
 		model.addAttribute("allNtList", allNtList);
 		model.addAttribute("ntVO", ntVO);
 		
@@ -50,6 +52,17 @@ public class NtController {
 		model.addAttribute("nt", nt);
 		
 		return "nt/mstrdetail";
+	}
+	
+	@GetMapping("nt/update/{ntId}")
+	public String viewNtUpdatePage(@PathVariable String ntId,
+								   Model model) {
+		//TODO 세션 받아와서 master 계정 맞는지 확인
+		
+		NtVO nt = ntService.readOneNtByNtId(ntId);
+		model.addAttribute("nt", nt);
+		
+		return "nt/update";
 	}
 	
 	

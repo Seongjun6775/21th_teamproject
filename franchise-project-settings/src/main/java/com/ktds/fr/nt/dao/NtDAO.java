@@ -8,9 +8,9 @@ public interface NtDAO {
 	
 	public int createNewNt(NtVO ntVO);
 	
-	public List<NtVO> readAllNt();
+	public List<NtVO> readAllNt(NtVO ntVO);
 	
-	public int updateOneNtByNtId(String ntId);
+	public int updateOneNtByNtId(NtVO ntVO);
 	
 	public int deleteOneNtByNtId(String ntId);
 	

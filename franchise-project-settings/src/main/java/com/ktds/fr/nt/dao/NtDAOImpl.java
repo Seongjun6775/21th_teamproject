@@ -24,13 +24,13 @@ public class NtDAOImpl extends SqlSessionDaoSupport implements NtDAO {
 	}
 
 	@Override
-	public List<NtVO> readAllNt() {
-		return getSqlSession().selectList("Nt.readAllNt");
+	public List<NtVO> readAllNt(NtVO ntVO) {
+		return getSqlSession().selectList("Nt.readAllNt", ntVO);
 	}
 
 	@Override
-	public int updateOneNtByNtId(String ntId) {
-		return getSqlSession().update("Nt.updateOneNtByNtId", ntId);
+	public int updateOneNtByNtId(NtVO ntVO) {
+		return getSqlSession().update("Nt.updateOneNtByNtId", ntVO);
 	}
 
 	@Override

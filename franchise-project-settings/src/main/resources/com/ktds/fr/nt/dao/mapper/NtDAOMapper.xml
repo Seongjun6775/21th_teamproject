@@ -27,7 +27,7 @@
 	</insert>
 	
 	<select id="readAllNt"
-			parameterType="string"
+			parameterType="com.ktds.fr.nt.vo.NtVO"
 			resultType="com.ktds.fr.nt.vo.NtVO">
 		SELECT NT_ID
 		     , SNDR_ID
@@ -37,8 +37,8 @@
 		     , DEL_YN
           FROM NT
         <choose>
-        	<when test='ntId != null and ntId != ""'>
-        		WHERE NT_ID LIKE '%' || #{ntId} || '%'
+        	<when test='ntTtl != null and ntTtl != ""'>
+        		WHERE NT_TTL LIKE '%' || #{ntTtl} || '%'
         	</when>
         	<when test='sndrId != null and sndrId != ""'>
         		WHERE SNDR_ID LIKE '%' || #{sndrId} || '%'
@@ -53,11 +53,11 @@
 	</select>
 	
 	<update id="updateOneNtByNtId"
-			parameterType="string">
+			parameterType="com.ktds.fr.nt.vo.NtVO">
 		UPDATE NT
-           SET NT_CNTNT = #{ntCntnt}
+           SET NT_TTL = #{ntTtl}
+             , NT_CNTNT = #{ntCntnt}
          WHERE NT_ID = #{ntId}
-           AND NT_RD_DT = NULL
 	</update>
 	
 	<update id="deleteOneNtByNtId"

@@ -21,13 +21,39 @@ public class NtServiceImpl implements NtService {
 	}
 
 	@Override
-	public List<NtVO> readAllNt() {
-		return ntDAO.readAllNt();
+	public List<NtVO> readAllNt(NtVO ntVO) {
+		return ntDAO.readAllNt(ntVO);
 	}
 
 	@Override
-	public boolean updateOneNtByNtId(String ntId) {
-		return ntDAO.updateOneNtByNtId(ntId) > 0;
+	public boolean updateOneNtByNtId(NtVO ntVO) {
+		NtVO originalData = ntDAO.readOneNtByNtId(ntVO.getNtId());
+		NtVO newData = new NtVO();
+		newData.setNtId(originalData.getNtId());
+		newData.setNtTtl(originalData.getNtTtl());
+		newData.setNtCntnt(originalData.getNtCntnt());
+		
+		boolean updateYn = false;
+		
+		if ( !originalData.getNtTtl().equals(ntVO.getNtTtl()) ) {
+			System.out.println(ntVO.getNtTtl());
+			newData.setNtTtl(ntVO.getNtTtl());
+			updateYn = true;
+		}
+		
+		if ( !originalData.getNtCntnt().equals(ntVO.getNtCntnt()) ) {
+			System.out.println(ntVO.getNtCntnt());
+			newData.setNtCntnt(ntVO.getNtCntnt());
+			updateYn = true;
+		}
+		
+		if (updateYn) {
+			return ntDAO.updateOneNtByNtId(newData) > 0;
+		}
+		else {
+			throw new ApiException("400", "수정된 정보가 없습니다.");
+		}
+		
 	}
 
 	@Override

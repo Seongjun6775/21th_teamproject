@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
@@ -27,12 +27,12 @@
 			var checkLen = $(".check_idx:checked").length;
 			
 			if (checkLen == 0) {
-				alert("¼±ÅÃÇÑ ÂÊÁö°¡ ¾ø½À´Ï´Ù.");
+				alert("ì„ íƒí•œ ìª½ì§€ê°€ ì—†ìŠµë‹ˆë‹¤.");
 				return;
 			}
 			
 			
-			if (!confirm("Á¤¸» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?")) {
+			if (!confirm("ì •ë§ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?")) {
 				return;
 			}
 			
@@ -51,26 +51,35 @@
 			location.href = "${context}/nt/create";
 		});
 		
-		// ¼ö½ÅÀÎ, ¹ß½ÅÀÎ °Ë»ö ±â´ÉÀÔ´Ï´Ù
+		// ìˆ˜ì‹ ì¸, ë°œì‹ ì¸ ê²€ìƒ‰ ê¸°ëŠ¥ì…ë‹ˆë‹¤
 		$("#search_btn").click(function() {
 			var keyword = $("#search-keyword").val();
 			
 			if ($(".search_idx").val() == "ntTtl") {
 				var ntTtl = keyword;
-				location.href="${context}/nt/mstrlist?ntTtl=" + keyword;
+				location.href="${context}/nt/mstrlist?ntTtl=" + ntTtl;
 			}
 			else if ($(".search_idx").val() == "sndrId") {
 				var sndrId = keyword;
-				location.href="${context}/nt/mstrlist?sndrId=" + keyword;
+				location.href="${context}/nt/mstrlist?sndrId=" + sndrId;
 			}
 			else {
 				var rcvrId = keyword;
-				location.href="${context}/nt/mstrlist?rcvrId=" + keyword;
+				location.href="${context}/nt/mstrlist?rcvrId=" + rcvrId;
 			}
 			
 			
 		})
+		
+		function f_selectFilter {
 			
+			var ntRdDt = $("#s_ntRdDt").val();
+			
+			if (selectVal == "Y") {
+				$.get("${context}/api/nt/mstrlist", function(response){});
+			}
+			
+		}
 
 		
 	});
@@ -79,10 +88,10 @@
 <body>
 	<div class="nt_header">
 		<div>
-			master ÂÊÁö ÆäÀÌÁö Å×½ºÆ®
+			master ìª½ì§€ í˜ì´ì§€ í…ŒìŠ¤íŠ¸
 		</div>
 		<div>
-			ÃÑ ${allNtList.size() > 0 ? allNtList.size() : 0}°Ç
+			<div>ì´ ${allNtList.size() > 0 ? allNtList.size() : 0}ê±´</div>
 		</div>
 	</div>
 	<div>
@@ -90,12 +99,24 @@
 			<thead>
 				<tr>
 					<th><input type="checkbox" id="all_check"/></th>
-					<th>ÂÊÁö ¹øÈ£</th>
-					<th>ÂÊÁö Á¦¸ñ</th>
-					<th>¹ß½ÅÀÎ</th>
-					<th>¼ö½ÅÀÎ</th>
-					<th>È®ÀÎ ÀÏÀÚ</th>
-					<th>»èÁ¦ ¿©ºÎ</th>
+					<th>ìª½ì§€ ë²ˆí˜¸</th>
+					<th>ìª½ì§€ ì œëª©</th>
+					<th>ë°œì‹ ì¸</th>
+					<th>ìˆ˜ì‹ ì¸</th>
+					<th>
+						<select id="s_ntRdDt" onchange="f_selectFilter">
+							<option value="">í™•ì¸ ì¼ì</option>
+							<option value="Y">ìˆ˜ì‹ </option>
+							<option value="N">ë¯¸ìˆ˜ì‹ </option>
+						</select>
+					</th>
+					<th>
+						<select id="s_delYn" onchange="f_selectFilter">
+							<option value="">ì‚­ì œ ì—¬ë¶€</option>
+							<option value="del_Y">ì‚­ì œë¨</option>
+							<option value="del_N">ì‚­ì œë˜ì§€ ì•ŠìŒ</option>
+						</select>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -115,27 +136,27 @@
 								<td>${nt.sndrId}</td>
 								<td>${nt.rcvrId}</td>
 								<td>${nt.ntRdDt}</td>
-								<td>${nt.delYn eq 'Y' ? '»èÁ¦µÊ' : ''}</td>
+								<td>${nt.delYn eq 'Y' ? 'ì‚­ì œë¨' : ''}</td>
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-						<td colspan="7">ÂÊÁö ¼Û¼ö½Å ÀÌ·ÂÀÌ ¾ø½À´Ï´Ù.</td>
+						<td colspan="7">ìª½ì§€ ì†¡ìˆ˜ì‹  ì´ë ¥ì´ ì—†ìŠµë‹ˆë‹¤.</td>
 					</c:otherwise>
 				</c:choose>
 			</tbody>
 		</table>
 	</div>
 	<div>
-		<button id="crt_btn">ÀÛ¼º</button>
-		<button id="check_del_btn">ÀÏ°ı»èÁ¦</button>
+		<button id="crt_btn">ì‘ì„±</button>
+		<button id="check_del_btn">ì¼ê´„ì‚­ì œ</button>
 		<select class="search_idx">
-			<option value="ntTtl">Á¦¸ñ</option>
-			<option value="sndrId">¹ß½ÅÀÎ</option>
-			<option value="rcvrId">¼ö½ÅÀÎ</option>
+			<option value="ntTtl">ì œëª©</option>
+			<option value="sndrId">ë°œì‹ ì¸</option>
+			<option value="rcvrId">ìˆ˜ì‹ ì¸</option>
 		</select>
 		<input type="text" id="search-keyword" />
-		<button id="search_btn">°Ë»ö</button>
+		<button id="search_btn">ê²€ìƒ‰</button>
 	</div>
 	
 </body>

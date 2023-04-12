@@ -64,6 +64,30 @@ public class RestNtController {
 		
 	}
 	
+	@PostMapping("/api/nt/update/{ntId}")
+	public ApiResponseVO updateOneNtByNtId(@PathVariable String ntId ,NtVO ntVO) {
+		
+		ntVO.setNtId(ntId);
+		
+		String ntTtl = ntVO.getNtTtl();
+		String ntCntnt = ntVO.getNtCntnt();
+		
+		if (ntTtl == null || ntTtl.trim().length() == 0) {
+			throw new ApiArgsException("400", "제목이 누락되었습니다.");
+		}
+		
+		if (ntCntnt == null || ntCntnt.trim().length() == 0) {
+			throw new ApiArgsException("400", "내용이 누락되었습니다.");
+		}
+		
+		boolean isSuccess = ntService.updateOneNtByNtId(ntVO);
+		
+		if (isSuccess) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		return new ApiResponseVO(ApiStatus.FAIL);
+	}
+	
 	
 
 }
