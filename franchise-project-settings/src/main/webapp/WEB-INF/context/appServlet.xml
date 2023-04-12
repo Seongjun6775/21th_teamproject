@@ -52,6 +52,7 @@
 	<mvc:interceptors>
 			<mvc:interceptor>
 				<mvc:mapping path="/login"/>
+				<mvc:mapping path="/regist"/>
 				<bean class="com.ktds.fr.common.interceptors.BlockPageInterceptor"/>
 			</mvc:interceptor>
 		</mvc:interceptors>
@@ -59,6 +60,7 @@
 			<mvc:interceptor>
 				<mvc:mapping path="/**"/>
 				<mvc:exclude-mapping path="/login" />
+				<mvc:exclude-mapping path="/regist" />
 				<mvc:exclude-mapping path="/api/mbr/**"/>
 				<mvc:exclude-mapping path="/js/**" />
 				<mvc:exclude-mapping path="/css/**" />
