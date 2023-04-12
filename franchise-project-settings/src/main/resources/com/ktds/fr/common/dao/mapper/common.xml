@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Common">
+
+	<sql id="page_header">
+		SELECT B.*
+		     , CEIL(B.TOTAL_COUNT / #{viewCnt}) - 1 LAST_PAGE
+		     , FLOOR(FLOOR(B.TOTAL_COUNT / #{viewCnt}) / 10) LAST_GROUP
+		  FROM (SELECT R.*
+		             , ROWNUM RNUM
+		             , COUNT(1) OVER() TOTAL_COUNT
+		          FROM (
+	</sql>
+	
+	<sql id="page_footer">
+		  ) R) B
+ 		 WHERE RNUM BETWEEN (#{pageNo} * #{viewCnt}) + 1 AND (#{pageNo} * #{viewCnt}) + #{viewCnt}
+	</sql>
+
+</mapper>

@@ -3,7 +3,93 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Nt">
-
-
-
+	
+	<insert id="createNewNt"
+			parameterType="com.ktds.fr.nt.vo.NtVO">
+		INSERT INTO NT
+         (NT_ID
+        , SNDR_ID
+        , RCVR_ID
+        , NT_RD_DT
+        , NT_TTL
+        , NT_CNTNT
+        , USE_YN
+        , DEL_YN)
+        VALUES
+         ('NT-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_NT_PK.NEXTVAL, 5, '0')
+        , #{sndrId}
+        , #{rcvrId}
+        , NULL
+        , #{ntTtl}
+        , #{ntCntnt}
+        , NVL(#{useYn}, 'Y')
+        , 'N' )
+	</insert>
+	
+	<select id="readAllNt"
+			parameterType="string"
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		SELECT NT_ID
+		     , SNDR_ID
+		     , RCVR_ID
+		     , NT_RD_DT
+		     , NT_TTL
+		     , DEL_YN
+          FROM NT
+        <choose>
+        	<when test='ntId != null and ntId != ""'>
+        		WHERE NT_ID LIKE '%' || #{ntId} || '%'
+        	</when>
+        	<when test='sndrId != null and sndrId != ""'>
+        		WHERE SNDR_ID LIKE '%' || #{sndrId} || '%'
+        	</when>
+        	<when test='rcvrId != null and rcvrId != ""'>
+        		WHERE RCVR_ID LIKE '%' || #{rcvrId} || '%'
+        	</when>
+        	<otherwise>
+        	</otherwise>
+        </choose>
+         ORDER BY NT_ID DESC
+	</select>
+	
+	<update id="updateOneNtByNtId"
+			parameterType="string">
+		UPDATE NT
+           SET NT_CNTNT = #{ntCntnt}
+         WHERE NT_ID = #{ntId}
+           AND NT_RD_DT = NULL
+	</update>
+	
+	<update id="deleteOneNtByNtId"
+			parameterType="string">
+		UPDATE NT
+           SET DEL_YN = 'Y' 
+         WHERE NT_ID = #{ntId}
+	</update>
+	
+	<update id="deleteNtBySelectedNtId"
+			parameterType="arraylist">
+		UPDATE NT
+           SET DEL_YN = 'Y' 
+         WHERE NT_ID IN
+         <foreach collection="list" item="ntId" open="(" close=")" separator=", ">
+         	#{ntId}
+         </foreach>
+	</update>
+	
+	<select id="readOneNtByNtId"
+			parameterType="string"
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		SELECT NT_ID
+		     , SNDR_ID
+		     , RCVR_ID
+		     , NT_RD_DT
+		     , NT_TTL
+		     , NT_CNTNT
+		     , DEL_YN
+		  FROM FRAN.NT
+		 WHERE NT_ID = #{_parameter}
+	</select>
+	
+	
 </mapper>
