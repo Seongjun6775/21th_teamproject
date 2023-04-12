@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ktds.fr.str.dao.StrDAO;
 import com.ktds.fr.str.vo.StrVO;
@@ -30,17 +31,17 @@ public class StrServiceImpl implements StrService {
 	}
 
 	@Override
-	public boolean createOneStr(StrVO strVO) {
+	public boolean createOneStr(StrVO strVO, MultipartFile uploadFil) {
 		return strDAO.createOneStr(strVO) > 0;
 	}
 
 	@Override
-	public boolean updateOneStrByMaster(StrVO strVO) {
+	public boolean updateOneStrByMaster(StrVO strVO, MultipartFile uploadFile) {
 		return strDAO.updateOneStrByMaster(strVO) > 0;
 	}
 
 	@Override
-	public boolean updateOneStrByManager(StrVO strVO) {
+	public boolean updateOneStrByManager(StrVO strVO, MultipartFile uploadFile) {
 		return strDAO.updateOneStrByManager(strVO) > 0;
 	}
 
