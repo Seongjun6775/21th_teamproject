@@ -42,6 +42,7 @@
 		     , B.MDFYR
 		     , B.USE_YN
 		     , B.DEL_YN
+		     , B.NTC_YN
 		     , M.MBR_ID
 		     , M.MBR_NM
 		     , R.RPL_ID
@@ -118,7 +119,8 @@
         , MDFY_DT
         , MDFYR
         , USE_YN
-        , DEL_YN)
+        , DEL_YN
+        , NTC_YN)
         VALUES
          (#{mngrBrdId}
         , #{mngrBrdTtl}
@@ -127,8 +129,9 @@
         , SYSDATE
         , SYSDATE
         , #{mdfyr}
-        , NVL(#{useYn},'N') 
-        , 'N' )	
+        , NVL(#{useYn},'N')  
+        , 'N'
+        , NVL(#{ntcYn},'N'))	
 	</insert>
 
 	<update id="updateOneMngrBrd"
@@ -139,6 +142,7 @@
              , MDFY_DT = SYSDATE
              , MDFYR = #{mdfyr}
              , NVL(#{useYn},'N')
+             , NTC_YN= NVL(#{ntcYn},'N')
 		 WHERE MNGR_BRD_ID = #{_parameter}
 	</update>
 	

@@ -16,9 +16,16 @@ public class MngrBrdVO {
 	private String mdfyr;	
 	private String useYn;	
 	private String delYn;	
+	private String ntcYn;
 	
 	
 	
+	public String getNtcYn() {
+		return ntcYn;
+	}
+	public void setNtcYn(String ntcYn) {
+		this.ntcYn = ntcYn;
+	}
 	private MbrVO mbrVO;
 	
 	private List<RplVO> replyList;

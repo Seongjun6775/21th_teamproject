@@ -25,10 +25,10 @@ public class MngrBrdController {
 	private MngrBrdService mngrBrdService;
 	
 	@GetMapping("/mngrbrds")
-	public String viewMngrBrdListPage(Model model, MbrVO user) {
+	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrdVO,MbrVO user) {
 		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds();
 		model.addAttribute("mngrBrdList", mngrBrdList);
-		model.addAttribute("user", user);
+		model.addAttribute("mngrBrdVO", mngrBrdVO);
 		return "mngrbrd/list";
 	}
 
@@ -44,29 +44,7 @@ public class MngrBrdController {
 	public String viewMngrBrdWritePage() {
 		return "mngrbrd/write";
 	}
-	@PostMapping("/mngrbrd/write")
-	public String doMngrBrdWrite(MngrBrdVO mngrBrdVO,
-								  MbrVO mbrVO) {
-		
-		mngrBrdVO.setMngrId(mbrVO.getMbrId());
-		boolean createResult = mngrBrdService.createNewMngrBrd(mngrBrdVO);
-		
-		if(!createResult) {
-			return "/mngrbrd/write";
-		}
-		return "redirect:/mngrbrd/" + mngrBrdVO.getMngrId();
-	}
-	@GetMapping("/topic/delete/{mngrBrdId}")
-	public String doMngrBrdDelete(@PathVariable String mngrBrdId) {
-		boolean deleteResult = mngrBrdService.deleteOneMngrBrd(mngrBrdId);
-		
-		if(deleteResult) {
-			return "redirect:/mngrbrds";
-		}
-		else {
-			return "redirect:/mngrbrd/" + mngrBrdId ;
-		}
-	}
+
 //	
 	@GetMapping("mngrbrd/update/{mngrBrdId}")
 	public String viewMngrBrdUpdatePage(@PathVariable String mngrBrdId,Model model) {
@@ -75,17 +53,7 @@ public class MngrBrdController {
 		model.addAttribute("mngrBrd", mngrBrd);
 		return "mngrbrd/update";
 	}
-	
-	public String doMngrBrdUpdate(@PathVariable String mngrBrdId,
-								   MngrBrdVO mngrBrdVO,
-								   MbrVO mbrVO) {
-		boolean updateResult = mngrBrdService.updateOneMngrBrd(mngrBrdVO);
-		if(updateResult) {
-			return "redirect:/mngrbrd/" + mngrBrdId;
-		}
-		return "redirect:/mngrbrds";
-		
-	}
+
 	
 	
 	
