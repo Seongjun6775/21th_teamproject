@@ -1,5 +1,8 @@
-package com.ktds.fr.prdt.vo;		
-		
+package com.ktds.fr.prdt.vo;
+
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
+import com.ktds.fr.mbr.vo.MbrVO;
+
 public class PrdtVO {		
 		
 	private String prdtId;	
@@ -14,6 +17,13 @@ public class PrdtVO {
 	private String mdfyDt;	
 	private String useYn;	
 	private String delYn;	
+	
+	private CmmnCdVO cmmnCdVO;
+	private MbrVO prdtRgstrMbrVO;
+	private MbrVO mdfyrMbrVO;
+	
+	private String isDeleteImg;
+	
 	public String getPrdtId() {	
 		return prdtId;
 	}	
@@ -85,6 +95,30 @@ public class PrdtVO {
 	}	
 	public void setDelYn(String delYn) {	
 		this.delYn = delYn;
-	}	
-		
+	}
+	public MbrVO getPrdtRgstrMbrVO() {
+		return prdtRgstrMbrVO;
+	}
+	public void setPrdtRgstrMbrVO(MbrVO prdtRgstrMbrVO) {
+		this.prdtRgstrMbrVO = prdtRgstrMbrVO;
+	}
+	public MbrVO getMdfyrMbrVO() {
+		return mdfyrMbrVO;
+	}
+	public void setMdfyrMbrVO(MbrVO mdfyrMbrVO) {
+		this.mdfyrMbrVO = mdfyrMbrVO;
+	}
+	public CmmnCdVO getCmmnCdVO() {
+		return cmmnCdVO;
+	}
+	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
+		this.cmmnCdVO = cmmnCdVO;
+	}
+	public String getIsDeleteImg() {
+		return isDeleteImg;
+	}
+	public void setIsDeleteImg(String isDeleteImg) {
+		this.isDeleteImg = isDeleteImg;
+	}
+	
 }		
