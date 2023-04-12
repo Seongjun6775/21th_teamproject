@@ -25,29 +25,35 @@ public class MngrBrdController {
 	private MngrBrdService mngrBrdService;
 	
 	@GetMapping("/mngrbrds")
-	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrdVO,MbrVO user) {
+	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrdVO,MbrVO mbrVO) {
 		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds();
 		model.addAttribute("mngrBrdList", mngrBrdList);
 		model.addAttribute("mngrBrdVO", mngrBrdVO);
 		return "mngrbrd/list";
 	}
 
-	@GetMapping("mngrbrd/{mngrBrdId}")
+	@GetMapping("/mngrbrd/{mngrBrdId}")
 	public String viewMngrBrdDetailPage(@PathVariable String mngrBrdId, Model model) {
 		
 		logger.info("URL id 값 :{}",mngrBrdId);
+		
 		MngrBrdVO mngrBrd = mngrBrdService.readOneMngrBrdByMngrBrdId(mngrBrdId);
-		model.addAttribute("mngrBrdId", mngrBrd);
+		model.addAttribute("mngrBrd", mngrBrd);
 		return "mngrbrd/detail";
 	}
+	
 	@GetMapping("/mngrbrd/write")
 	public String viewMngrBrdWritePage() {
 		return "mngrbrd/write";
 	}
+	
+	
 
 //	
-	@GetMapping("mngrbrd/update/{mngrBrdId}")
+	@GetMapping("/mngrbrd/update/{mngrBrdId}")
 	public String viewMngrBrdUpdatePage(@PathVariable String mngrBrdId,Model model) {
+		
+		logger.info("URL id 값 :{}",mngrBrdId);
 		
 		MngrBrdVO mngrBrd = mngrBrdService.readOneMngrBrdByMngrBrdId(mngrBrdId);
 		model.addAttribute("mngrBrd", mngrBrd);

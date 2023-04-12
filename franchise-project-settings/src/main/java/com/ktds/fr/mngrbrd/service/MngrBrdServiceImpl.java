@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mngrbrd.dao.MngrBrdDAO;
 import com.ktds.fr.mngrbrd.vo.MngrBrdVO;
 
@@ -16,7 +17,6 @@ public class MngrBrdServiceImpl implements MngrBrdService {
 	
 	@Override
 	public List<MngrBrdVO> readAllMngrBrds() {
-		// TODO Auto-generated method stub
 		return mngrBrdDAO.readAllMngrBrds();
 	}
 
@@ -47,6 +47,18 @@ public class MngrBrdServiceImpl implements MngrBrdService {
 	public boolean deleteOneMngrBrd(String mngrBrdId) {
 		// TODO Auto-generated method stub
 		return mngrBrdDAO.deleteOneMngrBrd(mngrBrdId) > 0;
+	}
+	
+	@Override
+	public boolean deleteMngrBrdBySelectedMngrBrdId(List<String> mngrBrdId) {
+		
+		int delCount = mngrBrdDAO.deleteMngrBrdBySelectedMngrBrdId(mngrBrdId);
+		boolean isSuccess = delCount ==mngrBrdId.size();
+		if(!isSuccess) {
+			throw new ApiException("500", "삭제에 실패했습니다. 요청건수:("+mngrBrdId.size() +"건), 삭제건수("+delCount+"건)");
+		}
+		
+		return isSuccess; 
 	}
 		
 }

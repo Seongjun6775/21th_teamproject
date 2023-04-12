@@ -12,6 +12,8 @@ import com.ktds.fr.mngrbrd.vo.MngrBrdVO;
 public class MngrBrdDAOImpl extends SqlSessionDaoSupport implements MngrBrdDAO {
 	
 	
+	
+	
 	@Autowired
 	@Override
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
@@ -41,6 +43,20 @@ public class MngrBrdDAOImpl extends SqlSessionDaoSupport implements MngrBrdDAO {
 	@Override
 	public int deleteOneMngrBrd(String mngrBrdId) {
 		return getSqlSession().update("MngrBrd.deleteOneMngrBrd", mngrBrdId);
+	}
+	
+	@Override
+	public int changeCategorytoN(String mngrBrdId) {
+		return getSqlSession().update("MngrBrd.changeCategorytoN", mngrBrdId);
+	}
+	@Override
+	public int changeCategorytoY(String mngrBrdId) {
+		return getSqlSession().update("MngrBrd.changeCategorytoY", mngrBrdId);
+	}
+	
+	@Override
+	public int deleteMngrBrdBySelectedMngrBrdId(List<String> mngrBrdId) {
+		return getSqlSession().update("MngrBrd.deleteMngrBrdBySelectedMngrBrdId", mngrBrdId);
 	}
 
 }

@@ -14,6 +14,44 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		$("#all_check").change(function() {
+			$(".check_idx").prop("checked",$(this).prop("checked"));
+		});
+		
+			
+		$(".check_idx").change(function(){
+			var count = $(".check_idx").length;
+			var checkCount =$(".check_idx:checked").length;
+			console.log(count,checkCount)
+			$("#all_check").prop("checked",count==checkCount);
+		});
+		$("#delete_btn").click(function(){
+			var checkLen= $(".check_idx:checked").length;
+			if(checkLen ==0){
+				alert("삭제할 글이 없습니다.");
+				return;
+			}
+			
+			var form =$("<form></form>")	
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='mngrBrdId' value='" + $(this).val() + "'>")
+			});
+
+			$.post("${context}/api/mngrbrd/delete",form.serialize(),function(response){
+				if(response.status =="200 OK"){
+					location.reload(); //새로고침	
+				}
+				else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		
+		
+	
+		
 	});
 </script>
 </head>
@@ -26,6 +64,7 @@
 		<table>
 			<thead>
 				<tr>
+					<th><input type = "checkbox" id ="all_check"/></th>
 					<th>글번호</th>
 					<th>카테고리</th>					
 					<th>제목</th>
@@ -33,36 +72,40 @@
 					<th>작성일</th>
 					<th>수정자</th>
 					<th>수정일</th>
-					<th>사용여부</th>
+					<th>게시여부</th>
 						
 				</tr>
 			</thead>
 			<tbody>
 				<c:choose>					
 					<c:when test="${not empty mngrBrdList}">
-						<c:forEach items="${mngrBrdList}" var="MngrBrd">
-							<tr 
-							>
-								<td>${MngrBrd.mngrBrdId}</td>
-								<td>${MngrBrd.ntcYn}</td>
+						<c:forEach items="${mngrBrdList}" var="mngrBrd">
+							<tr data-mngrid = "${mngrBrd.mngrId}"
+								data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
+								data-mdfyr = "${mngrBrd.mdfyr}"
+								data-mdfydt = "${mngrBrd.mdfyDt}"
+								data-useyn = "${mngrBrd.useYn}">
 								<td>
-									<a href="${context}/mngrbrd/${MngrBrd.mngrBrdId}">
-										${topic.subject} (${mngrBrdList.rplList.size()})
-									</a>
+									<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
 								</td>
-								<td>${MngrBrd.mbrVO.nm}</td>
-								<td>${MngrBrd.mngrBrdWrtDt}</td>
-								<td>${MngrBrd.mdfyr}</td>
-								<td>${MngrBrd.mdfyDt}</td>
-								<td>${MngrBrd.useYn}</td>
+								<td>${mngrBrd.mngrBrdId} </td>
+								<td>${mngrBrd.ntcYn eq 'Y' ? '공지' : '게시판'}</td>
 								
-								
+								<td>
+									<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}">
+										${mngrBrd.mngrBrdTtl} 
+									</a>
+								<td>${mngrBrd.mngrId}</td>
+								<td>${mngrBrd.mngrBrdWrtDt}</td>
+								<td>${mngrBrd.mdfyr}</td>
+								<td>${mngrBrd.mdfyDt}</td>
+								<td>${mngrBrd.useYn}</td>		
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
 						<tr>
-							<td colspan="8">
+							<td colspan="9">
 							
 							</td>
 						</tr>
@@ -70,6 +113,13 @@
 				</c:choose>
 			</tbody>
 		</table>
+		<div>
+			<button id="delete_btn" class="btn-delete">삭제</button>
+		</div>
+
+	
+		
+		
 	</div>
 	
 	
@@ -78,8 +128,9 @@
 	
 	
 	<div>
-		<a href="${pageContext.request.contextPath}/mngrbrd/write">토픽 작성</a>
+		<button><a href="${pageContext.request.contextPath}/mngrbrd/write"> 게시글 작성</a></button>
 	</div>
+
 
 </body>
 </html>

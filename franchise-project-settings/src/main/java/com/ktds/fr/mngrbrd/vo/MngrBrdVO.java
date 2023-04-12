@@ -17,9 +17,17 @@ public class MngrBrdVO {
 	private String useYn;	
 	private String delYn;	
 	private String ntcYn;
+		
+	private MbrVO mdfyrMbrVO;
 	
 	
-	
+
+	public MbrVO getMdfyrMbrVO() {
+		return mdfyrMbrVO;
+	}
+	public void setMdfyrMbrVO(MbrVO mdfyrMbrVO) {
+		this.mdfyrMbrVO = mdfyrMbrVO;
+	}
 	public String getNtcYn() {
 		return ntcYn;
 	}

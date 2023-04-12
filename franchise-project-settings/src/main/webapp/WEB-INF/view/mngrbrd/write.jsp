@@ -14,11 +14,10 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
-		console.log("!!");
 		$("#new_btn").click(function(){
 			console.log("!!");
 			
-			$.post("${context}/mngrbrd/write", $("#create_form").serialize(),function(response){
+			$.post("${context}/api/mngrbrd/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
 					location.reload(); //새로고침	
 				}
@@ -51,7 +50,7 @@
 						</div>
 								
 						<div class="create-group">
-							<label for="mngrId">매니저</label>
+							<label for="mbrId">매니저</label>
 							<input type="text" id="mngrId" name="mngrId"  />
 						</div>			
 						

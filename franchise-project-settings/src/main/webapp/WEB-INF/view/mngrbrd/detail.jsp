@@ -1,69 +1,85 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.Random"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set var="date" value="<%= new Random().nextInt() %>"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css"/>
-<script type="text/javascript" src= "${pageContext.request.contextPath}/js/jquery-3.6.4.min.js"></script>
+<jsp:include page="../include/stylescript.jsp"/>
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
+		$("#new_btn").click(function(){
+			console.log("!!");
+			
+			$.post("${context}/api/mngrbrd/write", $("#create_form").serialize(),function(response){
+				if(response.status =="200 OK"){
+					location.reload(); //새로고침	
+				}
+				else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+	    
+		});
 
+		
+	
 	});
 </script>
 </head>
 <body>
-	
-	<h1>${topic.subject}</h1>
-	
-	<div>
-		${topic.memberVO.name} (${topic.memberVO.email})
-	</div>
-	
-	<div>
-		작성일: ${topic.crtDt} 
-		/수정일: ${topic.mdfyDt}
-		
-	</div>
-	<div>
-		첨부파일: <a href= "${pageContext.request.contextPath}/mngrbrd/download/${topic.id}"> ${topic.originFileName}</a>
-	</div>
-	
-	<div>
-		${topic.content}
-	</div>
-	
-	<hr/>
-	
-	<form action="${pageContext.request.contextPath}/topic/reply/create" method="post">
-		<input type = "hidden" name ="topicId" value="${topic.id}"/>
-		<input type = "hidden" name ="prntReplyId" value="0"/>
-	
-		
-		<div>
-			<label for="reply"> 댓글 내용</label>
-			<textarea name="reply" id="reply"></textarea>
-		</div>
-		
-		<div>
-			<input type = "submit" value="등록" />
-		</div>
-	</form>
-	
-	<hr/>
-	<ul>
-		<c:forEach items="${topic.replyList}" var="reply">
-			<li style="margin-left: ${reply.depth * 30}px">${reply.reply}</li>
-		</c:forEach>
-	</ul>
+	<div class="main-layout">
 
-	
-	<hr/>
-	<a href="${pageContext.request.contextPath}/topics">목록</a>
-	<a href="${pageContext.request.contextPath}/topic/update/${topic.id}">수정</a> 
-	<a href="${pageContext.request.contextPath}/topic/delete/${topic.id}">삭제</a>
-
+		<div>
+				<h1>조회</h1>
+				<div>
+					<form id="create_form" >
+					
+						
+						<div class="create-group">
+							<label for="mngrBrdTtl">제목 ${mngrBrd.mngrBrdTtl}</label>
+							<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" disabled value="${mngrBrd.mngrBrdTtl} " />
+						</div>
+								
+						<div class="create-group">
+							<label for="mbrId">매니저</label>
+							<input type="text" id="mngrId" name="mngrId" disabled value="${mngrBrd.mngrId}" />
+						</div>			
+						
+						<div class="create-group">
+							<label for="mngrBrdCntnt">내용</label>
+							<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" disabled >${mngrBrd.mngrBrdCntnt}</textarea>
+					
+						</div>
+						
+						<div class="create-group">
+							<label for="useYn">게시여부</label>
+							<input type="checkbox" id="useYn" name="useYn" disabled value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
+						</div>
+						
+						<div class="create-group">
+							<label for="ntcYn">공지여부</label>
+							<input type="checkbox" id="ntcYn" name="ntcYn" disabled value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''}/>
+						</div>
+					</form>
+				
+				
+					
+				
+					<button><a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}">수정하기</a></button>
+					 <button><a href="${context}/mngrbrds">목록</a></button>
+				</div>
+				
+		
+			
+		</div>
+	</div>
+	</div>
 </body>
 </html>
