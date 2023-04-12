@@ -1,5 +1,7 @@
 package com.ktds.fr.str.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,10 @@ public class StrController {
 	private StrService strService;
 	
 	@GetMapping("/str/list")
-	public String viewStrListPage(StrVO strVO) {
+	public String viewStrListPage(Model model, StrVO strVO) {
+		List<StrVO> strList = strService.readAllStrMaster(strVO);
+		model.addAttribute("strList", strList);
+		model.addAttribute("StrVO", strVO);
 		return "str/list";
 	}
 	
