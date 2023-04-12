@@ -41,7 +41,6 @@ $().ready(function() {
                });
 
 	
-
 	//이벤트 수정 팝업창		
 		$("#update-btn").click(function(){
 
@@ -51,7 +50,13 @@ $().ready(function() {
 	    });
 	
 	
-	
+	//이벤트 제목 누르면 팝업창 열리면서 디테일 페이지로 이동. 
+	   $(".evntTtl").click(function(){
+
+		var pop = window.open("${context}/evnt/update_popup", "resPopup", "width=1100, height=900, scrollbars=yes, resizable=yes"); 
+			       pop.focus();	
+		    });
+	    });
 	
 </script>
 </head>
@@ -63,32 +68,29 @@ $().ready(function() {
 		</div>
 		<div class="content">
 			<div class="search-group">
-			<!-- <form> -->
-				검색조건<br/>
-				-----------------------------------------------<br/>
-				<label for="">이벤트 ID</label>
-				<input type="text" id="evntId" value="${evntId}" />
-				&nbsp;
-				<label for="">이벤트 제목</label>
-				<input type="text" id="evntTtl" value="${evntTtl}" />
-				&nbsp;
-				<label for="">이벤트 내용</label>
-				<input type="text" id="evntCntnt" value="${evntCntnt}" />
-				&nbsp;
-				<label for="">이벤트 시작일</label>
-				<input type="date" id="evntStrtDt" value="${evntStrtDt}" />
-				&nbsp;
-				<label for="">이벤트 종료일</label>
-				<input type="date" id="evntEndDt" value="${evntEndDt}" />
-				&nbsp;
-				<label for="">이벤트 사용유무</label>
-				<input type="checkbox" id="useYn" value="${useYn}" />
-				&nbsp;
-				<label for="">이벤트 삭제여부</label>
-				<input type="checkbox" id="delYn" value="${delYn}" />
-				&nbsp;
-				
-<!-- 				<button class="btn-search" id="search-btn">검색</button> -->
+				<div>
+					<ul>
+						<li><select name="search" class="w-px80">
+								<option value="all" ${page.search eq 'all' ? 'selected' : '' }>전체</option>
+								<option value="evntTtl"
+									${page.search eq 'evntTtl' ? 'selected' : '' }>제목</option>
+								<option value="evntCntnt"
+									${page.search eq 'evntCntnt' ? 'selected' : '' }>내용</option>
+								<option value="evntStrtDt"
+									${page.search eq 'evntStrtDt' ? 'selected' : '' }>시작일</option>
+								<option value="evntEndDt"
+									${page.search eq 'evntEndDt' ? 'selected' : '' }>종료일</option>
+								<option value="useYn"
+									${page.search eq 'useYn' ? 'selected' : '' }>사용유무</option>
+								<option value="delYn"
+									${page.search eq 'delYn' ? 'selected' : '' }>삭제여부</option>
+						</select></li>
+						<li><input value="${page.keyword }" type="text"
+							name="keyword" class="w-px300" /></li>				
+						</ul>
+						<button class="btn-search" id="search-btn">검색</button>
+					</div>
+		
 				<button id="search-btn" class="btn-primary">조회</button>
 				
 				<button id="update-btn" class="btn-primary">수정</button>

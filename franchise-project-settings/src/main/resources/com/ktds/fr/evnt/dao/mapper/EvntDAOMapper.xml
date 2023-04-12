@@ -80,7 +80,10 @@
 	</update>
 	
 	
-<!-- 	  UPDATE EVNT
+	<update id="updateDeleteEvnt"
+			parameterType="com.ktds.fr.evnt.vo.EvntVO">
+ 	  UPDATE EVNT
          SET DEL_YN=#{delYn}
-       WHERE EVNT_ID=#{evntId} -->
+       WHERE EVNT_ID=#{evntId}
+       </update>
 </mapper>

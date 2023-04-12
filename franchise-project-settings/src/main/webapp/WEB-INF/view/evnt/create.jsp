@@ -39,6 +39,7 @@ $().ready(function() {
 					}
 				});
 	});
+	
 })
 </script>
 
