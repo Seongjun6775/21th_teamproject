@@ -11,6 +11,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="../include/stylescript.jsp" />
+<script type="text/javascript">
+	$().ready (function() {
+		
+		$("#new_btn").click(function() {
+			$.post("${context}/api/rv/create",		
+					{
+						rvId:$("#rvId").val(),			
+						mbrId:$("#mbrId").val(),
+						odrId:$("#odrId").val(),
+						rvTtl:$("#rvTtl").val(),
+						rvCntnt:$("#rvCntnt").val(),
+						rvLkDslk:$("#rvLkDslk").val(),
+						rvRgstDt:$("#rvRgstDt").val(),
+						mdfyDt:$("#mdfyDt").val(),		
+						useYn:$("#useYn:checked").val(),
+						delYn:$("#delYn:checked").val()
+						
+					}, function(response) {
+						if (response.status == "200 OK") {
+							location.reload(); // 새로고침
+						}
+						else {
+							alert(response.errorCode + " / " + response.message);
+						}	
+						
+					});			
+		});			
+	});		
+</script>
 </head>
 <body>
 	<div class="main-layout">
@@ -23,34 +53,25 @@
 
 			<h1>새 리뷰 등록</h1>
 			<div>
-				<form id="create_form" enctype="multipart/form-data">
-
-					<div class="create-group">
-						<label for="rvId">리뷰ID</label> <input type="text" id="rvId"
-							name="rvId" />
-					</div>
-					<div class="create-group">
-						<label for="mbrId">회원ID</label> <input type="text" id="mbrId"
-							name="mbrId" />
-					</div>
+				<form id="create_form" method="post">
 					<div class="create-group">
 						<label for="odrId">주문ID</label> <input type="text" id="odrId"
 							name="odrId" />
 					</div>
 					<div class="create-group">
-						<label for="rvTtl">제목ID</label> <input type="text" id="rvTtl"
-							name="rvTtl" />
+						<label for="rvTtl">제목</label> <input type="text" id="rvTtl"
+							name="rvTtl" placeholder="제목을 입력하세요" />
 					</div>
 					<div class="create-group">
 						<label for="rvCntnt">내용</label> <input type="text" id="rvCntnt"
-							name="rvCntnt" />
+							name="rvCntnt" placeholder="내용을 입력하세요" />
 					</div>
 					<div class="create-group">
 						<label for="rvLkDslk">좋아요/싫어요</label> <select id="rvLkDslk"
 							name="rvLkDslk">
 							<option>선택</option>
-							<option value="좋아요">좋아요</option>
-							<option value="싫어요">싫어요</option>
+							<option value="T">좋아요</option>
+							<option value="F">싫어요</option>
 						</select>
 					</div>
 					<div class="create-group">
@@ -71,7 +92,7 @@
 					</div>					
 				</form>
 				<div class="align-right">
-					<button id="new_btn" class="btn-primary">등록</button>
+					<button id="new_btn" class="btn-primary" >등록</button>
 					<button id="delete_btn" class="btn-delete">삭제</button>
 				</div>
 				<jsp:include page="../include/footer.jsp" />

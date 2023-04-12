@@ -38,7 +38,7 @@
 						<th>리뷰ID</th>
 						<th>회원ID</th>
 						<th>주문ID</th>
-						<th>제목ID</th>
+						<th>제목</th>
 						<th>내용</th>
 						<th>좋아요/싫어요</th>
 						<th>등록일</th>
@@ -52,21 +52,14 @@
 						<c:when test="${not empty rvList}">
 							<c:forEach items="${rvList}"
 									   var="rv">
-								<tr data-rvid = "${rv.rvId}"
-									data-mbrid = "${rv.mbrId}"
-									data-odrid = "${rv.odrId}"
-									data-rvttl = "${rv.rvTtl}"
-								 	data-rvcntnt = "${rv.rvCntnt}"
-								 	data-rvlkdslk = "${rv.rvLkDslk}" 
-									data-rvrgstdt = "${rv.rvRgstDt}"			
-									data-mdfydt = "${rv.mdfyDt}"
-									data-useyn = "${rv.useYn}"
-									data-delyn = "${rv.delYn}">
+								<tr>
 									<td>
 										<input type="checkbox" 
 											   class="check_idx" 
 											   value="${rv.rvId}"/>
 									</td>
+									<td>${rv.rvId}</td>
+									<td>${rv.rvId}</td>
 									<td>${rv.mbrId}</td>
 									<td>${rv.odrId}</td>					
 									<td>${rv.rvTtl}</td>					
@@ -80,17 +73,18 @@
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<td colspan="10" class="no-item">
+							<td colspan="12" class="no-item">
 								등록된 리뷰가 없습니다.
 							</td>
 						</c:otherwise>
 					</c:choose>			
 				</tbody>
-			</table>
-			
+			</table>		
 			<div class="align-right">
-				<button id="new_btn" class="btn-primary">등록</button>
+				
+				<button id="search_btn" class="btn-search">검색</button>
 				<button id="delete_btn" class="btn-delete">삭제</button>
+				<button id="new_btn" class="btn-primary">등록</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

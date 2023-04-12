@@ -12,7 +12,7 @@ import com.ktds.fr.rv.vo.RvVO;
 
 @Controller
 public class RvController {
-
+		
 	@Autowired
 	private RvService rvService;
 	
@@ -27,7 +27,12 @@ public class RvController {
 	}
 	
 	@GetMapping("/rv/create")
-	public String viewRvCreatePage() {
-		return "/rv/create";
+	public String viewCreateNewRvPage() {		
+		return "rv/create";
 	}
+	
 }
+
+
+	
+
