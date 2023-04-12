@@ -4,13 +4,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}"></c:set>
-<c:set var="randomValue" value="<%= new Random().nextInt() %>"></c:set>
+<c:set var="date" value="<%= new Random().nextInt() %>"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>메뉴 관리</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
+<link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <script type="text/javascript">
 
 // input 가격 입력의 최대길이를 제한하기 위한 기능
@@ -64,7 +65,7 @@ $().ready(function() {
 		if (prdtFileId==""){
 			prdtFileId= "FuckingErrorFileNameIsNull";
 		}
-		$("#prdtIMG").attr("src", "${context}/prdt/img/" + prdtFileId + "/");
+		$("#prdtImg").attr("src", "${context}/prdt/img/" + prdtFileId + "/");
 		
 		
 	});
@@ -97,7 +98,7 @@ $().ready(function() {
 		$("#prdtCntnt").val("");
 		$("#prdtCntnt").val("");
 		
-		$("#prdtIMG").attr("src", "${context}/img/default_photo.jpg");
+		$("#prdtImg").attr("src", "${context}/img/default_photo.jpg");
 		$("#useYn").prop("checked", false);
 	});
 	
@@ -112,23 +113,23 @@ $().ready(function() {
 			fileReader.onload = function(data) {
 				// FileReader 객체가 로드 됐을 떄,
 				console.log(data);
-				$("#prdtIMG").attr("src", data.target.result);
+				$("#prdtImg").attr("src", data.target.result);
 			}
 			fileReader.readAsDataURL(file[0]);
-			$("#isDeleteIMG").val("Y");
+			$("#isDeleteImg").val("Y");
 			
 		} else {
 			// 기본 이미지로 변경
 			$("#prdtFileId").val("");
-			$("#prdtIMG").attr("src", "${context}/img/default_photo.jpg")
-			$("#isDeleteIMG").val("Y");
+			$("#prdtImg").attr("src", "${context}/img/default_photo.jpg")
+			$("#isDeleteImg").val("Y");
 		}
 	});
 	$("#del-img").click(function(event) {
 		event.preventDefault();
 		$("#prdtFileId").val("");
-		$("#isDeleteIMG").val("Y");
-		$("#prdtIMG").attr("src", "${context}/img/default_photo.jpg")
+		$("#isDeleteImg").val("Y");
+		$("#prdtImg").attr("src", "${context}/img/default_photo.jpg")
 	});
 	
 	
@@ -222,7 +223,7 @@ $().ready(function() {
 		}
 	});
 	
-	$("#prdtIMG").click(function() {
+	$("#prdtImg").click(function() {
 		console.log("이미지 클릭했음");
 		$("#prdtFileId").click();
 	});
@@ -255,6 +256,7 @@ function chkCount(checkLen) {
 		<div>
 			<jsp:include page="../include/sidemenu.jsp"></jsp:include>
 			<jsp:include page="../include/content.jsp"></jsp:include>
+			
 			
 			<div class="grid">
 				<div class="grid-count align-right">
@@ -345,10 +347,10 @@ function chkCount(checkLen) {
 								<label for="prdtFileId">사진</label>
 								<input type="file" id="prdtFileId"  name="prdtFileId" value=""/>
 								<div class="img-box">
-									<img src="${context}/img/default_photo.jpg" id="prdtIMG" class="img">
+									<img src="${context}/img/default_photo.jpg" id="prdtImg" class="img">
 								</div>
 								<button id="del-img" style="position: absolute; right:10px; bottom:10px;">X</button>
-								<input type="hidden" id="isDeleteIMG" name="isDeleteIMG" value="N">
+								<input type="hidden" id="isDeleteImg" name="isDeleteImg" value="N">
 							</div>	
 						</div>
 						<div class="grid-right">

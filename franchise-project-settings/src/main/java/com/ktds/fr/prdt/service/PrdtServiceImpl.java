@@ -111,7 +111,7 @@ public class PrdtServiceImpl implements PrdtService {
 		
 		if ((prdtVO.getPrdtFileId() == null 
 				|| prdtVO.getPrdtFileId().length() == 0)
-				&& prdtVO.getIsDeleteIMG().equals("N")) {
+				&& prdtVO.getIsDeleteImg().equals("N")) {
 			prdtVO.setPrdtFileId(origin.getPrdtFileId());
 		} else {
 			isModify = true;
