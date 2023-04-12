@@ -11,7 +11,7 @@
 			<a href="#">메뉴관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">매장관리</a>
+			<a href="${context}/str/list">매장관리</a>
 		</li>
 		<li class="nav-item">
 			<a href="#">이벤트관리</a>
