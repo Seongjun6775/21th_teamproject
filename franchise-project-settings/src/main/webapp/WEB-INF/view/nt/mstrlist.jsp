@@ -74,10 +74,10 @@
 		function f_selectFilter {
 			
 			var ntRdDt = $("#s_ntRdDt").val();
+			var delYn = $("#s_delYn").val();
 			
-			if (selectVal == "Y") {
-				$.get("${context}/api/nt/mstrlist", function(response){});
-			}
+			$.get("${context}/api/nt/mstrlist", function(response){});
+			
 			
 		}
 
