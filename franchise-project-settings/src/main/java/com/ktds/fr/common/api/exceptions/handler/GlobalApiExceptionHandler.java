@@ -8,7 +8,7 @@ import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 
-@RestControllerAdvice("com.ktdsuniversity.admin")
+@RestControllerAdvice("com.ktds.fr")
 public class GlobalApiExceptionHandler {
 	
 	@ExceptionHandler(ApiArgsException.class)
