@@ -1,15 +1,25 @@
 package com.ktds.fr.evnt.vo;		
 		
 public class EvntVO {		
-		
+	
+	/* 이벤트 ID */
 	private String evntId;	
+	/* 이벤트 제목 */
 	private String evntTtl;	
-	private String evntCntnt;	
+	/* 이벤트 내용 */
+	private String evntCntnt;
+	/* 이벤트 시작일 */
 	private String evntStrtDt;	
+	/* 이벤트 종료일 */
 	private String evntEndDt;	
-	private String evntPht;	
-	private String useYn;	
-	private String delYn;	
+	/* 이벤트 사진 */
+	private String evntPht;
+	/* 이벤트 사용유무 */
+	private String useYn;
+	/* 이벤트 삭제여부 */
+	private String delYn;
+	
+	
 	public String getEvntId() {	
 		return evntId;
 	}	
