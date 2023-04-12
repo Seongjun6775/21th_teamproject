@@ -33,5 +33,5 @@
 		</li>
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
-	<div class="inline profile">이름 <a href="#">(Logout)</a></div>
+	<div class="inline profile">이름 <a href="/logout">(Logout)</a></div>
 </div>
