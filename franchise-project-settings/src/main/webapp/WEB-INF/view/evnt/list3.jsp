@@ -41,14 +41,30 @@ $().ready(function() {
                });
 
 	
-	//이벤트 수정 팝업창		
+	//이벤트 수정 (팝업창)		
 		$("#update-btn").click(function(){
 
-		var pop = window.open("${context}/evnt/update_popup", "resPopup", "width=1100, height=900, scrollbars=yes, resizable=yes"); 
-			       pop.focus();	
-		    });
-	    });
-	
+		var pop = window.open("${context}/evnt/update", "resPopup", "width=1100, height=900, scrollbars=yes, resizable=yes"); 
+			       pop.focus();,
+			    
+			     	// 파라미터
+					{evntId: $("#evntId").val(),
+					evntTtl: $("#evntTtl").val(),
+					evntCntnt: $("#evntCntnt").val(),
+					evntStrtDt: $("#evntStrtDt").val(),
+					useYn: $("#useYn").val(),
+					delYn: $("#delYn").val()},
+					
+					function(data, status){
+					    if (status == "success"){
+					    	location.reload(); // 새로고침
+					    } else {
+						    console.log("Data: " + data + "\nStatus: " + status);
+					     }
+					  });                 
+			 	  });
+	    	});
+	   
 	
 	//이벤트 제목 누르면 팝업창 열리면서 디테일 페이지로 이동. 
 	   $(".evntTtl").click(function(){

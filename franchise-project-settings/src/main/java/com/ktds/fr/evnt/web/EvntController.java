@@ -34,26 +34,26 @@ public class EvntController {
 		List<EvntVO> evntList = evntService.readAllEvnt(evntVO);
 		model.addAttribute("evntList", evntList);
 		return "evnt/list3";
-			}
+	}
 	
 	
 	//이벤트 상세 조회페이지
 	@GetMapping("/evnt/readOne")
-	public String viewEvntOnePage(@PathVariable Model model, EvntVO evntVO) {
+	public String viewEvntOnePage(Model model, EvntVO evntVO) {
 		return "evnt/readOne";
 	}
 	
 
 	//이벤트 수정 페이지  
 	@GetMapping("/evnt/update")
-	public String updateEvntPage(@PathVariable Model model, EvntVO evntVO) {
+	public String updateEvntPage(Model model, EvntVO evntVO) {
 		model.addAttribute("evntVO", evntVO);
 		return "evnt/update";
 	}
 	
 	//이벤트 수정 post
 	@GetMapping("/evnt/detail")
-	public String postEvntUpdate(@PathVariable Model model, EvntVO evntVO) {
+	public String postEvntUpdate(Model model, EvntVO evntVO) {
 		model.addAttribute("evntVO", evntVO);
 		return "redirect:list3"; // 리스트로 리다이렉트
 	}

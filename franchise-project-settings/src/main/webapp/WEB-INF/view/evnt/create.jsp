@@ -15,7 +15,7 @@ $().ready(function() {
 	$("#btn-create").click(function(){
 		$.post(
 				// 1. 호출할 주소
-				"${context}/api/evnt/createNewEvnt",
+				"${context}/api/evnt/create",
 				
 				// 2. 파라미터
 				{
@@ -25,8 +25,8 @@ $().ready(function() {
 					evntStrtDt: $("#evntStrtDt").val(),
 					evntEndDt: $("#evntEndDt").val(),
 					evntPht: $("#evntPht").val(),
-					useYn: $('#useYn').is(":checked"),
-					delYn: $('#delYn').is(":checked")
+					useYn: $('#useYn:checked').val(),
+					delYn: $('#delYn:checked').val()
 				},
 				
 				// 3. 결과 처리

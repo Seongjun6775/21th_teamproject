@@ -8,7 +8,40 @@
 <link rel="stylesheet" href="../../css/evntCommon.css">
 <meta charset="UTF-8">
 <title>이벤트 상세 페이지</title>
-
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	
+	$("#btn-update").click(function(){
+		$.post(
+				// 1. 호출할 주소
+				"${context}/api/evnt/update",
+				
+				// 2. 파라미터
+				{
+					evntId: $("#evntId").val(),
+					evntTtl: $("#evntTtl").val(),
+					evntCntnt: $("#evntCntnt").val(),
+					evntStrtDt: $("#evntStrtDt").val(),
+					evntEndDt: $("#evntEndDt").val(),
+					evntPht: $("#evntPht").val(),
+					useYn: $('#useYn').is(":checked"),
+					delYn: $('#delYn').is(":checked")
+				},
+				
+				// 3. 결과 처리
+				function(response) {
+					if (response.status == "200 OK") {
+						alert(response.message);
+						//location.reload(); // 새로고침
+					} else {
+						alert(response.errorCode + " / " + response.message);
+					}
+				});
+	});
+	
+})
+</script>
 </head>
 <body>
 
@@ -61,7 +94,7 @@
 				<tr>
 					<td></td>
 					<td></td>
-					<td><button id="btn-create" class="btn-primary" style="width:100%;">등록</button></td>
+					<td><button id="btn-update" class="btn-primary" style="width:100%;">수정</button></td>
 					<td><button id="btn-cencle" class="btn-primary" style="width:100%;">취소</button></td>
 				</tr>
 			</table>

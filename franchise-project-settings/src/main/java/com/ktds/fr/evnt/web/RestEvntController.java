@@ -1,13 +1,9 @@
 package com.ktds.fr.evnt.web;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ktds.fr.common.api.vo.ApiResponseVO;
@@ -24,7 +20,7 @@ public class RestEvntController {
 	//이벤트 생성
 	
 	@PostMapping("/api/evnt/create")
-	public ApiResponseVO createNewEvnt(Model model, EvntVO evntVO) throws Exception {
+	public ApiResponseVO createNewEvnt(EvntVO evntVO) throws Exception {
 
 
 			boolean isSuccess = evntService.createNewEvnt(evntVO);
@@ -33,12 +29,11 @@ public class RestEvntController {
 			} else {
 				return new ApiResponseVO(ApiStatus.FAIL, "이벤트를 등록할 수 없습니다.", "500", "");
 			}
-		
 	}
 	
 	//이벤트 수정
 	@PostMapping("/api/evnt/update")
-	public ApiResponseVO updateEvnt(Model model, EvntVO evntVO) throws Exception {
+	public ApiResponseVO updateEvnt(EvntVO evntVO) throws Exception {
 		
 		
 			boolean isSuccess = evntService.updateEvnt(evntVO);
@@ -48,6 +43,22 @@ public class RestEvntController {
 				return new ApiResponseVO(ApiStatus.FAIL, "이벤트를 수정 할 수 없습니다.", "500", "");
 				}
 			}
+	
+	
+	
+	//이벤트 삭제
+	@GetMapping("/api/evnt/updateDelete")
+	public ApiResponseVO updateDeleteEvnt(EvntVO evntVO) throws Exception {
+		
+		
+			boolean isSuccess = evntService.updateEvnt(evntVO);
+			if (isSuccess) {
+				return new ApiResponseVO(ApiStatus.OK, "이벤트 삭제여부가 정상적으로 변경되었습니다.", "200", "");
+			} else {
+				return new ApiResponseVO(ApiStatus.FAIL, "이벤트를 삭제 할 수 없습니다.", "500", "");
+				}
+			}
+	
 	
 	//-----------------공통적용 소스----------------------------
 
