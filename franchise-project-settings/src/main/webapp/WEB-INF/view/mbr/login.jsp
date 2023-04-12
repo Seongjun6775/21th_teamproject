@@ -17,14 +17,14 @@
 					mbrId: $("#mbrId").val(),
 					mbrPwd: $("#mbrPwd").val()
 			}
-			$.post("${context}/api/mbr/login", data, function(res){
-				if(res.status == "200 OK"){
-					location.href = "${context}"+res.redirectURL;
+			$.post("${context}/api/mbr/login", data, function(resp){
+				if(resp.status == "200 OK"){
+					location.href = "${context}"+resp.redirectURL;
 					
 					alert("로그인");
 				}
 				else{
-					console.log(res)
+					console.log(resp)
 				}
 			});
 		});

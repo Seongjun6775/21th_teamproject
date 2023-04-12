@@ -67,7 +67,11 @@ public class RestMbrController {
 		}
 		
 		boolean createResult = mbrService.createNewMbr(mbrVO);
-		return new ApiResponseVO();
+		if(createResult) {
+			return new ApiResponseVO(ApiStatus.OK,"/login");
+		}else {
+			return new ApiResponseVO(ApiStatus.FAIL,"회원등록에 실패하였습니다.","/regist");
+		}
 	}
 	//회원 아이디 체크
 	@GetMapping("/api/mbr/check/{mbrId}")
@@ -82,5 +86,6 @@ public class RestMbrController {
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
+	
 	
 }
