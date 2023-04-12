@@ -121,7 +121,7 @@
 		     , PRDT_FILE_ID = #{prdtFileId} 
 		     , PRDT_SRT = #{prdtSrt} 
 		     , MDFYR = #{mdfyr} 
-		     , SYSDATE 
+		     , PRDT_RGST_DT = SYSDATE 
 		     , USE_YN = NVL(#{useYn}, 'N')  
 		 WHERE PRDT_ID = #{prdtId} 
 	</update>

@@ -60,15 +60,13 @@ public class RestPrdtController {
 	
 	
 	
-	@GetMapping("/api/prdt/update")
+	@PostMapping("/api/prdt/update")
 	public ApiResponseVO update(PrdtVO prdtVO
 			, MultipartFile uploadFile
 //			, @SessionAttribute("__ADMIN__") MbrVO mbrVO
 			) {
 		// TODO 세션기능 생기면 밑에꺼랑 바꿀것
 //		prdtVO.setMdfyr(mbrVO.getMbrId());
-		
-		prdtVO.setPrdtSrt("테스트용분류");
 		
 		String srt = prdtVO.getPrdtNm();
 		if (srt == null || srt.trim().length() == 0) {
@@ -94,7 +92,7 @@ public class RestPrdtController {
 	
 	@GetMapping("/api/prdt/delete/{prdtId}")
 	public ApiResponseVO deleteOne(@PathVariable String prdtId) {
-		if (prdtId==null || prdtId.trim().length() == 0) {
+		if (prdtId == null || prdtId.trim().length() == 0) {
 			throw new ApiArgsException("400", "선택된 항목이 없습니다.");
 		}
 		boolean isSuccess = prdtService.deleteOne(prdtId);

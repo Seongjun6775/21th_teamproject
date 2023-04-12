@@ -20,6 +20,7 @@ function maxLengthCheck(object){
     }    
   }
 
+// 천단위 구분기호를 위해 갖고왔는데 미사용중임, 동작어려움 ㅠ
 function priceToString(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
@@ -27,6 +28,8 @@ function priceToString(price) {
 $().ready(function() {
 	
 	console.log("ready function!")
+	var ajaxUtil = new AjaxUtil();
+	
 	
 	var table = document.getElementById("dataTable");
 	var rowCount = table.rows.length;
@@ -35,9 +38,12 @@ $().ready(function() {
 	// 테이블로우에 for문으로 반복한다???
 	// function priceToString 참고 및 사용
 	
+	
+	
 	$(".grid > table > tbody > tr").click(function() {
 		var data = $(this).data();
 		console.log(data)
+		console.log($("#isModify").val());
 		
 		$("#isModify").val("true"); // true:수정/false:신규
 		
@@ -54,15 +60,74 @@ $().ready(function() {
 		$("#prdtCntnt").val(data.prdtcntnt);
 		
 		$("#useYn").prop("checked", data.useyn == "Y");
-		
-		
 	})
 	
-	var ajaxUtil = new AjaxUtil();
+	$("#all-check").change(function(){
+		$(".check-idx").prop("checked",$(this).prop("checked"));
+	})
+	$(".check-idx").change(function(){
+		var count = $(".check-idx").length;
+		var checkCount = $(".check-idx:checked").length;
+		console.log(count +"/"+ checkCount)
+		$("#all-check").prop("checked", count == checkCount);
+	})
+	
+	
+	$("#btn-new").click(function() {
+		$("#isModify").val("false"); // true:수정/false:신규
+		
+		$("#prdtId").val("");
+		$("#prdtSrt").val("none");
+		$("#prdtNm").val("");
+		$("#prdtPrc").val("");
+		$("#prdtRgstr").val("");
+		$("#prdtRgstDt").val("");
+		$("#mdfyr").val("");
+		$("#mdfyDt").val("");
+		$("#mdfyDt").val("");
+		$("#prdtCntnt").val("");
+		$("#prdtCntnt").val("");
+		
+		$("#prdtIMG").attr("src", "${context}/img/default_photo.jpg");
+		$("#useYn").prop("checked", false);
+	})
+	
 	
 	$("#btn-new").click(function() {
 		
 	})
+	
+	
+	
+	$("#prdtFileId").change(function() {
+		var file = $(this)[0].files;
+		console.log(file);
+		
+		if(file.length > 0) {
+			var fileReader = new FileReader();
+			fileReader.onload = function(data) {
+				// FileReader 객체가 로드 됐을 떄,
+				console.log(data);
+				$("#prdtIMG").attr("src", data.target.result);
+			}
+			fileReader.readAsDataURL(file[0]);
+			$("#isDeleteIMG").val("Y");
+			
+		} else {
+			// 기본 이미지로 변경
+			$("#prdtFileId").val("");
+			$("#prdtIMG").attr("src", "${context}/img/default_photo.jpg")
+			$("#isDeleteIMG").val("Y");
+		}
+	});
+	$("#del-img").click(function(event) {
+		event.preventDefault();
+		$("#prdtFileId").val("");
+		$("#isDeleteIMG").val("Y");
+		$("#prdtIMG").attr("src", "${context}/img/default_photo.jpg")
+	});
+	
+	
 	
 	$("#btn-save").click(function() {
 		console.log("세이브버튼임")
@@ -91,6 +156,16 @@ $().ready(function() {
 	})
 	
 	
+	
+	$("#prdtIMG").click(function() {
+		console.log("a");
+		$("#prdtFileId").click();
+	});
+	
+	// 이미지등록 라벨 클릭 시 이벤트제거
+	$("label").click(function(event) {
+		event.preventDefault();
+	});
 	
 	
 	
@@ -185,13 +260,13 @@ $().ready(function() {
 						 -->
 						<input type="hidden" id="isModify" value="false" />
 						
-						<div class="grid-left mr-10">w
+						<div class="grid-left mr-10">
 							<div class="inline-flex">
 								<div class="input-group" style="position:relative;">
 									<label for="prdtFileId">사진</label>
 									<input type="file" id="prdtFileId"  name="prdtFileId" value=""/>
 									<img src="${context}/img/default_photo.jpg" id="prdtIMG" class="img">
-									<button id="del-pctr" style="position: absolute; right:10px; bottom:10px;">X</button>
+									<button id="del-img" style="position: absolute; right:10px; bottom:10px;">X</button>
 									<input type="hidden" id="isDeleteIMG" name="isDeleteIMG" value="N">
 								</div>	
 							</div>
@@ -204,7 +279,7 @@ $().ready(function() {
 							<div class="input-group inline">
 								<label for="prdtSrt">분류</label>
 								<select id="prdtSrt" name="prdtSrt">
-									<option>선택</option>
+									<option value="none">선택</option>
 									<option value="분류-가">기역</option>
 									<option value="분류-나">니은</option>
 									<option value="분류-다">디귿</option>
@@ -219,7 +294,7 @@ $().ready(function() {
 								<label for="prdtPrc">가격</label>
 								<input type="number" id="prdtPrc"  name="prdtPrc" 
 										min="0" max="9999999" maxlength="7" 
-										oninput="maxLengthCheck(this)" value=""/>
+										oninput="maxLengthCheck(this)" value="0"/>
 							</div>
 							<div class="input-group inline">
 								<label for="useYn">사용여부</label>
