@@ -27,7 +27,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th>글 번호</th>
+					<th>글번호</th>
 					<th>카테고리</th>					
 					<th>제목</th>
 					<th>작성자</th>

@@ -15,21 +15,7 @@
 	
 
 	$().ready(function(){
-		$("#addGnrBtn").click(function(){
-			event.preventDefault();
-			gnr = window.open("${context}/gnr/search","장르검색","width=500,height=500");
-		});
-		
-		$("#addDirectorBtn, #addScripterBtn, #addProducerBtn, #addMainActorBtn, #addSuppotingActorBtn, #addExtraBtn").click(function(){
-			event.preventDefault();
-			ppl = window.open("${context}/mvppl/search?targetId=" + $(this).attr("id"),"영화인검색검색","width=500,height=500");
-			
-			var that = this;
-			// /admin/mvppl/search 화면이 브라우저에 모두 로딩이 되었을 떄 ==> 랜더링이 끝났을 떄 // 다 열렸을 때 수행해라 
-			ppl.onload = function(){
-				//ppl.targetId = $(that).attr("id"); 
-			}
-		});
+
 		
 		
 		$("#new_btn").click(function(){
@@ -47,6 +33,10 @@
 			},{"pstr": "uploadFile"});
 			
 		});
+		
+		$("del_btn").click(function(){
+			
+		})
 		
 	
 	});
@@ -69,16 +59,7 @@
 							<label for="mvTtl">제목</label>
 							<input type="text" id="mvTtl" name="mvTtl" value="${mvVO.mvTtl}" />
 						</div>
-						
-						
-						
-						<div class="create-group">
-							<label for="scrnTm">카테고리</label>
-							<input type="number" id="scrnTm" name="scrnTm" value="${mvVO.scrnTm}"/>
-						</div>
-						
-						
-						
+											
 						
 						<div class="create-group">
 							<label for="smr">내용</label>
@@ -87,7 +68,7 @@
 			
 						
 						<div class="create-group">
-							<label for="useYn">게시여부</label>
+							<label for="useYn">공지여부</label>
 							<input type="checkbox" id="useYn" name="useYn" value="Y" ${mvVO.useYn =='Y' ? 'checked' : ''}>
 						</div>
 	
@@ -96,7 +77,7 @@
 				
 				<div class="align-right">
 					<button id="new_btn" class="btn-primary">등록</button>
-					<button id="delete_btn" class="btn-delete">삭제</button>
+					<button><a href="${pageContext.request.contextPath}/mngrbrds">목록</a> </button> 
 				</div>
 				
 		
