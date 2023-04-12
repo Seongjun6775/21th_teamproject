@@ -9,6 +9,7 @@
 	<!-- <context:property-placeholder location="/WEB-INF/config/dbconfig.properties"/> -->
 	<!-- 강의장 공용DB -->
 	<context:property-placeholder location="/WEB-INF/config/srdbconfig.properties"/> 
+
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${jdbc.oracle.driver_class_name}" />
