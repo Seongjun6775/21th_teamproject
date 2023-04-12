@@ -38,15 +38,6 @@ public class RestPrdtController {
 //		prdtVO.setPrdtRgstr(mbrVO.getMbrId());
 //		prdtVO.setMdfyr(mbrVO.getMbrId());
 
-		String nm = prdtVO.getPrdtNm();
-		if (nm == null || nm.trim().length() == 0) {
-			throw new ApiArgsException("400", "이름이 비었음");
-		}
-		int prc = prdtVO.getPrdtPrc();
-		if (prc== 0) {
-			throw new ApiArgsException("400", "가격이 비었음");
-		}
-		
 		// 로그인이 없으므로 등록자/수정자 임의값 입력
 		prdtVO.setPrdtRgstr("master");
 		prdtVO.setMdfyr("master");
@@ -68,18 +59,6 @@ public class RestPrdtController {
 		// TODO 세션기능 생기면 밑에꺼랑 바꿀것
 //		prdtVO.setMdfyr(mbrVO.getMbrId());
 		
-		String srt = prdtVO.getPrdtNm();
-		if (srt == null || srt.trim().length() == 0) {
-			throw new ApiArgsException("400", "분류가 누락되었습니다.");
-		}
-		String nm = prdtVO.getPrdtNm();
-		if (nm == null || nm.trim().length() == 0) {
-			throw new ApiArgsException("400", "이름이 누락되었습니다.");
-		}
-		int prc = prdtVO.getPrdtPrc();
-		if (prc== 0) {
-			throw new ApiArgsException("400", "가격이 누락되었습니다.");
-		}
 		// 로그인이 없으므로 수정자 임의값 입력
 		prdtVO.setMdfyr("mdfyr-tester");
 		
@@ -92,9 +71,6 @@ public class RestPrdtController {
 	
 	@GetMapping("/api/prdt/delete/{prdtId}")
 	public ApiResponseVO deleteOne(@PathVariable String prdtId) {
-		if (prdtId == null || prdtId.trim().length() == 0) {
-			throw new ApiArgsException("400", "선택된 항목이 없습니다.");
-		}
 		boolean isSuccess = prdtService.deleteOne(prdtId);
 		if (isSuccess) {
 			return new ApiResponseVO(ApiStatus.OK);
@@ -103,11 +79,8 @@ public class RestPrdtController {
 	}
 	
 	@PostMapping("/api/prdt/delete")
-	public ApiResponseVO deleteSelectAll(@RequestParam List<String> prdtIdList) {
-		if (prdtIdList.size()==0) {
-			throw new ApiArgsException("400", "선택된 항목이 없습니다.");
-		}
-		boolean isSuccess = prdtService.deleteSelectAll(prdtIdList);
+	public ApiResponseVO deleteSelectAll(@RequestParam List<String> prdtId) {
+		boolean isSuccess = prdtService.deleteSelectAll(prdtId);
 		if (isSuccess) {
 			return new ApiResponseVO(ApiStatus.OK);
 		}

@@ -43,7 +43,6 @@ $().ready(function() {
 	$(".grid > table > tbody > tr").click(function() {
 		var data = $(this).data();
 		console.log(data)
-		console.log($("#isModify").val());
 		
 		$("#isModify").val("true"); // true:수정/false:신규
 		
@@ -60,26 +59,36 @@ $().ready(function() {
 		$("#prdtCntnt").val(data.prdtcntnt);
 		
 		$("#useYn").prop("checked", data.useyn == "Y");
-	})
+		
+		var prdtFileId = data.prdtfileid;
+		if (prdtFileId==""){
+			prdtFileId= "FuckingErrorFileNameIsNull";
+		}
+		$("#prdtIMG").attr("src", "${context}/prdt/img/" + prdtFileId + "/");
+		
+		
+	});
 	
 	$("#all-check").change(function(){
 		$(".check-idx").prop("checked",$(this).prop("checked"));
+		var checkLen = $(".check-idx:checked").length;
+		chkCount(checkLen);
 	})
 	$(".check-idx").change(function(){
 		var count = $(".check-idx").length;
 		var checkCount = $(".check-idx:checked").length;
-		console.log(count +"/"+ checkCount)
 		$("#all-check").prop("checked", count == checkCount);
-	})
+		
+	});
 	
 	
 	$("#btn-new").click(function() {
 		$("#isModify").val("false"); // true:수정/false:신규
 		
 		$("#prdtId").val("");
-		$("#prdtSrt").val("none");
+		$("#prdtSrt").val("");
 		$("#prdtNm").val("");
-		$("#prdtPrc").val("");
+		$("#prdtPrc").val("0");
 		$("#prdtRgstr").val("");
 		$("#prdtRgstDt").val("");
 		$("#mdfyr").val("");
@@ -90,12 +99,7 @@ $().ready(function() {
 		
 		$("#prdtIMG").attr("src", "${context}/img/default_photo.jpg");
 		$("#useYn").prop("checked", false);
-	})
-	
-	
-	$("#btn-new").click(function() {
-		
-	})
+	});
 	
 	
 	
@@ -140,7 +144,7 @@ $().ready(function() {
 				else {
 					alert(response.errorCode + " / " + response.message);
 				}
-			}, {"prdtIMG":"uploadFile"})
+			}, {"prdtFileId":"uploadFile"})
 		} else {
 			ajaxUtil.upload("#form-detail", "${context}/api/prdt/update", function(response) {
 				if (response.status == "200 OK") {
@@ -150,15 +154,76 @@ $().ready(function() {
 				else {
 					alert(response.errorCode + " / " + response.message);
 				}
-			}, {"prdtIMG":"uploadFile"})
+			}, {"prdtFileId":"uploadFile"})
 		}
 		
+	});
+	
+	
+	$("#btn-delete").click(function() {
+		var prdtId = $("#prdtId").val();
+		var prdtNm = $("#prdtNm").val();
+		if (prdtId == "") {
+			alert("선택된 항목이 없습니다.")
+			return;
+		}
+		if (!confirm("ID    : " + prdtId + "\n이름 : " + prdtNm + "\n정말 삭제하시겠습니까?")) {
+			return;
+		}
+		$.get("${context}/api/prdt/delete/" + prdtId, function(response) {
+			location.reload(); //새로고침
+		})
+	});
+	
+	$("#btn-delete-all").click(function() {
+		var checkLen = $(".check-idx:checked").length;
+		if (checkLen == 0) {
+			alert("선택된 항목이 없습니다.");
+			return;
+		}
+		if (!confirm("체크한 항목이 일괄 삭제됩니다.\n정말 삭제하시겠습니까?")) {
+			return;
+		}
+		
+		var form = $("<form></form>")
+		
+		$(".check-idx:checked").each(function() {
+			console.log($(this).val());
+			form.append("<input type='hiedden' name='prdtId' value='" + $(this).val() + "'>");
+		});
+		
+		$.post("${context}/api/prdt/delete", form.serialize(), function(response) {
+			if (response.status == "200 OK") {
+				location.reload(); //새로고침
+			}
+			else {
+				alert(response.errorCode + " / " + response.message);
+			}
+		});
 	})
 	
+	// 체크박스가 되었다면 일괄삭제버튼 나타내기
+	$("input:checkbox").click(function() {
+		var checkLen = $(".check-idx:checked").length;
+		chkCount(checkLen);
+	})
+		
 	
+	
+	
+	
+	
+	// 가격 빈값 -> 0 입력 , 첫글자 0삭제
+	$("#prdtPrc").keyup(function() {
+		if ($(this).val() == "") {
+			$(this).val("0");
+		} else {
+			$(this).val($(this).val().replace(/(^0+)/, ""))
+		}
+	});
 	
 	$("#prdtIMG").click(function() {
-		console.log("a");
+		console.log("이미지 클릭했음");
 		$("#prdtFileId").click();
 	});
 	
@@ -169,7 +234,18 @@ $().ready(function() {
 	
 	
 	
-})
+});
+
+function chkCount(checkLen) {
+	
+	if (checkLen > 0) {
+		$(".animation").stop();
+		$(".animation").slideDown( 600 );
+	} else {
+		$(".animation").stop();
+		$(".animation").slideUp ( 600 );
+	}
+}
 </script>
 </head>
 <body>
@@ -211,11 +287,11 @@ $().ready(function() {
 										data-prdtnm="${prdt.prdtNm}" 
 										data-prdtprc="${prdt.prdtPrc}" 
 										data-prdtcntnt="${prdt.prdtCntnt}" 
-										data-prdtfileId="${prdt.prdtFileId}" 
+										data-prdtfileid="${prdt.prdtFileId}" 
 										data-prdtsrt="${prdt.prdtSrt}" 
 										data-prdtsrtnm="${prdt.cmmnCdVO.cdNm}" 
 										data-prdtrgstr="${prdt.prdtRgstr}" 
-										data-prdtrgstDt="${prdt.prdtRgstDt}" 
+										data-prdtrgstdt="${prdt.prdtRgstDt}" 
 										data-mdfyr="${prdt.mdfyr}" 
 										data-mdfydt="${prdt.mdfyDt}"
 										data-useyn="${prdt.useYn}"
@@ -226,7 +302,7 @@ $().ready(function() {
 										</td>
 										<td>${prdt.prdtId}
 											<c:choose>
-												<c:when test="${prdt.prdtFileId eq 'sample_file_name'}"><span class="memo">(사진없음)</span>
+												<c:when test="${prdt.prdtFileId eq 'none'}"><span class="memo">(사진없음)</span>
 												</c:when>
 											</c:choose>
 										</td>
@@ -252,6 +328,10 @@ $().ready(function() {
 					</tbody>
 				</table>
 				
+				<div class="align-right mt-10 animation" style="display: none;" >
+					<button id="btn-delete-all" class="btn-primary btn-delete" style="vertical-align: top;">일괄삭제</button>
+				</div>
+				
 				<div class="grid-detail">
 					<form id="form-detail">
 						<!-- 
@@ -261,15 +341,15 @@ $().ready(function() {
 						<input type="hidden" id="isModify" value="false" />
 						
 						<div class="grid-left mr-10">
-							<div class="inline-flex">
-								<div class="input-group" style="position:relative;">
-									<label for="prdtFileId">사진</label>
-									<input type="file" id="prdtFileId"  name="prdtFileId" value=""/>
+							<div class="input-group relative">
+								<label for="prdtFileId">사진</label>
+								<input type="file" id="prdtFileId"  name="prdtFileId" value=""/>
+								<div class="img-box">
 									<img src="${context}/img/default_photo.jpg" id="prdtIMG" class="img">
-									<button id="del-img" style="position: absolute; right:10px; bottom:10px;">X</button>
-									<input type="hidden" id="isDeleteIMG" name="isDeleteIMG" value="N">
-								</div>	
-							</div>
+								</div>
+								<button id="del-img" style="position: absolute; right:10px; bottom:10px;">X</button>
+								<input type="hidden" id="isDeleteIMG" name="isDeleteIMG" value="N">
+							</div>	
 						</div>
 						<div class="grid-right">
 							<div class="input-group inline">
@@ -279,7 +359,7 @@ $().ready(function() {
 							<div class="input-group inline">
 								<label for="prdtSrt">분류</label>
 								<select id="prdtSrt" name="prdtSrt">
-									<option value="none">선택</option>
+									<option value="">선택</option>
 									<option value="분류-가">기역</option>
 									<option value="분류-나">니은</option>
 									<option value="분류-다">디귿</option>

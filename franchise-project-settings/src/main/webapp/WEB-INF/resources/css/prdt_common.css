@@ -47,12 +47,16 @@ body {
 	display: inline-flex;
 }
 
-
+/* position */
+.relative {
+	position: relative;
+}
 
 
 /* Inputs */
 .input-group {
 	padding: 2px 0;
+	
 }
 .input-group > label {
 	display: inline-block;
@@ -331,7 +335,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .grid-left {
 	display: inline-block;
 	background-color: #f002;
-	width : 300px;
+	width: 300px;
     vertical-align: top;
 	
 }
@@ -341,6 +345,11 @@ input[type="number"]::-webkit-inner-spin-button {
 	width : 40%;
 }
 
+
+#form-detail {
+	display: flex;
+	align-items: stretch;
+}
 
 
 
@@ -397,13 +406,21 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type=file] {
 	display:none;	
 }
-img.img {
-	
-	position: relative;
-	border-radius: 10px; 
-	width: 100%;
-	height: 100%;
+.img-box {
+	overflow: hidden;
+	height: 300px;
+	background-color: #00f3;
 }
+.img-box > img {
+    position: relative;
+    left: 50%;
+    width: auto;
+    min-width: 100%;
+    height: 100%;
+    transform: translateX(-50%);
+	object-fit: cover;
+}
+
 
 
 
