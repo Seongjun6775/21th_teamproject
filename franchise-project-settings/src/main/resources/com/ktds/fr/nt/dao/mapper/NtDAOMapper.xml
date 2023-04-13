@@ -6,6 +6,7 @@
 	
 	<insert id="createNewNt"
 			parameterType="com.ktds.fr.nt.vo.NtVO">
+		<include refid="Common.page_header" />
 		INSERT INTO NT
          (NT_ID
         , SNDR_ID
@@ -24,6 +25,7 @@
         , #{ntCntnt}
         , NVL(#{useYn}, 'Y')
         , 'N' )
+        <include refid="Common.page_footer" />
 	</insert>
 	
 	<select id="readAllNt"
@@ -36,19 +38,17 @@
 		     , NT_TTL
 		     , DEL_YN
           FROM NT
-        <choose>
-        	<when test='ntTtl != null and ntTtl != ""'>
-        		WHERE NT_TTL LIKE '%' || #{ntTtl} || '%'
-        	</when>
-        	<when test='sndrId != null and sndrId != ""'>
-        		WHERE SNDR_ID LIKE '%' || #{sndrId} || '%'
-        	</when>
-        	<when test='rcvrId != null and rcvrId != ""'>
-        		WHERE RCVR_ID LIKE '%' || #{rcvrId} || '%'
-        	</when>
-        	<otherwise>
-        	</otherwise>
-        </choose>
+		 WHERE 1 = 1
+        	<if test='ntTtl != null and ntTtl != ""'>
+        		AND NT_TTL LIKE '%' || #{ntTtl} || '%'
+        	</if>
+        	<if test='sndrId != null and sndrId != ""'>
+        		AND SNDR_ID = #{sndrId}
+        	</if>
+        	<if test='rcvrId != null and rcvrId != ""'>
+        		AND RCVR_ID = #{rcvrId}
+        	</if>
+
          ORDER BY NT_ID DESC
 	</select>
 	
@@ -89,6 +89,40 @@
 		     , DEL_YN
 		  FROM FRAN.NT
 		 WHERE NT_ID = #{_parameter}
+	</select>
+	
+	
+	<!-- <select id="readAllFilteredNt"
+			parameterType="com.ktds.fr.nt.vo.NtVO"
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		SELECT NT_ID
+		     , SNDR_ID
+		     , RCVR_ID
+		     , NT_RD_DT
+		     , NT_TTL
+		     , DEL_YN
+          FROM NT
+         WHERE 1 = 1
+        <if test="">
+        
+        </if>
+	</select> -->
+	
+	
+	<select id="readAllMyNt"
+			parameterType="com.ktds.fr.nt.vo.NtVO"
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		SELECT NT_ID
+		     , SNDR_ID
+			 , RCVR_ID
+		     , NT_RD_DT
+		     , NT_TTL
+          FROM NT
+         WHERE RCVR_ID = #{rcvrId}
+           AND DEL_YN = 'N'
+        <if test='ntTtl != null and ntTtl != ""'>
+           AND NT_TTL LIKE '%' || #{ntTtl} || '%'
+        </if>
 	</select>
 	
 	

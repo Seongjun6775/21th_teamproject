@@ -71,9 +71,14 @@ public class NtServiceImpl implements NtService {
 		return isSuccess;
 	}
 	
-@Override
+	@Override
 	public NtVO readOneNtByNtId(String ntId) {
 		return ntDAO.readOneNtByNtId(ntId);
+	}
+
+	@Override
+	public List<NtVO> readAllMyNt(NtVO ntVO) {
+		return ntDAO.readAllMyNt(ntVO);
 	}
 
 }

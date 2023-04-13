@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -10,13 +10,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${context}/css/ntcommon.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
 		
 		$("#all_check").change(function() {
-			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
+			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		
 		$(".check_idx").change(function() {
@@ -34,7 +33,6 @@
 				return;
 			}
 			
-			
 			if (!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
@@ -50,10 +48,6 @@
 			location.reload();
 		});
 		
-		$("#crt_btn").click(function() {
-			location.href = "${context}/nt/create";
-		});
-		
 		// 수신인, 발신인 검색 기능입니다
 		$("#search_btn").click(function() {
 			movePage(0);
@@ -66,29 +60,22 @@
 		
 		if ($(".search_idx").val() == "ntTtl") {
 			var ntTtl = keyword;
-			location.href="${context}/nt/mstrlist?ntTtl=" + ntTtl + "&?pageNo=" + pageNo;
+			location.href="${context}/nt/mngrlist?ntTtl=" + ntTtl + "&?pageNo=" + pageNo;
 			$(".search_idx").val("ntTtl");
 			$("#search-keyword").val(keyword);
 		}
 		else if ($(".search_idx").val() == "sndrId") {
 			var sndrId = keyword;
-			location.href="${context}/nt/mstrlist?sndrId=" + sndrId + "&?pageNo=" + pageNo;
+			location.href="${context}/nt/mngrlist?sndrId=" + sndrId + "&?pageNo=" + pageNo;
 			$(".search_idx").val("sndrId");
 			$("#search-keyword").val(keyword);
 		}
 		else {
 			var rcvrId = keyword;
-			location.href="${context}/nt/mstrlist?rcvrId=" + rcvrId + "&?pageNo=" + pageNo;
+			location.href="${context}/nt/mngrlist?rcvrId=" + rcvrId + "&?pageNo=" + pageNo;
 			$(".search_idx").val("rcvrId");
 			$("#search-keyword").val(keyword);
 		}
-	}
-	
-	function f_selectFilter() {
-		var ntRdDt = ("#s_ntRdDt").val();
-		var delYn = ("#s_delYn").val();
-		
-		
 	}
 	
 </script>
@@ -99,11 +86,9 @@
 		<div>
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
+			<h3>중간관리자 상세조회 페이지</h3>
 			<div>
-				master 쪽지 페이지 테스트
-			</div>
-			<div>
-				<div>총 ${allNtList.size() > 0 ? allNtList.size() : 0}건</div>
+				<div>총 ${myNtList.size() > 0 ? myNtList.size() : 0}건</div>
 			</div>
 			<div>
 				<table>
@@ -114,45 +99,29 @@
 							<th>쪽지 제목</th>
 							<th>발신인</th>
 							<th>수신인</th>
-							<th>
-								<select id="s_ntRdDt" onchange="f_selectFilter">
-									<option value="">확인 일자</option>
-									<option value="Y">수신</option>
-									<option value="N">미수신</option>
-								</select>
-							</th>
-							<th>
-								<select id="s_delYn" onchange="f_selectFilter">
-									<option value="">삭제 여부</option>
-									<option value="Y">삭제됨</option>
-									<option value="N">삭제되지 않음</option>
-								</select>
-							</th>
+							<th>확인 일자</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${not empty allNtList}">
-								<c:forEach items="${allNtList}" var="nt">
+							<c:when test="${not empty myNtList}">
+								<c:forEach items="${myNtList}" var="nt">
 									<tr data-ntid="${nt.ntId}"
 									    data-ntttl="${nt.ntTtl}"
 									    data-sndrid="${nt.sndrId}"
 									    data-rcvrid="${nt.rcvrId}"
-									    data-ntrddt="${nt.ntRdDt}"
-									    data-delyn="${nt.delYn}">
-										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"
-										            ${nt.delYn eq 'Y' ? 'disabled' : ''}/></td>
+									    data-ntrddt="${nt.ntRdDt}">
+										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
 										<td>${nt.ntId}</td>
-										<td><a href="${context}/nt/mstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
+										<td><a href="${context}/nt/mngrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td>${nt.sndrId}</td>
 										<td>${nt.rcvrId}</td>
 										<td>${nt.ntRdDt}</td>
-										<td>${nt.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="7">쪽지 송수신 이력이 없습니다.</td>
+								<td colspan="6">쪽지 송수신 이력이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
@@ -160,8 +129,8 @@
 			</div>
 			<div class="pagenate">
 					<ul>
-						<c:set value="${allNtList.size() >0 ? allNtList.get(0).lastPage : 0}" var="lastPage" />
-						<c:set value="${allNtList.size() >0 ? allNtList.get(0).lastGroup : 0}" var="lastGroup" />
+						<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastPage : 0}" var="lastPage" />
+						<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastGroup : 0}" var="lastGroup" />
 						
 						<fmt:parseNumber var="nowGroup" value="${Math.floor(ntVO.pageNo / 10)}" integerOnly="true" />
 						<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
@@ -187,16 +156,15 @@
 						</c:if>
 					</ul>
 				</div>
-			<div>
-				<button id="crt_btn">작성</button>
-				<button id="check_del_btn">일괄삭제</button>
-				<select class="search_idx">
-					<option value="ntTtl">제목</option>
-					<option value="sndrId">발신인</option>
-					<option value="rcvrId">수신인</option>
-				</select>
-				<input type="text" id="search-keyword" />
-				<button id="search_btn">검색</button>
+				<div>
+					<button id="check_del_btn">일괄삭제</button>
+					<select class="search_idx">
+						<option value="ntTtl">제목</option>
+						<option value="sndrId">발신인</option>
+						<option value="rcvrId">수신인</option>
+					</select>
+					<input type="text" id="search-keyword" />
+					<button id="search_btn">검색</button>
 				<jsp:include page="../include/footer.jsp" />
 			</div>
 		</div>

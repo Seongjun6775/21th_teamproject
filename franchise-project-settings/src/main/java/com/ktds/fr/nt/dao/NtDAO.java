@@ -17,5 +17,9 @@ public interface NtDAO {
 	public int deleteNtBySelectedNtId(List<String> ntId);
 	
 	public NtVO readOneNtByNtId(String ntId);
+	
+	public List<NtVO> readAllFilteredNt(NtVO ntVO);
+	
+	public List<NtVO> readAllMyNt(NtVO ntVO);
 
 }

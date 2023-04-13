@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.Random"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/ntcommon.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 
@@ -58,36 +61,39 @@
 			
 		});
 		
-		
-		
 	});
-
 </script>
 </head>
 <body>
-	<h2>쪽지 상세보기 페이지</h2>
-	<div>
-		<div class="detail_header">제목 : ${nt.ntTtl}</div>
+	<div class="main-layout">
+		<jsp:include page="../include/header.jsp" />
+		<div>
+			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/content.jsp" />
+			<h2>쪽지 상세보기 페이지</h2>
+			<div>
+				<div class="detail_header">제목 : ${nt.ntTtl}</div>
+			</div>
+			<div>
+				<div class="detail_header">발신자 : ${nt.sndrId}</div>
+				<div class="detail_header">수신자 : ${nt.rcvrId}</div>
+			</div>
+			<div>
+				<div class="detail_header">확인 일자 : ${nt.ntRdDt}</div>
+				<div class="detail_header">삭제여부 : ${nt.delYn eq 'Y' ? '삭제됨' : '	'}</div>
+				<div class="detail_header">쪽지 번호 : ${nt.ntId}</div>
+			</div>
+			
+			<div>
+				<div>쪽지 본문 :</div>
+				<div>${nt.ntCntnt}</div>
+			</div>
+			
+			<button id="upd_btn">수정</button>
+			<button id="del_btn">삭제</button>
+			<button id="list_btn">목록</button>
+			<jsp:include page="../include/footer.jsp" />
+		</div>
 	</div>
-	<div>
-		<div class="detail_header">발신자 : ${nt.sndrId}</div>
-		<div class="detail_header">수신자 : ${nt.rcvrId}</div>
-	</div>
-	<div>
-		<div class="detail_header">확인 일자 : ${nt.ntRdDt}</div>
-		<div class="detail_header">삭제여부 : ${nt.delYn eq 'Y' ? '삭제됨' : '	'}</div>
-		<div class="detail_header">쪽지 번호 : ${nt.ntId}</div>
-	</div>
-	
-	<div>
-		<div>쪽지 본문 :</div>
-		<div>${nt.ntCntnt}</div>
-	</div>
-	
-	<button id="upd_btn">수정</button>
-	<button id="del_btn">삭제</button>
-	<button id="list_btn">목록</button>
-	
-	
 </body>
 </html>

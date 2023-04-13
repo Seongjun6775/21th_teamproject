@@ -50,3 +50,16 @@ textarea {
 	height: 450px;
 	resize: none;
 }
+
+.pagenate {
+	display: flex;
+	margin-top: 10px;
+	justify-content: center;
+	align-items: center;
+}
+
+.pagenate ul {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}

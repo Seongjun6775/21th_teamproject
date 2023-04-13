@@ -48,4 +48,14 @@ public class NtDAOImpl extends SqlSessionDaoSupport implements NtDAO {
 		return getSqlSession().selectOne("Nt.readOneNtByNtId", ntId);
 	}
 	
+	@Override
+	public List<NtVO> readAllFilteredNt(NtVO ntVO) {
+		return getSqlSession().selectList("Nt.readAllFilteredNt", ntVO);
+	}
+	
+	@Override
+	public List<NtVO> readAllMyNt(NtVO ntVO) {
+		return getSqlSession().selectList("Nt.readAllMyNt", ntVO);
+	}
+	
 }

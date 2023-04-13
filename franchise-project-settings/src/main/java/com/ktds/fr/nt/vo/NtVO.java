@@ -1,6 +1,8 @@
 package com.ktds.fr.nt.vo;
 
-public class NtVO {
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class NtVO extends AbstractVO {
 
 	private String ntId;
 	private String sndrId;
