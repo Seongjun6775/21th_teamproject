@@ -80,6 +80,14 @@ public class RestMbrController {
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
-	
+
+	//인증 번호 체크
+	@PostMapping("api/mbr/emailCheck")
+	public ApiResponseVO doCheckAuthNum(String authNumber) {
+		if(authNumber == null || authNumber.length() == 0) {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+		return new ApiResponseVO(ApiStatus.OK);
+	}
 	
 }

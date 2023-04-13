@@ -163,6 +163,26 @@
 				}
 			});
 		});
+		$("#send-auth-btn").click(function(event){
+			event.preventDefault();
+			$("#authEml").attr("type","text");
+			$("#auth-btn").show();
+			$(this).attr("disabled","true");
+			alert("전송되었습니다.");
+		});
+		$("#auth-btn").click(function(event){
+			event.preventDefault();
+			var authNumber = $("#authEml").val();
+			
+			$.post("${context}/api/mbr/emailCheck", authNumber, function(resp){
+				if(resp.status="200 OK"){
+					alert("인증완료");	
+				}
+				else{
+					alert("인증실패");					
+				}
+			});
+		});
 	});
 </script>
 </head>
@@ -191,6 +211,10 @@
 		
 		<label for="mbrEml" >E-MAIL</label>
 		<input type="email" id="mbrEml" name="mbrEml" maxlength="100" placeholder="E-MAIL" data-field-name="이메일"/>
+		<button id="send-auth-btn">인증번호 발송</button>
+		<input type="hidden" id="authEml" name="authEml" maxlength="8" placeholder="인증번호를 입력하세요."/>
+		<button id="auth-btn"style="display: none;">확인</button>
+		
 	</form>
 		<button id="mbr_regist_btn">가입</button>
 
