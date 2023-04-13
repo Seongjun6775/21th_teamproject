@@ -1,19 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.util.Random"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="date" value="<%=new Random().nextInt()%>" />
+<%@page import="java.util.Random" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set var="date" value="<%= new Random().nextInt() %>"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<jsp:include page="../include/stylescript.jsp" />
-<link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
-<script type="text/javascript">
-	$().ready(function() {
+	<title>Insert title here</title>
+	<jsp:include page="../include/stylescript.jsp"/>
+	<link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
+	<script type="text/javascript">
+$().ready(function() {
 		
 		$(".grid > table > tbody > tr").click(function(){
 			$("#isModify").val("true"); //수정모드
@@ -30,6 +30,7 @@
 		
 		$("#new_btn").click(function() {
 			$("#isModify").val("false"); //등록모드
+			
 			$("#strId").val("");
 			$("#strNm").val("");
 			$("#strAddr").val("");
@@ -38,7 +39,6 @@
 			$("#strOpnTm").val("");
 			$("#strClsTm").val("");
 			$("#useYn").prop("checked", false);
-
 		});
 		
 		$("#delete_btn").click(function(){
@@ -62,49 +62,30 @@
 		})
 		
 		$("#save_btn").click(function(){
-				var strNm = $("#strNm").val();
-				if(strNm == ""){
-					alert("선택한 매장명이 없습니다.")
-					return;	
-				}
-				var strAddr = $("#strAddr").val();
-				if(strAddr == ""){
-					alert("선택한 주소가 없습니다.")
-					return;	
-				}
-				var strOpnTm = $("#strOpnTm").val();
-				if(strOpnTm == ""){
-					alert("선택한 오픈 시간이 없습니다.")
-					return;	
-				}
-				var strClsTm = $("#strClsTm").val();
-				if(strClsTm == ""){
-					alert("선택한 클로즈 시간이 없습니다.")
-					return;	
-				}
-			if($("#isModify").val() == "false"){
-				$.post("${context}/api/str/create", $("#detail_form").serialize(), function(response) {
-					if(response.status == "200 OK"){
-						location.reload(); // 새로고침
-					}
-					else{
-						alert(response.errorCode + " / " + response.message);
-						}
-					});
+				if($("#isModify").val() == "false"){
+					
+			$.post("${context}/api/str/create", $("#detail_form").serialize(), function(response) {
+				if(response.status == "200 OK"){
+					location.reload(); // 새로고침
 				}
 				else{
-					//수정
-					$.post("${context}/api/str/update", $("#detail_form").serialize(), function(response) {
-						console.log($("#detail_form").serialize());
-					if(response.status == "200 OK"){
-						location.reload(); // 새로고침
+					alert(response.errorCode + " / " + response.message);
 					}
-					else{
-						alert(response.errorCode + " / " + response.message);
-						}
-					});
+				});
+			}
+			else{
+				//수정
+				$.post("${context}/api/str/update", $("#detail_form").serialize(), function(response) {
+					console.log($("#detail_form").serialize());
+				if(response.status == "200 OK"){
+					location.reload(); // 새로고침
 				}
-			});
+				else{
+					alert(response.errorCode + " / " + response.message);
+					}
+				});
+			}
+		});
 			$("#search-btn").click(function(){
 				movePage(0);
 			});
@@ -127,28 +108,29 @@
 		//url요청
 		location.href = "${context}/str/list?strNm=" +strNm + "&pageNo=" + pageNo;
 		}
-</script>
+	</script>
 </head>
 <body>
 	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
+		<jsp:include page="../include/header.jsp"/>
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-		
-			<div class="path"> 매장 관리</div>
+			<jsp:include page="../include/sidemenu.jsp"/>
+			<jsp:include page="../include/content.jsp"/>
+
+			<div class="path"> 매장 관리 > 상세 조회</div>
 				<div class="search-group">
 					<label for="search-keyword">매장명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${strVO.strNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
+			<h1>매장 상세 조회</h1>
 			
 			<div class="grid">
 				
 					<div class="grid-count align-right">
 					 	총${strList.size() > 0 ? strList.get(0).totalCount : 0}건
 					</div>
-				
+			
 			<table>
 				<thead>
 					<tr>
@@ -200,6 +182,7 @@
 					</c:choose>
 				</tbody>
 			</table>
+			
 			<div class="pagenate">
 				<ul>
 					<c:set value="${strList.size() > 0 ? strList.get(0).lastPage : 0}" var="lastPage"/>
