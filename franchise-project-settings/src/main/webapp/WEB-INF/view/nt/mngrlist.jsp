@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/ntcommon.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -88,7 +89,7 @@
 			<jsp:include page="../include/content.jsp" />
 			<h3>중간관리자 상세조회 페이지</h3>
 			<div>
-				<div>총 ${myNtList.size() > 0 ? myNtList.size() : 0}건</div>
+				<div>총 ${myNtList.size() > 0 ? myNtList.size() : 0}건</div> 
 			</div>
 			<div>
 				<table>
@@ -99,7 +100,8 @@
 							<th>쪽지 제목</th>
 							<th>발신인</th>
 							<th>수신인</th>
-							<th>확인 일자</th>
+							<th>쪽지 발송 일자</th>
+							<th>쪽지 확인 일자</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -110,18 +112,20 @@
 									    data-ntttl="${nt.ntTtl}"
 									    data-sndrid="${nt.sndrId}"
 									    data-rcvrid="${nt.rcvrId}"
+									    data-ntsndrdt="${nt.ntSndrDt}"
 									    data-ntrddt="${nt.ntRdDt}">
 										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
 										<td>${nt.ntId}</td>
 										<td><a href="${context}/nt/mngrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td>${nt.sndrId}</td>
 										<td>${nt.rcvrId}</td>
+										<td>${nt.ntSndrDt}</td>
 										<td>${nt.ntRdDt}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="6">쪽지 송수신 이력이 없습니다.</td>
+								<td colspan="7">쪽지 송수신 이력이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>

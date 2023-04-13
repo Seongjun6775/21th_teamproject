@@ -48,6 +48,12 @@
 			
 			if (delYn == "Y") {
 				alert("이미 삭제된 쪽지는 수정할 수 없습니다!");
+				return;
+			}
+			
+			else if ( ("${nt.sndrId}") != ("${mbrVO.mbrId}")) {
+				alert("내가 보내지 않은 쪽지는 수정할 수 없습니다!")
+				return;
 			}
 			else {
 				if (ntRdDt == "") {
@@ -58,9 +64,7 @@
 					return;
 				}
 			}
-			
 		});
-		
 	});
 </script>
 </head>
@@ -79,7 +83,10 @@
 				<div class="detail_header">수신자 : ${nt.rcvrId}</div>
 			</div>
 			<div>
-				<div class="detail_header">확인 일자 : ${nt.ntRdDt}</div>
+				<div class="detail_header">쪽지 발송 일자 : ${nt.ntSndrDt}</div>
+				<div class="detail_header">쪽지 확인 일자 : ${nt.ntRdDt}</div>
+			</div>
+			<div>
 				<div class="detail_header">삭제여부 : ${nt.delYn eq 'Y' ? '삭제됨' : '	'}</div>
 				<div class="detail_header">쪽지 번호 : ${nt.ntId}</div>
 			</div>

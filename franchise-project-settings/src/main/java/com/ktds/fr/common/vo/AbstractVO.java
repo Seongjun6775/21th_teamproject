@@ -2,6 +2,10 @@ package com.ktds.fr.common.vo;
 
 public abstract class AbstractVO {
 	
+	
+	private String startDt;
+	private String endDt;
+	
 	private int pageNo;
 	private int viewCnt;
 	private int totalCount;
@@ -60,6 +64,22 @@ public abstract class AbstractVO {
 
 	public void setRnum(int rnum) {
 		this.rnum = rnum;
+	}
+
+	public String getStartDt() {
+		return startDt;
+	}
+
+	public void setStartDt(String startDt) {
+		this.startDt = startDt;
+	}
+
+	public String getEndDt() {
+		return endDt;
+	}
+
+	public void setEndDt(String endDt) {
+		this.endDt = endDt;
 	}
 	
 }

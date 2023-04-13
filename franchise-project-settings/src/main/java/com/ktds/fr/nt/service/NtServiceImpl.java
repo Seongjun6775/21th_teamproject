@@ -80,5 +80,10 @@ public class NtServiceImpl implements NtService {
 	public List<NtVO> readAllMyNt(NtVO ntVO) {
 		return ntDAO.readAllMyNt(ntVO);
 	}
+	
+	@Override
+	public boolean updateNtRdDtByNtId(String ntId) {
+		return ntDAO.updateNtRdDtByNtId(ntId) > 0;
+	}
 
 }

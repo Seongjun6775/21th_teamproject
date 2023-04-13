@@ -6,12 +6,12 @@
 	
 	<insert id="createNewNt"
 			parameterType="com.ktds.fr.nt.vo.NtVO">
-		<include refid="Common.page_header" />
 		INSERT INTO NT
          (NT_ID
         , SNDR_ID
         , RCVR_ID
         , NT_RD_DT
+        , NT_SNDR_DT
         , NT_TTL
         , NT_CNTNT
         , USE_YN
@@ -21,19 +21,21 @@
         , #{sndrId}
         , #{rcvrId}
         , NULL
+        , SYSDATE
         , #{ntTtl}
         , #{ntCntnt}
-        , NVL(#{useYn}, 'Y')
+        , NVL(#{useYn}, 'N')
         , 'N' )
-        <include refid="Common.page_footer" />
 	</insert>
 	
 	<select id="readAllNt"
 			parameterType="com.ktds.fr.nt.vo.NtVO"
 			resultType="com.ktds.fr.nt.vo.NtVO">
+		<include refid="Common.page_header" />
 		SELECT NT_ID
 		     , SNDR_ID
 		     , RCVR_ID
+		     , NT_SNDR_DT
 		     , NT_RD_DT
 		     , NT_TTL
 		     , DEL_YN
@@ -48,8 +50,8 @@
         	<if test='rcvrId != null and rcvrId != ""'>
         		AND RCVR_ID = #{rcvrId}
         	</if>
-
          ORDER BY NT_ID DESC
+        <include refid="Common.page_footer" />
 	</select>
 	
 	<update id="updateOneNtByNtId"
@@ -83,6 +85,7 @@
 		SELECT NT_ID
 		     , SNDR_ID
 		     , RCVR_ID
+		     , NT_SNDR_DT
 		     , NT_RD_DT
 		     , NT_TTL
 		     , NT_CNTNT
@@ -92,7 +95,7 @@
 	</select>
 	
 	
-	<!-- <select id="readAllFilteredNt"
+	<select id="readAllFilteredNt"
 			parameterType="com.ktds.fr.nt.vo.NtVO"
 			resultType="com.ktds.fr.nt.vo.NtVO">
 		SELECT NT_ID
@@ -104,9 +107,9 @@
           FROM NT
          WHERE 1 = 1
         <if test="">
-        
+           AND 
         </if>
-	</select> -->
+	</select>
 	
 	
 	<select id="readAllMyNt"
@@ -115,6 +118,7 @@
 		SELECT NT_ID
 		     , SNDR_ID
 			 , RCVR_ID
+			 , NT_SNDR_DT
 		     , NT_RD_DT
 		     , NT_TTL
           FROM NT
@@ -124,6 +128,14 @@
            AND NT_TTL LIKE '%' || #{ntTtl} || '%'
         </if>
 	</select>
+	
+	
+	<update id="updateNtRdDtByNtId"
+			parameterType="string">
+		UPDATE NT
+		   SET NT_RD_DT = SYSDATE
+		 WHERE NT_ID = #{_parameter}
+	</update>
 	
 	
 </mapper>

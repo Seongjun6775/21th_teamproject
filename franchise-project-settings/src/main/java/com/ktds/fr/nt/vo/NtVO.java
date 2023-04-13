@@ -1,17 +1,20 @@
-package com.ktds.fr.nt.vo;		
-		
-public class NtVO {		
-		
-	private String ntId;	
-	private String sndrId;	
-	private String rcvrId;	
-	private String ntRdDt;
+package com.ktds.fr.nt.vo;
+
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class NtVO extends AbstractVO {
+
+	private String ntId;
+	private String sndrId;
+	private String rcvrId;
 	private String ntSndrDt;
-	private String ntTtl;	
-	private String ntCntnt;	
-	private String useYn;	
-	private String delYn;	
-	public String getNtId() {	
+	private String ntRdDt;
+	private String ntTtl;
+	private String ntCntnt;
+	private String useYn;
+	private String delYn;
+
+	public String getNtId() {
 		return ntId;
 	}
 
@@ -34,6 +37,14 @@ public class NtVO {
 	public void setRcvrId(String rcvrId) {
 		this.rcvrId = rcvrId;
 	}
+	
+	public String getNtSndrDt() {
+		return ntSndrDt;
+	}
+	
+	public void setNtSndrDt(String ntSndrDt) {
+		this.ntSndrDt = ntSndrDt;
+	}
 
 	public String getNtRdDt() {
 		return ntRdDt;
@@ -43,13 +54,7 @@ public class NtVO {
 		this.ntRdDt = ntRdDt;
 	}
 
-	public String getNtSndrDt() {
-		return ntSndrDt;
-	}
-	public void setNtSndrDt(String ntSndrDt) {
-		this.ntSndrDt = ntSndrDt;
-	}
-	public String getNtTtl() {	
+	public String getNtTtl() {
 		return ntTtl;
 	}
 

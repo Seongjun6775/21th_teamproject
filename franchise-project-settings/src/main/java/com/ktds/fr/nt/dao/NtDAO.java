@@ -21,5 +21,7 @@ public interface NtDAO {
 	public List<NtVO> readAllFilteredNt(NtVO ntVO);
 	
 	public List<NtVO> readAllMyNt(NtVO ntVO);
+	
+	public int updateNtRdDtByNtId(String ntId);
 
 }

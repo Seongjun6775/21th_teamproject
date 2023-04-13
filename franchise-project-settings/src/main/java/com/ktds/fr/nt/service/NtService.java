@@ -21,5 +21,7 @@ public interface NtService {
 //	public List<NtVO> readAllFilteredNt(NtVO ntVO);
 	
 	public List<NtVO> readAllMyNt(NtVO ntVO);
+	
+	public boolean updateNtRdDtByNtId(String ntId);
 
 }

@@ -15,6 +15,21 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		if (!("${ntVO.ntTtl}") == null) {
+			$(".search_idx").val("ntTtl");
+			$("#search-keyword").val("${ntVO.ntTtl}");
+		}
+		else if (!("${ntVO.sndrId}") == null) {
+			$(".search_idx").val("sndrId");
+			$("#search-keyword").val("${ntVO.sndrId}");
+		}
+		else if (!("${ntVO.rcvrId}") == null) {
+			$(".search_idx").val("rcvrId");
+			$("#search-keyword").val("${ntVO.rcvrId}");
+		}
+		
+		
+		
 		$("#all_check").change(function() {
 			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
 		});
@@ -56,37 +71,38 @@
 		
 		// 수신인, 발신인 검색 기능입니다
 		$("#search_btn").click(function() {
-			movePage(0);
+			
+			var searchVal = $(".search_idx").val();
+			var keyword = $("#search-keyword").val();
+			
+			console.log(searchVal);
+			console.log(keyword);
+			
+			alert("!");
+			
+			movePage(0, searchVal, keyword);
 		});
 	});
 	
-	function movePage(pageNo) {
+	
+	function movePage(pageNo, searchVal, keyword) {
 		
-		var keyword = $("#search-keyword").val();
-		
-		if ($(".search_idx").val() == "ntTtl") {
-			var ntTtl = keyword;
-			location.href="${context}/nt/mstrlist?ntTtl=" + ntTtl + "&?pageNo=" + pageNo;
-			$(".search_idx").val("ntTtl");
-			$("#search-keyword").val(keyword);
+		if (searchVal == "ntTtl") {
+			location.href="${context}/nt/mstrlist?searchVal=" + searchVal + "&keyword=" + keyword + "&pageNo=" + pageNo;
 		}
-		else if ($(".search_idx").val() == "sndrId") {
-			var sndrId = keyword;
-			location.href="${context}/nt/mstrlist?sndrId=" + sndrId + "&?pageNo=" + pageNo;
-			$(".search_idx").val("sndrId");
-			$("#search-keyword").val(keyword);
+		else if (searchVal == "sndrId") {
+			location.href="${context}/nt/mstrlist?searchVal=" + searchVal + "&keyword=" + keyword + "&pageNo=" + pageNo;
 		}
 		else {
-			var rcvrId = keyword;
-			location.href="${context}/nt/mstrlist?rcvrId=" + rcvrId + "&?pageNo=" + pageNo;
-			$(".search_idx").val("rcvrId");
-			$("#search-keyword").val(keyword);
+			location.href="${context}/nt/mstrlist?searchVal=" + searchVal + "&keyword=" + keyword + "&pageNo=" + pageNo;
 		}
 	}
 	
 	function f_selectFilter() {
 		var ntRdDt = ("#s_ntRdDt").val();
 		var delYn = ("#s_delYn").val();
+		
+		
 		
 		
 	}
@@ -114,9 +130,10 @@
 							<th>쪽지 제목</th>
 							<th>발신인</th>
 							<th>수신인</th>
+							<th>쪽지 발송 일자</th>
 							<th>
 								<select id="s_ntRdDt" onchange="f_selectFilter">
-									<option value="">확인 일자</option>
+									<option value="">쪽지 확인 일자</option>
 									<option value="Y">수신</option>
 									<option value="N">미수신</option>
 								</select>
@@ -138,6 +155,7 @@
 									    data-ntttl="${nt.ntTtl}"
 									    data-sndrid="${nt.sndrId}"
 									    data-rcvrid="${nt.rcvrId}"
+									    data-ntsndrdt="${nt.ntSndrDt}"
 									    data-ntrddt="${nt.ntRdDt}"
 									    data-delyn="${nt.delYn}">
 										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"
@@ -146,13 +164,14 @@
 										<td><a href="${context}/nt/mstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td>${nt.sndrId}</td>
 										<td>${nt.rcvrId}</td>
+										<td>${nt.ntSndrDt}</td>
 										<td>${nt.ntRdDt}</td>
 										<td>${nt.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="7">쪽지 송수신 이력이 없습니다.</td>
+								<td colspan="8">쪽지 송수신 이력이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
@@ -191,11 +210,12 @@
 				<button id="crt_btn">작성</button>
 				<button id="check_del_btn">일괄삭제</button>
 				<select class="search_idx">
-					<option value="ntTtl">제목</option>
-					<option value="sndrId">발신인</option>
-					<option value="rcvrId">수신인</option>
+					<option value="">검색 조건</option>
+					<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
+					<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
+					<option value="rcvrId" ${searchVal eq "rcvrId" ? 'selected' : '' }>수신인</option>
 				</select>
-				<input type="text" id="search-keyword" />
+				<input type="text" id="search-keyword" value="${keyword}"/>
 				<button id="search_btn">검색</button>
 				<jsp:include page="../include/footer.jsp" />
 			</div>

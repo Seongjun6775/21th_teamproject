@@ -16,10 +16,20 @@
 	$().ready(function() {
 		
 		$("#crt_btn").click(function() {
+			
+			// ntCntnt가 VARCHAR2(4000 CHAR) 라서, 글자수를 제한했습니다.
 			if($("#ntCntnt").val().length > 4000) {
 				alert("최대 4천자까지 입력할 수 있습니다!");
 				return;
 			}
+			
+			// 자기 자신에게 쪽지를 보낼 수 없도록 제한했습니다.
+			// 굳이 막을 이유는 없지 않나 싶어서 고민했는데, 일단 막아 두고 나중에 필요 없다 싶으면 지우겠습니다.
+			if ($("#rcvrId").val() == $("#sndrId").val()) {
+				alert("자기 자신에게 쪽지를 보낼 수 없습니다!")
+				return;
+			}
+			
 			
 			if (!confirm("쪽지를 전송하시겠습니까?")) {
 				return;
