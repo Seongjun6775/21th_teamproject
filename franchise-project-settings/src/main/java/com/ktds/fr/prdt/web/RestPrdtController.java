@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ktds.fr.common.api.exceptions.ApiArgsException;
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.service.PrdtService;
 import com.ktds.fr.prdt.vo.PrdtVO;
 
@@ -29,18 +31,19 @@ public class RestPrdtController {
 	@PostMapping("/api/prdt/create")
 	public ApiResponseVO create(PrdtVO prdtVO
 			, MultipartFile uploadFile
-//			, @SessionAttribute("__ADMIN__") MbrVO mbrVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			) {
+		if (mbrVO == null) {
+			throw new ApiException("400", "세션에러");			
+		}
 		
-		logger.debug("생성 돌았나");
-		System.out.println("생성돌았나");
 		// TODO 세션기능 생기면 밑에꺼랑 바꿀것
-//		prdtVO.setPrdtRgstr(mbrVO.getMbrId());
-//		prdtVO.setMdfyr(mbrVO.getMbrId());
+		prdtVO.setPrdtRgstr(mbrVO.getMbrId());
+		prdtVO.setMdfyr(mbrVO.getMbrId());
 
 		// 로그인이 없으므로 등록자/수정자 임의값 입력
-		prdtVO.setPrdtRgstr("master");
-		prdtVO.setMdfyr("master");
+//		prdtVO.setPrdtRgstr("master");
+//		prdtVO.setMdfyr("master");
 		
 		boolean isSuccess = prdtService.create(prdtVO, uploadFile);
 		if (isSuccess) {
@@ -54,13 +57,13 @@ public class RestPrdtController {
 	@PostMapping("/api/prdt/update")
 	public ApiResponseVO update(PrdtVO prdtVO
 			, MultipartFile uploadFile
-//			, @SessionAttribute("__ADMIN__") MbrVO mbrVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			) {
 		// TODO 세션기능 생기면 밑에꺼랑 바꿀것
-//		prdtVO.setMdfyr(mbrVO.getMbrId());
+		prdtVO.setMdfyr(mbrVO.getMbrId());
 		
 		// 로그인이 없으므로 수정자 임의값 입력
-		prdtVO.setMdfyr("mdfyr-tester");
+//		prdtVO.setMdfyr("mdfyr-tester");
 		
 		boolean isSuccess = prdtService.update(prdtVO, uploadFile);
 		if (isSuccess) {

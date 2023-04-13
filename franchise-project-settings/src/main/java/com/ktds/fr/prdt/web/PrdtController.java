@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.util.DownloadUtil;
 import com.ktds.fr.prdt.service.PrdtService;
 import com.ktds.fr.prdt.vo.PrdtVO;
@@ -34,10 +35,12 @@ public class PrdtController {
 	@GetMapping("/prdt/list")
 	public String prdtList(PrdtVO prdtVO, Model model) {
 		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
-		System.out.println("배열크기는"+prdtList.size());
+		
+		// 공통코드의 분류 목록을 가져오기 위함.
+//		List<CmmnCdVO> srtList = cmmnCdService.readAll("PRDT");
 		
 		model.addAttribute("prdtList", prdtList);
-//		model.addAttribute("prdtVO", prdtVO);
+		model.addAttribute("prdtVO", prdtVO);
 		
 		return "prdt/prdt_list";
 	}

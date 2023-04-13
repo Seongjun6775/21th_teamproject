@@ -23,6 +23,7 @@ function maxLengthCheck(object){
 
 // 천단위 구분기호를 위해 갖고왔는데 미사용중임, 동작어려움 ㅠ
 function priceToString(price) {
+	
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
@@ -30,6 +31,9 @@ $().ready(function() {
 	
 	console.log("ready function!")
 	var ajaxUtil = new AjaxUtil();
+	
+	
+	 $("#search-keyword-prdtSrt").val("${prdtVO.prdtSrt}");
 	
 	
 	var table = document.getElementById("dataTable");
@@ -56,7 +60,6 @@ $().ready(function() {
 		$("#mdfyr").val(data.mdfyr+"("+data.mdfyrnm+")");
 		$("#mdfyDt").val(data.mdfydt);
 		$("#mdfyDt").val(data.mdfydt);
-		$("#prdtCntnt").val(data.prdtcntnt);
 		$("#prdtCntnt").val(data.prdtcntnt);
 		
 		$("#useYn").prop("checked", data.useyn == "Y");
@@ -233,9 +236,26 @@ $().ready(function() {
 		event.preventDefault();
 	});
 	
+	// 검색 기능 : 셀렉트박스 변경시
+	$("select[name=selectFilter]").on("change", function(evetn) {
+		movePage(0);
+	});
+	// 검색 기능 : 이름 입력 후 검색버튼 클릭 시
+	$("#btn-search").click(function() {
+		movePage(0);
+	})
+	$("#search-keyword-prdtNm").keydown(function(key) {
+		if( key.keyCode == 13 ){
+			movePage(0);
+		}
+	});
+	$("#btn-search-reset").click(function() {
+		location.href = "${context}/prdt/list";
+	})
 	
 	
-});
+	
+})
 
 function chkCount(checkLen) {
 	
@@ -247,6 +267,19 @@ function chkCount(checkLen) {
 		$(".animation").slideUp ( 600 );
 	}
 }
+
+function movePage(pageNo) {
+	var srt = $("#search-keyword-prdtSrt").val(); 
+	var prdtNm= $("#search-keyword-prdtNm").val(); 
+	var useYn= $("#search-keyword-useYn").val(); 
+	
+	var queryString = "prdtSrt=" + srt;
+	queryString += "&prdtNm=" + prdtNm;
+	queryString += "&useYn=" + useYn;
+	queryString += "&prdtPageNo=" + pageNo;
+	
+	location.href = "${context}/prdt/list?" + queryString; // URL 요청
+} 
 </script>
 </head>
 <body>
@@ -257,26 +290,73 @@ function chkCount(checkLen) {
 			<jsp:include page="../include/sidemenu.jsp"></jsp:include>
 			<jsp:include page="../include/content.jsp"></jsp:include>
 			
+		<%-- 	
+			<div class="search-row-group">
+				<div class="search-group">
+					<label for="search-keyword-prdtSrt">분류</label>
+					<select id="search-keyword-prdtSrt">
+						<option value="">선택</option>
+						<option value="분류-가">기역</option>
+						<option value="분류-나">니은</option>
+						<option value="분류-다">디귿</option>
+						<option value="분류-라">리을</option>
+					</select>
+					
+					<label for="search-keyword-prdtNm">이름</label>
+					<input type="text" id="search-keyword-prdtNm" class="search-input" value="${prdtVO.prdtNm}">
+					
+					<button class="btn-search" id="btn-search">검색</button>
+				</div>
+				<div class="search-group">
+				</div>
+			</div>
+			 --%>
 			
 			<div class="grid">
-				<div class="grid-count align-right">
-					<!-- 페이지네이션용  -->
-					<%-- 총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건 --%>
-					총 ${prdtList.size() > 0 ? prdtList.size() : 0}건
+				<div class="flex space-between mb-10">
+					<button class="inline-flex btn-primary btn-search-reset" 
+							id="btn-search-reset">검색초기화</button>
+					<div class="inline-flex grid-count align-right">
+						<!-- 페이지네이션용  -->
+						총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
+						<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
+					</div>
 				</div>
-				<table id="dataTable">
+				<table id="dataTable"
+						class="mb-10">
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all-check"/></th>
 							<th>ID</th>
-							<th>분류</th>
-							<th>이름</th>
+							<th>분류
+							<select class="selectFilter" name="selectFilter"
+									id="search-keyword-prdtSrt">
+								<option value="">선택</option>
+								<option value="분류-가">기역</option>
+								<option value="분류-나">니은</option>
+								<option value="분류-다">디귿</option>
+								<option value="분류-라">리을</option>
+							</select>
+							</th>
+							<th>이름
+							<input type="text" class="selectFilter" 
+									id="search-keyword-prdtNm" 
+									placeholder="검색어 입력 후 Enter"
+									value="${prdtVO.prdtNm}">
+							</th>
 							<th>가격</th>
 							<th>등록자</th>
 							<th>등록일</th>
 							<th>수정자</th>
 							<th>수정일</th>
-							<th>사용유무</th>
+							<th>사용유무
+							<select class="selectFilter" name="selectFilter"
+									id="search-keyword-useYn">
+								<option value="">선택</option>
+								<option value="Y">Y</option>
+								<option value="N">N</option>
+							</select>
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -334,6 +414,36 @@ function chkCount(checkLen) {
 					<button id="btn-delete-all" class="btn-primary btn-delete" style="vertical-align: top;">일괄삭제</button>
 				</div>
 				
+				<div class="pagenate">
+					<ul>
+						<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}" var="lastPage"></c:set>
+						<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastGroup : 0}" var="lastGroup"></c:set>
+						
+						<fmt:parseNumber var="nowGroup" value="${Math.floor(prdtVO.prdtPageNo / prdtVO.prdtPageCnt)}" integerOnly="true" />
+						<c:set value="${nowGroup * prdtVO.prdtPageCnt}" var="groupStartPageNo"></c:set>
+						<c:set value="${groupStartPageNo + prdtVO.prdtPageCnt}" var="groupEndPageNo"></c:set>
+						<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1}" var="groupEndPageNo"></c:set>
+						
+						<c:set value="${(nowGroup - 1) * prdtVO.prdtPageCnt}" var="prevGroupStartPageNo"></c:set>
+						<c:set value="${(nowGroup + 1) * prdtVO.prdtPageCnt}" var="nextGroupStartPageNo"></c:set>
+						
+						 
+						<c:if test="${nowGroup > 0}">
+							<li><a href="javascript:movePage(0)">처음</a></li>
+							<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+						</c:if>
+						
+						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1"	var="prdtPageNo">
+							<li><a class="${prdtPageNo eq prdtVO.prdtPageNo ? 'on' : ''}"  href="javascript:movePage(${prdtPageNo})">${prdtPageNo+1}</a></li>
+						</c:forEach>
+						
+						<c:if test="${lastGroup > nowGroup}">
+							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+						</c:if>
+					</ul>
+				</div>
+			
 				<div class="grid-detail">
 					<form id="form-detail">
 						<!-- 
@@ -398,9 +508,9 @@ function chkCount(checkLen) {
 								<label for="mdfyDt">수정일</label>
 								<input type="text" id="mdfyDt" disabled value=""/>
 							</div>
-							<div class="input-group inline">
+							<div class="input-group">
 								<label for="prdtCntnt">내용</label>
-								<input type="text" id="prdtCntnt" placeholder="내용이 비었습니다" value=""/>
+								<textarea class="textarea" id="prdtCntnt" maxlength="1000" placeholder="내용은 1,000자 까지 작성 가능합니다" ></textarea>
 							</div>
 						</div>
 						

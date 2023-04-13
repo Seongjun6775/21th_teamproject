@@ -30,6 +30,7 @@
 	<select id="readAll"
 			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
 			resultMap="prdtVOMap">
+		<include refid="PrdtCommon.page_header"></include>
 		SELECT P.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
@@ -53,6 +54,9 @@
 	      LEFT JOIN MBR M
 		    ON P.MDFYR = M.MBR_ID
 		 WHERE P.DEL_YN = 'N'
+		<if test='prdtSrt != null and prdtSrt != ""'>
+		   AND P.PRDT_SRT = #{prdtSrt} 
+		</if>
 		<if test='prdtNm != null and prdtNm != ""'>
 		   AND P.PRDT_NM LIKE '%' || #{prdtNm} || '%'
 		</if>
@@ -60,6 +64,7 @@
 		   AND P.USE_YN LIKE #{useYn}
 		</if>
 		ORDER BY P.PRDT_ID ASC
+		<include refid="PrdtCommon.page_footer"></include>
 	</select>
 	<select id="readOne"
 			resultType="com.ktds.fr.prdt.vo.PrdtVO">
