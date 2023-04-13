@@ -35,7 +35,6 @@
 </head>
 <body>
 	<div class="main-layout">
-
 		<div>
 				<h1>조회</h1>
 				<div>
@@ -43,7 +42,7 @@
 					
 						
 						<div class="create-group">
-							<label for="mngrBrdTtl">제목 ${mngrBrd.mngrBrdTtl}</label>
+							<label for="mngrBrdTtl">제목</label>
 							<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" disabled value="${mngrBrd.mngrBrdTtl} " />
 						</div>
 								
@@ -73,13 +72,34 @@
 					
 				
 					<button><a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}">수정하기</a></button>
-					 <button><a href="${context}/mngrbrds">목록</a></button>
+					 <button><a href="${context}/mngrbrd/list">목록</a></button>
 				</div>
 				
 		
 			
 		</div>
 	</div>
-	</div>
+		<article>
+		<div class="container" role="main">
+			<h2>board Content</h2>
+			<div class="bg-white rounded shadow-sm">
+				<div class="board_title"><c:out value="${boardContent.title}"/></div>
+				<div class="board_info_box">
+					<span class="board_author"><c:out value="${boardContent.reg_id}"/>,</span><span class="board_date"><c:out value="${boardContent.reg_dt}"/></span>
+				</div>
+				<div class="board_content">${boardContent.content}</div>
+				<div class="board_tag">TAG : <c:out value="${boardContent.tag}"/></div>
+			</div>
+			
+			<div style="margin-top : 20px">
+				<button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
+				<button type="button" class="btn btn-sm btn-primary" id="btnDelete">삭제</button>
+				<button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+			</div>
+		</div>
+
+		
+
+	</article>
 </body>
 </html>

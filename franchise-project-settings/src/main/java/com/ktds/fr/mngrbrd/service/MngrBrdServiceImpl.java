@@ -16,13 +16,19 @@ public class MngrBrdServiceImpl implements MngrBrdService {
 	private MngrBrdDAO mngrBrdDAO;
 	
 	@Override
-	public List<MngrBrdVO> readAllMngrBrds() {
-		return mngrBrdDAO.readAllMngrBrds();
+	public List<MngrBrdVO> readAllMngrBrds(MngrBrdVO mngrBrdVO) {
+		return mngrBrdDAO.readAllMngrBrds(mngrBrdVO);
 	}
 
 	@Override
+	public List<MngrBrdVO> readAllMngrBrdsPagination(String mngrBrdTtl) {
+		return mngrBrdDAO.readAllMngrBrdsNopagination(mngrBrdTtl);
+	}
+	
+	@Override
 	public MngrBrdVO readOneMngrBrdByMngrBrdId(String mngrBrdId) {
 		MngrBrdVO brdVO = mngrBrdDAO.readOneMngrBrdByMngrBrdId(mngrBrdId);
+		mngrBrdDAO.updateRdCnt(mngrBrdId);
 		if(brdVO == null) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
@@ -60,5 +66,7 @@ public class MngrBrdServiceImpl implements MngrBrdService {
 		
 		return isSuccess; 
 	}
+	
+
 		
 }

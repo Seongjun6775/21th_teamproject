@@ -79,7 +79,7 @@
 						<button id="fix_btn" class="btn-primary">수정</button>
 						<button><a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}">취소</a></button>			
 					</div> 				
-					 <button><a href="${context}/mngrbrds">목록</a></button>
+					 <button><a href="${context}/mngrbrd/list">목록</a></button>
 				</div>
 				
 		

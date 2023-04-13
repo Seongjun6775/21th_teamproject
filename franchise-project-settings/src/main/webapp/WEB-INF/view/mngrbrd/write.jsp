@@ -78,7 +78,7 @@
 					<div>
 						<button id="new_btn" class="btn-primary">등록</button>
 					</div>
-					<button><a href="${context}/mngrbrds">목록</a> </button> 
+					<button><a href="${context}/mngrbrd/list">목록</a> </button> 
 				</div>
 				
 		

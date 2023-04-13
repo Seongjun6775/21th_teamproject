@@ -30,8 +30,39 @@
 		</collection>  
 	</resultMap>-->
 	
+
+	<select id="readAllMngrBrds"
+			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO"
+			resultType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+		<include refid ="Common.page_header"/>
+			SELECT B.MNGR_BRD_ID
+		     , B.MNGR_BRD_TTL
+		     , B.MNGR_BRD_CNTNT
+		     , B.MNGR_ID
+		     , TO_CHAR(B.MNGR_BRD_WRT_DT ,'YYYY-MM-DD HH24:MI:SS') MNGR_BRD_WRT_DT
+		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , B.MDFYR
+		     , B.USE_YN
+		     , B.DEL_YN
+		     , B.NTC_YN
+		     , B.RD_CNT
+		     , M.MBR_ID
+		     , M.MBR_NM
+          FROM FRAN.MNGR_BRD B
+         INNER JOIN MBR M 
+            ON B.MNGR_ID = M.MBR_ID
+         WHERE B.DEL_YN ='N'
+           AND B.USE_YN ='Y'
+         <if test= 'mngrBrdTtl != null and mngrBrdTtl != "" '>
+           AND  B.MNGR_BRD_TTL LIKE '%' ||  #{mngrBrdTtl} || '%'
+         </if>
+         ORDER BY NTC_YN DESC , MNGR_BRD_WRT_DT DESC
+         <include refid="Common.page_footer" />
+	</select>
 	
-		<select id="readAllMngrBrds"
+	
+	<select id="readAllMngrBrdsNopagination"
+			parameterType="string"
 			resultType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
 			SELECT B.MNGR_BRD_ID
 		     , B.MNGR_BRD_TTL
@@ -43,17 +74,18 @@
 		     , B.USE_YN
 		     , B.DEL_YN
 		     , B.NTC_YN
+		     , B.RD_CNT
 		     , M.MBR_ID
 		     , M.MBR_NM
           FROM FRAN.MNGR_BRD B
          INNER JOIN MBR M 
             ON B.MNGR_ID = M.MBR_ID
          WHERE B.DEL_YN ='N'
-           AND NTC_YN ='Y' 
-         ORDER BY B.MDFY_DT DESC
-
-         
+           AND B.USE_YN ='Y'
+           AND  B.MNGR_BRD_TTL '%' ||  #{_parameter} || '%'
+         ORDER BY NTC_YN DESC , MNGR_BRD_WRT_DT DESC
 	</select>
+
 	
 	
 	<select id="readOneMngrBrdByMngrBrdId"
@@ -67,7 +99,9 @@
 		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 		     , B.MDFYR
 		     , B.USE_YN
+		     , B.NTC_YN	     
 		     , B.DEL_YN
+		     , B.RD_CNT
 		     , M.MBR_ID
 		     , M.MBR_NM
           FROM FRAN.MNGR_BRD B
@@ -77,6 +111,11 @@
 		
 	</select>
 
+	<update id="updateRdCnt">
+        UPDATE FRAN.MNGR_BRD
+           SET RD_CNT = RD_CNT+1
+         WHERE MNGR_BRD_ID =#{mngrBrdId}
+ 	</update>
 
 	<insert id="createNewMngrBrd"
 			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
@@ -97,7 +136,8 @@
         , MDFYR
         , USE_YN
         , DEL_YN
-        , NTC_YN)
+        , NTC_YN
+        , RD_CNT)
         VALUES
          (#{mngrBrdId}
         , #{mngrBrdTtl}
@@ -108,7 +148,8 @@
         , #{mdfyr}
         , NVL(#{useYn},'N')  
         , 'N'
-        , NVL(#{ntcYn},'N'))	
+        , NVL(#{ntcYn},'N')
+        , '0')	
 	</insert>
 
 	<update id="updateOneMngrBrd"
@@ -143,4 +184,21 @@
 		
 	</update>
 
+    <sql id="search">
+        <choose>
+          
+            <!--  -작성자+제목+내용의 검색조건으로 게시물을 검색하는 쿼리-  -->
+            <when test="search_option == 'all' ">
+                where  
+                      user_id like '%'||#{keyword}||'%'
+                      or content like '%' || #{keyword}||'%'
+                      or title like '%'||#{keyword}||'%'   
+            </when>
+            <otherwise>
+ 
+				<!-- 내가 지정한 조건 (작성자, 제목, 내용) 의 검색조건으로 게시물을 검색하는 쿼리 -->
+                where ${search_option} like '%'||#{keyword}||'%'
+            </otherwise>
+        </choose>
+    </sql>
 </mapper>

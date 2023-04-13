@@ -21,8 +21,13 @@ public class MngrBrdDAOImpl extends SqlSessionDaoSupport implements MngrBrdDAO {
 	}
 	
 	@Override
-	public List<MngrBrdVO> readAllMngrBrds() {
-		return getSqlSession().selectList("MngrBrd.readAllMngrBrds");
+	public List<MngrBrdVO> readAllMngrBrds(MngrBrdVO mngrBrdVO) {
+		return getSqlSession().selectList("MngrBrd.readAllMngrBrds", mngrBrdVO);
+	}
+	
+	@Override
+	public List<MngrBrdVO> readAllMngrBrdsNopagination(String mngrBrdTtl) {
+		return getSqlSession().selectList("MngrBrd.readAllMngrBrdsNopagination", mngrBrdTtl);
 	}
 
 	@Override
@@ -57,6 +62,11 @@ public class MngrBrdDAOImpl extends SqlSessionDaoSupport implements MngrBrdDAO {
 	@Override
 	public int deleteMngrBrdBySelectedMngrBrdId(List<String> mngrBrdId) {
 		return getSqlSession().update("MngrBrd.deleteMngrBrdBySelectedMngrBrdId", mngrBrdId);
+	}
+	
+	@Override
+	public int updateRdCnt(String mngrBrdId) {
+		return getSqlSession().update("MngrBrd.updateRdCnt", mngrBrdId);
 	}
 
 }
