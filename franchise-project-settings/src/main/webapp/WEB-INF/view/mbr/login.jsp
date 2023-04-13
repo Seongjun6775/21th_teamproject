@@ -12,19 +12,28 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
+		localStorage.setItem("failCount", 0);
 		$("#login_btn").click(function(event){
+			var failCount = localStorage.getItem("failCount");
 			var data ={
 					mbrId: $("#mbrId").val(),
 					mbrPwd: $("#mbrPwd").val()
 			}
 			$.post("${context}/api/mbr/login", data, function(resp){
 				if(resp.status == "200 OK"){
+					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;
-					
 					alert("로그인");
 				}
-				else{
-					console.log(resp)
+				else if(resp.message=="계정정보없음"){
+					localStorage.setItem("failCount", parseInt(failCount)+1);
+					if(failCount <= 5){
+						alert("아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ failCount + " / 5");
+					}else{
+						alert("계정이 잠겼습니다. 관리자에게 문의하세요.");
+					}
+				}else{
+					alert(resp.message)
 				}
 			});
 		});

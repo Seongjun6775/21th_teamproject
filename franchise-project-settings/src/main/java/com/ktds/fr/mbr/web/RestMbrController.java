@@ -29,25 +29,19 @@ public class RestMbrController {
 	
 	@PostMapping("/api/mbr/login")
 	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {
-		//TODO 필수값 체크, 세션, 
-		//비밀번호 있는지 체크
 		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
 		}
 		if(mbrVO.getMbrPwd() == null || mbrVO.getMbrPwd().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
 		}
-		
 		mbrVO.setMbrRcntLgnIp(request.getRemoteAddr());
 		MbrVO mbr = mbrService.readOneMbrByMbrIdAndMbrPwd(mbrVO);
 		if(mbr == null) {
-			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요");
+			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ mbrVO.getMbrLgnFlCnt() + " / 5");
 		}else {
-			//TODO session추가해주기
 			session.setAttribute("__MBR__", mbr);
 		}
-		//TODO 로그인시 메인 화면으로 가도록 redirect 주소 바꿔주자
-		//현재는 시험용
 		return new ApiResponseVO(ApiStatus.OK, "/index");
 	}
 	//회원의 회원가입

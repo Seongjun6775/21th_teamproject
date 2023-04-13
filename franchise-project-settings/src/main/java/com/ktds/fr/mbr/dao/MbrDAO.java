@@ -19,6 +19,8 @@ public interface MbrDAO {
 	public int updateMbrLgnFail(MbrVO mbrVO);
 	//로그인 차단
 	public int updateMbrLgnBlock(MbrVO mbrVO);
+	//실패 횟수 조회
+	public int readOneMbrLgnFailCnt(String mbrId);
 	
 	/*회원가입 관련*/
 	//아이디 중복검사

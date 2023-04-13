@@ -74,8 +74,16 @@
 		UPDATE FRAN.MBR
 		   SET MBR_LGN_BLCK_YN='Y' 
 		 WHERE MBR_ID=#{mbrId}
-		   AND MBR_LGN_FL_CNT >= 3
+		   AND MBR_LGN_FL_CNT >= 5
 	</update>
+	
+	<select id="readOneMbrLgnFailCnt"
+			parameterType="string"
+			resultType="_int">
+		SELECT MBR_LGN_FL_CNT
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{_parameter}
+	</select>
 	
 	<select id="readCountMbrById"
 			parameterType="string"

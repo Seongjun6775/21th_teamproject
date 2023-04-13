@@ -28,13 +28,14 @@ public class MbrServiceImpl implements MbrService {
 
 	@Override	//로그인
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO) {
+		//TODO 삭제할 log
 		log.info("아이디는 {}",mbrVO.getMbrId());
 		//아이디 차단 여부
 		String loginBlockYn = mbrDAO.readLgnBlockYnById(mbrVO.getMbrId());
 		if(loginBlockYn == null) {
-			throw new ApiException("403", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			throw new ApiException("403", "계정정보없음");
 		}else if(loginBlockYn.equals("Y")) {
-			throw new ApiException("403", "계정이 잠겼습니다. 관리자에게 문의하세요");
+			throw new ApiException("403", "계정이 잠겼습니다. 관리자에게 문의하세요.");
 		}
 		//비밀번호 일치 여부
 		String salt = mbrDAO.readSaltMbrById(mbrVO.getMbrId());
@@ -49,6 +50,7 @@ public class MbrServiceImpl implements MbrService {
 		if(loginData == null) {
 			//로그인 실패 처리
 			mbrDAO.updateMbrLgnFail(mbrVO);
+			mbrVO.setMbrLgnFlCnt(mbrDAO.readOneMbrLgnFailCnt(mbrVO.getMbrId()));
 			mbrDAO.updateMbrLgnBlock(mbrVO);
 		}else {
 			//성공
