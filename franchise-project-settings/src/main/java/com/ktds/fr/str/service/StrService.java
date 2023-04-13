@@ -14,11 +14,11 @@ public List<StrVO>readAllStrMaster(StrVO strVO);
 
 	public StrVO readOneStrByManager(String strId);
 	
-	public boolean createOneStr(StrVO strVO, MultipartFile uploadFile);
+	public boolean createOneStr(StrVO strVO);
 	
-	public boolean updateOneStrByMaster(StrVO strVO, MultipartFile uploadFile);
+	public boolean updateOneStrByMaster(StrVO strVO);
 	
-	public boolean updateOneStrByManager(StrVO strVO, MultipartFile uploadFile);
+	public boolean updateOneStrByManager(StrVO strVO);
 	
 	public boolean deleteOneStrByStrId(String strId);
 	

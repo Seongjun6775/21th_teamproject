@@ -7,17 +7,18 @@
 	<select id="readAllStrMaster"
 			parameterType="com.ktds.fr.str.vo.StrVO"
 			resultType="com.ktds.fr.str.vo.StrVO">
+		
 		SELECT STR_ID
 			 , STR_NM
 			 , STR_ADDR
 			 , STR_CALL_NUM
 			 , MBR_ID
-			 , TO_CHAR(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
-			 , TO_CHAR(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
 			 , USE_YN
 			 , DEL_YN
-		  FROM STR
-			
+		  FROM STR S 
+		 WHERE DEL_YN = 'N'
 	</select>
 	
 	<select id="readOneStrByMaster"
@@ -50,6 +51,7 @@
 			 , STR_NM
 			 , STR_ADDR
 			 , STR_CALL_NUM
+			 , MBR_ID
 			 , TO_CHAR(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
 			 , TO_CHAR(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
 			 , USE_YN
@@ -65,21 +67,16 @@
 			 , STR_ADDR
 			 , STR_CALL_NUM
 			 , MBR_ID
-			 , TO_CHAR(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
-			 , TO_CHAR(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
 			 , USE_YN
 			 , DEL_YN)
 		VALUES
-			   ('ST-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LAPD(SEQ_STR_PK.NEXTVAL, 5, '0')
+			   ('ST-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_STR_PK.NEXTVAL, 5, '0')
 			 , #{strNm}
 			 , #{strAddr}
 			 , #{strCallNum}
 			 , #{mbrId}
-			 , SYSDATE
-			 , SYSDATE
 			 , NVL(#{useYn}, 'Y')
 			 , 'N' )
-			
 	</insert>
 	
 	<update id="updateOneStrByMaster"
@@ -89,9 +86,9 @@
 				 , STR_ADDR=#{strAddr}
 				 , STR_CALL_NUM=#{strCallNum}
 				 , MBR_ID=#{mbrId}
-				 , TO_CHAR(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
-			 	 , TO_CHAR(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
-				 , USE_YN='N' 
+				 , STR_OPN_TM =TO_DATE(#{strOpnTm}, 'HH24:MI:SS')
+			 	 , STR_CLS_TM =TO_DATE(#{strClsTm}, 'HH24:MI:SS')
+				 , USE_YN= NVL(#{useYn}, 'Y')
 			 WHERE STR_ID=#{strId}
 			
 	</update>
@@ -100,15 +97,15 @@
 			UPDATE STR
 			   SET STR_NM=#{strNm}
 				 , STR_CALL_NUM=#{strCallNum}
-				 , TO_CHAR(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
-			 	 , TO_CHAR(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+				 , TO_DATE(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 	 , TO_DATE(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
 			 WHERE STR_ID=#{strId}
 	</update>
 	<update id="deleteOneStrByStrId"
 			parameterType="string">
 			UPDATE STR
-			   SET DEL_YN='Y' 
-			 WHERE STR_ID=#{_parameter}
+			   SET DEL_YN = 'Y' 
+			 WHERE STR_ID = #{_parameter}
 			
 	</update>
 

@@ -1,6 +1,8 @@
 package com.ktds.fr.str.vo;
 
-public class StrVO {
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class StrVO extends AbstractVO{
 
 	private String strId;
 	private String strNm;
