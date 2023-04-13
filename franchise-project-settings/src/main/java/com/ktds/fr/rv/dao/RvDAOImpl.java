@@ -18,39 +18,66 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
 
+	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
 	@Override
 	public int createNewRv(RvVO rvVO) {
 		return getSqlSession().insert("Rv.createNewRv", rvVO);
 	}
 
+	// 1-2.이용자가 쓴 리뷰 개수 조회(리뷰 쓴 적이 없어야 리뷰 등록 가능)
 	@Override
-	public List<RvVO> readAllRvList(RvVO rvVO) {
-		return getSqlSession().selectList("Rv.readAllRvList", rvVO);
+	public int readCountRvByRvId(RvVO rvVO) {
+		return getSqlSession().selectOne("Rv.readCountRvByRvId", rvVO);
+	}
+	
+	
+	// 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자
+	@Override
+	public List<RvVO> readAllRvListForTopManager(RvVO rvVO) {
+		return getSqlSession().selectList("Rv.readAllRvListForTopManager", rvVO);
 	}
 
+	// 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자
 	@Override
-	public RvVO readOneRvVO(RvVO rvVO) {
-		return getSqlSession().selectOne("Rv.readOneRvVO", rvVO);
+	public RvVO readOneRvVOForTopManagerByRvId(String rvId) {
+		return getSqlSession().selectOne("Rv.readOneRvVOForTopManagerByRvId", rvId);
 	}
 
+	// 2-3.자기 매장의 리뷰 목록 조회 == 중하위관리자
 	@Override
-	public List<RvVO> readAllRvByStrId(String strId) {
-		return getSqlSession().selectList("Rv.readAllRvByStrId", strId);
+	public List<RvVO> readAllRvListForMiddleManager(String strId) {
+		return getSqlSession().selectList("Rv.readAllRvListForMiddleManager", strId);
 	}
 
+	// 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자
 	@Override
-	public RvVO readOneRvVOByStrId(String strId) {
-		return getSqlSession().selectOne("Rv.readOneRvVOByStrId", strId);
+	public RvVO readOneRvVOForMiddleManagerByOdrId(String odrId) {
+		return getSqlSession().selectOne("Rv.readOneRvVOForMiddleManagerByOdrId", odrId);
 	}
 
+	// 2-5.자기가 쓴 리뷰 목록 조회 == 이용자
 	@Override
-	public int deleteAllRvList(List<String> RvList) {
-		return getSqlSession().update("Rv.deleteAllRvList", RvList);
+	public List<RvVO> readAllRvListForMemberByRvId(String rvId) {
+		return getSqlSession().selectList("Rv.readAllRvListForMemberByRvId", rvId);
 	}
 
+	// 2-6.자기가 쓴 리뷰 상세 조회 == 이용자
 	@Override
-	public int deleteOneRvByRvId(String RvId) {
-		return getSqlSession().update("Rv.deleteOneRvByRvId", RvId);
+	public RvVO readOneRvVOForMemberByRvId(String rvId) {
+		return getSqlSession().selectOne("Rv.readOneRvVOForMemberByRvId", rvId);
 	}
-			
+
+	
+	// 3-1.모든 매장의 리뷰 삭제 == 상위관리자
+	@Override
+	public int deleteAllRvVOForTopManagerByRvId(String rvId) {
+		return getSqlSession().update("Rv.deleteAllRvVOForTopManagerByRvId", rvId);
+	}
+
+	// 3-2.자기가 쓴 리뷰 삭제 == 이용자
+	@Override
+	public int deleteOneRvVOForMemberByRvId(String rvId) {
+		return getSqlSession().update("Rv.deleteOneRvVOForMemberByRvId", rvId);
+	}
+	
 }

@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Rv">
 
+	<!-- 1-1.(제품 이력확인 후)리뷰 등록 == 이용자 -->
 	<insert id="createNewRv"
 			parameterType="com.ktds.fr.rv.vo.RvVO">
 		INSERT INTO RV
@@ -27,81 +28,153 @@
 		 , SYSDATE
 		 , SYSDATE
 		 , NVL(#{useYn}, 'Y') 
-		 , NVL(#{delYn}, 'N') )		
+		 , NVL(#{delYn}, 'N') )				
 	</insert>
 
-	<select id="readAllRvList"
-			parameterType="com.ktds.fr.rv.vo.RvVO"
-			resultType="com.ktds.fr.rv.vo.RvVO">
-		SELECT RV_ID
-			 , MBR_ID
-			 , ODR_ID
-			 , RV_TTL
-			 , RV_CNTNT
-			 , RV_LK_DSLK
-			 , TO_CHAR(RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
-			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-			 , USE_YN
-			 , DEL_YN
-		  FROM RV	
-		 WHERE USE_YN = 'Y'
-		   AND DEL_YN = 'N'	
-	</select>
-	
-	<select id="readOneRvVO"
-			parameterType="com.ktds.fr.rv.vo.RvVO"
-			resultType="com.ktds.fr.rv.vo.RvVO">
-		SELECT RV_ID
-		  	 , MBR_ID
-		  	 , ODR_ID
-		  	 , RV_TTL
-		  	 , RV_CNTNT
-		  	 , RV_LK_DSLK
-		  	 , TO_CHAR(RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
-			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		  	 , USE_YN
-		  	 , DEL_YN
+	<!-- 1-2.이용자가 쓴 리뷰 개수 조회(리뷰 쓴 적이 없어야 리뷰 등록 가능) -->
+	<select id="readCountRvByRvId"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
 		  FROM RV
-		 WHERE USE_YN = 'Y'
-		   AND DEL_YN = 'N'		
+		 WHERE RV_ID = #{_parameter}
+	</select>
+
+	<!-- 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자 -->
+	<select id="readAllRvListForTopManager"
+			parameterType="com.ktds.fr.rv.vo.RvVO"
+			resultType="com.ktds.fr.rv.vo.RvVO">
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , R.ODR_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN MBR M 
+		    ON R.MBR_ID = M.MBR_ID 
+		 WHERE M.MBR_LVL = '상위관리자'
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'	
 	</select>
 	
-	<select id="readAllRvByStrId"
+	<!-- 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자 (수정 要)-->
+	<select id="readOneRvVOForTopManagerByRvId"
 			parameterType="string"
 			resultType="com.ktds.fr.rv.vo.RvVO">
-			<!-- INNER JOIN 후 수정 필요 -->
-		SELECT RV_ID
-			 , MBR_ID
-			 , ODR_ID
-			 , RV_TTL
-			 , RV_CNTNT
-			 , RV_LK_DSLK
-			 , RV_RGST_DT
-			 , MDFY_DT
-			 , USE_YN
-			 , DEL_YN
-		  FROM RV		
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , R.ODR_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN MBR M 
+		    ON R.MBR_ID = M.MBR_ID 
+		 WHERE M.MBR_LVL = '상위관리자'
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'		
 	</select>
 	
-	<select id="readOneRvVOByStrId"
+	<!-- 2-3.자기 매장의 리뷰 목록 조회 == 중하위관리자 -->
+	<select id="readAllRvListForMiddleManager"
 			parameterType="string"
 			resultType="com.ktds.fr.rv.vo.RvVO">
-			<!-- INNER JOIN 후 수정 필요 -->
-		SELECT RV_ID
-			 , MBR_ID
-			 , ODR_ID
-			 , RV_TTL
-			 , RV_CNTNT
-			 , RV_LK_DSLK
-			 , RV_RGST_DT
-			 , MDFY_DT
-			 , USE_YN
-			 , DEL_YN
-		  FROM RV	
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , R.ODR_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN MBR M 
+		    ON R.MBR_ID = M.MBR_ID 
+		 WHERE M.MBR_LVL = '중간관리자'|| '하위관리자'
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'		
 	</select>
 	
-	<update id="deleteAllRvList"
-			parameterType="arraylist">
+	<!-- 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자 (수정 要)-->
+	<select id="readOneRvVOForMiddleManagerByOdrId"
+			parameterType="string"
+			resultType="com.ktds.fr.rv.vo.RvVO">
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , R.ODR_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN MBR M 
+		    ON R.MBR_ID = M.MBR_ID 
+		 WHERE M.MBR_LVL = '중간관리자'|| '하위관리자'
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'	
+	</select>
+	
+	<!-- 2-5.자기가 쓴 리뷰 목록 조회 == 이용자 -->
+	<select id="readAllRvListForMemberByRvId"
+			parameterType="string"
+			resultType="com.ktds.fr.rv.vo.RvVO">
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , R.ODR_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN MBR M 
+		    ON R.MBR_ID = M.MBR_ID 
+		 WHERE M.MBR_LVL = '이용자'
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'
+	</select>
+	
+	<!-- 2-6.자기가 쓴 리뷰 상세 조회 == 이용자 -->
+	<select id="readOneRvVOForMemberByRvId"
+			parameterType="string"
+			resultType="com.ktds.fr.rv.vo.RvVO">
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , R.ODR_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN MBR M 
+		    ON R.MBR_ID = M.MBR_ID 
+		 WHERE M.MBR_LVL = '이용자'
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'
+	</select>
+	
+	<!-- 3-1.모든 매장의 리뷰 삭제 == 상위관리자 -->
+	<update id="deleteAllRvVOForTopManagerByRvId"
+			parameterType="string">
 		UPDATE RV
 		   SET USE_YN = 'N'
 		     , DEL_YN = 'Y'
@@ -111,7 +184,8 @@
 		 </foreach>	
 	</update>
 	
-	<update id="deleteOneRvByRvId"
+	<!-- 3-2.자기가 쓴 리뷰 삭제 == 이용자 -->
+	<update id="deleteOneRvVOForMemberByRvId"
 			parameterType="string">
 		UPDATE RV
 		   SET USE_YN = 'N' 
