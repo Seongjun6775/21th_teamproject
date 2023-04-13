@@ -5,7 +5,8 @@ public class NtVO {
 	private String ntId;	
 	private String sndrId;	
 	private String rcvrId;	
-	private String ntRdDt;	
+	private String ntRdDt;
+	private String ntSndrDt;
 	private String ntTtl;	
 	private String ntCntnt;	
 	private String useYn;	
@@ -33,7 +34,13 @@ public class NtVO {
 	}	
 	public void setNtRdDt(String ntRdDt) {	
 		this.ntRdDt = ntRdDt;
-	}	
+	}
+	public String getNtSndrDt() {
+		return ntSndrDt;
+	}
+	public void setNtSndrDt(String ntSndrDt) {
+		this.ntSndrDt = ntSndrDt;
+	}
 	public String getNtTtl() {	
 		return ntTtl;
 	}	
