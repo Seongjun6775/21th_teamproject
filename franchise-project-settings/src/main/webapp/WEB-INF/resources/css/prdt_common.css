@@ -51,6 +51,9 @@ body {
 .relative {
 	position: relative;
 }
+.absolute {
+	position: absolute;
+}
 
 /* justify-content */
 .space-between {
@@ -100,6 +103,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .textarea {
 	width: 400px;
 	height: 120px;
+	resize: none;
 }
 
 
@@ -333,7 +337,6 @@ input[type="number"]::-webkit-inner-spin-button {
 	background-color: #eee;
 }
 
-
 .content .grid > table> tbody > tr > td {
 	border-left: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
@@ -374,7 +377,10 @@ input[type="number"]::-webkit-inner-spin-button {
 	display: flex;
 	align-items: stretch;
 }
-
+.money {
+	text-align: right;
+	padding: 0 5px;
+}
 
 
 

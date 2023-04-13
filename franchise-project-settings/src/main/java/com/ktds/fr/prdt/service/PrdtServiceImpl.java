@@ -40,7 +40,7 @@ public class PrdtServiceImpl implements PrdtService {
 
 	@Override
 	public boolean create(PrdtVO prdtVO, MultipartFile uploadFile) {
-		
+
 		String srt = prdtVO.getPrdtSrt();
 		if (srt == null || srt.trim().length() == 0) {
 			throw new ApiArgsException("400", "분류 선택 필요");
@@ -48,13 +48,14 @@ public class PrdtServiceImpl implements PrdtService {
 		String nm = prdtVO.getPrdtNm();
 		if (nm == null || nm.trim().length() == 0) {
 			throw new ApiArgsException("400", "이름이 비었음");
+		} else if (nm.length() > 20) {
+			throw new ApiArgsException("400", "이름은 20글자를 넘을 수 없습니다.");
 		}
 		int prc = prdtVO.getPrdtPrc();
-		if (prc== 0) {
+		if (prc == 0) {
 			throw new ApiArgsException("400", "가격이 비었음");
 		}
-		
-		
+
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			File dir = new File(profilePath);
 			if (!dir.exists()) {
@@ -83,6 +84,8 @@ public class PrdtServiceImpl implements PrdtService {
 		String nm = prdtVO.getPrdtNm();
 		if (nm == null || nm.trim().length() == 0) {
 			throw new ApiArgsException("400", "이름이 비었음");
+		} else if (nm.length() > 20) {
+			throw new ApiArgsException("400", "이름은 20글자를 넘을 수 없습니다.");
 		}
 		int prc = prdtVO.getPrdtPrc();
 		if (prc== 0) {
@@ -133,7 +136,7 @@ public class PrdtServiceImpl implements PrdtService {
 				}
 				prdtVO.setPrdtFileId(uuidFileName);
 			} else {
-				prdtVO.setPrdtFileId("none");
+				prdtVO.setPrdtFileId(origin.getPrdtFileId());
 			}
 			return prdtDAO.update(prdtVO) > 0;
 		} else {

@@ -34,6 +34,7 @@ $().ready(function() {
 	
 	
 	 $("#search-keyword-prdtSrt").val("${prdtVO.prdtSrt}");
+	 $("#search-keyword-useYn").val("${prdtVO.useYn}");
 	
 	
 	var table = document.getElementById("dataTable");
@@ -66,7 +67,7 @@ $().ready(function() {
 		
 		var prdtFileId = data.prdtfileid;
 		if (prdtFileId==""){
-			prdtFileId= "FuckingErrorFileNameIsNull";
+			prdtFileId= "errorFileNameIsNull";
 		}
 		$("#prdtImg").attr("src", "${context}/prdt/img/" + prdtFileId + "/");
 		
@@ -206,12 +207,13 @@ $().ready(function() {
 		});
 	})
 	
+	/* 
 	// 체크박스가 되었다면 일괄삭제버튼 나타내기
 	$("input:checkbox").click(function() {
 		var checkLen = $(".check-idx:checked").length;
 		chkCount(checkLen);
-	})
-		
+	});
+	 */	
 	
 	
 	
@@ -313,10 +315,9 @@ function movePage(pageNo) {
 			 --%>
 			
 			<div class="grid">
-				<div class="flex space-between mb-10">
-					<button class="inline-flex btn-primary btn-search-reset" 
-							id="btn-search-reset">검색초기화</button>
-					<div class="inline-flex grid-count align-right">
+				<div class="space-between mb-10">
+					
+					<div class="grid-count align-right">
 						<!-- 페이지네이션용  -->
 						총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
 						<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
@@ -328,14 +329,18 @@ function movePage(pageNo) {
 						<tr>
 							<th><input type="checkbox" id="all-check"/></th>
 							<th>ID</th>
-							<th>분류
+							<th>
 							<select class="selectFilter" name="selectFilter"
 									id="search-keyword-prdtSrt">
-								<option value="">선택</option>
-								<option value="분류-가">기역</option>
-								<option value="분류-나">니은</option>
-								<option value="분류-다">디귿</option>
-								<option value="분류-라">리을</option>
+								<option value="">분류</option>
+								<c:choose>
+									<c:when test="${not empty srtList}">
+										<c:forEach items="${srtList}"
+													var="srt">
+											<option value="${srt.cdId}">${srt.cdNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
 							</select>
 							</th>
 							<th>이름
@@ -344,15 +349,15 @@ function movePage(pageNo) {
 									placeholder="검색어 입력 후 Enter"
 									value="${prdtVO.prdtNm}">
 							</th>
-							<th>가격</th>
+							<th>가격(원)</th>
 							<th>등록자</th>
 							<th>등록일</th>
 							<th>수정자</th>
 							<th>수정일</th>
-							<th>사용유무
+							<th>
 							<select class="selectFilter" name="selectFilter"
 									id="search-keyword-useYn">
-								<option value="">선택</option>
+								<option value="">사용유무</option>
 								<option value="Y">Y</option>
 								<option value="N">N</option>
 							</select>
@@ -390,7 +395,9 @@ function movePage(pageNo) {
 										</td>
 										<td>${prdt.cmmnCdVO.cdNm}</td>
 										<td>${prdt.prdtNm}</td>
-										<td class="money">${prdt.prdtPrc}</td>
+										<td class="money">
+											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>
+										</td>
 										<td>${prdt.prdtRgstr}(${prdt.prdtRgstrMbrVO.mbrNm})</td>
 										<td>${prdt.prdtRgstDt}</td>
 										<td>${prdt.mdfyr}(${prdt.mdfyrMbrVO.mbrNm})</td>
@@ -410,38 +417,44 @@ function movePage(pageNo) {
 					</tbody>
 				</table>
 				
-				<div class="align-right mt-10 animation" style="display: none;" >
-					<button id="btn-delete-all" class="btn-primary btn-delete" style="vertical-align: top;">일괄삭제</button>
-				</div>
-				
-				<div class="pagenate">
-					<ul>
-						<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}" var="lastPage"></c:set>
-						<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastGroup : 0}" var="lastGroup"></c:set>
-						
-						<fmt:parseNumber var="nowGroup" value="${Math.floor(prdtVO.prdtPageNo / prdtVO.prdtPageCnt)}" integerOnly="true" />
-						<c:set value="${nowGroup * prdtVO.prdtPageCnt}" var="groupStartPageNo"></c:set>
-						<c:set value="${groupStartPageNo + prdtVO.prdtPageCnt}" var="groupEndPageNo"></c:set>
-						<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1}" var="groupEndPageNo"></c:set>
-						
-						<c:set value="${(nowGroup - 1) * prdtVO.prdtPageCnt}" var="prevGroupStartPageNo"></c:set>
-						<c:set value="${(nowGroup + 1) * prdtVO.prdtPageCnt}" var="nextGroupStartPageNo"></c:set>
-						
-						 
-						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-						</c:if>
-						
-						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1"	var="prdtPageNo">
-							<li><a class="${prdtPageNo eq prdtVO.prdtPageNo ? 'on' : ''}"  href="javascript:movePage(${prdtPageNo})">${prdtPageNo+1}</a></li>
-						</c:forEach>
-						
-						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-						</c:if>
-					</ul>
+				<div class="relative">
+					<div class="align-right absolute " style="right: 0px;" >
+						<button class="btn-primary" 
+								id="btn-search-reset">검색초기화</button>
+						<button id="btn-delete-all" 
+								class="btn-primary btn-delete" 
+								style="vertical-align: top;">일괄삭제</button>
+					</div>
+					
+					<div class="pagenate">
+						<ul>
+							<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}" var="lastPage"></c:set>
+							<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastGroup : 0}" var="lastGroup"></c:set>
+							
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(prdtVO.prdtPageNo / prdtVO.prdtPageCnt)}" integerOnly="true" />
+							<c:set value="${nowGroup * prdtVO.prdtPageCnt}" var="groupStartPageNo"></c:set>
+							<c:set value="${groupStartPageNo + prdtVO.prdtPageCnt}" var="groupEndPageNo"></c:set>
+							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1}" var="groupEndPageNo"></c:set>
+							
+							<c:set value="${(nowGroup - 1) * prdtVO.prdtPageCnt}" var="prevGroupStartPageNo"></c:set>
+							<c:set value="${(nowGroup + 1) * prdtVO.prdtPageCnt}" var="nextGroupStartPageNo"></c:set>
+							
+							 
+							<c:if test="${nowGroup > 0}">
+								<li><a href="javascript:movePage(0)">처음</a></li>
+								<li><a href="javascript:movePage(${prevGroupStartPageNo+prdtVO.prdtPageCnt-1})">이전</a></li>
+							</c:if>
+							
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1"	var="prdtPageNo">
+								<li><a class="${prdtPageNo eq prdtVO.prdtPageNo ? 'on' : ''}"  href="javascript:movePage(${prdtPageNo})">${prdtPageNo+1}</a></li>
+							</c:forEach>
+							
+							<c:if test="${lastGroup > nowGroup}">
+								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+							</c:if>
+						</ul>
+					</div>
 				</div>
 			
 				<div class="grid-detail">
@@ -472,15 +485,19 @@ function movePage(pageNo) {
 								<label for="prdtSrt">분류</label>
 								<select id="prdtSrt" name="prdtSrt">
 									<option value="">선택</option>
-									<option value="분류-가">기역</option>
-									<option value="분류-나">니은</option>
-									<option value="분류-다">디귿</option>
-									<option value="분류-라">리을</option>
+									<c:choose>
+									<c:when test="${not empty srtList}">
+										<c:forEach items="${srtList}"
+													var="srt">
+											<option value="${srt.cdId}">${srt.cdNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
 								</select>
 							</div>
 							<div class="input-group inline">
 								<label for="prdtNm">이름</label>
-								<input type="text" id="prdtNm"  name="prdtNm"  value=""/>
+								<input type="text" id="prdtNm"  name="prdtNm"  maxlength="20"  value=""/>
 							</div>
 							<div class="input-group inline">
 								<label for="prdtPrc">가격</label>
