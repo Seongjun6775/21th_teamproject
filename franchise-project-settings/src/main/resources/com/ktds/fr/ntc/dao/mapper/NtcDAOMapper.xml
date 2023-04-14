@@ -153,8 +153,7 @@
     </update>
 	
 	
-	<select id="readAllNoticeOnlyTitleByNoticeId"
-            parameterType="com.ktds.fr.ntc.vo.NtcVO"
+	<select id="readAllNotice"
             resultType="com.ktds.fr.ntc.vo.NtcVO">
         SELECT NTC_ID
              , MBR_ID
@@ -168,7 +167,7 @@
              , USE_YN
              , DEL_YN
           FROM FRAN.NTC
-            
       </select>
+	
 	
 </mapper>

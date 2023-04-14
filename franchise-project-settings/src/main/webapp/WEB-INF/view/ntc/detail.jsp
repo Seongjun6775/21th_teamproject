@@ -253,7 +253,7 @@
 							
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(ntcVo.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
-							<c:set value ="${nowGroup*10+ 10}" var="groupEndPageNo" />
+							<c:set value ="${groupStartPageNo+ 10}" var="groupEndPageNo" />
 							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo-1}" var="groupEndPageNo" />
 							
 							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
@@ -301,11 +301,11 @@
 						</div>	
 						
 						<div class="input-group inline">
-							<label for="useYn" style=" width:180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
+							<label for="ntcRgstDt" style=" width:180px;">사용여부</label><input type="checkbox" id="ntcRgstDt" name="ntcRgstDt" value="Y"/>
 						</div>	
 						
 						<div class="input-group inline">
-							<label for="crtr" style=" width:180px;">등록자</label><input type="text" id="crtr" disabled value=""/>
+							<label for="ntcTtl" style=" width:180px;">등록자</label><input type="text" id="crtr" disabled value=""/>
 						</div>
 						
 						<div class="input-group inline">

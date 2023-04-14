@@ -1,6 +1,8 @@
 package com.ktds.fr.ntc.dao;
 
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +45,13 @@ public class NtcDAOImpl extends SqlSessionDaoSupport implements NtcDAO {
 	}
 
 
-	public int readAllNoticeTitleByNoticeId(String ntcId) {
-		return getSqlSession().selectOne("Ntc.readAllNoticeTitleByNoticeId",ntcId);
+	public List<NtcVO> readAllNotice() {
+		return getSqlSession().selectList("Ntc.readAllNotice");
 	}
 
 	@Override
-	public NtcVO readSelectedNoticeContent(NtcVO ntcVO) {
-		return getSqlSession().selectOne("Ntc.readSelectedNoticeContent", ntcVO);
+	public NtcVO readSelectedNoticeContent(String ntcCntnt) {
+		return getSqlSession().selectOne("Ntc.readSelectedNoticeContent", ntcCntnt);
 	}
 
 	@Override

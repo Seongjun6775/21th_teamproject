@@ -1,5 +1,7 @@
 package com.ktds.fr.ntc.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ktds.fr.ntc.vo.NtcVO;
@@ -26,10 +28,10 @@ public interface NtcService {
 		public boolean deleteNoticeByNoticeId(String ntcId);
 		
 		//조회부분(조회- 등록된 공지 목록을 조회하되 제목만 조회)
-		public boolean readAllNoticeTitleByNoticeId(String ntcId);
+		public List<NtcVO> readAllNotice();
 		
 		//조회부분(조회- 선택된 공지의 상세정보 조회)
-		public NtcVO readSelectedNoticeContent(NtcVO ntcVO);
+		public NtcVO readSelectedNoticeContent(String ntcCntnt);
 		
 		//조회부분(조회- 전체공지 조회(최근등록일 기준)
 		public boolean readNoticeByRegisteredDate(String ntcRgstDt);

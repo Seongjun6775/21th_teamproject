@@ -1,6 +1,8 @@
-package com.ktds.fr.ntc.vo;		
-		
-public class NtcVO {		
+package com.ktds.fr.ntc.vo;
+
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class NtcVO extends AbstractVO{		
 		
 	private String ntcId;	
 	private String mbrId;	
@@ -13,6 +15,7 @@ public class NtcVO {
 	private String ntcInqAth;	
 	private String useYn;	
 	private String delYn;	
+	
 	public String getNtcId() {	
 		return ntcId;
 	}	

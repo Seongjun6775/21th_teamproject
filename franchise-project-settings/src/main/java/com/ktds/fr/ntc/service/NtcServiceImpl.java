@@ -1,5 +1,7 @@
 package com.ktds.fr.ntc.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -43,13 +45,13 @@ public class NtcServiceImpl implements NtcService {
 	}
 
 	@Override
-	public boolean readAllNoticeTitleByNoticeId(String ntcId) {
-		return ntcDAO.readAllNoticeTitleByNoticeId(ntcId) > 0;
+	public List<NtcVO> readAllNotice() {
+		return ntcDAO.readAllNotice();
 	}
 
 	@Override
-	public NtcVO readSelectedNoticeContent(NtcVO ntcVO) {
-		return ntcDAO.readSelectedNoticeContent(ntcVO);
+	public NtcVO readSelectedNoticeContent(String ntcCntnt) {
+		return ntcDAO.readSelectedNoticeContent(ntcCntnt);
 	}
 
 	@Override
