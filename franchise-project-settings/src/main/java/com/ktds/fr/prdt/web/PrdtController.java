@@ -50,9 +50,6 @@ public class PrdtController {
 		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
 		List<CmmnCdVO> srtList = cmmnCdDAO.readCategory("004");
 		
-		// 공통코드의 분류 목록을 가져오기 위함.
-//		List<CmmnCdVO> srtList = cmmnCdService.readAll("PRDT");
-		
 		model.addAttribute("prdtList", prdtList);
 		model.addAttribute("prdtVO", prdtVO);
 		model.addAttribute("srtList", srtList);
