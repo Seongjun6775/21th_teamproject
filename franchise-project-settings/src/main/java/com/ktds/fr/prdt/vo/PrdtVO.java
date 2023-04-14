@@ -1,9 +1,10 @@
 package com.ktds.fr.prdt.vo;
 
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
+import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 
-public class PrdtVO {		
+public class PrdtVO extends AbstractVO{		
 		
 	private String prdtId;	
 	private String prdtNm;	
@@ -21,6 +22,22 @@ public class PrdtVO {
 	private CmmnCdVO cmmnCdVO;
 	private MbrVO prdtRgstrMbrVO;
 	private MbrVO mdfyrMbrVO;
+	
+	
+	private String isDeleteImg;
+
+	
+	private int prdtPageNo;
+	private int prdtPageCnt;
+	private int prdtViewCnt;
+	
+	
+	protected PrdtVO() {
+		this.prdtPageNo = 0;
+		this.prdtPageCnt = 5;
+		this.prdtViewCnt = 20;
+	}
+	
 	
 	public String getPrdtId() {	
 		return prdtId;
@@ -111,6 +128,30 @@ public class PrdtVO {
 	}
 	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
 		this.cmmnCdVO = cmmnCdVO;
+	}
+	public String getIsDeleteImg() {
+		return isDeleteImg;
+	}
+	public void setIsDeleteImg(String isDeleteImg) {
+		this.isDeleteImg = isDeleteImg;
+	}
+	public int getPrdtPageNo() {
+		return prdtPageNo;
+	}
+	public void setPrdtPageNo(int prdtPageNo) {
+		this.prdtPageNo = prdtPageNo;
+	}
+	public int getPrdtPageCnt() {
+		return prdtPageCnt;
+	}
+	public void setPrdtPageCnt(int prdtPageCnt) {
+		this.prdtPageCnt = prdtPageCnt;
+	}
+	public int getPrdtViewCnt() {
+		return prdtViewCnt;
+	}
+	public void setPrdtViewCnt(int prdtViewCnt) {
+		this.prdtViewCnt = prdtViewCnt;
 	}
 	
 }		
