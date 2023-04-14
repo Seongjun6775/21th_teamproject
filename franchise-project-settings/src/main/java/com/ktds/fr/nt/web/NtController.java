@@ -207,6 +207,10 @@ public class NtController {
 			if (nt.getDelYn().equals("Y")) {
 				return "redirect:/nt/list";
 			}
+			// 자기가 받지 않은 쪽지로 강제 이동하려 해도, list 화면으로 돌려보냅니다.
+			if (!nt.getRcvrId().equals(mbrVO.getMbrId())) {
+				return "redirect:/nt/list";
+			}
 			model.addAttribute("nt", nt);
 			
 			return "nt/mngrdetail";

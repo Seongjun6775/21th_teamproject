@@ -70,7 +70,7 @@
 				</div>
 				<div>
 					<label for="ntCntnt">쪽지 본문</label>
-					<textarea id="ntCntnt" name="ntCntnt">${nt.ntCntnt}</textarea>
+					<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="4000자 까지 입력 가능합니다.">${nt.ntCntnt}</textarea>
 				</div>
 			</form>
 			
