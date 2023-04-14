@@ -20,27 +20,32 @@ public class HrDAOImpl extends SqlSessionDaoSupport implements HrDAO {
 
 	@Override
 	public List<HrVO> readAllHr() {
-		return null;
+		return getSqlSession().selectList("Hr.readAllHr");
+	}
+	
+	@Override
+	public List<HrVO> readAllMyHr(String mbrId) {
+		return getSqlSession().selectList("Hr.readAllMyHr", mbrId);
 	}
 
 	@Override
 	public HrVO readOneHrByHrId(String hrId) {
-		return null;
+		return getSqlSession().selectOne("Hr.readOneHrByHrId", hrId);
 	}
 
 	@Override
 	public int createNewHr(HrVO hrVO) {
-		return 0;
+		return getSqlSession().insert("Hr.createNewHr", hrVO);
 	}
 
 	@Override
 	public int updateOneHrByHrId(HrVO hrVO) {
-		return 0;
+		return getSqlSession().update("Hr.updateOneHrByHrId", hrVO);
 	}
 
 	@Override
 	public int deleteOneHrByHrId(String hrId) {
-		return 0;
+		return getSqlSession().update("Hr.deleteOneHrByHrId", hrId);
 	}
 	
 	

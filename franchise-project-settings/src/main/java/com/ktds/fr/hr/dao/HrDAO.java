@@ -8,6 +8,8 @@ public interface HrDAO {
 	
 	public List<HrVO> readAllHr();
 	
+	public List<HrVO> readAllMyHr(String mbrId);
+	
 	public HrVO readOneHrByHrId(String hrId);
 	
 	public int createNewHr(HrVO hrVO);

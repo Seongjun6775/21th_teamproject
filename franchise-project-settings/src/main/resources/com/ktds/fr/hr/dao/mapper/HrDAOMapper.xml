@@ -3,7 +3,46 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Hr">
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="readAllHr"
+			resultType="com.ktds.fr.hr.vo.HrVO">
+		<include refid="Common.page_header" />
+		SELECT HR_ID
+		     , MBR_ID
+		     , HR_RGST_DT
+		     , MDFY_DT
+		     , HR_APR_YN
+		     , HR_APR_DT
+		     , HR_STAT
+		     , DEL_YN
+		  FROM HR
+		<include refid="Common.page_footer" />
+	</select>
+	
+	<select id="readAllMyHr"
+			parameterType="string"
+			resultMap="resultMap">
+		
+	</select>
+	
+	<update id="deleteOneHrByHrId"
+			parameterType="string">
+		UPDATE HR
+		   SET DEL_YN='Y' 
+		 WHERE HR_ID = #{_parameter}
+	</update>
+	
+	
+	
+	
 
 
 </mapper>
