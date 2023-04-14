@@ -6,19 +6,23 @@ import com.ktds.fr.evnt.vo.EvntVO;
 
 public interface EvntService {
 
-	//이벤트 등록
+	// 1. 이벤트 등록 ▶▶상위관리자
 	public boolean createNewEvnt(EvntVO evntVO);
 	
-	//이벤트 전체목록 조회
+	// 2. 이벤트 전체목록 조회 ▶▶상위관리자
 	public List<EvntVO> readAllEvnt(EvntVO evntVO);
 	
-	//이벤트 조회(상세조회)
-	public EvntVO readOneEvnt(EvntVO evntVO);
+	// 3. 이벤트 조회(상세조회 + 참여 여부 확인) ▶중간관리자
+	public EvntVO readOneEvnt(String evntId);
+	
+	// 4. 이벤트 결정 전,후 내용 조회 ▷상위관리자,중간관리자
 
-	//이벤트 수정
+	// 5. 이벤트 내용 수정 ▶▶상위관리자
 	public boolean updateEvnt(EvntVO envtVO);
 	
-	//이벤트 삭제
-	public boolean updateDeleteEvnt(EvntVO evntVO);
+	// 6. 이벤트 수정(이벤트 참여 여부 선택 후 수정) ▶중간관리자
+	
+	// 7. 이벤트 삭제 ▶▶상위관리자
+	public boolean updateDeleteEvnt(String evntId);
 
 }

@@ -12,6 +12,8 @@
 <script type="text/javascript">
 $().ready(function() {
 	
+	
+	// 1. 등록 버튼을 누르면 수행할 내용
 	$("#btn-create").click(function(){
 		$.post(
 				// 1. 호출할 주소
@@ -26,7 +28,7 @@ $().ready(function() {
 					evntEndDt: $("#evntEndDt").val(),
 					evntPht: $("#evntPht").val(),
 					useYn: $('#useYn:checked').val(),
-					delYn: $('#delYn:checked').val()
+		            delYn: $('#delYn').val()
 				},
 				
 				// 3. 결과 처리
@@ -39,6 +41,12 @@ $().ready(function() {
 					}
 				});
 	});
+	
+	//'돌아가기'버튼 누르면 뒤로 돌아가기
+	   $("#btn-cancle").click(function(){
+		   //location.href="${context}/evnt/list3"
+		   history.go(-1);
+	   });
 	
 })
 </script>
@@ -87,7 +95,7 @@ $().ready(function() {
 				<tr>
 					<td>사용 여부</td>
 					<td><input type="checkbox" id="useYn"
-						value="" checked/></td>
+						value="Y" checked/></td>
 					<td>삭제 여부</td>
 					<td><input type="checkbox" id="delYn" value="" /></td>
 				</tr>
@@ -96,7 +104,7 @@ $().ready(function() {
 					<td></td>
 					<td></td>
 					<td><button id="btn-create" class="btn-primary" style="width:100%;">등록</button></td>
-					<td><button id="btn-cencle" class="btn-primary" style="width:100%;">취소</button></td>
+					<td><button id="btn-cancle" class="btn-primary" style="width:100%;">돌아가기</button></td>
 				</tr>
 			</table>
 		</div>

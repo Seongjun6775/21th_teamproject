@@ -14,7 +14,7 @@
 			<a href="#">매장관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">이벤트관리</a>
+			<a href="${context}/evnt/list">이벤트관리</a>
 		</li>
 		<li class="nav-item">
 			<a href="#">채용 관리</a>

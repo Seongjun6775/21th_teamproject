@@ -21,7 +21,6 @@
 				if(res.status == "200 OK"){
 					location.href = "${context}"+res.redirectURL;
 					
-					alert("로그인");
 				}
 				else{
 					console.log(res)

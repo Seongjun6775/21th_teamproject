@@ -17,14 +17,14 @@
 		, USE_YN
 		, DEL_YN)
 		VALUES
-		( #{evntId}
+		( 'EV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PK.NEXTVAL, 5, '0')
 		, #{evntTtl}
 		, #{evntCntnt}
 		, TO_DATE(#{evntStrtDt})
 		, TO_DATE(#{evntEndDt})
 		, #{evntPht}
-		, #{useYn}
-		, #{delYn})
+		, NVL(#{useYn}, 'N')
+		, 'N')
 	</insert>
 	
 	
@@ -51,21 +51,21 @@
 	
 	
 	<select id="readOneEvnt"
-	       parameterType="com.ktds.fr.evnt.vo.EvntVO"
+	       parameterType="string"
 	       resultType="com.ktds.fr.evnt.vo.EvntVO">
      	SELECT EVNT_ID
 		     , EVNT_TTL
 		     , EVNT_CNTNT
-		     , EVNT_STRT_DT
-		     , EVNT_END_DT
+		     , TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') EVNT_STRT_DT
+		     , TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') EVNT_END_DT
 		     , EVNT_PHT
 		     , USE_YN
 		     , DEL_YN
 		  FROM EVNT EVNT
-		 WHERE 1=1
-		   AND EVNT_ID=#{evntId}    
+		 WHERE EVNT_ID=#{_parameter}    
 	</select>
-	
+		
+
 	<update id="updateEvnt"
 		    parameterType="com.ktds.fr.evnt.vo.EvntVO">
 	  UPDATE EVNT
@@ -75,15 +75,58 @@
            , EVNT_END_DT=TO_DATE(#{evntEndDt})
            , EVNT_PHT=#{evntPht}
            , USE_YN=#{useYn}
-           , DEL_YN=#{delYn}
        WHERE EVNT_ID=#{evntId}
 	</update>
 	
 	
 	<update id="updateDeleteEvnt"
-			parameterType="com.ktds.fr.evnt.vo.EvntVO">
+			parameterType="string">
  	  UPDATE EVNT
-         SET DEL_YN=#{delYn}
-       WHERE EVNT_ID=#{evntId}
+         SET DEL_YN='Y'
+       WHERE EVNT_ID=#{_parameter}
        </update>
+       
+       
+       
+
+<!-- 	<select id="readOneEvnt"
+	parameterType="com.ktds.fr.evnt.vo.EvntVO"
+	   resultType="com.ktds.fr.evnt.vo.EvntVO">
+	 SELECT *
+	   FORM (
+				SELECT *
+	   			  FROM EVNT
+	  			 WHERE <if test='nm != null and nm != ""'> 
+	                   <if test="searchType == 'EVNT_TTL'">EVNT_TTL LIKE '%' || #{evntTtl} ||'%'</if>
+	  		           <if test="searchType == 'EVNT_CNTNT'">EVNT_CNTNT LIKE '%' || #{evntCntnt} || '%'</if>
+	  		           <it test="searchType == 'EVNT_STRT_DT'">EVNT_STRT_DT LIKE '%' || #{evntStrtDt} ||'%'</if>
+	  		           <if test="searchType == 'EVNT_END_DT'">EVNT_END_DT LIKE '%' || #{evntEndDt} || '%' </if>
+	  		           <if test="searchType == 'USE_YN'">USE_YN LIKE '%' || #{useYn} || '%' </if>
+	  		           <if test="searchType == 'DEL_YN'">DEL_YN LIKE '%' || #{delYn} || '%' </if>
+	  		           <if test="searchType == NULL OR searchType == ''"> 1 = 1 </if> )
+	</select>
+        -->
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
 </mapper>
