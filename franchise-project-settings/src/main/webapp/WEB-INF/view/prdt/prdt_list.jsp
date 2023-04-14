@@ -21,11 +21,14 @@ function maxLengthCheck(object){
     }    
   }
 
-// 천단위 구분기호를 위해 갖고왔는데 미사용중임, 동작어려움 ㅠ
-function priceToString(price) {
-	
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+   // 특수문자 모두 제거    
+function chkChar(obj){
+    var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;	//정규식 구문
+    if (RegExp.test(obj.value)) {
+      obj.value = obj.value.replace(RegExp , '');
+    }
+  }
+
 
 $().ready(function() {
 	
@@ -40,9 +43,6 @@ $().ready(function() {
 	var table = document.getElementById("dataTable");
 	var rowCount = table.rows.length;
 	console.log(rowCount);
-	// 가격 천단위 구분기호를 찍고싶다
-	// 테이블로우에 for문으로 반복한다???
-	// function priceToString 참고 및 사용
 	
 	
 	
@@ -347,6 +347,7 @@ function movePage(pageNo) {
 							<input type="text" class="selectFilter" 
 									id="search-keyword-prdtNm" 
 									placeholder="검색어 입력 후 Enter"
+									onkeyup="chkChar(this)" 
 									value="${prdtVO.prdtNm}">
 							</th>
 							<th>가격(원)</th>
@@ -497,7 +498,8 @@ function movePage(pageNo) {
 							</div>
 							<div class="input-group inline">
 								<label for="prdtNm">이름</label>
-								<input type="text" id="prdtNm"  name="prdtNm"  maxlength="20"  value=""/>
+								<input type="text" id="prdtNm"  name="prdtNm"  
+										maxlength="20"  onkeyup="chkChar(this)" value=""/>
 							</div>
 							<div class="input-group inline">
 								<label for="prdtPrc">가격</label>
