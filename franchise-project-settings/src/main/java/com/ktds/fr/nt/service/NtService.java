@@ -23,5 +23,7 @@ public interface NtService {
 	public List<NtVO> readAllMyNt(NtVO ntVO);
 	
 	public boolean updateNtRdDtByNtId(String ntId);
+	
+	public boolean checkOneMbr(String rcvrId);
 
 }

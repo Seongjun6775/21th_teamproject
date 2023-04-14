@@ -17,12 +17,6 @@
 		
 		$("#crt_btn").click(function() {
 			
-			// ntCntnt가 VARCHAR2(4000 CHAR) 라서, 글자수를 제한했습니다.
-			if($("#ntCntnt").val().length > 4000) {
-				alert("최대 4천자까지 입력할 수 있습니다!");
-				return;
-			}
-			
 			// 자기 자신에게 쪽지를 보낼 수 없도록 제한했습니다.
 			// 굳이 막을 이유는 없지 않나 싶어서 고민했는데, 일단 막아 두고 나중에 필요 없다 싶으면 지우겠습니다.
 			if ($("#rcvrId").val() == $("#sndrId").val()) {
@@ -82,7 +76,7 @@
 					</div>
 					<div>
 						<label for="ntCntnt">쪽지 본문</label>
-						<textarea id="ntCntnt" name="ntCntnt" placeholder="4000자 까지 입력 가능합니다."></textarea>
+						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="4000자 까지 입력 가능합니다."></textarea>
 					</div>
 				</form>
 				

@@ -23,5 +23,7 @@ public interface NtDAO {
 	public List<NtVO> readAllMyNt(NtVO ntVO);
 	
 	public int updateNtRdDtByNtId(String ntId);
+	
+	public int checkOneMbr(String rcvrId);
 
 }

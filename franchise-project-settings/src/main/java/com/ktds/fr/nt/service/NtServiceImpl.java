@@ -1,5 +1,6 @@
 package com.ktds.fr.nt.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,31 @@ public class NtServiceImpl implements NtService {
 
 	@Override
 	public List<NtVO> readAllNt(NtVO ntVO) {
+		if (ntVO.getStartDt() == null || ntVO.getStartDt().length() == 0) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, -1);
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			String startDt = year + "-" + strMonth + "-" + strDay;
+			ntVO.setStartDt(startDt);
+		}
+		
+		if (ntVO.getEndDt() == null || ntVO.getEndDt().length() == 0) {
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			String endDt = year + "-" + strMonth + "-" + strDay;
+			ntVO.setEndDt(endDt);
+		}
+		
 		return ntDAO.readAllNt(ntVO);
 	}
 
@@ -78,12 +104,41 @@ public class NtServiceImpl implements NtService {
 
 	@Override
 	public List<NtVO> readAllMyNt(NtVO ntVO) {
+		if (ntVO.getStartDt() == null || ntVO.getStartDt().length() == 0) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, -1);
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			String startDt = year + "-" + strMonth + "-" + strDay;
+			ntVO.setStartDt(startDt);
+		}
+		
+		if (ntVO.getEndDt() == null || ntVO.getEndDt().length() == 0) {
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			String endDt = year + "-" + strMonth + "-" + strDay;
+			ntVO.setEndDt(endDt);
+		}
 		return ntDAO.readAllMyNt(ntVO);
 	}
 	
 	@Override
 	public boolean updateNtRdDtByNtId(String ntId) {
 		return ntDAO.updateNtRdDtByNtId(ntId) > 0;
+	}
+	
+	@Override
+	public boolean checkOneMbr(String rcvrId) {
+		return ntDAO.checkOneMbr(rcvrId) > 0;
 	}
 
 }

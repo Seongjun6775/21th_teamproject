@@ -20,7 +20,7 @@
 			<a href="#">채용 관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="${context}/nt/mngrlist">쪽지 관리</a>
+			<a href="${context}/nt/list">쪽지 관리</a>
 		</li>
 		<li class="nav-item">
 			<a href="#">리뷰관리</a>

@@ -58,25 +58,28 @@
 	function movePage(pageNo) {
 		
 		var keyword = $("#search-keyword").val();
+
+		var searchVal = $(".search_idx").val();
+		var keyword = $("#search-keyword").val();
+		var startDt = $("#startDt").val();
+		var endDt = $("#endDt").val();
 		
-		if ($(".search_idx").val() == "ntTtl") {
-			var ntTtl = keyword;
-			location.href="${context}/nt/mngrlist?ntTtl=" + ntTtl + "&?pageNo=" + pageNo;
-			$(".search_idx").val("ntTtl");
-			$("#search-keyword").val(keyword);
+		var intStartDt = parseInt(startDt.split("-").join(""));
+		var intEndDt = parseInt(endDt.split("-").join(""));
+		
+		if(intStartDt > intEndDt) {
+			alert("시작일자는 종료일자보다 늦을 수 없습니다!");
+			return;
 		}
-		else if ($(".search_idx").val() == "sndrId") {
-			var sndrId = keyword;
-			location.href="${context}/nt/mngrlist?sndrId=" + sndrId + "&?pageNo=" + pageNo;
-			$(".search_idx").val("sndrId");
-			$("#search-keyword").val(keyword);
-		}
-		else {
-			var rcvrId = keyword;
-			location.href="${context}/nt/mngrlist?rcvrId=" + rcvrId + "&?pageNo=" + pageNo;
-			$(".search_idx").val("rcvrId");
-			$("#search-keyword").val(keyword);
-		}
+		
+		var queryString = "searchVal=" + searchVal;
+		queryString += "&keyword=" + keyword;
+		queryString += "&startDt=" + startDt;
+		queryString += "&endDt=" + endDt;
+		queryString += "&pageNo=" + pageNo;
+		
+		// URL 요청
+		location.href = "${context}/nt/mngrlist?" + queryString;
 	}
 	
 </script>
@@ -162,12 +165,19 @@
 				</div>
 				<div>
 					<button id="check_del_btn">일괄삭제</button>
+				</div>
+				<div>
+					<label for="startDt">검색 시작일</label>
+					<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
+					<label for="endDt">검색 종료일</label>
+					<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
+				</div>
+				<div>
 					<select class="search_idx">
-						<option value="ntTtl">제목</option>
-						<option value="sndrId">발신인</option>
-						<option value="rcvrId">수신인</option>
+						<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
+						<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
 					</select>
-					<input type="text" id="search-keyword" />
+					<input type="text" id="search-keyword" value="${keyword}"/>
 					<button id="search_btn">검색</button>
 				<jsp:include page="../include/footer.jsp" />
 			</div>

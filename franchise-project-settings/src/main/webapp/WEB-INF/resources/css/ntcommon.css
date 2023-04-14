@@ -63,3 +63,7 @@ textarea {
 	padding: 0px;
 	list-style-type: none;
 }
+
+.pagenate ul li {
+	display: inline-block;
+}

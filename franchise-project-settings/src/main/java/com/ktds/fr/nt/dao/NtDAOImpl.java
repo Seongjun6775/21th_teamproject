@@ -63,4 +63,9 @@ public class NtDAOImpl extends SqlSessionDaoSupport implements NtDAO {
 		return getSqlSession().update("Nt.updateNtRdDtByNtId", ntId);
 	}
 	
+	@Override
+	public int checkOneMbr(String rcvrId) {
+		return getSqlSession().selectOne("Nt.checkOneMbr", rcvrId);
+	}
+	
 }

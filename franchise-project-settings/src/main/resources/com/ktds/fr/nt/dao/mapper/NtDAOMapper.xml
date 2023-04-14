@@ -40,16 +40,23 @@
 		     , NT_TTL
 		     , DEL_YN
           FROM NT
-		 WHERE 1 = 1
-        	<if test='ntTtl != null and ntTtl != ""'>
-        		AND NT_TTL LIKE '%' || #{ntTtl} || '%'
-        	</if>
-        	<if test='sndrId != null and sndrId != ""'>
-        		AND SNDR_ID = #{sndrId}
-        	</if>
-        	<if test='rcvrId != null and rcvrId != ""'>
-        		AND RCVR_ID = #{rcvrId}
-        	</if>
+		 WHERE NT_SNDR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND NT_SNDR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+        <if test='ntTtl != null and ntTtl != ""'>
+           AND NT_TTL LIKE '%' || #{ntTtl} || '%'
+        </if>
+        <if test='sndrId != null and sndrId != ""'>
+           AND SNDR_ID = #{sndrId}
+        </if>
+        <if test='rcvrId != null and rcvrId != ""'>
+           AND RCVR_ID = #{rcvrId}
+        </if>
+        <if test='useYn != null and useYn != ""'>
+           AND USE_YN = #{useYn}
+        </if>
+        <if test='delYn != null and delYn != ""'>
+           AND DEL_YN = #{delYn}
+        </if>
          ORDER BY NT_ID DESC
         <include refid="Common.page_footer" />
 	</select>
@@ -95,26 +102,10 @@
 	</select>
 	
 	
-	<select id="readAllFilteredNt"
-			parameterType="com.ktds.fr.nt.vo.NtVO"
-			resultType="com.ktds.fr.nt.vo.NtVO">
-		SELECT NT_ID
-		     , SNDR_ID
-		     , RCVR_ID
-		     , NT_RD_DT
-		     , NT_TTL
-		     , DEL_YN
-          FROM NT
-         WHERE 1 = 1
-        <if test="">
-           AND 
-        </if>
-	</select>
-	
-	
 	<select id="readAllMyNt"
 			parameterType="com.ktds.fr.nt.vo.NtVO"
 			resultType="com.ktds.fr.nt.vo.NtVO">
+		<include refid="Common.page_header" />
 		SELECT NT_ID
 		     , SNDR_ID
 			 , RCVR_ID
@@ -124,9 +115,16 @@
           FROM NT
          WHERE RCVR_ID = #{rcvrId}
            AND DEL_YN = 'N'
+		   AND NT_SNDR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND NT_SNDR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
         <if test='ntTtl != null and ntTtl != ""'>
            AND NT_TTL LIKE '%' || #{ntTtl} || '%'
         </if>
+        <if test='sndrId != null and sndrId != ""'>
+           AND SNDR_ID = #{sndrId}
+        </if>
+         ORDER BY NT_ID DESC
+        <include refid="Common.page_footer" />
 	</select>
 	
 	
@@ -134,8 +132,17 @@
 			parameterType="string">
 		UPDATE NT
 		   SET NT_RD_DT = SYSDATE
+		     , USE_YN = 'Y'
 		 WHERE NT_ID = #{_parameter}
 	</update>
+	
+	<select id="checkOneMbr"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM MBR
+		 WHERE MBR_ID = #{_parameter}
+	</select>
 	
 	
 </mapper>

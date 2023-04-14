@@ -55,6 +55,13 @@ public class RestNtController {
 			throw new ApiArgsException("400", "내용이 누락되었습니다.");
 		}
 		
+		boolean isExist = ntService.checkOneMbr(rcvrId);
+		
+		if (!isExist) {
+			throw new ApiArgsException("400", "존재하지 않는 수신인입니다.");
+		}
+		
+		
 		boolean isSuccess = ntService.createNewNt(ntVO);
 		
 		if (isSuccess) {

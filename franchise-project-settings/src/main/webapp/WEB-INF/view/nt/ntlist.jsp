@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
 	$().ready(function() {
 		
 		$("#all_check").change(function() {
-			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
+			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		
 		$(".check_idx").change(function() {
@@ -34,7 +34,6 @@
 				return;
 			}
 			
-			
 			if (!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
@@ -50,33 +49,20 @@
 			location.reload();
 		});
 		
-		$("#crt_btn").click(function() {
-			location.href = "${context}/nt/create";
-		});
-		
 		// 수신인, 발신인 검색 기능입니다
 		$("#search_btn").click(function() {
 			movePage(0);
 		});
-		
-		$("#checkNtRdDt").change(function() {
-			movePage(0);
-		});
-		
-		$("#checkDelYn").change(function() {
-			movePage(0);
-		})
 	});
-	
 	
 	function movePage(pageNo) {
 		
+		var keyword = $("#search-keyword").val();
+
 		var searchVal = $(".search_idx").val();
 		var keyword = $("#search-keyword").val();
 		var startDt = $("#startDt").val();
 		var endDt = $("#endDt").val();
-		var checkNtRdDt = $("#checkNtRdDt").val();
-		var checkDelYn = $("#checkDelYn").val();
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
@@ -91,13 +77,10 @@
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt=" + endDt;
 		queryString += "&pageNo=" + pageNo;
-		queryString += "&checkNtRdDt=" + checkNtRdDt;
-		queryString += "&checkDelYn=" + checkDelYn;
 		
 		// URL 요청
-		location.href = "${context}/nt/mstrlist?" + queryString;
+		location.href = "${context}/nt/ntlist?" + queryString;
 	}
-	
 	
 </script>
 </head>
@@ -107,12 +90,9 @@
 		<div>
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
+			<h3>회원 쪽지 상세조회 페이지</h3>
 			<div>
-				master 쪽지 페이지 테스트
-			</div>
-			<div>
-				<div>총 ${allNtList.size() > 0 ? allNtList.get(0).totalCount : 0}건</div>
-				<div></div>
+				<div>총 ${myNtList.size() > 0 ? myNtList.size() : 0}건</div> 
 			</div>
 			<div>
 				<table>
@@ -124,47 +104,31 @@
 							<th>발신인</th>
 							<th>수신인</th>
 							<th>쪽지 발송 일자</th>
-							<th>
-								<select id="checkNtRdDt">
-									<option value="">수신 여부</option>
-									<option value="Y" ${checkNtRdDt eq "Y" ? 'selected' : '' }>수신</option>
-									<option value="N" ${checkNtRdDt eq "N" ? 'selected' : '' }>미수신</option>
-								</select>
-							</th>
-							<th>
-								<select id="checkDelYn">
-									<option value="">삭제 여부</option>
-									<option value="Y" ${checkDelYn eq "Y" ? 'selected' : '' }>삭제됨</option>
-									<option value="N" ${checkDelYn eq "N" ? 'selected' : '' }>삭제되지 않음</option>
-								</select>
-							</th>
+							<th>쪽지 확인 일자</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${not empty allNtList}">
-								<c:forEach items="${allNtList}" var="nt">
+							<c:when test="${not empty myNtList}">
+								<c:forEach items="${myNtList}" var="nt">
 									<tr data-ntid="${nt.ntId}"
 									    data-ntttl="${nt.ntTtl}"
 									    data-sndrid="${nt.sndrId}"
 									    data-rcvrid="${nt.rcvrId}"
 									    data-ntsndrdt="${nt.ntSndrDt}"
-									    data-ntrddt="${nt.ntRdDt}"
-									    data-delyn="${nt.delYn}">
-										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"
-										            ${nt.delYn eq 'Y' ? 'disabled' : ''}/></td>
+									    data-ntrddt="${nt.ntRdDt}">
+										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
 										<td>${nt.ntId}</td>
-										<td><a href="${context}/nt/mstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
+										<td><a href="${context}/nt/ntdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td>${nt.sndrId}</td>
 										<td>${nt.rcvrId}</td>
 										<td>${nt.ntSndrDt}</td>
 										<td>${nt.ntRdDt}</td>
-										<td>${nt.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="8">쪽지 송수신 이력이 없습니다.</td>
+								<td colspan="7">쪽지 송수신 이력이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
@@ -172,8 +136,8 @@
 			</div>
 			<div class="pagenate">
 					<ul>
-						<c:set value="${allNtList.size() >0 ? allNtList.get(0).lastPage : 0}" var="lastPage" />
-						<c:set value="${allNtList.size() >0 ? allNtList.get(0).lastGroup : 0}" var="lastGroup" />
+						<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastPage : 0}" var="lastPage" />
+						<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastGroup : 0}" var="lastGroup" />
 						
 						<fmt:parseNumber var="nowGroup" value="${Math.floor(ntVO.pageNo / 10)}" integerOnly="true" />
 						<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
@@ -199,25 +163,22 @@
 						</c:if>
 					</ul>
 				</div>
-			<div>
-				<button id="crt_btn">작성</button>
-				<button id="check_del_btn">일괄삭제</button>
-			</div>
-			<div>
-			<div>
-				<label for="startDt">검색 시작일</label>
-				<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
-				<label for="endDt">검색 종료일</label>
-				<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
-			</div>
-				<select class="search_idx">
-					<option value="">검색 조건</option>
-					<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
-					<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
-					<option value="rcvrId" ${searchVal eq "rcvrId" ? 'selected' : '' }>수신인</option>
-				</select>
-				<input type="text" id="search-keyword" value="${keyword}"/>
-				<button id="search_btn">검색</button>
+				<div>
+					<button id="check_del_btn">일괄삭제</button>
+				</div>
+				<div>
+					<label for="startDt">검색 시작일</label>
+					<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
+					<label for="endDt">검색 종료일</label>
+					<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
+				</div>
+				<div>
+					<select class="search_idx">
+						<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
+						<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
+					</select>
+					<input type="text" id="search-keyword" value="${keyword}"/>
+					<button id="search_btn">검색</button>
 				<jsp:include page="../include/footer.jsp" />
 			</div>
 		</div>
