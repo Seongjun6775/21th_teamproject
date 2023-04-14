@@ -20,14 +20,10 @@
 					{
 						rvId:$("#rvId").val(),			
 						mbrId:$("#mbrId").val(),
-						odrId:$("#odrId").val(),
+						odrDtlId:$("#odrDtlId").val(),
 						rvTtl:$("#rvTtl").val(),
 						rvCntnt:$("#rvCntnt").val(),
-						rvLkDslk:$("#rvLkDslk").val(),
-						rvRgstDt:$("#rvRgstDt").val(),
-						mdfyDt:$("#mdfyDt").val(),		
-						useYn:$("#useYn:checked").val(),
-						delYn:$("#delYn:checked").val()
+						rvLkDslk:$("#rvLkDslk").val(),		
 						
 					}, function(response) {
 						if (response.status == "200 OK") {
@@ -55,45 +51,33 @@
 			<div>
 				<form id="create_form" method="post">
 					<div class="create-group">
-						<label for="odrId">주문ID</label> <input type="text" id="odrId"
-							name="odrId" />
+						<label for="odrDtlId">주문 상세 ID</label> <input type="text" id="odrDtlId"
+							name="odrDtlId" />
 					</div>
 					<div class="create-group">
 						<label for="rvTtl">제목</label> <input type="text" id="rvTtl"
-							name="rvTtl" placeholder="제목을 입력하세요" />
+							name="rvTtl" 
+							style="margin: 5px;"
+							placeholder="제목을 입력하세요" />
 					</div>
 					<div class="create-group">
-						<label for="rvCntnt">내용</label> <input type="text" id="rvCntnt"
-							name="rvCntnt" placeholder="내용을 입력하세요" />
+						<label for="rvCntnt">내용</label> <textarea id="rvCntnt"
+							name="rvCntnt" 
+							style="display: grid; margin: 5px; width: 700px; height: 500px; resize: none;"
+							placeholder="내용을 입력하세요" ></textarea>
 					</div>
 					<div class="create-group">
 						<label for="rvLkDslk">좋아요/싫어요</label> <select id="rvLkDslk"
+							style="margin: 5px;"
 							name="rvLkDslk">
 							<option>선택</option>
 							<option value="T">좋아요</option>
 							<option value="F">싫어요</option>
 						</select>
-					</div>
-					<div class="create-group">
-						<label for="rvRgstDt">등록일</label> <input type="date" id="rvRgstDt"
-							name="rvRgstDt" />
-					</div>
-					<div class="create-group">
-						<label for="mdfyDt">수정일</label> <input type="date" id="mdfyDt"
-							name="mdfyDt" />
-					</div>					
-					<div class="create-group">
-								<label for="useYn" style= "width: 180px;">사용유무</label>
-								<input type="checkbox" id="useYn" name="useYn" value="Y"/>
-					</div>
-					<div class="create-group">
-								<label for="delYn" style= "width: 180px;">삭제여부</label>
-								<input type="checkbox" id="delYn" name="delYn" value="N"/>
-					</div>					
+					</div>		
 				</form>
 				<div class="align-right">
 					<button id="new_btn" class="btn-primary" >등록</button>
-					<button id="delete_btn" class="btn-delete">삭제</button>
 				</div>
 				<jsp:include page="../include/footer.jsp" />
 			</div>

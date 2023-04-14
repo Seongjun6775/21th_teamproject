@@ -11,13 +11,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
 		$("#new_btn").click(function() {
 			location.href = "${context}/rv/create";
 		});
+		$("#all_check").click(function() {
+			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
+		});
+		$("#delete_btn").click(function() {
+			alert("선택된 리뷰가 없습니다.");
+			return;	
+		});
+			
 	});
+	
 </script>
 </head>
 <body>
@@ -35,17 +45,13 @@
 				<thead>
 					<tr>
 						<th><input type="checkbox" id="all_check" /></th>
-						<th>순번</th>
 						<th>리뷰ID</th>
 						<th>회원ID</th>
-						<th>주문ID</th>
+						<th>주문상세ID</th>
 						<th>제목</th>
-						<th>내용</th>
 						<th>좋아요/싫어요</th>
 						<th>등록일</th>
 						<th>수정일</th>
-						<th>사용유무</th>
-						<th>삭제여부</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,22 +65,18 @@
 											   class="check_idx" 
 											   value="${rv.rvId}"/>
 									</td>
-									<td>${rv.rvId}</td>
-									<td>${rv.rvId}</td>
+									<td><a href="${context}/rv/detail/${rv.rvId}" >${rv.rvId}]</a></td>
 									<td>${rv.mbrId}</td>
-									<td>${rv.odrId}</td>					
+									<td>${rv.odrDtlId}</td>					
 									<td>${rv.rvTtl}</td>					
-									<td>${rv.rvCntnt}</td>					
 									<td>${rv.rvLkDslk}</td>					
 									<td>${rv.rvRgstDt}</td>					
-									<td>${rv.mdfyDt}</td>					
-									<td>${rv.useYn}</td>					
-									<td>${rv.delYn}</td>					
+									<td>${rv.mdfyDt}</td>									
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<td colspan="12" class="no-item">
+							<td colspan="8" class="no-item">
 								등록된 리뷰가 없습니다.
 							</td>
 						</c:otherwise>

@@ -19,9 +19,9 @@ public interface RvService {
 	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO);
 
 	
-	// 3-1.모든 매장의 리뷰 삭제 == 상위관리자
-	public boolean deleteAllRvVOByRvId(String rvId);
-	// 3-2.자기가 쓴 리뷰 삭제 == 이용자
-	public boolean deleteOneRvVOByRvId(String rvId);
+	// 3-1.리뷰 목록에서 리뷰 삭제 == 상위관리자, 이용자
+	public boolean deleteAllRvListByRvId(String rvId, MbrVO mbrVO);
+	// 3-2.리뷰 상세에서 리뷰 삭제 == 상위관리자, 이용자
+//	public boolean deleteOneRvVOByRvId(String rvId, MbrVO mbrVO);
 	
 }

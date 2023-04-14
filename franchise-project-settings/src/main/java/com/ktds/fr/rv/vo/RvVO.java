@@ -11,8 +11,8 @@ public class RvVO {
 	private String rvId; 
 	// 회원 ID
 	private String mbrId;
-	// 주문 ID
-	private String odrId;
+	// 주문 상세 ID
+	private String odrDtlId;
 	// 제목
 	private String rvTtl;	
 	// 내용
@@ -40,11 +40,11 @@ public class RvVO {
 	public void setMbrId(String mbrId) {	
 		this.mbrId = mbrId;
 	}	
-	public String getOdrId() {	
-		return odrId;
+	public String getOdrDtlId() {	
+		return odrDtlId;
 	}	
-	public void setOdrId(String odrId) {	
-		this.odrId = odrId;
+	public void setOdrDtlId(String odrDtlId) {	
+		this.odrDtlId = odrDtlId;
 	}	
 	public String getRvTtl() {	
 		return rvTtl;

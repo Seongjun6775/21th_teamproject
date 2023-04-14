@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -37,9 +38,11 @@ public class RvController {
 	}
 	
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
-	@GetMapping("/rv/detail")
-	public String viewRvDetailPage(Model model, RvVO rvVO
+	@GetMapping("/rv/detail/{rvId}")
+	public String viewRvDetailPage(Model model, @PathVariable String rvId
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		RvVO rvVO = new RvVO();
+		rvVO.setRvId(rvId);
 		RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
 		
 		model.addAttribute("rvDetail", rvDetail);
