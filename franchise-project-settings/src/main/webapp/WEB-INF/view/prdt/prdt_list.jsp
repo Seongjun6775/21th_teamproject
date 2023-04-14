@@ -390,7 +390,7 @@ function movePage(pageNo) {
 										</td>
 										<td>${prdt.prdtId}
 											<c:choose>
-												<c:when test="${prdt.prdtFileId eq 'none'}"><span class="memo">(사진없음)</span>
+												<c:when test="${empty prdt.prdtFileId}"><span class="memo">(사진없음)</span>
 												</c:when>
 											</c:choose>
 										</td>
@@ -468,8 +468,10 @@ function movePage(pageNo) {
 						
 						<div class="grid-left mr-10">
 							<div class="input-group relative">
-								<label for="prdtFileId">사진</label>
-								<input type="file" id="prdtFileId"  name="prdtFileId" value=""/>
+								<div>
+									<label for="prdtFileId">사진</label>
+									<input type="file" id="prdtFileId"  name="prdtFileId" value=""/>
+								</div>
 								<div class="img-box">
 									<img src="${context}/img/default_photo.jpg" id="prdtImg" class="img">
 								</div>
