@@ -18,15 +18,8 @@ public class MngrBrdVO extends AbstractVO{
 	private String useYn;	
 	private String delYn;	
 	private String ntcYn;
-	private int rdCnt;
 	
 		
-	public int getRdCnt() {
-		return rdCnt;
-	}
-	public void setRdCnt(int rdCnt) {
-		this.rdCnt = rdCnt;
-	}
 	private MbrVO mdfyrMbrVO;
 	
 	

@@ -2,13 +2,22 @@
 body{
 	margin: 0px;
 	padding:0px;
+	font-size: 12px !important;
+    line-height: 1.4em;
+    font-family: 'Noto Sans KR', sans-serif;
+	font-weight: 500;
+    letter-spacing: -0.2px;
+    word-break: keep-all;
 	
 }
+
+
 *{
 	font-size:12pt;
 	color:#333;
 
 }
+
 .fullscreen{
 	position:fixed;
 	top:0px;
@@ -77,7 +86,9 @@ body{
 	border-radius: 3px;
 	font-size: 10px;
 	padding:5px;
+	
 }
+
 .btn-primary:active {
 	background-color: #80a2fd;
 }
@@ -218,7 +229,7 @@ body{
 	
 }
 
-..grid > table{
+.grid > table{
 	border-collapse:collapse;
 	border:1px solid #ddd;
 	width:100%;
@@ -403,6 +414,172 @@ img.profile{
 	flex-grow: 1;
 	height: 300px;
 }
+
+
+
+/* search 2  */
+.board_box {
+	display:flex;
+	border: #ddd solid 1px;
+    background: #f1f1f1;
+    padding: 26px 4%;
+    font-size: 15px;
+     margin: 10px 0 20px 0; 
+    border-top-left-radius: 20px;
+}
+
+.col-xs-4 {
+    flex-grow: 1;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.input-text {
+    height: 34px;
+    padding: 0px 5px;
+    border: 1px solid #ddd;
+    background-color: #FFF;
+    margin: 0 3px;
+    font-size: 14px;
+    color: #999;
+    width: 100%;
+}
+
+.col-xs-8 {
+    flex-grow: 10;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    
+}
+
+.col-xs-12 {
+    flex-grow: 1;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.blue-btn {
+    display: inline-block;
+    padding: 0 10px;
+    height: 34px;
+    line-height: 32px;
+    background-color: #1e51a2;
+    border: 0;
+    color: #fff;
+    text-align: center;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+    font-size: 13px;
+    text-decoration:none;
+}
+
+
+/*  header */
+.header-option-bar{
+	border-bottom: 1px solid #e0e0e0;
+	margin-top: 50px;	
+	display: table;	
+	width: 100%;
+	border-bottom: 1px solid #333;
+}
+
+.header-option-right {
+    margin-bottom: 10px;
+    text-align: right;
+}
+
+
+
+
+a.btn-m {
+	display: inline-block;
+    font-size: 12px;
+    text-indent: 0;
+    box-sizing: border-box;
+    background-color: #555;
+    text-decoration: none;
+    padding: 8px; 
+    border-radius: 0px;
+    border: 1px solid #333;
+    color: #ffffff; 
+    padding: 10px;
+}
+a.btn-m:hover{
+	background-color:#555;
+}
+
+a.btn-m:active{
+	background-color:#444;
+}
+
+
+ 
+.detailview-header-left .list-title {
+    font-size: 24px;
+    color: #040404;
+    line-height: 1.33em;
+    font-weight: 600;
+    padding: 14px 20px 13px;
+    margin:0px;	
+    
+    
+}
+.detailview-header{
+	border-bottom: 1px solid #e0e0e0;
+}
+.etc {
+	margin-bottom: 10px;
+}
+   
+.etc .etc-table .etc-dt:first-child {
+    margin-left: 0; 
+}
+ 
+.etc .etc-table {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: top;
+    display: inline-block;
+    margin-left: 30px;
+    padding-right: 12px; 
+}
+.etc .etc-data::before {
+    color: #E1E2E6;
+    content: '|';
+    padding-right: 5px;
+    margin-left: -8px;
+    float: left; 
+}
+
+.etc .etc-table .etc-dt {
+	display: inline-block;
+	padding-right: 5px;
+}
+
+.etc .etc-table .etc-data {
+	display: inline-block;
+	padding-right: 5px;
+}
+
+.etc .etc-table .etc-user {
+	display: inline-block;
+	padding-right: 5px; 
+}
+
+ 
+.contentsDiv {
+	border-bottom: 1px solid #e0e0e0;
+	height: 500px; 
+	padding: 14px 20px 13px;
+}
+.main-layout{
+	padding:15px;
+	
+}
+
 
 
 

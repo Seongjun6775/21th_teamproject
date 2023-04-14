@@ -13,93 +13,83 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
-	$().ready(function(){
-		$("#new_btn").click(function(){
-			console.log("!!");
-			
-			$.post("${context}/api/mngrbrd/write", $("#create_form").serialize(),function(response){
-				if(response.status =="200 OK"){
-					location.reload(); //새로고침	
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-	    
-		});
-
-		
-	
+	$().ready(function(){	
 	});
 </script>
 </head>
 <body>
 	<div class="main-layout">
 		<div>
-				<h1>조회</h1>
-				<div>
-					<form id="create_form" >
-					
-						
-						<div class="create-group">
-							<label for="mngrBrdTtl">제목</label>
-							<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" disabled value="${mngrBrd.mngrBrdTtl} " />
-						</div>
-								
-						<div class="create-group">
-							<label for="mbrId">매니저</label>
-							<input type="text" id="mngrId" name="mngrId" disabled value="${mngrBrd.mngrId}" />
-						</div>			
-						
-						<div class="create-group">
-							<label for="mngrBrdCntnt">내용</label>
-							<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" disabled >${mngrBrd.mngrBrdCntnt}</textarea>
-					
-						</div>
-						
-						<div class="create-group">
-							<label for="useYn">게시여부</label>
-							<input type="checkbox" id="useYn" name="useYn" disabled value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
-						</div>
-						
-						<div class="create-group">
-							<label for="ntcYn">공지여부</label>
-							<input type="checkbox" id="ntcYn" name="ntcYn" disabled value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''}/>
-						</div>
-					</form>
-				
-				
-					
-				
-					<button><a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}">수정하기</a></button>
-					 <button><a href="${context}/mngrbrd/list">목록</a></button>
+		<!-- 상세화면 헤더 -->
+			<div class="header-option-bar">
+				<div class="header-option-right">
+					<div class="article-action">			
+						<a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}"  class="btn-m" style="text-decoration: none;">수정하기</a>
+						<a href="${context}/mngrbrd/list" class="btn-m" style="text-decoration: none;">목록</a> 
+					</div>
 				</div>
-				
-		
-			
+			</div>
 		</div>
+		<!-- //상세화면 헤더 -->
+		
+		
+		
+		
+		<div>
+			<!-- 게시판 콘텐츠 -->		
+			<div>
+			<header class="detailview-header">
+			    <div class="detailview-header-area">
+			        <div class="detailview-header-left">
+			                    <p class="list-title">${mngrBrd.mngrBrdTtl}</p>
+			            <!-- 추가 정보 -->
+						<div class="etc">
+						    <div class="etc-table">
+						        <div class="etc-dt">등록일 </div> 
+						        <div class="etc-data">
+						            ${mngrBrd.mngrBrdWrtDt}    
+						        </div>
+						        <div class="etc-user">작성자 </div>
+						        <div class="etc-data">${mngrBrd.mngrId}</div>	
+						    </div> 
+						</div>
+			        </div>
+
+			    </div>
+			</header>
+			</div>
+			<article class="detailview-article">												
+			    <div style="overflow-x:auto;overflow-y:hidden;" class="contentsDiv">
+			        ${mngrBrd.mngrBrdCntnt}
+			    </div>
+			    <div class="pop-lay-col2">
+			        <!-- Comment -->
+		            <div id="rplBox" class="rplBox">
+			            <div id="CommentListBox">
+			                <table  style="margin-left:20px;">
+			                    <tbody>
+				                    <tr>
+				                        <td>등록된 댓글이 없습니다.</td>
+				                    </tr>
+			                	</tbody>
+			            	</table>
+			        	</div>
+			        </div>
+			        <!-- //Comment -->
+			    </div>
+			</article>
+			<div>
+				
+			</div>
+				
+		</div>
+			
+		
+		
+		
+		
 	</div>
-		<article>
-		<div class="container" role="main">
-			<h2>board Content</h2>
-			<div class="bg-white rounded shadow-sm">
-				<div class="board_title"><c:out value="${boardContent.title}"/></div>
-				<div class="board_info_box">
-					<span class="board_author"><c:out value="${boardContent.reg_id}"/>,</span><span class="board_date"><c:out value="${boardContent.reg_dt}"/></span>
-				</div>
-				<div class="board_content">${boardContent.content}</div>
-				<div class="board_tag">TAG : <c:out value="${boardContent.tag}"/></div>
-			</div>
-			
-			<div style="margin-top : 20px">
-				<button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
-				<button type="button" class="btn btn-sm btn-primary" id="btnDelete">삭제</button>
-				<button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
-			</div>
-		</div>
 
-		
 
-	</article>
 </body>
 </html>

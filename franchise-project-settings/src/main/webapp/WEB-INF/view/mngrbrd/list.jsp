@@ -72,25 +72,32 @@
 </script>
 </head>
 <body>
+<div style="display: block;">
 	
-	<h1>게시판</h1>
+    <h3 class="sub_title">게시판</h3>
     
-		<div class="search-group">
-	   		<select id="type">
-		         <option value="TC" ${pageMaker.cri.type eq 'TC' ? 'selected' : ''}>제목+내용</option>
-		         <option value="T" ${pageMaker.cri.type eq 'T' ? "selected" : ''}>제목</option>
-		         <option value="C" ${pageMaker.cri.type eq 'C' ? "selected" : ''}>내용</option>
-		         <option value="W" ${pageMaker.cri.type eq 'W' ? "selected" : ''}>작성자</option>
-		         <option value="TWC" ${pageMaker.cri.type eq 'TWC' ? "selected" : ''}>전체</option>
-		     </select>
-	     	<label for="search-keyword">검색</label>
-			<input type="text" id="search-keyword" class="search-input" value="${mngrBrdVO.mngrBrdTtl}"/>
-			<button class="btn-search" id="search-btn">검색</button>
-    	</div>
-	<div class= "grid">
-		<div class="grid-count align-right">
-			총 ${mngrBrdList.size()}건
+    <div class="board_box row">	
+		<div class=" col-sm-3 col-xs-4">
+			<select id="keySelect" class="input-text" style="width: 100%;" onchange="javascript:changeSearchSelect(this);">
+				<option value="subject">제목</option>
+				<option value="summary">본문</option>			 
+					<option value="user_name">작성자</option>			
+			</select>
 		</div>
+		<div class=" col-sm-6 col-xs-8">
+			<input name="keyword" type="text" class="input-text" placeholder="검색어를 입력해주세요" id="search-keyword"  style="width: 100%;" value="${mngrBrdVO.mngrBrdTtl}" >
+		</div>
+		<div class=" col-sm-3 col-xs-12">
+			<a role="button" title="검색"  href="javascript:void(0);"  id="search-btn" class="blue-btn" style="width:100%;">검색</a>
+		</div>
+	</div>
+	
+	<div class="pull-left bbs_count">
+		<span>총  게시물 ${mngrBrdList.size()} <strong id="articleTotalCount"></strong> 개</span>,
+		<span class="division_line">페이지 <strong id="currentPageNo"></strong> / <span id="totalPageNo">${mngrBrdVO.pageNo+1}</span></span>
+    </div>
+
+	<div class= "grid">
 	
 		<table>
 			<thead>
@@ -99,11 +106,8 @@
 					<th>글번호</th>
 					<th>카테고리</th>					
 					<th>제목</th>
-					<th>조회수</th>
 					<th>작성자</th>
 					<th>작성일</th>
-					<th>수정자</th>
-					<th>수정일</th>
 					<th>게시여부</th>
 						
 				</tr>
@@ -113,10 +117,7 @@
 					<c:when test="${not empty mngrBrdList}">
 						<c:forEach items="${mngrBrdList}" var="mngrBrd">
 							<tr data-mngrid = "${mngrBrd.mngrId}"
-								data-rdcnt = "${mngrBrd.rdCnt}"
 								data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-								data-mdfyr = "${mngrBrd.mdfyr}"
-								data-mdfydt = "${mngrBrd.mdfyDt}"
 								data-useyn = "${mngrBrd.useYn}">
 								<td>
 									<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
@@ -128,18 +129,15 @@
 									<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}">
 										${mngrBrd.mngrBrdTtl} 
 									</a></td>
-								<td>${mngrBrd.rdCnt}</td>
 								<td>${mngrBrd.mngrId}</td>
 								<td>${mngrBrd.mngrBrdWrtDt}</td>
-								<td>${mngrBrd.mdfyr}</td>
-								<td>${mngrBrd.mdfyDt}</td>
 								<td>${mngrBrd.useYn}</td>		
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
 						<tr>
-							<td colspan="10" class="no-items">
+							<td colspan="9" class="no-items">
 							
 							</td>
 						</tr>
@@ -149,7 +147,7 @@
 		</table>
 		<div>
 			<button id="delete_btn" >삭제</button>
-			<button><a href="${pageContext.request.contextPath}/mngrbrd/write"> 게시글 작성</a></button>
+			<button class= "btn-classic"><a href="${pageContext.request.contextPath}/mngrbrd/write" style="text-decoration: none;"> 게시글 작성</a></button>
 		</div>
 		
 
@@ -174,7 +172,7 @@
 				groupEndPageNo:${groupEndPageNo}
 				prevGroupStartPageNo:${prevGroupStartPageNo}
 				nextGroupStartPageNo: ${nextGroupStartPageNo} --%>
-	
+				
 				<c:if test="${nowGroup > 0}">
 					<li><a href="javascript:movePage(0)">처음</a></li>
 					<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
@@ -192,7 +190,7 @@
 		</div>			
 	</div>
 
-
+</div>
 
 
 

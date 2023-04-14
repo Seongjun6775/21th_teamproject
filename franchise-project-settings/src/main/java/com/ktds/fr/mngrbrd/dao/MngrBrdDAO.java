@@ -24,6 +24,6 @@ public interface MngrBrdDAO {
 	
 	
 	
-	public int updateRdCnt(String mngrBrdId);
+
 
 }

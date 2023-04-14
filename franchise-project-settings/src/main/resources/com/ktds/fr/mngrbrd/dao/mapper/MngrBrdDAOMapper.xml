@@ -45,7 +45,6 @@
 		     , B.USE_YN
 		     , B.DEL_YN
 		     , B.NTC_YN
-		     , B.RD_CNT
 		     , M.MBR_ID
 		     , M.MBR_NM
           FROM FRAN.MNGR_BRD B
@@ -74,7 +73,6 @@
 		     , B.USE_YN
 		     , B.DEL_YN
 		     , B.NTC_YN
-		     , B.RD_CNT
 		     , M.MBR_ID
 		     , M.MBR_NM
           FROM FRAN.MNGR_BRD B
@@ -101,7 +99,6 @@
 		     , B.USE_YN
 		     , B.NTC_YN	     
 		     , B.DEL_YN
-		     , B.RD_CNT
 		     , M.MBR_ID
 		     , M.MBR_NM
           FROM FRAN.MNGR_BRD B
@@ -110,12 +107,6 @@
          WHERE MNGR_BRD_ID =#{_parameter}
 		
 	</select>
-
-	<update id="updateRdCnt">
-        UPDATE FRAN.MNGR_BRD
-           SET RD_CNT = RD_CNT+1
-         WHERE MNGR_BRD_ID =#{mngrBrdId}
- 	</update>
 
 	<insert id="createNewMngrBrd"
 			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
@@ -136,8 +127,7 @@
         , MDFYR
         , USE_YN
         , DEL_YN
-        , NTC_YN
-        , RD_CNT)
+        , NTC_YN)
         VALUES
          (#{mngrBrdId}
         , #{mngrBrdTtl}
@@ -148,8 +138,7 @@
         , #{mdfyr}
         , NVL(#{useYn},'N')  
         , 'N'
-        , NVL(#{ntcYn},'N')
-        , '0')	
+        , NVL(#{ntcYn},'N'))	
 	</insert>
 
 	<update id="updateOneMngrBrd"

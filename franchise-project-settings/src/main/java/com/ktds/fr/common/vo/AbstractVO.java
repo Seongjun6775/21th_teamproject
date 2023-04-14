@@ -31,7 +31,7 @@ public abstract class AbstractVO {
 	
 	protected AbstractVO() {
 		this.pageNo=0;
-		this.viewCnt=5;
+		this.viewCnt=10;
 		
 	}
 

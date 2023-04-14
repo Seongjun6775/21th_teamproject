@@ -28,7 +28,6 @@ public class MngrBrdServiceImpl implements MngrBrdService {
 	@Override
 	public MngrBrdVO readOneMngrBrdByMngrBrdId(String mngrBrdId) {
 		MngrBrdVO brdVO = mngrBrdDAO.readOneMngrBrdByMngrBrdId(mngrBrdId);
-		mngrBrdDAO.updateRdCnt(mngrBrdId);
 		if(brdVO == null) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}

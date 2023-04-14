@@ -64,9 +64,5 @@ public class MngrBrdDAOImpl extends SqlSessionDaoSupport implements MngrBrdDAO {
 		return getSqlSession().update("MngrBrd.deleteMngrBrdBySelectedMngrBrdId", mngrBrdId);
 	}
 	
-	@Override
-	public int updateRdCnt(String mngrBrdId) {
-		return getSqlSession().update("MngrBrd.updateRdCnt", mngrBrdId);
-	}
 
 }

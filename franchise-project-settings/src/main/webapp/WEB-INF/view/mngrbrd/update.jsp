@@ -39,6 +39,7 @@
 	<div class="main-layout">
 
 		<div>
+			<button><a href="${context}/mngrbrd/list" >목록</a ></button>
 				<h1>조회</h1>
 				<div>
 					<form id="create_form" >
@@ -76,10 +77,10 @@
 				
 					
 					<div>
-						<button id="fix_btn" class="btn-primary">수정</button>
-						<button><a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}">취소</a></button>			
+						<button id="fix_btn" >수정</button>
+						<button><a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" style="text-decoration: none;">취소</a></button>			
 					</div> 				
-					 <button><a href="${context}/mngrbrd/list">목록</a></button>
+					
 				</div>
 				
 		
