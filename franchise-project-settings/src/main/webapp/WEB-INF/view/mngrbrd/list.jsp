@@ -40,6 +40,9 @@
 			if(checkLen ==0){
 				alert("삭제할 글이 없습니다.");
 				return;
+			} 
+			if(!confirm("정말 삭제하시겠습니까?")){
+				return;
 			}
 			
 			var form =$("<form></form>")	
@@ -145,9 +148,9 @@
 				</c:choose>
 			</tbody>
 		</table>
-		<div>
-			<button id="delete_btn" >삭제</button>
-			<button class= "btn-classic"><a href="${pageContext.request.contextPath}/mngrbrd/write" style="text-decoration: none;"> 게시글 작성</a></button>
+		<div style="text-align: right;">
+			<button id="delete_btn" class= "blue-btn" >삭제</button>
+			<a href="${pageContext.request.contextPath}/mngrbrd/write" class="btn-m" style="text-decoration: none;"> 게시글 작성</a>
 		</div>
 		
 
