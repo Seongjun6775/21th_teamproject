@@ -6,9 +6,9 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- 각자 로컬 DB -->
-	<!-- <context:property-placeholder location="/WEB-INF/config/dbconfig.properties"/> -->
+	<context:property-placeholder location="/WEB-INF/config/dbconfig.properties"/>
 	<!-- 강의장 공용DB -->
-	<context:property-placeholder location="/WEB-INF/config/srdbconfig.properties"/>
+	<!-- <context:property-placeholder location="/WEB-INF/config/srdbconfig.properties"/> -->
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${jdbc.oracle.driver_class_name}" />
@@ -26,4 +26,6 @@
 	<bean id="sqlTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
+	
+	
 </beans>

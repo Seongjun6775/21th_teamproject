@@ -11,10 +11,20 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
-	$().ready(function(){
+	// 특수문자 모두 제거    
+	function chkId(obj){
+	    var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;   //정규식 구문
+	    if (RegExp.test(obj.value)) {
+	      obj.value="";
+	      alert("아이디에 특수문자를 입력할 수 없습니다. 다시 입력해주세요");
+	    }
+	  }
+	var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+ 	$().ready(function(){
 		var valueUtil = new ValueUtil();
 		var idMinLength = 5;
 		var pwMinLength = 8;
+		var authCode="";
 		
 		$("#mbrId").keyup(function(){
 			var mbrIdVal = $(this).val();
@@ -123,7 +133,6 @@
 		});
 		
 		$("#mbr_regist_btn").click(function(event){
-			$("#mbr_regist_btn").attr("disabled", true);
 			event.preventDefault();
 			if(!valueUtil.requires("#mbrId")){
 				return;
@@ -154,6 +163,10 @@
 			if(!valueUtil.requires("#mbrEml")){
 				return;
 			}
+			if($("#doneAuth").val() == "false" ? true : false){
+				alert("이메일 인증을 진행해 주세요.")
+				return;
+			}
 			$.post("${context}/api/mbr/regist", $("#regist_form").serialize(), function(resp){
 				if(resp.status == "200 OK"){
 					alert("회원가입 성공!");
@@ -163,25 +176,86 @@
 				}
 			});
 		});
+		var display=$("#timer");
+		var leftSec=30;
+		var timer = null;
+		var isRunning = false;
+		function startTimer(count, display) {  
+		  var minutes, seconds;
+		  timer = setInterval(function () {
+		    minutes = parseInt(count / 60, 10);
+		    seconds = parseInt(count % 60, 10);
+
+		    minutes = minutes < 10 ? "0" + minutes : minutes;
+		    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+		    display.text(minutes + ":" + seconds);
+
+		    // 타이머 끝
+		    if (--count < 0) {
+		      clearInterval(timer);
+		      alert("시간초과");
+		      display.text("시간초과");
+		      $("#auth-btn").attr("disabled", true);
+		      isRunning = false;
+		    }
+		  }, 1000);
+		  isRunning = true;
+		}
 		$("#send-auth-btn").click(function(event){
 			event.preventDefault();
-			$("#authEml").attr("type","text");
-			$("#auth-btn").show();
-			$(this).attr("disabled","true");
-			alert("전송되었습니다.");
+			var email = $("#mbrEml").val();
+			if( email == "" || !emailRegExp.test(email)){
+				alert("이메일을 확인하세요.");
+				return;
+			}
+			$("#timer").show();
+			if(!valueUtil.requires("#mbrEml")){
+				return;
+			}
+			var mbrEml = $("#mbrEml").val();
+			$.post("${context}/api/mbr/emailSend", {"email": mbrEml},function(resp){
+				if(resp.status == "200 OK"){
+					authNumber=resp.message;
+					//버튼 누르면 시간 연장
+					if(isRunning){
+						clearInterval(timer);
+					    display.text("");
+					    startTimer(leftSec, display);
+					  }else{
+					  	startTimer(leftSec, display);
+					  }
+					alert("전송되었습니다. 이메일을 확인해 주세요");
+				}else{
+					alert(resp.message);
+				}
+			});
 		});
 		$("#auth-btn").click(function(event){
 			event.preventDefault();
-			var authNumber = $("#authEml").val();
-			
-			$.post("${context}/api/mbr/emailCheck", authNumber, function(resp){
-				if(resp.status="200 OK"){
-					alert("인증완료");	
-				}
-				else{
-					alert("인증실패");					
-				}
-			});
+			if(!valueUtil.requires("#mbrEml")){
+				return;
+			}
+			if(!valueUtil.requires("#authEml")){
+				return;
+			}
+			var authEml = $("#authEml").val();
+			if(authNumber == authEml){
+				$("#doneAuth").val("true");
+				$(".timer").hide();
+				$("#send-auth-btn").attr("disabled", "true");
+				$("#auth-btn").attr("disabled", "true");
+				$("#authEml").attr("disabled", "true");
+				$("#mbrEml").attr("readonly", "readonly");
+				clearInterval(timer);
+				alert("인증번호가 일치합니다.");
+			}else{
+				//TODO alert말고 sapn으로 처리(타이머 시간때문에)
+				alert("인증번호가 불일치 합니다. 다시 입력해주세요.")
+			}
+		});
+		$("#mbrEml").change(function(){
+			$("#doneAuth").val("false");
 		});
 	});
 </script>
@@ -190,7 +264,7 @@
 
 	<form id="regist_form">
 		<label for="mbrId" >ID</label>
-		<input type="text" id="mbrId" name="mbrId" maxlength="12" placeholder="ID" data-field-name="아이디"/>
+		<input type="text" id="mbrId" name="mbrId" maxlength="12" placeholder="ID" data-field-name="아이디" onkeyup="chkId(this)"/>
 		<span id="dupId" style="display: none;">이미 사용중인 아이디입니다.</span>
 		<span id="ableId" style="display: none;">사용가능한 아이디입니다.</span>
 		<span id="idLen" style="display: none;">아이디는 5자 이상입니다.</span>
@@ -207,13 +281,15 @@
 		
 		
 		<label for="mbrNm" >Name</label>
-		<input type="text" id="mbrNm" name="mbrNm" maxlength="10" placeholder="이름" data-field-name="이름"/>
+		<input type="text" id="mbrNm" name="mbrNm" maxlength="10" placeholder="이름" data-field-name="이름" onkeyup="chkId(this)"/>
 		
 		<label for="mbrEml" >E-MAIL</label>
-		<input type="email" id="mbrEml" name="mbrEml" maxlength="100" placeholder="E-MAIL" data-field-name="이메일"/>
+		<input type="email" id="mbrEml" name="mbrEml" maxlength="100" placeholder="E-MAIL" data-field-name="이메일" required />
 		<button id="send-auth-btn">인증번호 발송</button>
-		<input type="hidden" id="authEml" name="authEml" maxlength="8" placeholder="인증번호를 입력하세요."/>
-		<button id="auth-btn"style="display: none;">확인</button>
+		<input type="text" id="authEml" name="authEml" maxlength="8" placeholder="인증번호 확인" data-field-name="인증번호"/>
+		<input type="hidden" id="doneAuth" name="doneAuth" value ="false"/>
+		<span class="timer" id="timer" style="display: none;"></span>
+		<button id="auth-btn">확인</button>
 		
 	</form>
 		<button id="mbr_regist_btn">가입</button>

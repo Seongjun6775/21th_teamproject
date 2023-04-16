@@ -17,14 +17,19 @@ public class MbrController {
 	@Autowired
 	private MbrService mbrService;
 	
-	@GetMapping("/login")
-	public String viewLoginPage() {
-		return "mbr/login";
+	@GetMapping("/join")
+	public String viewJoinPage() {
+		return "mbr/joinSite";
 	}
-	@GetMapping("/regist")
-	public String viewMbrRegistPage() {
-		return "mbr/mbr_regist";
-	}
+	
+//	@GetMapping("/login")
+//	public String viewLoginPage() {
+//		return "mbr/login";
+//	}
+//	@GetMapping("/regist")
+//	public String viewMbrRegistPage() {
+//		return "mbr/mbr_regist";
+//	}
 	@GetMapping("/logout")
 	public String doLogout(@SessionAttribute("__MBR__")MbrVO mbrVO, HttpSession session) {
 		session.invalidate();
@@ -32,7 +37,7 @@ public class MbrController {
 		lgnHistVO.setLgnHistActn("logout");
 		lgnHistVO.setMbrId(mbrVO.getMbrId());
 		lgnHistVO.setLgnHistIp(mbrVO.getMbrRcntLgnIp());
-		return "redirect:/login";
+		return "redirect:/join";
 	}
 	
 	
