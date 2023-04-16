@@ -47,8 +47,9 @@
 		    ON SP.PRDT_ID = P.PRDT_ID
 		  LEFT OUTER JOIN MBR M
 		    ON SP.MDFYR = M.MBR_ID
-		 WHERE DEL_YN = 'N'
+		 WHERE SP.DEL_YN = 'N'
 		<if test='_parameter != null and _parameter != ""'>
+		   AND P.USE_YN = 'Y'
 		   AND STR_ID = {_parameter}
 		</if>
 	</select>
@@ -82,6 +83,53 @@
 	    </foreach>
 	    	)
 	</insert>
+	
+	
+	<update id="update"
+			parameterType="com.ktds.fr.strprdt.vo.StrPrdtVO">
+		UPDATE STR_PRDT 
+		   SET MDFYR = #{mdfyr} 
+		     , MDFY_DT = SYSDATE
+		     , USE_YN = NVL(#{useYn}, 'N') 
+		 WHERE STR_PRDT_ID = #{strPrdtId} 
+	</update>
+	
+	
+	<update id="deletePrdtId"
+			parameterType="string">
+		UPDATE STR_PRDT
+		   SET DEL_YN = 'Y'
+		 WHERE PRDT_ID = #{_pratemter} 
+	</update>
+	<update id="deletePrdtList"
+			parameterType="arrayList">
+		UPDATE STR_PRDT
+		   SET DEL_YN = 'Y'
+		 WHERE PRDT_ID IN
+		<foreach item="prdtId" collection="list"
+		    open="(" separator=", " close=")">
+		  #{prdtId} 
+		</foreach>
+	</update>
+		
+	<update id="deleteStrId"
+			parameterType="string">
+		UPDATE STR_PRDT
+		   SET DEL_YN = 'Y'
+		 WHERE STR_ID = #{_pratemter} 
+	</update>
+	<update id="deleteStrList"
+			parameterType="arrayList">
+		UPDATE STR_PRDT
+		   SET DEL_YN = 'Y'
+		 WHERE STR_ID IN
+		<foreach item="StrId" collection="list"
+		    open="(" separator=", " close=")">
+		  #{StrId} 
+		</foreach>
+	</update>
+	
+	
 	
 
 </mapper>

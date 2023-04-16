@@ -27,10 +27,30 @@ public class StrPrdtDAOImpl extends SqlSessionDaoSupport implements StrPrdtDAO {
 	public int create(List<StrPrdtVO> strPrdtList) {
 		return getSqlSession().insert("StrPrdt.create", strPrdtList);
 	}
+	
+	@Override
+	public int update(StrPrdtVO strPrdtVO) {
+		return getSqlSession().update("StrPrdt.update", strPrdtVO);
+	}
 
 	@Override
-	public int delete(String srtPrdtId) {
-		return getSqlSession().update("StrPrdt.delete", srtPrdtId);
+	public int deletePrdtId(String prdtId) {
+		return getSqlSession().update("StrPrdt.delete", prdtId);
+	}
+
+	@Override
+	public int deletePrdtList(List<String> PrdtList) {
+		return getSqlSession().update("StrPrdt.deletePrdtList", PrdtList);
+	}
+
+	@Override
+	public int deleteStrId(String srtId) {
+		return getSqlSession().update("StrPrdt.deleteStrId", srtId);
+	}
+
+	@Override
+	public int deleteStrList(List<String> StrList) {
+		return getSqlSession().update("StrPrdt.deleteStrList", StrList);
 	}
 
 	

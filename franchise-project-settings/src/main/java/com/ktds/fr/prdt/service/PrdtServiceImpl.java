@@ -214,7 +214,11 @@ public class PrdtServiceImpl implements PrdtService {
 		if (prdtId == null || prdtId.trim().length() == 0) {
 			throw new ApiArgsException("400", "선택된 항목이 없습니다.");
 		}
-		return prdtDAO.deleteOne(prdtId) > 0;
+		boolean result = prdtDAO.deleteOne(prdtId) > 0;
+		if (result) {
+			strPrdtDAO.deletePrdtId(prdtId);
+		}
+		return result;
 	}
 
 	@Override
@@ -223,7 +227,11 @@ public class PrdtServiceImpl implements PrdtService {
 		if (prdtIdList.size()==0) {
 			throw new ApiArgsException("400", "선택된 항목이 없습니다.");
 		}
-		return prdtDAO.deleteSelectAll(prdtIdList) > 0;
+		boolean result = prdtDAO.deleteSelectAll(prdtIdList) > 0;
+		if (result) {
+			strPrdtDAO.deletePrdtList(prdtIdList);
+		}
+		return result;
 	}
 	
 }

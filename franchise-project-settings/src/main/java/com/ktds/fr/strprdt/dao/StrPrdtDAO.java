@@ -12,7 +12,19 @@ public interface StrPrdtDAO {
 	// 메뉴등록시, 매장등록시 목록생성에 활용
 	public int create(List<StrPrdtVO> strPrdtList);
 	
-	// 메뉴삭제시, 매장삭제시 삭제여부 변경에 활용
-	public int delete(String srtPrdtId);
+	// 매장별 메뉴 사용유무
+	public int update(StrPrdtVO strPrdtVO);
+	
+	// 메뉴삭제시 삭제여부 변경에 활용
+	public int deletePrdtId(String prdtId);
+
+	// 메뉴삭제시 삭제여부 변경에 활용
+	public int deletePrdtList(List<String> PrdtList);
+	
+	// 매장삭제시 삭제여부 변경에 활용
+	public int deleteStrId(String srtId);
+	
+	// 매장삭제시 삭제여부 변경에 활용
+	public int deleteStrList(List<String> StrList);
 
 }
