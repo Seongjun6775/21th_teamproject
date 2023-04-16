@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ktds.fr.evnt.service.EvntService;
 import com.ktds.fr.evnt.vo.EvntVO;
@@ -30,10 +30,29 @@ public class EvntController {
 	}
 
 	// 2. 이벤트 목록 조회 페이지
-	@GetMapping("/evnt/list")
+	@RequestMapping("/evnt/list")
 	public String viewEvntListPage(Model model, EvntVO evntVO) {
+		
+		System.out.println("evntVo.getEvntId : " + evntVO.getEvntId());
+		System.out.println("evntVo.getEvntTtl : " + evntVO.getEvntTtl());
+		System.out.println("evntVo.getEvntCntnt : " + evntVO.getEvntCntnt());
+		System.out.println("evntVo.getEvntStrtDt : " + evntVO.getEvntStrtDt());
+		System.out.println("evntVo.getEvntEndDt : " + evntVO.getEvntEndDt());
+		System.out.println("evntVo.getUseYn : " + evntVO.getUseYn());
+		
 		List<EvntVO> evntList = evntService.readAllEvnt(evntVO);
+		
+		// 리스트 반환
 		model.addAttribute("evntList", evntList);
+		
+		// 조회조건 기존 데이터로 세팅
+		model.addAttribute("evntId", evntVO.getEvntId());
+		model.addAttribute("evntTtl", evntVO.getEvntTtl());
+		model.addAttribute("evntCntnt", evntVO.getEvntCntnt());
+		model.addAttribute("evntStrtDt", evntVO.getEvntStrtDt());
+		model.addAttribute("evntEndDt", evntVO.getEvntEndDt());
+		model.addAttribute("useYn", evntVO.getUseYn());
+		
 		return "evnt/list";
 	}
 

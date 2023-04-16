@@ -46,6 +46,24 @@
 		 <if test="evntId != null and evntId != ''">
 		AND EVNT.EVNT_ID LIKE '%' || #{evntId} || '%'
 		 </if>
+		 <if test="evntTtl != null and evntTtl != ''">
+		AND EVNT.EVNT_TTL LIKE '%' || #{evntTtl} || '%'
+		 </if>
+		 <if test="evntCntnt != null and evntCntnt != ''">
+		AND EVNT.EVNT_CNTNT LIKE '%' || #{evntCntnt} || '%'
+		 </if>
+		 <if test="evntStrtDt != null and evntStrtDt != ''">
+		AND TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') = #{evntStrtDt}
+		 </if>
+		 <if test="evntEndDt != null and evntEndDt != ''">
+		AND TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') = #{evntEndDt}
+		 </if>
+		 <if test="useYn != null and useYn != 'ALL'">
+		AND EVNT.USE_YN = #{useYn}
+		 </if>
+		 
+		AND EVNT.DEL_YN = 'N'
+		
 		ORDER BY EvntNum DESC
 	   </select>
 	
