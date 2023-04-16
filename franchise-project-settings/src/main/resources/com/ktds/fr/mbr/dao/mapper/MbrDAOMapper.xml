@@ -103,7 +103,6 @@
 			 , MBR_LGN_FL_CNT
 			 , MBR_LGN_BLCK_YN
 			 , MBR_PWD_SLT
-			 , MBR_LVL
 			 , MBR_PY_MN
 			 , MBR_RGSTR_DT
 			 , USE_YN
@@ -116,7 +115,6 @@
 	    	 , 0
 	    	 , 'N' 
 	    	 , #{mbrPwdSlt}
-	    	 , #{mbrLvl}
 	    	 , 0
 	    	 , SYSDATE
 	    	 , 'Y'

@@ -79,7 +79,6 @@ public class MbrServiceImpl implements MbrService {
 		
 		mbrPwd = SHA256Util.getEncrypt(mbrPwd, salt);
 		mbrVO.setMbrPwd(mbrPwd);
-		mbrVO.setMbrLvl("MEMBER");
 		
 		return mbrDAO.createNewMbr(mbrVO) > 0;
 	}

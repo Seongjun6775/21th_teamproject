@@ -22,6 +22,11 @@ public class MbrController {
 		return "mbr/joinSite";
 	}
 	
+	@GetMapping("/mbr/list")
+	public String viewMbrListPage() {
+		return "mbr/mbr_list";
+	}
+	
 //	@GetMapping("/login")
 //	public String viewLoginPage() {
 //		return "mbr/login";
