@@ -21,7 +21,7 @@ public class EvntStrDAOImpl extends SqlSessionDaoSupport implements EvntStrDAO {
 	@Override
 	// 2. 이벤트 전체목록 조회 ▶▶상위관리자
 	public List<EvntStrVO> readAllEvntStr(EvntStrVO evntStrVO) {
-		return getSqlSession().selectList("Evnt.readAllEvntStr", evntStrVO);
+		return getSqlSession().selectList("EvntStr.readAllEvntStr", evntStrVO);
 	}
 
 }

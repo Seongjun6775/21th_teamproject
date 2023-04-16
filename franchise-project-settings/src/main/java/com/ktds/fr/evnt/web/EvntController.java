@@ -18,9 +18,6 @@ public class EvntController {
 	@Autowired
 	private EvntService evntService;
 
-	// 검색기능을 위한 변수
-	private String search;
-	private String keyword;
 
 	// 1. 이벤트 작성 페이지
 	@GetMapping("/evnt/create")
