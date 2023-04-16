@@ -1,9 +1,12 @@
 package com.ktds.fr.mbr.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -23,7 +26,9 @@ public class MbrController {
 	}
 	
 	@GetMapping("/mbr/list")
-	public String viewMbrListPage() {
+	public String viewMbrListPage(Model model) {
+		List<MbrVO> mbrList = mbrService.readAllMbr();
+		model.addAttribute("mbrList", mbrList);
 		return "mbr/mbr_list";
 	}
 	
