@@ -317,11 +317,7 @@ function movePage(pageNo) {
 			<div class="grid">
 				<div class="space-between mb-10">
 					
-					<div class="grid-count align-right">
-						<!-- 페이지네이션용  -->
-						총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
-						<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
-					</div>
+					
 				</div>
 				<table id="dataTable"
 						class="mb-10">
@@ -419,6 +415,11 @@ function movePage(pageNo) {
 				</table>
 				
 				<div class="relative">
+					<div class="align-left absolute fontsize14">
+						<!-- 페이지네이션용  -->
+						총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
+						<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
+					</div>
 					<div class="align-right absolute " style="right: 0px;" >
 						<button class="btn-primary" 
 								id="btn-search-reset">검색초기화</button>
@@ -542,6 +543,7 @@ function movePage(pageNo) {
 					
 				</div>
 				<div class="align-right grid-btns">
+					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a>
 					<button id="btn-new" class="btn-primary">신규</button>
 					<button id="btn-save" class="btn-primary">저장</button>
 					<button id="btn-delete" class="btn-primary btn-delete">삭제</button>

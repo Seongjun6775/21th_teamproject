@@ -56,6 +56,21 @@ public class PrdtController {
 		
 		return "prdt/prdt_list";
 	}
+	
+	@GetMapping("/prdt/list2")
+	public String prdtList2(PrdtVO prdtVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO
+			, Model model) {
+		// 손님용 페이지 (등급상관없이 전체조회가능)
+		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
+		List<CmmnCdVO> srtList = cmmnCdDAO.readCategory("004");
+		
+		model.addAttribute("prdtList", prdtList);
+		model.addAttribute("prdtVO", prdtVO);
+		model.addAttribute("srtList", srtList);
+		
+		return "prdt/prdt_list_customer";
+	}
 
 	@GetMapping("/prdt/img/{filename}")
 	public void downloadPrflPctr(@PathVariable String filename,
