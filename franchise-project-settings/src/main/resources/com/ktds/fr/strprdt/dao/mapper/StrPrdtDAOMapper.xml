@@ -5,5 +5,83 @@
 <mapper namespace="StrPrdt">
 
 
+	<resultMap type="com.ktds.fr.strprdt.vo.StrPrdtVO"
+				id="strPrdtVOMap"
+				autoMapping="true">
+		<id property="strPrdtId" column="STR_PRDT_ID"/>
+		<association property="strVO"
+					javaType="com.ktds.fr.str.vo.StrVO"
+					autoMapping="true">
+			<id property="strId" column="STR_ID"/>
+		</association>
+		<association property="prdtVO"
+					javaType="com.ktds.fr.prdt.vo.PrdtVO"
+					autoMapping="true">
+			<id property="prdtId" column="PRDT_ID"/>
+		</association>
+		<association property="mdfyrMbrVO"
+					javaType="com.ktds.fr.mbr.vo.MbrVO"
+					autoMapping="true">
+			<id property="mbrId" column="MDFYR"/>
+		</association>
+	</resultMap>
+	
+	
+	<select id="readAll"
+			parameterType="string"
+			resultMap="strPrdtVOMap">
+		SELECT SP.STR_PRDT_ID 
+		     , SP.STR_ID 
+		     , S.STR_NM
+		     , SP.PRDT_ID
+		     , P.PRDT_NM 
+		     , SP.MDFYR 
+		     , M.MBR_NM MDFYR_NM
+		     , SP.MDFY_DT 
+		     , SP.USE_YN 
+		     , SP.DEL_YN 
+		  FROM STR_PRDT SP
+		 INNER JOIN STR S
+		    ON SP.STR_ID = S.STR_ID 
+		 INNER JOIN PRDT P
+		    ON SP.PRDT_ID = P.PRDT_ID
+		  LEFT OUTER JOIN MBR M
+		    ON SP.MDFYR = M.MBR_ID
+		 WHERE DEL_YN = 'N'
+		<if test='_parameter != null and _parameter != ""'>
+		   AND STR_ID = {_parameter}
+		</if>
+	</select>
+
+
+	<insert id="create" parameterType="arrayList" >
+	    INSERT INTO STR_PRDT 
+		      (STR_PRDT_ID 
+		     , STR_ID 
+		     , PRDT_ID 
+		     , MDFYR 
+		     , MDFY_DT 
+		     , USE_YN 
+		     , DEL_YN) 
+		SELECT
+			  'SP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_STR_PRDT_PK.NEXTVAL, 5, '0')
+		     , STR_ID
+		 	 , PRDT_ID
+		     , MDFYR
+		     , SYSDATE
+		     , 'N'  
+		     , 'N'  
+	      FROM (
+	     <foreach collection="list" 
+		    		item="strPrdt" 
+			        separator=" UNION ALL ">
+	        SELECT #{strPrdt.strId} STR_ID
+	             , #{strPrdt.prdtId} PRDT_ID
+	             , #{strPrdt.mdfyr} MDFYR
+	          FROM DUAL
+	    </foreach>
+	    	)
+	</insert>
+	
 
 </mapper>

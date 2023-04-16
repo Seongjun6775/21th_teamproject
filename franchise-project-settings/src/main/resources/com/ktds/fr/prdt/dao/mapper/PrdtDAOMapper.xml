@@ -12,7 +12,6 @@
 					javaType="com.ktds.fr.cmmncd.vo.CmmnCdVO"
 					autoMapping="true">
 			<id property="cdId" column="PRDT_SRT"/>
-			<result property="cdNm" column="CD_NM"/>
 		</association>
 		<association property="prdtRgstrMbrVO"
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
@@ -22,7 +21,7 @@
 		<association property="mdfyrMbrVO"
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
 					autoMapping="true">
-			<id property="mbrId" column="MDFYR_NM"/>
+			<id property="mbrId" column="MDFYR"/>
 		</association>
 		
 	</resultMap>
@@ -63,7 +62,7 @@
 		<if test='useYn != null and useYn != ""'>
 		   AND P.USE_YN LIKE #{useYn}
 		</if>
-		ORDER BY P.PRDT_ID ASC
+		ORDER BY P.PRDT_ID DESC
 		<include refid="PrdtCommon.page_footer"></include>
 	</select>
 	<select id="readOne"
@@ -89,6 +88,12 @@
 	
 	<insert id="create" 
 			parameterType="com.ktds.fr.prdt.vo.PrdtVO">
+			<selectKey keyProperty="prdtId"
+						order="BEFORE"
+						resultType="string">
+				SELECT 'PD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRDT_PK.NEXTVAL, 5, '0')
+				  FROM DUAL
+			</selectKey>
 		INSERT INTO PRDT
 		( PRDT_ID
 		, PRDT_NM
@@ -103,7 +108,7 @@
 		, USE_YN
 		, DEL_YN)
 		VALUES
-		( 'PD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRDT_PK.NEXTVAL, 5, '0')
+		( #{prdtId}
 		, #{prdtNm}
 		, #{prdtPrc}
 		, #{prdtCntnt}

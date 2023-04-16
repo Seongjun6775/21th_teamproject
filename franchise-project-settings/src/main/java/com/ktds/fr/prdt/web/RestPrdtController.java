@@ -37,14 +37,9 @@ public class RestPrdtController {
 			throw new ApiException("400", "세션에러");			
 		}
 		
-		// TODO 세션기능 생기면 밑에꺼랑 바꿀것
 		prdtVO.setPrdtRgstr(mbrVO.getMbrId());
 		prdtVO.setMdfyr(mbrVO.getMbrId());
 
-		// 로그인이 없으므로 등록자/수정자 임의값 입력
-//		prdtVO.setPrdtRgstr("master");
-//		prdtVO.setMdfyr("master");
-		
 		boolean isSuccess = prdtService.create(prdtVO, uploadFile);
 		if (isSuccess) {
 			return new ApiResponseVO(ApiStatus.OK);
@@ -52,18 +47,12 @@ public class RestPrdtController {
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
 	
-	
-	
 	@PostMapping("/api/prdt/update")
 	public ApiResponseVO update(PrdtVO prdtVO
 			, MultipartFile uploadFile
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			) {
-		// TODO 세션기능 생기면 밑에꺼랑 바꿀것
 		prdtVO.setMdfyr(mbrVO.getMbrId());
-		
-		// 로그인이 없으므로 수정자 임의값 입력
-//		prdtVO.setMdfyr("mdfyr-tester");
 		
 		boolean isSuccess = prdtService.update(prdtVO, uploadFile);
 		if (isSuccess) {
