@@ -38,6 +38,7 @@
 				if (response.status == "200 OK") {
 					alert(response.message);
 					//location.reload(); // 새로고침
+					location.href="${context}/evnt/list";
 				} else {
 					alert(response.errorCode + " / " + response.message);
 				}
