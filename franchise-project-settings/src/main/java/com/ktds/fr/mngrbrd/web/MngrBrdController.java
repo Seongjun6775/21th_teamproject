@@ -32,6 +32,14 @@ public class MngrBrdController {
 		return "mngrbrd/list";
 	}
 	
+	@GetMapping("/mngrbrd/list2")
+	public String viewMngrBrdListPagebytop(Model model, MngrBrdVO mngrBrdVO,MbrVO mbrVO) {
+		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrdVO);
+		model.addAttribute("mngrBrdList", mngrBrdList);
+		model.addAttribute("mngrBrdVO", mngrBrdVO);
+		return "mngrbrd/list2";
+	}
+	
 	@GetMapping("/mngrbrd/{mngrBrdId}")
 	public String viewMngrBrdDetailPage(@PathVariable String mngrBrdId, Model model) {
 		//TODO 지워

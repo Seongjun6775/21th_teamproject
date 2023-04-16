@@ -106,13 +106,11 @@
 		<table>
 			<thead>
 				<tr>
-					<th><input type = "checkbox" id ="all_check"/></th>
 					<th>글번호</th>
 					<th>카테고리</th>					
 					<th>제목</th>
 					<th>작성자</th>
 					<th>작성일</th>
-					<th>게시여부</th>
 						
 				</tr>
 			</thead>
@@ -121,11 +119,7 @@
 					<c:when test="${not empty mngrBrdList}">
 						<c:forEach items="${mngrBrdList}" var="mngrBrd">
 							<tr data-mngrid = "${mngrBrd.mngrId}"
-								data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-								data-useyn = "${mngrBrd.useYn}">
-								<td style="width: 20px;"> 
-									<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
-								</td>
+								data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}">
 								<td style="width: 160px;">${mngrBrd.mngrBrdId} </td>
 								<td style="width: 70px;">
 								${mngrBrd.ntcYn eq 'Y' ? '공지' : '게시판'}</td>
@@ -135,16 +129,14 @@
 										${mngrBrd.mngrBrdTtl} 
 									</a></td>
 								<td>${mngrBrd.mngrId}</td>
-								<td style="width: 160px;">${mngrBrd.mngrBrdWrtDt}</td>
-								<td style="width: 70px;">
-								${mngrBrd.useYn}</td>		
+								<td style="width: 160px;">${mngrBrd.mngrBrdWrtDt}</td>	
 								
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
 						<tr>
-							<td colspan="9" class="no-items">
+							<td colspan="8" class="no-items">
 							
 							</td>
 						</tr>
@@ -153,7 +145,6 @@
 			</tbody>
 		</table>
 		<div style="text-align: right; margin-top: 6px;"> 
-			<button id="delete_btn" class="red-btn">삭제</button> 
 			<a href="${pageContext.request.contextPath}/mngrbrd/write" class="btn-m" style="text-decoration: none;"> 게시글 작성</a>
 		</div>
 		

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -27,6 +27,14 @@ public class RestMngrBrdController {
 	@PostMapping("/api/mngrbrd/write")
 	public ApiResponseVO doWriteMngrBrd(MngrBrdVO mngrBrdVO,
 								 MbrVO mbrVO) {
+		if(mngrBrdVO.getMngrBrdTtl() ==null || mngrBrdVO.getMngrBrdTtl().trim().length() ==0) {
+			throw new ApiArgsException("400", "제목을 입력해주세요.");
+		}
+		
+		if(mngrBrdVO.getMngrBrdCntnt() ==null || mngrBrdVO.getMngrBrdCntnt().trim().length() ==0) {
+			throw new ApiArgsException("400", "본문을 입력해주세요.");
+		}
+		
 		mngrBrdVO.setMngrId(mbrVO.getMbrId());
 		mngrBrdVO.setMdfyr(mbrVO.getMbrId());
 		

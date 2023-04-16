@@ -4,6 +4,50 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Rpl">
 
+	<insert id="createNewRpl"
+			parameterType="com.ktds.fr.rpl.vo.RplVO"> 
+		<selectKey keyProperty="rplId" 
+				   resultType="string"
+				   order="BEFORE">
+			SELECT 'BR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MNGR_BRD_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>	
+		INSERT INTO FRAN.RPL
+		 (RPL_ID
+		, RPL_CNTNT
+		, MBR_ID
+		, ALTCL_ID
+		, RPL_PRNT_RPL
+		, RPL_WRT_DT
+		, MDFY_DT
+		, USE_YN
+		, DEL_YN)
+		VALUES
+		 (#{rplId}
+		, #{rplCntnt}
+		, #{mbrId}
+		, #{altclId}
+		, #{rplPrntRpl}
+		, #{rplWrtDt}
+		, #{mdfyDt}
+		, NVL(#{useYn},'N') 
+		, 'N' )
+		
+	</insert>
+	
+	<update id="updateOneRpl"
+			parameterType="com.ktds.fr.rpl.vo.RplVO">
+		UPDATE FRAN.RPL
+           SET RPL_CNTNT= #{rplCntnt}
+             , MDFY_DT = SYSDATE
+         WHERE RPL_ID = #{rplId}      
+	</update>
 
+	<update id="deleteOneRplByRplId"
+			parameterType="string">
+		 UPDATE FRAN.RPL
+           SET DEL_YN= 'Y'
+         WHERE RPL_ID = #{_parameter}
+	</update>
 
 </mapper>
