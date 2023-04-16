@@ -6,10 +6,11 @@
 	
 	<sql id="page_header">
 		SELECT B.*
+			 , B.TOTAL_COUNT
 		     , CEIL(B.TOTAL_COUNT / #{prdtViewCnt}) -1 LAST_PAGE
 		     , FLOOR(FLOOR(B.TOTAL_COUNT / #{prdtViewCnt}) / #{prdtPageCnt}) LAST_GROUP
 		  FROM (SELECT R.*
-		             , ROWNUM RNUM
+		             , DENSE_RANK() OVER(ORDER BY PK_COL ASC) RNUM <!-- 여기 PK_COL을 RNUM으로 바꾸면 정상적으로 작동 -->
 		             , COUNT(1) OVER() TOTAL_COUNT
 		          FROM (
 	</sql>

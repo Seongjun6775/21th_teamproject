@@ -30,7 +30,8 @@
 			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
 			resultMap="prdtVOMap">
 		<include refid="PrdtCommon.page_header"></include>
-		SELECT P.PRDT_ID
+		SELECT P.PRDT_ID PK_COL
+			 , P.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
@@ -88,12 +89,12 @@
 	
 	<insert id="create" 
 			parameterType="com.ktds.fr.prdt.vo.PrdtVO">
-			<selectKey keyProperty="prdtId"
-						order="BEFORE"
-						resultType="string">
-				SELECT 'PD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRDT_PK.NEXTVAL, 5, '0')
-				  FROM DUAL
-			</selectKey>
+		<selectKey keyProperty="prdtId"
+					order="BEFORE"
+					resultType="string">
+			SELECT 'PD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRDT_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>
 		INSERT INTO PRDT
 		( PRDT_ID
 		, PRDT_NM
