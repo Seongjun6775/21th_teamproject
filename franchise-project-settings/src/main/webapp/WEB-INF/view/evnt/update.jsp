@@ -35,7 +35,7 @@ $().ready(function() {
             function(response) {
                if (response.status == "200 OK") {
                   alert(response.message);
-                  location.herf
+                  location.href="${context}/evnt/list";
                   //location.reload(); // 새로고침
                } else {
                   alert(response.errorCode + " / " + response.message);
