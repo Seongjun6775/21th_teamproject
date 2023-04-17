@@ -4,43 +4,100 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Hr">
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	<select id="readAllHr"
 			resultType="com.ktds.fr.hr.vo.HrVO">
-		<include refid="Common.page_header" />
-		SELECT HR_ID
+		<include refid="Common.pageHeader" />
+		SELECT HR_ID PK_COL
+			 , HR_ID
 		     , MBR_ID
+		     , HR_TTL
 		     , HR_RGST_DT
-		     , MDFY_DT
+		     , HR_MDFY_DT
 		     , HR_APR_YN
 		     , HR_APR_DT
 		     , HR_STAT
 		     , DEL_YN
 		  FROM HR
-		<include refid="Common.page_footer" />
+		<include refid="Common.pageFooter" />
 	</select>
 	
-	<!-- <select id="readAllMyHr"
+	<insert id="createNewHr"
+			parameterType="com.ktds.fr.hr.vo.HrVO">
+		INSERT INTO HR
+		 (HR_ID
+		, MBR_ID
+		, HR_TTL
+		, HR_CNTNT
+		, HR_RGST_DT
+		, HR_MDFY_DT
+		, HR_APR_YN
+		, HR_APR_DT
+		, HR_STAT
+		, ORGN_FL_NM
+		, UUID_FL_NM
+		, FL_SIZE
+		, FL_EXT
+		, USE_YN
+		, DEL_YN)
+		VALUES
+		 ('HR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HR_PK.NEXTVAL, 5, '0')
+		 , #{mbrId}
+		 , #{hrTtl}
+		 , #{hrCntnt}
+		 , SYSDATE
+		 , SYSDATE
+		 , NULL
+		 , NULL
+		 , '접수'
+		 , #{orgnFlNm}
+		 , #{uuidFlNm}
+		 , #{flSize}
+		 , #{flExt}
+		 , 'N'
+		 , 'N')
+	</insert>
+	
+	<select id="readAllMyHr"
 			parameterType="string"
-			resultMap="resultMap">
-		SELECT HR_ID
+			resultType="com.ktds.fr.hr.vo.HrVO">
+		<include refid="Common.pageHeader" />
+		SELECT HR_ID PK_COL
+			 , HR_ID
 		     , MBR_ID
+		     , HR_TTL
 		     , HR_RGST_DT
-		     , MDFY_DT
+		     , HR_MDFY_DT
 		     , HR_APR_YN
 		     , HR_APR_DT
 		     , HR_STAT
+		     , DEL_YN
+		  FROM HR H
+		  LEFT OUTER JOIN MBR M
+		    ON H.MBR_ID = M.MBR_ID
+		 WHERE H.MBR_ID = #{_parameter}
+		    OR M.MBR_LVL = '001-01'
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readOneHrByHrId"
+			parameterType="string"
+			resultType="com.ktds.fr.hr.vo.HrVO">
+		SELECT HR_ID
+		     , MBR_ID
+		     , HR_TTL
+		     , HR_CNTNT
+		     , HR_RGST_DT
+		     , HR_MDFY_DT
+		     , HR_APR_YN
+		     , HR_APR_DT
+		     , HR_STAT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , DEL_YN
 		  FROM HR
-		 WHERE MBR_ID = #{_parameter}
-		   AND 
-	</select> -->
+	</select>
 	
 	<update id="deleteOneHrByHrId"
 			parameterType="string">

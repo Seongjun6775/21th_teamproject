@@ -64,8 +64,7 @@
 			</div>
 			
 			<div>
-				<div>쪽지 본문 :</div>
-				<div>${nt.ntCntnt}</div>
+				<div class="nt_cntnt">${nt.ntCntnt}</div>
 			</div>
 			
 			<button id="del_btn">삭제</button>

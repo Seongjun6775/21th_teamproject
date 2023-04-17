@@ -67,3 +67,9 @@ textarea {
 .pagenate ul li {
 	display: inline-block;
 }
+
+.nt_cntnt {
+	height: 500px;
+	weight: 800px;
+	padding: 15px;
+}

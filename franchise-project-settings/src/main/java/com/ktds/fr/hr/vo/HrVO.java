@@ -13,9 +13,13 @@ public class HrVO extends AbstractVO {
 	 */
 	private String mbrId;
 	/**
-	 * 지원서 파일 ID
+	 * 채용 지원글 제목
 	 */
-	private String hrFlId;
+	private String hrTtl;
+	/**
+	 * 채용 지원글 내용
+	 */
+	private String hrCntnt;
 	/**
 	 * 채용 지원 등록일
 	 */
@@ -23,7 +27,7 @@ public class HrVO extends AbstractVO {
 	/**
 	 * 최종 수정일
 	 */
-	private String mdfyDt;
+	private String hrMdfyDt;
 	/**
 	 * 채용 승인 여부
 	 */
@@ -37,6 +41,22 @@ public class HrVO extends AbstractVO {
 	 */
 	private String hrStat;
 	/**
+	 * 원래 파일 이름
+	 */
+	private String orgnFlNm;
+	/**
+	 * 암호화된 파일 이름
+	 */
+	private String uuidFlNm;
+	/**
+	 * 파일 크기
+	 */
+	private long flSize;
+	/**
+	 * 파일 확장자
+	 */
+	private String flExt;
+	/**
 	 * 사용 여부
 	 */
 	private String useYn;
@@ -44,85 +64,98 @@ public class HrVO extends AbstractVO {
 	 * 삭제 여부
 	 */
 	private String delYn;
-
+	
+	
 	public String getHrId() {
 		return hrId;
 	}
-
 	public void setHrId(String hrId) {
 		this.hrId = hrId;
 	}
-
 	public String getMbrId() {
 		return mbrId;
 	}
-
 	public void setMbrId(String mbrId) {
 		this.mbrId = mbrId;
 	}
-
-	public String getHrFlId() {
-		return hrFlId;
+	public String getHrTtl() {
+		return hrTtl;
 	}
-
-	public void setHrFlId(String hrFlId) {
-		this.hrFlId = hrFlId;
+	public void setHrTtl(String hrTtl) {
+		this.hrTtl = hrTtl;
 	}
-
+	public String getHrCntnt() {
+		return hrCntnt;
+	}
+	public void setHrCntnt(String hrCntnt) {
+		this.hrCntnt = hrCntnt;
+	}
 	public String getHrRgstDt() {
 		return hrRgstDt;
 	}
-
 	public void setHrRgstDt(String hrRgstDt) {
 		this.hrRgstDt = hrRgstDt;
 	}
-
-	public String getMdfyDt() {
-		return mdfyDt;
+	public String getHrMdfyDt() {
+		return hrMdfyDt;
 	}
-
-	public void setMdfyDt(String mdfyDt) {
-		this.mdfyDt = mdfyDt;
+	public void setHrMdfyDt(String hrMdfyDt) {
+		this.hrMdfyDt = hrMdfyDt;
 	}
-
 	public String getHrAprYn() {
 		return hrAprYn;
 	}
-
 	public void setHrAprYn(String hrAprYn) {
 		this.hrAprYn = hrAprYn;
 	}
-
 	public String getHrAprDt() {
 		return hrAprDt;
 	}
-
 	public void setHrAprDt(String hrAprDt) {
 		this.hrAprDt = hrAprDt;
 	}
-
 	public String getHrStat() {
 		return hrStat;
 	}
-
 	public void setHrStat(String hrStat) {
 		this.hrStat = hrStat;
 	}
-
+	public String getOrgnFlNm() {
+		return orgnFlNm;
+	}
+	public void setOrgnFlNm(String orgnFlNm) {
+		this.orgnFlNm = orgnFlNm;
+	}
+	public String getUuidFlNm() {
+		return uuidFlNm;
+	}
+	public void setUuidFlNm(String uuidFlNm) {
+		this.uuidFlNm = uuidFlNm;
+	}
+	public long getFlSize() {
+		return flSize;
+	}
+	public void setFlSize(long flSize) {
+		this.flSize = flSize;
+	}
+	public String getFlExt() {
+		return flExt;
+	}
+	public void setFlExt(String flExt) {
+		this.flExt = flExt;
+	}
 	public String getUseYn() {
 		return useYn;
 	}
-
 	public void setUseYn(String useYn) {
 		this.useYn = useYn;
 	}
-
 	public String getDelYn() {
 		return delYn;
 	}
-
 	public void setDelYn(String delYn) {
 		this.delYn = delYn;
 	}
+
 
 }

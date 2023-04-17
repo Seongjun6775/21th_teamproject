@@ -31,8 +31,9 @@
 	<select id="readAllNt"
 			parameterType="com.ktds.fr.nt.vo.NtVO"
 			resultType="com.ktds.fr.nt.vo.NtVO">
-		<include refid="Common.page_header" />
-		SELECT NT_ID
+		<include refid="Common.pageHeader" />
+		SELECT NT_ID PK_COL
+			 , NT_ID
 		     , SNDR_ID
 		     , RCVR_ID
 		     , NT_SNDR_DT
@@ -58,7 +59,7 @@
            AND DEL_YN = #{delYn}
         </if>
          ORDER BY NT_ID DESC
-        <include refid="Common.page_footer" />
+        <include refid="Common.pageFooter" />
 	</select>
 	
 	<update id="updateOneNtByNtId"
@@ -105,8 +106,9 @@
 	<select id="readAllMyNt"
 			parameterType="com.ktds.fr.nt.vo.NtVO"
 			resultType="com.ktds.fr.nt.vo.NtVO">
-		<include refid="Common.page_header" />
-		SELECT NT_ID
+		<include refid="Common.pageHeader" />
+		SELECT NT_ID PK_COL
+			 , NT_ID
 		     , SNDR_ID
 			 , RCVR_ID
 			 , NT_SNDR_DT
@@ -124,7 +126,7 @@
            AND SNDR_ID = #{sndrId}
         </if>
          ORDER BY NT_ID DESC
-        <include refid="Common.page_footer" />
+        <include refid="Common.pageFooter" />
 	</select>
 	
 	
