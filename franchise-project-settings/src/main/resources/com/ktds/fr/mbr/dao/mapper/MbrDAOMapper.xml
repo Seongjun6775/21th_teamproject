@@ -126,6 +126,7 @@
 			resultType="com.ktds.fr.mbr.vo.MbrVO">
 	    <include refid="Common.pageHeader" />
 		SELECT M.MBR_ID PK_COL
+			 , M.MBR_ID
 			 , M.MBR_NM
 			 , M.MBR_EML
 			 , TO_CHAR(M.MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
