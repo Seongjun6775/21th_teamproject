@@ -11,4 +11,3 @@
 <script type="text/javascript" src="${context}/js/ValueUtil.js"></script>
 <link rel="stylesheet" href="${context}/css/common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/mbr_common.css?p=${date}" />
-
