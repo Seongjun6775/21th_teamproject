@@ -323,10 +323,10 @@ img {
 .search-group .btn-search:active{
 	background-color: #a2abff;
 }
-.search-group  label{
+.search-group label, select{
 	margin-right: 10px;
 }
-.search-group  .search-input{
+.search-group .search-input{
 	flex-grow: 1;
 	margin-right: 10px;
 }

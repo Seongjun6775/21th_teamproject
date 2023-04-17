@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,9 @@ import com.ktds.fr.mbr.vo.MbrVO;
 
 @Controller
 public class MbrController {
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(MbrController.class);
 
 	@Autowired
 	private MbrService mbrService;
@@ -36,6 +41,7 @@ public class MbrController {
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("001");
 		model.addAttribute("mbrList", mbrList);
 		model.addAttribute("srtList", srtList);
+		log.info(mbrVO.getDelYn());
 		model.addAttribute("MbrVO", mbrVO);
 		
 		return "mbr/mbr_list";

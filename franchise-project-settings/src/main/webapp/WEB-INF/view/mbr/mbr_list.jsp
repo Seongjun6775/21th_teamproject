@@ -17,12 +17,17 @@
 			movePage(0);
 		});
 		$("#mbrLvl").val("${mbrVO.mbrLvl}");
+		$("#search-keyword-delYn").prop("checked", $("#search-keyword-delYn").val() == 'Y');
 	});
 	
 	function movePage(pageNo){
 		var mbrLvl = $("#mbrLvl option:selected").val();
 		var startDt = $("#search-keyword-startdt").val();
 		var endDt = $("#search-keyword-enddt").val();
+		var delYn = 'N';
+		if($("#search-keyword-delYn").is(":checked")){
+			delYn = 'Y'
+		}
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
@@ -34,6 +39,7 @@
 		var queryString = "mbrLvl=" + mbrLvl;
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt=" + endDt;
+		queryString += "&delYn=" + delYn;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href="${context}/mbr/list?" + queryString;
@@ -50,6 +56,8 @@
 				<!-- 검색영역 -->
 				<div class="search-row-group">
 					<div class="search-group">
+						<label for="search-keyword-mbrNm" >이름</label>
+						<input type="text" id="search-keyword-mbrNm" class="search-input" value="${mbrVO.mbrNm}"/>
 						<select id="mbrLvl" name="mbrLvl">
 							<option value="">멤버등급</option>
 							<c:choose>
@@ -60,14 +68,14 @@
 									</c:when>
 								</c:choose>
 						</select>
-					</div>
-					<div class="search-group">
+						<label for="search-keyword-delYn" >탈퇴여부</label>
+						<input type="checkbox" id="search-keyword-delYn" class="search-input" style="flex-grow: 0.1;" value="${mbrVO.delYn eq 'Y' ? 'Y' : 'N'}"/>
 						<label for="search-keyword-startdt" >조회기간</label>
 						<input type="date" id="search-keyword-startdt" class="search-input" value="${mbrVO.startDt}"/>
 						<input type="date" id="search-keyword-enddt" class="search-input" value="${mbrVO.endDt}"/>
 						
 						<button class="btn-search" id="search-btn">검색</button>
-					</div>				
+					</div>
 				</div>	
 				<!-- 조회영역 -->
 				<div class="grid">
