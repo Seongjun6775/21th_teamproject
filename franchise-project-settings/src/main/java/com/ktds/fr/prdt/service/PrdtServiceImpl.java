@@ -17,8 +17,6 @@ import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.prdt.dao.PrdtDAO;
 import com.ktds.fr.prdt.vo.PrdtVO;
-import com.ktds.fr.prdtfile.dao.PrdtFileDAO;
-import com.ktds.fr.prdtfile.vo.PrdtFileVO;
 import com.ktds.fr.str.vo.StrVO;
 import com.ktds.fr.strprdt.dao.StrPrdtDAO;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
@@ -191,11 +189,6 @@ public class PrdtServiceImpl implements PrdtService {
 				prdtVO.setUuidFlNm(uuidFileName);
 				prdtVO.setFlSize(fileSize);
 				prdtVO.setFlExt(fileExt);
-			} else {
-				prdtVO.setOrgnFlNm("");
-				prdtVO.setUuidFlNm("");
-				prdtVO.setFlSize(0);
-				prdtVO.setFlExt("");
 			}
 			return prdtDAO.update(prdtVO) > 0;
 		} else {
