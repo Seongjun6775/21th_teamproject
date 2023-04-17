@@ -6,18 +6,22 @@ import com.ktds.fr.mbr.vo.MbrVO;
 
 public class PrdtVO extends AbstractVO{		
 		
-	private String prdtId;	
-	private String prdtNm;	
-	private int prdtPrc;	
-	private String prdtCntnt;	
-	private String prdtFileId;	
-	private String prdtSrt;	
-	private String prdtRgstr;	
-	private String prdtRgstDt;	
-	private String mdfyr;	
-	private String mdfyDt;	
-	private String useYn;	
-	private String delYn;	
+	private String prdtId;
+	private String prdtNm;
+	private int prdtPrc;
+	private String prdtCntnt;
+	private String prdtSrt;
+	private String orgnFlNm;
+	private String uuidFlNm;
+	private long flSize;
+	private String flExt;
+	private String prdtRgstr;
+	private String prdtRgstDt;
+	private String mdfyr;
+	private String mdfyDt;
+	private String useYn;
+	private String delYn;
+	
 	
 	private CmmnCdVO cmmnCdVO;
 	private MbrVO prdtRgstrMbrVO;
@@ -63,18 +67,36 @@ public class PrdtVO extends AbstractVO{
 	public void setPrdtCntnt(String prdtCntnt) {	
 		this.prdtCntnt = prdtCntnt;
 	}	
-	public String getPrdtFileId() {	
-		return prdtFileId;
-	}	
-	public void setPrdtFileId(String prdtFileId) {	
-		this.prdtFileId = prdtFileId;
-	}	
 	public String getPrdtSrt() {	
 		return prdtSrt;
 	}	
 	public void setPrdtSrt(String prdtSrt) {	
 		this.prdtSrt = prdtSrt;
 	}	
+	public String getOrgnFlNm() {
+		return orgnFlNm;
+	}
+	public void setOrgnFlNm(String orgnFlNm) {
+		this.orgnFlNm = orgnFlNm;
+	}
+	public String getUuidFlNm() {
+		return uuidFlNm;
+	}
+	public void setUuidFlNm(String uuidFlNm) {
+		this.uuidFlNm = uuidFlNm;
+	}
+	public long getFlSize() {
+		return flSize;
+	}
+	public void setFlSize(long flSize) {
+		this.flSize = flSize;
+	}
+	public String getFlExt() {
+		return flExt;
+	}
+	public void setFlExt(String flExt) {
+		this.flExt = flExt;
+	}
 	public String getPrdtRgstr() {	
 		return prdtRgstr;
 	}	

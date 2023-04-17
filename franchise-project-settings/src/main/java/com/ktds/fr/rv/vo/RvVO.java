@@ -4,7 +4,7 @@ public class RvVO {
 		
 	private String rvId;	
 	private String mbrId;	
-	private String odrId;	
+	private String odrDtlId;	
 	private String rvTtl;	
 	private String rvCntnt;	
 	private String rvLkDslk;	
@@ -24,12 +24,13 @@ public class RvVO {
 	public void setMbrId(String mbrId) {	
 		this.mbrId = mbrId;
 	}	
-	public String getOdrId() {	
-		return odrId;
-	}	
-	public void setOdrId(String odrId) {	
-		this.odrId = odrId;
-	}	
+	
+	public String getOdrDtlId() {
+		return odrDtlId;
+	}
+	public void setOdrDtlId(String odrDtlId) {
+		this.odrDtlId = odrDtlId;
+	}
 	public String getRvTtl() {	
 		return rvTtl;
 	}	

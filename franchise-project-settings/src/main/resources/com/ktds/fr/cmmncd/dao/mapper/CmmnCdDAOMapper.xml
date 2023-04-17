@@ -5,5 +5,17 @@
 <mapper namespace="CmmnCd">
 
 
+	<select id="readCategory"
+			parameterType="string"
+			resultType="com.ktds.fr.cmmncd.vo.CmmnCdVO">
+		SELECT CD_ID 
+		     , CD_NM 
+		  FROM CMMN_CD
+		 <if test='_parameter != null and _parameter != ""'>
+		 WHERE CD_ID LIKE '%' || #{_parameter} || '-%'
+		</if>
+		 ORDER BY CD_ID ASC 
+	</select>
+
 
 </mapper>

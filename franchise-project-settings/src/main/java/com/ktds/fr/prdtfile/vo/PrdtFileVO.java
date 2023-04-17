@@ -6,7 +6,7 @@ public class PrdtFileVO {
 	private String prdtId;	
 	private String orginFileName;	
 	private String uuidFileName;	
-	private int fileSize;	
+	private long fileSize;	
 	private String fileExt;	
 	private String useYn;	
 	private String delYn;	
@@ -34,10 +34,10 @@ public class PrdtFileVO {
 	public void setUuidFileName(String uuidFileName) {	
 		this.uuidFileName = uuidFileName;
 	}	
-	public int getFileSize() {	
+	public long getFileSize() {	
 		return fileSize;
 	}	
-	public void setFileSize(int fileSize) {	
+	public void setFileSize(long fileSize) {	
 		this.fileSize = fileSize;
 	}	
 	public String getFileExt() {	
