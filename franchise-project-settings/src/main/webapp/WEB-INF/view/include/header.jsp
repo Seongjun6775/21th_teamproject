@@ -1,7 +1,10 @@
+<%@page import="com.ktds.fr.mbr.vo.MbrVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<script type="text/javascript">
+</script>
 <div class="header bg-black">
 	<ul class="nav">
 		<li class="nav-item active">
@@ -36,5 +39,12 @@
 		</li>
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
-	<div class="inline profile">이름 <a href="${context}/logout">(Logout)</a></div>
+	<div class="inline profile">
+		<a href="${context}/mbr/myInfo/${mbrVO.mbrId}" >
+			${sessionScope.__MBR__.mbrNm} 님
+		</a> 
+		<a href="${context}/logout">
+			(Logout)
+		</a>
+	</div>
 </div>
