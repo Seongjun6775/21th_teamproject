@@ -10,6 +10,33 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
+<script type="text/javascript">
+	$().ready(function(){
+		$("#search-btn").click(function(){
+			movePage(0);
+		});
+	});
+	
+	function movePage(pageNo){
+		var mbrLvl = $("#mbrLvl option:selected").val();
+		var startDt = $("#search-keyword-startdt").val();
+		var endDt = $("#search-keyword-enddt").val();
+		
+		var intStartDt = parseInt(startDt.split("-").join(""));
+		var intEndDt = parseInt(endDt.split("-").join(""));
+		
+		if(intStartDt > intEndDt){
+			alert("시작 일자를 확인해 주세요");
+			return;
+		}
+		var queryString = "mbrLvl="+mbrLvl;
+		queryString += "&startDt=" + startDt;
+		queryString += "&endDt" + endDt;
+		queryString += "&pageNo" + pageNo;
+		
+		location.href="${context}/mbr/list?" + queryString;
+	}
+</script>
 </head>
 <body>
 	<div class="main-layout">
@@ -18,6 +45,26 @@
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">회원관리 > 회원 목록</div>
+				<!-- 검색영역 -->
+				<div class="search-row-group">
+					<div class="search-group">
+						<select id="mbrLvl" name="mbrLvl">
+							<option value="">멤버등급</option>
+							<option value="001-01" ${mbrVO.mbrLvl eq '상위관리자' ? 'selected' : ''}>상위관리자</option>
+							<option value="001-02" ${mbrVO.mbrLvl eq '중간관리자' ? 'selected' : ''}>중간관리자</option>
+							<option value="001-03" ${mbrVO.mbrLvl eq '하위관리자' ? 'selected' : ''}>하위관리자</option>
+							<option value="001-04" ${mbrVO.mbrLvl eq '이용자' ? 'selected' : ''}>이용자</option>
+						</select>
+					</div>
+					<div class="search-group">
+						<label for="search-keyword-startdt" >조회기간</label>
+						<input type="date" id="search-keyword-startdt" class="search-input" value="${mbrVO.startDt}"/>
+						<input type="date" id="search-keyword-enddt" class="search-input" value="${mbrVO.endDt}"/>
+						
+						<button class="btn-search" id="search-btn">검색</button>
+					</div>				
+				</div>	
+				<!-- 조회영역 -->
 				<div class="grid">
 					<div class="grid-count align-right">총 ${mbrList.size()}건</div>
 					<table>
@@ -33,7 +80,6 @@
 								<th>최근 로그인 IP</th>
 								<th>로그인 제한</th>
 								<th>탈퇴</th>
-								<th>탈퇴날짜</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -65,7 +111,6 @@
 											<td>${mbr.mbrRcntLgnIp}</td>
 											<td>${mbr.mbrLgnBlckYn}</td>
 											<td>${mbr.delYn}</td>
-											<td>${mbr.mbrLeavDt}</td>
 										</tr>
 									</c:forEach>
 								</c:when>

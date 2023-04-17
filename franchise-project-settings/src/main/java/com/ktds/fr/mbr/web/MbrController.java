@@ -26,9 +26,11 @@ public class MbrController {
 	}
 	
 	@GetMapping("/mbr/list")
-	public String viewMbrListPage(Model model) {
-		List<MbrVO> mbrList = mbrService.readAllMbr();
+	public String viewMbrListPage(Model model, MbrVO mbrVO) {
+		List<MbrVO> mbrList = mbrService.readAllMbr(mbrVO);
 		model.addAttribute("mbrList", mbrList);
+		model.addAttribute("MbrVO", mbrVO);
+		
 		return "mbr/mbr_list";
 	}
 	

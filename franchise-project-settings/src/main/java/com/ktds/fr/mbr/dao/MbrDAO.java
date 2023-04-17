@@ -30,7 +30,7 @@ public interface MbrDAO {
 
 	
 	//이용자 조회용
-	public List<MbrVO> readAllMbr();
+	public List<MbrVO> readAllMbr(MbrVO mbrVO);
 	//하위 관리자 조회용
 	public List<MbrVO> readAllEmployeeAdminMbr();
 	//회원 수정
