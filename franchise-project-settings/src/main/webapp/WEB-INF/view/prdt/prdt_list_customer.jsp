@@ -39,7 +39,10 @@ $().ready(function() {
 				<c:forEach items="${prdtList}"
 							var="prdt">
 					<div class="prdt1">
-						<div class="prdt2">${prdt.prdtFileId}</div>
+						<div class="prdt2">
+							${prdt.prdtFileId}
+							<img src="${context}/prdt/img/${prdtFileId}/">
+						</div>
 						<div class="prdt3">
 							<div class="flex">${prdt.prdtNm}</div>
 							<div class="flex">${prdt.prdtPrc}</div>
