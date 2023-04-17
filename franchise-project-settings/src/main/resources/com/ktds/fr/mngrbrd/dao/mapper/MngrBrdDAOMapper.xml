@@ -33,7 +33,7 @@
 	<select id="readAllMngrBrds"
 			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO"
 			resultMap="brdMap">
-		<include refid ="Common.page_header"/>
+		<include refid ="Common.pageHeader"/>
 			SELECT B.MNGR_BRD_ID
 		     , B.MNGR_BRD_TTL
 		     , B.MNGR_BRD_CNTNT
@@ -70,7 +70,7 @@
            AND  B.MNGR_BRD_TTL LIKE '%' ||  #{mngrBrdTtl} || '%'
          </if>
          ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC
-         <include refid="Common.page_footer" />
+         <include refid="Common.pageFooter" />
 	</select>
 	
 	
