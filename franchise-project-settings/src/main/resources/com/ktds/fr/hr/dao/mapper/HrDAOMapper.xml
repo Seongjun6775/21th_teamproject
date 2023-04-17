@@ -27,11 +27,20 @@
 		<include refid="Common.page_footer" />
 	</select>
 	
-	<select id="readAllMyHr"
+	<!-- <select id="readAllMyHr"
 			parameterType="string"
 			resultMap="resultMap">
-		
-	</select>
+		SELECT HR_ID
+		     , MBR_ID
+		     , HR_RGST_DT
+		     , MDFY_DT
+		     , HR_APR_YN
+		     , HR_APR_DT
+		     , HR_STAT
+		  FROM HR
+		 WHERE MBR_ID = #{_parameter}
+		   AND 
+	</select> -->
 	
 	<update id="deleteOneHrByHrId"
 			parameterType="string">
