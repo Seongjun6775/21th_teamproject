@@ -49,7 +49,6 @@
 		    ON SP.MDFYR = M.MBR_ID
 		 WHERE SP.DEL_YN = 'N'
 		<if test='_parameter != null and _parameter != ""'>
-		   AND P.USE_YN = 'Y'
 		   AND STR_ID = {_parameter}
 		</if>
 	</select>
