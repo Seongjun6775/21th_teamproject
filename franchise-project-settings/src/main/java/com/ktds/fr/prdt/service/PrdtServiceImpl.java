@@ -165,10 +165,7 @@ public class PrdtServiceImpl implements PrdtService {
 			prdtVO.setFlExt(origin.getFlExt());
 		} else {
 			File file = new File(profilePath + File.separator + origin.getUuidFlNm());
-			boolean del = file.delete();
-			System.out.println("삭제가 돌아야 한다" + del);
-			System.out.println(profilePath);
-			System.out.println(origin.getUuidFlNm());
+			file.delete();
 			
 			isModify = true;
 		}
