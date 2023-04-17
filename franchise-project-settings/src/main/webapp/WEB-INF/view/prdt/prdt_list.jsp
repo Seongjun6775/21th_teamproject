@@ -65,11 +65,11 @@ $().ready(function() {
 		
 		$("#useYn").prop("checked", data.useyn == "Y");
 		
-		var prdtFileId = data.prdtfileid;
-		if (prdtFileId==""){
-			prdtFileId= "errorFileNameIsNull";
+		var uuidFlNm = data.uuidflnm;
+		if (uuidFlNm==""){
+			uuidFlNm= "errorFileNameIsNull";
 		}
-		$("#prdtImg").attr("src", "${context}/prdt/img/" + prdtFileId + "/");
+		$("#prdtImg").attr("src", "${context}/prdt/img/" + uuidFlNm + "/");
 		
 		
 	});
@@ -108,7 +108,7 @@ $().ready(function() {
 	
 	
 	
-	$("#prdtFileId").change(function() {
+	$("#prdtFile").change(function() {
 		var file = $(this)[0].files;
 		console.log(file);
 		
@@ -124,14 +124,14 @@ $().ready(function() {
 			
 		} else {
 			// 기본 이미지로 변경
-			$("#prdtFileId").val("");
+			$("#prdtFile").val("");
 			$("#prdtImg").attr("src", "${context}/img/default_photo.jpg")
 			$("#isDeleteImg").val("Y");
 		}
 	});
 	$("#del-img").click(function(event) {
 		event.preventDefault();
-		$("#prdtFileId").val("");
+		$("#prdtFile").val("");
 		$("#isDeleteImg").val("Y");
 		$("#prdtImg").attr("src", "${context}/img/default_photo.jpg")
 	});
@@ -149,7 +149,7 @@ $().ready(function() {
 				else {
 					alert(response.errorCode + " / " + response.message);
 				}
-			}, {"prdtFileId":"uploadFile"})
+			}, {"prdtFile":"uploadFile"})
 		} else {
 			ajaxUtil.upload("#form-detail", "${context}/api/prdt/update", function(response) {
 				if (response.status == "200 OK") {
@@ -159,7 +159,7 @@ $().ready(function() {
 				else {
 					alert(response.errorCode + " / " + response.message);
 				}
-			}, {"prdtFileId":"uploadFile"})
+			}, {"prdtFile":"uploadFile"})
 		}
 		
 	});
@@ -230,7 +230,7 @@ $().ready(function() {
 	
 	$("#prdtImg").click(function() {
 		console.log("이미지 클릭했음");
-		$("#prdtFileId").click();
+		$("#prdtFile").click();
 	});
 	
 	// 이미지등록 라벨 클릭 시 이벤트제거
@@ -371,8 +371,11 @@ function movePage(pageNo) {
 										data-prdtnm="${prdt.prdtNm}" 
 										data-prdtprc="${prdt.prdtPrc}" 
 										data-prdtcntnt="${prdt.prdtCntnt}" 
-										data-prdtfileid="${prdt.prdtFileId}" 
 										data-prdtsrt="${prdt.prdtSrt}" 
+										data-orgnflnm="${prdt.orgnFlNm}" 
+										data-uuidflnm="${prdt.uuidFlNm}" 
+										data-flsize="${prdt.flSize}" 
+										data-flext="${prdt.flExt}" 
 										data-prdtsrtnm="${prdt.cmmnCdVO.cdNm}" 
 										data-prdtrgstr="${prdt.prdtRgstr}" 
 										data-prdtrgstdt="${prdt.prdtRgstDt}" 
@@ -386,7 +389,7 @@ function movePage(pageNo) {
 										</td>
 										<td>${prdt.prdtId}
 											<c:choose>
-												<c:when test="${empty prdt.prdtFileId}"><span class="memo">(사진없음)</span>
+												<c:when test="${empty prdt.uuidFlNm}"><span class="memo">(사진없음)</span>
 												</c:when>
 											</c:choose>
 										</td>
@@ -470,8 +473,8 @@ function movePage(pageNo) {
 						<div class="grid-left mr-10">
 							<div class="input-group relative">
 								<div>
-									<label for="prdtFileId">사진</label>
-									<input type="file" id="prdtFileId"  name="prdtFileId" value=""/>
+									<label for="prdtFile">사진</label>
+									<input type="file" id="prdtFile"  name="prdtFile" value=""/>
 								</div>
 								<div class="img-box">
 									<img src="${context}/img/default_photo.jpg" id="prdtImg" class="img">

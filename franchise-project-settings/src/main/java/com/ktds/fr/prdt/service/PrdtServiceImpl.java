@@ -31,9 +31,6 @@ public class PrdtServiceImpl implements PrdtService {
 	@Autowired
 	private PrdtDAO prdtDAO;
 	
-//	@Autowired
-//	private PrdtFileDAO prdtFileDAO;
-	
 	@Autowired
 	private StrPrdtDAO strPrdtDAO;
 
@@ -68,9 +65,6 @@ public class PrdtServiceImpl implements PrdtService {
 			throw new ApiArgsException("400", "가격이 비었음");
 		}
 
-//		// 상품파일테이블 등록을 위한 객체 생성
-//		PrdtFileVO prdtFileVO = new PrdtFileVO();
-		
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			File dir = new File(profilePath);
 			if (!dir.exists()) {
@@ -83,29 +77,17 @@ public class PrdtServiceImpl implements PrdtService {
 			} catch (IllegalStateException | IOException e) {
 				logger.error(e.getMessage(), e);
 			}
-
-//			String originFileName = uploadFile.getOriginalFilename();
-//			long fileSize = uploadFile.getSize();
-//			String fileExt = uploadFile.getContentType();
-//			
-//			prdtFileVO.setPrdtId("sample"); // 먼저 등록을 위한 임의값
-//			prdtFileVO.setOrginFileName(originFileName);
-//			prdtFileVO.setUuidFileName(uuidFileName);
-//			prdtFileVO.setFileSize(fileSize);
-//			prdtFileVO.setFileExt(fileExt);
-//			
-//			prdtFileDAO.create(prdtFileVO);
-//			prdtVO.setPrdtFileId(prdtFileVO.getPrdtFileId());
+			String originFileName = uploadFile.getOriginalFilename();
+			long fileSize = uploadFile.getSize();
+			String fileExt = uploadFile.getContentType();
 			
-			
-			prdtVO.setPrdtFileId(uuidFileName);
+			prdtVO.setOrgnFlNm(originFileName);
+			prdtVO.setUuidFlNm(uuidFileName);
+			prdtVO.setFlSize(fileSize);
+			prdtVO.setFlExt(fileExt);
 		}
 		
 		boolean isSuccess = prdtDAO.create(prdtVO) > 0;
-		
-		
-//		prdtFileVO.setPrdtId(prdtVO.getPrdtId());
-//		prdtFileDAO.updatePrdtId(prdtFileVO);
 		
 		
 		if (isSuccess) {
@@ -176,10 +158,13 @@ public class PrdtServiceImpl implements PrdtService {
 			isModify = true;
 		}
 		
-		if ((prdtVO.getPrdtFileId() == null 
-				|| prdtVO.getPrdtFileId().length() == 0)
+		if ((prdtVO.getUuidFlNm() == null 
+				|| prdtVO.getUuidFlNm().length() == 0)
 				&& prdtVO.getIsDeleteImg().equals("N")) {
-			prdtVO.setPrdtFileId(origin.getPrdtFileId());
+			prdtVO.setOrgnFlNm(origin.getOrgnFlNm());
+			prdtVO.setUuidFlNm(origin.getUuidFlNm());
+			prdtVO.setFlSize(origin.getFlSize());
+			prdtVO.setFlExt(origin.getFlExt());
 		} else {
 			isModify = true;
 		}
@@ -198,9 +183,19 @@ public class PrdtServiceImpl implements PrdtService {
 				} catch (IllegalStateException | IOException e) {
 					logger.error(e.getMessage(), e);
 				}
-				prdtVO.setPrdtFileId(uuidFileName);
+				String originFileName = uploadFile.getOriginalFilename();
+				long fileSize = uploadFile.getSize();
+				String fileExt = uploadFile.getContentType();
+				
+				prdtVO.setOrgnFlNm(originFileName);
+				prdtVO.setUuidFlNm(uuidFileName);
+				prdtVO.setFlSize(fileSize);
+				prdtVO.setFlExt(fileExt);
 			} else {
-				prdtVO.setPrdtFileId(origin.getPrdtFileId());
+				prdtVO.setOrgnFlNm("");
+				prdtVO.setUuidFlNm("");
+				prdtVO.setFlSize(0);
+				prdtVO.setFlExt("");
 			}
 			return prdtDAO.update(prdtVO) > 0;
 		} else {

@@ -35,8 +35,11 @@
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
-			 , P.PRDT_FILE_ID
 			 , P.PRDT_SRT
+			 , ORGN_FL_NM
+			 , UUID_FL_NM
+			 , FL_SIZE
+			 , FL_EXT
 			 , CMMN.CD_NM
 			 , P.PRDT_RGSTR
 			 , R.MBR_NM RGSTR_NM
@@ -72,8 +75,11 @@
 			 , PRDT_NM
 			 , PRDT_PRC
 			 , PRDT_CNTNT
-			 , PRDT_FILE_ID
 			 , PRDT_SRT
+			 , ORGN_FL_NM
+			 , UUID_FL_NM
+			 , FL_SIZE
+			 , FL_EXT
 			 , PRDT_RGSTR
 			 , PRDT_RGST_DT
 			 , MDFYR
@@ -100,8 +106,11 @@
 		, PRDT_NM
 		, PRDT_PRC
 		, PRDT_CNTNT
-		, PRDT_FILE_ID
 		, PRDT_SRT
+		, ORGN_FL_NM
+		, UUID_FL_NM
+		, FL_SIZE
+		, FL_EXT
 		, PRDT_RGSTR
 		, PRDT_RGST_DT
 		, MDFYR
@@ -113,8 +122,11 @@
 		, #{prdtNm}
 		, #{prdtPrc}
 		, #{prdtCntnt}
-		, #{prdtFileId}
 		, #{prdtSrt}
+		, #{orgnFlNm}
+		, #{uuidFlNm}
+		, #{flSize}
+		, #{flExt}
 		, #{prdtRgstr}
 		, SYSDATE
 		, #{mdfyr}
@@ -129,8 +141,11 @@
 		   SET PRDT_NM = #{prdtNm} 
 		     , PRDT_PRC = #{prdtPrc} 
 		     , PRDT_CNTNT = #{prdtCntnt} 
-		     , PRDT_FILE_ID = #{prdtFileId} 
 		     , PRDT_SRT = #{prdtSrt} 
+		     , ORGN_FL_NM = #{orgnFlNm}
+			 , UUID_FL_NM = #{uuidFlNm}
+			 , FL_SIZE = #{flSize}
+			 , FL_EXT = #{flExt}
 		     , MDFYR = #{mdfyr} 
 		     , MDFY_DT = SYSDATE 
 		     , USE_YN = NVL(#{useYn}, 'N')  
