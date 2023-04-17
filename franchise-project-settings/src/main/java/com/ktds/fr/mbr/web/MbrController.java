@@ -21,7 +21,6 @@ import com.ktds.fr.mbr.vo.MbrVO;
 @Controller
 public class MbrController {
 	
-	
 	private static final Logger log = LoggerFactory.getLogger(MbrController.class);
 
 	@Autowired
@@ -46,7 +45,10 @@ public class MbrController {
 		
 		return "mbr/mbr_list";
 	}
-	
+	@GetMapping("mbr/pwdCheck")
+	public String viewPwdCheckPage() {
+		return "mbr/mbr_check";
+	}
 //	@GetMapping("/login")
 //	public String viewLoginPage() {
 //		return "mbr/login";
