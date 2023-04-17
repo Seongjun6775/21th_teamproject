@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -29,7 +30,7 @@
 			alert("시작 일자를 확인해 주세요");
 			return;
 		}
-		var queryString = "mbrLvl="+mbrLvl;
+		var queryString = "mbrLvl=" + mbrLvl;
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt" + endDt;
 		queryString += "&pageNo" + pageNo;
@@ -122,6 +123,44 @@
 							</c:choose>
 						</tbody>
 					</table>
+					
+						<div class="pagenate">
+							<ul>
+								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastPage : 0}" var="lastPage"/>
+								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastGroup : 0}" var="lastGroup"/>
+								
+								<fmt:parseNumber var="nowGroup" value="${Math.floor(mbrVO.pageNo / 10)}" integerOnly = "true"/>
+								<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
+								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
+								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
+								
+								<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
+								<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
+								<!--  
+								lastPage: ${lastPage }
+								lastGroup: ${lastGroup }
+								nowGroup: ${nowGroup }
+								groupStartPageNo:${groupStartPageNo }
+								groupEndPageNo:${groupEndPageNo}
+								prevGroupStartPageNo: ${prevGroupStartPageNo }
+								nextGroupStartPageNo: ${nextGroupStartPageNo }
+								-->
+								<c:if test = "${nowGroup > 0}">
+									<li><a href="javascript:movePage(0)">처음</a></li>
+									<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+								</c:if>
+								
+								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+									<li><a class="${pageNo eq mbrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+								</c:forEach>
+								
+								<c:if test = "${lastGroup >nowGroup }">
+									<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+									<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+								</c:if>
+							</ul>
+						</div>
+					
 				</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

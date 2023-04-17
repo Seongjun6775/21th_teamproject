@@ -125,10 +125,8 @@
 			parameterType="com.ktds.fr.mbr.vo.MbrVO"
 			resultType="com.ktds.fr.mbr.vo.MbrVO">
 	    <include refid="Common.pageHeader" />
-		SELECT M.MBR_ID
+		SELECT M.MBR_ID PK_COL
 			 , M.MBR_NM
-			 , M.MBR_NM PK_COL
-			 , M.MBR_PWD
 			 , M.MBR_EML
 			 , TO_CHAR(M.MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
 			 , TO_CHAR(M.MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
@@ -136,18 +134,16 @@
 			 , M.MBR_LGN_FL_CNT
 			 , M.MBR_LGN_BLCK_YN
 			 , TO_CHAR(M.MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
-			 , M.MBR_PWD_SLT
 			 , TO_CHAR(M.MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
 			 , CD.CD_NM MBR_LVL
 			 , CD.CD_ID
 			 , M.MBR_PY_MN
 			 , TO_CHAR(M.MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT 
 			 , M.DEL_YN
-			 , M.MBR_LEAV_DT
 		  FROM MBR M
  		 INNER JOIN CMMN_CD CD
  		 	ON M.MBR_LVL = CD.CD_ID
-		 WHERE M.MBR_RGSTR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+ 		 WHERE M.MBR_RGSTR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
 		   AND M.MBR_RGSTR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		  <if test='mbrLvl != null and mbrLvl != ""'>
 		   AND CD.CD_ID = #{mbrLvl}
