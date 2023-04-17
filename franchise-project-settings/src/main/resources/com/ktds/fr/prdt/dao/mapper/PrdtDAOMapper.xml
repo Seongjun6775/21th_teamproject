@@ -17,11 +17,13 @@
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
 					autoMapping="true">
 			<id property="mbrId" column="PRDT_RGSTR"/>
+			<result property="mbrNm" column="RGSTR_NM"/>
 		</association>
 		<association property="mdfyrMbrVO"
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
 					autoMapping="true">
 			<id property="mbrId" column="MDFYR"/>
+			<result property="mbrNm" column="MDFYR_NM"/>
 		</association>
 		
 	</resultMap>
