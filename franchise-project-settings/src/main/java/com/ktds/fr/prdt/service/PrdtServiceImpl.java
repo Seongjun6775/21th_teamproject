@@ -61,6 +61,8 @@ public class PrdtServiceImpl implements PrdtService {
 		int prc = prdtVO.getPrdtPrc();
 		if (prc == 0) {
 			throw new ApiArgsException("400", "가격이 비었음");
+		} else if (prc > 9999999) {
+			throw new ApiArgsException("400", "가격은 9,999,999를 넘을 수 없습니다.");
 		}
 
 		if (uploadFile != null && !uploadFile.isEmpty()) {
