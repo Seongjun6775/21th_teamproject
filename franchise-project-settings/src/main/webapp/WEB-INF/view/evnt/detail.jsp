@@ -71,9 +71,6 @@
 	        }
 		});
 		
-		
-		
-
 		//'목록으로'버튼 누르면 뒤로 돌아가기
 		$("#btn-cancle").click(function() {
 			//location.href="${context}/evnt/list3"
@@ -134,9 +131,11 @@
 				</tr>
 
 				<tr>
+		
 					<td>이벤트 사진</td>
-					<td colspan="3"><input type="file" id="evntPht"
+					<td colspan="3"><input type="file" id="evntPht" name="attachFile"
 						style="width: 99%;" value="${evntVO.evntPht}" readonly="readonly" /></td>
+						
 				</tr>
 
 				<tr>

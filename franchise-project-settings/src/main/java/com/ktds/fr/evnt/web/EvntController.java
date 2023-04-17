@@ -2,6 +2,8 @@ package com.ktds.fr.evnt.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +30,24 @@ public class EvntController {
 
 	// 2. 이벤트 목록 조회 페이지
 	@RequestMapping("/evnt/list")
-	public String viewEvntListPage(Model model, EvntVO evntVO) {
+	public String viewEvntListPage(Model model, EvntVO evntVO, HttpServletRequest req) {
 		
-		System.out.println("evntVo.getEvntId : " + evntVO.getEvntId());
-		System.out.println("evntVo.getEvntTtl : " + evntVO.getEvntTtl());
-		System.out.println("evntVo.getEvntCntnt : " + evntVO.getEvntCntnt());
-		System.out.println("evntVo.getEvntStrtDt : " + evntVO.getEvntStrtDt());
-		System.out.println("evntVo.getEvntEndDt : " + evntVO.getEvntEndDt());
-		System.out.println("evntVo.getUseYn : " + evntVO.getUseYn());
+		System.out.println("evntVO.getEvntId : " + evntVO.getEvntId());
+		System.out.println("evntVO.getEvntTtl : " + evntVO.getEvntTtl());
+		System.out.println("evntVO.getEvntCntnt : " + evntVO.getEvntCntnt());
+		System.out.println("evntVO.getEvntStrtDt : " + evntVO.getEvntStrtDt());
+		System.out.println("evntVO.getEvntEndDt : " + evntVO.getEvntEndDt());
+		System.out.println("evntVO.getUseYn : " + evntVO.getUseYn());
+		
+		// 기본조건으로 20개씩 조회
+		evntVO.setViewCnt(20);
+		// 기본조건으로 10페이지씩 조회
+		evntVO.setPageCnt(10);
+		evntVO.setPageNo(nullToZero(req.getParameter("pageNo")));
+		
+		System.out.println("evntVO.getViewCnt() : " + evntVO.getViewCnt());
+		System.out.println("evntVO.getPageCnt() : " + evntVO.getPageCnt());
+		System.out.println("evntVO.getPageNo() : " +  evntVO.getPageNo());
 		
 		List<EvntVO> evntList = evntService.readAllEvnt(evntVO);
 		
@@ -49,6 +61,14 @@ public class EvntController {
 		model.addAttribute("evntStrtDt", evntVO.getEvntStrtDt());
 		model.addAttribute("evntEndDt", evntVO.getEvntEndDt());
 		model.addAttribute("useYn", evntVO.getUseYn());
+
+		model.addAttribute("viewCnt", evntVO.getViewCnt());
+		model.addAttribute("pageCnt", evntVO.getPageCnt());
+		model.addAttribute("pageNo", evntVO.getPageNo());
+
+		model.addAttribute("totalCount", evntList.get(0).getTotalCount());
+		model.addAttribute("lastPage", evntList.get(0).getLastPage());
+		model.addAttribute("lastGroup", evntList.get(0).getLastGroup());
 		
 		return "evnt/list";
 	}
@@ -73,6 +93,13 @@ public class EvntController {
 
 	}
 
+	/* null 에러 방지 */
+	public int nullToZero(Object obj) {
+		if (obj == null) {
+			return 0;
+		}
+		return Integer.parseInt((String) obj);
+	}
 	// 5. 이벤트리스트 검색기능
 	/*
 	 * public String viewSearchEvntPage(Model model, EvntVO evntVO, String search,

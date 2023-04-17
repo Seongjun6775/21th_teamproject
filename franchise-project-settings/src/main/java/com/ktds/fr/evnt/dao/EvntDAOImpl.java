@@ -35,12 +35,8 @@ public class EvntDAOImpl extends SqlSessionDaoSupport implements EvntDAO {
 	public EvntVO readOneEvnt(String evntId) {
 		return getSqlSession().selectOne("Evnt.readOneEvnt", evntId );
 	}
-	
-	
-	
+		
 	// 4. 이벤트 결정 전,후 내용 조회 ▷상위관리자,중간관리자
-	
-
 	
 	@Override
 	// 5. 이벤트 내용 수정 ▶▶상위관리자
@@ -48,12 +44,8 @@ public class EvntDAOImpl extends SqlSessionDaoSupport implements EvntDAO {
 		return getSqlSession().update("Evnt.updateEvnt", evntVO );
 	}
 	
-	
-	
 	// 6. 이벤트 수정(이벤트 참여 여부 선택 후 수정) ▶중간관리자
 	
-	
-
 	@Override
 	// 7. 이벤트 삭제 ▶▶상위관리자
 	public int updateDeleteEvnt(String evntId) {

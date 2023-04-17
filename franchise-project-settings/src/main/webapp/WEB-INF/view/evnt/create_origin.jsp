@@ -54,6 +54,8 @@ $().ready(function() {
 </head>
 <body>
 
+<form action="uploadAction.jsp" method="post" enctype="multipart/form-data">
+	
 	<div class="main-layout">
 		<div>
 			<table border=1 style="width: 600px;">
@@ -86,11 +88,9 @@ $().ready(function() {
 					<td><input type="date" id="evntEndDt" value="" /></td>
 				</tr>
 				<tr>
-					<td>이벤트 사진</td>
-					<td colspan="3">
-					<input type="file" name="filename" id="evntPht"
-						   style="width: 200px;" value="" />					
-				    <input type="submit" value="사진 업로드"></td>				
+					<td><label for="uploadFile">이벤트 사진</label></td>
+					<td colspan="3"><input type="file" name="uploadFile" id="evntPht"
+						 style="width: 99%;" value="" /><br><input type="submit" value="사진 업로드"></td>					
 				</tr>
 				<tr>
 					<td>사용 여부</td>
@@ -108,5 +108,6 @@ $().ready(function() {
 			</table>
 		</div>
 	</div>
+</form>
 </body>
 </html>
