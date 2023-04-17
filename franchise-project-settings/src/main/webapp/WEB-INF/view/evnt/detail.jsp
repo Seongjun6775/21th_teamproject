@@ -45,7 +45,7 @@
 			});
 		});
 		
-		//
+		// '참여매장등록하기' 버튼 클릭 시
 		$("#btn-evntCreateStr").click(function() {
 			if (!confirm("소속 매장을 이벤트 참여 매장으로 하시겠습니까?\n확인(예) 또는 취소(아니오)를 선택해주세요.")) {
 	            alert("취소(아니오)를 누르셨습니다.");
@@ -80,14 +80,16 @@
 			history.go(-1);
 		});
 		
-		
+		//'참여매장목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntStr").click(function() {
 			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
 		       pop.focus();	
 		});
 		
+		//'이벤트상품목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntPrdt").click(function() {
-			
+			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
+		       pop.focus();	
 		});
 
 	})
@@ -159,7 +161,7 @@
 					<td><button type="submit" id="btn-evntStr" class="btn-primary"
 							style="width: 100%;">참여매장목록</button></td>
 					<td><button type="submit" id="btn-evntPrdt" class="btn-primary"
-							style="width: 100%;">참여상품목록</button></td>
+							style="width: 100%;">이벤트상품목록</button></td>
 					<td><button type="submit" id="btn-evntCreateStr" class="btn-primary"
 							style="width: 100%;">참여매장등록</button></td>
 					<td></td>
