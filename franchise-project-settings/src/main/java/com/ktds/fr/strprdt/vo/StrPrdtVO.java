@@ -1,6 +1,11 @@
-package com.ktds.fr.strprdt.vo;		
-		
-public class StrPrdtVO {		
+package com.ktds.fr.strprdt.vo;
+
+import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.prdt.vo.PrdtVO;
+import com.ktds.fr.str.vo.StrVO;
+
+public class StrPrdtVO extends AbstractVO {		
 		
 	private String strPrdtId;	
 	private String strId;	
@@ -9,6 +14,22 @@ public class StrPrdtVO {
 	private String mdfyDt;	
 	private String useYn;	
 	private String delYn;	
+	
+	private StrVO strVO;
+	private PrdtVO prdtVO;
+	private MbrVO mdfyrMbrVO;	
+	
+	
+	private int strPrdtPageNo;
+	private int strPrdtPageCnt;
+	private int strPrdtViewCnt;
+	
+	public StrPrdtVO() {
+		this.strPrdtPageNo = 0;
+		this.strPrdtPageCnt = 5;
+		this.strPrdtViewCnt = 20;
+	}
+	
 	public String getStrPrdtId() {	
 		return strPrdtId;
 	}	
@@ -50,6 +71,46 @@ public class StrPrdtVO {
 	}	
 	public void setDelYn(String delYn) {	
 		this.delYn = delYn;
+	}
+	
+	
+	public StrVO getStrVO() {
+		return strVO;
+	}
+	public void setStrVO(StrVO strVO) {
+		this.strVO = strVO;
+	}
+	public PrdtVO getPrdtVO() {
+		return prdtVO;
+	}
+	public void setPrdtVO(PrdtVO prdtVO) {
+		this.prdtVO = prdtVO;
+	}
+	public MbrVO getMdfyrMbrVO() {
+		return mdfyrMbrVO;
+	}
+	public void setMdfyrMbrVO(MbrVO mdfyrMbrVO) {
+		this.mdfyrMbrVO = mdfyrMbrVO;
+	}
+	
+	
+	public int getStrPrdtPageNo() {
+		return strPrdtPageNo;
+	}
+	public void setStrPrdtPageNo(int strPrdtPageNo) {
+		this.strPrdtPageNo = strPrdtPageNo;
+	}
+	public int getStrPrdtPageCnt() {
+		return strPrdtPageCnt;
+	}
+	public void setStrPrdtPageCnt(int strPrdtPageCnt) {
+		this.strPrdtPageCnt = strPrdtPageCnt;
+	}
+	public int getStrPrdtViewCnt() {
+		return strPrdtViewCnt;
+	}
+	public void setStrPrdtViewCnt(int strPrdtViewCnt) {
+		this.strPrdtViewCnt = strPrdtViewCnt;
 	}	
 		
 }		

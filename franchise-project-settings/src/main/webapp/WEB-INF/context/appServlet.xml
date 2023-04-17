@@ -11,7 +11,9 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<context:property-placeholder location="/WEB-INF/config/appconfig.properties" />
+	<context:property-placeholder location="/WEB-INF/config/appconfig.properties,/WEB-INF/config/email.properties" />
+	
+	
 	<context:component-scan base-package="com.ktds" />
 
 	<mvc:annotation-driven />
@@ -48,4 +50,47 @@
 		<aop:advisor advice-ref="myAdvice" pointcut-ref="myPointCut"/>
 	</aop:config>
 
+
+	<mvc:interceptors>
+			<mvc:interceptor>
+				<!-- <mvc:mapping path="/login"/> -->
+				<!-- <mvc:mapping path="/regist"/> -->
+				<mvc:mapping path="/join"/>
+				<bean class="com.ktds.fr.common.interceptors.BlockPageInterceptor"/>
+			</mvc:interceptor>
+		</mvc:interceptors>
+		<mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<!-- <mvc:exclude-mapping path="/login" /> -->
+				<!-- <mvc:exclude-mapping path="/regist" /> -->
+				<mvc:exclude-mapping path="/join" />
+				<mvc:exclude-mapping path="/api/mbr/**"/>
+				<mvc:exclude-mapping path="/js/**" />
+				<mvc:exclude-mapping path="/css/**" />
+				<mvc:exclude-mapping path="/img/**" />
+				<mvc:exclude-mapping path="/html/**" />
+				<bean class="com.ktds.fr.common.interceptors.SessionInterceptor"/>
+			</mvc:interceptor>
+		</mvc:interceptors>
+		
+	<!-- email 인증 관련   -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="${email.account}"/>
+        <property name="password" value="${email.password}" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+            </props>
+        </property>
+    </bean>
+	
 </beans>

@@ -1,5 +1,8 @@
 package com.ktds.fr.lgnhist.dao;
 
-public interface LgnHistDAO {
+import com.ktds.fr.lgnhist.vo.LgnHistVO;
 
+public interface LgnHistDAO {
+	
+	public int createMbrLgnHist(LgnHistVO lgnHistVO);
 }
