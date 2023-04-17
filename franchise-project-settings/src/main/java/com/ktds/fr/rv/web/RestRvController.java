@@ -1,6 +1,9 @@
 package com.ktds.fr.rv.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +42,7 @@ public class RestRvController {
 
 		boolean isSuccess = rvService.createNewRv(rvVO);
 		if (isSuccess) {
-			return new ApiResponseVO(ApiStatus.OK, "/mv/list/", "", "");
+			return new ApiResponseVO(ApiStatus.OK, "/rv/list/", "", "");
 		} else {
 			return new ApiResponseVO(ApiStatus.FAIL, "리뷰를 등록할 수 없습니다.", "500", "");
 		}
@@ -48,10 +51,10 @@ public class RestRvController {
 	
 	
 	// 3-1.리뷰 목록에서 리뷰 삭제 == 상위관리자, 이용자
-	@PostMapping("api/rv/delete")
-	public ApiResponseVO doDeleteOneRv(@RequestParam String rvId
+	@PostMapping("/api/rv/delete")
+	public ApiResponseVO doDeleteAllRv(@RequestParam List<String> rvIdList
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-		boolean isDelete = rvService.deleteAllRvListByRvId(rvId, mbrVO);
+		boolean isDelete = rvService.deleteAllRvListByRvId(rvIdList, mbrVO);
 		
 		if (isDelete) {
 			return new ApiResponseVO(ApiStatus.OK);
@@ -62,4 +65,16 @@ public class RestRvController {
 	}
 	
 	// 3-2.리뷰 상세에서 리뷰 삭제 == 상위관리자, 이용자
+	@PostMapping("/api/rv/delete/{rvId}")
+	public ApiResponseVO doDeleteOneRv(@PathVariable String rvId
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		boolean isDelete2 = rvService.deleteOneRvVOByRvId(rvId, mbrVO);
+		
+		if (isDelete2) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	}
 }

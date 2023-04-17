@@ -80,3 +80,16 @@ input {
 	background-color: #3331;
 	margin: 3px;
 }
+
+.align-right {
+	text-align: right;
+	margin: 0 auto;
+}
+
+.btn-primary {
+	background-color: #c0d1fe;
+}
+
+.btn-delete {
+	background-color: #fe98a5;
+}

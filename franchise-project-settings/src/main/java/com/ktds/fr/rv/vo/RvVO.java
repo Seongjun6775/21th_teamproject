@@ -1,11 +1,14 @@
-package com.ktds.fr.rv.vo;		
-	
+package com.ktds.fr.rv.vo;
+
+import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.mbr.vo.MbrVO;
+
 /**
  * 리뷰(RV)
  * @author User
  *
  */
-public class RvVO {		
+public class RvVO extends AbstractVO {		
 		
 	// 리뷰ID
 	private String rvId; 
@@ -27,6 +30,8 @@ public class RvVO {
 	private String useYn;
 	// 삭제여부
 	private String delYn;	
+	
+	private MbrVO mbrVO;
 	
 	public String getRvId() {	
 		return rvId;
@@ -87,6 +92,12 @@ public class RvVO {
 	}	
 	public void setDelYn(String delYn) {	
 		this.delYn = delYn;
+	}
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
 	}	
 		
 }		

@@ -70,14 +70,14 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 	
 	// 3-1.모든 매장의 리뷰 삭제 == 상위관리자
 	@Override
-	public int deleteAllRvVOForTopManagerByRvId(String rvId) {
-		return getSqlSession().update("Rv.deleteAllRvVOForTopManagerByRvId", rvId);
+	public int deleteAllRvVOByRvIdList(List<String> rvIdList) {
+		return getSqlSession().update("Rv.deleteAllRvVOByRvIdList", rvIdList);
 	}
 
 	// 3-2.자기가 쓴 리뷰 삭제 == 이용자
 	@Override
-	public int deleteOneRvVOForMemberByRvId(String rvId) {
-		return getSqlSession().update("Rv.deleteOneRvVOForMemberByRvId", rvId);
+	public int deleteOneRvVOByRvId(String rvId) {
+		return getSqlSession().update("Rv.deleteOneRvVOByRvId", rvId);
 	}
 	
 }

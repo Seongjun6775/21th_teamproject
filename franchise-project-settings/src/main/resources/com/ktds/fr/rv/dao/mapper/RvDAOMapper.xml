@@ -63,7 +63,7 @@
 		   AND R.DEL_YN = 'N'	
 	</select>
 	
-	<!-- 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자 (수정 要)-->
+	<!-- 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자 -->
 	<select id="readOneRvVOForTopManagerByRvId"
 			parameterType="string"
 			resultType="com.ktds.fr.rv.vo.RvVO">
@@ -108,7 +108,7 @@
 		   AND R.DEL_YN = 'N'		
 	</select>
 	
-	<!-- 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자 (수정 要)-->
+	<!-- 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자 -->
 	<select id="readOneRvVOForMiddleManagerByOdrId"
 			parameterType="string"
 			resultType="com.ktds.fr.rv.vo.RvVO">
@@ -153,7 +153,7 @@
 		   AND R.DEL_YN = 'N'
 	</select>
 	
-	<!-- 2-6.자기가 쓴 리뷰 상세 조회 == 이용자 (수정 要) -->
+	<!-- 2-6.자기가 쓴 리뷰 상세 조회 == 이용자 -->
 	<select id="readOneRvVOForMemberByRvId"
 			parameterType="string"
 			resultType="com.ktds.fr.rv.vo.RvVO">
@@ -177,8 +177,8 @@
 	</select>
 	
 	<!-- 3-1.모든 매장의 리뷰 삭제 == 상위관리자 -->
-	<update id="deleteAllRvVOForTopManagerByRvId"
-			parameterType="string">
+	<update id="deleteAllRvVOByRvIdList"
+			parameterType="arraylist">
 		UPDATE RV
 		   SET USE_YN = 'N'
 		     , DEL_YN = 'Y'
@@ -189,7 +189,7 @@
 	</update>
 	
 	<!-- 3-2.자기가 쓴 리뷰 삭제 == 이용자 -->
-	<update id="deleteOneRvVOForMemberByRvId"
+	<update id="deleteOneRvVOByRvId"
 			parameterType="string">
 		UPDATE RV
 		   SET USE_YN = 'N' 

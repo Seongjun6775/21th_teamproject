@@ -43,6 +43,7 @@ public class RvServiceImpl implements RvService {
 	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
 	@Override
 	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO) {
+		rvVO.setMbrVO(mbrVO);
 		if (mbrVO.getMbrLvl().equals("001-01")) {
 			return rvDAO.readAllRvListForTopManager(rvVO);
 		}
@@ -71,27 +72,21 @@ public class RvServiceImpl implements RvService {
 	
 	// 3-1.리뷰 목록에서 리뷰 삭제 == 상위관리자, 이용자
 	@Override
-	public boolean deleteAllRvListByRvId(String rvId, MbrVO mbrVO) {
-		if (mbrVO.getMbrLvl().equals("001-01")) {
-			return rvDAO.deleteAllRvVOForTopManagerByRvId(rvId) > 0;
-		}
-		else if (mbrVO.getMbrLvl().equals("001-04")) {
-			return rvDAO.deleteOneRvVOForMemberByRvId(rvId) > 0;		
+	public boolean deleteAllRvListByRvId(List<String> rvIdList, MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl().equals("001-04")) {
+			return rvDAO.deleteAllRvVOByRvIdList(rvIdList) > 0;
 		}
 		return false;
 	}
 	
 	// 3-2.리뷰 상세에서 리뷰 삭제 == 상위관리자, 이용자
-//	@Override
-//	public boolean deleteOneRvVOByRvId(String rvId, MbrVO mbrVO) {
-//		if (mbrVO.getMbrLvl().equals("001-01")) {
-//			return rvDAO.deleteAllRvVOForTopManagerByRvId(rvId) > 0;
-//		}
-//		else if (mbrVO.getMbrLvl().equals("001-04")) {
-//			return rvDAO.deleteOneRvVOForMemberByRvId(rvId) > 0;			
-//		}
-//		return false;
-//	}
+	@Override
+	public boolean deleteOneRvVOByRvId(String rvId, MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl().equals("001-04")) {
+			return rvDAO.deleteOneRvVOByRvId(rvId) > 0;
+		}
+		return false;
+	}
 
 		
 }

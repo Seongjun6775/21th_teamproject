@@ -14,9 +14,25 @@
 <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-
-
-
+	$().ready(function() {
+		$("#delete_btn").click(function(){
+			/* var rvId = $("#rvId").val();
+			if(rvId == ""){
+				alert("선택된 리뷰가 없습니다.");
+				return;
+			}
+			if(!confirm("정말 삭제하시겠습니까?")){
+				return;
+			} */
+			$.post("${context}/api/rv/delete/${rvDetail.rvId}", function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}else{
+					alert(response.errorCode + " / " + response.message);
+				}
+			})
+		});
+	});
 </script>
 </head>
 <body>
@@ -70,8 +86,12 @@
 						</div>
 					</form>
 				</div>
-		</div>
+			<div class="align-right">
+				<button id="delete_btn" class="btn-delete">삭제</button>
+			</div>
+				
+		</div> 
 	</div>
-
+	<jsp:include page="../include/footer.jsp" />
 </body>
 </html>

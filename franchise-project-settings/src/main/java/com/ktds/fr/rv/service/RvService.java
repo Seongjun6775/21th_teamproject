@@ -20,8 +20,8 @@ public interface RvService {
 
 	
 	// 3-1.리뷰 목록에서 리뷰 삭제 == 상위관리자, 이용자
-	public boolean deleteAllRvListByRvId(String rvId, MbrVO mbrVO);
+	public boolean deleteAllRvListByRvId(List<String> rvIdList, MbrVO mbrVO);
 	// 3-2.리뷰 상세에서 리뷰 삭제 == 상위관리자, 이용자
-//	public boolean deleteOneRvVOByRvId(String rvId, MbrVO mbrVO);
+	public boolean deleteOneRvVOByRvId(String rvId, MbrVO mbrVO);
 	
 }

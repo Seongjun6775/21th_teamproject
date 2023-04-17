@@ -29,8 +29,8 @@ public interface RvDAO {
 
 	
 	// 3-1.모든 매장의 리뷰 삭제 == 상위관리자
-	public int deleteAllRvVOForTopManagerByRvId(String rvId);
+	public int deleteAllRvVOByRvIdList(List<String> rvIdList);
 	// 3-2.자기가 쓴 리뷰 삭제 == 이용자
-	public int deleteOneRvVOForMemberByRvId(String rvId);
+	public int deleteOneRvVOByRvId(String rvId);
 	
 }
