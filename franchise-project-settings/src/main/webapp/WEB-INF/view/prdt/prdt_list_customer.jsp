@@ -38,25 +38,25 @@ function movePage(pageNo) {
 	queryString += "&useYn=" + useYn;
 	queryString += "&prdtPageNo=" + pageNo;
 	
-	location.href = "${context}/prdt/list?" + queryString; // URL 요청
+	location.href = "${context}/prdt/list2?" + queryString; // URL 요청
 } 
 
 </script>
 </head>
 <body>
 
-	<div class="headline">
-		상단 헤드라인임
+	<div class="headline relative">
+		상단 헤드라인임 //////// <a href="${context}/prdt/list">관리자 메뉴로 돌아가깅</a>
 		<div>${prdtList}</div>
 		<div>${prdtVO}</div>
 		<div>${srtList}</div>
-			<ul id="prdtSrtList">
+			<ul id="prdtSrtList" class="flex absolute" style="list-style-type: none; bottom: 0px;">
 				<li value="">전체메뉴</li>
 				<c:choose>
 					<c:when test="${not empty srtList}">
 						<c:forEach items="${srtList}"
 									var="srt">
-							<li value="${srt.cdId}">${srt.cdNm}</li>
+							<li class="ml-20" value="${srt.cdId}">${srt.cdNm}</li>
 						</c:forEach>
 					</c:when>
 				</c:choose>
@@ -80,8 +80,8 @@ function movePage(pageNo) {
 							</c:choose>	
 						</div>
 						<div class="prdt3">
-							<div class="flex">${prdt.prdtNm}</div>
-							<div class="flex"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
+							<div class="name">${prdt.prdtNm}</div>
+							<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
 						</div>
 					</div>
 				</c:forEach>

@@ -424,6 +424,9 @@ input[type="number"]::-webkit-inner-spin-button {
 .ml-10 {
 	margin-left: 10px;
 }
+.ml-20 {
+	margin-left: 20px;
+}
 .mr-10 {
 	margin-right: 10px;
 }
@@ -486,8 +489,9 @@ input[type=file] {
 
 /* prdt-customer */
 .prdt1 {
-	display: flex;
+	display: inline-flex;
 	background-color: #3333;
+	width: 320px;
 	margin:10px;
 	padding: 10px;
 	flex-direction: column;
@@ -499,10 +503,15 @@ input[type=file] {
 }
 .prdt3 {
 	background-color: #3003;
-	
 }
-
-
+.name {
+	font-size: 24pt;
+	font-weight: bold;
+}
+.price {
+	font-size: 16pt;
+	text-align: right;
+}
 
 
 /* 손님용 customer */
