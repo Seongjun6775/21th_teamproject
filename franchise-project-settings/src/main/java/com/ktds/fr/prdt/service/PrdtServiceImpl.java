@@ -164,6 +164,12 @@ public class PrdtServiceImpl implements PrdtService {
 			prdtVO.setFlSize(origin.getFlSize());
 			prdtVO.setFlExt(origin.getFlExt());
 		} else {
+			File file = new File(profilePath + File.separator + origin.getUuidFlNm());
+			boolean del = file.delete();
+			System.out.println("삭제가 돌아야 한다" + del);
+			System.out.println(profilePath);
+			System.out.println(origin.getUuidFlNm());
+			
 			isModify = true;
 		}
 
@@ -181,6 +187,7 @@ public class PrdtServiceImpl implements PrdtService {
 				} catch (IllegalStateException | IOException e) {
 					logger.error(e.getMessage(), e);
 				}
+				
 				String originFileName = uploadFile.getOriginalFilename();
 				long fileSize = uploadFile.getSize();
 				String fileExt = uploadFile.getContentType();
