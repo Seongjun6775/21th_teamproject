@@ -4,8 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Ntc">
 
-<insert id="createNoticeTitle"
-            parameterType="com.ktds.fr.ntc.vo.NtcVO">
+<insert id="createNotice"
+        parameterType="com.ktds.fr.ntc.vo.NtcVO">
        INSERT INTO NTC
         (NTC_ID
        , MBR_ID
@@ -33,141 +33,59 @@
     </insert>
     
     
-     <insert id="createNoticeContent"
-             parameterType="com.ktds.fr.ntc.vo.NtcVO">
-      INSERT INTO NTC
-        (NTC_ID
-       , MBR_ID
-       , NTC_RGST_DT
-       , MDFYR
-       , MDFY_DT
-       , NTC_TTL
-       , NTC_CNTNT
-       , NTC_PRRT
-       , NTC_INQ_ATH
-       , USE_YN
-       , DEL_YN)
-       VALUES
-        ('NTC-' || TO_CHAR(SYSDATE,'YYYY-MM-DD') || LPAD(SEQ_NTC_PK.NEXTVAL, 5, '0')
-       , #{mbrId}
-       , SYSDATE
-       , #{mdfyr}
-       , SYSDATE
-       , #{ntcTtl}
-       , #{ntcCntnt}
-       , NVL(#{ntcPrrt}, 'N')
-       , NVL(#{ntcInqAth}, 'Y')
-       , NVL(#{useYn}, 'Y')
-       , 'N' )
-     
-     </insert>
-    
-    <insert id="createNewNoticeContent"
-            parameterType="com.ktds.fr.ntc.vo.NtcVO">
-    INSERT INTO NTC
-      (NTC_ID
-     , MBR_ID
-     , NTC_RGST_DT
-     , MDFYR
-     , MDFY_DT
-     , NTC_TTL
-     , NTC_CNTNT
-     , NTC_PRRT
-     , NTC_INQ_ATH
-     , USE_YN
-     , DEL_YN)
-     VALUES
-       ('NTC-' || TO_CHAR(SYSDATE,'YYYY-MM-DD') || LPAD(SEQ_NTC_PK.NEXTVAL, 5, '0')
-     , #{mbrId}
-     , SYSDATE
-     , #{mdfyr}
-     , SYSDATE
-     , #{ntcTtl}
-     , #{ntcCntnt}
-     , NVL(#{ntcPrrt}, 'N')
-     , NVL(#{ntcInqAth}, 'Y')
-     , NVL(#{useYn}, 'Y')
-     , 'N' )
-          
-    </insert>
-    
-    <select id="readAllNoticeTitleByNoticeId"
-            parameterType="string"
-            resultType="com.ktds.fr.ntc.vo.NtcVO">
-       SELECT FRAN.NTC_ID
-            , FRAN.MBR_ID
-            , TO_CHAR(FRAN.NTC_RGST_DT ,'YYYY-MM-DD HH24:MI:SS') NTC_RGST_DT 
-            , MDFYR
-            , TO_CHAR(FRAN.MP.MDFY_DT ,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-            , FRAN.NTC_TTL
-            , FRAN.NTC_CNTNT
-            , FRAN.NTC_PRRT
-            , FRAN.NTC_INQ_ATH
-            , FRAN.USE_YN
-            , FRAN.DEL_YN
-         FROM FRAN.NTC
-       
-    </select>
-    
-    
-    <select id="readOneNoticeContent"
-            parameterType="com.ktds.fr.ntc.vo.NtcVO"
-            resultType="com.ktds.fr.ntc.vo.NtcVO">
-       SELECT FRAN.NTC_ID
-            , FRAN.MBR_ID
-            , TO_CHAR(FRAN.NTC_RGST_DT ,'YYYY-MM-DD HH24:MI:SS') NTC_RGST_DT 
-            , MDFYR
-            , TO_CHAR(FRAN.MP.MDFY_DT ,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-            , FRAN.NTC_TTL
-            , FRAN.NTC_CNTNT
-            , FRAN.NTC_PRRT
-            , FRAN.NTC_INQ_ATH
-            , FRAN.USE_YN
-            , FRAN.DEL_YN
-         FROM FRAN.NTC
-      </select>
 
-	<update id="updateNoticeTitle"
-            parameterType="string">
-       UPDATE FRAN.NTC
-          SET FRAN.NTC_TTL={#ntcTtl}
-        WHERE NTC_ID=#{_parameter}
+	<update id="updateNotice"
+            parameterType="com.ktds.fr.ntc.vo.NtcVO">
+      UPDATE FRAN.NTC
+         SET NTC_TTL= #{ntcTtl}
+           , NTC_CNTNT= #{ntcCntnt} 
+       WHERE NTC_ID= #{_parameter}
+
               
         </update>
 	
-	<update id="updateNoticeContent"
-            parameterType="string">
-        UPDATE FRAN.NTC
-           SET NTC_CNTNT={#ntcCntnt}
-         WHERE NTC_ID=#{_parameter}
-   
-        </update>
 	
-	<update id="deleteNoticeByNoticeId"
-            parameterType="string">
-        UPDATE FRAN.NTC
-           SET NTC_TTL=#{ntcTtl}
-             , DEL_YN='N' 
-         WHERE NTC_ID=#{_parameter}
-         
-    </update>
-	
-	
-	<select id="readAllNotice"
+    <select id="readDetailNotice"
+            parameterType="com.ktds.fr.ntc.vo.NtcVO"
             resultType="com.ktds.fr.ntc.vo.NtcVO">
         SELECT NTC_ID
              , MBR_ID
-             , NTC_RGST_DT
+             , TO_CHAR(NTC_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') NTC_RGST_DT
              , MDFYR
-             , MDFY_DT
+             , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
              , NTC_TTL
              , NTC_CNTNT
              , NTC_PRRT
              , NTC_INQ_ATH
              , USE_YN
-             , DEL_YN
           FROM FRAN.NTC
+            
       </select>
+	
+	<select id="readTotalNotice"
+            parameterType="com.ktds.fr.ntc.vo.NtcVO"
+            resultType="com.ktds.fr.ntc.vo.NtcVO">
+          SELECT NTC_ID
+               , MBR_ID
+               , TO_CHAR(NTC_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') NTC_RGST_DT
+               , MDFYR
+               , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+               , NTC_TTL
+               , NTC_CNTNT
+               , NTC_PRRT
+               , NTC_INQ_ATH
+               , USE_YN
+            FROM FRAN.NTC 
+      </select>
+	
+	
+	<update id="deleteNotice"
+            parameterType="string">
+         UPDATE FRAN.NTC
+            SET DEL_YN='N' 
+          WHERE NTC_ID= #{_parameter}
+              
+    </update>
 	
 	
 </mapper>

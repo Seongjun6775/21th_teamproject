@@ -22,7 +22,7 @@
 		});
 		
 		
-		$("#cancle_btn").click(function(){
+		$("#cancel_btn").click(function(){
 			window.close();
 		})
 		
@@ -30,7 +30,7 @@
 			
 			var checkbox = $(".check_idx:checked");
 			if(checkbox.length ==0){
-				alert("장르를 선택하세요.");
+				alert("하나의 공지글을 선택하세요.");
 				return;
 			}
 			
@@ -105,7 +105,7 @@
 		</div>
 		
 		<div class="align-right">
-			<button id="cancle_btn" class="btn-delete">취소</button>
+			<button id="cancel_btn" class="btn-delete">취소</button>
 			<button id="regist_btn" class="btn-primary">등록</button>
 		</div>
 	</div>

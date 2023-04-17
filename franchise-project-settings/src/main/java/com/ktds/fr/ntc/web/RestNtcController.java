@@ -16,10 +16,10 @@ public class RestNtcController {
 	@Autowired
 	private NtcService ntcService;
 	
-	@PostMapping("/api/ntc/create/{ntcCntnt}")
-	public ApiResponseVO createNewNtcContent(String ntcCntnt) {
+	@PostMapping("/api/ntc/create")
+	public ApiResponseVO createContent(NtcVO ntcVO) {
 		
-		boolean createResult = ntcService.createNoticeContent(ntcCntnt);
+		boolean createResult = ntcService.createNotice(ntcVO);
 		
 		if(createResult) {
 			return new ApiResponseVO(ApiStatus.OK);
@@ -29,23 +29,11 @@ public class RestNtcController {
 		}
 	}
 	
-	@PostMapping("/api/ntc/create/{ntcTtl}")
-	public ApiResponseVO createNewNtcTitle(String ntcTtl) {
-		
-		boolean createResult2 = ntcService.createNoticeTitle(ntcTtl);
-		
-		if(createResult2) {
-			return new ApiResponseVO(ApiStatus.OK);
-		}
-		else {
-			return new ApiResponseVO(ApiStatus.FAIL);
-		}
-	}
 	
-	@PostMapping("/api/ntc/update/{ntcTtl}")
-	public ApiResponseVO updateNoticeTitle(String ntcTtl) {
+	@PostMapping("/api/ntc/update")
+	public ApiResponseVO updateNotice(NtcVO ntcVO) {
 		
-		boolean updateResult = ntcService.updateNoticeContent(ntcTtl);
+		boolean updateResult = ntcService.updateNotice(ntcVO);
 		
 		if(updateResult) {
 			return new ApiResponseVO(ApiStatus.OK);
@@ -56,24 +44,11 @@ public class RestNtcController {
 	}
 	
 	
-	@PostMapping("/api/ntc/update/{ntcCntnt}")
-	public ApiResponseVO updateNoticeContent(String ntcCntnt) {
-		
-		boolean updateResult2 = ntcService.updateNoticeContent(ntcCntnt);
-		
-		if(updateResult2) {
-			return new ApiResponseVO(ApiStatus.OK);
-		}
-		else {
-			return new ApiResponseVO(ApiStatus.FAIL);
-		}
-	}
-	
 	
 	@PostMapping("/api/ntc/delete/{ntcId}")
 	public ApiResponseVO deleteNotice(String ntcId) {
 		
-		boolean deleteResult = ntcService.deleteNoticeByNoticeId(ntcId);
+		boolean deleteResult = ntcService.deleteNotice(ntcId);
 		
 		if(deleteResult) {
 			return new ApiResponseVO(ApiStatus.OK);

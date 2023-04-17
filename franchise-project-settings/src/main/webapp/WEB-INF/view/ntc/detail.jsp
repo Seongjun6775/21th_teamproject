@@ -73,7 +73,9 @@
 	
 				
 				//신규등록
-				$.post("${context}/api/ntc/create",{useYn: $("#useYn:checked").val()} ,function(response){
+				$.post("${context}/api/ntc/create",{ntcTtl: $("#ntcTtl").val(),
+													ntcCntnt: $("#ntcCntnt").val()
+													useYn: $("#useYn:checked").val()} ,function(response){
 					if(response.status =="200 OK"){
 						location.reload(); //새로고침	
 					}
@@ -84,7 +86,8 @@
 		    }
 			else{ 
 				//수정
-				$.post("${context}/api/ntc/update",{ntcId: $("#ntcId").val(),
+				$.post("${context}/api/ntc/update",{ntcTtl: $("#ntcTtl").val(),
+													ntcCntnt : $("#ntcCntnt").val()
 													useYn: $("#useYn:checked").val()} ,function(response){
 					if(response.status =="200 OK"){
 						location.reload(); //새로고침	
@@ -101,7 +104,7 @@
 		$("#search-btn").click(function(){
 			//전송.
 			//입력 값.	
-			var gnrNm = $("#search-keyword").val();
+			var ntcId = $("#search-keyword").val();
 			//URL 요청
 			location.href = "${context}/ntc/list";
 		});
@@ -150,7 +153,7 @@
 	});
 		
 	function movePage(pageNo){
-		//전송.
+		//전송.w
 		//입력 값
 		//URL 요청
 		location.href = "${context}/ntc/list";
@@ -259,13 +262,7 @@
 							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
 							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
 							
-					<%-- 		lastPage: ${lastPage} 
-							lastGroup:${lastGroup}
-							nowGroup:${nowGroup}
-							groupStartPageNo:${groupStartPageNo}
-							groupEndPageNo:${groupEndPageNo}
-							prevGroupStartPageNo:${prevGroupStartPageNo}
-							nextGroupStartPageNo: ${nextGroupStartPageNo} --%>
+				
 				
 							<c:if test="${nowGroup > 0}">
 								<li><a href="javascript:movePage(0)">처음</a></li>
