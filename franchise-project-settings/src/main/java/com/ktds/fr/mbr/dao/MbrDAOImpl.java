@@ -47,6 +47,11 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	public int updateMbrLgnBlock(MbrVO mbrVO) {
 		return getSqlSession().update("Mbr.updateMbrLgnBlock",mbrVO);
 	}
+	
+	@Override
+	public int readOneMbrLgnFailCnt(String mbrId) {
+		return getSqlSession().selectOne("Mbr.readOneMbrLgnFailCnt", mbrId);
+	}
 
 	@Override
 	public int readCountMbrById(String mbrId) {
@@ -59,8 +64,8 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	}
 
 	@Override
-	public List<MbrVO> readAllMbr() {
-		return getSqlSession().selectList("Mbr.readAllMbr");
+	public List<MbrVO> readAllMbr(MbrVO mbrVO) {
+		return getSqlSession().selectList("Mbr.readAllMbr", mbrVO);
 	}
 
 	@Override

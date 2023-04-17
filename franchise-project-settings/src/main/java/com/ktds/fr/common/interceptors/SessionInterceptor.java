@@ -24,7 +24,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		if(member == null) {
 			//로그인 페이지로 이동
 			log.info("로그인 하고 와야지!");
-			response.sendRedirect(request.getContextPath() + "/login");
+			response.sendRedirect(request.getContextPath() + "/join");
 			return false;
 		}
 		log.info("로그인을 했군...");
