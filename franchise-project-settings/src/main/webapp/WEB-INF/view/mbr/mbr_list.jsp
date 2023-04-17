@@ -16,6 +16,7 @@
 		$("#search-btn").click(function(){
 			movePage(0);
 		});
+		$("#mbrLvl").val("${mbrVO.mbrLvl}");
 	});
 	
 	function movePage(pageNo){
@@ -49,13 +50,15 @@
 				<!-- 검색영역 -->
 				<div class="search-row-group">
 					<div class="search-group">
-							${mbrVO.mbrLvl}
 						<select id="mbrLvl" name="mbrLvl">
 							<option value="">멤버등급</option>
-							<option value="001-01" ${mbrVO.mbrLvl eq '001-01' ? 'selected' : ''}>상위관리자</option>
-							<option value="001-02" ${mbrVO.mbrLvl eq '001-02' ? 'selected' : ''}>중간관리자</option>
-							<option value="001-03" ${mbrVO.mbrLvl eq '001-03' ? 'selected' : ''}>하위관리자</option>
-							<option value="001-04" ${mbrVO.mbrLvl eq '001-04' ? 'selected' : ''}>이용자</option>
+							<c:choose>
+									<c:when test="${not empty srtList}">
+										<c:forEach items="${srtList}" var="srt">
+											<option value="${srt.cdId}">${srt.cdNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
 						</select>
 					</div>
 					<div class="search-group">
@@ -68,7 +71,7 @@
 				</div>	
 				<!-- 조회영역 -->
 				<div class="grid">
-					<div class="grid-count align-right">총 ${mbrList.size()}건</div>
+					<div class="grid-count align-right">총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
 					<table>
 						<thead>
 							<tr>
@@ -133,19 +136,19 @@
 								<fmt:parseNumber var="nowGroup" value="${Math.floor(mbrVO.pageNo / 10)}" integerOnly = "true"/>
 								<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
 								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
-								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
+								<c:set value="${groupEndPageNo > lastPage ? lastPage - 1 : groupEndPageNo - 1}" var="groupEndPageNo"/>
 								
 								<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
 								<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
-								<!--  
-								lastPage: ${lastPage }
+								 
+								<%-- lastPage: ${lastPage }
 								lastGroup: ${lastGroup }
 								nowGroup: ${nowGroup }
 								groupStartPageNo:${groupStartPageNo }
 								groupEndPageNo:${groupEndPageNo}
 								prevGroupStartPageNo: ${prevGroupStartPageNo }
-								nextGroupStartPageNo: ${nextGroupStartPageNo }
-								-->
+								nextGroupStartPageNo: ${nextGroupStartPageNo } --%>
+								
 								<c:if test = "${nowGroup > 0}">
 									<li><a href="javascript:movePage(0)">처음</a></li>
 									<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
