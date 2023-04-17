@@ -309,6 +309,16 @@
 		$("#mbrEml").change(function(){
 			$("#doneAuth").val("false");
 		});
+		$("#lgn_mbrId").keydown(function (key) {
+	        if (key.keyCode == 13) {
+	        	$("#login_btn").click();
+	        }
+	    });
+		$("#lgn_mbrPwd").keydown(function (key) {
+	        if (key.keyCode == 13) {
+	        	$("#login_btn").click();
+	        }
+	    });
 	});
 </script>
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
