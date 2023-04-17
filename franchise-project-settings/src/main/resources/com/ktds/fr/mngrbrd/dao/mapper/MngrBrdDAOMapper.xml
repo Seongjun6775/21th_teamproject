@@ -34,7 +34,8 @@
 			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO"
 			resultMap="brdMap">
 		<include refid ="Common.pageHeader"/>
-			SELECT B.MNGR_BRD_ID
+			SELECT B.MNGR_BRD_ID PK_COL
+			 , B.MNGR_BRD_ID
 		     , B.MNGR_BRD_TTL
 		     , B.MNGR_BRD_CNTNT
 		     , B.MNGR_ID

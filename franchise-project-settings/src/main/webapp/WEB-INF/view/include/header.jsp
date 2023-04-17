@@ -29,7 +29,7 @@
 			<a href="#">댓글관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">관리자게시판</a>
+			<a href="${context}/mngrbrd/list">관리자게시판</a>
 		</li>
 		<li class="nav-item">
 			<a href="#">고객센터</a>

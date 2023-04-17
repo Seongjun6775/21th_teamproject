@@ -5,19 +5,88 @@ body{
 	font-size: 12px !important;
     line-height: 1.4em;
     font-family: 'Noto Sans KR', sans-serif;
-	font-weight: 500;
+	font-weight
+	: 500;
     letter-spacing: -0.2px;
     word-break: keep-all;
-    font-family: 's-core-dream', sans-serif;
-	
+    font-family: 's-core-dream', sans-serif;	
 }
-
 
 *{
 	font-size:12pt;
 	color:#333;
-
 }
+/*Main Layout*/
+.main-layout {
+	padding:0px;
+}
+.main-layout > .header{
+	height: 90px;
+	padding: 10px;
+	position: relative;
+}
+.bg-black{
+	background-color: #555;
+}
+.main-layout > .header > .nav{
+	display: inline-block;
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+	position: absolute;
+	bottom: 10px;
+}
+
+.main-layout > .header > .nav > .nav-item,
+.main-layout > .header > .nav > .nav-item > a{
+	display: inline-block;
+	padding: 0px;
+	margin: 0px;
+	color: #eee;
+	text-decoration: none;
+}
+.main-layout > .header > .nav > .active{
+	font-weight: bold;
+	color: #ddd;
+}
+.main-layout > .header > .profile{
+	color: #eee;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+.inline {
+	display: inline-block;
+}
+.main-layout > div > .side-menu{
+	width: 150px;
+	position: fixed;
+	top: 90px;
+	bottom: 0px;
+}
+.main-layout > div > .side-menu > .menu-list{
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+} 
+.main-layout > div > .side-menu > .menu-list > .menu-item{
+	color: #fff;
+	padding-top: 10px;
+	padding-left: 10px;
+}
+.main-layout > div > .side-menu > .menu-list > .menu-item:last-child{
+	padding-bottom: 10px;
+}
+.main-layout > div> .content{
+	position: fixed;
+	top: 90px;
+	bottom: 0px;
+	left: 150px;
+	right: 0px;
+	overflow: auto;
+	padding: 10px;
+}
+
 
 .fullscreen{
 	position:fixed;
@@ -25,8 +94,6 @@ body{
 	bottom:0px;
 	left:0px;
 	right:0px;
-
-	
 }
 .bg-gray{
 	background-color:#ccc;
@@ -120,100 +187,7 @@ body{
 	margin-bottom:10px;
 }
 
-/* Main Layouts  */
-.main-layout > .header {
-	height:70px;
-	padding: 10px;
-	position: relative;
-	background-image:url("https://g-selected.pstatic.net/MjAyMzAyMjNfMTE2/MDAxNjc3MTE3NTExMTkw.i5-SPCUZwYSfys9Bbf40hwkRkvkCEVJSL1kJGmLV7CEg.BL2Mapq79LZs3S50IkWkOl5WdnyJ9A_FszA8LXMRrO8g.JPEG/image.jpg?type=w1440_q80")
-	
-	
-}
-.bg-black {
-	background-color: #555;
-}
 
-.main-layout > .header > .nav{
-	diplay: inline-block;
-	padding: 0px;
-	margin :0px;
-	list-style-type:none;
-	position: absolute;
-	bottom:10px;
-}
-.main-layout > .header > .nav > .nav-item,
-.main-layout > .header > .nav > .nav-item > a {
-	display: inline-block;
-	padding: 0px;
-	margin :0px;
-	color: #EEE;
-	text-decoration:none;
-}
-
-.main-layout > .header > .nav > .nav-item:hover{
-	color: #53B6E8;
-}
-.main-layout > .header > .nav > .active {
-	font-weight:bold;
-	color:#DDD;
-	
-}
-.main-layout > .header > .profile {
-	color: #EEE;
-	position: absolute;
-	right:10px;
-	top:10px;
-}
-
-.inline{
-	display: inline-block;
-}
-
-.main-layout > div > .side-menu	{
-	background-image:url("https://g-selected.pstatic.net/MjAyMzAyMjNfMTE2/MDAxNjc3MTE3NTExMTkw.i5-SPCUZwYSfys9Bbf40hwkRkvkCEVJSL1kJGmLV7CEg.BL2Mapq79LZs3S50IkWkOl5WdnyJ9A_FszA8LXMRrO8g.JPEG/image.jpg?type=w1440_q80");
-	
-	width: 150px;
-	position:fixed;
-	bottom:0px;
-	top: 90px;
-	
-}
-
-.main-layout > div > .side-menu	> .menu-list{
-	margin:0px;
-	padding:0px;
-	list-style-type:none;
-	
-}
-
-.main-layout > div > .side-menu	> .menu-list > .menu-item  {
-	color: #FFF;
-	padding-top : 10px;
-	padding-left: 10px;
-	text-decoration:none;
-	
-}
-.main-layout > div > .side-menu	> .menu-list > .menu-item >a{
-	color: #FFF;
-	text-decoration:none;
-	
-}.main-layout > div > .side-menu	> .menu-list > .menu-item :hover{
-	color: #53B6E8;
-}
-.main-layout > div > .side-menu	> .menu-list > .menu-item:last-child{
-	padding-bottom: 10px;
-}
-
-.main-layout > div > .content {
-	position:fixed;
-	top:90px;
-	bottom:0px;
-	left:150px;
-	right:0px;
-	overflow: auto;
-	padding:10px;
-	
-}
 
 
 /* Grid  */
@@ -260,8 +234,6 @@ body{
 	border-bottom: 1px solid #ddd;
 	text-align: center;
 }
-
-
 
 .grid > table > tbody> tr:hover{
 	background-color: #ffffff;
@@ -660,13 +632,10 @@ a.btn-m:active{
  
 .contentsDiv {
 	border-bottom: 1px solid #e0e0e0;
-	height: 500px; 
+	height: 400px; 
 	padding: 14px 20px 13px;
 }
-.main-layout{
-	padding:20px;
-	
-}
+
 .rplbtn{
 	padding: 10px;
 	text-align: right;
@@ -674,7 +643,6 @@ a.btn-m:active{
 }
 .rpl-box { 	
 	list-style: none;
-	border-bottom: 1px solid #e0e0e0;
 	padding: 10px;
 	dispaly :inline-block;
   	border: 1px solid #e0e0e0;

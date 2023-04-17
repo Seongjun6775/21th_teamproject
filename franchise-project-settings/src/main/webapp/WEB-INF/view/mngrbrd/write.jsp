@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
@@ -39,49 +40,55 @@
 </head>
 <body>	
 	<div class="main-layout">
+	<jsp:include page="../include/header.jsp" />
 		<div>
-		<!-- 상세화면 헤더 -->
-			<div class="header-option-bar">
-				<div class="header-option-right">
-					<div class="article-action">						
-						<a href="${context}/mngrbrd/list" class="btn-m" style="text-decoration: none;">목록</a> 
+		<jsp:include page="../include/sidemenu.jsp" />
+		<jsp:include page="../include/content.jsp" />
+			<div>
+			<!-- 상세화면 헤더 -->
+				<div class="header-option-bar">
+					<div class="header-option-right">
+						<div class="article-action">						
+							<a href="${context}/mngrbrd/list" class="btn-m" style="text-decoration: none;">목록</a> 
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- //상세화면 헤더 -->
-		<div>
-			<div class="list-title "> 작성 </div>
+			<!-- //상세화면 헤더 -->
 			<div>
-				<form id="create_form" >
-					<div class="header-option-right">
-						<div class="create-group" style="display: inline-block;">		
-							게시여부<input type="checkbox" id="useYn" name="useYn"  value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
+				<div class="list-title "> 작성 </div>
+				<div>
+					<form id="create_form" >
+						<div class="header-option-right">
+							<div class="create-group" style="display: inline-block;">		
+								게시여부<input type="checkbox" id="useYn" name="useYn"  value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
+							</div>
+							<div class="create-group" style="display: inline-block;">
+								공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
+							</div>
+						</div>	
+						
+						<div class="create-group">
+							<label for="mngrBrdTtl" class="label">제목</label> 
+							<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl}" />
 						</div>
-						<div class="create-group" style="display: inline-block;">
-							공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
+								
+						<div  class="create-group"> 
+							<label for="mngrId" class="label">사용자</label> 
+							<input type="text" id="mngrId" name="mngrId"  placeholder="Admin / session 받으면 삭제"  value="${mngrBrd.mngrId}" />
+						</div>			
+						
+						<div class="create-group">
+							<label for="mngrBrdCntnt" class="label">본문</label> 
+							<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
 						</div>
-					</div>	
-					
-					<div class="create-group">
-						<label for="mngrBrdTtl" class="label">제목</label> 
-						<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl}" />
-					</div>
-							
-					<div  class="create-group"> 
-						<label for="mngrId" class="label">사용자</label> 
-						<input type="text" id="mngrId" name="mngrId"  placeholder="Admin / session 받으면 삭제"  value="${mngrBrd.mngrId}" />
-					</div>			
-					
-					<div class="create-group">
-						<label for="mngrBrdCntnt" class="label">본문</label> 
-						<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
-					</div>
-				</form>	
-				<div style="padding: 10px;text-align: right;"> 
-					<button id="new_btn" class="blue-btn">등록</button>
-				</div> 					
+					</form>	
+					<div style="padding: 10px;text-align: right;"> 
+						<button id="new_btn" class="blue-btn">등록</button>
+					</div> 					
+				</div>
 			</div>
+			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
 </body>

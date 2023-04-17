@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
@@ -75,104 +76,99 @@
 </head>
 <body>
 	<div class="main-layout" >
+	<jsp:include page="../include/header.jsp" />
 		<div>
-		<!-- 상세화면 헤더 -->
-			<div class="header-option-bar">
-				<div class="header-option-right">
-					<div class="article-action">
-						<button id="delete_btn" class="red-btn">삭제</button> 			
-						<a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}"  class="btn-m" style="text-decoration: none;">수정하기</a>
-						<a href="${context}/mngrbrd/list" class="btn-m" style="text-decoration: none;">목록</a> 
+		<jsp:include page="../include/sidemenu.jsp" />
+		<jsp:include page="../include/content.jsp" />
+			<div>
+			<!-- 상세화면 헤더 -->
+				<div class="header-option-bar">
+					<div class="header-option-right">
+						<div class="article-action">
+							<button id="delete_btn" class="red-btn">삭제</button> 			
+							<a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}"  class="btn-m" style="text-decoration: none;">수정하기</a>
+							<a href="${context}/mngrbrd/list" class="btn-m" style="text-decoration: none;">목록</a> 
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- //상세화면 헤더 -->
-		<div>
-			<!-- 게시판 콘텐츠 -->		
+			<!-- //상세화면 헤더 -->
 			<div>
-			<header class="detailview-header">
-			    <div class="detailview-header-area">
-			        <div class="detailview-header-left">
-			                    <p class="list-title">${mngrBrd.mngrBrdTtl}</p>
-			            <!-- 추가 정보 -->
-						<div class="etc">
-						    <div class="etc-table">
-						        <div class="etc-dt">등록일 </div> 
-						        <div class="etc-data">
-						            ${mngrBrd.mngrBrdWrtDt}    
-						        </div>
-						        <div class="etc-user">작성자 </div>
-						        <div class="etc-data">${mngrBrd.mngrId}</div>	
-						    </div> 
-						</div>
-			        </div>
-
-			    </div>
-			</header>
-			</div>
-			<article class="detailview-article">												
-			    <div style="overflow-x:auto;overflow-y:hidden;" class="contentsDiv">
-			        ${mngrBrd.mngrBrdCntnt}
-			    </div>
-			    <div class="pop-lay-col2"> 
-			        <!-- Comment -->
-		            <div class="rplBox">           
-			            <div>
-							<form id="create_form" >
-								<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />
-								<input type="hidden" name="rplPrntRpl" value="0" />
-								
-								<div style="margin-top: 10px; display: flex;"> 
-									<label for="rplCntnt" style="margin: 10px;">댓글쓰기</label> 
-									<textarea name="rplCntnt" id="rplCntnt"></textarea>
-								</div>
-							</form>
-							<div >
-								<button id="new_btn" class="blue-btn" >등록</button>
+				<!-- 게시판 콘텐츠 -->		
+				<div>
+				<header class="detailview-header">
+				    <div class="detailview-header-area">
+				        <div class="detailview-header-left">
+				                    <p class="list-title">${mngrBrd.mngrBrdTtl}</p>
+				            <!-- 추가 정보 -->
+							<div class="etc">
+							    <div class="etc-table">
+							        <div class="etc-dt">등록일 </div> 
+							        <div class="etc-data">
+							            ${mngrBrd.mngrBrdWrtDt}    
+							        </div>
+							        <div class="etc-user">작성자 </div>
+							        <div class="etc-data">${mngrBrd.mngrId}</div>	
+							    </div> 
 							</div>
-							<div>
-								<ul class="rpl-box">							
-									<c:forEach items="${mngrBrd.rplList}" var="rpl">
-										<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
-										<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />												
-										<li class="rpl-one">${rpl.mbrVO.mbrNm}</li>
-										<li class="rpl-one">${rpl.rplWrtDt}</li>
-										<li>${rpl.rplCntnt}</li>
-										<div class="rplbtn">
-											<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
-											<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button> 
-										</div>
-		
-									</c:forEach>									
-								</ul>
-							</div>	
-			                <table  style="margin-left:20px; ">
-			                    <tbody>
-			                    	<c:if test="${empty mngrBrd.rplList}">
-			                    		<tr>
-			                    		 	<td>등록된 댓글이 없습니다.</td>
-			                    		</tr> 
-			                    	</c:if>
-			                	</tbody>
-			            	</table>
-			        	</div>
-			        </div>
-			        <!-- //Comment -->
-			    </div>
-			</article>
-			<div>
-				
-			</div>
-				
-		</div>
+				        </div>
+	
+				    </div>
+				</header>
+				</div>
+				<article class="detailview-article">												
+				    <div style="overflow-x:auto;overflow-y:hidden;" class="contentsDiv">
+				        ${mngrBrd.mngrBrdCntnt}
+				    </div>
+				    <div class="pop-lay-col2"> 
+				        <!-- Comment -->
+			            <div class="rplBox">           
+				            <div>
+								<form id="create_form" >
+									<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />
+									<input type="hidden" name="rplPrntRpl" value="0" />
+									
+									<div style="margin-top: 10px; display: flex;"> 
+										<label for="rplCntnt" style="margin: 10px;">댓글쓰기</label> 
+										<textarea name="rplCntnt" id="rplCntnt"></textarea>
+									</div>
+								</form>
+								<div style="border-bottom: 1px solid #e0e0e0; padding: 10px;">
+									<button id="new_btn" class="blue-btn" >등록</button>
+								</div>
+								<div>
+									<ul class="rpl-box">							
+										<c:forEach items="${mngrBrd.rplList}" var="rpl">
+											<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
+											<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />												
+											<li class="rpl-one">${rpl.mbrVO.mbrNm}</li>
+											<li class="rpl-one">${rpl.rplWrtDt}</li>
+											<li>${rpl.rplCntnt}</li>
+											<div class="rplbtn">
+												<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
+												<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button> 
+											</div>
 			
-		
-		
-		
-		
+										</c:forEach>									
+									</ul>
+								</div>	
+				                <table  style="margin-left:20px; ">
+				                    <tbody>
+				                    	<c:if test="${empty mngrBrd.rplList}">
+				                    		<tr>
+				                    		 	<td>등록된 댓글이 없습니다.</td>
+				                    		</tr> 
+				                    	</c:if>
+				                	</tbody>
+				            	</table>
+				        	</div>
+				        </div>
+				        <!-- //Comment -->
+				    </div>
+				</article>
+			</div>	
+		</div>	
+		<jsp:include page="../include/footer.jsp" />
 	</div>
-
-
 </body>
 </html>
