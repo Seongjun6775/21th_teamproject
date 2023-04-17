@@ -19,7 +19,9 @@
 			
 			$.post("${context}/api/mngrbrd/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
-					location.reload(); //새로고침	
+					var url= '${context}/mngrbrd/list'
+						//console.log(url);
+						location.replace(url);
 				}
 				else if (response.status =="400"){
 					//파라미터를 전달하지 않은 경우

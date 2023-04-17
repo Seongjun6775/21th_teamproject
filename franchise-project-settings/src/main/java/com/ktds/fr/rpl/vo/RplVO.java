@@ -1,16 +1,27 @@
-package com.ktds.fr.rpl.vo;		
-		
+package com.ktds.fr.rpl.vo;
+
+import com.ktds.fr.mbr.vo.MbrVO;
+
 public class RplVO {		
 		
 	private String rplId;	
 	private String rplCntnt;	
 	private String mbrId;	
-	private String altclId;	
+	private String altclId;
 	private String rplPrntRpl;	
 	private String rplWrtDt;	
 	private String mdfyDt;	
 	private String useYn;	
 	private String delYn;	
+	
+	private MbrVO mbrVO;
+	
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
 	public String getRplId() {	
 		return rplId;
 	}	
@@ -19,22 +30,24 @@ public class RplVO {
 	}	
 	public String getRplCntnt() {	
 		return rplCntnt;
-	}	
+	}
 	public void setRplCntnt(String rplCntnt) {	
 		this.rplCntnt = rplCntnt;
-	}	
+	}
+	
+	public String getAltclId() {
+		return altclId;
+	}
+	public void setAltclId(String altclId) {
+		this.altclId = altclId;
+	}
 	public String getMbrId() {	
 		return mbrId;
 	}	
 	public void setMbrId(String mbrId) {	
 		this.mbrId = mbrId;
 	}	
-	public String getAltclId() {	
-		return altclId;
-	}	
-	public void setAltclId(String altclId) {	
-		this.altclId = altclId;
-	}	
+
 	public String getRplPrntRpl() {	
 		return rplPrntRpl;
 	}	

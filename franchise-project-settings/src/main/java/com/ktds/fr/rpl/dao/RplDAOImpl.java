@@ -18,17 +18,17 @@ public class RplDAOImpl extends SqlSessionDaoSupport implements RplDAO {
 
 	@Override 
 	public int createNewRpl(RplVO rplVO) {
-		return getSqlSession().insert("Rpl.createNewReply", rplVO);
+		return getSqlSession().insert("Rpl.createNewRpl", rplVO);
 	}
 
 	@Override
 	public int updateOneRpl(RplVO rplVO) {
-		return getSqlSession().update("Rpl.updateOneReply", rplVO);
+		return getSqlSession().update("Rpl.updateOneRpl", rplVO);
 	}
 
 	@Override
 	public int deleteOneRplByRplId(String rplId) {
-		return getSqlSession().update("Reply.deleteOneReplyById", rplId);
+		return getSqlSession().update("Rpl.deleteOneRplByRplId", rplId);
 	}
 
 }

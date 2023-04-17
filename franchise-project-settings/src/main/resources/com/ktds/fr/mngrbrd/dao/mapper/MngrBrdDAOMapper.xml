@@ -4,36 +4,35 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MngrBrd">
 
-<!--	<resultMap id="brdMap" 
+	<resultMap id="brdMap" 
 			   type="com.ktds.fr.mngrbrd.vo.MngrBrdVO"  
 			   autoMapping="true">
-		
-		<association property="MbrVO"
-			javaType="com.ktds.fr.mbr.vo.MbrVO" 
-			autoMapping="true">
-			<id property="mbrId" column="MBR_ID"/>			 
+		<id property="mngrBrdId" column="MNGR_BRD_ID" />
+		<association property="mbrVO"
+					 javaType="com.ktds.fr.mbr.vo.MbrVO"
+					 autoMapping="true">
+			<id property="mbrId" column="MBR_ID"/>
 		</association>
- 		<collection property="replyList"
-					ofType="com.ktds.fr.rpl.vo.RplVO"
-					autoMapping="true">
-			<id property="rplId" column="RPL_ID"/>
-			<result property="mbrId" column="R_MBR_ID"/>
-			<result property="rplWrtDt" column="R_RPL_WRT_DT"/>
-			<result property="mdfyDt" column="R_MDFY_DT"/>	
+		<!-- rplList --> 
+		<collection property="rplList"
+					ofType="com.ktds.fr.rpl.vo.RplVO">
+			<id property="rplId" column="RPL_ID"/>		
+			<result property="mbrId" column="R_MBR_ID" />
+			<result property="rplWrtDt" column="R_RPL_WRT_DT" />
+			<result property="mdfyDt" column="R_MDFY_DT" />
+			<result property="rplCntnt" column="R_RPL_CNTNT" />
 			
 			<association property="mbrVO"
-						 javaType="com.ktds.fr.mbr.vo.MbrVO"
-						 autoMapping="true">			 
-				<id property ="mbrId" column="R_MBR_ID"/>
-				<result property="mbrNm" column="R_NM"/>						 
-			</association>
-		</collection>  
-	</resultMap>-->
+			             javaType="com.ktds.fr.mbr.vo.MbrVO">
+				<id property="mbrId" column="R_MBR_ID" /> <!-- 댓글 글쓴사람 id -->
+				<result property="mbrNm" column="R_NM" />
+			</association>	
+		</collection>
+	</resultMap>
 	
-
 	<select id="readAllMngrBrds"
 			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO"
-			resultType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+			resultMap="brdMap">
 		<include refid ="Common.page_header"/>
 			SELECT B.MNGR_BRD_ID
 		     , B.MNGR_BRD_TTL
@@ -47,15 +46,30 @@
 		     , B.NTC_YN
 		     , M.MBR_ID
 		     , M.MBR_NM
+		     , R.RPL_ID
+		     , R.RPL_CNTNT R_RPL_CNTNT 
+		     , R.MBR_ID R_MBR_ID
+		     , R.ALTCL_ID
+		     , R.RPL_WRT_DT R_RPL_WRT_DT
+		     , R.MDFY_DT R_MDFY_DT
+		     , R.RPL_PRNT_RPL 
+		     , RM.MBR_NM R_NM
           FROM FRAN.MNGR_BRD B
          INNER JOIN MBR M 
             ON B.MNGR_ID = M.MBR_ID
+          LEFT OUTER JOIN (SELECT *
+    					 	 FROM RPL
+    						WHERE USE_YN = 'Y'
+    					      AND DEL_YN = 'N') R 
+            ON B.MNGR_BRD_ID = R.ALTCL_ID
+          LEFT OUTER JOIN MBR RM
+            ON R.MBR_ID = RM.MBR_ID
          WHERE B.DEL_YN ='N'
            AND B.USE_YN ='Y'
          <if test= 'mngrBrdTtl != null and mngrBrdTtl != "" '>
            AND  B.MNGR_BRD_TTL LIKE '%' ||  #{mngrBrdTtl} || '%'
          </if>
-         ORDER BY NTC_YN DESC , MNGR_BRD_WRT_DT DESC
+         ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC
          <include refid="Common.page_footer" />
 	</select>
 	
@@ -84,11 +98,11 @@
          ORDER BY NTC_YN DESC , MNGR_BRD_WRT_DT DESC
 	</select>
 
-	
+
 	
 	<select id="readOneMngrBrdByMngrBrdId"
 			parameterType="string"
-			resultType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+			resultMap="brdMap">
 		SELECT B.MNGR_BRD_ID
 		     , B.MNGR_BRD_TTL
 		     , B.MNGR_BRD_CNTNT
@@ -99,13 +113,33 @@
 		     , B.USE_YN
 		     , B.NTC_YN	     
 		     , B.DEL_YN
-		     , M.MBR_ID
-		     , M.MBR_NM
+		     , M.MBR_ID 
+		     , M.MBR_NM 
+		     , R.RPL_ID
+		     , R.RPL_CNTNT R_RPL_CNTNT
+		     , R.MBR_ID R_MBR_ID
+		     , R.ALTCL_ID
+		     , R.RPL_WRT_DT R_RPL_WRT_DT
+		     , R.MDFY_DT R_MDFY_DT
+		     , R.RPL_PRNT_RPL 
+		     , RM.MBR_NM R_NM
           FROM FRAN.MNGR_BRD B
          INNER JOIN MBR M 
             ON B.MNGR_ID = M.MBR_ID
-         WHERE MNGR_BRD_ID =#{_parameter}
-		
+          LEFT OUTER JOIN (SELECT *
+          					 FROM RPL
+          					WHERE USE_YN = 'Y'
+          					  AND DEL_YN = 'N') R 
+            ON B.MNGR_BRD_ID = R.ALTCL_ID
+          LEFT OUTER JOIN MBR RM
+            ON R.MBR_ID = RM.MBR_ID
+         WHERE B.MNGR_BRD_ID = #{_parameter}
+           AND B.DEL_YN ='N'
+           AND B.USE_YN ='Y'
+           
+         START WITH R.RPL_PRNT_RPL = 0
+            OR R.RPL_PRNT_RPL IS NULL
+        CONNECT BY PRIOR R.RPL_ID = R.RPL_PRNT_RPL
 	</select>
 
 	<insert id="createNewMngrBrd"
@@ -116,7 +150,6 @@
 			SELECT 'BR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MNGR_BRD_PK.NEXTVAL, 5, '0')
 			  FROM DUAL
 		</selectKey>		
-			
 		INSERT INTO FRAN.MNGR_BRD
          (MNGR_BRD_ID
         , MNGR_BRD_TTL
@@ -172,22 +205,4 @@
 		
 		
 	</update>
-
-    <sql id="search">
-        <choose>
-          
-            <!--  -작성자+제목+내용의 검색조건으로 게시물을 검색하는 쿼리-  -->
-            <when test="search_option == 'all' ">
-                where  
-                      user_id like '%'||#{keyword}||'%'
-                      or content like '%' || #{keyword}||'%'
-                      or title like '%'||#{keyword}||'%'   
-            </when>
-            <otherwise>
- 
-				<!-- 내가 지정한 조건 (작성자, 제목, 내용) 의 검색조건으로 게시물을 검색하는 쿼리 -->
-                where ${search_option} like '%'||#{keyword}||'%'
-            </otherwise>
-        </choose>
-    </sql>
 </mapper>

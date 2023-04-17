@@ -23,7 +23,7 @@
 			$.get("${context}/api/mngrbrd/delete/"+ mngrBrdId, function(response){
 				if(response.status =="200 OK"){
 					var url= '${context}/mngrbrd/list'
-					location.replace(url);
+					location.replace(url); 
 				}
 				else{
 					alert(response.errorCode + "/" + response.message);
@@ -31,9 +31,28 @@
 			})
 		});
 		
+		$(".red-rpl-btn").click(function(){ 
+			var rplId = $(this).val(); 
+			console.log(rplId);
+			if(!confirm("정말 삭제하시겠습니까?")){
+				return;
+			} 
+			$.get("${context}/api/mngrbrd/rpl/delete/"+ rplId, function(response){
+				if(response.status =="200 OK"){
+					location.reload();
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			})
+		});
+		
+		
+		
 		$("#new_btn").click(function(){
 			console.log("!!");
-		
+			var altclId = $("#altclId").val(); 
+			console.log(altclId);   
 			$.post("${context}/api/mngrbrd/rpl/create", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
 					location.reload(); //새로고침	
@@ -49,6 +68,7 @@
 			});
 	    
 		});
+		
 		
 	});
 </script>
@@ -68,10 +88,6 @@
 			</div>
 		</div>
 		<!-- //상세화면 헤더 -->
-		
-		
-		
-		
 		<div>
 			<!-- 게시판 콘텐츠 -->		
 			<div>
@@ -99,36 +115,45 @@
 			    <div style="overflow-x:auto;overflow-y:hidden;" class="contentsDiv">
 			        ${mngrBrd.mngrBrdCntnt}
 			    </div>
-			    <div class="pop-lay-col2">
+			    <div class="pop-lay-col2"> 
 			        <!-- Comment -->
-		            <div id="rplBox" class="rplBox">
-			            <div id="CommentListBox">			                
+		            <div class="rplBox">           
+			            <div>
 							<form id="create_form" >
-								<input type="hidden" name="mngrBrdId" value="${mngrBrdVO.mngrBrdId}" />
+								<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />
 								<input type="hidden" name="rplPrntRpl" value="0" />
 								
-								<div style="margin-top: 10px; display: flex;">
-									<label for="rpl" style="margin: 10px;">댓글쓰기</label> 
-									<textarea name="rpl" id="rpl"></textarea>
+								<div style="margin-top: 10px; display: flex;"> 
+									<label for="rplCntnt" style="margin: 10px;">댓글쓰기</label> 
+									<textarea name="rplCntnt" id="rplCntnt"></textarea>
 								</div>
 							</form>
-								<div style="padding: 10px;text-align: right;"> 
-								<button id="new_btn" class="blue-btn">등록</button>
-							</div> 	
-							<ul>
-								<c:forEach items="${topic.replyList}" var="reply">
-									<li>${reply.reply}</li>
-								</c:forEach>
-							</ul>
-							
-							<hr/>
-			                 
-			                
-			                <table  style="margin-left:20px;">
+							<div >
+								<button id="new_btn" class="blue-btn" >등록</button>
+							</div>
+							<div>
+								<ul class="rpl-box">							
+									<c:forEach items="${mngrBrd.rplList}" var="rpl">
+										<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
+										<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />												
+										<li class="rpl-one">${rpl.mbrVO.mbrNm}</li>
+										<li class="rpl-one">${rpl.rplWrtDt}</li>
+										<li>${rpl.rplCntnt}</li>
+										<div class="rplbtn">
+											<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
+											<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button> 
+										</div>
+		
+									</c:forEach>									
+								</ul>
+							</div>	
+			                <table  style="margin-left:20px; ">
 			                    <tbody>
-				                    <tr>
-				                        <td>등록된 댓글이 없습니다.</td>
-				                    </tr>
+			                    	<c:if test="${empty mngrBrd.rplList}">
+			                    		<tr>
+			                    		 	<td>등록된 댓글이 없습니다.</td>
+			                    		</tr> 
+			                    	</c:if>
 			                	</tbody>
 			            	</table>
 			        	</div>

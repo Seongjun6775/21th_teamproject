@@ -132,8 +132,9 @@
 								
 								<td>
 									<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" style="text-decoration: none;">
-										${mngrBrd.mngrBrdTtl} 
-									</a></td>
+										${mngrBrd.mngrBrdTtl}  
+									</a>[${mngrBrd.rplList.size()}] 
+								</td>
 								<td>${mngrBrd.mngrId}</td>
 								<td style="width: 160px;">${mngrBrd.mngrBrdWrtDt}</td>
 								<td style="width: 70px;">

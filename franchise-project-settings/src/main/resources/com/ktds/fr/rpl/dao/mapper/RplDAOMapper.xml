@@ -4,12 +4,12 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Rpl">
 
-	<insert id="createNewRpl"
+	<insert id="createNewRpl" 
 			parameterType="com.ktds.fr.rpl.vo.RplVO"> 
 		<selectKey keyProperty="rplId" 
 				   resultType="string"
 				   order="BEFORE">
-			SELECT 'BR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MNGR_BRD_PK.NEXTVAL, 5, '0')
+			SELECT 'RP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MNGR_BRD_PK.NEXTVAL, 5, '0')
 			  FROM DUAL
 		</selectKey>	
 		INSERT INTO FRAN.RPL
@@ -28,9 +28,9 @@
 		, #{mbrId}
 		, #{altclId}
 		, #{rplPrntRpl}
-		, #{rplWrtDt}
-		, #{mdfyDt}
-		, NVL(#{useYn},'N') 
+		, SYSDATE
+		, SYSDATE
+		, NVL(#{useYn},'Y') 
 		, 'N' )
 		
 	</insert>

@@ -25,35 +25,33 @@ public class MngrBrdController {
 	private MngrBrdService mngrBrdService;
 	
 	@GetMapping("/mngrbrd/list")
-	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrdVO,MbrVO mbrVO) {
-		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrdVO);
+	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrd,MbrVO mbrVO) {
+		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrd);
 		model.addAttribute("mngrBrdList", mngrBrdList);
-		model.addAttribute("mngrBrdVO", mngrBrdVO);
+		model.addAttribute("mngrBrd", mngrBrd);
+		
 		return "mngrbrd/list";
 	}
 	
 	@GetMapping("/mngrbrd/list2")
-	public String viewMngrBrdListPagebytop(Model model, MngrBrdVO mngrBrdVO,MbrVO mbrVO) {
-		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrdVO);
+	public String viewMngrBrdListPagebytop(Model model, MngrBrdVO mngrBrd,MbrVO mbrVO) {
+		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrd);
 		model.addAttribute("mngrBrdList", mngrBrdList);
-		model.addAttribute("mngrBrdVO", mngrBrdVO);
+		model.addAttribute("mngrBrd", mngrBrd);
 		return "mngrbrd/list2";
 	}
 	
 	@GetMapping("/mngrbrd/{mngrBrdId}")
 	public String viewMngrBrdDetailPage(@PathVariable String mngrBrdId, Model model) {
+		
 		//TODO 지워
 		logger.info("URL id 값 :{}",mngrBrdId);
 		
 		MngrBrdVO mngrBrd = mngrBrdService.readOneMngrBrdByMngrBrdId(mngrBrdId);
 		//TODO 지워 
 		
-		/*
-		 * //조회수 증가 mngrBrd.setRdCnt(mngrBrd.getRdCnt()+1); MngrBrdVO result =
-		 * mngrBrdService.sa
-		 */
-		
 		logger.info("ntcYn 값 :{}",mngrBrd.getNtcYn());
+		
 		model.addAttribute("mngrBrd", mngrBrd);
 		return "mngrbrd/detail";
 	}
@@ -73,6 +71,9 @@ public class MngrBrdController {
 		
 		MngrBrdVO mngrBrd = mngrBrdService.readOneMngrBrdByMngrBrdId(mngrBrdId);
 		model.addAttribute("mngrBrd", mngrBrd);
+		/*
+		 * 댓글vo 댓글vo = 댓글서비스.댓글읽기(게시글id); model.addAttribute("댓글목록", 댓글VO);
+		 */
 		return "mngrbrd/update";
 	}
 	

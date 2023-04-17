@@ -18,27 +18,25 @@ public class MngrBrdVO extends AbstractVO{
 	private String useYn;	
 	private String delYn;	
 	private String ntcYn;
-	
 		
-	private MbrVO mdfyrMbrVO;
+	private List<RplVO> rplList;
 	
+	private MbrVO mbrVO;
 	
-
-	public MbrVO getMdfyrMbrVO() {
-		return mdfyrMbrVO;
+	public List<RplVO> getRplList() {
+		return rplList;
 	}
-	public void setMdfyrMbrVO(MbrVO mdfyrMbrVO) {
-		this.mdfyrMbrVO = mdfyrMbrVO;
+	public void setRplList(List<RplVO> rplList) {
+		this.rplList = rplList;
 	}
+	
 	public String getNtcYn() {
 		return ntcYn;
 	}
 	public void setNtcYn(String ntcYn) {
 		this.ntcYn = ntcYn;
 	}
-	private MbrVO mbrVO;
 	
-	private List<RplVO> replyList;
 	
 
 	
@@ -47,12 +45,6 @@ public class MngrBrdVO extends AbstractVO{
 	}
 	public void setMbrVO(MbrVO mbrVO) {
 		this.mbrVO = mbrVO;
-	}
-	public List<RplVO> getReplyList() {
-		return replyList;
-	}
-	public void setReplyList(List<RplVO> replyList) {
-		this.replyList = replyList;
 	}
 	public String getMngrBrdId() {	
 		return mngrBrdId;
