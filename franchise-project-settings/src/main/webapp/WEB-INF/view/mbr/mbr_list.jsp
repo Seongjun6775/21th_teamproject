@@ -32,8 +32,8 @@
 		}
 		var queryString = "mbrLvl=" + mbrLvl;
 		queryString += "&startDt=" + startDt;
-		queryString += "&endDt" + endDt;
-		queryString += "&pageNo" + pageNo;
+		queryString += "&endDt=" + endDt;
+		queryString += "&pageNo=" + pageNo;
 		
 		location.href="${context}/mbr/list?" + queryString;
 	}
@@ -49,12 +49,13 @@
 				<!-- 검색영역 -->
 				<div class="search-row-group">
 					<div class="search-group">
+							${mbrVO.mbrLvl}
 						<select id="mbrLvl" name="mbrLvl">
 							<option value="">멤버등급</option>
-							<option value="001-01" ${mbrVO.mbrLvl eq '상위관리자' ? 'selected' : ''}>상위관리자</option>
-							<option value="001-02" ${mbrVO.mbrLvl eq '중간관리자' ? 'selected' : ''}>중간관리자</option>
-							<option value="001-03" ${mbrVO.mbrLvl eq '하위관리자' ? 'selected' : ''}>하위관리자</option>
-							<option value="001-04" ${mbrVO.mbrLvl eq '이용자' ? 'selected' : ''}>이용자</option>
+							<option value="001-01" ${mbrVO.mbrLvl eq '001-01' ? 'selected' : ''}>상위관리자</option>
+							<option value="001-02" ${mbrVO.mbrLvl eq '001-02' ? 'selected' : ''}>중간관리자</option>
+							<option value="001-03" ${mbrVO.mbrLvl eq '001-03' ? 'selected' : ''}>하위관리자</option>
+							<option value="001-04" ${mbrVO.mbrLvl eq '001-04' ? 'selected' : ''}>이용자</option>
 						</select>
 					</div>
 					<div class="search-group">
