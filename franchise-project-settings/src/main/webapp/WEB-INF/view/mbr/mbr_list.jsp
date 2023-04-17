@@ -18,10 +18,23 @@
 		});
 		$("#mbrLvl").val("${mbrVO.mbrLvl}");
 		$("#search-keyword-delYn").prop("checked", $("#search-keyword-delYn").val() == 'Y');
+		$("#search-keyword-mbrNm").keydown(function(key){
+			if (key.keyCode == 13) {
+	        	$("#search-btn").click();
+	        }
+		});
+		$("#search-clear-btn").click(function(){
+			$("#search-keyword-mbrNm").val("");search-clear-btn
+			$("#mbrLvl").val("");
+			$("#search-keyword-delYn").prop("checked", false);
+			$("#search-keyword-startdt").val("");
+			$("#search-keyword-enddt").val("");
+		});
 	});
 	
 	function movePage(pageNo){
 		var mbrLvl = $("#mbrLvl option:selected").val();
+		var mbrNm = $("#search-keyword-mbrNm").val();
 		var startDt = $("#search-keyword-startdt").val();
 		var endDt = $("#search-keyword-enddt").val();
 		var delYn = 'N';
@@ -37,6 +50,7 @@
 			return;
 		}
 		var queryString = "mbrLvl=" + mbrLvl;
+		queryString += "&mbrNm=" + mbrNm;
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt=" + endDt;
 		queryString += "&delYn=" + delYn;
@@ -75,6 +89,7 @@
 						<input type="date" id="search-keyword-enddt" class="search-input" value="${mbrVO.endDt}"/>
 						
 						<button class="btn-search" id="search-btn">검색</button>
+						<button class="btn-search-clear" id="search-clear-btn">초기화</button>
 					</div>
 				</div>	
 				<!-- 조회영역 -->

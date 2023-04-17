@@ -149,6 +149,9 @@
 		  <if test='mbrLvl != null and mbrLvl != ""'>
 		   AND CD.CD_ID = #{mbrLvl}
 		  </if>
+		  <if test='mbrNm != null and mbrNm !=""'>
+		   AND M.MBR_NM = #{mbrNm}
+		  </if>
 		  <if test='delYn != null and delYn !=""'>
 		   AND M.DEL_YN = #{delYn}
 		  </if>

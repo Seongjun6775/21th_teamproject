@@ -319,6 +319,23 @@ img {
 	color: #fff;
 	font-weight: bold;
 	font-size: 10pt;
+	margin-left: 10px;
+}
+.search-group .btn-search-clear{
+	background-color: #fe141b;
+	border-radius: 3px;
+	border: 0px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 10pt;
+	margin-left: 10px;
+}
+.search-group .btn-search-clear:active{
+	background-color: #fe6b6f;
+}
+/*color*/
+.red{
+	background-color: #fe6b6f;
 }
 .search-group .btn-search:active{
 	background-color: #a2abff;
