@@ -1,0 +1,357 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.938rem;
+    color: #23004d;
+}
+h1 {
+    margin: 0;
+}
+a {
+    text-decoration: none;
+}
+button{
+	border: 0px;
+}
+button:hover{
+	cursor: pointer;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.login {
+    display: grid;
+    grid-template-columns: 100%;
+    height: 100vh;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+.login__content {
+    display: grid;
+}
+.login__img {
+    justify-self: center;
+}
+.login__img img {
+    width: 310px;
+    margin-top: 1.5rem;
+}
+.login__forms {
+    position: relative;
+    height: 368px;
+}
+.login__register, .login__create {
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
+    background-color: #f2f2f2;
+    padding: 2rem 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(35, 0, 77, 0.2);
+    animation-duration: .4s;
+    animation-name: animateLogin;
+}
+.login__title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+.login__box {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: .5rem;
+    padding: 0.75rem 1rem;
+    background-color: #fff;
+    margin-top: 1rem;
+    border-radius: .5rem;
+}
+.icon__box, .content__box{
+	display: flex;
+    align-items: center;
+}
+.content__box span{
+	padding-right: 25px;
+}
+.content__one, .content__two{
+    flex-direction: column;
+}
+.inner__content{
+	display: flex;
+	align-items: center;
+}
+.timer{
+	font-size: 0.96rem;
+	color: #f76266;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+}
+.login__icon {
+    font-size: 1.5rem;
+    color: #4AD395;
+}
+.login__input {
+    border: none;
+    outline: none;
+    font-size: 0.938rem;
+    font-weight: 700;
+    color: #23004d;
+    width: 100%;
+}
+.login__input::placeholder {
+    font-size: 0.938rem;
+    font-family: "Open Sans", sans-serif;
+    color: #a49eac;
+}
+.login__forgot {
+    display: block;
+    width: max-content;
+    margin-left: auto;
+    margin-top: .5rem;
+    font-size: 0.813rem;
+    font-weight: 600;
+    color: #a49eac;
+}
+.login__button {
+    display: block;
+    padding: 1rem;
+    margin: 2rem 0;
+    background-color: #4AD395;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    border-radius: .5rem;
+    transition: .3s;
+}
+.email__button{
+	display: block;
+    padding: 5px;
+    margin: 0px;
+    background-color: #4AD395;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    border-radius: .5rem;
+    transition: .3s;
+    width: 100px;
+}
+.login__button:hover {
+    background-color: #65bf97;
+    cursor: pointer;
+}
+.email__button:hover {
+    background-color: #65bf97;
+}
+.login__account, .login__signin, .login__signup {
+    font-weight: 600;
+    font-size: 0.813rem;
+}
+.login__account--account, .login__signin--account, .login__signup--account {
+    color: #23004d;
+}
+.login__account--signin, .login__account--signup, .login__signin--signin, .login__signin--signup, .login__signup--signin, .login__signup--signup {
+    color: #4AD395;
+    cursor: pointer;
+}
+.login__social {
+    margin-top: 2rem;
+}
+.login__social--icon {
+    font-size: 1.5rem;
+    color: #23004d;
+    margin: 0 1rem;
+}
+.block {
+    display: block;
+}
+.none {
+    display: none;
+}
+/*warning, pass message*/
+.warning{
+	font-size: 0.8rem;
+    font-family: "Open Sans", sans-serif;
+    color: #f76266;
+    font-weight: 600;
+}
+.pass{
+	font-size: 0.8rem;
+    font-family: "Open Sans", sans-serif;
+    color: #4AD395;
+    font-weight: 600;
+}
+@keyframes animateLogin {
+    0% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.1, 1.1);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+@media screen and (min-width: 576px) {
+    .login__forms {
+        width: 348px;
+        justify-self: center;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .login {
+        height: 100vh;
+        overflow: hidden;
+        
+    }
+    .login__content {
+        grid-template-columns: repeat(2, max-content);
+        justify-content: center;
+        align-items: center;
+        margin-left: 10rem;
+    }
+    .login__img {
+        display: flex;
+        width: 600px;
+        height: 588px;
+        background-color: #fff;
+        border-radius: 1rem;
+        padding-left: 1rem;
+    }
+    .login__img img {
+        width: 80%;
+        margin-top: 0;
+    }
+    .login__register, .login__create {
+        left: -11rem;
+        
+    }
+    .login__register {
+        bottom: -2rem;
+    }
+    .login__create {
+        /* bottom: -5.5rem; */
+        bottom: -12.5rem;
+    }
+}
+/*Grid*/
+.content > .path{
+	padding: 15px;
+	background-color: #ffff80;
+	margin-bottom: 10px;
+}
+.content .grid {
+	
+}
+.contetn .grid > grid-count{
+	font-size: 11px;
+}
+.content .grid > table {
+	border-collapse: collapse;
+	border: 1px solid #ddd;
+	width: 100%	
+}
+.content .grid > table > thead > tr {
+	background-color: #eee;
+}
+.content .grid > table > thead > tr > th{
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 5px;
+}
+.content .grid > table > thead > tr > th:first-child {
+	border-left: 0px;
+}
+.content .grid > table > tbody > tr > td{
+	padding: 5px;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.content .grid > table > tbody > tr > td:first-child {
+	border-left: 0px;	
+}
+.content .grid > table > tbody > tr:hover{
+	background-color: #fafafa;
+}
+.content .grid .no-items{
+	text-align: center;
+}
+.content .grid-detail{
+	margin-top: 10px;
+}
+.content .grid-detail:before {
+	content: "상세정보";
+	font-size: 13pt;
+	font-weight: bold;
+}
+/*Search*/
+.search-group{
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #f0efea;
+}
+.grow-1{
+	flex-grow:1;
+}
+.search-row-group{
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #f0efea;
+	flex-direction: column;
+}
+.search-row-group .search-group{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.search-group .btn-search{
+	background-color: #6b8cfe;
+	border-radius: 3px;
+	border: 0px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 10pt;
+}
+.search-group .btn-search:active{
+	background-color: #a2abff;
+}
+.search-group  label{
+	margin-right: 10px;
+}
+.search-group  .search-input{
+	flex-grow: 1;
+	margin-right: 10px;
+}
+/*pagenation*/
+.pagenate{
+	display: flex;
+	margin-top: 10px;
+	justify-content: center;
+	align-items: center;
+}
+.pagenate ul{
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+.pagenate ul li{
+	display: inline-block;
+	margin: 0px;
+	padding: 5px;
+	background-color: #e3e3e3;
+}
+.pagenate ul li a{
+	text-decoration: none;
+}
+.pagenate ul li a.on{
+	font-weight: bold;
+}

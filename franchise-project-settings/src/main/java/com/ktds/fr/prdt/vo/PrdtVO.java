@@ -1,28 +1,47 @@
 package com.ktds.fr.prdt.vo;
 
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
+import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 
-public class PrdtVO {		
+public class PrdtVO extends AbstractVO{		
 		
-	private String prdtId;	
-	private String prdtNm;	
-	private int prdtPrc;	
-	private String prdtCntnt;	
-	private String prdtFileId;	
-	private String prdtSrt;	
-	private String prdtRgstr;	
-	private String prdtRgstDt;	
-	private String mdfyr;	
-	private String mdfyDt;	
-	private String useYn;	
-	private String delYn;	
+	private String prdtId;
+	private String prdtNm;
+	private int prdtPrc;
+	private String prdtCntnt;
+	private String prdtSrt;
+	private String orgnFlNm;
+	private String uuidFlNm;
+	private long flSize;
+	private String flExt;
+	private String prdtRgstr;
+	private String prdtRgstDt;
+	private String mdfyr;
+	private String mdfyDt;
+	private String useYn;
+	private String delYn;
+	
 	
 	private CmmnCdVO cmmnCdVO;
 	private MbrVO prdtRgstrMbrVO;
 	private MbrVO mdfyrMbrVO;
 	
+	
 	private String isDeleteImg;
+
+	
+	private int prdtPageNo;
+	private int prdtPageCnt;
+	private int prdtViewCnt;
+	
+	
+	protected PrdtVO() {
+		this.prdtPageNo = 0;
+		this.prdtPageCnt = 5;
+		this.prdtViewCnt = 20;
+	}
+	
 	
 	public String getPrdtId() {	
 		return prdtId;
@@ -48,18 +67,36 @@ public class PrdtVO {
 	public void setPrdtCntnt(String prdtCntnt) {	
 		this.prdtCntnt = prdtCntnt;
 	}	
-	public String getPrdtFileId() {	
-		return prdtFileId;
-	}	
-	public void setPrdtFileId(String prdtFileId) {	
-		this.prdtFileId = prdtFileId;
-	}	
 	public String getPrdtSrt() {	
 		return prdtSrt;
 	}	
 	public void setPrdtSrt(String prdtSrt) {	
 		this.prdtSrt = prdtSrt;
 	}	
+	public String getOrgnFlNm() {
+		return orgnFlNm;
+	}
+	public void setOrgnFlNm(String orgnFlNm) {
+		this.orgnFlNm = orgnFlNm;
+	}
+	public String getUuidFlNm() {
+		return uuidFlNm;
+	}
+	public void setUuidFlNm(String uuidFlNm) {
+		this.uuidFlNm = uuidFlNm;
+	}
+	public long getFlSize() {
+		return flSize;
+	}
+	public void setFlSize(long flSize) {
+		this.flSize = flSize;
+	}
+	public String getFlExt() {
+		return flExt;
+	}
+	public void setFlExt(String flExt) {
+		this.flExt = flExt;
+	}
 	public String getPrdtRgstr() {	
 		return prdtRgstr;
 	}	
@@ -119,6 +156,24 @@ public class PrdtVO {
 	}
 	public void setIsDeleteImg(String isDeleteImg) {
 		this.isDeleteImg = isDeleteImg;
+	}
+	public int getPrdtPageNo() {
+		return prdtPageNo;
+	}
+	public void setPrdtPageNo(int prdtPageNo) {
+		this.prdtPageNo = prdtPageNo;
+	}
+	public int getPrdtPageCnt() {
+		return prdtPageCnt;
+	}
+	public void setPrdtPageCnt(int prdtPageCnt) {
+		this.prdtPageCnt = prdtPageCnt;
+	}
+	public int getPrdtViewCnt() {
+		return prdtViewCnt;
+	}
+	public void setPrdtViewCnt(int prdtViewCnt) {
+		this.prdtViewCnt = prdtViewCnt;
 	}
 	
 }		
