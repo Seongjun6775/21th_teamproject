@@ -32,6 +32,11 @@ public class StrPrdtDAOImpl extends SqlSessionDaoSupport implements StrPrdtDAO {
 	public int update(StrPrdtVO strPrdtVO) {
 		return getSqlSession().update("StrPrdt.update", strPrdtVO);
 	}
+	
+	@Override
+	public int updateSelectAll(List<StrPrdtVO> strPrdtVOList) {
+		return getSqlSession().update("StrPrdt.updateSelectAll", strPrdtVOList);
+	}
 
 	@Override
 	public int deletePrdtId(String prdtId) {

@@ -61,6 +61,8 @@ public class PrdtServiceImpl implements PrdtService {
 		int prc = prdtVO.getPrdtPrc();
 		if (prc == 0) {
 			throw new ApiArgsException("400", "가격이 비었음");
+		} else if (prc > 9999999) {
+			throw new ApiArgsException("400", "가격은 9,999,999를 넘을 수 없습니다.");
 		}
 
 		if (uploadFile != null && !uploadFile.isEmpty()) {
@@ -164,6 +166,9 @@ public class PrdtServiceImpl implements PrdtService {
 			prdtVO.setFlSize(origin.getFlSize());
 			prdtVO.setFlExt(origin.getFlExt());
 		} else {
+			File file = new File(profilePath + File.separator + origin.getUuidFlNm());
+			file.delete();
+			
 			isModify = true;
 		}
 
@@ -181,6 +186,7 @@ public class PrdtServiceImpl implements PrdtService {
 				} catch (IllegalStateException | IOException e) {
 					logger.error(e.getMessage(), e);
 				}
+				
 				String originFileName = uploadFile.getOriginalFilename();
 				long fileSize = uploadFile.getSize();
 				String fileExt = uploadFile.getContentType();

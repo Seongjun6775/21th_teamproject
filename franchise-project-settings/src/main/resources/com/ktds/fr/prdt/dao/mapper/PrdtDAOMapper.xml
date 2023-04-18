@@ -17,11 +17,13 @@
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
 					autoMapping="true">
 			<id property="mbrId" column="PRDT_RGSTR"/>
+			<result property="mbrNm" column="RGSTR_NM"/>
 		</association>
 		<association property="mdfyrMbrVO"
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
 					autoMapping="true">
 			<id property="mbrId" column="MDFYR"/>
+			<result property="mbrNm" column="MDFYR_NM"/>
 		</association>
 		
 	</resultMap>
@@ -29,7 +31,7 @@
 	<select id="readAll"
 			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
 			resultMap="prdtVOMap">
-		<include refid="PrdtCommon.page_header"></include>
+		<include refid="PrdtCommon.pageHeader"></include>
 		SELECT P.PRDT_ID PK_COL
 			 , P.PRDT_ID
 			 , P.PRDT_NM
@@ -67,7 +69,7 @@
 		   AND P.USE_YN LIKE #{useYn}
 		</if>
 		ORDER BY P.PRDT_ID DESC
-		<include refid="PrdtCommon.page_footer"></include>
+		<include refid="PrdtCommon.pageFooter"></include>
 	</select>
 	<select id="readOne"
 			resultType="com.ktds.fr.prdt.vo.PrdtVO">

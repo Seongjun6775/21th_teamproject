@@ -203,7 +203,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Main Layout */
 .main-layout > .header {
-	height: 70px;
+	height: 90px;
 	padding: 10px;
 	position: relative;
 	/* animation: transbg 0.2s linear infinite; */
@@ -424,6 +424,9 @@ input[type="number"]::-webkit-inner-spin-button {
 .ml-10 {
 	margin-left: 10px;
 }
+.ml-20 {
+	margin-left: 20px;
+}
 .mr-10 {
 	margin-right: 10px;
 }
@@ -441,6 +444,7 @@ input[type=file] {
 }
 .img-box {
 	overflow: hidden;
+	width: 300px;
 	height: 300px;
 	background-color: #00f3;
 }
@@ -485,8 +489,9 @@ input[type=file] {
 
 /* prdt-customer */
 .prdt1 {
-	display: flex;
+	display: inline-flex;
 	background-color: #3333;
+	width: 320px;
 	margin:10px;
 	padding: 10px;
 	flex-direction: column;
@@ -498,12 +503,22 @@ input[type=file] {
 }
 .prdt3 {
 	background-color: #3003;
-	
+}
+.name {
+	font-size: 24pt;
+	font-weight: bold;
+}
+.price {
+	font-size: 16pt;
+	text-align: right;
 }
 
 
-
-
+/* 손님용 customer */
+.headline {
+	height: 200px;
+	background-color: #0f02;
+}
 
 
 
