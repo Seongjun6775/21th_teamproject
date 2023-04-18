@@ -97,7 +97,7 @@
 					return;	
 				}
 			if($("#isModify").val() == "false"){
-				$.post("${context}/api/str/create", $("#detail_form").serialize(), function(response) {
+				$.post("${context}/api/str/create", $("#strdetailmst_form").serialize(), function(response) {
 					if(response.status == "200 OK"){
 						location.reload(); // 새로고침
 					}
@@ -184,7 +184,7 @@
 							<td>
 								<input type="checkbox" class="check_idx" value="${str.strId}"/>
 							</td>
-								<td><a href="${context}/str/detail/${str.strId}">${str.strId}</a></td>
+								<td><a href="${context}/str/strdetailmst/${str.strId}">${str.strId}</a></td>
 								<td>${str.strNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
@@ -234,8 +234,8 @@
 					</c:if>
 				</ul>
 			</div>
-			<div class="grid-detail">
-				<form id="detail_form">
+			<div class="grid-strdetailmst">
+				<form id="strdetailmst_form">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
 						<label for="strId" style="width:180px">매장 ID</label>

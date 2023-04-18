@@ -102,8 +102,8 @@ $().ready(function() {
 				}
 			if($("#isModify").val() == "false"){
 					//수정
-					$.post("${context}/api/str/update", $("#detail_form").serialize(), function(response) {
-						console.log($("#detail_form").serialize());
+					$.post("${context}/api/str/update", $("#strdetailmst_form").serialize(), function(response) {
+						console.log($("#strdetailmst_form").serialize());
 					if(response.status == "200 OK"){
 						location.reload(); // 새로고침
 					}
@@ -149,8 +149,8 @@ $().ready(function() {
 			<h1>매장 상세 조회</h1>
 			<div class="grid">
 			
-			<div class="grid-detail">
-				<form id="detail_form">
+			<div class="grid-strdetailmst">
+				<form id="strdetailmst_form">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
 						<label for="strId" style="width:180px">매장 ID</label>

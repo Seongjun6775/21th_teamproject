@@ -20,7 +20,7 @@ public class StrController {
 	private StrService strService;
 	
 	@GetMapping("/str/list")
-	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, Model model, StrVO strVO) {
+	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, String strId, Model model, StrVO strVO) {
 	    if (mbrVO.getMbrLvl().equals("001-01")) {
 	        List<StrVO> strList = strService.readAllStrMaster(strVO);
 	        model.addAttribute("strList", strList);
@@ -28,7 +28,7 @@ public class StrController {
 	        return "str/list";
 	        
 	    } else if (mbrVO.getMbrLvl().equals("001-02")) {
-	        return "redirect:/str/detail/" + mbrVO.getStrId();
+	        return "redirect:/str/strdetailmgn/" + mbrVO.getStrId();
 	        
 	    } else {
 	        return "redirect:/index";
@@ -40,11 +40,18 @@ public class StrController {
 		return "str/create";
 	}
 	
-	@GetMapping("/str/detail/{strId}")
-	public String viewStrDetailPage(@PathVariable String strId, Model model) {
+	@GetMapping("/str/strdetailmst/{strId}")
+	public String viewStrDetailMstPage(@PathVariable String strId, Model model) {
 		StrVO strVO = strService.readOneStrByMaster(strId);
 		model.addAttribute("strVO", strVO);
-		return "str/detail";
+		return "str/strdetailmst";
+		
+	}
+	@GetMapping("/str/strdetailmgn/{strId}")
+	public String viewStrDetailMgnPage(@PathVariable String strId, Model model) {
+		StrVO strVO = strService.readOneStrByManager(strId);
+		model.addAttribute("strVO", strVO);
+		return "str/strdetailmgn";
 		
 	}
 }
