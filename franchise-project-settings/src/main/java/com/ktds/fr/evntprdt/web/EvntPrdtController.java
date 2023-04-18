@@ -25,4 +25,11 @@ public class EvntPrdtController {
 		model.addAttribute("evntPrdtList", evntPrdtList);				
 		return "/evntPrdt/list";
 	}
+	
+	@RequestMapping("/evntPrdt/prdtList")
+	public String viewPrdtListPage(Model model, EvntPrdtVO evntPrdtVO) {
+		List<EvntPrdtVO> evntPrdtList = evntService.readAllPrdt(evntPrdtVO);
+		model.addAttribute("evntPrdtList", evntPrdtList);		
+		return "/evntPrdt/prdtList";
+	}
 }

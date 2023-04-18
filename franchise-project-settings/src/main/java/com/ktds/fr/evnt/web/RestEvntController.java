@@ -20,8 +20,7 @@ public class RestEvntController {
    @Autowired
    private EvntService evntService;
 
-   //이벤트 생성
-   
+   //이벤트 생성  
    @PostMapping("/api/evnt/create")
    public ApiResponseVO createNewEvnt(EvntVO evntVO) throws Exception {
 	   
@@ -106,6 +105,7 @@ public class RestEvntController {
       }
    }
 
+   
    /* null 에러 방지 */
    public String nullToStr(Object obj) {
       if (obj == null) {
@@ -117,5 +117,5 @@ public class RestEvntController {
       }
       return str;
    }
-
+   
 }

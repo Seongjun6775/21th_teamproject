@@ -55,7 +55,7 @@
 <body>
 	<div class="main-layout">
 		<div>
-			<h1>상품 리스트 목록 조회</h1>
+			<h1>상품 목록</h1>
 			<div>총 ${PrdtList.size()}건</div>
 		</div>
 		<div class="content">

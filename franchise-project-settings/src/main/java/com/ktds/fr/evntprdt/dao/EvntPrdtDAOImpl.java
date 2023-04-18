@@ -24,4 +24,16 @@ public class EvntPrdtDAOImpl extends SqlSessionDaoSupport implements EvntPrdtDAO
 		return getSqlSession().selectList("EvntPrdt.readAllEvntPrdt", evntPrdtVO );
 	}
 
+	@Override
+	// 상품등록을 위한 상품리스트 가져오기  ▶상위관리자
+	public List<EvntPrdtVO> readAllPrdt(EvntPrdtVO evntPrdtVO) {
+		return getSqlSession().selectList("EvntPrdt.readAllprdt", evntPrdtVO);
+	}
+
+	@Override
+	// 이벤트 상품 선택하여 등록  ▶상위관리자
+	public int createEvntPrdt(EvntPrdtVO evntPrdtVO) {
+		return getSqlSession().insert("EvntPrdt.createEvntPrdt", evntPrdtVO);
+	}
+
 }
