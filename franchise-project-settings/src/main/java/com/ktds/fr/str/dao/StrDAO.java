@@ -11,6 +11,12 @@ public interface StrDAO {
 	public StrVO readOneStrByMaster(String strId);
 
 	public StrVO readOneStrByManager(String strId);
+
+	public int readBlockStrNm(StrVO strVO);
+	
+	public int readBlockStrAddr(StrVO strVO);
+	
+	public int readBlockStrCallNum(StrVO strVO);
 	
 	public int createOneStr(StrVO strVO);
 	

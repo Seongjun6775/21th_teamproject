@@ -49,4 +49,17 @@ public class StrServiceImpl implements StrService {
 		return strDAO.deleteOneStrByStrId(strId) > 0;
 	}
 
+	@Override
+	public boolean readBlockStrNm(StrVO strVO) {
+		return strDAO.readBlockStrNm(strVO) > 0;
+	}
+	@Override
+	public boolean readBlockStrAddr(StrVO strVO) {
+		return strDAO.readBlockStrAddr(strVO) > 0;
+	}
+	@Override
+	public boolean readBlockStrCallNum(StrVO strVO) {
+		return strDAO.readBlockStrCallNum(strVO) > 0;
+	}
+
 }

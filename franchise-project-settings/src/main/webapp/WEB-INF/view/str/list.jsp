@@ -12,7 +12,9 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
+
 <script type="text/javascript">
+	
 	$().ready(function() {
 		
 		$(".grid > table > tbody > tr").click(function(){
@@ -62,40 +64,40 @@
 		})
 		
 		$("#save_btn").click(function(){
+			
 				var strNm = $("#strNm").val();
 				if(strNm == ""){
 					alert("선택한 매장명이 없습니다.")
 					return;	
 				}
+				/* if(strNm == $("#strNm").val()){
+					alert("지정한 매장명이 같습니다.")
+					return;	
+				} */
 				var strAddr = $("#strAddr").val();
 				if(strAddr == ""){
 					alert("선택한 주소가 없습니다.")
 					return;	
 				}
-				var strOpnTm = $("#strOpnTm").val();
-				if(strOpnTm == ""){
-					alert("선택한 오픈 시간이 없습니다.")
-					return;	
+				var patt = new RegExp("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
+				var res = patt.test( $("#strCallNum").val());
+	
+				if( !patt.test( $("#strCallNum").val()) ){
+					alert("'-'을 기입하지 않았거나, 전화번호가 일치하지 않습니다. 전화번호를 정확히 입력하여 주십시오.");
+				    return false;
 				}
+				/* if(strCallNum = "#strCallNum"){
+					alert("선택한 전화번호는 있는 전화번호입니다.")
+					return;	
+				} */
+				var strOpnTm = $("#strOpnTm").val();
 				var strClsTm = $("#strClsTm").val();
-				if(strClsTm == ""){
-					alert("선택한 클로즈 시간이 없습니다.")
+				if(strOpnTm >= strClsTm){
+					alert("선택한 오픈 시간이 클로즈 시간보다 느립니다.")
 					return;	
 				}
 			if($("#isModify").val() == "false"){
 				$.post("${context}/api/str/create", $("#detail_form").serialize(), function(response) {
-					if(response.status == "200 OK"){
-						location.reload(); // 새로고침
-					}
-					else{
-						alert(response.errorCode + " / " + response.message);
-						}
-					});
-				}
-				else{
-					//수정
-					$.post("${context}/api/str/update", $("#detail_form").serialize(), function(response) {
-						console.log($("#detail_form").serialize());
 					if(response.status == "200 OK"){
 						location.reload(); // 새로고침
 					}
@@ -127,8 +129,9 @@
 		//url요청
 		location.href = "${context}/str/list?strNm=" +strNm + "&pageNo=" + pageNo;
 		}
-</script>
+		</script>
 </head>
+
 <body>
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
@@ -139,9 +142,11 @@
 			<div class="path"> 매장 관리</div>
 				<div class="search-group">
 					<label for="search-keyword">매장명</label>
-					<input type="text" id="search-keyword" class="search-input" value="${strVO.strNm}"/>
+					<input type="text" id="search-keyword" class="search-input" value=""/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
+				
+			<h1>매장 전체 조회</h1>
 			
 			<div class="grid">
 				
@@ -158,9 +163,9 @@
 						<th>매장주소</th>
 						<th>전화번호</th>
 						<th>관리자ID</th>
-						<th>오픈시간</th>
+						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
-						<th>사용여부</th>
+						<th>사용여부</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -179,14 +184,14 @@
 							<td>
 								<input type="checkbox" class="check_idx" value="${str.strId}"/>
 							</td>
-								<td><a href="${context}/str/detail/{strId}">${str.strId}</a></td>
+								<td><a href="${context}/str/detail/${str.strId}">${str.strId}</a></td>
 								<td>${str.strNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
 								<td>${str.mbrId}</td>
-								<td>${str.strOpnTm}</td>
+								<%-- <td>${str.strOpnTm}</td>
 								<td>${str.strClsTm}</td>
-								<td>${str.useYn}</td>
+								<td>${str.useYn}</td> --%>
 							</tr>
 							</c:forEach>
 						</c:when>
@@ -238,28 +243,40 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strNm" style="width:180px">매장명</label>
-						<input type="text" id="strNm" name="strNm" value=""/>
+						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strAddr" style="width:180px">매장주소</label>
-						<input type="text" id="strAddr" name="strAddr" value=""/>
+						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
+						<select name="strAddr" id="strAddr">
+						<option>지역 선택</option>
+							<option value="서울" ${strVO.strAddr eq '서울' ? 'selected' : ''}>서울</option>
+							<option value="부산">부산</option>
+							<option value="강원">강원</option>
+							<option value="경기">경기</option>
+							<option value="인천">인천</option>
+							<option value="대구">대구</option>
+						</select>
 					</div>
-					<div class="input-group inline">
-						<label for="strCallNum" style="width:180px">전화번호</label>
-						<input type="text" id="strCallNum" name="strCallNum" value=""/>
-					</div>
+					
+				    <div class="input-group inline">
+				        <label for="strCallNum" style="width:180px">전화번호</label>
+				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
+				    </div>	
+				
 					<div class="input-group inline">
 						<label for="mbrId" style="width:180px">관리자ID</label>
-						<input type="text" id="mbrId" name="mbrId" value=""/>
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
-						<input type="text" id="strOpnTm" name="strOpnTm" value=""/>
+						<input type="time" id="strOpnTm" name="strOpnTm" value=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="strClsTm" style="width:180px">종료시간</label>
-						<input type="text" id="strClsTm" name="strClsTm" value=""/>
+						<input type="time" id="strClsTm" name="strClsTm" value=""/>
 					</div>
+					
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px">사용여부</label>
 						<input type="checkbox" id="useYn" name="useYn" value="Y"/>
@@ -269,8 +286,7 @@
 		</div>
 			<div class="align-right">
 				<button id="new_btn" class="btn-primary">신규</button>
-				<button id="save_btn" class="btn-primary">저장</button>
-				<button id="delete_btn" class="btn-delete">삭제</button>
+				<button id="save_btn" class="btn-primary">등록</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
