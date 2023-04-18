@@ -41,6 +41,10 @@ $().ready(function() {
 
 		});
 		
+		$("#list_btn").click(function(){
+			location.href= "${context}/str/list";
+		});
+		
 		$("#delete_btn").click(function(){
 				var strId = $("#strId").val();
 				if(strId == ""){
@@ -198,6 +202,7 @@ $().ready(function() {
 			<div class="align-right">
 				<button id="save_btn" class="btn-primary">수정</button>
 				<button id="delete_btn" class="btn-delete">삭제</button>
+				<button id="list_btn" class="btn-list">목록</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

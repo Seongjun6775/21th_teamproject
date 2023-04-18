@@ -20,20 +20,21 @@ public class StrController {
 	private StrService strService;
 	
 	@GetMapping("/str/list")
-	public String viewStrListPage(@SessionAttribute("__MBR__")MbrVO mbrVO, Model model, StrVO strVO) {
-		
-		if(mbrVO.getMbrLvl().equals("001-01")) {
-			List<StrVO> strList = strService.readAllStrMaster(strVO);
-			model.addAttribute("strList", strList);
-			model.addAttribute("StrVO", strVO);
-			return"str/list";
-		}
-		else if(mbrVO.getMbrLvl().equals("001-02")) {
-			return"redirect:/str/detail/";
-		}
-		else {
-			return "redirect:/index";
-		}
+	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, Model model, StrVO strVO) {
+
+	    if (mbrVO.getMbrLvl().equals("001-01")) {
+	        List<StrVO> strList = strService.readAllStrMaster(strVO);
+	        model.addAttribute("strList", strList);
+	        model.addAttribute("StrVO", strVO);
+	        return "str/list";
+	        
+	    } else if (mbrVO.getMbrLvl().equals("001-02")) {
+	    	 model.addAttribute("MbrVO", mbrVO);
+	        return "redirect:/str/detail/" + mbrVO.getStrId();
+	        
+	    } else {
+	        return "redirect:/index";
+	    }
 	}
 	
 	@GetMapping("/str/create")

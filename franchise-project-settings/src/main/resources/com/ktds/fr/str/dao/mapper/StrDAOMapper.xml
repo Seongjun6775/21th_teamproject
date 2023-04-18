@@ -7,8 +7,9 @@
 	<select id="readAllStrMaster"
 			parameterType="com.ktds.fr.str.vo.StrVO"
 			resultType="com.ktds.fr.str.vo.StrVO">
-			<include refid="Common.page_header"/>
-		SELECT S.STR_ID
+			<include refid="Common.pageHeader"/>
+		SELECT S.STR_ID PK_COL
+			 , S.STR_ID
 			 , S.STR_NM
 			 , S.STR_ADDR
 			 , S.STR_CALL_NUM
@@ -24,31 +25,31 @@
 		<if test='strNm != null and strNm != ""'>
 		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
 		</if>
-		 <include refid="Common.page_footer"/>
+		 <include refid="Common.pageFooter"/>
 	</select>
 	
 	<select id="readBlockStrNm"
 			parameterType="string"
-			resultType="com.ktds.fr.str.vo.StrVO">
+			resultType="_int">
 		SELECT COUNT(1)
 		  FROM STR
-		 WHERE STR_NM = {_parameter}
+		 WHERE STR_NM = #{_parameter}
 	</select>
 	
 	<select id="readBlockStrAddr"
 			parameterType="string"
-			resultType="com.ktds.fr.str.vo.StrVO">
+			resultType="_int">
 		SELECT COUNT(1)
 		  FROM STR
-		 WHERE STR_ADDR = {_parameter}
+		 WHERE STR_ADDR = #{_parameter}
 	</select>
 	
 	<select id="readBlockStrCallNum"
 			parameterType="string"
-			resultType="com.ktds.fr.str.vo.StrVO">
+			resultType="_int">
 		SELECT COUNT(1)
 		  FROM STR
-		 WHERE STR_CALL_NUM = {_parameter}
+		 WHERE STR_CALL_NUM = #{_parameter}
 	</select>
 	
 	<select id="readOneStrByMaster"
@@ -64,12 +65,6 @@
 			 , S.USE_YN
 			 , S.DEL_YN
 		  FROM STR S
-		  LEFT JOIN STR_PRDT STP
-		    ON S.STR_ID = STP.STR_ID
-		  LEFT JOIN MBR M
-		    ON S.STR_ID = M.STR_ID
-		  LEFT JOIN PRDT PT
-		 	ON STP.PRDT_ID = PT.PRDT_ID
 		 WHERE S.STR_ID= #{_parameter}
 		 ORDER BY S.STR_ID ASC
 	</select>
