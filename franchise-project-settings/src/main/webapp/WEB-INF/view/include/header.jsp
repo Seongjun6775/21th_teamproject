@@ -5,10 +5,10 @@
 <div class="header bg-black">
 	<ul class="nav">
 		<li class="nav-item active">
-			<a href="#">회원관리</a>
+			<a href="${context}/mbr/list">회원관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">메뉴관리</a>
+			<a href="${context}/prdt/list">메뉴관리</a>
 		</li>
 		<li class="nav-item">
 			<a href="${context}/str/list">매장관리</a>

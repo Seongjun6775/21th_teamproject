@@ -1,6 +1,8 @@
 package com.ktds.fr.mbr.vo;
 
-public class MbrVO {
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class MbrVO extends AbstractVO{
 
 	private String mbrId;
 	private String strId;
