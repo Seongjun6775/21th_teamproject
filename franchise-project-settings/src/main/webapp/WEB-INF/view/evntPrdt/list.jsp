@@ -67,7 +67,6 @@
 					</tbody>
 				</table>
 			</div>
-
 			<button id="btn-close" class="btn-primary">닫기</button>
 
 		</div>
