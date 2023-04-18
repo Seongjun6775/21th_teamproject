@@ -43,6 +43,20 @@
 		$("#update_pwd_btn").click(function(event){
 			location.href="${context}/mbr/change/pwd";
 		});
+		$("#signout_mbr_btn").click(function(event){
+			if(confirm("회원탈퇴를 진행하시겠습니까?")){
+				$.get("${context}/api/mbr/signout", function(resp){
+					if(resp.status == "200 OK"){
+						alert("정상적으로 탈퇴되었습니다.");
+						location.href="${context}"+resp.redirectURL;
+					}else{
+						alert(resp.message);
+					}
+				});
+			}else{
+				
+			}
+		});
 	});
 </script>
 </head>
@@ -86,7 +100,7 @@
 						</form>
 						<button class="update-btn" id="update_info_btn">수정</button>
 						<button class="update-btn" id="update_pwd_btn">비밀번호 변경</button>
-						<button class="leave-btn" id="leave_mbr_btn">회원탈퇴</button>
+						<button class="leave-btn" id="signout_mbr_btn">회원탈퇴</button>
 					</div>	
 				</div>
 			<jsp:include page="../include/footer.jsp" />

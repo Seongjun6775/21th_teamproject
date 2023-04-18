@@ -139,6 +139,17 @@ public class RestMbrController {
 		}
 		return new ApiResponseVO(ApiStatus.OK,"/logout");
 	}
+	//회원탈퇴
+	@GetMapping("/api/mbr/signout")
+	public ApiResponseVO doSignout(@SessionAttribute("__MBR__")MbrVO mbrVO) {
+		boolean deleteResult = mbrService.deleteOneMbr(mbrVO.getMbrId());
+		if(!deleteResult) {
+			throw new ApiException(ApiStatus.FAIL, "회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+		}else {
+			return new ApiResponseVO(ApiStatus.OK,"/logout");
+		}
+	}
+	
 
 	//인증 메일 보내기
 	@PostMapping("/api/mbr/emailSend")
