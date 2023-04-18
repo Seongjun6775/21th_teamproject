@@ -88,8 +88,10 @@ input {
 
 .btn-primary {
 	background-color: #c0d1fe;
+	margin: 5px;
 }
 
 .btn-delete {
 	background-color: #fe98a5;
+	margin: 5px;
 }

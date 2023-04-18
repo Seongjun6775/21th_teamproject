@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ktds.fr.rv.vo.RvVO;
+import com.ktds.fr.rv.vo.SearchRvVO;
 
 @Repository
 public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
@@ -33,8 +34,8 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 	
 	// 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자
 	@Override
-	public List<RvVO> readAllRvListForTopManager(RvVO rvVO) {
-		return getSqlSession().selectList("Rv.readAllRvListForTopManager", rvVO);
+	public List<RvVO> readAllRvListForTopManager(SearchRvVO searchRvVO) {
+		return getSqlSession().selectList("Rv.readAllRvListForTopManager", searchRvVO);
 	}
 
 	// 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자
@@ -45,8 +46,8 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 
 	// 2-3.자기 매장의 리뷰 목록 조회 == 중하위관리자
 	@Override
-	public List<RvVO> readAllRvListForMiddleManager(String strId) {
-		return getSqlSession().selectList("Rv.readAllRvListForMiddleManager", strId);
+	public List<RvVO> readAllRvListForMiddleManager(SearchRvVO searchRvVO) {
+		return getSqlSession().selectList("Rv.readAllRvListForMiddleManager", searchRvVO);
 	}
 
 	// 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자

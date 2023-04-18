@@ -52,24 +52,21 @@
 				}
 			})
 		});	
-		$("#search_btn").click(function(){
-			
+		$("#search_btn").click(function(){			
 			movePage(0);
 		});
 	});
 		function movePage(pageNo){
 			//전송.
 			//입력 값:
-			var mbrId = $("#search-keyword-mbrId").val();
-			var rvTtl = $("#search-keyword-rvTtl").val();
-			var rvCntnt = $("search-keyword-rvCntnt").val();
+			var id = $("input[name=searchWrap]").val();
+			var selec = $("#search_option").val();
 			
 			var queryString = "?pageNo=" + pageNo;
-			queryString += "&mbrId=" + mbrId;
-			queryString += "&rvTtl=" + rvTtl;
-			queryString += "&rvCntnt=" + rvCntnt;
+			queryString += "&type="+selec+"&search=" + id;
+
 			//URL요청
-			location.href="${context}/rv/list/?" + queryString;
+			location.href="${context}/rv/list" + queryString;
 			
 		}
 </script>
@@ -83,7 +80,7 @@
 			<div class="path">리뷰 > 리뷰목록</div>
 			
 			<h1>리뷰 목록</h1>
-			<div>총 ${rvList.size()}건</div>
+			<div>총 ${rvList[0].totalCount}건</div>
 			
 			<table>
 				<thead>
@@ -91,7 +88,7 @@
 						<th><input type="checkbox" id="all_check" /></th>
 						<th>리뷰ID</th>
 						<th>회원ID</th>
-						<th>주문상세ID</th>
+						<th>주문서ID</th>
 						<th>제목</th>
 						<th>좋아요/싫어요</th>
 						<th>등록일</th>
@@ -111,7 +108,7 @@
 									</td>
 									<td><a href="${context}/rv/detail/${rv.rvId}" >${rv.rvId}]</a></td>
 									<td>${rv.mbrId}</td>
-									<td>${rv.odrDtlId}</td>					
+									<td>${rv.odrLstId}</td>					
 									<td>${rv.rvTtl}</td>					
 									<td>${rv.rvLkDslk}</td>					
 									<td>${rv.rvRgstDt}</td>					
@@ -132,9 +129,13 @@
 				<button id="delete_all_btn" class="btn-delete">삭제</button>
 			</div>
 			
+			<div class="align-right">				
+				<button id="new_btn" class="btn-primary">등록</button>
+			</div>
+			
 			<div class="pagenate">
 				<ul>
-					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
+					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage-1 : 0}" var="lastPage"/>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastGroup : 0}" var="lastGroup"/>
 					
 					<fmt:parseNumber var="nowGroup" value="${Math.floor(gnrVO.pageNo / 10)}" integerOnly = "true"/>
@@ -168,23 +169,18 @@
 					</c:if>
 				</ul>
 			</div>				
-			
-			<form action="rvList" method="post">
-				<div class="search-wrap">
-				<select name="search_option">
-					<option value="${rv.rvTtl}">제목</option>					
-					<option value="${rv.rvCntnt}">내용</option>					
-					<option value="${rv.mbrId}">작성자</option>									
-				</select>
-				<input type="text" placeholder="검색어를 입력하세요">
-				<button id="search_btn" class="btn-search">검색</button>
+			<div class="search-row-group">
+				<div class="search-group">
+					<select id="search_option" name="searchOption">
+						<option value="rvTtl">제목</option>					
+						<option value="rvCntnt">내용</option>					
+						<option value="mbrId">작성자</option>									
+					</select>
+					<input type="text" name="searchWrap" placeholder="검색어를 입력하세요">						
+					<button id="search_btn" class="btn-search">검색</button>				
 				</div>
-			</form>
-			
-			<div class="align-right">				
-				<button id="new_btn" class="btn-primary">등록</button>
 			</div>
-			
+						
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

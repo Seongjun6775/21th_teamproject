@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.rv.vo.RvVO;
+import com.ktds.fr.rv.vo.SearchRvVO;
 
 public interface RvService {
 
@@ -14,7 +15,7 @@ public interface RvService {
 
 	
 	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
-	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO);
+	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO);
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
 	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO);
 

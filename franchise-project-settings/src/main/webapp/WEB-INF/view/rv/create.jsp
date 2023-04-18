@@ -21,7 +21,7 @@
 					{
 						rvId:$("#rvId").val(),			
 						mbrId:$("#mbrId").val(),
-						odrDtlId:$("#odrDtlId").val(),
+						odrLstId:$("#odrLstId").val(),
 						rvTtl:$("#rvTtl").val(),
 						rvCntnt:$("#rvCntnt").val(),
 						rvLkDslk:$("#rvLkDslk").val(),		
@@ -52,8 +52,8 @@
 			<div>
 				<form id="create_form" method="post">
 					<div class="create-group">
-						<label for="odrDtlId">주문 상세 ID</label> <input type="text" id="odrDtlId"
-							name="odrDtlId" />
+						<label for="odrLstId">주문서 ID</label> <input type="text" id="odrLstId"
+							name="odrLstId" />
 					</div>
 					<div class="create-group">
 						<label for="rvTtl">제목</label> <input type="text" id="rvTtl"

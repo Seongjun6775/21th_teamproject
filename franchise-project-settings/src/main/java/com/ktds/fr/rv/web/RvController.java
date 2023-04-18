@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.rv.service.RvService;
 import com.ktds.fr.rv.vo.RvVO;
+import com.ktds.fr.rv.vo.SearchRvVO;
 
 @Controller
 public class RvController {
@@ -27,9 +28,9 @@ public class RvController {
 	
 	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
 	@GetMapping("/rv/list")
-	public String viewRvListPage(Model model, RvVO rvVO
+	public String viewRvListPage(Model model, RvVO rvVO, SearchRvVO searchRvVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO);
+		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO, searchRvVO);
 		
 		model.addAttribute("rvList", rvList);
 		model.addAttribute("rvVO", rvVO);

@@ -59,8 +59,8 @@
 							<input type="text" id="mbrId" name="mbrId" disabled value="${rvDetail.mbrId}">
 						</div>
 						<div class="detail-group-inline">
-							<label for="odrDtlId">주문 상세 ID</label>
-							<input type="text" id="odrDtlId" name="odrDtlId" disabled value="${rvDetail.odrDtlId}">
+							<label for="odrLstId">주문서 ID</label>
+							<input type="text" id="odrLstId" name="odrLstId" disabled value="${rvDetail.odrLstId}">
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvTtl">제목</label>

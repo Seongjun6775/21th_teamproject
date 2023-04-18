@@ -9,6 +9,7 @@ import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.rv.dao.RvDAO;
 import com.ktds.fr.rv.vo.RvVO;
+import com.ktds.fr.rv.vo.SearchRvVO;
 
 @Service
 public class RvServiceImpl implements RvService {
@@ -29,8 +30,7 @@ public class RvServiceImpl implements RvService {
 			}
 			catch (RuntimeException re) {
 				throw new ApiException("500", "이미 리뷰를 작성하셨습니다.");
-			}
-		
+			}		
 		}
 	
 	// 1-2.이용자가 쓴 리뷰 개수 조회(리뷰 쓴 적이 없어야 리뷰 등록 가능)
@@ -42,13 +42,16 @@ public class RvServiceImpl implements RvService {
 	
 	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
 	@Override
-	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO) {
+	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO) {
 		rvVO.setMbrVO(mbrVO);
+		
 		if (mbrVO.getMbrLvl().equals("001-01")) {
-			return rvDAO.readAllRvListForTopManager(rvVO);
+			searchRvVO.setMbrVO(mbrVO);
+			return rvDAO.readAllRvListForTopManager(searchRvVO);
 		}
 		else if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			return rvDAO.readAllRvListForMiddleManager(mbrVO.getStrId());
+			searchRvVO.setMbrVO(mbrVO);
+			return rvDAO.readAllRvListForMiddleManager(searchRvVO);
 		}
 		else {
 			return rvDAO.readAllRvListForMemberByRvId(rvVO.getRvId());
@@ -62,7 +65,7 @@ public class RvServiceImpl implements RvService {
 			return rvDAO.readOneRvVOForTopManagerByRvId(rvVO.getRvId());
 		}
 		else if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			return rvDAO.readOneRvVOForMiddleManagerByOdrId(rvVO.getOdrDtlId());
+			return rvDAO.readOneRvVOForMiddleManagerByOdrId(rvVO.getOdrLstId());
 		}
 		else {
 			return rvDAO.readOneRvVOForMemberByRvId(rvVO.getRvId());

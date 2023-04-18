@@ -14,8 +14,8 @@ public class RvVO extends AbstractVO {
 	private String rvId; 
 	// 회원 ID
 	private String mbrId;
-	// 주문 상세 ID
-	private String odrDtlId;
+	// 주문서 ID
+	private String odrLstId;
 	// 제목
 	private String rvTtl;	
 	// 내용
@@ -33,6 +33,7 @@ public class RvVO extends AbstractVO {
 	
 	private MbrVO mbrVO;
 	
+	
 	public String getRvId() {	
 		return rvId;
 	}	
@@ -44,13 +45,13 @@ public class RvVO extends AbstractVO {
 	}	
 	public void setMbrId(String mbrId) {	
 		this.mbrId = mbrId;
-	}	
-	public String getOdrDtlId() {	
-		return odrDtlId;
-	}	
-	public void setOdrDtlId(String odrDtlId) {	
-		this.odrDtlId = odrDtlId;
-	}	
+	}			
+	public String getOdrLstId() {
+		return odrLstId;
+	}
+	public void setOdrLstId(String odrLstId) {
+		this.odrLstId = odrLstId;
+	}
 	public String getRvTtl() {	
 		return rvTtl;
 	}	
@@ -98,6 +99,6 @@ public class RvVO extends AbstractVO {
 	}
 	public void setMbrVO(MbrVO mbrVO) {
 		this.mbrVO = mbrVO;
-	}	
-		
+	}
+			
 }		

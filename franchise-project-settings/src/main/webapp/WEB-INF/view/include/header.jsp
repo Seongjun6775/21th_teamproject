@@ -23,7 +23,7 @@
 			<a href="#">쪽지 관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">리뷰관리</a>
+			<a href="${context}/rv/list">리뷰관리</a>
 		</li>
 		<li class="nav-item">
 			<a href="#">댓글관리</a>
