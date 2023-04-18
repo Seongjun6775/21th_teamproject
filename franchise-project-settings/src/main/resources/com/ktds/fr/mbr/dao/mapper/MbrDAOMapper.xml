@@ -28,6 +28,7 @@
 			parameterType="com.ktds.fr.mbr.vo.MbrVO"
 			resultType="com.ktds.fr.mbr.vo.MbrVO">
 		SELECT MBR_ID
+			 , STR_ID
 			 , MBR_NM
 			 , MBR_PWD
 			 , MBR_EML

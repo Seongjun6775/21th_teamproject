@@ -21,7 +21,6 @@ public class StrController {
 	
 	@GetMapping("/str/list")
 	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, Model model, StrVO strVO) {
-
 	    if (mbrVO.getMbrLvl().equals("001-01")) {
 	        List<StrVO> strList = strService.readAllStrMaster(strVO);
 	        model.addAttribute("strList", strList);
@@ -29,7 +28,6 @@ public class StrController {
 	        return "str/list";
 	        
 	    } else if (mbrVO.getMbrLvl().equals("001-02")) {
-	    	 model.addAttribute("MbrVO", mbrVO);
 	        return "redirect:/str/detail/" + mbrVO.getStrId();
 	        
 	    } else {

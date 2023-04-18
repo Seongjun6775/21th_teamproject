@@ -8,7 +8,8 @@
 			parameterType="com.ktds.fr.str.vo.StrVO"
 			resultType="com.ktds.fr.str.vo.StrVO">
 			<include refid="Common.pageHeader"/>
-		SELECT S.STR_ID
+		SELECT S.STR_ID PK_COL
+			 , S.STR_ID
 			 , S.STR_NM
 			 , S.STR_ADDR
 			 , S.STR_CALL_NUM
