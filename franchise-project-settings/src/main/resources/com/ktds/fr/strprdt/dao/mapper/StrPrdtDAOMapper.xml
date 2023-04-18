@@ -28,13 +28,16 @@
 	
 	
 	<select id="readAll"
-			parameterType="string"
+			parameterType="com.ktds.fr.strprdt.vo.StrPrdtVO"
 			resultMap="strPrdtVOMap">
-		SELECT SP.STR_PRDT_ID 
+		<include refid="StrPrdtCommon.pageHeader"></include>
+		SELECT SP.STR_PRDT_ID PK_COL
+			 , SP.STR_PRDT_ID
 		     , SP.STR_ID 
 		     , S.STR_NM
 		     , SP.PRDT_ID
 		     , P.PRDT_NM 
+		     , P.PRDT_PRC
 		     , SP.MDFYR 
 		     , M.MBR_NM MDFYR_NM
 		     , SP.MDFY_DT 
@@ -48,9 +51,10 @@
 		  LEFT OUTER JOIN MBR M
 		    ON SP.MDFYR = M.MBR_ID
 		 WHERE SP.DEL_YN = 'N'
-		<if test='_parameter != null and _parameter != ""'>
-		   AND STR_ID = {_parameter}
+		<if test='strId != null and strId != ""'>
+		   AND SP.STR_ID = #{strId}
 		</if>
+		<include refid="StrPrdtCommon.pageFooter"></include>
 	</select>
 
 
