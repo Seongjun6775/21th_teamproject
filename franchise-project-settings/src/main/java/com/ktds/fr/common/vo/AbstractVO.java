@@ -2,9 +2,6 @@ package com.ktds.fr.common.vo;
 
 public abstract class AbstractVO {
 	
-	private String startDt;
-	private String endDt;
-
 	/**
 	 * 검색에 이용
 	 * 시작 날짜
