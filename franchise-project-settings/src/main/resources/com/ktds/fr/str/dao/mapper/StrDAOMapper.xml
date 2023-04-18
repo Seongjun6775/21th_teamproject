@@ -4,6 +4,143 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Str">
 
-
+	<select id="readAllStrMaster"
+			parameterType="com.ktds.fr.str.vo.StrVO"
+			resultType="com.ktds.fr.str.vo.StrVO">
+			<include refid="Common.page_header"/>
+		SELECT S.STR_ID
+			 , S.STR_NM
+			 , S.STR_ADDR
+			 , S.STR_CALL_NUM
+			 , S.MBR_ID
+			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , S.USE_YN
+			 , S.DEL_YN
+		  FROM STR S
+		  LEFT JOIN MBR M	
+		    ON S.MBR_ID = M.MBR_ID
+		 WHERE S.DEL_YN = 'N'
+		<if test='strNm != null and strNm != ""'>
+		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
+		</if>
+		 <include refid="Common.page_footer"/>
+	</select>
+	
+	<select id="readBlockStrNm"
+			parameterType="string"
+			resultType="com.ktds.fr.str.vo.StrVO">
+		SELECT COUNT(1)
+		  FROM STR
+		 WHERE STR_NM = {_parameter}
+	</select>
+	
+	<select id="readBlockStrAddr"
+			parameterType="string"
+			resultType="com.ktds.fr.str.vo.StrVO">
+		SELECT COUNT(1)
+		  FROM STR
+		 WHERE STR_ADDR = {_parameter}
+	</select>
+	
+	<select id="readBlockStrCallNum"
+			parameterType="string"
+			resultType="com.ktds.fr.str.vo.StrVO">
+		SELECT COUNT(1)
+		  FROM STR
+		 WHERE STR_CALL_NUM = {_parameter}
+	</select>
+	
+	<select id="readOneStrByMaster"
+			parameterType="string"
+			resultType="com.ktds.fr.str.vo.StrVO">
+		SELECT S.STR_ID
+			 , S.STR_NM
+			 , S.STR_ADDR
+			 , S.STR_CALL_NUM
+			 , S.MBR_ID
+			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , S.USE_YN
+			 , S.DEL_YN
+		  FROM STR S
+		  LEFT JOIN STR_PRDT STP
+		    ON S.STR_ID = STP.STR_ID
+		  LEFT JOIN MBR M
+		    ON S.STR_ID = M.STR_ID
+		  LEFT JOIN PRDT PT
+		 	ON STP.PRDT_ID = PT.PRDT_ID
+		 WHERE S.STR_ID= #{_parameter}
+		 ORDER BY S.STR_ID ASC
+	</select>
+	
+	<select id="readOneStrByManager"
+			parameterType="string"
+			resultType="com.ktds.fr.str.vo.StrVO">
+		SELECT STR_ID
+			 , STR_NM
+			 , STR_ADDR
+			 , STR_CALL_NUM
+			 , MBR_ID
+			 , TO_CHAR(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 , TO_CHAR(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , USE_YN
+		  FROM STR
+		 WHERE STR_ID= #{_parameter}
+	</select>
+	
+	<insert id="createOneStr"
+			parameterType="com.ktds.fr.str.vo.StrVO">
+		INSERT INTO STR
+			 (STR_ID
+			 , STR_NM
+			 , STR_ADDR
+			 , STR_CALL_NUM
+			 , MBR_ID
+			 , STR_OPN_TM
+			 , STR_CLS_TM
+			 , USE_YN
+			 , DEL_YN)
+		VALUES
+			   ('ST-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_STR_PK.NEXTVAL, 5, '0')
+			 , #{strNm}
+			 , #{strAddr}
+			 , #{strCallNum}
+			 , #{mbrId}
+			 , TO_DATE(#{strOpnTm}, 'HH24:MI:SS')
+			 , TO_DATE(#{strClsTm}, 'HH24:MI:SS')
+			 , NVL(#{useYn}, 'N')
+			 , 'N' )
+	</insert>
+	
+	<update id="updateOneStrByMaster"
+			parameterType="com.ktds.fr.str.vo.StrVO">
+			UPDATE STR
+			   SET STR_NM=#{strNm}
+				 , STR_ADDR=#{strAddr}
+				 , STR_CALL_NUM=#{strCallNum}
+				 , MBR_ID=#{mbrId}
+				 , STR_OPN_TM =TO_DATE(#{strOpnTm}, 'HH24:MI:SS')
+			 	 , STR_CLS_TM =TO_DATE(#{strClsTm}, 'HH24:MI:SS')
+				 , USE_YN= NVL(#{useYn}, 'N')
+			 WHERE STR_ID=#{strId}
+			
+	</update>
+	<update id="updateOneStrByManager"
+			parameterType="com.ktds.fr.str.vo.StrVO">
+			UPDATE STR
+			   SET STR_NM=#{strNm}
+				 , STR_CALL_NUM=#{strCallNum}
+				 , TO_DATE(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 	 , TO_DATE(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 WHERE STR_ID=#{strId}
+	</update>
+	<update id="deleteOneStrByStrId"
+			parameterType="string">
+			UPDATE STR
+			   SET DEL_YN = 'Y' 
+			 WHERE STR_ID = #{_parameter}
+			
+	</update>
 
 </mapper>

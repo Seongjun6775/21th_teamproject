@@ -1,7 +1,7 @@
 package com.ktds.fr.common.vo;
 
 public abstract class AbstractVO {
-	
+
 	/**
 	 * 검색에 이용
 	 * 시작 날짜
@@ -110,5 +110,5 @@ public abstract class AbstractVO {
 	public void setRnum(int rnum) {
 		this.rnum = rnum;
 	}
-	
+
 }

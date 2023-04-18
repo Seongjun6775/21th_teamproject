@@ -11,7 +11,7 @@
 			<a href="${context}/prdt/list">메뉴관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">매장관리</a>
+			<a href="${context}/str/list">매장관리</a>
 		</li>
 		<li class="nav-item">
 			<a href="#">이벤트관리</a>
@@ -36,5 +36,5 @@
 		</li>
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
-	<div class="inline profile">이름 <a href="${context}/logout">(Logout)</a></div>
+	<div class="inline profile">${sessionScope.__MBR__.mbrNm} <a href="${context}/logout">(Logout)</a></div>
 </div>
