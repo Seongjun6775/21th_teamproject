@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../../css/evntCommon.css">
+<link rel="stylesheet" href="../css/evntCommon.css">
 <meta charset="UTF-8">
 <title>이벤트 목록 조회</title>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
@@ -51,6 +51,7 @@
 				location.href = "${context}/evnt/list?pageNo="+pageNum;
 			}
 		});
+		
 	});
 	
 	function movePage(pageNum){
@@ -67,7 +68,7 @@
 		<div class="content">
 			<div class="search-group">
 				<div>
-					<form action="/evnt/list" method="post">
+					<form action="${context}/evnt/list" method="post">
 						<table style="width: 100%;">
 							<tr>
 								<td>이벤트 ID</td>

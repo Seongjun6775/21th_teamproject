@@ -31,8 +31,8 @@
 	<select id="readAllEvnt"
 		parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
-		<include refid="CmmnCd.pageHeader" />
-	SELECT rank() OVER(ORDER BY EVNT_ID) EvntNum
+		<include refid="Common.pageHeader" />
+	SELECT dense_rank() OVER(ORDER BY EVNT_ID) EvntNum
 		     , EVNT_ID PK_COL
 		     , EVNT_ID
 		     , EVNT_TTL
@@ -64,7 +64,7 @@
 		 </if>		 
 		AND EVNT.DEL_YN = 'N'		
 		ORDER BY EvntNum DESC
-		<include refid="CmmnCd.pageFooter" />
+		<include refid="Common.pageFooter" />
 	   </select>
 	
 	

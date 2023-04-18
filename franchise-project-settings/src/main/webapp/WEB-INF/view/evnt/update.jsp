@@ -68,7 +68,7 @@ $().ready(function() {
             <tr>
                <td>이벤트 ID</td>
                <td colspan="3"><input type="text" id="evntId"
-                  style="width: 99%;" value="${evntVO.evntId}" /></td>
+                  style="width: 99%;" readonly="readonly" value="${evntVO.evntId}" /></td>
             </tr>
 
             <tr>

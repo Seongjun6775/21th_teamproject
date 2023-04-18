@@ -169,7 +169,7 @@
 		</div>
 	</div>
 	
-	<script type="text/javascript">
+<%-- 	<script type="text/javascript">
 	const btn1 = document.getElementById("btn-evntStr");
 	const btn2 = document.getElementById("btn-evntCreateStr");
 	
@@ -188,7 +188,7 @@
 		btn2.style.visibility = "hidden";
 	}
 	
-	</script>
+	</script> --%>
 	
 	
 </body>

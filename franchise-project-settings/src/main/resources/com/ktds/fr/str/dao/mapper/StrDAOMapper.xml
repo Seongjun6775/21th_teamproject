@@ -7,7 +7,7 @@
 	<select id="readAllStrMaster"
 			parameterType="com.ktds.fr.str.vo.StrVO"
 			resultType="com.ktds.fr.str.vo.StrVO">
-			<include refid="Common.page_header"/>
+			<include refid="Common.pageHeader"/>
 		SELECT S.STR_ID
 			 , S.STR_NM
 			 , S.STR_ADDR
@@ -24,7 +24,7 @@
 		<if test='strNm != null and strNm != ""'>
 		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
 		</if>
-		 <include refid="Common.page_footer"/>
+		 <include refid="Common.pageFooter"/>
 	</select>
 	
 	<select id="readBlockStrNm"

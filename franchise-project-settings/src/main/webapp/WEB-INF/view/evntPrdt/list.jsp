@@ -35,6 +35,8 @@
 							<th style="width: 100px">이벤트 상품 ID</th>
 							<th style="width: 200px">이벤트 ID</th>
 							<th style="width: 200px">상품 ID</th>
+							<th style="width: 200px">상품 이름</th>
+							<th style="width: 200px">상품 가격</th>
 							<th style="width: 200px">변경 후 가격</th>
 							<th style="width: 80px">사용유무</th>
 							<th style="width: 80px">삭제여부</th>
@@ -48,6 +50,8 @@
 										<td>${evntPrdt.evntPrdtId}</td>
 										<td>${evntPrdt.evntId}</td>
 										<td>${evntPrdt.prdtId}</td>
+										<td>${evntPrdt.prdtNm}</td>
+										<td>${evntPrdt.prdtPrc}</td>
 										<td>${evntPrdt.evntPrdtChngPrc}</td>
 										<td>${evntPrdt.useYn}</td>
 										<td>${evntPrdt.delYn}</td>
@@ -56,7 +60,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="6">등록된 이벤트 대상 품목 정보가 없습니다.</td>
+									<td colspan="8">등록된 이벤트 대상 품목 정보가 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>

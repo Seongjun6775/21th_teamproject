@@ -70,7 +70,7 @@ public class EvntController {
 		model.addAttribute("lastPage", evntList.get(0).getLastPage());
 		model.addAttribute("lastGroup", evntList.get(0).getLastGroup());
 		
-		return "evnt/list";
+		return "/evnt/list";
 	}
 
 	// 3. 이벤트 상세조회

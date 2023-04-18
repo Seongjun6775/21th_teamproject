@@ -4,20 +4,24 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="EvntPrdt">
 
+
 <select id="readAllEvntPrdt"
 parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
 	resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
 
-   SELECT EVNT_PRDT_ID
-        , EVNT_ID
-        , PRDT_ID
-        , EVNT_PRDT_CHNG_PRC
-        , USE_YN
-        , DEL_YN
-     FROM EVNT_PRDT
-    WHERE 1 = 1
-      AND EVNT_ID = #{evntId}
-      AND DEL_YN = 'N'
+   SELECT E.EVNT_PRDT_ID
+        , E.EVNT_ID
+        , E.PRDT_ID
+        , P.PRDT_NM 
+        , P.PRDT_PRC 
+        , E.EVNT_PRDT_CHNG_PRC
+        , E.USE_YN
+        , E.DEL_YN
+     FROM EVNT_PRDT E
+     LEFT OUTER JOIN PRDT P 
+       ON E.PRDT_ID = P.PRDT_ID
+    WHERE E.EVNT_ID = #{evntId}
+      AND E.DEL_YN = 'N'
 </select>
 
 </mapper>

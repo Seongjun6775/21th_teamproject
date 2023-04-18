@@ -48,6 +48,12 @@ $().ready(function() {
 		   history.go(-1);
 	   });
 	
+	//상품 등록하기 버튼 누르면 팝업창으로 선택할 수 있는 창 뜸  
+	   $("#btn-prdt").click(function(){
+		   var pop = window.open("${context}/evntPrdt/prdtList/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
+	       pop.focus();	
+	   });
+	
 })
 </script>
 
@@ -64,7 +70,7 @@ $().ready(function() {
 				<tr>
 					<td>이벤트 ID</td>
 					<td colspan="3"><input type="text" id="evntId"
-						style="width: 99%;" value="" /></td>
+						style="width: 99%;" readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."value=""  /></td>
 				</tr>
 
 				<tr>
@@ -98,6 +104,12 @@ $().ready(function() {
 						value="Y" checked/></td>
 					<td>삭제 여부</td>
 					<td><input type="checkbox" id="delYn" value="" /></td>
+				</tr>
+				<tr>
+				<td>이벤트상품 설정</td>
+				<td><button id="btn-prdt">이벤트 상품 설정하기</button></td>
+				</tr>
+				<tr>
 				</tr>
 				<tr>
 					<td></td>
