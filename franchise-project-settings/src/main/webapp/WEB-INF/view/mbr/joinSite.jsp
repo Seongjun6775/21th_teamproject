@@ -342,7 +342,8 @@
             <i class='bx bx-lock login__icon'></i>
             <input type="password" id="lgn_mbrPwd" name ="mbrPwd" placeholder="Password" class="login__input" autocomplete="off">
           </div>
-          <a href="#" class="login__forgot">Forgot Account? </a>
+          <!-- <a href="#" class="login__forgot">Forgot Account? </a> -->
+          <span class="login__forgot" id="find-account">Forgot Account?</span>
           
           <a id="login_btn" class="login__button">Sign In</a>
           
@@ -437,6 +438,22 @@
              <a href="#" class="login__social--icon"><i class='bx bxl-github'></i></a>
           </div> -->
         </form>
+        
+        <form class="login__find none" id="login-find">
+        	<h1 class="login__title">Find Account</h1>
+        	<a id="login_btn" class="login__button">Sign In</a>
+        	
+        	<div>
+            	<span class="login__account login__account--account">Don't Have an Account?</span>
+            	<span class="login__signin login__signin--signup" id="sign-up">Sign Up</span>
+          	</div>
+          	<div>
+	          	<span class="login__account login__account--account">Already have an Account?</span>
+	            <span class="login__signup login__signup--signup" id="sign-in">Sign In</span>
+          	</div>
+          
+        </form>
+        
       </div>
     </div>
    </div>
