@@ -4,6 +4,39 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PrdtFile">
 
-
+	<insert id="create"
+			parameterType="com.ktds.fr.prdtfile.vo.PrdtFileVO">
+		<selectKey keyProperty="prdtFileId"
+					order="BEFORE"
+					resultType="string">
+			SELECT 'PF-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRDT_FILE_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO PRDT_FILE 
+		      (PRDT_FILE_ID 
+		     , PRDT_ID 
+		     , ORGIN_FILE_NAME 
+		     , UUID_FILE_NAME 
+		     , FILE_SIZE 
+		     , FILE_EXT 
+		     , USE_YN 
+		     , DEL_YN) 
+		VALUES
+			  (#{prdtFileId} 
+		     , #{prdtId} 
+		     , #{orginFileName} 
+		     , #{uuidFileName} 
+		     , #{fileSize} 
+		     , #{fileExt} 
+		     , 'Y'  
+		     , 'N' ) 
+	</insert>
+	
+	<update id="updatePrdtId"
+			parameterType="com.ktds.fr.prdtfile.vo.PrdtFileVO">
+		UPDATE PRDT_FILE 
+		   SET PRDT_ID = #{prdtId} 
+		 WHERE PRDT_FILE_ID = #{prdtFileId} 
+	</update>
 
 </mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Common">
+
+	<sql id="pageHeader">
+		SELECT B.*
+			 , B.TOTAL_COUNT
+	 		 , CEIL(B.TOTAL_COUNT / #{viewCnt}) LAST_PAGE
+			 , FLOOR(FLOOR(B.TOTAL_COUNT / #{viewCnt}) / #{pageCnt}) LAST_GROUP
+		  FROM (SELECT R.*
+					 , DENSE_RANK() OVER(ORDER BY PK_COL ASC) RNUM <!-- 여기 PK_COL을 RNUM으로 바꾸면 정상적으로 작동 -->
+					 , COUNT(DISTINCT PK_COL) OVER() TOTAL_COUNT
+				  FROM (
+	</sql>
+
+	<sql id="pageFooter">
+						) R) B
+		 WHERE RNUM BETWEEN (#{pageNo} * #{viewCnt}) + 1 AND (#{pageNo} * #{viewCnt}) + #{viewCnt}
+	</sql>
+
+</mapper>

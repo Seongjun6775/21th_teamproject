@@ -9,7 +9,7 @@ body{
 }
 /*Main Layout*/
 .main-layout > .header{
-	height: 70px;
+	height: 90px;
 	padding: 10px;
 	position: relative;
 }

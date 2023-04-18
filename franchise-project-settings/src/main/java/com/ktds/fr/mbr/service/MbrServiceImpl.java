@@ -1,5 +1,6 @@
 package com.ktds.fr.mbr.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -28,13 +29,14 @@ public class MbrServiceImpl implements MbrService {
 
 	@Override	//로그인
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO) {
+		//TODO 삭제할 log
 		log.info("아이디는 {}",mbrVO.getMbrId());
 		//아이디 차단 여부
 		String loginBlockYn = mbrDAO.readLgnBlockYnById(mbrVO.getMbrId());
 		if(loginBlockYn == null) {
-			throw new ApiException("403", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			throw new ApiException("403", "계정정보없음");
 		}else if(loginBlockYn.equals("Y")) {
-			throw new ApiException("403", "계정이 잠겼습니다. 관리자에게 문의하세요");
+			throw new ApiException("403", "계정이 잠겼습니다. 관리자에게 문의하세요.");
 		}
 		//비밀번호 일치 여부
 		String salt = mbrDAO.readSaltMbrById(mbrVO.getMbrId());
@@ -49,6 +51,7 @@ public class MbrServiceImpl implements MbrService {
 		if(loginData == null) {
 			//로그인 실패 처리
 			mbrDAO.updateMbrLgnFail(mbrVO);
+			mbrVO.setMbrLgnFlCnt(mbrDAO.readOneMbrLgnFailCnt(mbrVO.getMbrId()));
 			mbrDAO.updateMbrLgnBlock(mbrVO);
 		}else {
 			//성공
@@ -77,14 +80,40 @@ public class MbrServiceImpl implements MbrService {
 		
 		mbrPwd = SHA256Util.getEncrypt(mbrPwd, salt);
 		mbrVO.setMbrPwd(mbrPwd);
-		mbrVO.setMbrLvl("MEMBER");
 		
 		return mbrDAO.createNewMbr(mbrVO) > 0;
 	}
 
 	@Override // 회원 전체 조회
-	public List<MbrVO> readAllMbr() {
-		return mbrDAO.readAllMbr();
+	public List<MbrVO> readAllMbr(MbrVO mbrVO) {
+		if(mbrVO.getStartDt() == null || mbrVO.getStartDt().length()==0) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, -1);
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH)+1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			
+			String startDt = year+ "-" + strMonth + "-" + strDay;
+			mbrVO.setStartDt(startDt);
+		}
+		if(mbrVO.getEndDt() == null || mbrVO.getEndDt().length() == 0) {
+			Calendar cal = Calendar.getInstance();
+			
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			
+			String endDt = year + "-" + strMonth + "-" + strDay;
+			mbrVO.setEndDt(endDt);
+			
+		}
+		return mbrDAO.readAllMbr(mbrVO);
 	}
 
 	@Override // 하위관리자 전체 조회

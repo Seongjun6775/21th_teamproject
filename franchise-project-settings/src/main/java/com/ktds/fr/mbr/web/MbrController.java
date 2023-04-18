@@ -1,9 +1,12 @@
 package com.ktds.fr.mbr.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -17,14 +20,28 @@ public class MbrController {
 	@Autowired
 	private MbrService mbrService;
 	
-	@GetMapping("/login")
-	public String viewLoginPage() {
-		return "mbr/login";
+	@GetMapping("/join")
+	public String viewJoinPage() {
+		return "mbr/joinSite";
 	}
-	@GetMapping("/regist")
-	public String viewMbrRegistPage() {
-		return "mbr/mbr_regist";
+	
+	@GetMapping("/mbr/list")
+	public String viewMbrListPage(Model model, MbrVO mbrVO) {
+		List<MbrVO> mbrList = mbrService.readAllMbr(mbrVO);
+		model.addAttribute("mbrList", mbrList);
+		model.addAttribute("MbrVO", mbrVO);
+		
+		return "mbr/mbr_list";
 	}
+	
+//	@GetMapping("/login")
+//	public String viewLoginPage() {
+//		return "mbr/login";
+//	}
+//	@GetMapping("/regist")
+//	public String viewMbrRegistPage() {
+//		return "mbr/mbr_regist";
+//	}
 	@GetMapping("/logout")
 	public String doLogout(@SessionAttribute("__MBR__")MbrVO mbrVO, HttpSession session) {
 		session.invalidate();
@@ -32,7 +49,7 @@ public class MbrController {
 		lgnHistVO.setLgnHistActn("logout");
 		lgnHistVO.setMbrId(mbrVO.getMbrId());
 		lgnHistVO.setLgnHistIp(mbrVO.getMbrRcntLgnIp());
-		return "redirect:/login";
+		return "redirect:/join";
 	}
 	
 	

@@ -6,15 +6,19 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.common.service.MailSendServiceImple;
 import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
 
@@ -27,27 +31,24 @@ public class RestMbrController {
 	@Autowired
 	private MbrService mbrService;
 	
+	@Autowired
+	private MailSendServiceImple mailService;
+	
 	@PostMapping("/api/mbr/login")
 	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {
-		//TODO 필수값 체크, 세션, 
-		//비밀번호 있는지 체크
 		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
 		}
 		if(mbrVO.getMbrPwd() == null || mbrVO.getMbrPwd().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
 		}
-		
 		mbrVO.setMbrRcntLgnIp(request.getRemoteAddr());
 		MbrVO mbr = mbrService.readOneMbrByMbrIdAndMbrPwd(mbrVO);
 		if(mbr == null) {
-			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요");
+			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ mbrVO.getMbrLgnFlCnt() + " / 5");
 		}else {
-			//TODO session추가해주기
 			session.setAttribute("__MBR__", mbr);
 		}
-		//TODO 로그인시 메인 화면으로 가도록 redirect 주소 바꿔주자
-		//현재는 시험용
 		return new ApiResponseVO(ApiStatus.OK, "/index");
 	}
 	//회원의 회원가입
@@ -67,7 +68,11 @@ public class RestMbrController {
 		}
 		
 		boolean createResult = mbrService.createNewMbr(mbrVO);
-		return new ApiResponseVO();
+		if(createResult) {
+			return new ApiResponseVO(ApiStatus.OK,"/join");
+		}else {
+			return new ApiResponseVO(ApiStatus.FAIL,"회원등록에 실패하였습니다.","/join");
+		}
 	}
 	//회원 아이디 체크
 	@GetMapping("/api/mbr/check/{mbrId}")
@@ -81,6 +86,17 @@ public class RestMbrController {
 			return new ApiResponseVO(ApiStatus.OK);
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
+	}
+
+	//인증 메일 보내기
+	@PostMapping("/api/mbr/emailSend")
+	public ApiResponseVO doCheckAuthNum(@RequestParam String email) {
+		log.info("확인용 {}", email);
+		if(email == null || email.length() == 0) {
+			return new ApiResponseVO(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
+		}
+		String authNumber = mailService.makeEamilForm(email);
+		return new ApiResponseVO(ApiStatus.OK, authNumber, "");
 	}
 	
 }
