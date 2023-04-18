@@ -36,7 +36,7 @@ public class PrdtVO extends AbstractVO{
 	private int prdtViewCnt;
 	
 	
-	protected PrdtVO() {
+	public PrdtVO() {
 		this.prdtPageNo = 0;
 		this.prdtPageCnt = 5;
 		this.prdtViewCnt = 20;
