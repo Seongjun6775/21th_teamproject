@@ -18,6 +18,8 @@
 	$().ready(function(){
 		$("#fix_btn").click(function(){
 			//수정
+			var mngrId = $(this).val(); 
+			console.log(mngrId);
 			$.post("${context}/api/mngrbrd/update/${mngrBrd.mngrBrdId}",$("#create_form").serialize()
 					,function(response){
 				if(response.status =="200 OK"){
@@ -77,10 +79,9 @@
 							<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl} " />
 						</div>
 								
-						<div  class="create-group"> 
-							<label for="mngrId" class="label">사용자</label> 
-							<input type="text" id="mngrId" name="mngrId"  placeholder="Admin / session 받으면 삭제"  value="${mngrBrd.mngrId}" />
-						</div>			
+						 
+							<input type="hidden" id="mngrId" name="mngrId" value="${mngrBrd.mngrId}" />
+									
 						
 						<div class="create-group">
 							<label for="mngrBrdCntnt" class="label">본문</label> 

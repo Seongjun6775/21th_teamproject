@@ -12,6 +12,10 @@ body{
     font-family: 's-core-dream', sans-serif;	
 }
 
+*, ::before, ::after {
+     box-sizing: border-box;
+}
+
 *{
 	font-size:12pt;
 	color:#333;
@@ -84,7 +88,8 @@ body{
 	left: 150px;
 	right: 0px;
 	overflow: auto;
-	padding: 10px;
+	padding: 30px;
+	
 }
 
 
@@ -452,8 +457,6 @@ img.profile{
     text-decoration:none;
 }
 
-
-
 .blue-rpl-btn { 
     background-color: #1e51a2;
     color: #fff;
@@ -465,6 +468,18 @@ img.profile{
     border-radius: 5px;
     border: 1px solid #333;  
 }
+.black-rpl-btn{
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+    font-size: 13px;
+    text-decoration:none; 
+    border-radius: 5px;
+    border: 1px solid #333;  
+}
+
 .red-btn {
 	height: 40px;
     display: inline-block;
@@ -605,12 +620,16 @@ a.btn-m:active{
     margin-left: 30px;
     padding-right: 12px; 
 }
+
+
+
 .etc .etc-data::before {
     color: #E1E2E6;
     content: '|';
     padding-right: 5px;
     margin-left: -8px;
     float: left; 
+    
 }
 
 .etc .etc-table .etc-dt {
@@ -634,23 +653,33 @@ a.btn-m:active{
 	border-bottom: 1px solid #e0e0e0;
 	height: 400px; 
 	padding: 14px 20px 13px;
+	word-break: break-all;
 }
 
 .rplbtn{
-	padding: 10px;
 	text-align: right;
-	border-bottom: 1px solid #e0e0e0;
 }
 .rpl-box { 	
 	list-style: none;
 	padding: 10px;
 	dispaly :inline-block;
-  	border: 1px solid #e0e0e0;
+	 
+  	
+	
+}
+.rplBox{
+	border-bottom: 1px solid #e0e0e0;
+	padding: 15px;
 	
 }
 
 .rpl-one{
 	list-style: none;
 	dispaly :inline-block; 
+}
+
+.rpltextarea {
+	height: 80px;
+    width: 400px;
 }
 

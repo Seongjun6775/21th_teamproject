@@ -17,6 +17,7 @@ public class MngrBrdServiceImpl implements MngrBrdService {
 	
 	@Override
 	public List<MngrBrdVO> readAllMngrBrds(MngrBrdVO mngrBrdVO) {
+	
 		return mngrBrdDAO.readAllMngrBrds(mngrBrdVO);
 	}
 

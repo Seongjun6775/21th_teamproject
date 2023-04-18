@@ -36,5 +36,8 @@
 		</li>
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
-	<div class="inline profile">이름 <a href="${context}/logout">(Logout)</a></div>
+	<div class="inline profile">
+		${sessionScope.__MBR__.mbrNm}
+		<a href="${context}/logout">(Logout)</a>
+	</div>
 </div>

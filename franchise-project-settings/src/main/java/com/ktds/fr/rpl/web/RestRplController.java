@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -18,21 +20,19 @@ import com.ktds.fr.rpl.vo.RplVO;
 @RestController
 public class RestRplController {
 	
-	private boolean isTestMode = true;
-	
 	@Autowired
 	private RplService replyService;
 	
 	@PostMapping("/api/mngrbrd/rpl/create")
-	public ApiResponseVO doCreateRpl(RplVO rplVO, MbrVO mbrVO) {
+	public ApiResponseVO doCreateRpl(RplVO rplVO, 
+							@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		rplVO.setMbrId(mbrVO.getMbrId());
 		
-		if (isTestMode) {
-			rplVO.setMbrId("admin");
+		if(rplVO.getRplCntnt() ==null || rplVO.getRplCntnt().trim().length() ==0) {
+			throw new ApiArgsException("400", "내용을 입력해주세요.");
 		}
-		
 		boolean createResult = replyService.createNewRpl(rplVO);
-		
+
 		if(createResult) {
 			return new ApiResponseVO(ApiStatus.OK);
 		}
@@ -42,12 +42,8 @@ public class RestRplController {
 	}
 	
 	@PostMapping("/api/mngrbrd/rpl/update/{rplId}")
-	public ApiResponseVO doUpdateRpl(@PathVariable String rplId,
-									RplVO rplVO,
-									MbrVO mbrVO) {
-		if (isTestMode) {
-			rplVO.setMbrId("admin");
-		}
+	public ApiResponseVO doUpdateRpl(RplVO rplVO,
+						@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
 		boolean updateResult = replyService.updateOneRpl(rplVO);
 		

@@ -16,8 +16,9 @@
 <script type="text/javascript">
 	$().ready(function(){
 		$("#delete_btn").click(function(){
-			var mngrBrdId = $("#mngrBrdId").val();
-			console.log(mngrBrdId);
+			console.log("${mngrBrd.mngrBrdId}");
+			var mngrBrdId = ("${mngrBrd.mngrBrdId}");
+			
 			if(!confirm("정말 삭제하시겠습니까?")){
 				return;
 			} 
@@ -35,6 +36,7 @@
 		$(".red-rpl-btn").click(function(){ 
 			var rplId = $(this).val(); 
 			console.log(rplId);
+			
 			if(!confirm("정말 삭제하시겠습니까?")){
 				return;
 			} 
@@ -48,12 +50,47 @@
 			})
 		});
 		
+		$(".black-rpl-btn").click(function(){
+			
+			var div = $(this).closest("div.rplbtn")
+			console.log(div);
+			console.log($('.create_rpl_form').length);			
+			
+			if($('.create_rpl_form').length == 0 ){
+				var reRplForm = $("<form class='create_rpl_form' >" + "<input type='hidden' class='altclId' name='altclId' value='${mngrBrd.mngrBrdId}'' />"
+						+ "<input type='hidden' class='rplPrntRpl' name='rplPrntRpl' value='"+ $(this).data('value')+"'/> </form>");
+				var input = $("<textarea name='rplCntnt' class='rplCntnt'></textarea>"
+							+ "<button class='blue-btn new_btn' >등록</button>");
+				reRplForm.append(input);
+				div.after(reRplForm);
+			}	
+			else{
+				$('.create_rpl_form').remove();
+			}
+		
+			
+		});
+		
+		$("div.rplBox").on("click",".new_btn",function(){
+			alert("!");
+			$.post("${context}/api/mngrbrd/rpl/create", $(".create_rpl_form").serialize(),function(response){
+				if(response.status =="200 OK"){
+					location.reload(); //새로고침	
+				}
+				else if (response.status =="400"){
+					//파라미터를 전달하지 않은 경우
+					console.log(response.message);
+					alert(response.message);
+				}
+				else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
 		
 		
 		$("#new_btn").click(function(){
-			console.log("!!");
-			var altclId = $("#altclId").val(); 
-			console.log(altclId);   
+
 			$.post("${context}/api/mngrbrd/rpl/create", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
 					location.reload(); //새로고침	
@@ -108,7 +145,7 @@
 							            ${mngrBrd.mngrBrdWrtDt}    
 							        </div>
 							        <div class="etc-user">작성자 </div>
-							        <div class="etc-data">${mngrBrd.mngrId}</div>	
+							        <div class="etc-data">${mngrBrd.mbrVO.mbrNm}</div>	
 							    </div> 
 							</div>
 				        </div>
@@ -122,36 +159,45 @@
 				    </div>
 				    <div class="pop-lay-col2"> 
 				        <!-- Comment -->
-			            <div class="rplBox">           
+			            <div >           
 				            <div>
-								<form id="create_form" >
-									<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />
-									<input type="hidden" name="rplPrntRpl" value="0" />
-									
-									<div style="margin-top: 10px; display: flex;"> 
-										<label for="rplCntnt" style="margin: 10px;">댓글쓰기</label> 
-										<textarea name="rplCntnt" id="rplCntnt"></textarea>
+				            	<div class="rplBox">
+									<form id="create_form" >
+										<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />
+										
+										<input type="hidden" name="rplPrntRpl" value="" />
+										
+										<div style="margin-top: 10px; display: flex;"> 
+											<label for="rplCntnt" style="margin: 10px;">댓글쓰기</label> 
+											<textarea class="rpltextarea" placeholder="댓글을 입력하시오." name="rplCntnt" id="rplCntnt"></textarea>
+										</div>
+									</form>
+									<div class="rplbtn">		
+										<button id="new_btn" class="blue-btn" >등록</button>
 									</div>
-								</form>
-								<div style="border-bottom: 1px solid #e0e0e0; padding: 10px;">
-									<button id="new_btn" class="blue-btn" >등록</button>
 								</div>
-								<div>
+								<c:if test="${not empty mngrBrd.rplList}" >
+								<div class="rpl">
 									<ul class="rpl-box">							
 										<c:forEach items="${mngrBrd.rplList}" var="rpl">
-											<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
-											<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />												
-											<li class="rpl-one">${rpl.mbrVO.mbrNm}</li>
-											<li class="rpl-one">${rpl.rplWrtDt}</li>
-											<li>${rpl.rplCntnt}</li>
-											<div class="rplbtn">
-												<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
-												<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button> 
+											<div style="border: 1px solid #e0e0e0; padding: 5px; magin-left: ${rpl.depth*50}px">
+												<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
+												<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />
+																								
+												<li class="rpl-one" style="margin-top: 10px;">${rpl.mbrVO.mbrNm}</li>
+												<li class="rpl-one">${rpl.rplWrtDt}</li>
+												<li>${rpl.rplCntnt}</li>
+												<div class="rplbtn">
+													<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
+													<button class="blue-rpl-btn">수정</button>
+													<button class="red-rpl-btn">삭제</button> 
+												</div>
 											</div>
-			
+			 
 										</c:forEach>									
 									</ul>
 								</div>	
+								</c:if>
 				                <table  style="margin-left:20px; ">
 				                    <tbody>
 				                    	<c:if test="${empty mngrBrd.rplList}">

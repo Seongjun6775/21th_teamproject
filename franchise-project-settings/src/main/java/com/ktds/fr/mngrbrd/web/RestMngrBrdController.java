@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
@@ -18,15 +19,13 @@ import com.ktds.fr.mngrbrd.vo.MngrBrdVO;
 
 @RestController
 public class RestMngrBrdController {
-
-	private boolean isTestMode = true;
 	
 	@Autowired
 	private MngrBrdService mngrBrdService;
 	
 	@PostMapping("/api/mngrbrd/write")
 	public ApiResponseVO doWriteMngrBrd(MngrBrdVO mngrBrdVO,
-								 MbrVO mbrVO) {
+								@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		if(mngrBrdVO.getMngrBrdTtl() ==null || mngrBrdVO.getMngrBrdTtl().trim().length() ==0) {
 			throw new ApiArgsException("400", "제목을 입력해주세요.");
 		}
@@ -38,10 +37,6 @@ public class RestMngrBrdController {
 		mngrBrdVO.setMngrId(mbrVO.getMbrId());
 		mngrBrdVO.setMdfyr(mbrVO.getMbrId());
 		
-		if (isTestMode) {
-			mngrBrdVO.setMngrId("admin");
-			mngrBrdVO.setMdfyr("admin");
-		}
 		boolean createResult = mngrBrdService.createNewMngrBrd(mngrBrdVO);
 		
 		if(createResult) {
@@ -52,7 +47,9 @@ public class RestMngrBrdController {
 		}
 	}
 	@GetMapping("/api/mngrbrd/delete/{mngrBrdId}")
-	public ApiResponseVO doDeleteMngrBrd(@PathVariable String mngrBrdId) {
+	public ApiResponseVO doDeleteMngrBrd(@PathVariable String mngrBrdId,
+											MngrBrdVO mngrBrdVO) {
+		mngrBrdVO.setMngrBrdId(mngrBrdId);
 		boolean deleteResult = mngrBrdService.deleteOneMngrBrd(mngrBrdId);
 		
 		if(deleteResult) {
@@ -79,14 +76,9 @@ public class RestMngrBrdController {
 	
 	
 	@PostMapping("/api/mngrbrd/update/{mngrBrdId}")
-	public ApiResponseVO doMngrBrdUpdate(@PathVariable String mngrBrdId,
-								   MngrBrdVO mngrBrdVO,
-								   MbrVO mbrVO) {
-		if (isTestMode) {
-			mngrBrdVO.setMngrId("admin");
-			mngrBrdVO.setMdfyr("admin");
-		}
-		
+	public ApiResponseVO doMngrBrdUpdate( MngrBrdVO mngrBrdVO,
+								@SessionAttribute("__MBR__") MbrVO mbrVO) {
+		mngrBrdVO.setMdfyr(mbrVO.getMbrId());
 		boolean updateResult = mngrBrdService.updateOneMngrBrd(mngrBrdVO);
 		
 		if(updateResult) {

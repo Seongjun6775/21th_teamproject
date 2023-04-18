@@ -21,6 +21,7 @@
 			<result property="rplWrtDt" column="R_RPL_WRT_DT" />
 			<result property="mdfyDt" column="R_MDFY_DT" />
 			<result property="rplCntnt" column="R_RPL_CNTNT" />
+			<result property="depth" column="DEPTH" />
 			
 			<association property="mbrVO"
 			             javaType="com.ktds.fr.mbr.vo.MbrVO">
@@ -70,6 +71,9 @@
          <if test= 'mngrBrdTtl != null and mngrBrdTtl != "" '>
            AND  B.MNGR_BRD_TTL LIKE '%' ||  #{mngrBrdTtl} || '%'
          </if>
+         <if test= 'mngrBrdCntnt != null and mngrBrdCntnt != "" '>
+           AND  B.MNGR_BRD_CNTNT LIKE '%' ||  #{mngrBrdCntnt} || '%'
+         </if>         
          ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC
          <include refid="Common.pageFooter" />
 	</select>
@@ -104,7 +108,8 @@
 	<select id="readOneMngrBrdByMngrBrdId"
 			parameterType="string"
 			resultMap="brdMap">
-		SELECT B.MNGR_BRD_ID
+		SELECT LEVEL - 1 DEPTH
+			 , B.MNGR_BRD_ID
 		     , B.MNGR_BRD_TTL
 		     , B.MNGR_BRD_CNTNT
 		     , B.MNGR_ID
@@ -137,9 +142,8 @@
          WHERE B.MNGR_BRD_ID = #{_parameter}
            AND B.DEL_YN ='N'
            AND B.USE_YN ='Y'
-           
-         START WITH R.RPL_PRNT_RPL = 0
-            OR R.RPL_PRNT_RPL IS NULL
+         START WITH R.RPL_PRNT_RPL IS NULL
+            OR R.RPL_PRNT_RPL = '0'
         CONNECT BY PRIOR R.RPL_ID = R.RPL_PRNT_RPL
 	</select>
 

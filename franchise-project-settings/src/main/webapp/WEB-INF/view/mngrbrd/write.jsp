@@ -74,8 +74,7 @@
 						</div>
 								
 						<div  class="create-group"> 
-							<label for="mngrId" class="label">사용자</label> 
-							<input type="text" id="mngrId" name="mngrId"  placeholder="Admin / session 받으면 삭제"  value="${mngrBrd.mngrId}" />
+							<input type="hidden" id="mngrId" name="mngrId" value="${mngrBrd.mngrId}" />
 						</div>			
 						
 						<div class="create-group">

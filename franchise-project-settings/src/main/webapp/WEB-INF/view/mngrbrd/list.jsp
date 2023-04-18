@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
 		
@@ -66,9 +66,19 @@
 	function movePage(pageNo){
 		//전송.
 		//입력 값.	
+		
+	 	var res = $("#search-keyword").val();
 		var mngrBrdTtl = $("#search-keyword").val();
+		var mngrBrdCntnt = $("#search-keyword").val();
+		
+		var queryString = "mngrBrdTtl=" + mngrBrdTtl;
+		queryString +="mngrBrdCntnt=" + mngrBrdCntnt
+		queryString += "&pageNo=" + pageNo;
+		
 		//URL 요청
-		location.href = "${context}/mngrbrd/list?mngrBrdTtl=" +mngrBrdTtl +"&pageNo=" +pageNo;
+		location.href = "${context}/mngrbrd/list?" + queryString;
+	
+	
 	}
 	
 
@@ -89,9 +99,9 @@
 			    <div class="board_box row">	
 					<div class=" col-sm-3 col-xs-4">
 						<select id="keySelect" class="input-text" style="width: 100%;" onchange="javascript:changeSearchSelect(this);">
-							<option value="subject">제목</option>
-							<option value="summary">본문</option>			 
-								<option value="user_name">작성자</option>			
+							<option value="mngrBrdTtl">제목</option>
+							<option value="mngrBrdCntnt">본문</option> 
+							<option value="user_name">작성자</option>
 						</select>
 					</div>
 					<div class=" col-sm-6 col-xs-8">
@@ -103,8 +113,14 @@
 				</div>
 				
 				<div style="margin: 10px;"> 
-					<span>총  게시물 ${mngrBrdList.size()} <strong id="articleTotalCount"></strong> 개</span>,
-					<span class="division_line">페이지 <strong id="currentPageNo"></strong> / <span id="totalPageNo">${mngrBrdVO.pageNo+1}</span></span>
+					<div style="display: inline-block;">
+			    		<span>총  게시물 ${mngrBrdList.size()} <strong id="articleTotalCount"></strong> 개</span>,
+						<span class="division_line">페이지 <strong id="currentPageNo"></strong> / <span id="totalPageNo">${mngrBrdVO.pageNo+1}</span></span>
+					</div>
+			    	<div style="text-align: right; margin-top: 6px; display: inline-block;"> 
+						<button id="delete_btn" class="red-btn">삭제</button> 
+						<a href="${context}/mngrbrd/write" class="btn-m" style="text-decoration: none;"> 게시글 작성</a>
+					</div>
 			    </div>
 			
 				<div class= "grid">
@@ -133,15 +149,15 @@
 												<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
 											</td>
 											<td style="width: 160px;">${mngrBrd.mngrBrdId} </td>
-											<td style="width: 70px;">
-											${mngrBrd.ntcYn eq 'Y' ? '공지' : '게시판'}</td>
+											<td style="width: 90px;">
+											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
 											
 											<td>
 												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" style="text-decoration: none;">
 													${mngrBrd.mngrBrdTtl}  
 												</a>[${mngrBrd.rplList.size()}] 
 											</td>
-											<td>${mngrBrd.mngrId}</td>
+											<td>${mngrBrd.mbrVO.mbrNm}</td>
 											<td style="width: 160px;">${mngrBrd.mngrBrdWrtDt}</td>
 											<td style="width: 70px;">
 											${mngrBrd.useYn}</td>		
@@ -159,10 +175,7 @@
 							</c:choose>
 						</tbody>
 					</table>
-					<div style="text-align: right; margin-top: 6px;"> 
-						<button id="delete_btn" class="red-btn">삭제</button> 
-						<a href="${pageContext.request.contextPath}/mngrbrd/write" class="btn-m" style="text-decoration: none;"> 게시글 작성</a>
-					</div>
+				
 					
 			
 					
@@ -174,7 +187,7 @@
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(MngrBrdVO.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
 							<c:set value ="${nowGroup*10+ 10}" var="groupEndPageNo" />
-							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo-1}" var="groupEndPageNo" />
+							<c:set value ="${groupEndPageNo > lastPage ? lastPage-1 :groupEndPageNo-1}" var="groupEndPageNo" />
 							
 							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
 							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />

@@ -3,7 +3,9 @@ package com.ktds.fr.rpl.vo;
 import com.ktds.fr.mbr.vo.MbrVO;
 
 public class RplVO {		
-		
+	
+	private int depth;
+	
 	private String rplId;	
 	private String rplCntnt;	
 	private String mbrId;	
@@ -22,6 +24,15 @@ public class RplVO {
 	public void setMbrVO(MbrVO mbrVO) {
 		this.mbrVO = mbrVO;
 	}
+	
+
+	public int getDepth() {
+		return depth;
+	}
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+		
 	public String getRplId() {	
 		return rplId;
 	}	

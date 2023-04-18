@@ -10,11 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.mbr.web.MbrController;
 import com.ktds.fr.mngrbrd.service.MngrBrdService;
 import com.ktds.fr.mngrbrd.vo.MngrBrdVO;
+import com.ktds.fr.rpl.vo.RplVO;
 
 @Controller
 public class MngrBrdController {
@@ -25,34 +27,35 @@ public class MngrBrdController {
 	private MngrBrdService mngrBrdService;
 	
 	@GetMapping("/mngrbrd/list")
-	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrd,MbrVO mbrVO) {
+	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrd) {
 		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrd);
 		model.addAttribute("mngrBrdList", mngrBrdList);
 		model.addAttribute("mngrBrd", mngrBrd);
+		
 		
 		return "mngrbrd/list";
 	}
 	
-	@GetMapping("/mngrbrd/list2")
-	public String viewMngrBrdListPagebytop(Model model, MngrBrdVO mngrBrd,MbrVO mbrVO) {
-		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrd);
-		model.addAttribute("mngrBrdList", mngrBrdList);
-		model.addAttribute("mngrBrd", mngrBrd);
-		return "mngrbrd/list2";
-	}
 	
 	@GetMapping("/mngrbrd/{mngrBrdId}")
-	public String viewMngrBrdDetailPage(@PathVariable String mngrBrdId, Model model) {
+	public String viewMngrBrdDetailPage(@PathVariable String mngrBrdId, Model model,
+								@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
+	
 		//TODO 지워
 		logger.info("URL id 값 :{}",mngrBrdId);
 		
 		MngrBrdVO mngrBrd = mngrBrdService.readOneMngrBrdByMngrBrdId(mngrBrdId);
-		//TODO 지워 
+		for (RplVO a : mngrBrd.getRplList()) {
+			System.out.println(a.getDepth());
+		} ;
 		
+		
+		//TODO 지워 
 		logger.info("ntcYn 값 :{}",mngrBrd.getNtcYn());
 		
 		model.addAttribute("mngrBrd", mngrBrd);
+		model.addAttribute("mbrVO", mbrVO);	
 		return "mngrbrd/detail";
 	}
 	
@@ -60,10 +63,7 @@ public class MngrBrdController {
 	public String viewMngrBrdWritePage() {
 		return "mngrbrd/write";
 	}
-	
-	
 
-//	
 	@GetMapping("/mngrbrd/update/{mngrBrdId}")
 	public String viewMngrBrdUpdatePage(@PathVariable String mngrBrdId,Model model) {
 		
