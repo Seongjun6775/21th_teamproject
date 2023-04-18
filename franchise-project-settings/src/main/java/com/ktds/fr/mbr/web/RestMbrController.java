@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.exceptions.ApiException;
@@ -74,6 +75,17 @@ public class RestMbrController {
 			return new ApiResponseVO(ApiStatus.FAIL,"회원등록에 실패하였습니다.","/join");
 		}
 	}
+	//회원 정보 수정
+	@PostMapping("/api/mbr/update")
+	public ApiResponseVO doUpdateOneMbr(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO mbr) {
+		boolean updateResult = mbrService.updateOneMbr(mbrVO);
+		if(!updateResult) {
+			throw new ApiException(ApiStatus.FAIL, "회원정보 수정에 실패하였습니다.");
+		}else {
+			mbr.setMbrNm(mbrVO.getMbrNm());
+		}
+		return new ApiResponseVO(ApiStatus.OK,"/mbr/info");
+	}
 	//회원 아이디 체크
 	@GetMapping("/api/mbr/check/{mbrId}")
 	public ApiResponseVO doCheckMbrId(@PathVariable String mbrId) {
@@ -87,11 +99,49 @@ public class RestMbrController {
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
+	//회원 비밀번호 체크
+	@PostMapping("/api/mbr/pwd/check")
+	public ApiResponseVO doCheckMbrPwd(@SessionAttribute("__MBR__") MbrVO mbrVO, @RequestParam String mbrPwd) {
+		if(mbrPwd == null || mbrPwd.length()==0) {
+			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "비밀번호는 필수값 입니다.");
+		}
+		mbrVO.setMbrPwd(mbrPwd);
+		MbrVO mbr = mbrService.readOneMbrByPwd(mbrVO);
+		if(mbr == null) {
+			throw new ApiException("403", "비밀번호가 맞지 않습니다.");
+		}
+		else {
+			return new ApiResponseVO(ApiStatus.OK, "/mbr/info");
+		}
+	}
+	@PostMapping("/api/mbr/pwd/update")
+	public ApiResponseVO doChangeMbrPwd(@SessionAttribute("__MBR__")MbrVO mbrVO,
+										@RequestParam String mbrPwd,
+										@RequestParam String newMbrPwd) {
+		if(mbrPwd == null || mbrPwd.length()==0) {
+			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "비밀번호는 필수값 입니다.");
+		}
+		if(newMbrPwd == null || newMbrPwd.length()==0) {
+			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "새 비밀번호는 필수값 입니다.");
+		}
+		mbrVO.setMbrPwd(mbrPwd);
+		MbrVO mbr = mbrService.readOneMbrByPwd(mbrVO);
+		if(mbr==null) {
+			throw new ApiException("403", "비밀번호가 맞지 않습니다.");
+		}
+		else {
+			mbrVO.setMbrPwd(newMbrPwd);
+			boolean updateResult = mbrService.updateOneMbrPwd(mbrVO);
+			if(!updateResult) {
+				throw new ApiException(ApiStatus.FAIL, "비밀번호 변경에 실패하였습니다.");
+			}
+		}
+		return new ApiResponseVO(ApiStatus.OK,"/logout");
+	}
 
 	//인증 메일 보내기
 	@PostMapping("/api/mbr/emailSend")
 	public ApiResponseVO doCheckAuthNum(@RequestParam String email) {
-		log.info("확인용 {}", email);
 		if(email == null || email.length() == 0) {
 			return new ApiResponseVO(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
 		}

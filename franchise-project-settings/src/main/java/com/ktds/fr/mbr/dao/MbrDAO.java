@@ -11,7 +11,7 @@ public interface MbrDAO {
 	public String readSaltMbrById(String mbrId);
 	//로그인 차단 여부 검사
 	public String readLgnBlockYnById(String mbrId);
-	//개인 정보 조회용, 로그인용
+	//로그인용
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO);
 	//로그인 성공시
 	public int updateMbrLgnSucc(MbrVO mbrVO);
@@ -37,4 +37,11 @@ public interface MbrDAO {
 	public int updateOneMbr(MbrVO mbrVO);
 	//회원 삭제
 	public int deleteOneMbr(String mbrId);
+	//비밀번호 확인
+	public MbrVO readOneMbrByPwd(MbrVO mbrVO);
+	//개인정보 조회용
+	public MbrVO readOneMbrByMbrId(String mbrId);
+	//비밀번호 변경용
+	public int updateOneMbrPwd(MbrVO mbrVO);
+	
 }

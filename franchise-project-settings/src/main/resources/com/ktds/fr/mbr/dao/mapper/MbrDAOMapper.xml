@@ -28,8 +28,8 @@
 			parameterType="com.ktds.fr.mbr.vo.MbrVO"
 			resultType="com.ktds.fr.mbr.vo.MbrVO">
 		SELECT MBR_ID
+			 , STR_ID
 			 , MBR_NM
-			 , MBR_PWD
 			 , MBR_EML
 			 , TO_CHAR(MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
 			 , TO_CHAR(MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
@@ -126,6 +126,7 @@
 			resultType="com.ktds.fr.mbr.vo.MbrVO">
 	    <include refid="Common.pageHeader" />
 		SELECT M.MBR_ID PK_COL
+		     , DENSE_RANK() OVER(ORDER BY M.MBR_NM ASC) RNUM
 			 , M.MBR_ID
 			 , M.MBR_NM
 			 , M.MBR_EML
@@ -187,11 +188,8 @@
 			parameterType="com.ktds.fr.mbr.vo.MbrVO">
 		UPDATE FRAN.MBR
 		   SET MBR_NM=#{mbrNm}
-		   	 , MBR_PWD=#{mbrPwd}
-		   	 , MBR_PWD_SLT=#{mbrPwdSlt}
-		   	 , USE_YN= #{useYn}
-		   	 , DEL_YN='N' 
 		 WHERE MBR_ID=#{mbrId}
+		   AND DEL_YN='N' 
 	</update>
 	
 	<update id="deleteOneMbr"
@@ -201,4 +199,49 @@
 		   	 , DEL_YN='Y' 
 		 WHERE MBR_ID=#{_parameter}
 	</update>
+	
+	<select id="readOneMbrByPwd"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+		SELECT MBR_ID
+			 , MBR_LVL
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{mbrId}
+		   AND MBR_PWD=#{mbrPwd}
+		   AND DEL_YN='N'
+		   AND USE_YN='Y'
+	</select>
+	
+	<select id="readOneMbrByMbrId"
+			parameterType="string"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+		SELECT MBR_ID
+			 , MBR_NM
+			 , MBR_EML
+			 , TO_CHAR(MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , MBR_RCNT_LGN_IP
+			 , MBR_LGN_FL_CNT
+			 , MBR_LGN_BLCK_YN
+			 , TO_CHAR(MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , MBR_PWD_SLT
+			 , TO_CHAR(MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , MBR_LVL
+			 , MBR_PY_MN
+			 , TO_CHAR(MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{_parameter}
+		   AND DEL_YN='N'
+		   AND USE_YN='Y'
+	</select>
+	
+	<update id="updateOneMbrPwd"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET MBR_PWD=#{mbrPwd}
+		   	 , MBR_PWD_SLT=#{mbrPwdSlt}
+		 WHERE MBR_ID=#{mbrId}
+		   AND DEL_YN='N' 
+	</update>
+	
 </mapper>

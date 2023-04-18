@@ -32,5 +32,10 @@ public interface MbrService {
 	public boolean updateOneMbr(MbrVO mbrVO);
 	//회원 삭제
 	public boolean deleteOneMbr(String mbrId);
-
+	//비밀번호 확인
+	public MbrVO readOneMbrByPwd(MbrVO mbrVO);
+	//개인정보 조회용
+	public MbrVO readOneMbrByMbrId(String mbrId);
+	//비밀번호 변경용
+	public boolean updateOneMbrPwd(MbrVO mbrVO);
 }

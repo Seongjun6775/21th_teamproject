@@ -3,12 +3,17 @@ package com.ktds.fr.mbr.service;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
+import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.SHA256Util;
 import com.ktds.fr.lgnhist.dao.LgnHistDAO;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
@@ -131,5 +136,37 @@ public class MbrServiceImpl implements MbrService {
 		return mbrDAO.deleteOneMbr(mbrId) > 0;
 	}
 	
-	
+	@Override
+	public MbrVO readOneMbrByPwd(MbrVO mbrVO) {
+		//비밀번호 일치 여부
+		String salt = mbrDAO.readSaltMbrById(mbrVO.getMbrId());
+		if(salt == null) {
+			throw new ApiException("500", "오류가 발생했습니다. 다시 시도해주세요.");
+		}
+		String mbrPwd = mbrVO.getMbrPwd();
+		mbrPwd = SHA256Util.getEncrypt(mbrPwd, salt);
+		mbrVO.setMbrPwd(mbrPwd);
+		MbrVO loginData = mbrDAO.readOneMbrByMbrIdAndMbrPwd(mbrVO);
+		if(loginData == null) {
+			//실패처리
+			throw new ApiException(ApiStatus.FAIL, "비밀번호가 다릅니다.");
+		}else {
+			//성공
+			return loginData;
+		}
+	}
+	@Override
+	public MbrVO readOneMbrByMbrId(String mbrId) {
+		return mbrDAO.readOneMbrByMbrId(mbrId);
+	}
+	@Override
+	public boolean updateOneMbrPwd(MbrVO mbrVO) {
+		String mbrPwd = mbrVO.getMbrPwd();
+		String salt = SHA256Util.generateSalt();
+		mbrVO.setMbrPwdSlt(salt);
+		
+		mbrPwd = SHA256Util.getEncrypt(mbrPwd, salt);
+		mbrVO.setMbrPwd(mbrPwd);
+		return mbrDAO.updateOneMbrPwd(mbrVO) > 0;
+	}
 }

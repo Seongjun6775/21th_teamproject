@@ -372,3 +372,77 @@ img {
 .pagenate ul li a.on{
 	font-weight: bold;
 }
+/*check*/
+.checkGroup{
+	display: flex;
+    justify-content: center;
+    height: 750px;
+    align-items: center;
+}
+.checkGroup .checkBox{
+	display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+.checkGroup .checkBox input{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.pwdCheck_form input{
+	margin-top: 10px;
+	margin-bottom: 15px;
+	
+} 
+.checkGroup .pwdCheck_form{
+	border: 1px solid #333;
+	border-radius: 5px;
+}
+.checkGroup .pwdChange_form{
+	border: 1px solid #333;
+	border-radius: 5px;
+}
+.pwdCheck_form .check-btn{
+	padding: 0px;
+    margin: 0px;
+    height: 30px;
+    background-color: #555;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    border-radius: .5rem;
+    transition: .3s;
+}
+.pwdCheck_form .check-btn:hover{
+    background-color: #7f7f7f;
+}
+.pwdCheck_form .check-btn:active{
+    background-color: #7f7f7f;
+}
+/*Info*/
+.infoGroup{
+	display: flex;
+    justify-content: center;
+    height: 750px;
+    align-items: center;
+}
+.infoGroup .infoBox{
+	display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+.infoGroup .infoBox input{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.infoGroup .info_form{
+	border: 1px solid #333;
+	border-radius: 5px;
+	background-color: #d9d9d9;
+}
+.info-item{
+	display: grid;
+}
+.readonly{
+	background-color: #eaf8ff;
+	border: 1px solid;
+}
