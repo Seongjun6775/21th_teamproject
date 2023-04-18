@@ -2,6 +2,7 @@ package com.ktds.fr.mbr.service;
 
 import java.util.List;
 
+import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 
 public interface MbrService {
@@ -38,4 +39,6 @@ public interface MbrService {
 	public MbrVO readOneMbrByMbrId(String mbrId);
 	//비밀번호 변경용
 	public boolean updateOneMbrPwd(MbrVO mbrVO);
+	//로그아웃 이력 찍기
+	public boolean logoutMbr(LgnHistVO lgnHistVO);
 }

@@ -34,7 +34,7 @@ public class RestMbrController {
 	
 	@Autowired
 	private MailSendServiceImple mailService;
-	
+	//회원 로그인
 	@PostMapping("/api/mbr/login")
 	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {
 		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
@@ -114,6 +114,7 @@ public class RestMbrController {
 			return new ApiResponseVO(ApiStatus.OK, "/mbr/info");
 		}
 	}
+	//회원 비밀번호 변경
 	@PostMapping("/api/mbr/pwd/update")
 	public ApiResponseVO doChangeMbrPwd(@SessionAttribute("__MBR__")MbrVO mbrVO,
 										@RequestParam String mbrPwd,

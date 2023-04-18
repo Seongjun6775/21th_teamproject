@@ -169,4 +169,8 @@ public class MbrServiceImpl implements MbrService {
 		mbrVO.setMbrPwd(mbrPwd);
 		return mbrDAO.updateOneMbrPwd(mbrVO) > 0;
 	}
+	@Override
+	public boolean logoutMbr(LgnHistVO lgnHistVO) {
+		return lgnHistDAO.createMbrLgnHist(lgnHistVO) > 0;
+	}
 }
