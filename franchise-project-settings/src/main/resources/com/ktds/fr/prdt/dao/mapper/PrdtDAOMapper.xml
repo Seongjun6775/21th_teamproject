@@ -72,6 +72,48 @@
 		ORDER BY P.PRDT_NM ASC
 		<include refid="PrdtCommon.pageFooter"></include>
 	</select>
+	
+	<select id="readAllNoPagenation"
+			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
+			resultMap="prdtVOMap">
+			 , P.PRDT_ID
+			 , P.PRDT_NM
+			 , P.PRDT_PRC
+			 , P.PRDT_CNTNT
+			 , P.PRDT_SRT
+			 , ORGN_FL_NM
+			 , UUID_FL_NM
+			 , FL_SIZE
+			 , FL_EXT
+			 , CMMN.CD_NM
+			 , P.PRDT_RGSTR
+			 , R.MBR_NM RGSTR_NM
+			 , P.PRDT_RGST_DT
+			 , P.MDFYR
+			 , M.MBR_NM MDFYR_NM
+			 , P.MDFY_DT
+			 , P.USE_YN
+			 , P.DEL_YN
+		  FROM PRDT P
+		  LEFT JOIN CMMN_CD CMMN
+		    ON P.PRDT_SRT = CMMN.CD_ID
+		  LEFT JOIN MBR R
+		    ON P.PRDT_RGSTR = R.MBR_ID
+	      LEFT JOIN MBR M
+		    ON P.MDFYR = M.MBR_ID
+		 WHERE P.DEL_YN = 'N'
+		<if test='prdtSrt != null and prdtSrt != ""'>
+		   AND P.PRDT_SRT = #{prdtSrt} 
+		</if>
+		<if test='prdtNm != null and prdtNm != ""'>
+		   AND P.PRDT_NM LIKE '%' || #{prdtNm} || '%'
+		</if>
+		<if test='useYn != null and useYn != ""'>
+		   AND P.USE_YN LIKE #{useYn}
+		</if>
+		ORDER BY P.PRDT_NM ASC
+	</select>
+	
 	<select id="readOne"
 			resultType="com.ktds.fr.prdt.vo.PrdtVO">
 		SELECT PRDT_ID
