@@ -76,7 +76,7 @@
 	<select id="readAllNoPagenation"
 			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
 			resultMap="prdtVOMap">
-			 , P.PRDT_ID
+		SELECT P.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
