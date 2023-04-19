@@ -21,10 +21,10 @@ public interface RvDAO {
 	// 2-3.자기 매장의 리뷰 목록 조회 == 중하위관리자
 	public List<RvVO> readAllRvListForMiddleManager(SearchRvVO searchRvVO);
 	// 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자
-	public RvVO readOneRvVOForMiddleManagerByOdrId(String odrId);
+	public RvVO readOneRvVOForMiddleManagerByOdrId(RvVO rvVO);
 	
 	// 2-5.자기가 쓴 리뷰 목록 조회 == 이용자
-	public List<RvVO> readAllRvListForMemberByRvId(String rvId);
+	public List<RvVO> readAllRvListForMemberByRvId(RvVO rvVO);
 	// 2-6.자기가 쓴 리뷰 상세 조회 == 이용자
 	public RvVO readOneRvVOForMemberByRvId(String rvId);
 

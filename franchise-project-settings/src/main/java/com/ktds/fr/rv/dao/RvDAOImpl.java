@@ -52,14 +52,14 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 
 	// 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자
 	@Override
-	public RvVO readOneRvVOForMiddleManagerByOdrId(String odrId) {
-		return getSqlSession().selectOne("Rv.readOneRvVOForMiddleManagerByOdrId", odrId);
+	public RvVO readOneRvVOForMiddleManagerByOdrId(RvVO rvVO) {
+		return getSqlSession().selectOne("Rv.readOneRvVOForMiddleManagerByOdrId", rvVO);
 	}
 
 	// 2-5.자기가 쓴 리뷰 목록 조회 == 이용자
 	@Override
-	public List<RvVO> readAllRvListForMemberByRvId(String rvId) {
-		return getSqlSession().selectList("Rv.readAllRvListForMemberByRvId", rvId);
+	public List<RvVO> readAllRvListForMemberByRvId(RvVO rvVO) {
+		return getSqlSession().selectList("Rv.readAllRvListForMemberByRvId", rvVO);
 	}
 
 	// 2-6.자기가 쓴 리뷰 상세 조회 == 이용자
