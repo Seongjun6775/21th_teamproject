@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.vo.MbrVO;
-import com.ktds.fr.odrlst.dao.OdrLstDAO;
 import com.ktds.fr.rv.dao.RvDAO;
 import com.ktds.fr.rv.vo.RvVO;
 import com.ktds.fr.rv.vo.SearchRvVO;
@@ -58,18 +57,19 @@ public class RvServiceImpl implements RvService {
 			return rvDAO.readAllRvListForMiddleManager(searchRvVO);
 		}
 		else {
-			return rvDAO.readAllRvListForMemberByRvId(rvVO.getRvId());
+			return rvDAO.readAllRvListForMemberByRvId(rvVO);
 		}
 	}
 
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
 	@Override
 	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO) {
+		rvVO.setMbrId(mbrVO.getMbrId());
 		if (mbrVO.getMbrLvl().equals("001-01")) {
 			return rvDAO.readOneRvVOForTopManagerByRvId(rvVO.getRvId());
 		}
 		else if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			return rvDAO.readOneRvVOForMiddleManagerByOdrId(rvVO.getOdrLstId());
+			return rvDAO.readOneRvVOForMiddleManagerByOdrId(rvVO);
 		}
 		else {
 			return rvDAO.readOneRvVOForMemberByRvId(rvVO.getRvId());
