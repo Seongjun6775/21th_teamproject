@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.vo.MbrVO;
-import com.ktds.fr.odrlst.dao.OdrLstDAO;
 import com.ktds.fr.rv.dao.RvDAO;
 import com.ktds.fr.rv.vo.RvVO;
 import com.ktds.fr.rv.vo.SearchRvVO;
