@@ -1,5 +1,6 @@
 package com.ktds.fr.common.service;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.mbr.vo.MbrVO;
 
 @Service
 public class MailSendServiceImple implements MailSendService{
@@ -31,6 +33,7 @@ public class MailSendServiceImple implements MailSendService{
 		authNumber = randomNumber;
 	}
 	
+	@Override
 	public void mailSend(String from, String to, String title, String content ) {
 		MimeMessage message = mailSender.createMimeMessage();
 		try {
@@ -45,8 +48,8 @@ public class MailSendServiceImple implements MailSendService{
 			throw new ApiException(ApiStatus.FAIL, "인증메일 전송에 실패하였습니다.");
 		}
 	}
-	
-	public String makeEamilForm(String email) {
+	@Override
+	public String makeEmailForm(String email) {
 		randomNumber();
 		String from = "franchise.21th@gmail.com";
 		String to = email;
@@ -58,5 +61,32 @@ public class MailSendServiceImple implements MailSendService{
 		mailSend(from, to, title, content);
 		return Integer.toString(authNumber);
 	}
-	
+	@Override
+	public void makeFindIdEmailForm(String email, List<MbrVO> mbrList) {
+		String ids = "";
+		for (MbrVO mbr : mbrList) {
+			ids+=mbr.getMbrId() + "<br/>";
+		}
+		String from = "franchise.21th@gmail.com";
+		String to = email;
+		String title = projectName + "ID 찾기 이메일 답변.";
+		String content =
+				"<h1>"+projectName+"를 이용해 주셔서 감사합니다.</h1>" +"<br/><br/>" +
+				"문의해주신 ID 찾기 결과는 <b><br/>";
+		content += ids + "</b>입니다." +"<br/>";
+		mailSend(from, to, title, content);
+	}
+	@Override
+	public String makeFindPwEmailForm(String email) {
+		randomNumber();
+		String from = "franchise.21th@gmail.com";
+		String to = email;
+		String title = projectName + "회원가입 인증 이메일.";
+		String content =
+				"<h1>"+projectName+"를 이용해 주셔서 감사합니다.</h1>" +"<br/><br/>" +
+				"인증 번호는 <b>" + authNumber + "</b>입니다." +"<br>" +
+				"위의 인증번호를 인증번호 확인란에 입력하세요.";
+		mailSend(from, to, title, content);
+		return Integer.toString(authNumber);
+	}
 }
