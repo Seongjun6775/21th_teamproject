@@ -25,7 +25,22 @@
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
-		});	
+		});
+		
+		$("#check_download_btn").click(function() {
+			var checkLen = $(".check_idx:checked").length;
+			
+			if (checkLen == 0) {
+				alert("선택한 글이 없습니다.");
+				return;
+			}
+			
+			$(".check_idx:checked").each(function() {
+				location.href= "${context}/hr/hrfile/" + $(this).val();
+			})
+			
+		});
+		
 		
 	});
 </script>
@@ -39,7 +54,7 @@
 			<h3>master 채용 페이지 테스트</h3>
 			<div>
 				<div>총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
-				<div></div>
+				<button id="check_download_btn">전체 다운로드</button>
 			</div>
 			<div>
 				<table>
@@ -68,11 +83,22 @@
 									    data-hrapryn="${hr.hrAprYn}"
 									    data-hrstat="${hr.hrStat}"
 									    data-delyn="${hr.delYn}">
-										<td><input type="checkbox" class="check_idx" value="${hr.hrId}"
-										            ${hr.delYn eq 'Y' ? 'disabled' : ''}/></td>
+									    <c:set var="checkYn" value="" />
+									    <c:choose>
+									    	<c:when test="${hr.delYn eq 'Y'}">
+									    		<c:set var="checkYn" value="disabled" />
+									    	</c:when>
+									    	<c:when test="${hr.ntcYn eq 'Y'}">
+									    		<c:set var="checkYn" value="disabled" />
+									    	</c:when>
+									    	<c:when test="${hr.orgnFlNm eq null}">
+									    		<c:set var="checkYn" value="disabled" />
+									    	</c:when>
+									    </c:choose>
+										<td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td>
 										<td>${hr.hrId}</td>
 										<td>${hr.mbrId}</td>
-										<td>${hr.hrLvl}</td>
+										<td>${hr.cdNm}</td>
 										<td><a href="${context}/hr/mstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>

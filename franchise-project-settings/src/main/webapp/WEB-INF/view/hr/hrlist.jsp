@@ -60,7 +60,7 @@
 		<div>
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<h3>master 채용 페이지 테스트</h3>
+			<h3>회원 채용 페이지 테스트</h3>
 			<div>
 				<div>총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
 				<button id="check_del_btn">일괄삭제</button>
@@ -69,7 +69,6 @@
 				<table>
 					<thead>
 						<tr>
-							<th><input type="checkbox" id="all_check"/></th>
 							<th>채용 번호</th>
 							<th>지원자 ID</th>
 							<th>제목</th>
@@ -89,8 +88,6 @@
 									    data-hrapryn="${hr.hrAprYn}"
 									    data-hrstat="${hr.hrStat}"
 									    data-delyn="${hr.delYn}">
-										<td><input type="checkbox" class="check_idx" value="${hr.hrId}"
-										            ${hr.ntcYn eq 'Y' ? 'disabled' : ''}/></td>
 										<td>${hr.hrId}</td>
 										<td>${hr.mbrId}</td>
 										<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
@@ -101,7 +98,7 @@
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="8">등록된 지원서가 없습니다.</td>
+								<td colspan="6">등록된 지원서가 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>

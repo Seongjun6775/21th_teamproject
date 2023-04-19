@@ -91,8 +91,11 @@
 				<div class="hr_detail_header">승인 여부 변경 일자 : ${hr.hrAprDt}</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? 'none' : ''};">
-				<div class="hr_detail_header">파일명 : <a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm == null ? '첨부된 파일이 없습니다.' : hr.orgnFlNm }</a></div>
+				<div class="hr_detail_header">첨부파일 : <a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm}</a></div>
 				<div class="hr_detail_header">${hr.flSize/1024}</div>
+			</div>
+			<div style="display: ${hr.orgnFlNm == null ? '' : 'none'};">
+				<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
 			</div>
 			<div class="hr_detail_cntnt">${hr.hrCntnt}</div>
 			

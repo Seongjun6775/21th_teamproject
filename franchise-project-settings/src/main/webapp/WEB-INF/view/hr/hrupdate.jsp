@@ -66,7 +66,6 @@
 				<div>
 					<label for="hrTtl">제목</label>
 					<input type="text" id="hrTtl" name="hrTtl" value="${hr.hrTtl}" />
-					
 				</div>
 				<div>
 					<label for="hrFile">파일 첨부</label>
