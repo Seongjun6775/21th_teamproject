@@ -16,9 +16,6 @@ public class RvServiceImpl implements RvService {
 
 	@Autowired
 	private RvDAO rvDAO;
-	
-//	@Autowired
-//	private OdrLstDAO odrLstDAO;
 
 	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
 		@Override
