@@ -1,5 +1,8 @@
 package com.ktds.fr.strprdt.vo;
 
+import java.util.List;
+
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.vo.PrdtVO;
@@ -17,7 +20,11 @@ public class StrPrdtVO extends AbstractVO {
 	
 	private StrVO strVO;
 	private PrdtVO prdtVO;
+	private CmmnCdVO cmmnCdVO;
 	private MbrVO mdfyrMbrVO;	
+	
+	
+	private List<String> strPrdtIdList;
 	
 	
 	private int strPrdtPageNo;
@@ -86,6 +93,12 @@ public class StrPrdtVO extends AbstractVO {
 	public void setPrdtVO(PrdtVO prdtVO) {
 		this.prdtVO = prdtVO;
 	}
+	public CmmnCdVO getCmmnCdVO() {
+		return cmmnCdVO;
+	}
+	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
+		this.cmmnCdVO = cmmnCdVO;
+	}
 	public MbrVO getMdfyrMbrVO() {
 		return mdfyrMbrVO;
 	}
@@ -93,6 +106,14 @@ public class StrPrdtVO extends AbstractVO {
 		this.mdfyrMbrVO = mdfyrMbrVO;
 	}
 	
+	
+	public List<String> getStrPrdtIdList() {
+		return strPrdtIdList;
+	}
+	public void setStrPrdtIdList(List<String> strPrdtIdList) {
+		this.strPrdtIdList = strPrdtIdList;
+	}
+
 	
 	public int getStrPrdtPageNo() {
 		return strPrdtPageNo;
