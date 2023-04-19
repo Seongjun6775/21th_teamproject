@@ -15,34 +15,46 @@
 	<script type="text/javascript">
 $().ready(function() {
 		
-		$(".grid > table > tbody > tr").click(function(){
+	/* 	$(".grid > table > tbody > tr").click(function(){
 			$("#isModify").val("true"); //수정모드
 			var data = $(this).data();
 			$("#strId").val(data.strid);
 			$("#strNm").val(data.strnm);
+			$("#strLctn").val(data.strlctn);
+			$("#strCty").val(data.strcty);
 			$("#strAddr").val(data.straddr);
 			$("#strCallNum").val(data.strcallnum);
 			$("#mbrId").val(data.mbrid);
 			$("#strOpnTm").val(data.stropntm);
 			$("#strClsTm").val(data.strclstm);
+			$("#strRgstr").val(data.strrgstr);
+			$("#strRgstDt").val(data.strrgstdt);
+			$("#mdfyr").val(data.mdfyr);
+			$("#mdfyDt").val(data.mdfydt);
 			$("#useYn").prop("checked", data.useyn == "Y");
 		});
-
+		
 		$("#new_btn").click(function() {
 			$("#isModify").val("false"); //등록모드
 			$("#strId").val("");
 			$("#strNm").val("");
+			$("#strLctn").val("");
+			$("#strCty").val("");
 			$("#strAddr").val("");
 			$("#strCallNum").val("");
 			$("#mbrId").val("");
 			$("#strOpnTm").val("");
 			$("#strClsTm").val("");
+			$("#strRgstr").val("");
+			$("#strRgstDt").val("");
+			$("#mdfyr").val("");
+			$("#mdfyDt").val("");
 			$("#useYn").prop("checked", false);
-
-		});
+	
+		}); */
 		
-		$("#list_btn").click(function(){
-			location.href= "${context}/str/list";
+		$("#index_btn").click(function(){
+			location.href= "${context}/index";
 		});
 		
 		$("#delete_btn").click(function(){
@@ -66,8 +78,6 @@ $().ready(function() {
 		})
 		
 		$("#save_btn").click(function(){
-			
-			console.log($("#useYn").val())
 			
 				var strNm = $("#strNm").val();
 				if(strNm == ""){
@@ -148,7 +158,7 @@ $().ready(function() {
 			
 			<h1>매장 상세 조회</h1>
 			<div class="grid">
-			<h2>중간 관리자는 오직 전화번호, 오픈시간, 클로즈시간, 사용여부만 관리가능합니다.</h2>
+			<h2>중간 관리자는 오직 전화번호, 오픈시간, 클로즈시간, 수정자, 수정일만 관리가능합니다.</h2>
 			<div class="grid-strdetailmgn">
 				<form id="strdetailmgn_form">
 					<input type="hidden" id="isModify" value="false" />
@@ -158,20 +168,24 @@ $().ready(function() {
 					</div>
 					<div class="input-group inline">
 						<label for="strNm" style="width:180px">매장명</label>
-						<input type="text" id="strNm" name="strNm" maxlength="1000" readonly value="${strVO.strNm}"/>
-					</div>
+						<input type="text" id="strNm" name="strNm" maxlength="1000" readonly value="${strVO.strNm}" />
+					</div>	
 					<div class="input-group inline">
-						<label for="strAddr" style="width:180px">매장주소</label>
-						<input type="text" id="strAddr" name="strAddr" maxlength="200" readonly value="${strVO.strAddr}"/>
-						<%-- <select name="strAddr" id="strAddr">
+						<label for="strLctn" style="width:60px">지역</label>
+						<label for="strCty" style="width:60px">도시</label>
+						<label for="strAddr" style="width:60px">매장주소</label>
+						<%-- <select name="strLctn" id="strLctn" >
 						<option>지역 선택</option>
-							<option value="서울" ${strVO.strAddr eq '서울' ? 'selected' : ''}>서울</option>
-							<option value="부산">부산</option>
-							<option value="강원">강원</option>
-							<option value="경기">경기</option>
-							<option value="인천">인천</option>
-							<option value="대구">대구</option>
+							<option value="서울" ${strVO.strLctn eq '서울' ? 'selected' : ''}>서울</option>
+							<option value="부산" ${strVO.strLctn eq '부산' ? 'selected' : ''}>부산</option>
+							<option value="강원" ${strVO.strLctn eq '강원' ? 'selected' : ''}>강원</option>
+							<option value="경기" ${strVO.strLctn eq '경기' ? 'selected' : ''}>경기</option>
+							<option value="인천" ${strVO.strLctn eq '인천' ? 'selected' : ''}>인천</option>
+							<option value="대구" ${strVO.strLctn eq '대구' ? 'selected' : ''}>대구</option>
 						</select> --%>
+						<input type="text" id="strLctn" name="strLctn" maxlength="20" readonly value="${strVO.strLctn}" style="width: 60px;"/>
+						<input type="text" id="strCty" name="strCty" maxlength="20" readonly value="${strVO.strCty}"  style="width: 80px;"/>
+						<input type="text" id="strAddr" name="strAddr" maxlength="200" readonly value="${strVO.strAddr}"/>
 					</div>
 					
 				    <div class="input-group inline">
@@ -191,10 +205,25 @@ $().ready(function() {
 						<label for="strClsTm" style="width:180px">종료시간</label>
 						<input type="time" id="strClsTm" name="strClsTm" value="${strVO.strClsTm}"/>
 					</div>
-					
+					<div class="input-group inline">
+						<label for="strRgstr" style="width:180px">등록자</label>
+						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"/>
+					</div>
+					<div class="input-group inline">
+						<label for="strRgstDt" style="width:180px">등록일</label>
+						<input type="date" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
+					</div>
+					<div class="input-group inline">
+						<label for="mdfyr" style="width:180px">수정자</label>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" value="${strVO.mdfyr}"/>
+					</div>
+					<div class="input-group inline">
+						<label for="mdfyDt" style="width:180px">수정일</label>
+						<input type="date" id="mdfyDt" name="mdfyDt" value="${strVO.mdfyDt}"/>
+					</div>
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px">사용여부</label>
-						<input type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="${strVO.useYn}"/>
+						<input type="text" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} readonly value="Y"  style="width: 20px;"/>
 					</div>
 				</form>
 			</div>
@@ -202,7 +231,7 @@ $().ready(function() {
 			<div class="align-right">
 				<button id="save_btn" class="btn-primary">수정</button>
 				<button id="delete_btn" class="btn-delete">삭제</button>
-				<button id="list_btn" class="btn-list">목록</button>
+				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

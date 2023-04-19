@@ -66,4 +66,9 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 		return getSqlSession().selectOne("Str.readBlockStrCallNum", strCallNum);
 	}
 
+	@Override
+	public int readBlockStrByMan(String strId) {
+		return getSqlSession().selectOne("Str.readBlockStrByMan", strId);
+	}
+
 }

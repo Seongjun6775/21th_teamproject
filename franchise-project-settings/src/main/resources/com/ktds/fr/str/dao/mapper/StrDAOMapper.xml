@@ -11,11 +11,17 @@
 		SELECT S.STR_ID PK_COL
 			 , S.STR_ID
 			 , S.STR_NM
+			 , S.STR_LCTN
+			 , S.STR_CTY
 			 , S.STR_ADDR
 			 , S.STR_CALL_NUM
 			 , S.MBR_ID
 			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
 			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , S.STR_RGSTR
+			 , TO_CHAR(S.STR_RGST_DT, 'YYYY-MM-DD') STR_RGST_DT
+			 , S.MDFYR
+			 , TO_CHAR(S.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
 			 , S.USE_YN
 			 , S.DEL_YN
 		  FROM STR S
@@ -60,11 +66,17 @@
 			resultType="com.ktds.fr.str.vo.StrVO">
 		SELECT S.STR_ID
 			 , S.STR_NM
+			 , S.STR_LCTN
+			 , S.STR_CTY
 			 , S.STR_ADDR
 			 , S.STR_CALL_NUM
 			 , S.MBR_ID
 			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
 			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , S.STR_RGSTR
+			 , TO_CHAR(S.STR_RGST_DT, 'YYYY-MM-DD') STR_RGST_DT
+			 , S.MDFYR
+			 , TO_CHAR(S.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
 			 , S.USE_YN
 			 , S.DEL_YN
 		  FROM STR S
@@ -72,16 +84,31 @@
 		 ORDER BY S.STR_ID ASC
 	</select>
 	
+	<select id="readBlockStrByMan"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM STR
+		 WHERE STR_ID= #{_parameter}
+		 
+	</select>
+	
 	<select id="readOneStrByManager"
 			parameterType="string"
 			resultType="com.ktds.fr.str.vo.StrVO">
 		SELECT STR_ID
 			 , STR_NM
+			 , STR_LCTN
+			 , STR_CTY
 			 , STR_ADDR
 			 , STR_CALL_NUM
 			 , MBR_ID
 			 , TO_CHAR(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
 			 , TO_CHAR(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , STR_RGSTR
+			 , TO_CHAR(STR_RGST_DT, 'YYYY-MM-DD') STR_RGST_DT
+			 , MDFYR
+			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD') MDFY_DT
 			 , USE_YN
 		  FROM STR
 		 WHERE STR_ID= #{_parameter}
@@ -92,21 +119,33 @@
 		INSERT INTO STR
 			 (STR_ID
 			 , STR_NM
+			 , STR_LCTN
+			 , STR_CTY
 			 , STR_ADDR
 			 , STR_CALL_NUM
 			 , MBR_ID
 			 , STR_OPN_TM
 			 , STR_CLS_TM
+			 , STR_RGSTR
+			 , STR_RGST_DT
+			 , MDFYR
+			 , MDFY_DT
 			 , USE_YN
 			 , DEL_YN)
 		VALUES
 			   ('ST-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_STR_PK.NEXTVAL, 5, '0')
 			 , #{strNm}
+			 , #{strLctn}
+			 , #{strCty}
 			 , #{strAddr}
 			 , #{strCallNum}
 			 , #{mbrId}
 			 , TO_DATE(#{strOpnTm}, 'HH24:MI:SS')
 			 , TO_DATE(#{strClsTm}, 'HH24:MI:SS')
+			 , #{strRgstr}
+			 , SYSDATE
+			 , #{mdfyr}
+			 , SYSDATE
 			 , NVL(#{useYn}, 'N')
 			 , 'N' )
 	</insert>
@@ -115,11 +154,17 @@
 			parameterType="com.ktds.fr.str.vo.StrVO">
 			UPDATE STR
 			   SET STR_NM=#{strNm}
+				 , STR_LCTN=#{strLctn}
+				 , STR_CTY=#{strCty}
 				 , STR_ADDR=#{strAddr}
 				 , STR_CALL_NUM=#{strCallNum}
 				 , MBR_ID=#{mbrId}
 				 , STR_OPN_TM =TO_DATE(#{strOpnTm}, 'HH24:MI:SS')
 			 	 , STR_CLS_TM =TO_DATE(#{strClsTm}, 'HH24:MI:SS')
+				 , STR_RGSTR=#{strRgstr}
+			 	 , STR_RGST_DT=SYSDATE
+				 , MDFYR=#{mdfyr}
+				 , MDFY_DT=SYSDATE
 				 , USE_YN= NVL(#{useYn}, 'N')
 			 WHERE STR_ID=#{strId}
 			
@@ -131,6 +176,11 @@
 				 , STR_CALL_NUM=#{strCallNum}
 				 , TO_DATE(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
 			 	 , TO_DATE(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 	 , STR_RGSTR=#{strRgstr}
+			 	 , STR_RGST_DT=SYSDATE
+				 , MDFYR=#{mdfyr}
+				 , MDFY_DT=SYSDATE
+				 , USE_YN= NVL(#{useYn}, 'N')
 			 WHERE STR_ID=#{strId}
 	</update>
 	<update id="deleteOneStrByStrId"

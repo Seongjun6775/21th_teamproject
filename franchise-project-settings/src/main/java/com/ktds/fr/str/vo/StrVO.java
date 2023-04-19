@@ -2,15 +2,21 @@ package com.ktds.fr.str.vo;
 
 import com.ktds.fr.common.vo.AbstractVO;
 
-public class StrVO extends AbstractVO{
+public class StrVO extends AbstractVO {
 
 	private String strId;
 	private String strNm;
+	private String strLctn;
+	private String strCty;
 	private String strAddr;
 	private String strCallNum;
 	private String mbrId;
 	private String strOpnTm;
 	private String strClsTm;
+	private String strRgstr;
+	private String strRgstDt;
+	private String mdfyr;
+	private String mdfyDt;
 	private String useYn;
 	private String delYn;
 
@@ -28,6 +34,22 @@ public class StrVO extends AbstractVO{
 
 	public void setStrNm(String strNm) {
 		this.strNm = strNm;
+	}
+
+	public String getStrLctn() {
+		return strLctn;
+	}
+
+	public void setStrLctn(String strLctn) {
+		this.strLctn = strLctn;
+	}
+
+	public String getStrCty() {
+		return strCty;
+	}
+
+	public void setStrCty(String strCty) {
+		this.strCty = strCty;
 	}
 
 	public String getStrAddr() {
@@ -68,6 +90,38 @@ public class StrVO extends AbstractVO{
 
 	public void setStrClsTm(String strClsTm) {
 		this.strClsTm = strClsTm;
+	}
+
+	public String getStrRgstr() {
+		return strRgstr;
+	}
+
+	public void setStrRgstr(String strRgstr) {
+		this.strRgstr = strRgstr;
+	}
+
+	public String getStrRgstDt() {
+		return strRgstDt;
+	}
+
+	public void setStrRgstDt(String strRgstDt) {
+		this.strRgstDt = strRgstDt;
+	}
+
+	public String getMdfyr() {
+		return mdfyr;
+	}
+
+	public void setMdfyr(String mdfyr) {
+		this.mdfyr = mdfyr;
+	}
+
+	public String getMdfyDt() {
+		return mdfyDt;
+	}
+
+	public void setMdfyDt(String mdfyDt) {
+		this.mdfyDt = mdfyDt;
 	}
 
 	public String getUseYn() {

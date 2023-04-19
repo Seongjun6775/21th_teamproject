@@ -12,7 +12,6 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
-
 <script type="text/javascript">
 	
 	$().ready(function() {
@@ -22,11 +21,17 @@
 			var data = $(this).data();
 			$("#strId").val(data.strid);
 			$("#strNm").val(data.strnm);
+			$("#strLctn").val(data.strlctn);
+			$("#strCty").val(data.strcty);
 			$("#strAddr").val(data.straddr);
 			$("#strCallNum").val(data.strcallnum);
 			$("#mbrId").val(data.mbrid);
 			$("#strOpnTm").val(data.stropntm);
 			$("#strClsTm").val(data.strclstm);
+			$("#strRgstr").val(data.strrgstr);
+			$("#strRgstDt").val(data.strrgstdt);
+			$("#mdfyr").val(data.mdfyr);
+			$("#mdfyDt").val(data.mdfydt);
 			$("#useYn").prop("checked", data.useyn == "Y");
 		});
 		
@@ -34,11 +39,17 @@
 			$("#isModify").val("false"); //등록모드
 			$("#strId").val("");
 			$("#strNm").val("");
+			$("#strLctn").val("");
+			$("#strCty").val("");
 			$("#strAddr").val("");
 			$("#strCallNum").val("");
 			$("#mbrId").val("");
 			$("#strOpnTm").val("");
 			$("#strClsTm").val("");
+			$("#strRgstr").val("");
+			$("#strRgstDt").val("");
+			$("#mdfyr").val("");
+			$("#mdfyDt").val("");
 			$("#useYn").prop("checked", false);
 
 		});
@@ -111,6 +122,10 @@
 				movePage(0);
 			});
 			
+			$("#index_btn").click(function(){
+				location.href= "${context}/index";
+			});
+			
 			$("#all_check").change(function(){
 				console.log($(this).prop("checked"));
 				$(".check_idx").prop("checked", $(this).prop("checked"));
@@ -160,6 +175,8 @@
 						<th><input type="checkbox" id="all_check" /></th>
 						<th>매장ID</th>
 						<th>매장명</th>
+						<th>지역명</th>
+						<th>도시명</th>
 						<th>매장주소</th>
 						<th>전화번호</th>
 						<th>관리자ID</th>
@@ -174,18 +191,26 @@
 							<c:forEach items="${strList}"
 									var="str">
 							<tr data-strid="${str.strId}" 
+							data-strlctn="${str.strLctn}" 
+							data-strcty="${str.strCty}" 
 							data-strnm="${str.strNm}" 
 							data-straddr="${str.strAddr}" 
 							data-strcallnum="${str.strCallNum}" 
 							data-mbrid="${str.mbrId}" 
 							data-stropntm="${str.strOpnTm}" 
 							data-strclstm="${str.strClsTm}" 
+							data-strrgstr="${str.strRgstr}" 
+							data-strrgstdt="${str.strRgstDt}" 
+							data-mdfyr="${str.mdfyr}" 
+							data-mdfydt="${str.mdfyDt}" 
 							data-useyn="${str.useYn}" >
 							<td>
 								<input type="checkbox" class="check_idx" value="${str.strId}"/>
 							</td>
 								<td><a href="${context}/str/strdetailmst/${str.strId}">${str.strId}</a></td>
 								<td>${str.strNm}</td>
+								<td>${str.strLctn}</td>
+								<td>${str.strCty}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
 								<td>${str.mbrId}</td>
@@ -239,24 +264,27 @@
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
 						<label for="strId" style="width:180px">매장 ID</label>
-						<input type="text" id="strId" name="strId" readonly value=""/>
+						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strNm" style="width:180px">매장명</label>
 						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}"/>
 					</div>
 					<div class="input-group inline">
-						<label for="strAddr" style="width:180px">매장주소</label>
-						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
-						<select name="strAddr" id="strAddr">
+						<label for="strLctn" style="width:60px">지역</label>
+						<label for="strCty" style="width:60px">도시</label>
+						<label for="strAddr" style="width:60px">매장주소</label>
+						<select name="strLctn" id="strLctn">
 						<option>지역 선택</option>
-							<option value="서울" ${strVO.strAddr eq '서울' ? 'selected' : ''}>서울</option>
+							<option value="서울" ${strVO.strLctn eq '서울' ? 'selected' : ''}>서울</option>
 							<option value="부산">부산</option>
 							<option value="강원">강원</option>
 							<option value="경기">경기</option>
 							<option value="인천">인천</option>
 							<option value="대구">대구</option>
 						</select>
+						<input type="text" id="strCty" name="strCty" maxlength="20" value="${strVO.strCty}"/>
+						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 					</div>
 					
 				    <div class="input-group inline">
@@ -270,16 +298,31 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
-						<input type="time" id="strOpnTm" name="strOpnTm" value=""/>
+						<input type="time" id="strOpnTm" name="strOpnTm" value="${strVO.strOpnTm}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strClsTm" style="width:180px">종료시간</label>
-						<input type="time" id="strClsTm" name="strClsTm" value=""/>
+						<input type="time" id="strClsTm" name="strClsTm" value="${strVO.strClsTm}"/>
 					</div>
-					
+					<div class="input-group inline">
+						<label for="strRgstr" style="width:180px">등록자</label>
+						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" value="${strVO.strRgstr}"/>
+					</div>
+					<div class="input-group inline">
+						<label for="strRgstDt" style="width:180px">등록일</label>
+						<input type="date" id="strRgstDt" name="strRgstDt" value="${strVO.strRgstDt}"/>
+					</div>
+					<div class="input-group inline">
+						<label for="mdfyr" style="width:180px">수정자</label>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" value="${strVO.mdfyr}"/>
+					</div>
+					<div class="input-group inline">
+						<label for="mdfyDt" style="width:180px">수정일</label>
+						<input type="date" id="mdfyDt" name="mdfyDt" value="${strVO.mdfyDt}"/>
+					</div>
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px">사용여부</label>
-						<input type="checkbox" id="useYn" name="useYn" value="Y"/>
+						<input type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="${strVO.useYn}"/>
 					</div>
 				</form>
 			</div>
@@ -287,6 +330,7 @@
 			<div class="align-right">
 				<button id="new_btn" class="btn-primary">신규</button>
 				<button id="save_btn" class="btn-primary">등록</button>
+				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

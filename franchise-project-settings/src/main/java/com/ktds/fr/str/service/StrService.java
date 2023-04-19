@@ -12,6 +12,8 @@ public List<StrVO>readAllStrMaster(StrVO strVO);
 
 	public StrVO readOneStrByManager(String strId);
 	
+	public boolean readBlockStrByMan(String strId);
+	
 	public boolean readBlockStrNm(String strNm);
 	
 	public boolean readBlockStrAddr(String strAddr);

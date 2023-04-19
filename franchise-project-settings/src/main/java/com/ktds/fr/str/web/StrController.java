@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.common.exceptions.IllegalRequestException;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.service.StrService;
 import com.ktds.fr.str.vo.StrVO;
@@ -24,12 +25,11 @@ public class StrController {
 	    if (mbrVO.getMbrLvl().equals("001-01")) {
 	        List<StrVO> strList = strService.readAllStrMaster(strVO);
 	        model.addAttribute("strList", strList);
-	        model.addAttribute("StrVO", strVO);
+	        model.addAttribute("MbrVO", mbrVO);
 	        return "str/list";
 	        
 	    } else if (mbrVO.getMbrLvl().equals("001-02")) {
-	        return "redirect:/str/strdetailmgn/" + mbrVO.getStrId();
-	        
+	    	return "redirect:/str/strdetailmgn/" + mbrVO.getStrId();
 	    } else {
 	        return "redirect:/index";
 	    }
@@ -41,17 +41,20 @@ public class StrController {
 	}
 	
 	@GetMapping("/str/strdetailmst/{strId}")
-	public String viewStrDetailMstPage(@PathVariable String strId, Model model) {
+	public String viewStrDetailMstPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model) {
 		StrVO strVO = strService.readOneStrByMaster(strId);
 		model.addAttribute("strVO", strVO);
 		return "str/strdetailmst";
 		
 	}
 	@GetMapping("/str/strdetailmgn/{strId}")
-	public String viewStrDetailMgnPage(@PathVariable String strId, Model model) {
+	public String viewStrDetailMgnPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model) {
+		if(!mbrVO.getStrId().equals(strId)) {
+			throw new IllegalRequestException();
+		}
 		StrVO strVO = strService.readOneStrByManager(strId);
 		model.addAttribute("strVO", strVO);
 		return "str/strdetailmgn";
-		
+        
 	}
 }
