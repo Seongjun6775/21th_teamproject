@@ -28,6 +28,7 @@
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
 					autoMapping="true">
 			<id property="mbrId" column="MDFYR"/>
+			<result property="mbrNm" column="MDFYR_NM"/>
 		</association>
 	</resultMap>
 	
@@ -61,6 +62,7 @@
 		  LEFT OUTER JOIN MBR M
 		    ON SP.MDFYR = M.MBR_ID
 		 WHERE SP.DEL_YN = 'N'
+		   AND P.USE_YN = 'Y'
 		<if test='strId != null and strId != ""'>
 		   AND SP.STR_ID = #{strId}
 		</if>
