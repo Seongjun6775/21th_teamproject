@@ -91,6 +91,7 @@
 			 , DEL_YN
 		  FROM PRDT
 		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
 		   AND PRDT_ID = #{_parameter}
 	</select>
 	
