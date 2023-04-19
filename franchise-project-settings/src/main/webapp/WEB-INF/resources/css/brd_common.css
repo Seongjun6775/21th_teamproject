@@ -576,8 +576,30 @@ a.btn-m:hover{
 a.btn-m:active{
 	background-color:#444;
 }
+.rpl_update_y{
+	background-color: #1e51a2;
+    color: #fff;
+    text-align: center;
+    transition: 0.2s all;
+    font-size: 13px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #333;
+    height: 30px;
+}
 
-
+.rpl_update_n{
+	background-color: #f00000;
+    color: #fff;
+    text-align: center;
+    transition: 0.2s all;
+    font-size: 13px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #333;
+    height: 30px;
+}
+   
  
 .detailview-header-left .list-title {
     font-size: 24px;
@@ -606,6 +628,7 @@ a.btn-m:active{
    margin-bottom: 20px;
    padding: 20px;
    border-bottom: 1px solid #e0e0e0;
+   text-align: right;
 }
    
 .etc .etc-table .etc-dt:first-child {
@@ -662,8 +685,6 @@ a.btn-m:active{
 .rpl-box { 	
 	list-style: none;
 	padding: 10px;
-	dispaly :inline-block;
-	 
   	
 	
 }
@@ -675,11 +696,29 @@ a.btn-m:active{
 
 .rpl-one{
 	list-style: none;
-	dispaly :inline-block; 
 }
 
 .rpltextarea {
 	height: 80px;
     width: 400px;
 }
+
+.list-brd-top {
+	margin: 10px;
+	text-align: right;
+}
+
+.list-brd-top .cnt{
+	display: inline-block; 
+	float: left;
+	padding-top: 30px;
+}
+
+
+.list-brd-top .write{
+	text-align: right;
+	margin-top: 6px;
+	display: inline-block;
+}
+
 

@@ -36,6 +36,7 @@
 			resultMap="brdMap">
 		<include refid ="Common.pageHeader"/>
 			SELECT B.MNGR_BRD_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC) RNUM <!-- 여기 PK_COL을 RNUM으로 바꾸면 정상적으로 작동 -->
 			 , B.MNGR_BRD_ID
 		     , B.MNGR_BRD_TTL
 		     , B.MNGR_BRD_CNTNT
@@ -73,7 +74,7 @@
          </if>
          <if test= 'mngrBrdCntnt != null and mngrBrdCntnt != "" '>
            AND  B.MNGR_BRD_CNTNT LIKE '%' ||  #{mngrBrdCntnt} || '%'
-         </if>         
+         </if> 
          ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC
          <include refid="Common.pageFooter" />
 	</select>

@@ -15,9 +15,7 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
-		$("#new_btn").click(function(){
-			console.log("!!");
-			
+		$("#new_btn").click(function(){	
 			$.post("${context}/api/mngrbrd/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
 					var url= '${context}/mngrbrd/list'
@@ -86,7 +84,7 @@
 						<button id="new_btn" class="blue-btn">등록</button>
 					</div> 					
 				</div>
-			</div>
+			</div>			
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

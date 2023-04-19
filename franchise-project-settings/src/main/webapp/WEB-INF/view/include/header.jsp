@@ -37,7 +37,7 @@
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
 	<div class="inline profile">
-		${sessionScope.__MBR__.mbrNm}
+		${sessionScope.__MBR__.mbrNm} ${sessionScope.__MBR__.mbrLvl}
 		<a href="${context}/logout">(Logout)</a>
 	</div>
 </div>

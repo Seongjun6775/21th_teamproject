@@ -14,16 +14,6 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
-		
-		$("#search-btn").click(function(){
-			//전송.
-			//입력 값.	
-			var mngrBrdTtl = $("#search-keyword").val();
-			//URL 요청 
-			location.href = "${context}/mngrbrd/list?mngrBrdTtl=" +mngrBrdTtl;
-		});
-		
-		
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked",$(this).prop("checked"));
 		});
@@ -61,26 +51,38 @@
 				}
 			});
 		});
-	});
-	
+		
+	    $("#search-btn").click(function(){
+	        movePage(0);
+	     });
+	    
+		
+		
+	}); 
+
 	function movePage(pageNo){
 		//전송.
-		//입력 값.	
+		//입력 값.	 
+		var mngrBrdSel = $("#search-select").val();	
+		if(mngrBrdSel== "value1"){
+			var mngrBrd = $("#search-keyword").val();
+			
+			var queryString = "mngrBrdTtl=" + mngrBrd;
+			queryString += "&pageNo=" + pageNo;
+			//URL 요청 
+			location.href = "${context}/mngrbrd/list?" + queryString;
+		}
 		
-	 	var res = $("#search-keyword").val();
-		var mngrBrdTtl = $("#search-keyword").val();
-		var mngrBrdCntnt = $("#search-keyword").val();
-		
-		var queryString = "mngrBrdTtl=" + mngrBrdTtl;
-		queryString +="mngrBrdCntnt=" + mngrBrdCntnt
-		queryString += "&pageNo=" + pageNo;
-		
-		//URL 요청
-		location.href = "${context}/mngrbrd/list?" + queryString;
-	
-	
+		else if(mngrBrdSel== "value2"){
+			var mngrBrd = $("#search-keyword").val();
+			
+			var queryString = "mngrBrdTtl=";
+			queryString = "&mngrBrdCntnt=" + mngrBrd;
+			queryString += "&pageNo=" + pageNo;
+			//URL 요청 
+			location.href = "${context}/mngrbrd/list?" + queryString;
+		}
 	}
-	
 
 </script>
 </head>
@@ -93,32 +95,34 @@
 		<div>
 			<div style="display: block; padding: 20px;">
 				<div class="list-title">
-					<h3 class="list-title"> 관리자 게시판</h3>
+					<h3 class="list-title"> 관리자 게시판</h3> 
 				</div> 
 		
 			    <div class="board_box row">	
 					<div class=" col-sm-3 col-xs-4">
-						<select id="keySelect" class="input-text" style="width: 100%;" onchange="javascript:changeSearchSelect(this);">
-							<option value="mngrBrdTtl">제목</option>
-							<option value="mngrBrdCntnt">본문</option> 
-							<option value="user_name">작성자</option>
+						<select id="search-select" class="input-text" style="width: 100%;">
+							<option id ="0" value="value1">제목</option>
+							<option id ="1" value="value2">본문</option> 
 						</select>
 					</div>
 					<div class=" col-sm-6 col-xs-8">
 						<input name="keyword" type="text" class="input-text" placeholder="검색어를 입력해주세요" id="search-keyword"  style="width: 100%;" value="${mngrBrdVO.mngrBrdTtl}" >
 					</div>
 					<div class=" col-sm-3 col-xs-12">
-						<a role="button" title="검색"  href="javascript:void(0);"  id="search-btn" class="blue-btn" style="width:100%;">검색</a>
+						<a role="button" title="검색" id="search-btn" class="blue-btn" style="width:100%;">검색</a>
 					</div>
 				</div>
 				
-				<div style="margin: 10px;"> 
-					<div style="display: inline-block;">
+				<div class="list-brd-top"> 
+					<div class="cnt">
 			    		<span>총  게시물 ${mngrBrdList.size()} <strong id="articleTotalCount"></strong> 개</span>,
 						<span class="division_line">페이지 <strong id="currentPageNo"></strong> / <span id="totalPageNo">${mngrBrdVO.pageNo+1}</span></span>
 					</div>
-			    	<div style="text-align: right; margin-top: 6px; display: inline-block;"> 
-						<button id="delete_btn" class="red-btn">삭제</button> 
+					
+			    	<div class="write">   
+						<c:if test="${mbrVO.mbrLvl eq '001-01'}"> 
+							<button id="delete_btn" class="red-btn">삭제</button> 
+						</c:if>
 						<a href="${context}/mngrbrd/write" class="btn-m" style="text-decoration: none;"> 게시글 작성</a>
 					</div>
 			    </div>
@@ -128,26 +132,32 @@
 					<table>
 						<thead>
 							<tr>
-								<th><input type = "checkbox" id ="all_check"/></th>
+								<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+									<th><input type = "checkbox" id ="all_check"/></th>
+								</c:if>
 								<th>글번호</th>
 								<th>카테고리</th>					
 								<th>제목</th>
 								<th>작성자</th>
 								<th>작성일</th>
-								<th>게시여부</th>
-									
+								<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+									<th>게시여부</th>
+								</c:if>	
 							</tr>
 						</thead>
 						<tbody>
-							<c:choose>					
+							<c:choose>			 		
 								<c:when test="${not empty mngrBrdList}">
-									<c:forEach items="${mngrBrdList}" var="mngrBrd">
+									<c:forEach items="${mngrBrdList}" var="mngrBrd" >
 										<tr data-mngrid = "${mngrBrd.mngrId}"
 											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-											data-useyn = "${mngrBrd.useYn}">
-											<td style="width: 20px;"> 
-												<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
-											</td>
+											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ffffaa7a' : ''}">
+											
+											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+												<td style="width: 20px;"> 
+													<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
+												</td>
+											</c:if>	
 											<td style="width: 160px;">${mngrBrd.mngrBrdId} </td>
 											<td style="width: 90px;">
 											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
@@ -159,16 +169,19 @@
 											</td>
 											<td>${mngrBrd.mbrVO.mbrNm}</td>
 											<td style="width: 160px;">${mngrBrd.mngrBrdWrtDt}</td>
-											<td style="width: 70px;">
-											${mngrBrd.useYn}</td>		
+											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+												<td style="width: 70px;">
+												${mngrBrd.useYn}</td>	
+											</c:if>	
 											
 										</tr>
 									</c:forEach>
 								</c:when>
+							
 								<c:otherwise>
 									<tr>
 										<td colspan="9" class="no-items">
-										
+											검색 결과가 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -176,9 +189,6 @@
 						</tbody>
 					</table>
 				
-					
-			
-					
 					<div class="pagenate">
 						<ul>
 							<c:set value = "${mngrBrdList.size() > 0 ? mngrBrdList.get(0).lastPage : 0}" var="lastPage"/>
@@ -187,25 +197,16 @@
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(MngrBrdVO.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
 							<c:set value ="${nowGroup*10+ 10}" var="groupEndPageNo" />
-							<c:set value ="${groupEndPageNo > lastPage ? lastPage-1 :groupEndPageNo-1}" var="groupEndPageNo" />
+							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo}" var="groupEndPageNo" />
 							
 							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
 							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-							
-					<%-- 		lastPage: ${lastPage} 
-							lastGroup:${lastGroup}
-							nowGroup:${nowGroup}
-							groupStartPageNo:${groupStartPageNo}
-							groupEndPageNo:${groupEndPageNo}
-							prevGroupStartPageNo:${prevGroupStartPageNo}
-							nextGroupStartPageNo: ${nextGroupStartPageNo} --%>
-							
 							<c:if test="${nowGroup > 0}">
 								<li><a href="javascript:movePage(0)">처음</a></li>
 								<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
 							</c:if>
-									
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo-1}" step="1" var="pageNo">
 								<li><a class="${pageNo eq MngrBrdVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 							</c:forEach>
 							

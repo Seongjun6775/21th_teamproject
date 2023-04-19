@@ -27,10 +27,13 @@ public class MngrBrdController {
 	private MngrBrdService mngrBrdService;
 	
 	@GetMapping("/mngrbrd/list")
-	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrd) {
+	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrd,
+								@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrd);
 		model.addAttribute("mngrBrdList", mngrBrdList);
 		model.addAttribute("mngrBrd", mngrBrd);
+		model.addAttribute("mbrVO", mbrVO);
+		
 		
 		
 		return "mngrbrd/list";
@@ -39,23 +42,15 @@ public class MngrBrdController {
 	
 	@GetMapping("/mngrbrd/{mngrBrdId}")
 	public String viewMngrBrdDetailPage(@PathVariable String mngrBrdId, Model model,
-								@SessionAttribute("__MBR__") MbrVO mbrVO) {
-		
-	
-		//TODO 지워
-		logger.info("URL id 값 :{}",mngrBrdId);
+									RplVO rplVO,
+									@SessionAttribute("__MBR__") MbrVO mbrVO
+								) {
 		
 		MngrBrdVO mngrBrd = mngrBrdService.readOneMngrBrdByMngrBrdId(mngrBrdId);
-		for (RplVO a : mngrBrd.getRplList()) {
-			System.out.println(a.getDepth());
-		} ;
-		
-		
-		//TODO 지워 
-		logger.info("ntcYn 값 :{}",mngrBrd.getNtcYn());
 		
 		model.addAttribute("mngrBrd", mngrBrd);
 		model.addAttribute("mbrVO", mbrVO);	
+		model.addAttribute("rplVO", rplVO);
 		return "mngrbrd/detail";
 	}
 	
