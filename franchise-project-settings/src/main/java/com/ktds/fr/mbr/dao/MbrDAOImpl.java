@@ -95,4 +95,8 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	public int updateOneMbrPwd(MbrVO mbrVO) {
 		return getSqlSession().update("Mbr.updateOneMbrPwd",mbrVO);
 	}
+	@Override
+	public List<String> readMbrByMbrEml(String mbrEml) {
+		return getSqlSession().selectList("Mbr.readMbrByMbrEml",mbrEml);
+	}
 }

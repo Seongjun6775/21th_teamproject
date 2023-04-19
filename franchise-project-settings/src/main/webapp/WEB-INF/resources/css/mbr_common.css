@@ -48,7 +48,7 @@ img {
     position: relative;
     height: 368px;
 }
-.login__register, .login__create {
+.login__register, .login__create, .login__find {
     position: absolute;
     bottom: 1rem;
     width: 100%;
@@ -118,10 +118,22 @@ img {
     font-size: 0.813rem;
     font-weight: 600;
     color: #a49eac;
+    cursor: pointer;
 }
 .login__button {
     display: block;
     padding: 1rem;
+    margin: 2rem 0;
+    background-color: #4AD395;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    border-radius: .5rem;
+    transition: .3s;
+}
+.find__box .login__button {
+    display: block;
+    padding: 15px 45px;
     margin: 2rem 0;
     background-color: #4AD395;
     color: #fff;
@@ -228,7 +240,7 @@ img {
         width: 80%;
         margin-top: 0;
     }
-    .login__register, .login__create {
+    .login__register, .login__create, .login__find {
         left: -11rem;
         
     }
@@ -238,6 +250,9 @@ img {
     .login__create {
         /* bottom: -5.5rem; */
         bottom: -12.5rem;
+    }
+    .login__find{
+    	
     }
 }
 /*Grid*/
@@ -445,4 +460,9 @@ img {
 .readonly{
 	background-color: #eaf8ff;
 	border: 1px solid;
+}
+/*find*/
+.find__box{
+	display: flex;
+    justify-content: space-between;
 }

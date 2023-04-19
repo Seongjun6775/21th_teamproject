@@ -1,5 +1,7 @@
 package com.ktds.fr.mbr.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -147,16 +149,35 @@ public class RestMbrController {
 			return new ApiResponseVO(ApiStatus.OK,"/logout");
 		}
 	}
-	
-
 	//인증 메일 보내기
 	@PostMapping("/api/mbr/emailSend")
 	public ApiResponseVO doCheckAuthNum(@RequestParam String email) {
 		if(email == null || email.length() == 0) {
 			return new ApiResponseVO(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
 		}
-		String authNumber = mailService.makeEamilForm(email);
+		String authNumber = mailService.makeEmailForm(email);
 		return new ApiResponseVO(ApiStatus.OK, authNumber, "");
 	}
-	
+	//ID/PW 찾기
+	@PostMapping("/api/mbr/find")
+	public ApiResponseVO doFindMbrInfo(@RequestParam String email,
+									   @RequestParam String type) {
+		if(email == null || email.length() == 0) {
+			throw new ApiException(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
+		}
+		List<String> mbrIdList = mbrService.readMbrByMbrEml(email, type);
+		if(mbrIdList == null) {
+			throw new ApiException(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
+		}
+		if(type.equals("id")) {
+			mailService.makeFindIdEmailForm(email, mbrIdList);
+			return new ApiResponseVO(ApiStatus.OK,"200 OK");
+		}else if(type.equals("pw")) {
+			String resetPwd = mailService.makeFindPwEmailForm(email);
+			
+			//TODO 비밀번호 찾기 구현
+			return new ApiResponseVO(ApiStatus.OK,"200 OK");
+		}
+		return new ApiResponseVO(ApiStatus.FAIL,"계정 찾기에 실패했습니다.");
+	}
 }

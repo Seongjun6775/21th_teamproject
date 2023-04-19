@@ -244,4 +244,13 @@
 		   AND DEL_YN='N' 
 	</update>
 	
+	<select id="readMbrByMbrEml"
+			parameterType="string"
+			resultType="string">
+		SELECT MBR_ID
+		  FROM FRAN.MBR
+		 WHERE MBR_EML=#{_parameter}
+		   AND DEL_YN='N'
+		   AND USE_YN='Y'
+	</select>
 </mapper>
