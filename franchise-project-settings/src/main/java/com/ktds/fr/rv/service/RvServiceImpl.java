@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.odrlst.dao.OdrLstDAO;
 import com.ktds.fr.rv.dao.RvDAO;
 import com.ktds.fr.rv.vo.RvVO;
 import com.ktds.fr.rv.vo.SearchRvVO;
@@ -16,6 +17,9 @@ public class RvServiceImpl implements RvService {
 
 	@Autowired
 	private RvDAO rvDAO;
+	
+//	@Autowired
+//	private OdrLstDAO odrLstDAO;
 
 	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
 		@Override
