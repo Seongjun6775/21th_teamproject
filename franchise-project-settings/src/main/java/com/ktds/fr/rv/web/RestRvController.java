@@ -42,7 +42,7 @@ public class RestRvController {
 
 		boolean isSuccess = rvService.createNewRv(rvVO);
 		if (isSuccess) {
-			return new ApiResponseVO(ApiStatus.OK, "/rv/list/", "", "");
+			return new ApiResponseVO(ApiStatus.OK, "/rv/list");
 		} else {
 			return new ApiResponseVO(ApiStatus.FAIL, "리뷰를 등록할 수 없습니다.", "500", "");
 		}
