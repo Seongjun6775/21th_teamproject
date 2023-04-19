@@ -19,19 +19,84 @@ $().ready(function() {
 	var ajaxUtil = new AjaxUtil();
 	
 	
+	$("#search-keyword-str").val("${strPrdtVO.strId}");
+	$("#search-keyword-prdt").val("${strPrdtVO.prdtId}");
+	$("#search-keyword-useYn").val("${strPrdtVO.useYn}");
+	$("#search-keyword-prdtSrt").val("${strPrdtVO.cmmnCdVO.cdId}")
+	
+
+	$("#all-check").change(function(){
+		$(".check-idx").prop("checked",$(this).prop("checked"));
+		var checkLen = $(".check-idx:checked").length;
+	});
+	$(".check-idx").change(function(){
+		var count = $(".check-idx").length;
+		var checkCount = $(".check-idx:checked").length;
+		$("#all-check").prop("checked", count == checkCount);
+		console.log($(this).val())
+	});
+	
+	
+	$("#btn-update-all").click(function() {
+		var checkLen = $(".check-idx:checked").length;
+		if (checkLen == 0) {
+			alert("선택된 항목이 없습니다.");
+			return;
+		}
+		if ($("select-useYn").val() == "") {
+			alert("사용유무가 선택되지 않았습니다.");
+		}
+		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
+			return;
+		}
+		
+		var form = $("<form></form>")
+		
+		$(".check-idx:checked").each(function() {
+			console.log($(this).val());
+			form.append("<input type='hiedden' name='strPrdtIdList' value='" + $(this).val() + "'>");
+		});
+			form.append("<input type='hiedden' name='useYn' value='" + $("#select-useYn").val() + "'>");
+		
+		$.post("${context}/api/strprdt/update", form.serialize(), function(response) {
+			if (response.status == "200 OK") {
+				location.reload(); //새로고침
+			}
+			else {
+				alert(response.errorCode + " / " + response.message);
+			}
+		});
+	})
+	
+	
+	// 검색 기능 : 셀렉트박스 변경시
+	$("select[name=selectFilter]").on("change", function(event) {
+		movePage(0);
+	});
+	
+	
+	$("#btn-search-reset").click(function() {
+		location.href = "${context}/strprdt/list";
+	})
+	
 	
 })
 
 
 function movePage(pageNo) {
-	var srt = $("#search-keyword-strPrdtSrt").val(); 
-	var strPrdtNm= $("#search-keyword-strPrdtNm").val(); 
+	var str = $("#search-keyword-str").val(); 
+	var prdt = $("#search-keyword-prdt").val(); 
 	var useYn= $("#search-keyword-useYn").val(); 
+	var srt = $("#search-keyword-prdtSrt").val(); 
+	if (srt == "" || srt == null) {
+		srt = '%' // cmmnCdVO의 cdId검색은 공백이 되면 왜 에러가 나는것일까?
+	}
 	
 	var queryString = "strPrdtPageNo=" + pageNo;
-	/* queryString = "&strPrdtSrt=" + srt;
-	queryString += "&strPrdtNm=" + strPrdtNm;
-	queryString += "&useYn=" + useYn; */
+	queryString += "&strId=" + str;
+	queryString += "&prdtId=" + prdt;
+	queryString += "&useYn=" + useYn;
+	queryString += "&cmmnCdVO.cdId=" + srt; // vo안에 vo에 멤버변수로 전달할 때
 	
 	location.href = "${context}/strprdt/list?" + queryString; // URL 요청
 } 
@@ -54,24 +119,48 @@ function movePage(pageNo) {
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all-check"/></th>
-							<th>ID</th>
-							<th>매장ID</th>
 							<th>
 								<select class="selectFilter" name="selectFilter"
-									id="search-keyword-srt">
-								<option value="">매장목록</option>
-								<c:choose>
-									<c:when test="${not empty strList}">
-										<c:forEach items="${strList}"
-													var="str">
-											<option value="${str.strId}">${str.strNm} (${str.strId})</option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-							</select>
+										id="search-keyword-str">
+									<option value="">매장</option>
+									<c:choose>
+										<c:when test="${not empty strList}">
+											<c:forEach items="${strList}"
+														var="str">
+												<option value="${str.strId}">${str.strNm} (${str.strId})</option>
+											</c:forEach>
+										</c:when>
+									</c:choose>
+								</select>
 							</th>
-							<th>상품ID</th>
-							<th>상품이름</th>
+							<th>
+								<select class="selectFilter" name="selectFilter"
+									id="search-keyword-prdtSrt">
+									<option value="">분류</option>
+									<c:choose>
+										<c:when test="${not empty srtList}">
+											<c:forEach items="${srtList}"
+														var="srt">
+												<option value="${srt.cdId}">${srt.cdNm}</option>
+											</c:forEach>
+										</c:when>
+									</c:choose>
+								</select>
+							</th>
+							<th>
+								<select class="selectFilter" name="selectFilter"
+										id="search-keyword-prdt">
+									<option value="">상품</option>
+									<c:choose>
+										<c:when test="${not empty prdtList}">
+											<c:forEach items="${prdtList}"
+														var="prdt">
+												<option value="${prdt.prdtId}">${prdt.prdtNm} (${prdt.prdtId})</option>
+											</c:forEach>
+										</c:when>
+									</c:choose>
+								</select>
+							</th>
 							<th>수정자</th>
 							<th>수정일</th>
 							<th>
@@ -95,10 +184,8 @@ function movePage(pageNo) {
 										<td class="align-center">
 											<input type="checkbox" class="check-idx" value="${strPrdt.strPrdtId}" />
 										</td>
-										<td>${strPrdt.strPrdtId}</td>
-										<td>${strPrdt.strVO.strId}</td>
 										<td>${strPrdt.strVO.strNm}</td>
-										<td>${strPrdt.prdtVO.prdtId}</td>
+										<td>${strPrdt.cmmnCdVO.cdNm}</td>
 										<td>${strPrdt.prdtVO.prdtNm}</td>
 										<td>${strPrdt.mdfyr}(${strPrdt.mdfyrMbrVO.mbrNm})</td>
 										<td>${strPrdt.mdfyDt}</td>
@@ -126,9 +213,15 @@ function movePage(pageNo) {
 					<div class="align-right absolute " style="right: 0px;" >
 						<button class="btn-primary" 
 								id="btn-search-reset">검색초기화</button>
-						<button id="btn-delete-all" 
+						<select class="selectFilter"
+								id="select-useYn">
+							<option value="">사용유무</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+						<button id="btn-update-all" 
 								class="btn-primary btn-delete" 
-								style="vertical-align: top;">일괄삭제</button>
+								style="vertical-align: top;">일괄수정</button>
 					</div>
 					
 					<div class="pagenate">
@@ -161,8 +254,6 @@ function movePage(pageNo) {
 						</ul>
 					</div>
 				</div>
-				strPrdtPageNo: ${strPrdtPageNo}
-				strPrdtVO.strPrdtPageNo: ${strPrdtVO.strPrdtPageNo}
 				
 				<div class="align-right grid-btns">
 					<a href="${context}/prdt/list">메뉴리스트</a>

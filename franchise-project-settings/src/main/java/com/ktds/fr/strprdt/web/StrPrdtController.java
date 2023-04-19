@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.cmmncd.service.CmmnCdService;
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.service.PrdtService;
 import com.ktds.fr.prdt.vo.PrdtVO;
@@ -28,6 +30,9 @@ public class StrPrdtController {
 	@Autowired
 	private PrdtService prdtService;
 	
+	@Autowired
+	private CmmnCdService cmmnCdService;
+	
 	@GetMapping("/strprdt/list")
 	public String strPrdtList(StrPrdtVO strPrdtVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
@@ -43,10 +48,13 @@ public class StrPrdtController {
 		List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
 		List<StrVO> strList = strService.readAllStrMaster(strVO);
 		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("strPrdtList", strPrdtList);
 		model.addAttribute("strPrdtVO", strPrdtVO);
 		model.addAttribute("strList", strList);
+		model.addAttribute("prdtList", prdtList);
+		model.addAttribute("srtList", srtList);
 		
 		return "strprdt/strprdt_list";
 	}

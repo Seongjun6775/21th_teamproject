@@ -15,9 +15,6 @@ public interface StrPrdtDAO {
 	// 매장별 메뉴 사용유무
 	public int update(StrPrdtVO strPrdtVO);
 	
-	// 매장별 메뉴 사용유무 일괄
-	public int updateSelectAll(List<StrPrdtVO> strPrdtVOList);
-	
 	// 메뉴삭제시 삭제여부 변경에 활용
 	public int deletePrdtId(String prdtId);
 

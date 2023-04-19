@@ -33,6 +33,7 @@
 			resultMap="prdtVOMap">
 		<include refid="PrdtCommon.pageHeader"></include>
 		SELECT P.PRDT_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY PRDT_ID DESC) RNUM
 			 , P.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
@@ -68,7 +69,7 @@
 		<if test='useYn != null and useYn != ""'>
 		   AND P.USE_YN LIKE #{useYn}
 		</if>
-		ORDER BY P.PRDT_ID DESC
+		ORDER BY P.PRDT_NM ASC
 		<include refid="PrdtCommon.pageFooter"></include>
 	</select>
 	<select id="readOne"

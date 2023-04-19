@@ -12,8 +12,5 @@ public interface StrPrdtService {
 	// 매장별 메뉴 사용유무
 	public boolean update(StrPrdtVO strPrdtVO);
 
-	// 매장별 메뉴 사용유무 일괄
-	public boolean updateSelectAll(List<StrPrdtVO> strPrdtVOList);
-	
 	
 }

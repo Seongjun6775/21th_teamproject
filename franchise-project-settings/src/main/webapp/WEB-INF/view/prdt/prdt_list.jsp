@@ -77,13 +77,12 @@ $().ready(function() {
 	$("#all-check").change(function(){
 		$(".check-idx").prop("checked",$(this).prop("checked"));
 		var checkLen = $(".check-idx:checked").length;
-		chkCount(checkLen);
+		//chkCount(checkLen);
 	})
 	$(".check-idx").change(function(){
 		var count = $(".check-idx").length;
 		var checkCount = $(".check-idx:checked").length;
 		$("#all-check").prop("checked", count == checkCount);
-		
 	});
 	
 	
@@ -239,7 +238,7 @@ $().ready(function() {
 	});
 	
 	// 검색 기능 : 셀렉트박스 변경시
-	$("select[name=selectFilter]").on("change", function(evetn) {
+	$("select[name=selectFilter]").on("change", function(event) {
 		movePage(0);
 	});
 	// 검색 기능 : 이름 입력 후 검색버튼 클릭 시

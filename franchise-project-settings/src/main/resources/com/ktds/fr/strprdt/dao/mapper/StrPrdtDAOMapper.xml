@@ -19,6 +19,11 @@
 					autoMapping="true">
 			<id property="prdtId" column="PRDT_ID"/>
 		</association>
+		<association property="cmmnCdVO"
+					javaType="com.ktds.fr.cmmncd.vo.CmmnCdVO"
+					autoMapping="true">
+			<id property="cdId" column="CD_ID"/>
+		</association>
 		<association property="mdfyrMbrVO"
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
 					autoMapping="true">
@@ -32,10 +37,13 @@
 			resultMap="strPrdtVOMap">
 		<include refid="StrPrdtCommon.pageHeader"></include>
 		SELECT SP.STR_PRDT_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY STR_PRDT_ID ASC) RNUM
 			 , SP.STR_PRDT_ID
 		     , SP.STR_ID 
 		     , S.STR_NM
 		     , SP.PRDT_ID
+		     , P.PRDT_SRT
+		     , C.CD_NM
 		     , P.PRDT_NM 
 		     , P.PRDT_PRC
 		     , SP.MDFYR 
@@ -48,12 +56,24 @@
 		    ON SP.STR_ID = S.STR_ID 
 		 INNER JOIN PRDT P
 		    ON SP.PRDT_ID = P.PRDT_ID
+		 INNER JOIN CMMN_CD C
+		    ON P.PRDT_SRT = C.CD_ID
 		  LEFT OUTER JOIN MBR M
 		    ON SP.MDFYR = M.MBR_ID
 		 WHERE SP.DEL_YN = 'N'
 		<if test='strId != null and strId != ""'>
 		   AND SP.STR_ID = #{strId}
 		</if>
+		<if test='useYn != null and useYn != ""'>
+		   AND SP.USE_YN = #{useYn}
+		</if>
+		<if test='cmmnCdVO != null and cmmnCdVO != ""'>
+		   AND C.CD_ID = #{cmmnCdVO.cdId}
+		</if>
+		<if test='prdtId != null and prdtId != ""'>
+		   AND SP.PRDT_ID = #{prdtId}
+		</if>
+		 ORDER BY S.STR_NM ASC 
 		<include refid="StrPrdtCommon.pageFooter"></include>
 	</select>
 
@@ -94,18 +114,13 @@
 		   SET MDFYR = #{mdfyr} 
 		     , MDFY_DT = SYSDATE
 		     , USE_YN = NVL(#{useYn}, 'N') 
-		 WHERE STR_PRDT_ID = #{strPrdtId} 
-	</update>
-	<update id="updateSelectAll"
-			parameterType="arrayList">
-		UPDATE STR_PRDT 
-		   SET MDFYR = #{mdfyr} 
-		     , MDFY_DT = SYSDATE
-		     , USE_YN = NVL(#{useYn}, 'N') 
 		 WHERE STR_PRDT_ID IN  
-		<foreach item="strPrdtId" collection="list"
-				open="(" separator=", " close=")">
-			#{strPrdtId}
+		<foreach item="id" 
+				collection="strPrdtIdList"
+				open="(" 
+				close=")"
+				separator=", "> 
+			#{id}
 	 	</foreach>
 	</update>
 	

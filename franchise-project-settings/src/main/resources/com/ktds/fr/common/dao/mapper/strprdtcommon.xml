@@ -10,7 +10,6 @@
 		     , CEIL(B.TOTAL_COUNT / #{strPrdtViewCnt}) -1 LAST_PAGE
 		     , FLOOR(FLOOR(B.TOTAL_COUNT / #{strPrdtViewCnt}) / #{strPrdtPageCnt}) LAST_GROUP
 		  FROM (SELECT R.*
-		 			 , DENSE_RANK() OVER(ORDER BY PK_COL DESC) RNUM <!-- 여기 PK_COL을 RNUM으로 바꾸면 정상적으로 작동 -->
 		             , COUNT(1) OVER() TOTAL_COUNT
 		          FROM (
 	</sql>
