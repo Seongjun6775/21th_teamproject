@@ -5,6 +5,7 @@
 <mapper namespace="Hr">
 	
 	<select id="readAllHr"
+			parameterType="com.ktds.fr.hr.vo.HrVO"
 			resultType="com.ktds.fr.hr.vo.HrVO">
 		<include refid="Common.pageHeader" />
 		SELECT HR_ID PK_COL
@@ -17,8 +18,13 @@
 		     , HR_APR_DT
 		     , HR_STAT
 		     , DEL_YN
+		     , NTC_YN
+		     , HR_LVL
 		  FROM HR
 		<include refid="Common.pageFooter" />
+		 ORDER BY NTC_YN DESC
+		 	 , DEL_YN ASC
+		 	 , HR_RGST_DT DESC
 	</select>
 	
 	<insert id="createNewHr"
@@ -38,7 +44,9 @@
 		, FL_SIZE
 		, FL_EXT
 		, USE_YN
-		, DEL_YN)
+		, DEL_YN
+		, NTC_YN
+		, HR_LVL)
 		VALUES
 		 ('HR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HR_PK.NEXTVAL, 5, '0')
 		 , #{mbrId}
@@ -54,50 +62,76 @@
 		 , #{flSize}
 		 , #{flExt}
 		 , 'N'
-		 , 'N')
+		 , 'N'
+		 , #{ntcYn}
+		 , #{hrLvl})
 	</insert>
 	
 	<select id="readAllMyHr"
-			parameterType="string"
+			parameterType="com.ktds.fr.hr.vo.HrVO"
 			resultType="com.ktds.fr.hr.vo.HrVO">
 		<include refid="Common.pageHeader" />
 		SELECT HR_ID PK_COL
 			 , HR_ID
-		     , MBR_ID
+			 , MBR_ID
 		     , HR_TTL
 		     , HR_RGST_DT
 		     , HR_MDFY_DT
 		     , HR_APR_YN
-		     , HR_APR_DT
-		     , HR_STAT
-		     , DEL_YN
-		  FROM HR H
-		  LEFT OUTER JOIN MBR M
-		    ON H.MBR_ID = M.MBR_ID
-		 WHERE H.MBR_ID = #{_parameter}
-		    OR M.MBR_LVL = '001-01'
+			 , HR_APR_DT
+			 , HR_STAT
+			 , DEL_YN
+			 , NTC_YN
+			 , HR_LVL
+		  FROM HR
+		 WHERE MBR_ID = #{mbrId}
+		   AND DEL_YN = 'N'
+		    OR NTC_YN = 'Y'
 		<include refid="Common.pageFooter" />
+		 ORDER BY NTC_YN DESC
+		 	 , DEL_YN ASC
+		 	 , HR_RGST_DT DESC
 	</select>
 	
 	<select id="readOneHrByHrId"
 			parameterType="string"
 			resultType="com.ktds.fr.hr.vo.HrVO">
-		SELECT HR_ID
-		     , MBR_ID
-		     , HR_TTL
-		     , HR_CNTNT
-		     , HR_RGST_DT
-		     , HR_MDFY_DT
-		     , HR_APR_YN
-		     , HR_APR_DT
-		     , HR_STAT
-		     , ORGN_FL_NM
-		     , UUID_FL_NM
-		     , FL_SIZE
-		     , FL_EXT
-		     , DEL_YN
-		  FROM HR
+		SELECT H.HR_ID
+		     , H.MBR_ID
+		     , H.HR_TTL
+		     , H.HR_CNTNT
+		     , H.HR_RGST_DT
+		     , H.HR_MDFY_DT
+		     , H.HR_APR_YN
+		     , H.HR_APR_DT
+		     , H.HR_STAT
+		     , C.CD_NM
+		     , H.ORGN_FL_NM
+		     , H.UUID_FL_NM
+		     , H.FL_SIZE
+		     , H.DEL_YN
+		     , H.NTC_YN
+		     , H.HR_LVL
+		  FROM HR H
+		  LEFT JOIN CMMN_CD C
+		    ON H.HR_LVL = C.CD_ID
+		 WHERE H.HR_ID = #{_parameter}
 	</select>
+	
+	<update id="updateOneHrByHrId"
+			parameterType="com.ktds.fr.hr.vo.HrVO">
+		UPDATE FRAN.HR
+		   SET HR_TTL = #{hrTtl}
+		     , HR_CNTNT = #{hrCntnt}
+		     , HR_MDFY_DT = SYSDATE
+		     , ORGN_FL_NM = #{orgnFlNm}
+		     , UUID_FL_NM = #{uuidFlNm}
+		     , FL_SIZE = #{flSize}
+		     , FL_EXT = #{flExt}
+		     , HR_LVL = #{hrLvl}
+		 WHERE HR_ID = #{hrId}
+	</update>
+	
 	
 	<update id="deleteOneHrByHrId"
 			parameterType="string">
@@ -106,7 +140,31 @@
 		 WHERE HR_ID = #{_parameter}
 	</update>
 	
+	<update id="updateHrStatByHrId"
+			parameterType="string">
+		UPDATE HR
+		   SET HR_STAT = '심사중'
+		 WHERE HR_ID = #{_parameter}
+	</update>
 	
+	<update id="updateHrAprByHrId"
+			parameterType="com.ktds.fr.hr.vo.HrVO">
+		UPDATE HR
+		   SET HR_APR_YN = #{hrAprYn}
+		     , HR_APR_DT = SYSDATE
+		     , HR_STAT = '심사완료'
+		 WHERE HR_ID = #{hrId}
+	</update>
+	
+	<select id="checkCreateYn"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM HR
+		 WHERE MBR_ID = #{_parameter}
+		   AND HR_STAT IN ('접수', '심사중')
+		   AND DEL_YN = 'N'
+	</select>
 	
 	
 

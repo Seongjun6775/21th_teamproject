@@ -64,6 +64,18 @@ public class HrVO extends AbstractVO {
 	 * 삭제 여부
 	 */
 	private String delYn;
+	/**
+	 * 공지 여부
+	 */
+	private String ntcYn;
+	/**
+	 * 채용 종류 (점주, 사원)
+	 */
+	private String hrLvl;
+	/**
+	 * 채용 종류 이름
+	 */
+	private String cdNm;
 	
 	
 	public String getHrId() {
@@ -155,6 +167,24 @@ public class HrVO extends AbstractVO {
 	}
 	public void setDelYn(String delYn) {
 		this.delYn = delYn;
+	}
+	public String getNtcYn() {
+		return ntcYn;
+	}
+	public void setNtcYn(String ntcYn) {
+		this.ntcYn = ntcYn;
+	}
+	public String getHrLvl() {
+		return hrLvl;
+	}
+	public void setHrLvl(String hrLvl) {
+		this.hrLvl = hrLvl;
+	}
+	public String getCdNm() {
+		return cdNm;
+	}
+	public void setCdNm(String cdNm) {
+		this.cdNm = cdNm;
 	}
 
 

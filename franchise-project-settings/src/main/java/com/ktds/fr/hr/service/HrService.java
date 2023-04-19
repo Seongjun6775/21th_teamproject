@@ -8,9 +8,9 @@ import com.ktds.fr.hr.vo.HrVO;
 
 public interface HrService {
 	
-	public List<HrVO> readAllHr();
+	public List<HrVO> readAllHr(HrVO hrVO);
 	
-	public List<HrVO> readAllMyHr(String mbrId);
+	public List<HrVO> readAllMyHr(HrVO hrVO);
 	
 	public HrVO readOneHrByHrId(String hrId);
 	
@@ -19,5 +19,13 @@ public interface HrService {
 	public boolean updateOneHrByHrId(HrVO hrVO);
 	
 	public boolean deleteOneHrByHrId(String hrId);
+	
+	public boolean updateHrStatByHrId(String hrId);
+	
+	public boolean updateOneMstrHrByMrId(HrVO hrVO);
+	
+	public boolean updateHrAprByHrId(HrVO hrVO);
+	
+	public boolean checkCreateYn(String mbrId);
 
 }

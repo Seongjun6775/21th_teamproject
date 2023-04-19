@@ -37,3 +37,13 @@ textarea {
 	height: 450px;
 	resize: none;
 }
+
+.hr_detail_header {
+	display: inline-block;
+	padding-right: 20px;
+}
+
+..hr_detail_cntnt {
+	width: 800px;
+	height: 550px;
+}

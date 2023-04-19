@@ -16,7 +16,18 @@
 		$(".create_btn").click(function() {
 			location.href="${context}/hr/create"
 		});
-	})
+		
+		$("#all_check").change(function() {
+			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
+		});
+		
+		$(".check_idx").change(function() {
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
+		});	
+		
+	});
 </script>
 </head>
 <body>
@@ -27,7 +38,7 @@
 			<jsp:include page="../include/content.jsp" />
 			<h3>master 채용 페이지 테스트</h3>
 			<div>
-				<div>총 ${hrList.size() > 0 ? allNtList.get(0).totalCount : 0}건</div>
+				<div>총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
 				<div></div>
 			</div>
 			<div>
@@ -37,6 +48,7 @@
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>채용 번호</th>
 							<th>지원자 ID</th>
+							<th>채용 종류</th>
 							<th>제목</th>
 							<th>등록일</th>
 							<th>승인 여부</th>
@@ -50,20 +62,22 @@
 								<c:forEach items="${hrList}" var="hr">
 									<tr data-hrid="${hr.hrId}"
 									    data-mbrid="${hr.mbrId}"
+									    data-hrlvl="${hr.hrLvl}"
 									    data-hrttl="${hr.hrTtl}"
 									    data-hrrgstdt="${hr.hrRgstDt}"
 									    data-hrapryn="${hr.hrAprYn}"
 									    data-hrstat="${hr.hrStat}"
 									    data-delyn="${hr.delYn}">
-										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"
-										            ${nt.delYn eq 'Y' ? 'disabled' : ''}/></td>
+										<td><input type="checkbox" class="check_idx" value="${hr.hrId}"
+										            ${hr.delYn eq 'Y' ? 'disabled' : ''}/></td>
 										<td>${hr.hrId}</td>
 										<td>${hr.mbrId}</td>
-										<td><a href="${context}/hr/mstrdetail/${nt.ntId}">${hr.hrTtl}</a></td>
+										<td>${hr.hrLvl}</td>
+										<td><a href="${context}/hr/mstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
 										<td>${hr.hrStat}</td>
-										<td>${nt.delYn eq 'Y' ? '삭제됨' : ''}</td>
+										<td>${hr.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>
 							</c:when>

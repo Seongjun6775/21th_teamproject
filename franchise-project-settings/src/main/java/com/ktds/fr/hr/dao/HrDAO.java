@@ -6,9 +6,9 @@ import com.ktds.fr.hr.vo.HrVO;
 
 public interface HrDAO {
 	
-	public List<HrVO> readAllHr();
+	public List<HrVO> readAllHr(HrVO hrVO);
 	
-	public List<HrVO> readAllMyHr(String mbrId);
+	public List<HrVO> readAllMyHr(HrVO hrVO);
 	
 	public HrVO readOneHrByHrId(String hrId);
 	
@@ -17,5 +17,13 @@ public interface HrDAO {
 	public int updateOneHrByHrId(HrVO hrVO);
 	
 	public int deleteOneHrByHrId(String hrId);
+	
+	public int updateHrStatByHrId(String hrId);
+	
+	public int updateOneMstrHrByMrId(HrVO hrVO);
+	
+	public int updateHrAprByHrId(HrVO hrVO);
+	
+	public int checkCreateYn(String mbrId);
 
 }

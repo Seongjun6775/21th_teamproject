@@ -14,19 +14,19 @@
 <script type="text/javascript">
 	$().ready(function() {
 		$("#cancel_btn").click(function() {
-			if (!confirm("작성을 취소하시겠습니까?")) {
+			if (!confirm("수정을 취소하시겠습니까?")) {
 				return;
 			}
 			location.href="${context}/hr/list";
 		});
 		
 		$("#save_btn").click(function() {
-			if (!confirm("작성을 완료하시겠습니까?")) {
+			if (!confirm("수정을 완료하시겠습니까?")) {
 				return;
 			}
 			
 			var ajaxUtil = new AjaxUtil();
-			ajaxUtil.upload("#hr_form", "${context}/api/hr/create", function(response) {
+			ajaxUtil.upload("#hr_form", "${context}/api/hr/update/${hr.hrId}", function(response) {
 				if (response.status == "200 OK") {
 					location.href = "${context}/hr/list";
 				}
@@ -47,25 +47,25 @@
 		<div>
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<h3>채용 지원 작성 페이지 테스트</h3>
+			<h3>채용 지원 수정 페이지 테스트</h3>
 			<form id="hr_form" enctype="multipart/form-data">
 				<div>
-					<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
+					<input type="hidden" id="ntcYn" value="${hr.ntcYn}">
 				</div>
 				<div>
 					<label for="mbrId">작성자</label>
 					<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
 				</div>
 				<div>
-					<select id="hrLvl">
+					<select id="hrLvl" >
 						<option value="">직군을 선택하세요.</option>
-						<option value="005-01">점주</option>
-						<option value="005-02">직원</option>
+						<option value="005-01" ${hr.hrLvl == '005-01' ? 'selected' : ''}>점주</option>
+						<option value="005-02" ${hr.hrLvl == '005-02' ? 'selected' : ''}>직원</option>
 					</select>
 				</div>
 				<div>
 					<label for="hrTtl">제목</label>
-					<input type="text" id="hrTtl" name="hrTtl" />
+					<input type="text" id="hrTtl" name="hrTtl" value="${hr.hrTtl}" />
 					
 				</div>
 				<div>
@@ -74,12 +74,12 @@
 				</div>
 				<div>
 					<label for="hrCntnt">본문</label>
-					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"></textarea>
+					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000" >${hr.hrCntnt}</textarea>
 				</div>
 			</form>
 			
 			<div>
-				<button id="save_btn">작성</button>
+				<button id="save_btn">수정</button>
 				<button id="cancel_btn">취소</button>
 			</div>
 			

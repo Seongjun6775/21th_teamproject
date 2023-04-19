@@ -19,13 +19,13 @@ public class HrDAOImpl extends SqlSessionDaoSupport implements HrDAO {
 	}
 
 	@Override
-	public List<HrVO> readAllHr() {
-		return getSqlSession().selectList("Hr.readAllHr");
+	public List<HrVO> readAllHr(HrVO hrVO) {
+		return getSqlSession().selectList("Hr.readAllHr", hrVO);
 	}
 	
 	@Override
-	public List<HrVO> readAllMyHr(String mbrId) {
-		return getSqlSession().selectList("Hr.readAllMyHr", mbrId);
+	public List<HrVO> readAllMyHr(HrVO hrVO) {
+		return getSqlSession().selectList("Hr.readAllMyHr", hrVO);
 	}
 
 	@Override
@@ -48,6 +48,25 @@ public class HrDAOImpl extends SqlSessionDaoSupport implements HrDAO {
 		return getSqlSession().update("Hr.deleteOneHrByHrId", hrId);
 	}
 	
+	@Override
+	public int updateHrStatByHrId(String hrId) {
+		return getSqlSession().update("Hr.updateHrStatByHrId", hrId);
+	}
+	
+	@Override
+	public int updateOneMstrHrByMrId(HrVO hrVO) {
+		return getSqlSession().update("Hr.updateOneMstrHrByMrId", hrVO);
+	}
+	
+	@Override
+	public int updateHrAprByHrId(HrVO hrVO) {
+		return getSqlSession().update("Hr.updateHrAprByHrId", hrVO);
+	}
+	
+	@Override
+	public int checkCreateYn(String mbrId) {
+		return getSqlSession().selectOne("Hr.checkCreateYn", mbrId);
+	}
 	
 
 }
