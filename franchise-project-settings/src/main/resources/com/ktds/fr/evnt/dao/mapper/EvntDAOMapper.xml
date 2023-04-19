@@ -92,7 +92,7 @@
            , EVNT_STRT_DT=TO_DATE(#{evntStrtDt})
            , EVNT_END_DT=TO_DATE(#{evntEndDt})
            , EVNT_PHT=#{evntPht}
-           , USE_YN=#{useYn}
+           , USE_YN = NVL(#{useYn}, 'N')
        WHERE EVNT_ID=#{evntId}
 	</update>
 	

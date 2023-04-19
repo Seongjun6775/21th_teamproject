@@ -12,9 +12,15 @@
 <script type="text/javascript">
 $().ready(function() {
    
+	$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
+	// console.log($("#useYn:checked"))
+	// console.log( $('#useYn').is(':checked') ? 'Y' : 'N' )
 	
 	//수정 완료 버튼
    $("#btn-update-success").click(function(){
+	   
+	   var useyn = $('#useYn').is(':checked') ? 'Y' : 'N' ;
+	   
       $.post(
             // 1. 호출할 주소
             "${context}/api/evnt/update",
@@ -27,8 +33,8 @@ $().ready(function() {
                evntStrtDt: $("#evntStrtDt").val(),
                evntEndDt: $("#evntEndDt").val(),
                evntPht: $("#evntPht").val(),
-               useYn: $('#useYn:checked').val(),
-               delYn: $('#delYn').val()
+               useYn: useyn,
+             
             },   
             
             // 3. 결과 처리
@@ -99,9 +105,7 @@ $().ready(function() {
             <tr>
                <td>사용 여부</td>
                <td><input type="checkbox" id="useYn"
-                  value="${evntVO.useYn}" checked/></td>
-               <td>삭제 여부</td>
-               <td><input type="checkbox" id="delYn" value="${evntVO.delYn}" /></td>
+                  value="Y" /></td>
             </tr>
 
             <tr>

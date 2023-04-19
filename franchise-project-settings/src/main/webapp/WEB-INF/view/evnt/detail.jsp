@@ -16,34 +16,44 @@
 <script type="text/javascript">
 	$().ready(function() {
 
+		$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
+		
 		//수정 버튼을 누르면 수정화면으로 전환 
 		$("#btn-update").click(function() {
 
 			location.href = "${context}/evnt/update/${evntVO.evntId}"
 		});
 
+		//삭제 버튼 누르면 삭제하시겠습니까? 물어보고 삭제하기
+		
 		$("#btn-updateDelete").click(function() {
-			$.post(
-			// 1. 호출할 주소
-			"${context}/api/evnt/delete",
+			
+	      if(!confirm("삭제 하시겠습니까?")){
+				alert("취소되었습니다.")		
+			} 
+	      else{
+				$.post(							
+						// 1. 호출할 주소
+						"${context}/api/evnt/delete",
 
-			// 2. 파라미터
-			{
-				evntId : $("#evntId").val(),
+						// 2. 파라미터
+						{
+							evntId : $("#evntId").val(),
 
-			},
+						},
 
-			// 3. 결과 처리
-			function(response) {
-				if (response.status == "200 OK") {
-					alert(response.message);
-					//location.reload(); // 새로고침
-					location.href="${context}/evnt/list";
-				} else {
-					alert(response.errorCode + " / " + response.message);
-				}
-			});
-		});
+						// 3. 결과 처리
+						function(response) {
+							if (response.status == "200 OK") {
+								alert(response.message);
+								//location.reload(); // 새로고침
+								location.href="${context}/evnt/list";
+							} else {
+								alert(response.errorCode + " / " + response.message);
+							}
+						});
+					} 
+				});
 		
 		// '참여매장등록하기' 버튼 클릭 시
 		$("#btn-createEvntStr").click(function() {
@@ -145,10 +155,8 @@
 
 				<tr>
 					<td>사용 여부</td>
-					<td><input type="checkbox" id="useYn" value="${evntVO.useYn}" checked/></td>
-					<td>삭제 여부</td>
-					<td><input type="checkbox" id="delYn" value="${evntVO.delYn}"
-						readonly="readonly" /></td>
+					<td><input type="checkbox" id="useYn" value="${evntVO.useYn}"  onclick="return false;"/></td>
+					
 				</tr>
 
 				<tr>

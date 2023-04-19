@@ -20,8 +20,8 @@ INSERT INTO EVNT_PRDT
 	      , DEL_YN)
 		  VALUES
           ('EP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PRDT_PK.NEXTVAL, 5, '0')
-          ,'EV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PK.NEXTVAL, 5, '0')
-          ,'PD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRDT_PK.NEXTVAL, 5, '0')
+          , #{evntId}
+          , #{prdtId}
           , #{evntPrdtChngPrc}
           , NVL(#{useYn},'N') 
           ,'N' )

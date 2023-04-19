@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%-- <jsp:include page="../include/stylescript.jsp"></jsp:include> --%>
 <link rel="stylesheet" href="../css/evntCommon.css">
 <meta charset="UTF-8">
 <title>이벤트 목록 조회</title>
@@ -14,6 +13,7 @@
 	$().ready(function() {
 		//이벤트 리스트 조회(검색)
 		$("#btn-init").click(function() {
+			document.getElementById("evntId").value = "";
 			document.getElementById("evntTtl").value = "";
 			document.getElementById("evntCntnt").value = "";
 			document.getElementById("evntStrtDt").value = "";
@@ -61,9 +61,6 @@
 </head>
 <body>
 	<div class="main-layout">
-		<%-- <jsp:include page="../include/header.jsp"></jsp:include>
-			<jsp:include page="../include/sidemenu.jsp"></jsp:include>
-			<jsp:include page="../include/content.jsp"></jsp:include> --%>
 		<div>
 			<h1>이벤트 리스트 목록 조회</h1>
 			<div>총 ${evntList.size()}건</div>
@@ -74,6 +71,9 @@
 					<form action="${context}/evnt/list" method="post">
 						<table style="width: 100%;">
 							<tr>
+								<td>이벤트 ID</td>
+								<td><input id="evntId" type="text" name="evntId"
+									value="${evntId}" style="width: 90%;" /></td>
 								<td>이벤트 제목</td>
 								<td><input id="evntTtl" type="text" name="evntTtl"
 									value="${evntTtl}" style="width: 90%;" /></td>
@@ -128,7 +128,7 @@
 							<th style="width: 200px">종료일</th>
 							<th style="width: 100px">사진</th>
 							<th style="width: 80px">사용유무</th>
-		
+							<th style="width: 80px">삭제여부</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -143,6 +143,7 @@
 										<td>${evnt.evntEndDt}</td>
 										<td>${evnt.evntPht}</td>
 										<td>${evnt.useYn}</td>
+										<td>${evnt.delYn}</td>
 									</tr>
 								</c:forEach>
 							</c:when>

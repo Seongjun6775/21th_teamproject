@@ -48,6 +48,7 @@ public class RestEvntController {
       System.out.println("evntVO.getEvntId() : " + evntVO.getEvntId());
       System.out.println("evntVO.getEvntTtl() : " + evntVO.getEvntTtl());
       System.out.println("evntVO.getEvntCntnt() : " + evntVO.getEvntCntnt());
+      System.out.println("evntVO.getUseYn() : " + evntVO.getUseYn());
       
       
          boolean isSuccess = evntService.updateEvnt(evntVO);

@@ -18,4 +18,9 @@ public class EvntStrServiceImpl implements EvntStrService {
 	public List<EvntStrVO> readAllEvntStr(EvntStrVO evntStrVO) {
 		return evntStrDAO.readAllEvntStr(evntStrVO);
 	}
+
+	@Override
+	public boolean createEvntStr(EvntStrVO evntStrVO) {
+		return evntStrDAO.createEvntStr(evntStrVO) > 0;
+	}
 }
