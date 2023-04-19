@@ -14,7 +14,7 @@ import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
 
 @Service
-public class MailSendServiceImple {
+public class MailSendServiceImple implements MailSendService{
 
 	@Autowired
 	private JavaMailSenderImpl mailSender;
@@ -31,6 +31,7 @@ public class MailSendServiceImple {
 		authNumber = randomNumber;
 	}
 	
+	@Override
 	public void mailSend(String from, String to, String title, String content ) {
 		MimeMessage message = mailSender.createMimeMessage();
 		try {
@@ -45,7 +46,7 @@ public class MailSendServiceImple {
 			throw new ApiException(ApiStatus.FAIL, "인증메일 전송에 실패하였습니다.");
 		}
 	}
-	
+	@Override
 	public String makeEamilForm(String email) {
 		randomNumber();
 		String from = "franchise.21th@gmail.com";
