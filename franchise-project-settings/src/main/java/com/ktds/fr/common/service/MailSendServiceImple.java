@@ -14,7 +14,7 @@ import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
 
 @Service
-public class MailSendServiceImple {
+public class MailSendServiceImple implements MailSendService{
 
 	@Autowired
 	private JavaMailSenderImpl mailSender;
