@@ -119,7 +119,7 @@
 		    ON OL.STR_ID = S.STR_ID
 		 WHERE R.USE_YN = 'Y'
 		   AND R.DEL_YN = 'N'
-		   AND S.MBR_ID = #{mbrVO.mbrId}
+		   <!-- AND S.MBR_ID = #{mbrVO.mbrId} -->
 		   <if test='type == "rvTtl"'>
 		   AND R.RV_TTL LIKE '%' || #{search} || '%'
 		   </if>
