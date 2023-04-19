@@ -8,7 +8,8 @@
 			parameterType="com.ktds.fr.str.vo.StrVO"
 			resultType="com.ktds.fr.str.vo.StrVO">
 			<include refid="Common.pageHeader"/>
-		SELECT S.STR_ID
+		SELECT S.STR_ID PK_COL
+ 			 , S.STR_ID
 			 , S.STR_NM
 			 , S.STR_ADDR
 			 , S.STR_CALL_NUM
@@ -24,6 +25,11 @@
 		<if test='strNm != null and strNm != ""'>
 		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
 		</if>
+
+		<if test='strId != null and strId != ""'>
+		   AND S.STR_ID = #{strId}
+		</if>
+
 		 <include refid="Common.pageFooter"/>
 	</select>
 	

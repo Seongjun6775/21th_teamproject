@@ -175,10 +175,10 @@
 			mbrNm = mbrNm.replace(/\s/gi, "");
 			$("#mbrNm").val(mbrNm);
 		});
-		$("#mbrEml").keyup(function(){
+		$(".mbrEml").keyup(function(){
 			var mbrEml = $(this).val();
 			mbrEml = mbrEml.replace(/\s/gi, "");
-			$("#mbrEml").val(mbrEml);
+			$(".mbrEml").val(mbrEml);
 			$("#timer").hide();
 		});
 		
@@ -210,7 +210,7 @@
 				alert("비밀번호가 일치하지 않습니다.");
 				return;
 			}
-			if(!valueUtil.requires("#mbrEml")){
+			if(!valueUtil.requires(".mbrEml")){
 				return;
 			}
 			if($("#doneAuth").val() == "false" ? true : false){
@@ -254,18 +254,18 @@
 		}
 		$("#send-auth-btn").click(function(event){
 			event.preventDefault();
-			var email = $("#mbrEml").val();
+			var email = $(".mbrEml").val();
 			$("#auth-btn").attr("disabled", false);
 			
-			if( email == "" || !emailRegExp.test(email)){
+			if( email == "" || emailRegExp.test(email)){
 				alert("이메일을 확인하세요.");
 				return;
 			}
 			$("#timer").show();
-			if(!valueUtil.requires("#mbrEml")){
+			if(!valueUtil.requires(".mbrEml")){
 				return;
 			}
-			var mbrEml = $("#mbrEml").val();
+			var mbrEml = $(".mbrEml").val();
 			$.post("${context}/api/mbr/emailSend", {"email": mbrEml},function(resp){
 				if(resp.status == "200 OK"){
 					authNumber=resp.message;
@@ -285,7 +285,7 @@
 		});
 		$("#auth-btn").click(function(event){
 			event.preventDefault();
-			if(!valueUtil.requires("#mbrEml")){
+			if(!valueUtil.requires(".mbrEml")){
 				return;
 			}
 			if(!valueUtil.requires("#authEml")){
@@ -298,7 +298,7 @@
 				$("#send-auth-btn").attr("disabled", "true");
 				$("#auth-btn").attr("disabled", "true");
 				$("#authEml").attr("disabled", "true");
-				$("#mbrEml").attr("readonly", "readonly");
+				$(".mbrEml").attr("readonly", "readonly");
 				clearInterval(timer);
 				alert("인증번호가 일치합니다.");
 			}else{
@@ -306,7 +306,7 @@
 				alert("인증번호가 불일치 합니다. 다시 입력해주세요.")
 			}
 		});
-		$("#mbrEml").change(function(){
+		$(".mbrEml").change(function(){
 			$("#doneAuth").val("false");
 		});
 		$("#lgn_mbrId").keydown(function (key) {
@@ -319,6 +319,21 @@
 	        	$("#login_btn").click();
 	        }
 	    });
+		$("#find_id_btn").click(function(event){
+			var email = $("#find-id-mbrEml").val();
+			var type = "id";
+			if(!valueUtil.requires("#find-id-mbrEml")){
+				return;
+			}
+			$.post("${context}/api/mbr/find",{email: email, type: type}, function(resp){
+				if(resp.status=="200 OK"){
+					alert("이메일로 전송완료, 확인 해 주세요.");
+					location.href="${context}/"+resp.redirectURL;
+				}else{
+					alert(resp.message);
+				}
+			})
+		});
 	});
 </script>
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -342,7 +357,8 @@
             <i class='bx bx-lock login__icon'></i>
             <input type="password" id="lgn_mbrPwd" name ="mbrPwd" placeholder="Password" class="login__input" autocomplete="off">
           </div>
-          <a href="#" class="login__forgot">Forgot Account? </a>
+          <!-- <a href="#" class="login__forgot">Forgot Account? </a> -->
+          <span class="login__forgot" id="find-account">Forgot Account?</span>
           
           <a id="login_btn" class="login__button">Sign In</a>
           
@@ -402,7 +418,8 @@
           	</div>
             <div class="content__box content__two">
             	<div class="inner__content">
-		            <input type="email" id="mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input">
+		            <input type="email" id="mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input mbrEml
+		            ">
 		            <button id="send-auth-btn" class="email__button">인증</button>
             	</div>
             </div>
@@ -437,6 +454,35 @@
              <a href="#" class="login__social--icon"><i class='bx bxl-github'></i></a>
           </div> -->
         </form>
+        
+        <form class="login__find none" id="login-find">
+        	<h1 class="login__title">Find ID</h1>
+        	
+        	<div class="login__box margin-Bot-10">
+            	<i class='bx bx-at login__icon'></i>
+            	<input type="email" id="find-id-mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input mbrEml">
+          	</div>
+       		<a id="find_id_btn" class="login__button">Find-ID</a>
+        	<h1 class="login__title">Find PW</h1>
+        	<div class="login__box">
+            	<i class='bx bx-user login__icon'></i>
+            	<input type="text" id="find-mbrId" name="mbrId" maxlength="12" placeholder="UserID" data-field-name="아이디" onkeyup="chkId(this)" class="login__input">
+          	</div>
+        	<div class="login__box">
+            	<i class='bx bx-at login__icon'></i>
+            	<input type="email" id="find-pw-mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input">
+          	</div>
+       		<a id="find_pw_btn" class="login__button">Find-PW</a>
+          	<div>
+	          	<span class="login__account login__account--account">Already have an Account?</span>
+	            <span class="login__signup login__signup--signup" id="sign-in2">Sign In</span>
+          	</div>
+        	<div>
+            	<span class="login__account login__account--account">Don't Have an Account?</span>
+            	<span class="login__signin login__signin--signup" id="sign-up2">Sign Up</span>
+          	</div>
+        </form>
+        
       </div>
     </div>
    </div>

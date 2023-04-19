@@ -11,6 +11,7 @@ public interface PrdtDAO {
 	
 	public int create(PrdtVO prdtVO);
 	public int update(PrdtVO prdtVO);
+	public int updateAll(PrdtVO prdtVO);
 	public int deleteOne(String prdtId);
 	public int deleteSelectAll(List<String> prdtIdList);
 	

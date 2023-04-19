@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메뉴 관리</title>
+<title>${prdtVO.prdtNm}</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <script type="text/javascript">
@@ -68,7 +68,7 @@ function movePage(pageNo) {
 			<c:when test="${not empty prdtList}">
 				<c:forEach items="${prdtList}"
 							var="prdt">
-					<div class="prdt1" id="${prdt.prdtId}">
+					<div class="prdt1">
 						<div class="img-box">
 							<c:choose>
 								<c:when test="${empty prdt.uuidFlNm}">

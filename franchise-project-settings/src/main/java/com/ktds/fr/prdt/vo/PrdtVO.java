@@ -1,5 +1,7 @@
 package com.ktds.fr.prdt.vo;
 
+import java.util.List;
+
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -28,6 +30,9 @@ public class PrdtVO extends AbstractVO{
 	private MbrVO mdfyrMbrVO;
 	
 	
+	private List<String> prdtIdList;
+	
+	
 	private String isDeleteImg;
 
 	
@@ -36,7 +41,7 @@ public class PrdtVO extends AbstractVO{
 	private int prdtViewCnt;
 	
 	
-	protected PrdtVO() {
+	public PrdtVO() {
 		this.prdtPageNo = 0;
 		this.prdtPageCnt = 5;
 		this.prdtViewCnt = 20;
@@ -150,6 +155,12 @@ public class PrdtVO extends AbstractVO{
 	}
 	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
 		this.cmmnCdVO = cmmnCdVO;
+	}
+	public List<String> getPrdtIdList() {
+		return prdtIdList;
+	}
+	public void setPrdtIdList(List<String> prdtIdList) {
+		this.prdtIdList = prdtIdList;
 	}
 	public String getIsDeleteImg() {
 		return isDeleteImg;

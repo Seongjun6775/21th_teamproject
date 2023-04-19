@@ -19,6 +19,7 @@ import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.service.PrdtService;
 import com.ktds.fr.prdt.vo.PrdtVO;
+import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @RestController
 public class RestPrdtController {
@@ -55,6 +56,21 @@ public class RestPrdtController {
 		prdtVO.setMdfyr(mbrVO.getMbrId());
 		
 		boolean isSuccess = prdtService.update(prdtVO, uploadFile);
+		if (isSuccess) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		return new ApiResponseVO(ApiStatus.FAIL);
+	}
+	@PostMapping("/api/prdt/updateAll")
+	public ApiResponseVO updateAll(@RequestParam List<String> prdtIdList
+				, @RequestParam String useYn
+				, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		PrdtVO prdtVO = new PrdtVO();
+		prdtVO.setPrdtIdList(prdtIdList);
+		prdtVO.setMdfyr(mbrVO.getMbrId());
+		prdtVO.setUseYn(useYn);
+		
+		boolean isSuccess = prdtService.updateAll(prdtVO);
 		if (isSuccess) {
 			return new ApiResponseVO(ApiStatus.OK);
 		}

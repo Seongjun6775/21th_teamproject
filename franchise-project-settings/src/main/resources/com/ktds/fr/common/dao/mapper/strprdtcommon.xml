@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="PrdtCommon">
+<mapper namespace="StrPrdtCommon">
 	
 	<sql id="pageHeader">
 		SELECT B.*
 			 , B.TOTAL_COUNT
-		     , CEIL(B.TOTAL_COUNT / #{prdtViewCnt}) -1 LAST_PAGE
-		     , FLOOR(FLOOR(B.TOTAL_COUNT / #{prdtViewCnt}) / #{prdtPageCnt}) LAST_GROUP
+		     , CEIL(B.TOTAL_COUNT / #{strPrdtViewCnt}) -1 LAST_PAGE
+		     , FLOOR(FLOOR(B.TOTAL_COUNT / #{strPrdtViewCnt}) / #{strPrdtPageCnt}) LAST_GROUP
 		  FROM (SELECT R.*
 		             , COUNT(1) OVER() TOTAL_COUNT
 		          FROM (
@@ -16,8 +16,8 @@
 	
 	<sql id="pageFooter">
 						) R) B
- 		 WHERE RNUM BETWEEN (#{prdtPageNo} * #{prdtViewCnt}) + 1 
- 						AND (#{prdtPageNo} * #{prdtViewCnt}) + #{prdtViewCnt}
+ 		 WHERE RNUM BETWEEN (#{strPrdtPageNo} * #{strPrdtViewCnt}) + 1 
+ 						AND (#{strPrdtPageNo} * #{strPrdtViewCnt}) + #{strPrdtViewCnt}
 	</sql>
 	
 </mapper>
