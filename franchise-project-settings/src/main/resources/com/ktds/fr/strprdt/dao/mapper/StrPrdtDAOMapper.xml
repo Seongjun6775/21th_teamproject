@@ -30,6 +30,12 @@
 			<id property="mbrId" column="MDFYR"/>
 			<result property="mbrNm" column="MDFYR_NM"/>
 		</association>
+		<association property="strMbrVO"
+					javaType="com.ktds.fr.mbr.vo.MbrVO"
+					autoMapping="true">
+			<id property="mbrId" column="MBR_ID"/>
+			<result property="mbrNm" column="MBR_NM"/>
+		</association>
 	</resultMap>
 	
 	
@@ -42,6 +48,8 @@
 			 , SP.STR_PRDT_ID
 		     , SP.STR_ID 
 		     , S.STR_NM
+		     , SM.MBR_ID
+		     , SM.MBR_NM
 		     , SP.PRDT_ID
 		     , P.PRDT_SRT
 		     , C.CD_NM
@@ -57,6 +65,8 @@
 		    ON SP.STR_ID = S.STR_ID 
 		 INNER JOIN PRDT P
 		    ON SP.PRDT_ID = P.PRDT_ID
+	      LEFT OUTER JOIN MBR SM
+	        ON S.MBR_ID = SM.MBR_ID
 		 INNER JOIN CMMN_CD C
 		    ON P.PRDT_SRT = C.CD_ID
 		  LEFT OUTER JOIN MBR M

@@ -19,7 +19,7 @@ function maxLengthCheck(object){
     if (object.value.length > object.maxLength){
       object.value = object.value.slice(0, object.maxLength);
     }    
-  }
+}
 
    // 특수문자 모두 제거    
 function chkChar(obj){
@@ -27,9 +27,38 @@ function chkChar(obj){
     if (RegExp.test(obj.value)) {
       obj.value = obj.value.replace(RegExp , '');
     }
-  }
+}
+   
+function confirmFileExtension(file) {
+	console.log(file);
+	// 정규식을 사용히여 jpg, jpeg, png, gif, bmp등 이미지파일의 확장자를 가진것을 추려낸다.
+	var reg = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
+  	if(file.match(reg)) {
+		alert("해당 파일은 이미지 파일입니다.");
+	} else {
+		alert("해당 파일은 이미지 파일이 아닙니다.");
+}
 
-
+  	/* 
+function fileCheck() {
+	
+	if (form.imgFile.value) {
+		var fileName = form.imgFile.value;
+		var fileExt = fileName.substring(fileName.lastIndexOf(".")+1);
+		var fileExt = fileExt.toLowerCase();
+		
+		if ("jpg" != fileExt && "jpeg" != fileExt && "gif" != fileExt 
+				&& "png" != fileExt && "bmp" != fileExt) {
+			alert("파일 형식은 이미지만 가능합니다.\n .jpg .jpeg .gif .png .bmp");
+			return;
+			}
+		}
+	}
+	 */
+	
+}
+  	
+  	
 $().ready(function() {
 	
 	console.log("ready function!")
@@ -213,7 +242,37 @@ $().ready(function() {
 		chkCount(checkLen);
 	});
 	 */	
-	
+	 
+	 $("#btn-update-all").click(function() {
+			var checkLen = $(".check-idx:checked").length;
+			if (checkLen == 0) {
+				alert("선택된 항목이 없습니다.");
+				return;
+			}
+			if ($("select-useYn").val() == "") {
+				alert("사용유무가 선택되지 않았습니다.");
+			}
+			if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
+				return;
+			}
+			
+			var form = $("<form></form>")
+			
+			$(".check-idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hiedden' name='prdtIdList' value='" + $(this).val() + "'>");
+			});
+				form.append("<input type='hiedden' name='useYn' value='" + $("#select-useYn").val() + "'>");
+			
+			$.post("${context}/api/prdt/updateAll", form.serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.reload(); //새로고침
+				}
+				else {
+					alert(response.errorCode + " / " + response.message);
+				}
+			});
+		})
 	
 	
 	
@@ -425,11 +484,20 @@ function movePage(pageNo) {
 					<div class="align-right absolute " style="right: 0px;" >
 						<button class="btn-primary" 
 								id="btn-search-reset">검색초기화</button>
+						<select class="selectFilter"
+								id="select-useYn">
+							<option value="">사용유무</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+						<button id="btn-update-all" 
+								class="btn-primary btn-delete" 
+								style="vertical-align: top;">일괄수정</button>
+								
 						<button id="btn-delete-all" 
 								class="btn-primary btn-delete" 
 								style="vertical-align: top;">일괄삭제</button>
 					</div>
-					
 					<div class="pagenate">
 						<ul>
 							<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}" var="lastPage"></c:set>
@@ -459,6 +527,7 @@ function movePage(pageNo) {
 							</c:if>
 						</ul>
 					</div>
+					
 				</div>
 			
 				<div class="grid-detail">

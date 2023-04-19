@@ -18,6 +18,8 @@ public class StrPrdtVO extends AbstractVO {
 	private String useYn;	
 	private String delYn;	
 	
+	
+	private MbrVO strMbrVO;
 	private StrVO strVO;
 	private PrdtVO prdtVO;
 	private CmmnCdVO cmmnCdVO;
@@ -81,6 +83,12 @@ public class StrPrdtVO extends AbstractVO {
 	}
 	
 	
+	public MbrVO getStrMbrVO() {
+		return strMbrVO;
+	}
+	public void setStrMbrVO(MbrVO strMbrVO) {
+		this.strMbrVO = strMbrVO;
+	}
 	public StrVO getStrVO() {
 		return strVO;
 	}

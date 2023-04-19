@@ -112,14 +112,14 @@ function movePage(pageNo) {
 					
 				</div>
 				
-				<br>이름 ${strVO.strNm}
 				<br>id ${strVO.strId}
+				<br>이름 ${strVO.strNm}
 				<br>주소 ${strVO.strLctn} - ${strVO.strCty} - ${strVO.strAddr}
 				<br>전화번호 ${strVO.strCallNum}
-				<br>매니저Id ${sessionScope.__MBR__.mbrId}
-				<br>매니저이름 ${sessionScope.__MBR__.mbrNm}
-				<br>운영시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
-				
+				<br>매니저Id ${strPrdtList[0].strMbrVO.mbrId}
+				<br>매니저이름 ${strPrdtList[0].strMbrVO.mbrNm}
+				<br>운영시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}	
+							
 				<table id="dataTable"
 						class="mb-10">
 					<thead>
