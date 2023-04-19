@@ -1,15 +1,37 @@
 package com.ktds.fr.evnt.vo;		
 		
 public class EvntVO {		
-		
+	
+	/* 이벤트 ID */
 	private String evntId;	
+	/* 이벤트 제목 */
 	private String evntTtl;	
-	private String evntCntnt;	
+	/* 이벤트 내용 */
+	private String evntCntnt;
+	/* 이벤트 시작일 */
 	private String evntStrtDt;	
+	/* 이벤트 종료일 */
 	private String evntEndDt;	
-	private String evntPht;	
-	private String useYn;	
-	private String delYn;	
+	/* 이벤트 사진 */
+	private String evntPht;
+	/* 이벤트 사용유무 */
+	private String useYn;
+	/* 이벤트 삭제여부 */
+	private String delYn;
+	
+	
+	/* 페이지네이션 */
+	private int viewCnt;
+	private int pageCnt;
+	private int pageNo;
+	
+	private int totalCount;
+	private int lastPage;
+	private int lastGroup;
+	
+	
+
+	
 	public String getEvntId() {	
 		return evntId;
 	}	
@@ -59,4 +81,40 @@ public class EvntVO {
 		this.delYn = delYn;
 	}	
 		
+	public int getViewCnt() {
+		return viewCnt;
+	}
+	public void setViewCnt(int viewCnt) {
+		this.viewCnt = viewCnt;
+	}
+	public int getPageCnt() {
+		return pageCnt;
+	}
+	public void setPageCnt(int pageCnt) {
+		this.pageCnt = pageCnt;
+	}
+	public int getPageNo() {
+		return pageNo;
+	}
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+	public int getTotalCount() {
+		return totalCount;
+	}
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+	public int getLastPage() {
+		return lastPage;
+	}
+	public void setLastPage(int lastPage) {
+		this.lastPage = lastPage;
+	}
+	public int getLastGroup() {
+		return lastGroup;
+	}
+	public void setLastGroup(int lastGroup) {
+		this.lastGroup = lastGroup;
+	}
 }		
