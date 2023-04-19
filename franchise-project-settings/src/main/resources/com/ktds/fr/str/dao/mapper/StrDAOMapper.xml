@@ -25,9 +25,11 @@
 		<if test='strNm != null and strNm != ""'>
 		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
 		</if>
+
 		<if test='strId != null and strId != ""'>
 		   AND S.STR_ID = #{strId}
 		</if>
+
 		 <include refid="Common.pageFooter"/>
 	</select>
 	

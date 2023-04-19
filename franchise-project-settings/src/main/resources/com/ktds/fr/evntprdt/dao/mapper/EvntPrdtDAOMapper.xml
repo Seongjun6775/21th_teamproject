@@ -6,4 +6,63 @@
 
 
 
+
+
+<insert id="createEvntPrdt"
+	parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
+
+INSERT INTO EVNT_PRDT
+ 		   (EVNT_PRDT_ID
+		  , EVNT_ID
+		  , PRDT_ID
+		  , EVNT_PRDT_CHNG_PRC
+		  , USE_YN
+	      , DEL_YN)
+		  VALUES
+          ('EP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PRDT_PK.NEXTVAL, 5, '0')
+          ,'EV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PK.NEXTVAL, 5, '0')
+          ,'PD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRDT_PK.NEXTVAL, 5, '0')
+          , #{evntPrdtChngPrc}
+          , NVL(#{useYn},'N') 
+          ,'N' )
+</insert>
+
+
+
+<select id="readAllEvntPrdt"
+parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
+	resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
+
+   SELECT E.EVNT_PRDT_ID
+        , E.EVNT_ID
+        , E.PRDT_ID
+        , P.PRDT_NM 
+        , P.PRDT_PRC 
+        , E.EVNT_PRDT_CHNG_PRC
+        , E.USE_YN
+        , E.DEL_YN
+     FROM EVNT_PRDT E
+     LEFT OUTER JOIN PRDT P 
+       ON E.PRDT_ID = P.PRDT_ID
+    WHERE E.EVNT_ID = #{evntId}
+      AND E.DEL_YN = 'N'
+</select>
+
+
+<select id="readAllprdt"
+ parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
+	 resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
+
+   SELECT PRDT_ID
+        , PRDT_NM 
+        , PRDT_PRC 
+        , USE_YN
+        , DEL_YN
+     FROM PRDT 
+    WHERE DEL_YN = 'N'
+    
+</select>
+
+
+
 </mapper>
