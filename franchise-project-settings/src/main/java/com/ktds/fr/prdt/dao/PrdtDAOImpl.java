@@ -39,6 +39,10 @@ public class PrdtDAOImpl extends SqlSessionDaoSupport implements PrdtDAO {
 	}
 
 	@Override
+	public int updateAll(PrdtVO prdtVO) {
+		return getSqlSession().update("Prdt.updateAll", prdtVO);
+	}
+	@Override
 	public int deleteOne(String prdtId) {
 		return getSqlSession().update("Prdt.deleteOne", prdtId);
 	}
@@ -47,5 +51,6 @@ public class PrdtDAOImpl extends SqlSessionDaoSupport implements PrdtDAO {
 	public int deleteSelectAll(List<String> prdtIdList) {
 		return getSqlSession().update("Prdt.deleteSelectAll", prdtIdList);
 	}
+
 
 }
