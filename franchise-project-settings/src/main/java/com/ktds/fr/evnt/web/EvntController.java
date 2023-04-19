@@ -40,10 +40,10 @@ public class EvntController {
 		System.out.println("evntVO.getUseYn : " + evntVO.getUseYn());
 		
 		// 기본조건으로 20개씩 조회
-		evntVO.setViewCnt(20);
+//		evntVO.setViewCnt(20);
 		// 기본조건으로 10페이지씩 조회
-		evntVO.setPageCnt(10);
-		evntVO.setPageNo(nullToZero(req.getParameter("pageNo")));
+//		evntVO.setPageCnt(10);
+//		evntVO.setPageNo(nullToZero(req.getParameter("pageNo")));
 		
 		System.out.println("evntVO.getViewCnt() : " + evntVO.getViewCnt());
 		System.out.println("evntVO.getPageCnt() : " + evntVO.getPageCnt());

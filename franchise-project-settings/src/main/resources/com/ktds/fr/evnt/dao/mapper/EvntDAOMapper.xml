@@ -32,8 +32,8 @@
 		parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
 		<include refid="Common.pageHeader" />
-	SELECT dense_rank() OVER(ORDER BY EVNT_ID) EvntNum
-		     , EVNT_ID PK_COL
+		SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		     , EVNT_ID PK_COL     
 		     , EVNT_ID
 		     , EVNT_TTL
 		     , EVNT_CNTNT
@@ -63,7 +63,6 @@
 		AND EVNT.USE_YN = #{useYn}
 		 </if>		 
 		AND EVNT.DEL_YN = 'N'		
-		ORDER BY EvntNum DESC
 		<include refid="Common.pageFooter" />
 	   </select>
 	

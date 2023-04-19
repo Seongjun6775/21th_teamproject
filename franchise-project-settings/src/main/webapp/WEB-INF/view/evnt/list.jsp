@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -55,7 +56,7 @@
 	});
 	
 	function movePage(pageNum){
-		location.href = "${context}/evnt/list?pageNo="+(pageNum-1);
+		location.href = "${context}/evnt/list?pageNo="+(pageNum);
 	}
 </script>
 </head>
@@ -66,7 +67,7 @@
 			<jsp:include page="../include/content.jsp"></jsp:include> --%>
 		<div>
 			<h1>이벤트 리스트 목록 조회</h1>
-			<div>총 ${evntList.size()}건</div>
+			<div>총 ${evntList.size() > 0 ? evntList.get(0).totalCount : 0}건</div>
 		</div>
 		<div class="content">
 			<div class="search-group">
@@ -156,6 +157,36 @@
 				</table>
 			</div>
 
+			<div class="pagenate">
+				<ul>
+					<c:set value="${evntList.size() > 0 ? evntList.get(0).lastPage : 0}" var="lastPage"></c:set>
+					<c:set value="${evntList.size() > 0 ? evntList.get(0).lastGroup : 0}" var="lastGroup"></c:set>
+					
+					<fmt:parseNumber var="nowGroup" value="${Math.floor(evntVO.pageNo / pageCnt)}" integerOnly="true" />
+					<c:set value="${nowGroup * pageCnt}" var="groupStartPageNo"></c:set>
+					<c:set value="${groupStartPageNo + pageCnt}" var="groupEndPageNo"></c:set>
+					<c:set value="${groupEndPageNo > lastPage ? lastPage -1 : groupEndPageNo - 1}" var="groupEndPageNo"></c:set>
+					
+					<c:set value="${(nowGroup - 1) * pageCnt}" var="prevGroupStartPageNo"></c:set>
+					<c:set value="${(nowGroup + 1) * pageCnt}" var="nextGroupStartPageNo"></c:set>
+					
+					 
+					<c:if test="${nowGroup > 0}">
+						<li><a href="javascript:movePage(0)">처음</a></li>
+						<li><a href="javascript:movePage(${prevGroupStartPageNo+pageCnt-1})">이전</a></li>
+					</c:if>
+					
+					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1"	var="pageNo">
+						<li><a class="${pageNo eq evntVO.pageNo ? 'on' : ''}"  href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+					</c:forEach>
+					
+					<c:if test="${lastGroup > nowGroup}">
+						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+						<li><a href="javascript:movePage(${lastPage}-1)">끝</a></li>
+					</c:if>
+				</ul>
+			</div>
+<%-- 
 			<div class="pagenation" style="text-align:center">
 				<button id="btn-prevPage" class="btn-primary">[이전페이지]</button>
 					<c:forEach begin="${pageNo+1}" end="${lastPage}" step="1" var="pageNo">
@@ -163,6 +194,7 @@
 					</c:forEach>
 				<button id="btn-nextPage" class="btn-primary">[다음페이지]</button>
 			</div>
+			 --%>
 			<div><button>우리매장 참여중인 이벤트</button></div>
 
 
