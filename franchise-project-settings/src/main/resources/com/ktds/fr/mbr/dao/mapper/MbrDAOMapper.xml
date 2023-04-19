@@ -246,11 +246,12 @@
 	
 	<select id="readMbrByMbrEml"
 			parameterType="string"
-			resultType="string">
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
 		SELECT MBR_ID
 		  FROM FRAN.MBR
-		 WHERE MBR_EML=#{_parameter}
+		 WHERE MBR_EML=#{mbrEml}
 		   AND DEL_YN='N'
 		   AND USE_YN='Y'
+		 ORDER BY MBR_RGSTR_DT ASC
 	</select>
 </mapper>

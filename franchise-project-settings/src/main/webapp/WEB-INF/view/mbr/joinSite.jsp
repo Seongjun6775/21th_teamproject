@@ -320,15 +320,15 @@
 	        }
 	    });
 		$("#find_id_btn").click(function(event){
-			var email = $(".mbrEml").val();
+			var email = $("#find-id-mbrEml").val();
 			var type = "id";
-			if(!valueUtil.requires(".mbrEml")){
+			if(!valueUtil.requires("#find-id-mbrEml")){
 				return;
 			}
 			$.post("${context}/api/mbr/find",{email: email, type: type}, function(resp){
 				if(resp.status=="200 OK"){
 					alert("이메일로 전송완료, 확인 해 주세요.");
-					location.href="${context}"+resp.redirectURL;
+					location.href="${context}/"+resp.redirectURL;
 				}else{
 					alert(resp.message);
 				}
@@ -456,15 +456,23 @@
         </form>
         
         <form class="login__find none" id="login-find">
-        	<h1 class="login__title">Find Account</h1>
+        	<h1 class="login__title">Find ID</h1>
+        	
+        	<div class="login__box margin-Bot-10">
+            	<i class='bx bx-at login__icon'></i>
+            	<input type="email" id="find-id-mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input mbrEml">
+          	</div>
+       		<a id="find_id_btn" class="login__button">Find-ID</a>
+        	<h1 class="login__title">Find PW</h1>
+        	<div class="login__box">
+            	<i class='bx bx-user login__icon'></i>
+            	<input type="text" id="find-mbrId" name="mbrId" maxlength="12" placeholder="UserID" data-field-name="아이디" onkeyup="chkId(this)" class="login__input">
+          	</div>
         	<div class="login__box">
             	<i class='bx bx-at login__icon'></i>
-            	<input type="email" id="find-mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input mbrEml">
+            	<input type="email" id="find-pw-mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input">
           	</div>
-          	<div class="find__box">
-        		<a id="find_id_btn" class="login__button">Find-ID</a>
-        		<a id="find_pw_btn" class="login__button">Find-PW</a>
-          	</div>
+       		<a id="find_pw_btn" class="login__button">Find-PW</a>
           	<div>
 	          	<span class="login__account login__account--account">Already have an Account?</span>
 	            <span class="login__signup login__signup--signup" id="sign-in2">Sign In</span>

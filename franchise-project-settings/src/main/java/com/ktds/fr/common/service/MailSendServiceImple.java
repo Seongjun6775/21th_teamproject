@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.mbr.vo.MbrVO;
 
 @Service
 public class MailSendServiceImple implements MailSendService{
@@ -61,18 +62,18 @@ public class MailSendServiceImple implements MailSendService{
 		return Integer.toString(authNumber);
 	}
 	@Override
-	public void makeFindIdEmailForm(String email, List<String> mbrId) {
-		String ids = null;
-		for (String id : mbrId) {
-			ids+=id + "<br/>";
+	public void makeFindIdEmailForm(String email, List<MbrVO> mbrList) {
+		String ids = "";
+		for (MbrVO mbr : mbrList) {
+			ids+=mbr.getMbrId() + "<br/>";
 		}
 		String from = "franchise.21th@gmail.com";
 		String to = email;
 		String title = projectName + "ID 찾기 이메일 답변.";
 		String content =
 				"<h1>"+projectName+"를 이용해 주셔서 감사합니다.</h1>" +"<br/><br/>" +
-				"문의해주신 ID 찾기 결과는 <b>";
-		content += ids + "</b>입니다." +"<br>";
+				"문의해주신 ID 찾기 결과는 <b><br/>";
+		content += ids + "</b>입니다." +"<br/>";
 		mailSend(from, to, title, content);
 	}
 	@Override

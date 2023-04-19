@@ -165,18 +165,20 @@ public class RestMbrController {
 		if(email == null || email.length() == 0) {
 			throw new ApiException(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
 		}
-		List<String> mbrIdList = mbrService.readMbrByMbrEml(email, type);
+		MbrVO mbrVO = new MbrVO();
+		mbrVO.setMbrEml(email);
+		List<MbrVO> mbrIdList = mbrService.readMbrByMbrEml(mbrVO, type);
 		if(mbrIdList == null) {
 			throw new ApiException(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
 		}
 		if(type.equals("id")) {
 			mailService.makeFindIdEmailForm(email, mbrIdList);
-			return new ApiResponseVO(ApiStatus.OK,"200 OK");
+			return new ApiResponseVO(ApiStatus.OK,"/join");
 		}else if(type.equals("pw")) {
-			String resetPwd = mailService.makeFindPwEmailForm(email);
+			//String resetPwd = mailService.makeFindPwEmailForm(email);
 			
 			//TODO 비밀번호 찾기 구현
-			return new ApiResponseVO(ApiStatus.OK,"200 OK");
+			return new ApiResponseVO(ApiStatus.OK,"/join");
 		}
 		return new ApiResponseVO(ApiStatus.FAIL,"계정 찾기에 실패했습니다.");
 	}

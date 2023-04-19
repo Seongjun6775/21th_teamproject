@@ -131,7 +131,7 @@ img {
     border-radius: .5rem;
     transition: .3s;
 }
-.find__box .login__button {
+/* .find__box .login__button {
     display: block;
     padding: 15px 45px;
     margin: 2rem 0;
@@ -141,7 +141,7 @@ img {
     text-align: center;
     border-radius: .5rem;
     transition: .3s;
-}
+} */
 .email__button{
 	display: block;
     padding: 5px;
@@ -249,9 +249,10 @@ img {
     }
     .login__create {
         /* bottom: -5.5rem; */
-        bottom: -12.5rem;
+        bottom: -9.5rem;
     }
     .login__find{
+        bottom: -7.5rem;
     	
     }
 }
@@ -464,5 +465,10 @@ img {
 /*find*/
 .find__box{
 	display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    
+}
+/*margin*/
+.margin-Bot-10{
+	margin-bottom: 30px;
 }

@@ -174,18 +174,25 @@ public class MbrServiceImpl implements MbrService {
 		return lgnHistDAO.createMbrLgnHist(lgnHistVO) > 0;
 	}
 	@Override
-	public List<String> readMbrByMbrEml(String mbrEml, String type) {
+	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO, String type) {
 		//이메일 주소 있는지 확인
-		List<String> mbrList = mbrDAO.readMbrByMbrEml(mbrEml);
+		List<MbrVO> mbrList = mbrDAO.readMbrByMbrEml(mbrVO);
 		if(mbrList == null || mbrList.size() == 0) {
 			throw new ApiException(ApiStatus.FAIL, "이메일을 확인해 주세요.");
 		}
 		if(type.equals("id")) {
 			//아이디 전달 - 암호화 하여서 뒤에 3글자만 *로 바꾸어서
+			log.info("size: {}",mbrList.size());
+			log.info("1번: {}",mbrList.get(0).getMbrId());
+			log.info("1번: {}",mbrList.get(1).getMbrId());
+			MbrVO mbr = null;
 			for(int i =0; i<mbrList.size(); i +=1) {
-				String mbrId = mbrList.get(i);
+				log.info("아이디값: {}",mbrList.get(i).getMbrId());
+				String mbrId = mbrList.get(i).getMbrId();
 				mbrId = mbrId.substring(0, mbrId.length()-3) + "***";
-				mbrList.add(i, mbrId);
+				log.info("바뀐 아이디값: {}",mbrList.get(i).getMbrId());
+				mbr = mbrList.get(i);
+				mbr.setMbrId(mbrId);
 			}
 		}else if(type.equals("pw")) {
 			

@@ -44,5 +44,5 @@ public interface MbrDAO {
 	//비밀번호 변경용
 	public int updateOneMbrPwd(MbrVO mbrVO);
 	//ID/PW 찾기 용
-	public List<String> readMbrByMbrEml(String mbrEml);
+	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO);
 }

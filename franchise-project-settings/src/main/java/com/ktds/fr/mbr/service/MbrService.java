@@ -42,5 +42,5 @@ public interface MbrService {
 	//로그아웃 이력 찍기
 	public boolean logoutMbr(LgnHistVO lgnHistVO);
 	//ID/PW 찾기 용
-	public List<String> readMbrByMbrEml(String mbrEml, String type);
+	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO, String type);
 }
