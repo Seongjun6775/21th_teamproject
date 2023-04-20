@@ -31,6 +31,12 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 		return getSqlSession().selectOne("Rv.readCountRvByRvId", rvVO);
 	}
 	
+	// 1-3. 주문서 ID를 토대로 수정일로부터 7일 이내에만 리뷰를 등록할 수 있도록 함	
+	@Override
+	public int createNewRvWithin7days(RvVO rvVO) {
+		return getSqlSession().selectOne("Rv.createNewRvWithin7days", rvVO);
+	}
+	
 	
 	// 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자
 	@Override
@@ -80,5 +86,6 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 	public int deleteOneRvVOByRvId(String rvId) {
 		return getSqlSession().update("Rv.deleteOneRvVOByRvId", rvId);
 	}
+
 	
 }
