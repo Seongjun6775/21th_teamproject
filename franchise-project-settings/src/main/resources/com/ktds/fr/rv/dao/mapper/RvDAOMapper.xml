@@ -58,6 +58,7 @@
 			<include refid="Common.pageHeader" />
 		SELECT R.RV_ID
 			 , R.RV_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY R.RV_RGST_DT DESC)RNUM
 			 , R.MBR_ID
 			 , R.ODR_LST_ID
 			 , R.RV_TTL
@@ -80,7 +81,8 @@
 		   </if>
 		   <if test='type == "mbrId"'>
 		   AND R.MBR_ID = #{search}
-		   </if>		   
+		   </if>
+		 ORDER BY R.RV_RGST_DT DESC		   
 		   <include refid="Common.pageFooter" />
 	</select>
 	
@@ -113,6 +115,7 @@
 			<include refid="Common.pageHeader" />
 		SELECT R.RV_ID
 			 , R.RV_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY R.RV_RGST_DT DESC)RNUM
 			 , R.MBR_ID
 			 , R.ODR_LST_ID
 			 , R.RV_TTL
@@ -138,7 +141,8 @@
 		   </if>
 		   <if test='type == "mbrId"'>
 		   AND R.MBR_ID = #{search}
-		   </if>		   
+		   </if>
+		 ORDER BY R.RV_RGST_DT DESC	   
 		   <include refid="Common.pageFooter" />		
 	</select>
 	
@@ -174,6 +178,7 @@
 			<include refid="Common.pageHeader" />
 		SELECT R.RV_ID
 			 , R.RV_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY R.RV_RGST_DT DESC)RNUM
 			 , R.MBR_ID
 			 , R.ODR_LST_ID
 			 , R.RV_TTL
@@ -189,6 +194,7 @@
 		 WHERE M.MBR_LVL = '001-04'
 		   AND R.USE_YN = 'Y'
 		   AND R.DEL_YN = 'N'
+		 ORDER BY R.RV_RGST_DT DESC
 		   <include refid="Common.pageFooter" />
 	</select>
 	
