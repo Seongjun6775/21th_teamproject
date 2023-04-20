@@ -148,8 +148,9 @@
 				<tr>
 		
 					<td>이벤트 사진</td>
-					<td colspan="3"><input type="file" id="evntPht" name="attachFile"
-						style="width: 99%;" value="${evntVO.evntPht}" readonly="readonly" /></td>
+					<td colspan="3">
+					<img src="${context}/evnt/img/${evntVO.uuidFlNm}"/>
+					</td>
 						
 				</tr>
 

@@ -32,7 +32,7 @@ $().ready(function() {
                evntCntnt: $("#evntCntnt").val(),
                evntStrtDt: $("#evntStrtDt").val(),
                evntEndDt: $("#evntEndDt").val(),
-               evntPht: $("#evntPht").val(),
+               evntPht: $("#orgnFlNm").val(),
                useYn: useyn,
              
             },   
@@ -66,6 +66,7 @@ $().ready(function() {
 </head>
 <body>
    <div class="main-layout">
+   <form id="form-update" enctype="multipart/form-data">
       <div>
          <table border=1 style="width: 600px;">
             <tr>
@@ -98,8 +99,9 @@ $().ready(function() {
 
             <tr>
                <td>이벤트 사진</td>
-               <td colspan="3"><input type="file" id="evntPht"
-                  style="width: 99%;" value="${evntVO.evntPht}" /></td>
+               <td colspan="3">
+               <img src="${context}/evnt/img/${evntVO.uuidFlNm}"/>
+               <input type="file" id="orgnFlNm" style="width: 99%;" value="${evntVO.orgnFlNm}" /></td>
             </tr>
 
             <tr>
@@ -116,6 +118,7 @@ $().ready(function() {
             </tr>
           </table>         
        </div>
+       </form>
      </div>
 </body>
 </html>

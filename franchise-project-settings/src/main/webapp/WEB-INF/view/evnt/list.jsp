@@ -142,7 +142,7 @@
 										<td>${evnt.evntCntnt}</td>
 										<td>${evnt.evntStrtDt}</td>
 										<td>${evnt.evntEndDt}</td>
-										<td>${evnt.evntPht}</td>
+										<td>${evnt.orgnFlNm}</td>
 										<td>${evnt.useYn}</td>
 									</tr>
 								</c:forEach>
@@ -170,7 +170,7 @@
 					<c:set value="${(nowGroup - 1) * pageCnt}" var="prevGroupStartPageNo"></c:set>
 					<c:set value="${(nowGroup + 1) * pageCnt}" var="nextGroupStartPageNo"></c:set>
 					
-					 
+				 
 					<c:if test="${nowGroup > 0}">
 						<li><a href="javascript:movePage(0)">처음</a></li>
 						<li><a href="javascript:movePage(${prevGroupStartPageNo+pageCnt-1})">이전</a></li>

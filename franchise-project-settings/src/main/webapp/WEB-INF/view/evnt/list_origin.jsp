@@ -141,7 +141,7 @@
 										<td>${evnt.evntCntnt}</td>
 										<td>${evnt.evntStrtDt}</td>
 										<td>${evnt.evntEndDt}</td>
-										<td>${evnt.evntPht}</td>
+										<td>${evnt.orgnFlNm}</td>
 										<td>${evnt.useYn}</td>
 										<td>${evnt.delYn}</td>
 									</tr>
