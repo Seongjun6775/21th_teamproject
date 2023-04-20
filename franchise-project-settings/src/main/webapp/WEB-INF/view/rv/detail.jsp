@@ -65,7 +65,9 @@
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvTtl">제목</label>
-							<input type="text" id="rvTtl" name="rvTtl" disabled value="${rvDetail.rvTtl}">
+							<input type="text" id="rvTtl" name="rvTtl" 
+								   style="width: 665px;"
+								   disabled value="${rvDetail.rvTtl}">
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvCntnt">내용</label>

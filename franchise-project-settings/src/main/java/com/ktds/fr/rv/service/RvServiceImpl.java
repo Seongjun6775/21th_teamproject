@@ -21,6 +21,9 @@ public class RvServiceImpl implements RvService {
 		@Override
 		public boolean createNewRv(RvVO rvVO) {
 			
+			if (rvVO.getRvLkDslk().equals("선택")) {
+				throw new ApiException("500", "좋아요 또는 싫어요를 선택하세요.");
+			}
 			int rvCount7 = rvDAO.createNewRvWithin7days(rvVO);
 			if (rvCount7 == 0) {
 				throw new ApiException("500", "주문서 수정일로부터 7일 이내에만 리뷰를 작성할 수 있습니다.");
@@ -30,11 +33,7 @@ public class RvServiceImpl implements RvService {
 			if (rvCount >= 1) {
 				throw new ApiException("500", "이미 리뷰를 작성하셨습니다.");
 			}
-			
-			else if (rvVO.getRvLkDslk().equals("선택")) {
-				throw new ApiException("500", "좋아요 또는 싫어요를 선택하세요.");
-			}
-			
+						
 			try {
 				return rvDAO.createNewRv(rvVO) > 0;
 			}
