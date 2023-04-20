@@ -60,7 +60,7 @@
 					<div class="create-group">
 						<label for="rvTtl">제목</label> <input type="text" id="rvTtl"
 							name="rvTtl" 
-							style="margin: 5px; width: 660px;"
+							style="margin: 5px; width: 665px;"
 							maxlength="50"
 							placeholder="제목을 입력하세요(50자 제한)" />
 					</div>
