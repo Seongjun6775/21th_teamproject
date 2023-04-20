@@ -19,7 +19,7 @@ function maxLengthCheck(object){
     if (object.value.length > object.maxLength){
       object.value = object.value.slice(0, object.maxLength);
     }    
-  }
+}
 
    // 특수문자 모두 제거    
 function chkChar(obj){
@@ -27,9 +27,38 @@ function chkChar(obj){
     if (RegExp.test(obj.value)) {
       obj.value = obj.value.replace(RegExp , '');
     }
-  }
+}
+   
+function confirmFileExtension(file) {
+	console.log(file);
+	// 정규식을 사용히여 jpg, jpeg, png, gif, bmp등 이미지파일의 확장자를 가진것을 추려낸다.
+	var reg = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
+  	if(file.match(reg)) {
+		alert("해당 파일은 이미지 파일입니다.");
+	} else {
+		alert("해당 파일은 이미지 파일이 아닙니다.");
+}
 
-
+  	/* 
+function fileCheck() {
+	
+	if (form.imgFile.value) {
+		var fileName = form.imgFile.value;
+		var fileExt = fileName.substring(fileName.lastIndexOf(".")+1);
+		var fileExt = fileExt.toLowerCase();
+		
+		if ("jpg" != fileExt && "jpeg" != fileExt && "gif" != fileExt 
+				&& "png" != fileExt && "bmp" != fileExt) {
+			alert("파일 형식은 이미지만 가능합니다.\n .jpg .jpeg .gif .png .bmp");
+			return;
+			}
+		}
+	}
+	 */
+	
+}
+  	
+  	
 $().ready(function() {
 	
 	console.log("ready function!")
@@ -38,6 +67,11 @@ $().ready(function() {
 	
 	 $("#search-keyword-prdtSrt").val("${prdtVO.prdtSrt}");
 	 $("#search-keyword-useYn").val("${prdtVO.useYn}");
+	 var evntYn = ""
+	 if (${prdtVO.evntVO.evntId != ""} && ${not empty prdtVO.evntVO.evntId} ) {
+		 evntYn = "${prdtVO.evntVO.evntId}"
+	 }
+	 $("#search-keyword-evntYn").val(evntYn);
 	
 	
 	var table = document.getElementById("dataTable");
@@ -47,6 +81,9 @@ $().ready(function() {
 	
 	
 	$(".grid > table > tbody > tr").click(function() {
+		if ($(this).attr('id') == "notFound") {
+			return;
+		}
 		var data = $(this).data();
 		console.log(data)
 		
@@ -77,13 +114,12 @@ $().ready(function() {
 	$("#all-check").change(function(){
 		$(".check-idx").prop("checked",$(this).prop("checked"));
 		var checkLen = $(".check-idx:checked").length;
-		chkCount(checkLen);
+		//chkCount(checkLen);
 	})
 	$(".check-idx").change(function(){
 		var count = $(".check-idx").length;
 		var checkCount = $(".check-idx:checked").length;
 		$("#all-check").prop("checked", count == checkCount);
-		
 	});
 	
 	
@@ -214,7 +250,37 @@ $().ready(function() {
 		chkCount(checkLen);
 	});
 	 */	
-	
+	 
+	 $("#btn-update-all").click(function() {
+			var checkLen = $(".check-idx:checked").length;
+			if (checkLen == 0) {
+				alert("선택된 항목이 없습니다.");
+				return;
+			}
+			if ($("select-useYn").val() == "") {
+				alert("사용유무가 선택되지 않았습니다.");
+			}
+			if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
+				return;
+			}
+			
+			var form = $("<form></form>")
+			
+			$(".check-idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hiedden' name='prdtIdList' value='" + $(this).val() + "'>");
+			});
+				form.append("<input type='hiedden' name='useYn' value='" + $("#select-useYn").val() + "'>");
+			
+			$.post("${context}/api/prdt/updateAll", form.serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.reload(); //새로고침
+				}
+				else {
+					alert(response.errorCode + " / " + response.message);
+				}
+			});
+		})
 	
 	
 	
@@ -239,7 +305,7 @@ $().ready(function() {
 	});
 	
 	// 검색 기능 : 셀렉트박스 변경시
-	$("select[name=selectFilter]").on("change", function(evetn) {
+	$("select[name=selectFilter]").on("change", function(event) {
 		movePage(0);
 	});
 	// 검색 기능 : 이름 입력 후 검색버튼 클릭 시
@@ -274,10 +340,15 @@ function movePage(pageNo) {
 	var srt = $("#search-keyword-prdtSrt").val(); 
 	var prdtNm= $("#search-keyword-prdtNm").val(); 
 	var useYn= $("#search-keyword-useYn").val(); 
+	var evntYn= $("#search-keyword-evntYn").val(); 
+	if (evntYn == "" || srt == null) {
+		evntYn = '%'
+	}
 	
 	var queryString = "prdtSrt=" + srt;
 	queryString += "&prdtNm=" + prdtNm;
 	queryString += "&useYn=" + useYn;
+	queryString += "&evntVO.evntId=" + evntYn;
 	queryString += "&prdtPageNo=" + pageNo;
 	
 	location.href = "${context}/prdt/list?" + queryString; // URL 요청
@@ -347,17 +418,26 @@ function movePage(pageNo) {
 									value="${prdtVO.prdtNm}">
 							</th>
 							<th>가격(원)</th>
+							<th>
+								<select class="selectFilter" name="selectFilter"
+										id="search-keyword-evntYn">
+									<option value="">이벤트유무</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</th>
+							<th>이벤트가격</th>
 							<th>등록자</th>
 							<th>등록일</th>
 							<th>수정자</th>
 							<th>수정일</th>
 							<th>
-							<select class="selectFilter" name="selectFilter"
-									id="search-keyword-useYn">
-								<option value="">사용유무</option>
-								<option value="Y">Y</option>
-								<option value="N">N</option>
-							</select>
+								<select class="selectFilter" name="selectFilter"
+										id="search-keyword-useYn">
+									<option value="">사용유무</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
 							</th>
 						</tr>
 					</thead>
@@ -379,6 +459,8 @@ function movePage(pageNo) {
 										data-prdtsrtnm="${prdt.cmmnCdVO.cdNm}" 
 										data-prdtrgstr="${prdt.prdtRgstr}" 
 										data-prdtrgstdt="${prdt.prdtRgstDt}" 
+										data-evntid="${prdt.evntVO.evntId}" 
+										data-evntPrdtChngPrc="${prdt.evntPrdtVO.evntPrdtChngPrc}" 
 										data-mdfyr="${prdt.mdfyr}" 
 										data-mdfydt="${prdt.mdfyDt}"
 										data-useyn="${prdt.useYn}"
@@ -396,7 +478,20 @@ function movePage(pageNo) {
 										<td>${prdt.cmmnCdVO.cdNm}</td>
 										<td>${prdt.prdtNm}</td>
 										<td class="money">
-											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>
+											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
+										</td>
+										<td>
+											${empty prdt.evntVO.evntId ? "N" : "Y"}
+										</td>
+										<td class="money">
+											<c:choose>
+												<c:when test="${empty prdt.evntVO.evntId}">
+													-
+												</c:when>
+												<c:otherwise>
+													<fmt:formatNumber>${prdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>원
+												</c:otherwise>
+											</c:choose>
 										</td>
 										<td>${prdt.prdtRgstr}(${prdt.prdtRgstrMbrVO.mbrNm})</td>
 										<td>${prdt.prdtRgstDt}</td>
@@ -407,8 +502,8 @@ function movePage(pageNo) {
 								</c:forEach>	
 							</c:when>
 							<c:otherwise>
-								<tr>
-									<td colspan="9" class="no-items">
+								<tr id="notFound">
+									<td colspan="12" class="no-items">
 										등록된 항목이 없습니다.
 									</td>
 								</tr>
@@ -426,11 +521,20 @@ function movePage(pageNo) {
 					<div class="align-right absolute " style="right: 0px;" >
 						<button class="btn-primary" 
 								id="btn-search-reset">검색초기화</button>
+						<select class="selectFilter"
+								id="select-useYn">
+							<option value="">사용유무</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+						<button id="btn-update-all" 
+								class="btn-primary btn-delete" 
+								style="vertical-align: top;">일괄수정</button>
+								
 						<button id="btn-delete-all" 
 								class="btn-primary btn-delete" 
 								style="vertical-align: top;">일괄삭제</button>
 					</div>
-					
 					<div class="pagenate">
 						<ul>
 							<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}" var="lastPage"></c:set>
@@ -460,6 +564,7 @@ function movePage(pageNo) {
 							</c:if>
 						</ul>
 					</div>
+					
 				</div>
 			
 				<div class="grid-detail">
@@ -546,6 +651,7 @@ function movePage(pageNo) {
 					
 				</div>
 				<div class="align-right grid-btns">
+					<a href="${context}/strprdt/list">매장x메뉴  </a>
 					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a>
 					<button id="btn-new" class="btn-primary">신규</button>
 					<button id="btn-save" class="btn-primary">저장</button>

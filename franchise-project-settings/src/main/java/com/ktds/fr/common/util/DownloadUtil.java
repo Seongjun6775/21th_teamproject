@@ -12,13 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DownloadUtil {
+	
 	private String uploadPathWithFileName;
+	
 	private HttpServletResponse response;
+	
 	private HttpServletRequest request;
 	
 	private File downloadFile;
 	
 	private String displayFileName;
+	
 	private String fileName;
 	
 	/**

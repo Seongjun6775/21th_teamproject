@@ -48,7 +48,7 @@ img {
     position: relative;
     height: 368px;
 }
-.login__register, .login__create {
+.login__register, .login__create, .login__find {
     position: absolute;
     bottom: 1rem;
     width: 100%;
@@ -118,6 +118,7 @@ img {
     font-size: 0.813rem;
     font-weight: 600;
     color: #a49eac;
+    cursor: pointer;
 }
 .login__button {
     display: block;
@@ -130,6 +131,17 @@ img {
     border-radius: .5rem;
     transition: .3s;
 }
+/* .find__box .login__button {
+    display: block;
+    padding: 15px 45px;
+    margin: 2rem 0;
+    background-color: #4AD395;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    border-radius: .5rem;
+    transition: .3s;
+} */
 .email__button{
 	display: block;
     padding: 5px;
@@ -228,7 +240,7 @@ img {
         width: 80%;
         margin-top: 0;
     }
-    .login__register, .login__create {
+    .login__register, .login__create, .login__find {
         left: -11rem;
         
     }
@@ -237,7 +249,11 @@ img {
     }
     .login__create {
         /* bottom: -5.5rem; */
-        bottom: -12.5rem;
+        bottom: -9.5rem;
+    }
+    .login__find{
+        bottom: -7.5rem;
+    	
     }
 }
 /*Grid*/
@@ -319,14 +335,31 @@ img {
 	color: #fff;
 	font-weight: bold;
 	font-size: 10pt;
+	margin-left: 10px;
+}
+.search-group .btn-search-clear{
+	background-color: #fe141b;
+	border-radius: 3px;
+	border: 0px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 10pt;
+	margin-left: 10px;
+}
+.search-group .btn-search-clear:active{
+	background-color: #fe6b6f;
+}
+/*color*/
+.red{
+	background-color: #fe6b6f;
 }
 .search-group .btn-search:active{
 	background-color: #a2abff;
 }
-.search-group  label{
+.search-group label, select{
 	margin-right: 10px;
 }
-.search-group  .search-input{
+.search-group .search-input{
 	flex-grow: 1;
 	margin-right: 10px;
 }
@@ -356,4 +389,87 @@ img {
 	font-weight: bold;
 }
 
-
+/*check*/
+.checkGroup{
+	display: flex;
+    justify-content: center;
+    height: 750px;
+    align-items: center;
+}
+.checkGroup .checkBox{
+	display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+.checkGroup .checkBox input{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.pwdCheck_form input{
+	margin-top: 10px;
+	margin-bottom: 15px;
+	
+} 
+.checkGroup .pwdCheck_form{
+	border: 1px solid #333;
+	border-radius: 5px;
+}
+.checkGroup .pwdChange_form{
+	border: 1px solid #333;
+	border-radius: 5px;
+}
+.pwdCheck_form .check-btn{
+	padding: 0px;
+    margin: 0px;
+    height: 30px;
+    background-color: #555;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    border-radius: .5rem;
+    transition: .3s;
+}
+.pwdCheck_form .check-btn:hover{
+    background-color: #7f7f7f;
+}
+.pwdCheck_form .check-btn:active{
+    background-color: #7f7f7f;
+}
+/*Info*/
+.infoGroup{
+	display: flex;
+    justify-content: center;
+    height: 750px;
+    align-items: center;
+}
+.infoGroup .infoBox{
+	display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+.infoGroup .infoBox input{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.infoGroup .info_form{
+	border: 1px solid #333;
+	border-radius: 5px;
+	background-color: #d9d9d9;
+}
+.info-item{
+	display: grid;
+}
+.readonly{
+	background-color: #eaf8ff;
+	border: 1px solid;
+}
+/*find*/
+.find__box{
+	display: flex;
+    justify-content: center;
+    
+}
+/*margin*/
+.margin-Bot-10{
+	margin-bottom: 30px;
+}

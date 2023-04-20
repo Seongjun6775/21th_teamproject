@@ -110,6 +110,6 @@ public abstract class AbstractVO {
 	public void setRnum(int rnum) {
 		this.rnum = rnum;
 	}
-	
+
 }
 
