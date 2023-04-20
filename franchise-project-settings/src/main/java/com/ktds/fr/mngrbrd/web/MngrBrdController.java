@@ -61,8 +61,7 @@ public class MngrBrdController {
 	@GetMapping("/mngrbrd/{mngrBrdId}")
 	public String viewMngrBrdDetailPage(@PathVariable String mngrBrdId, Model model,
 									RplVO rplVO,
-									@SessionAttribute("__MBR__") MbrVO mbrVO
-								) {
+									@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
 		MngrBrdVO mngrBrd = mngrBrdService.readOneMngrBrdByMngrBrdId(mngrBrdId);
 		

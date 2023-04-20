@@ -3,7 +3,111 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="HlpDsk">
+	
+	<resultMap id="hlpDskMap" 
+			   type="com.ktds.fr.hlpdsk.vo.HlpDskVO"
+			   autoMapping="true">
+		<id property="hlpDskWrtId" column="HLP_DSK_WRT_ID"/>
+		<association property="mbrVO"
+					 javaType="com.ktds.fr.mbr.vo.MbrVO">
+			<id property="mbrId" column="MBR_ID"/>
+			<result property="mbrNm" column="M_MBR_NM"/>
+		</association>
+	</resultMap>
+	<select id="readAllMngrBrds"
+			parameterType="com.ktds.fr.hlpdsk.vo.HlpDskVO"
+			resultMap="hlpDskMap">
+		<include refid ="Common.pageHeader"/>
+		SELECT H.HLP_DSK_WRT_ID PK_COL
+		     , DENSE_RANK() OVER(ORDER BY H.HLP_DSK_WRT_DT DESC) RNUM 
+		     , H.HLP_DSK_SBJCT
+		     , H.HLP_DSK_TTL
+		     , H.HLP_DSK_CNTNT
+		     , H.MBR_ID
+		     , H.HLP_DSK_WRT_DT
+		     , H.MSTR_ID
+		     , H.HLP_DSK_PRCS_YN
+		     , H.HLP_DSK_PRCS_DT
+		     , H.USE_YN
+		     , H.DEL_YN
+		     , M.MBR_NM 
+		  FROM FRAN.HLP_DSK H
+		INNER JOIN MBR M
+		    ON H.MBR_ID = M.MBR_ID
+		ORDER BY H.HLP_DSK_WRT_DT DESC 
+		<include refid="Common.pageFooter" />	
+	</select>
+	
+	<select id="readOneMngrBrdByMngrBrdId"
+			parameterType="string"
+			resultMap="hlpDskMap">
+		SELECT H.HLP_DSK_WRT_ID
+		     , H.HLP_DSK_SBJCT
+		     , H.HLP_DSK_TTL
+		     , H.HLP_DSK_CNTNT
+		     , H.MBR_ID
+		     , H.HLP_DSK_WRT_DT
+		     , H.MSTR_ID
+		     , H.HLP_DSK_PRCS_YN
+		     , H.HLP_DSK_PRCS_DT
+		     , H.USE_YN
+		     , H.DEL_YN
+		     , M.MBR_NM 
+		  FROM FRAN.HLP_DSK H
+		INNER JOIN MBR M
+		    ON H.MBR_ID = M.MBR_ID	
+	</select>
+	
+	
+	<insert id="createNewHlpDsk"
+			parameterType="com.ktds.fr.hlpdsk.vo.HlpDskVO">
+		<selectKey keyProperty="hlpDskWrtId" 
+				   resultType="string"
+				   order="BEFORE">
+			SELECT 'HD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HLP_DSK_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>	
+		INSERT INTO FRAN.HLP_DSK
+         (HLP_DSK_WRT_ID
+        , HLP_DSK_SBJCT
+        , HLP_DSK_TTL
+        , HLP_DSK_CNTNT
+        , MBR_ID
+        , HLP_DSK_WRT_DT
+        , MSTR_ID
+        , HLP_DSK_PRCS_YN
+        , HLP_DSK_PRCS_DT
+        , USE_YN
+        , DEL_YN)
+        VALUES
+         (#{hlpDskWrtId}
+        , #{hlpDskSbjct}
+        , #{hlpDskTtl}
+        , #{hlpDskCntnt}
+        , #{mbrId}
+        , SYSDATE
+        , #{mstrId}
+        , NVL(#{hlpDskPrcsYn},'N')
+        , SYSDATE
+        , NVL(#{useYn},'N') 
+        , 'N' )
+	</insert>
 
-
+	<update id="deleteOneHlpDsk"
+			parameterType="string">
+		UPDATE FRAN.HLP_DSK
+		   SET DEL_YN='Y'
+		 WHERE HLP_DSK_ID = #{_hlpDskWrtId}
+	</update>
+	
+	<update id="deleteHlpDskBySelectedHlpDskId"
+			parameterType="arraylist">
+		UPDATE FRAN.HLP_DSK
+		   SET DEL_YN='Y'
+		 WHERE HLP_DSK_ID IN
+		 	<foreach collection="list" item="hlpDskWrtId" open="(" close=")" separator=", ">
+			#{hlpDskWrtId}
+		</foreach>
+	</update>
 
 </mapper>

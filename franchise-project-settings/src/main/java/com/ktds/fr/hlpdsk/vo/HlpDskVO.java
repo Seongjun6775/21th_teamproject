@@ -1,6 +1,9 @@
-package com.ktds.fr.hlpdsk.vo;		
-		
-public class HlpDskVO {		
+package com.ktds.fr.hlpdsk.vo;
+
+import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.mbr.vo.MbrVO;
+
+public class HlpDskVO extends AbstractVO{		
 		
 	private String hlpDskWrtId;	
 	private String hlpDskSbjct;	
@@ -13,6 +16,17 @@ public class HlpDskVO {
 	private String hlpDskPrcsDt;	
 	private String useYn;	
 	private String delYn;	
+	
+	
+	private MbrVO mbrVO;
+	
+	
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
 	public String getHlpDskWrtId() {	
 		return hlpDskWrtId;
 	}	
