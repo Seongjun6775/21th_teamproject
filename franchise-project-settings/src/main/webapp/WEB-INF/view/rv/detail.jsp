@@ -26,7 +26,8 @@
 			} */
 			$.post("${context}/api/rv/delete/${rvDetail.rvId}", function(response){
 				if(response.status == "200 OK"){
-					location.reload(); //새로고침
+					location.href = "${context}/rv/list" + response.redirectURL;
+					alert("리뷰가 삭제되었습니다.")
 				}else{
 					alert(response.errorCode + " / " + response.message);
 				}
