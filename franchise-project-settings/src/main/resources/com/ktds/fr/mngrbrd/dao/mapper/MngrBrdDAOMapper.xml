@@ -75,6 +75,10 @@
          <if test= 'mngrBrdCntnt != null and mngrBrdCntnt != "" '>
            AND  B.MNGR_BRD_CNTNT LIKE '%' ||  #{mngrBrdCntnt} || '%'
          </if> 
+         <if test= 'mbrVO != null and mbrVO.mbrNm != null and mbrVO.mbrNm != "" '>
+           AND  M.MBR_NM LIKE '%' ||  #{mbrVO.mbrNm} || '%'
+         </if> 
+         
          ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC
          <include refid="Common.pageFooter" />
 	</select>
@@ -201,14 +205,12 @@
 	</update>
 	
 	<update id="deleteMngrBrdBySelectedMngrBrdId"
-			parameterType="arrayList">
-			UPDATE FRAN.MNGR_BRD
-			   SET DEL_YN='Y'
-			 WHERE MNGR_BRD_ID IN
-			 	<foreach collection="list" item="mngrBrdId" open="(" close=")" separator=", ">
-				#{mngrBrdId}
-			</foreach>
-		
-		
+		parameterType="arrayList">
+		UPDATE FRAN.MNGR_BRD
+		   SET DEL_YN='Y'
+		 WHERE MNGR_BRD_ID IN
+		 	<foreach collection="list" item="mngrBrdId" open="(" close=")" separator=", ">
+			#{mngrBrdId}
+		</foreach>
 	</update>
 </mapper>

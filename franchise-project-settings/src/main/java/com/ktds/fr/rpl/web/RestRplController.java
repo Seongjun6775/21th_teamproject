@@ -67,4 +67,16 @@ public class RestRplController {
 		}
 	}
 	
+	@PostMapping("/api/rpl/delete")
+	public ApiResponseVO doDeleteRplBySelectedRplId(@RequestParam List<String> rplId) {
+		boolean deleteResult = replyService.deleteRplBySelectedRplId(rplId);
+		System.out.println(deleteResult);
+		if(deleteResult) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	}
+	
 }

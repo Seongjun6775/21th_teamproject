@@ -1,8 +1,10 @@
 package com.ktds.fr.rpl.vo;
 
+import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.mngrbrd.vo.MngrBrdVO;
 
-public class RplVO {		
+public class RplVO extends AbstractVO{		
 	
 	private int depth;
 	
@@ -17,7 +19,16 @@ public class RplVO {
 	private String delYn;	
 	
 	private MbrVO mbrVO;
+	private MngrBrdVO mngrbrdVO;
 	
+	
+	
+	public MngrBrdVO getMngrbrdVO() {
+		return mngrbrdVO;
+	}
+	public void setMngrbrdVO(MngrBrdVO mngrbrdVO) {
+		this.mngrbrdVO = mngrbrdVO;
+	}
 	public MbrVO getMbrVO() {
 		return mbrVO;
 	}

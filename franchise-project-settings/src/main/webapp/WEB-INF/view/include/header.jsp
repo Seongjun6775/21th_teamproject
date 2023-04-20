@@ -26,7 +26,7 @@
 			<a href="#">리뷰관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">댓글관리</a>
+			<a href="${context}/rpl/list">댓글관리</a>
 		</li>
 		<li class="nav-item">
 			<a href="${context}/mngrbrd/list">관리자게시판</a>

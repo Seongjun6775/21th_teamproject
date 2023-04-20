@@ -219,8 +219,7 @@
 							        <div class="etc-data">${mngrBrd.mbrVO.mbrNm}</div>	
 							    </div> 
 							</div>
-				        </div>
-	
+				        </div>	
 				    </div>
 				</header>
 				</div>
@@ -256,7 +255,9 @@
 															<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
 															<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
 															<li class="rpl-one" style="margin-top: 10px;">${rpl.mbrVO.mbrNm}</li>
-															<li class="rpl-one">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt }</li>
+															<li class="rpl-one">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
+															${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>
+																							
 															<li class="replace" id="cntnt" >${rpl.rplCntnt}</li>
 															<div class="rplbtn">
 																<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>

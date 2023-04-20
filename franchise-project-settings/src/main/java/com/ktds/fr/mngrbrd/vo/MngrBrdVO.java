@@ -38,8 +38,6 @@ public class MngrBrdVO extends AbstractVO{
 	}
 	
 	
-
-	
 	public MbrVO getMbrVO() {
 		return mbrVO;
 	}
