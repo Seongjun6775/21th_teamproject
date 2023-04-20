@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -16,7 +17,7 @@
 		
 		var delYn = ("${hr.delYn}");
 		var mbrId = ("${hr.mbrId}");
-		
+		var hrStat = ("${hr.hrStat}");
 		
 		$("#list_btn").click(function() {
 			location.href="${context}/hr/list";
@@ -59,7 +60,12 @@
 				return;
 			}
 			
-			location.href="${context}/hr/update/${hr.hrId}";
+			if (hrStat != "접수") {
+				alert("접수 상태의 게시글만 수정할 수 있습니다.");
+				return;
+			}
+			
+			location.href="${context}/hr/hrupdate/${hr.hrId}";
 		});
 		
 	});
@@ -92,7 +98,7 @@
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? 'none' : ''};">
 				<div class="hr_detail_header">첨부파일 : <a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm}</a></div>
-				<div class="hr_detail_header">${hr.flSize/1024}</div>
+				<div class="hr_detail_header"><fmt:formatNumber type="number" value="${hr.flSize/1024}" maxFractionDigits="2"/> KB</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? '' : 'none'};">
 				<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>

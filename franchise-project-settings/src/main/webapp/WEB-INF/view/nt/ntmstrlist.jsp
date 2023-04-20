@@ -52,7 +52,7 @@
 		});
 		
 		$("#crt_btn").click(function() {
-			location.href = "${context}/nt/create";
+			location.href = "${context}/nt/ntcreate";
 		});
 		
 		// 수신인, 발신인 검색 기능입니다
@@ -96,7 +96,7 @@
 		queryString += "&checkDelYn=" + checkDelYn;
 		
 		// URL 요청
-		location.href = "${context}/nt/mstrlist?" + queryString;
+		location.href = "${context}/nt/ntmstrlist?" + queryString;
 	}
 	
 	
@@ -172,45 +172,45 @@
 				</table>
 			</div>
 			<div class="pagenate">
-					<ul>
-						<c:set value="${allNtList.size() >0 ? allNtList.get(0).lastPage : 0}" var="lastPage" />
-						<c:set value="${allNtList.size() >0 ? allNtList.get(0).lastGroup : 0}" var="lastGroup" />
-						
-						<fmt:parseNumber var="nowGroup" value="${Math.floor(ntVO.pageNo / 10)}" integerOnly="true" />
-						<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-						<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-						<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-						
-						<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-						
-						
-						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-						</c:if>
-						
-						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-							<li><a class="${pageNo eq ntVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-						</c:forEach>
-						
-						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-						</c:if>
-					</ul>
-				</div>
+				<ul>
+					<c:set value="${allNtList.size() >0 ? allNtList.get(0).lastPage : 0}" var="lastPage" />
+					<c:set value="${allNtList.size() >0 ? allNtList.get(0).lastGroup : 0}" var="lastGroup" />
+					
+					<fmt:parseNumber var="nowGroup" value="${Math.floor(ntVO.pageNo / 10)}" integerOnly="true" />
+					<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+					
+					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+					<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+					
+					
+					<c:if test="${nowGroup > 0}">
+						<li><a href="javascript:movePage(0)">처음</a></li>
+						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+					</c:if>
+					
+					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo-1}" step="1" var="pageNo">
+						<li><a class="${pageNo eq ntVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+					</c:forEach>
+					
+					<c:if test="${lastGroup > nowGroup}">
+						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+					</c:if>
+				</ul>
+			</div>
 			<div>
 				<button id="crt_btn">작성</button>
 				<button id="check_del_btn">일괄삭제</button>
 			</div>
 			<div>
-			<div>
-				<label for="startDt">검색 시작일</label>
-				<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
-				<label for="endDt">검색 종료일</label>
-				<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
-			</div>
+				<div>
+					<label for="startDt">검색 시작일</label>
+					<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
+					<label for="endDt">검색 종료일</label>
+					<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
+				</div>
 				<select class="search_idx">
 					<option value="">검색 조건</option>
 					<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>

@@ -14,41 +14,7 @@
 <script type="text/javascript">
 	$().ready(function() {
 		$(".create_btn").click(function() {
-			location.href="${context}/hr/create"
-		});
-		
-		$("#all_check").change(function() {
-			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
-		$("#check_del_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			
-			if (checkLen == 0) {
-				alert("선택한 글이 없습니다.");
-				return;
-			}
-			
-			
-			if (!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='hrId' value='" + $(this).val() + "'>")
-			});
-			
-			$.post("${context}/api/hr/delete", form.serialize(), function(response) {});
-			location.reload();
+			location.href="${context}/hr/hrcreate"
 		});
 		
 	});
@@ -63,7 +29,6 @@
 			<h3>회원 채용 페이지 테스트</h3>
 			<div>
 				<div>총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
-				<button id="check_del_btn">일괄삭제</button>
 			</div>
 			<div>
 				<table>

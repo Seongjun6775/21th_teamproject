@@ -8,27 +8,46 @@
 			parameterType="com.ktds.fr.hr.vo.HrVO"
 			resultType="com.ktds.fr.hr.vo.HrVO">
 		<include refid="Common.pageHeader" />
-		SELECT H.HR_ID PK_COL
-			 , H.HR_ID
-		     , H.MBR_ID
-		     , H.HR_TTL
-		     , H.HR_RGST_DT HR_RGST_DT
-		     , H.HR_MDFY_DT
-		     , H.HR_APR_YN
-		     , H.HR_APR_DT
-		     , H.HR_STAT
-		     , H.ORGN_FL_NM
-		     , H.DEL_YN DEL_YN
-		     , H.NTC_YN NTC_YN
-		     , H.HR_LVL
-		     , C.CD_NM
-		  FROM HR H
-		  LEFT JOIN CMMN_CD C
-		    ON H.HR_LVL = C.CD_ID
+		SELECT ROWNUM RNUM
+			 , ROWNUM PK_COL
+			 , E.*
+		  FROM (SELECT H.HR_ID 
+				     , H.MBR_ID
+				     , H.HR_TTL
+				     , H.HR_RGST_DT
+				     , H.HR_MDFY_DT
+				     , H.HR_APR_YN
+				     , H.HR_APR_DT
+				     , H.HR_STAT
+				     , H.ORGN_FL_NM
+				     , H.DEL_YN
+				     , H.NTC_YN
+				     , H.HR_LVL
+				     , C.CD_NM
+				  FROM HR H
+				  LEFT JOIN CMMN_CD C
+				    ON H.HR_LVL = C.CD_ID
+				 WHERE H.HR_RGST_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   		   AND H.HR_RGST_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+				 <if test='mbrId != null and mbrId != ""'>
+				 	AND H.MBR_ID LIKE '%' || #{mbrId} || '%'
+				 </if>
+				 <if test='hrTtl != null and hrTtl != ""'>
+				 	AND H.HR_TTL LIKE '%' || #{hrTtl} || '%'
+				 </if>
+				 <if test='hrLvl != null and hrLvl != ""'>
+				 	AND H.HR_LVL = #{hrLvl}
+				 </if>
+				 <if test='hrStat != null and hrStat != ""'>
+				 	AND H.HR_STAT = #{hrStat}
+				 </if>
+				 <if test='delYn != null and delYn != ""'>
+				 	AND H.DEL_YN = #{delYn}
+				 </if>
+			     ORDER BY H.DEL_YN ASC
+				 	 , H.NTC_YN DESC
+				 	 , H.HR_RGST_DT DESC) E
 		<include refid="Common.pageFooter" />
-		 ORDER BY DEL_YN ASC
-		 	 , NTC_YN DESC
-		 	 , HR_RGST_DT DESC
 	</select>
 	
 	<insert id="createNewHr"
@@ -75,26 +94,27 @@
 			parameterType="com.ktds.fr.hr.vo.HrVO"
 			resultType="com.ktds.fr.hr.vo.HrVO">
 		<include refid="Common.pageHeader" />
-		SELECT HR_ID PK_COL
-			 , HR_ID
-			 , MBR_ID
-		     , HR_TTL
-		     , HR_RGST_DT
-		     , HR_MDFY_DT
-		     , HR_APR_YN
-			 , HR_APR_DT
-			 , HR_STAT
-			 , DEL_YN
-			 , NTC_YN
-			 , HR_LVL
-		  FROM HR
-		 WHERE MBR_ID = #{mbrId}
-		   AND DEL_YN = 'N'
-		    OR NTC_YN = 'Y'
+		SELECT ROWNUM RNUM
+			 , ROWNUM PK_COL
+			 , E.*
+		  FROM (SELECT HR_ID
+					 , MBR_ID
+				     , HR_TTL
+				     , HR_RGST_DT
+				     , HR_MDFY_DT
+				     , HR_APR_YN
+					 , HR_APR_DT
+					 , HR_STAT
+					 , DEL_YN
+					 , NTC_YN
+					 , HR_LVL
+				  FROM HR
+				 WHERE DEL_YN = 'N'
+				   AND (MBR_ID = #{mbrId}
+				    OR NTC_YN = 'Y')
+			     ORDER BY NTC_YN DESC
+		 			 , HR_RGST_DT DESC) E
 		<include refid="Common.pageFooter" />
-		 ORDER BY NTC_YN DESC
-		 	 , DEL_YN ASC
-		 	 , HR_RGST_DT DESC
 	</select>
 	
 	<select id="readOneHrByHrId"
@@ -113,6 +133,7 @@
 		     , H.ORGN_FL_NM
 		     , H.UUID_FL_NM
 		     , H.FL_SIZE
+		     , H.FL_EXT
 		     , H.DEL_YN
 		     , H.NTC_YN
 		     , H.HR_LVL

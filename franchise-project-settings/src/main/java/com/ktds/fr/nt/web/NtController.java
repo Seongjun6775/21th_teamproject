@@ -28,10 +28,10 @@ public class NtController {
 	@GetMapping("nt/list")
 	public String viewNtPage(@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		if (mbrVO.getMbrLvl().equals("001-01")) {
-			return "redirect:/nt/mstrlist";
+			return "redirect:/nt/ntmstrlist";
 		}
 		else if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			return "redirect:/nt/mngrlist";
+			return "redirect:/nt/ntmngrlist";
 		}
 		else if (mbrVO.getMbrLvl().equals("001-04")){
 			return "redirect:/nt/ntlist";
@@ -53,7 +53,7 @@ public class NtController {
 	 * @param checkDelYn 검색 정보 저장용 파라미터 - 삭제 여부
 	 * @return 최고관리자 쪽지 전체 조회 페이지
 	 */
-	@GetMapping("/nt/mstrlist")
+	@GetMapping("/nt/ntmstrlist")
 	public String viewMstrNtListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 									, Model model, NtVO ntVO
 									, @RequestParam(required=false, defaultValue = "") String searchVal
@@ -83,7 +83,7 @@ public class NtController {
 			model.addAttribute("checkNtRdDt", checkNtRdDt);
 			model.addAttribute("checkDelYn", checkDelYn);
 			
-			return "nt/mstrlist";
+			return "nt/ntmstrlist";
 		}
 		// 최고관리자 계정이 아닌 경우, list로 돌려보내 권한에 맞는 페이지로 이동시킵니다.
 		return "redirect:/nt/list";
@@ -95,13 +95,13 @@ public class NtController {
 	 * @param model
 	 * @return 쪽지 작성 페이지
 	 */
-	@GetMapping("/nt/create")
+	@GetMapping("/nt/ntcreate")
 	public String viewNtCreatePage(@SessionAttribute("__MBR__") MbrVO mbrVO, Model model) {
 		
 		if (mbrVO.getMbrLvl().equals("001-01")) {
 			model.addAttribute("mbrVO", mbrVO);
 			
-			return "nt/create";
+			return "nt/ntcreate";
 		}
 		// 최고관리자 계정이 아닌 경우, list로 돌려보내 권한에 맞는 페이지로 이동시킵니다.
 		return "redirect:/nt/list";
@@ -114,7 +114,7 @@ public class NtController {
 	 * @param model
 	 * @return 선택한 쪽지 상세 정보 조회 페이지
 	 */
-	@GetMapping("/nt/mstrdetail/{ntId}")
+	@GetMapping("/nt/ntmstrdetail/{ntId}")
 	public String viewMstrNtDetailPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 									 , @PathVariable String ntId, Model model) {
 		
@@ -127,7 +127,7 @@ public class NtController {
 			 */
 			model.addAttribute("mbrVO", mbrVO);
 			
-			return "nt/mstrdetail";
+			return "nt/ntmstrdetail";
 		}
 		// 최고관리자 계정이 아닌 경우, list로 돌려보내 권한에 맞는 페이지로 이동시킵니다.
 		return "redirect:/nt/list";
@@ -139,14 +139,14 @@ public class NtController {
 	 * @param model
 	 * @return 선택한 쪽지 수정 페이지
 	 */
-	@GetMapping("nt/update/{ntId}")
+	@GetMapping("nt/ntupdate/{ntId}")
 	public String viewNtUpdatePage(@SessionAttribute("__MBR__") MbrVO mbrVO
 								 , @PathVariable String ntId, Model model) {
 		if (mbrVO.getMbrLvl().equals("001-01")) {
 			NtVO nt = ntService.readOneNtByNtId(ntId);
 			model.addAttribute("nt", nt);
 			
-			return "nt/update";
+			return "nt/ntupdate";
 		}
 		// 최고관리자 계정이 아닌 경우, list로 돌려보내 권한에 맞는 페이지로 이동시킵니다.
 		return "redirect:/nt/list";
@@ -161,7 +161,7 @@ public class NtController {
 	 * @param keyword 검색 정보 저장용 파라미터 - 검색 값
 	 * @return 관리자 쪽지 전체 조회 페이지
 	 */
-	@GetMapping("/nt/mngrlist")
+	@GetMapping("/nt/ntmngrlist")
 	public String viewMngrNtListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 									, Model model, NtVO ntVO
 									, @RequestParam(required=false, defaultValue = "") String searchVal
@@ -181,7 +181,7 @@ public class NtController {
 			model.addAttribute("searchVal", searchVal);
 			model.addAttribute("keyword", keyword);
 			
-			return "nt/mngrlist";
+			return "nt/ntmngrlist";
 		}
 		// 관리자 계정이 아닌 경우, list로 돌려보내 권한에 맞는 페이지로 이동시킵니다.
 		return "redirect:/nt/list";
@@ -194,7 +194,7 @@ public class NtController {
 	 * @param model
 	 * @return 선택한 쪽지 상세 정보 조회 페이지
 	 */
-	@GetMapping("/nt/mngrdetail/{ntId}")
+	@GetMapping("/nt/ntmngrdetail/{ntId}")
 	public String viewMngrNtDetailPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 									   , @PathVariable String ntId
 									   , Model model) {
@@ -213,7 +213,7 @@ public class NtController {
 			}
 			model.addAttribute("nt", nt);
 			
-			return "nt/mngrdetail";
+			return "nt/ntmngrdetail";
 		}
 		// 관리자 계정이 아닌 경우, list로 돌려보내 권한에 맞는 페이지로 이동시킵니다.
 		return "redirect:/nt/list";

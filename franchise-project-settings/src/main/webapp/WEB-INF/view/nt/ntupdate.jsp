@@ -28,7 +28,7 @@
 			$.post("${context}/api/nt/update/${nt.ntId}", $("#nt_form").serialize(), function(response){
 				
 				if (response.status == "200 OK") {
-					location.href="${context}/nt/mstrlist";
+					location.href="${context}/nt/ntmstrlist";
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
@@ -41,7 +41,7 @@
 			if (!confirm("쪽지 수정을 취소하시겠습니까?")) {
 				return;
 			}
-			location.href="${context}/nt/mstrdetail/${nt.ntId}";
+			location.href="${context}/nt/ntmstrdetail/${nt.ntId}";
 		});
 		
 	});

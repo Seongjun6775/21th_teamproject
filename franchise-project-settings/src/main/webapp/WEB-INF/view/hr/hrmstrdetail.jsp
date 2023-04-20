@@ -58,7 +58,12 @@
 				return;
 			}
 			
-			location.href="${context}/hr/update/${hr.hrId}";
+			if (mbrId != "${mbrVO.mbrId}") {
+				alert("다른 사람의 글은 수정할 수 없습니다.");
+				return;
+			}
+			
+			location.href="${context}/hr/hrupdate/${hr.hrId}";
 		});
 		
 		$("#hrApr_Y_btn").click(function() {
@@ -79,7 +84,7 @@
 			$.post("${context}/api/hr/updateapr", {hrId: "${hr.hrId}", hrAprYn: "Y"}, function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 채용 처리 되었습니다.");
-					location.href = "${context}/hr/mstrdetail/${hr.hrId}";
+					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
@@ -105,7 +110,7 @@
 			$.post("${context}/api/hr/updateapr", {hrId: "${hr.hrId}", hrAprYn : "N"}, function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 미채용 처리 되었습니다.");
-					location.href = "${context}/hr/mstrdetail/${hr.hrId}";
+					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);

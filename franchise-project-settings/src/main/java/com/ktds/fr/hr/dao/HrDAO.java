@@ -20,8 +20,6 @@ public interface HrDAO {
 	
 	public int updateHrStatByHrId(String hrId);
 	
-	public int updateOneMstrHrByMrId(HrVO hrVO);
-	
 	public int updateHrAprByHrId(HrVO hrVO);
 	
 	public int checkCreateYn(String mbrId);

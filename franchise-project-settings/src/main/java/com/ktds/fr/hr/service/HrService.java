@@ -16,13 +16,11 @@ public interface HrService {
 	
 	public boolean createNewHr(HrVO hrVO, MultipartFile uploadFile);
 	
-	public boolean updateOneHrByHrId(HrVO hrVO);
+	public boolean updateOneHrByHrId(HrVO hrVO, MultipartFile uploadFile);
 	
 	public boolean deleteOneHrByHrId(String hrId);
 	
 	public boolean updateHrStatByHrId(String hrId);
-	
-	public boolean updateOneMstrHrByMrId(HrVO hrVO);
 	
 	public boolean updateHrAprByHrId(HrVO hrVO);
 	

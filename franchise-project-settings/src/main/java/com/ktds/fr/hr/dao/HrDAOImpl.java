@@ -54,11 +54,6 @@ public class HrDAOImpl extends SqlSessionDaoSupport implements HrDAO {
 	}
 	
 	@Override
-	public int updateOneMstrHrByMrId(HrVO hrVO) {
-		return getSqlSession().update("Hr.updateOneMstrHrByMrId", hrVO);
-	}
-	
-	@Override
 	public int updateHrAprByHrId(HrVO hrVO) {
 		return getSqlSession().update("Hr.updateHrAprByHrId", hrVO);
 	}

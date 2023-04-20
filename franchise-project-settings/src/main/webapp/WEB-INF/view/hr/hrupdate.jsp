@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -13,6 +14,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		
+		
 		$("#cancel_btn").click(function() {
 			if (!confirm("수정을 취소하시겠습니까?")) {
 				return;
@@ -38,7 +41,20 @@
 				}
 			}, {"hrFile": "uploadFile"});
 		});
+		
+		$("a[id='file-delete']").on("click", function(e) {
+            e.preventDefault();
+            deleteFile($(this));
+        });
+		
 	});
+	
+    function deleteFile(obj) {
+        obj.parent().remove();
+        var str = "<div class='file-input'><input type='file' id='hrFile' name='hrFile'></div>";
+        $("#file-list").append(str);
+    }
+	
 </script>
 </head>
 <body>
@@ -67,10 +83,14 @@
 					<label for="hrTtl">제목</label>
 					<input type="text" id="hrTtl" name="hrTtl" value="${hr.hrTtl}" />
 				</div>
-				<div>
-					<label for="hrFile">파일 첨부</label>
-					<input type="file" id="hrFile" name="hrFile" />
-				</div>
+				<div class="file-group" id="file-list">
+		            <div class="file-input">
+		                첨부파일 : ${hr.orgnFlNm eq null ? '파일이 없습니다' : hr.orgnFlNm}
+		                <span><fmt:formatNumber type="number" value="${hr.flSize/1024 > 0 ? hr.flSize/1024 : ''}" maxFractionDigits="2"/></span>
+		                <span>${hr.orgnFlNm eq null ? '' : KB}</span>
+		                <a href='#this' id='file-delete'>${hr.orgnFlNm eq null ? '파일 추가' : '삭제'}</a>
+		            </div>
+			     </div>
 				<div>
 					<label for="hrCntnt">본문</label>
 					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000" >${hr.hrCntnt}</textarea>

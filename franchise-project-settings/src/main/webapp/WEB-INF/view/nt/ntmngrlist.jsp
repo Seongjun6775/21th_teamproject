@@ -79,7 +79,7 @@
 		queryString += "&pageNo=" + pageNo;
 		
 		// URL 요청
-		location.href = "${context}/nt/mngrlist?" + queryString;
+		location.href = "${context}/nt/ntmngrlist?" + queryString;
 	}
 	
 </script>
