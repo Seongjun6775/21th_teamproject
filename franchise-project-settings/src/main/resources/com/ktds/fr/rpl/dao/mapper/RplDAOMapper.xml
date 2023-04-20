@@ -8,17 +8,16 @@
 			   type="com.ktds.fr.rpl.vo.RplVO"  
 			   autoMapping="true">
 		<id property="rplId" column="RPl_ID"/>
-		
 		<association property="mbrVO"
 					 javaType="com.ktds.fr.mbr.vo.MbrVO"
 					 autoMapping="true">
 			<id property="mbrId" column="MBR_ID"/>
-		</association>
-		
+		</association>	
 		<association property="mngrbrdVO"
-					 javaType="com.ktds.fr.mngrbrd.vo.MngrBrdVO"
-					 autoMapping="true">
+					 javaType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
 			<id property="mngrBrdId" column="MNGR_BRD_ID"/>
+			<result property="delYn" column="B_DEL_YN" />	
+			<result property="mngrBrdTtl" column="B_MNGR_BRD_TTL" />		
 		</association>
 	</resultMap>
 	
@@ -37,18 +36,16 @@
 				 , R.ALTCL_ID
 				 , R.RPL_PRNT_RPL
 				 , R.USE_YN
-				 , R.DEL_YN
+				 , R.DEL_YN 
 				 , M.MBR_NM 
-				 , B.MNGR_BRD_ID 
-				 , B.MNGR_BRD_TTL 
-				 , B.MNGR_BRD_CNTNT 
-				 , B.MNGR_ID 
-				 , B.NTC_YN 
+				 , B.MNGR_BRD_TTL B_MNGR_BRD_TTL 
+				 , B.DEL_YN B_DEL_YN 
               FROM FRAN.RPL R 
              INNER JOIN MBR M
                 ON R.MBR_ID  = M.MBR_ID 
              INNER JOIN MNGR_BRD B
                 ON R.ALTCL_ID = B.MNGR_BRD_ID
+             WHERE B.DEL_YN ='N'
              <if test= 'rplCntnt != null and rplCntnt != "" '>
              AND  R.RPL_CNTNT LIKE '%' ||  #{rplCntnt} || '%'
              </if>
