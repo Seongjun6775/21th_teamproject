@@ -73,8 +73,8 @@
 					<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
 				</div>
 				<div>
-					<select id="hrLvl" >
-						<option value="">직군을 선택하세요.</option>
+					<select id="hrLvl" style="display: ${mbrVO.mbrLvl eq '001-01' ? 'none' : ''};">
+						<option value="" selected>직군을 선택하세요.</option>
 						<option value="005-01" ${hr.hrLvl == '005-01' ? 'selected' : ''}>점주</option>
 						<option value="005-02" ${hr.hrLvl == '005-02' ? 'selected' : ''}>직원</option>
 					</select>
@@ -87,7 +87,7 @@
 		            <div class="file-input">
 		                첨부파일 : ${hr.orgnFlNm eq null ? '파일이 없습니다' : hr.orgnFlNm}
 		                <span><fmt:formatNumber type="number" value="${hr.flSize/1024 > 0 ? hr.flSize/1024 : ''}" maxFractionDigits="2"/></span>
-		                <span>${hr.orgnFlNm eq null ? '' : KB}</span>
+		                <span>${hr.orgnFlNm eq null ? '' : 'KB'}</span>
 		                <a href='#this' id='file-delete'>${hr.orgnFlNm eq null ? '파일 추가' : '삭제'}</a>
 		            </div>
 			     </div>

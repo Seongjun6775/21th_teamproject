@@ -56,9 +56,9 @@
 					<label for="mbrId">작성자</label>
 					<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
 				</div>
-				<div>
+				<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
 					<select id="hrLvl">
-						<option value="">직군을 선택하세요.</option>
+						<option value=" ">직군을 선택하세요.</option>
 						<option value="005-01">점주</option>
 						<option value="005-02">직원</option>
 					</select>
@@ -74,7 +74,8 @@
 				</div>
 				<div>
 					<label for="hrCntnt">본문</label>
-					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"></textarea>
+					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
+					 placeholder="4000자 까지 입력하실 수 있습니다"></textarea>
 				</div>
 			</form>
 			

@@ -126,8 +126,11 @@ public class HrController {
 		
 		boolean check = hrService.checkCreateYn(mbrVO.getMbrId());
 		
-		if (!check) {
-			throw new ApiException("500", "이미 진행중인 지원 정보가 있습니다.");
+		// 최고 관리자가 아닐 경우, 이미 접수되거나 심사중인 글이 있다면 글 작성이 불가능합니다.
+		if (!mbrVO.getMbrLvl().equals("001-01")) {
+			if (!check) {
+				throw new ApiException("500", "이미 진행중인 지원 정보가 있습니다.");
+			}
 		}
 		
 		model.addAttribute("mbrVO", mbrVO);

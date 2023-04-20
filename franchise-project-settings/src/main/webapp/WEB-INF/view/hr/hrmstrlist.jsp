@@ -80,6 +80,7 @@
 		queryString += "&hrLvl=" + hrLvl;
 		queryString += "&hrStat=" + hrStat;
 		queryString += "&delYn=" + delYn;
+		queryString += "&pageNo=" + pageNo;
 		
 		location.href = "${context}/hr/hrmstrlist?" + queryString;
 	}
@@ -158,7 +159,7 @@
 										<td>${hr.hrId}</td>
 										<td>${hr.mbrId}</td>
 										<td>${hr.cdNm}</td>
-										<td><a href="${context}/hr/mstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
+										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
 										<td>${hr.hrStat}</td>

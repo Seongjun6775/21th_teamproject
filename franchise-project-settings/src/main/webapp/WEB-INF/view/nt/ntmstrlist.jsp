@@ -155,7 +155,7 @@
 										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"
 										            ${nt.delYn eq 'Y' ? 'disabled' : ''}/></td>
 										<td>${nt.ntId}</td>
-										<td><a href="${context}/nt/mstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
+										<td><a href="${context}/nt/ntmstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td>${nt.sndrId}</td>
 										<td>${nt.rcvrId}</td>
 										<td>${nt.ntSndrDt}</td>

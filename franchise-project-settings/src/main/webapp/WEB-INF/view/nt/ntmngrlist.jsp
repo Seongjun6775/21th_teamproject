@@ -119,7 +119,7 @@
 									    data-ntrddt="${nt.ntRdDt}">
 										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
 										<td>${nt.ntId}</td>
-										<td><a href="${context}/nt/mngrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
+										<td><a href="${context}/nt/ntmngrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td>${nt.sndrId}</td>
 										<td>${nt.rcvrId}</td>
 										<td>${nt.ntSndrDt}</td>

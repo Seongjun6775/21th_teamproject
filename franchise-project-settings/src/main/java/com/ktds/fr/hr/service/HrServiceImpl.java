@@ -139,9 +139,12 @@ public class HrServiceImpl implements HrService {
 			newData.setHrCntnt(hrVO.getHrCntnt());
 			updateYn = true;
 		}
-		if (!originalData.getHrLvl().equals(hrVO.getHrLvl())) {
-			newData.setHrLvl(hrVO.getHrLvl());
-			updateYn = true;
+		// 지원 직군 조회는 공지가 아닌 게시글에서만 진행합니다.
+		if (originalData.getNtcYn().equals("N")) {
+			if (!originalData.getHrLvl().equals(hrVO.getHrLvl())) {
+				newData.setHrLvl(hrVO.getHrLvl());
+				updateYn = true;
+			}
 		}
 		
 		// 이전에 업로드 되어 있던 파일이 있는지 확인합니다.
