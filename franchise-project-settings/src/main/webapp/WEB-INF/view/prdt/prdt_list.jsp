@@ -67,6 +67,11 @@ $().ready(function() {
 	
 	 $("#search-keyword-prdtSrt").val("${prdtVO.prdtSrt}");
 	 $("#search-keyword-useYn").val("${prdtVO.useYn}");
+	 var evntYn = ""
+	 if (${prdtVO.evntVO.evntId != ""} && ${not empty prdtVO.evntVO.evntId} ) {
+		 evntYn = "${prdtVO.evntVO.evntId}"
+	 }
+	 $("#search-keyword-evntYn").val(evntYn);
 	
 	
 	var table = document.getElementById("dataTable");
@@ -76,6 +81,9 @@ $().ready(function() {
 	
 	
 	$(".grid > table > tbody > tr").click(function() {
+		if ($(this).attr('id') == "notFound") {
+			return;
+		}
 		var data = $(this).data();
 		console.log(data)
 		
@@ -332,10 +340,15 @@ function movePage(pageNo) {
 	var srt = $("#search-keyword-prdtSrt").val(); 
 	var prdtNm= $("#search-keyword-prdtNm").val(); 
 	var useYn= $("#search-keyword-useYn").val(); 
+	var evntYn= $("#search-keyword-evntYn").val(); 
+	if (evntYn == "" || srt == null) {
+		evntYn = '%'
+	}
 	
 	var queryString = "prdtSrt=" + srt;
 	queryString += "&prdtNm=" + prdtNm;
 	queryString += "&useYn=" + useYn;
+	queryString += "&evntVO.evntId=" + evntYn;
 	queryString += "&prdtPageNo=" + pageNo;
 	
 	location.href = "${context}/prdt/list?" + queryString; // URL 요청
@@ -405,17 +418,26 @@ function movePage(pageNo) {
 									value="${prdtVO.prdtNm}">
 							</th>
 							<th>가격(원)</th>
+							<th>
+								<select class="selectFilter" name="selectFilter"
+										id="search-keyword-evntYn">
+									<option value="">이벤트유무</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</th>
+							<th>이벤트가격</th>
 							<th>등록자</th>
 							<th>등록일</th>
 							<th>수정자</th>
 							<th>수정일</th>
 							<th>
-							<select class="selectFilter" name="selectFilter"
-									id="search-keyword-useYn">
-								<option value="">사용유무</option>
-								<option value="Y">Y</option>
-								<option value="N">N</option>
-							</select>
+								<select class="selectFilter" name="selectFilter"
+										id="search-keyword-useYn">
+									<option value="">사용유무</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
 							</th>
 						</tr>
 					</thead>
@@ -437,6 +459,8 @@ function movePage(pageNo) {
 										data-prdtsrtnm="${prdt.cmmnCdVO.cdNm}" 
 										data-prdtrgstr="${prdt.prdtRgstr}" 
 										data-prdtrgstdt="${prdt.prdtRgstDt}" 
+										data-evntid="${prdt.evntVO.evntId}" 
+										data-evntPrdtChngPrc="${prdt.evntPrdtVO.evntPrdtChngPrc}" 
 										data-mdfyr="${prdt.mdfyr}" 
 										data-mdfydt="${prdt.mdfyDt}"
 										data-useyn="${prdt.useYn}"
@@ -454,7 +478,20 @@ function movePage(pageNo) {
 										<td>${prdt.cmmnCdVO.cdNm}</td>
 										<td>${prdt.prdtNm}</td>
 										<td class="money">
-											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>
+											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
+										</td>
+										<td>
+											${empty prdt.evntVO.evntId ? "N" : "Y"}
+										</td>
+										<td class="money">
+											<c:choose>
+												<c:when test="${empty prdt.evntVO.evntId}">
+													-
+												</c:when>
+												<c:otherwise>
+													<fmt:formatNumber>${prdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>원
+												</c:otherwise>
+											</c:choose>
 										</td>
 										<td>${prdt.prdtRgstr}(${prdt.prdtRgstrMbrVO.mbrNm})</td>
 										<td>${prdt.prdtRgstDt}</td>
@@ -465,8 +502,8 @@ function movePage(pageNo) {
 								</c:forEach>	
 							</c:when>
 							<c:otherwise>
-								<tr>
-									<td colspan="9" class="no-items">
+								<tr id="notFound">
+									<td colspan="12" class="no-items">
 										등록된 항목이 없습니다.
 									</td>
 								</tr>

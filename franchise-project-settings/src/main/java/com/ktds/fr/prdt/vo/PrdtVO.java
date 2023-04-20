@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.evnt.vo.EvntVO;
+import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 
 public class PrdtVO extends AbstractVO{		
@@ -28,6 +30,9 @@ public class PrdtVO extends AbstractVO{
 	private CmmnCdVO cmmnCdVO;
 	private MbrVO prdtRgstrMbrVO;
 	private MbrVO mdfyrMbrVO;
+	
+	private EvntVO evntVO;
+	private EvntPrdtVO evntPrdtVO;
 	
 	
 	private List<String> prdtIdList;
@@ -155,6 +160,18 @@ public class PrdtVO extends AbstractVO{
 	}
 	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
 		this.cmmnCdVO = cmmnCdVO;
+	}
+	public EvntVO getEvntVO() {
+		return evntVO;
+	}
+	public void setEvntVO(EvntVO evntVO) {
+		this.evntVO = evntVO;
+	}
+	public EvntPrdtVO getEvntPrdtVO() {
+		return evntPrdtVO;
+	}
+	public void setEvntPrdtVO(EvntPrdtVO evntPrdtVO) {
+		this.evntPrdtVO = evntPrdtVO;
 	}
 	public List<String> getPrdtIdList() {
 		return prdtIdList;
