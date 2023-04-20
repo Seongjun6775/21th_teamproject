@@ -10,6 +10,6 @@ public interface MailSendService {
 	
 	public String makeEmailForm(String email);
 	public void makeFindIdEmailForm(String email, List<MbrVO> mbrList);
-	public String makeFindPwEmailForm(String email);
+	public void makeFindPwEmailForm(MbrVO mbrVO);
 
 }

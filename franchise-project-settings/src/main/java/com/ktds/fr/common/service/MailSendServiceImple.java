@@ -69,7 +69,7 @@ public class MailSendServiceImple implements MailSendService{
 		}
 		String from = "franchise.21th@gmail.com";
 		String to = email;
-		String title = projectName + "ID 찾기 이메일 답변.";
+		String title = projectName + " ID 찾기 이메일 답변.";
 		String content =
 				"<h1>"+projectName+"를 이용해 주셔서 감사합니다.</h1>" +"<br/><br/>" +
 				"문의해주신 ID 찾기 결과는 <b><br/>";
@@ -77,16 +77,14 @@ public class MailSendServiceImple implements MailSendService{
 		mailSend(from, to, title, content);
 	}
 	@Override
-	public String makeFindPwEmailForm(String email) {
-		randomNumber();
+	public void makeFindPwEmailForm(MbrVO mbrVO) {
 		String from = "franchise.21th@gmail.com";
-		String to = email;
-		String title = projectName + "회원가입 인증 이메일.";
+		String to = mbrVO.getMbrEml();
+		String title = projectName + " 비밀번호 찾기 이메일 답변.";
 		String content =
 				"<h1>"+projectName+"를 이용해 주셔서 감사합니다.</h1>" +"<br/><br/>" +
-				"인증 번호는 <b>" + authNumber + "</b>입니다." +"<br>" +
-				"위의 인증번호를 인증번호 확인란에 입력하세요.";
+				mbrVO.getMbrId()+"님의 초기화된 비밀 번호는 <b>" + mbrVO.getMbrPwd() + "</b>입니다." +"<br>" +
+				"로그인 후 꼭 비밀번호를 <span style='color: red;'>변경</span>해 주세요";
 		mailSend(from, to, title, content);
-		return Integer.toString(authNumber);
 	}
 }

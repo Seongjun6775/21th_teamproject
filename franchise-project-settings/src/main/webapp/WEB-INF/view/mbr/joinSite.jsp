@@ -53,7 +53,11 @@
 			});
 		});
 		
-		
+		$("#find-mbrId").keyup(function(){
+			var mbrIdVal = $(this).val();
+			mbrIdVal = mbrIdVal.replace(/\s/gi, "");
+			$("#find-mbrId").val(mbrIdVal);
+		});
 		$("#mbrId").keyup(function(){
 			var mbrIdVal = $(this).val();
 			mbrIdVal = mbrIdVal.replace(/\s/gi, "");
@@ -332,7 +336,26 @@
 				}else{
 					alert(resp.message);
 				}
-			})
+			});
+		});
+		$("#find_pw_btn").click(function(event){
+			var email = $("#find-pw-mbrEml").val();
+			var mbrId = $("#find-mbrId").val();
+			var type = "pw";
+			if(!valueUtil.requires("#find-pw-mbrEml")){
+				return;
+			}
+			if(!valueUtil.requires("#find-mbrId")){
+				return;
+			}
+			$.post("${context}/api/mbr/find",{email: email, type: type, mbrId: mbrId}, function(resp){
+				if(resp.status=="200 OK"){
+					alert("이메일 전송 완료, 확인 해 주세요.");
+					location.href="${context}/"+resp.redirectURL;
+				}else{
+					alert(resp.message);
+				}
+			});
 		});
 	});
 </script>
@@ -351,7 +374,7 @@
           <h1 class="login__title">Sign In</h1>
           <div class="login__box">
             <i class='bx bx-user login__icon'></i>
-            <input type="text" id="lgn_mbrId" name="mbrId" placeholder="UserID" class="login__input">
+            <input type="text" id="lgn_mbrId" name="mbrId" placeholder="UserID" class="login__input mbrId">
           </div>
           <div class="login__box">
             <i class='bx bx-lock login__icon'></i>
@@ -376,7 +399,7 @@
             	<i class='bx bx-user login__icon'></i>
           	</div>
           	<div class="content__box content__one" >
-            	<input type="text" id="mbrId" name="mbrId" maxlength="12" placeholder="UserID" data-field-name="아이디" onkeyup="chkId(this)" class="login__input">
+            	<input type="text" id="mbrId" name="mbrId" maxlength="12" placeholder="UserID" data-field-name="아이디" onkeyup="chkId(this)" class="login__input mbrId">
             	<span id="dupId" class="warning" style="display: none;">이미 사용중인 아이디입니다.</span>
 				<span id="ableId" class="pass" style="display: none;">사용가능한 아이디입니다.</span>
 				<span id="idLen" class="warning" style="display: none;">아이디는 5자 이상입니다.</span>
@@ -466,7 +489,7 @@
         	<h1 class="login__title">Find PW</h1>
         	<div class="login__box">
             	<i class='bx bx-user login__icon'></i>
-            	<input type="text" id="find-mbrId" name="mbrId" maxlength="12" placeholder="UserID" data-field-name="아이디" onkeyup="chkId(this)" class="login__input">
+            	<input type="text" id="find-mbrId" name="mbrId" maxlength="12" placeholder="UserID" data-field-name="아이디" onkeyup="chkId(this)" class="login__input mbrId">
           	</div>
         	<div class="login__box">
             	<i class='bx bx-at login__icon'></i>

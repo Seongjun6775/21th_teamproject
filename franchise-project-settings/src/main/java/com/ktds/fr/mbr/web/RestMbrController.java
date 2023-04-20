@@ -1,6 +1,7 @@
 package com.ktds.fr.mbr.web;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -160,14 +161,15 @@ public class RestMbrController {
 	}
 	//ID/PW 찾기
 	@PostMapping("/api/mbr/find")
-	public ApiResponseVO doFindMbrInfo(@RequestParam String email,
-									   @RequestParam String type) {
+	public ApiResponseVO doFindMbrId(@RequestParam String email,
+									   @RequestParam String type,
+									   @RequestParam(required = false) String mbrId) {
 		if(email == null || email.length() == 0) {
 			throw new ApiException(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
 		}
 		MbrVO mbrVO = new MbrVO();
 		mbrVO.setMbrEml(email);
-		List<MbrVO> mbrIdList = mbrService.readMbrByMbrEml(mbrVO, type);
+		List<MbrVO> mbrIdList = mbrService.readMbrByMbrEml(mbrVO);
 		if(mbrIdList == null) {
 			throw new ApiException(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
 		}
@@ -175,10 +177,21 @@ public class RestMbrController {
 			mailService.makeFindIdEmailForm(email, mbrIdList);
 			return new ApiResponseVO(ApiStatus.OK,"/join");
 		}else if(type.equals("pw")) {
-			//String resetPwd = mailService.makeFindPwEmailForm(email);
-			
-			//TODO 비밀번호 찾기 구현
+			if(mbrId == null || mbrId.length()==0) {
+				throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디를 확인해 주세요.");
+			}
+			mbrVO.setMbrId(mbrId);
+			Random random = new Random();
+			String randomNumber = random.nextInt(99999999)+1+"";
+			mbrVO.setMbrPwd(randomNumber);
+			boolean updateResult = mbrService.updateMbrPwdByMbrIdAndMbrEml(mbrVO);
+			if(!updateResult) {
+				throw new ApiException(ApiStatus.FAIL, "비밀번호 찾기에 실패했습니다. 다시 시도해 주세요.");
+			}
+			mbrVO.setMbrPwd(randomNumber);
+			mailService.makeFindPwEmailForm(mbrVO);
 			return new ApiResponseVO(ApiStatus.OK,"/join");
+			
 		}
 		return new ApiResponseVO(ApiStatus.FAIL,"계정 찾기에 실패했습니다.");
 	}
