@@ -29,10 +29,10 @@
 			<a href="${context}/rv/list">리뷰관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">댓글관리</a>
+			<a href="${context}/rpl/list">댓글관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">관리자게시판</a>
+			<a href="${context}/mngrbrd/list">관리자게시판</a>
 		</li>
 		<li class="nav-item">
 			<a href="#">고객센터</a>
@@ -40,6 +40,7 @@
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
 	<div class="inline profile">
+
 		<a href="${context}/mbr/pwdCheck/${mbrVO.mbrId}" >
 			${sessionScope.__MBR__.mbrNm} 님
 		</a> 

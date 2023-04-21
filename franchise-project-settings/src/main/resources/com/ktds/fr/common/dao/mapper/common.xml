@@ -9,9 +9,7 @@
 			 , B.TOTAL_COUNT
 	 		 , CEIL(B.TOTAL_COUNT / #{viewCnt}) LAST_PAGE
 			 , FLOOR(FLOOR(B.TOTAL_COUNT / #{viewCnt}) / #{pageCnt}) LAST_GROUP
-
 		  FROM (SELECT R.*					 
-
 					 , COUNT(DISTINCT PK_COL) OVER() TOTAL_COUNT
 				  FROM (
 	</sql>
@@ -19,6 +17,7 @@
 	<sql id="pageFooter">
 						) R) B
 		 WHERE RNUM BETWEEN (#{pageNo} * #{viewCnt}) + 1 AND (#{pageNo} * #{viewCnt}) + #{viewCnt}
+		 ORDER BY RNUM
 	</sql>
 
 </mapper>

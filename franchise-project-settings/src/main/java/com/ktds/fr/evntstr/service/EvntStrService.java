@@ -7,4 +7,6 @@ import com.ktds.fr.evntstr.vo.EvntStrVO;
 public interface EvntStrService {
 
 	public List<EvntStrVO> readAllEvntStr(EvntStrVO evntStrVO);
+	
+	public boolean createEvntStr(EvntStrVO evntStrVO);
 }

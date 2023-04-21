@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
@@ -22,16 +23,24 @@ public class RestEvntController {
 
    //이벤트 생성  
    @PostMapping("/api/evnt/create")
-   public ApiResponseVO createNewEvnt(EvntVO evntVO) throws Exception {
+   public ApiResponseVO createNewEvnt(EvntVO evntVO, MultipartFile uploadFile) throws Exception {
 	   
 	   //실행여부 확인
       System.out.println("/api/evnt/create 호출 확인!!!");
       System.out.println("evntVO.getEvntId() : " + evntVO.getEvntId());
       System.out.println("evntVO.getEvntTtl() : " + evntVO.getEvntTtl());
       System.out.println("evntVO.getEvntCntnt() : " + evntVO.getEvntCntnt());
+      if (uploadFile == null) {
+    	System.out.println("파일이 없음");  
+    	return null;
+      }
+      System.out.println("evntVO.getEvntCntnt() : " + uploadFile.getOriginalFilename());
+      System.out.println("evntVO.getEvntCntnt() : " + uploadFile.getSize());
+      System.out.println("evntVO.getEvntCntnt() : " + uploadFile.getContentType());
+      
+    
 
-
-         boolean isSuccess = evntService.createNewEvnt(evntVO);
+         boolean isSuccess = evntService.createNewEvnt(evntVO, uploadFile);
          if (isSuccess) {
             return new ApiResponseVO(ApiStatus.OK, "이벤트 등록이 정상적으로 수행되었습니다.", "200", "");
          } else {
@@ -41,18 +50,18 @@ public class RestEvntController {
    
    //이벤트 수정
    @PostMapping("/api/evnt/update")
-   public ApiResponseVO updateEvnt(EvntVO evntVO) throws Exception {
+   public ApiResponseVO updateEvnt(EvntVO evntVO, MultipartFile uploadFile) throws Exception {
 	   
 	   //실행여부 확인
       System.out.println("/api/evnt/update 호출 !!!");
       System.out.println("evntVO.getEvntId() : " + evntVO.getEvntId());
       System.out.println("evntVO.getEvntTtl() : " + evntVO.getEvntTtl());
       System.out.println("evntVO.getEvntCntnt() : " + evntVO.getEvntCntnt());
-      
-      
-         boolean isSuccess = evntService.updateEvnt(evntVO);
-         if (isSuccess) {
-            return new ApiResponseVO(ApiStatus.OK, "이벤트 수정이 정상적으로 수행되었습니다.", "200", "");
+      System.out.println("evntVO.getUseYn() : " + evntVO.getUseYn());
+
+		boolean isSuccess = evntService.updateEvnt(evntVO, uploadFile);
+		if (isSuccess) {
+			return new ApiResponseVO(ApiStatus.OK, "이벤트 수정이 정상적으로 수행되었습니다.", "200", "");
          } else {
             return new ApiResponseVO(ApiStatus.FAIL, "이벤트를 수정 할 수 없습니다.", "500", "");
             }

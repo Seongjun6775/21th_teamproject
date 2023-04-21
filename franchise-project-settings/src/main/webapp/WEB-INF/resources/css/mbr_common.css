@@ -388,6 +388,7 @@ img {
 .pagenate ul li a.on{
 	font-weight: bold;
 }
+
 /*check*/
 .checkGroup{
 	display: flex;

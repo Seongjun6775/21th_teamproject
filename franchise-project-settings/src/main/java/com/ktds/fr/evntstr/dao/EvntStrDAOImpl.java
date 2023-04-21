@@ -24,4 +24,11 @@ public class EvntStrDAOImpl extends SqlSessionDaoSupport implements EvntStrDAO {
 		return getSqlSession().selectList("EvntStr.readAllEvntStr", evntStrVO);
 	}
 
+	@Override
+	
+	// 참여매장 등록하기 ▶ 중간관리자
+	public int createEvntStr(EvntStrVO evntStrVO) {
+		return getSqlSession().insert("EvntStr.createEvntStr", evntStrVO );
+	}
+
 }

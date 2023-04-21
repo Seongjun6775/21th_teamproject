@@ -12,9 +12,15 @@
 <script type="text/javascript">
 $().ready(function() {
    
+	$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
+	// console.log($("#useYn:checked"))
+	// console.log( $('#useYn').is(':checked') ? 'Y' : 'N' )
 	
 	//수정 완료 버튼
    $("#btn-update-success").click(function(){
+	   
+	   var useyn = $('#useYn').is(':checked') ? 'Y' : 'N' ;
+	   
       $.post(
             // 1. 호출할 주소
             "${context}/api/evnt/update",
@@ -26,9 +32,9 @@ $().ready(function() {
                evntCntnt: $("#evntCntnt").val(),
                evntStrtDt: $("#evntStrtDt").val(),
                evntEndDt: $("#evntEndDt").val(),
-               evntPht: $("#evntPht").val(),
-               useYn: $('#useYn:checked').val(),
-               delYn: $('#delYn').val()
+               evntPht: $("#orgnFlNm").val(),
+               useYn: useyn,
+             
             },   
             
             // 3. 결과 처리
@@ -60,6 +66,7 @@ $().ready(function() {
 </head>
 <body>
    <div class="main-layout">
+   <form id="form-update" enctype="multipart/form-data">
       <div>
          <table border=1 style="width: 600px;">
             <tr>
@@ -92,16 +99,15 @@ $().ready(function() {
 
             <tr>
                <td>이벤트 사진</td>
-               <td colspan="3"><input type="file" id="evntPht"
-                  style="width: 99%;" value="${evntVO.evntPht}" /></td>
+               <td colspan="3">
+               <img src="${context}/evnt/img/${evntVO.uuidFlNm}"/>
+               <input type="file" id="orgnFlNm" style="width: 99%;" value="${evntVO.orgnFlNm}" /></td>
             </tr>
 
             <tr>
                <td>사용 여부</td>
                <td><input type="checkbox" id="useYn"
-                  value="${evntVO.useYn}" checked/></td>
-               <td>삭제 여부</td>
-               <td><input type="checkbox" id="delYn" value="${evntVO.delYn}" /></td>
+                  value="Y" /></td>
             </tr>
 
             <tr>
@@ -112,6 +118,7 @@ $().ready(function() {
             </tr>
           </table>         
        </div>
+       </form>
      </div>
 </body>
 </html>
