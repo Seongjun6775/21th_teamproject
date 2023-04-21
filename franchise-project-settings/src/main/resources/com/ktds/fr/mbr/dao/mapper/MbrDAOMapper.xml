@@ -124,7 +124,7 @@
 	<select id="readAllMbr"
 			parameterType="com.ktds.fr.mbr.vo.MbrVO"
 			resultType="com.ktds.fr.mbr.vo.MbrVO">
-	    <include refid="Common.pageHeader" />
+	    <include refid="Mbrcommon.pageHeader" />
 		SELECT M.MBR_ID PK_COL
 		     , DENSE_RANK() OVER(ORDER BY M.MBR_NM ASC) RNUM
 			 , M.MBR_ID
@@ -157,7 +157,7 @@
 		   AND M.DEL_YN = #{delYn}
 		  </if>
 		 ORDER BY M.MBR_NM ASC 
-		 <include refid="Common.pageFooter" />
+		 <include refid="Mbrcommon.pageFooter" />
 	</select>
 	<!-- 수정필요 매장관련 정보도? -->
 	<select id="readAllEmployeeAdminMbr"
