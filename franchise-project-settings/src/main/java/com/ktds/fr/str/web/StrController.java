@@ -38,6 +38,7 @@ public class StrController {
 	        model.addAttribute("strList", strList);
 	        model.addAttribute("ctyList", ctyList);
 	        model.addAttribute("lctList", lctList);
+	        model.addAttribute("StrVO", strVO);
 	        model.addAttribute("MbrVO", mbrVO);
 	        return "str/list";
 	        

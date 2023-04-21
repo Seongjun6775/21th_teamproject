@@ -143,16 +143,21 @@
 			$("#search-keyword-strCty").change(function(){
 				movePage(0);
 			});
+			$("#search-keyword-mbrId").change(function(){
+				movePage(0);
+			});
 			
 		});
 		function movePage(pageNo){
 		//전송
 		//입력 값.
 		var strNm = $("#search-keyword").val();
+		var mbrId = $("#search-keyword-mbrId").val();
 		var strLctn = $("#search-keyword-strLctn").val();
 		var strCty = $("#search-keyword-strCty").val();
 		
 		var queryString = "?strNm=" + strNm;
+		queryString += "&mbrId=" +mbrId;
 		queryString += "&strLctn=" +strLctn;
 		queryString += "&strCty=" +strCty;
 		queryString += "&pageNo=" +pageNo;
@@ -175,6 +180,11 @@
 				<div class="search-group">
 					<label for="search-keyword">매장명</label>
 					<input type="text" id="search-keyword" class="search-input" value=""/>
+					<button class="btn-search" id="search-btn">검색</button>
+				</div>
+				<div class="search-group">
+					<label for="search-keyword">관리자ID 조회</label>
+					<input type="text" id="search-keyword-mbrId" class="search-input" value=""/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				
@@ -200,7 +210,7 @@
 									<c:when test="${not empty lctList}">
 										<c:forEach items="${lctList}"
 													var="lct"> 
-											<option value="${lct.lctId}">${lct.lctNm}</option>
+											<option value="${lct.lctId}" ${StrVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -214,7 +224,7 @@
 									<c:when test="${not empty ctyList}">
 										<c:forEach items="${ctyList}"
 													var="cty" >
-											<option value="${cty.ctyId}">${cty.ctyNm}</option>
+											<option value="${cty.ctyId}" ${StrVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -281,7 +291,7 @@
 					<fmt:parseNumber var="nowGroup" value="${Math.floor(strVO.pageNo / 10)}" integerOnly="true"/>
 					<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
 					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
-					<c:set value="${groupEndPageNo > lastPage ? lastPage -1 : groupEndPageNo-1}" var="groupEndPageNo"/>
+					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
 				
 					
 					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo"/>

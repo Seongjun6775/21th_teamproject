@@ -60,6 +60,11 @@
 		<if test='strId != null and strId != ""'>
 		   AND S.STR_ID = #{strId}
 		</if>
+		
+		<if test='mbrId != null and mbrId != ""'>
+		   AND S.MBR_ID = #{mbrId}
+		</if>
+		
 		<if test='strLctn != null and strLctn != ""'>
 		   AND S.STR_LCTN = #{strLctn}
 		</if>
