@@ -57,87 +57,72 @@ $().ready(function() {
 			location.href= "${context}/index";
 		});
 		
-		$("#delete_btn").click(function(){
-				var strId = $("#strId").val();
-				if(strId == ""){
-					alert("선택한 매장이 없습니다.")
+		$("#save_btn").click(function(){
+			var strNm = $("#strNm").val();
+			if(strNm == ""){
+				alert("선택한 매장명이 없습니다.")
+				return;	
+			}
+			/* else if(strNm == $("#strNm").val()){
+				alert("지정한 매장명이 같습니다.")
+				return;	
+			} */
+			var strAddr = $("#strAddr").val();
+			if(strAddr == ""){
+				alert("선택한 주소가 없습니다.")
+				return;	
+			}
+			var patt = new RegExp("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
+			var res = patt.test( $("#strCallNum").val());
+
+			if( !patt.test( $("#strCallNum").val()) ){
+			    alert("'-'을 작성하여 전화번호를 정확히 입력하여 주십시오.");
+			    return false;
+			}
+			/* if(strCallNum = "#strCallNum"){
+				alert("선택한 전화번호는 있는 전화번호입니다.")
+				return;	
+			} */
+			var strOpnTm = $("#strOpnTm").val();
+			var strClsTm = $("#strClsTm").val();
+			if(strOpnTm >= strClsTm){
+				alert("선택한 오픈 시간이 클로즈 시간보다 느립니다.")
+				return;	
+			}
+			if (!confirm("정말 수정하시겠습니까?")) {
 					return;	
-				}
-				if(!confirm("정말 삭제하시겠습니까?")){
-					return;
-				}
-			$.post("${context}/api/str/delete/" + strId, function(response){	
+	        }
+			if($("#isModify").val() == "false"){
+				
+				$('select').attr("disabled", false);
+				//수정
+				$.post("${context}/api/str/update", $("#strdetailmgn_form").serialize(), function(response) {
+					console.log($("#strdetailmgn_form").serialize());
 				if(response.status == "200 OK"){
-					location.href="${context}/str/list"; // 새로고침
+					alert("수정되었습니다.");
+					location.reload(); // 새로고침
 				}
 				else{
-					
-					alert(respones.errorCode + " / " + response.message);
-				}
-			});
-		})
-		
-		$("#save_btn").click(function(){
-			
-				var strNm = $("#strNm").val();
-				if(strNm == ""){
-					alert("선택한 매장명이 없습니다.")
-					return;	
-				}
-				/* else if(strNm == $("#strNm").val()){
-					alert("지정한 매장명이 같습니다.")
-					return;	
-				} */
-				var strAddr = $("#strAddr").val();
-				if(strAddr == ""){
-					alert("선택한 주소가 없습니다.")
-					return;	
-				}
-				var patt = new RegExp("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
-				var res = patt.test( $("#strCallNum").val());
-	
-				if( !patt.test( $("#strCallNum").val()) ){
-				    alert("'-'을 작성하여 전화번호를 정확히 입력하여 주십시오.");
-				    return false;
-				}
-				/* if(strCallNum = "#strCallNum"){
-					alert("선택한 전화번호는 있는 전화번호입니다.")
-					return;	
-				} */
-				var strOpnTm = $("#strOpnTm").val();
-				var strClsTm = $("#strClsTm").val();
-				if(strOpnTm >= strClsTm){
-					alert("선택한 오픈 시간이 클로즈 시간보다 느립니다.")
-					return;	
-				}
-			if($("#isModify").val() == "false"){
-					//수정
-					$.post("${context}/api/str/update", $("#strdetailmgn_form").serialize(), function(response) {
-						console.log($("#strdetailmgn_form").serialize());
-					if(response.status == "200 OK"){
-						location.reload(); // 새로고침
+					alert(response.errorCode + " / " + response.message);
 					}
-					else{
-						alert(response.errorCode + " / " + response.message);
-						}
-					});
-				}
-			});
-			$("#search-btn").click(function(){
-				movePage(0);
-			});
-			
-			$("#all_check").change(function(){
-				console.log($(this).prop("checked"));
-				$(".check_idx").prop("checked", $(this).prop("checked"));
-			});
-			
-			$(".check_idx").change(function(){
-				var count = $(".check_idx").length;
-				var checkCount = $(".check_idx:checked").length;
-				$("#all_check").prop("checked", count == checkCount);
-			});
+				});
+			}
 		});
+		$("#search-btn").click(function(){
+			movePage(0);
+		});
+		
+		$("#all_check").change(function(){
+			console.log($(this).prop("checked"));
+			$(".check_idx").prop("checked", $(this).prop("checked"));
+		});
+		
+		$(".check_idx").change(function(){
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
+		});
+	});
 		function movePage(pageNo){
 		//전송
 		//입력 값.
@@ -172,22 +157,32 @@ $().ready(function() {
 					</div>	
 					<div class="input-group inline">
 						<label for="strLctn" style="width:60px">지역</label>
-						<label for="strCty" style="width:60px">도시</label>
+						<select id="strLctn" name="strLctn" disabled >
+							<option value="">지역</option>
+							<c:choose>
+									<c:when test="${not empty lctList}">
+										<c:forEach items="${lctList}"
+													var="lct"> 
+											<option value="${lct.lctId}" ${lct.lctId eq strVO.strLctn ? 'selected' : ''}>${lct.lctNm} </option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+							<label for="strCty" style="width:60px">도시</label>
+							<select id="strCty" name="strCty" disabled>
+								<option value="">도시명</option>
+								<c:choose>
+									<c:when test="${not empty ctyList}">
+										<c:forEach items="${ctyList}"
+													var="cty" >
+											<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+						</select>
 						<label for="strAddr" style="width:60px">매장주소</label>
-						<%-- <select name="strLctn" id="strLctn" >
-						<option>지역 선택</option>
-							<option value="서울" ${strVO.strLctn eq '서울' ? 'selected' : ''}>서울</option>
-							<option value="부산" ${strVO.strLctn eq '부산' ? 'selected' : ''}>부산</option>
-							<option value="강원" ${strVO.strLctn eq '강원' ? 'selected' : ''}>강원</option>
-							<option value="경기" ${strVO.strLctn eq '경기' ? 'selected' : ''}>경기</option>
-							<option value="인천" ${strVO.strLctn eq '인천' ? 'selected' : ''}>인천</option>
-							<option value="대구" ${strVO.strLctn eq '대구' ? 'selected' : ''}>대구</option>
-						</select> --%>
-						<input type="text" id="strLctn" name="strLctn" maxlength="20" readonly value="${strVO.strLctn}" style="width: 60px;"/>
-						<input type="text" id="strCty" name="strCty" maxlength="20" readonly value="${strVO.strCty}"  style="width: 80px;"/>
-						<input type="text" id="strAddr" name="strAddr" maxlength="200" readonly value="${strVO.strAddr}"/>
+						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 					</div>
-					
 				    <div class="input-group inline">
 				        <label for="strCallNum" style="width:180px">전화번호</label>
 				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
@@ -230,7 +225,6 @@ $().ready(function() {
 		</div>
 			<div class="align-right">
 				<button id="save_btn" class="btn-primary">수정</button>
-				<button id="delete_btn" class="btn-delete">삭제</button>
 				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />

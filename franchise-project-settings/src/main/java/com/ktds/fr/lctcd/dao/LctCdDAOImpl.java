@@ -19,8 +19,8 @@ public class LctCdDAOImpl extends SqlSessionDaoSupport implements LctCdDAO {
 	}
 	
 	@Override
-	public List<LctCdVO> readCategory(String codeId) {
-		return getSqlSession().selectList("LctCd.readCategory",codeId);
+	public List<LctCdVO> readCategory(LctCdVO lctCdVO) {
+		return getSqlSession().selectList("LctCd.readCategory",lctCdVO);
 	}
 
 }

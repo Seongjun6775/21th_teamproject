@@ -136,13 +136,30 @@
 				var checkCount = $(".check_idx:checked").length;
 				$("#all_check").prop("checked", count == checkCount);
 			});
+			
+			$("#search-keyword-strLctn").change(function(){
+				movePage(0);
+			});
+			$("#search-keyword-strCty").change(function(){
+				movePage(0);
+			});
+			
 		});
 		function movePage(pageNo){
 		//전송
 		//입력 값.
 		var strNm = $("#search-keyword").val();
+		var strLctn = $("#search-keyword-strLctn").val();
+		var strCty = $("#search-keyword-strCty").val();
+		
+		var queryString = "?strNm=" + strNm;
+		queryString += "&strLctn=" +strLctn;
+		queryString += "&strCty=" +strCty;
+		queryString += "&pageNo=" +pageNo;
+		
+		
 		//url요청
-		location.href = "${context}/str/list?strNm=" +strNm + "&pageNo=" + pageNo;
+		location.href = "${context}/str/list" + queryString;
 		}
 		</script>
 </head>
@@ -180,10 +197,10 @@
 										id="search-keyword-strLctn">
 								<option value="">지역명</option>
 								<c:choose>
-									<c:when test="${not empty strList}">
-										<c:forEach items="${strList}"
-													var="str">
-											<option value="${str.lctId}">${str.lctNm}</option>
+									<c:when test="${not empty lctList}">
+										<c:forEach items="${lctList}"
+													var="lct"> 
+											<option value="${lct.lctId}">${lct.lctNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -194,10 +211,10 @@
 										id="search-keyword-strCty">
 								<option value="">도시명</option>
 								<c:choose>
-									<c:when test="${not empty strList}">
-										<c:forEach items="${strList}"
-													var="str">
-											<option value="${str.ctyId}">${str.ctyNm}</option>
+									<c:when test="${not empty ctyList}">
+										<c:forEach items="${ctyList}"
+													var="cty" >
+											<option value="${cty.ctyId}">${cty.ctyNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -217,9 +234,9 @@
 							<c:forEach items="${strList}"
 									var="str">
 							<tr data-strid="${str.strId}" 
-							data-strlctn="${str.strLctn}" 
-							data-strcty="${str.strCty}" 
 							data-strnm="${str.strNm}" 
+							data-strlctn="${str.lctCdVO.lctId}" 
+							data-strcty="${str.ctyCdVO.ctyId}" 
 							data-straddr="${str.strAddr}" 
 							data-strcallnum="${str.strCallNum}" 
 							data-mbrid="${str.mbrId}" 
@@ -235,8 +252,8 @@
 							</td>
 								<td><a href="${context}/str/strdetailmst/${str.strId}">${str.strId}</a></td>
 								<td>${str.strNm}</td>
-								<td>${str.strLctn}</td>
-								<td>${str.strCty}</td>
+								<td>${str.lctCdVO.lctNm}</td>
+								<td>${str.ctyCdVO.ctyNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
 								<td>${str.mbrId}</td>
@@ -301,10 +318,10 @@
 						<select id="strLctn" name="strLctn">
 							<option value="">지역</option>
 							<c:choose>
-								<c:when test="${not empty strList}">
-									<c:forEach items="${strList}"
-												var="str">
-										<option value="${str.lctId}">${str.lctNm}</option>
+								<c:when test="${not empty lctList}">
+									<c:forEach items="${lctList}"
+												var="lct"> 
+										<option value="${lct.lctId}" >${lct.lctNm}</option>
 									</c:forEach>
 								</c:when>
 							</c:choose>
@@ -313,15 +330,16 @@
 						<select id="strCty" name="strCty">
 							<option value="">도시명</option>
 							<c:choose>
-								<c:when test="${not empty strList}">
-									<c:forEach items="${strList}"
-												var="str">
-										<option value="${str.ctyId}">${str.ctyNm}</option>
+								<c:when test="${not empty ctyList}">
+									<c:forEach items="${ctyList}"
+												var="cty" >
+										<option value="${cty.ctyId}" >${cty.ctyNm}</option>
 									</c:forEach>
 								</c:when>
 							</c:choose>
 						</select>
 						<label for="strAddr" style="width:60px">매장주소</label>
+						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 						<%-- <select name="strLctn" id="strLctn">
 						<option>지역 선택</option>
 							<option value="서울" ${strVO.strLctn eq '서울' ? 'selected' : ''}>서울</option>

@@ -6,14 +6,14 @@
 
 
 	<select id="readCategory"
-			parameterType="string"
+			parameterType="com.ktds.fr.ctycd.vo.CtyCdVO"
 			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
 		SELECT CTY_ID
 			 , CTY_NM
 			 , LCT_ID
 		  FROM CTY_CD
-		 <if test='_parameter != null and _parameter != ""'>
-		 WHERE CTY_ID LIKE '%' || #{_parameter} || '-%'
+		 <if test='ctyId != null and ctyId != ""'>
+		 WHERE CTY_ID LIKE '%' || #{ctyId} || '-%'
 		</if>
 		 ORDER BY CTY_ID ASC 
 	</select>

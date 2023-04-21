@@ -15,8 +15,8 @@ public class LctCdServiceImpl implements LctCdService {
 	private LctCdDAO lctCdDAO;
 	
 	@Override
-	public List<LctCdVO> readCategory(String codeId) {
-		return lctCdDAO.readCategory(codeId);
+	public List<LctCdVO> readCategory(LctCdVO lctCdVO) {
+		return lctCdDAO.readCategory(lctCdVO);
 	}
 
 }

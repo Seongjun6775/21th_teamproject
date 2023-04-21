@@ -4,9 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Str">
 
+	<resultMap id="strVOMap" 
+				type="com.ktds.fr.str.vo.StrVO"
+				autoMapping="true">
+		<id property="strId" column="STR_ID"/>
+		<association property="lctCdVO"
+					  javaType="com.ktds.fr.lctcd.vo.LctCdVO">
+			<id property="lctId" column="STR_LCTN"/>
+			<result property="lctNm" column="LCT_NM"/>
+		</association>
+		<association property="ctyCdVO"
+					  javaType="com.ktds.fr.ctycd.vo.CtyCdVO">
+			<id property="ctyId" column="STR_CTY"/>
+			<result property="ctyNm" column="CTY_NM"/>
+		</association>
+	</resultMap>
+
+
+
 	<select id="readAllStrMaster"
 			parameterType="com.ktds.fr.str.vo.StrVO"
-			resultType="com.ktds.fr.str.vo.StrVO">
+			resultMap="strVOMap">
 			<include refid="Common.pageHeader"/>
 		SELECT S.STR_ID PK_COL
 			 , S.STR_ID
@@ -39,6 +57,12 @@
 		</if>
 		<if test='strId != null and strId != ""'>
 		   AND S.STR_ID = #{strId}
+		</if>
+		<if test='strLctn != null and strLctn != ""'>
+		   AND S.STR_LCTN = #{strLctn}
+		</if>
+		<if test='strCty != null and strCty != ""'>
+		   AND S.STR_CTY = #{strCty}
 		</if>
 		 ORDER BY S.STR_NM ASC
 		 <include refid="Common.pageFooter"/>
@@ -184,9 +208,7 @@
 			UPDATE STR
 			   SET STR_NM=#{strNm}
 				 , STR_LCTN=#{strLctn}
-				 , LCT_NM=#{lctNm}
 				 , STR_CTY=#{strCty}
-				 , CTY_NM=#{ctyNm}
 				 , STR_ADDR=#{strAddr}
 				 , STR_CALL_NUM=#{strCallNum}
 				 , MBR_ID=#{mbrId}

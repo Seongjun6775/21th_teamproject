@@ -6,6 +6,6 @@ import com.ktds.fr.ctycd.vo.CtyCdVO;
 
 public interface CtyCdDAO {
 	
-	public List<CtyCdVO> readCategory(String codeId);
+	public List<CtyCdVO> readCategory(CtyCdVO ctyCdVO);
 
 }
