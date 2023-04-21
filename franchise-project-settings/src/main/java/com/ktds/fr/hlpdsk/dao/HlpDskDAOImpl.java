@@ -16,22 +16,33 @@ public class HlpDskDAOImpl extends SqlSessionDaoSupport implements HlpDskDAO {
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
-
+	
 	@Override
-	public List<HlpDskVO> readAllMngrBrds(HlpDskVO hlpDskVO) {
-		return getSqlSession().selectList("HlpDsk.readAllMngrBrds", hlpDskVO);
+	public List<HlpDskVO> readAllHlpDsks(HlpDskVO hlpDskVO) {
+		return getSqlSession().selectList("HlpDsk.readAllHlpDsks", hlpDskVO);
 	}
 
 	@Override
-	public HlpDskVO readOneMngrBrdByMngrBrdId(String hlpDskId) {
-		return getSqlSession().selectOne("HlpDsk.readOneMngrBrdByMngrBrdId", hlpDskId);
+	public List<HlpDskVO> readAllHlpDsksPagination(String hlpDskTtl) {
+		// TODO Auto-generated method stub
+		return getSqlSession().selectList("HlpDsk.readAllHlpDsksPagination",hlpDskTtl);
+	}	
+	@Override
+	public HlpDskVO readOneHlpDskByHlpDskId(String hlpDskId) {
+		return getSqlSession().selectOne("HlpDsk.readOneHlpDskByHlpDskId", hlpDskId);
 	}
 
+	
 	@Override
 	public int createNewHlpDsk(HlpDskVO hlpDskVO) {
 		return getSqlSession().insert("HlpDsk.createNewHlpDsk", hlpDskVO);
 	}
 
+	@Override
+	public int updateNewHlpDsk(HlpDskVO hlpDskVO) {
+		return getSqlSession().update("HlpDsk.updateNewHlpDsk", hlpDskVO);
+	}
+	
 	@Override
 	public int deleteOneHlpDsk(String hlpDskId) {
 		return getSqlSession().update("HlpDsk.deleteOneHlpDsk", hlpDskId);
@@ -39,6 +50,6 @@ public class HlpDskDAOImpl extends SqlSessionDaoSupport implements HlpDskDAO {
 
 	@Override
 	public int deleteHlpDskBySelectedHlpDskId(List<String> hlpDskId) {
-		return getSqlSession().update(null, hlpDskId);
+		return getSqlSession().update("HlpDsk.deleteHlpDskBySelectedHlpDskId", hlpDskId);
 	}
 }

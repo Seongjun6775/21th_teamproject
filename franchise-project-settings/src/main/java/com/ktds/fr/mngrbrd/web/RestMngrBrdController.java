@@ -82,8 +82,7 @@ public class RestMngrBrdController {
 		boolean updateResult = mngrBrdService.updateOneMngrBrd(mngrBrdVO);
 		
 		if(updateResult) {
-			return new ApiResponseVO(ApiStatus.OK);
-			
+			return new ApiResponseVO(ApiStatus.OK);	
 		}
 		else {
 			return new ApiResponseVO(ApiStatus.FAIL);

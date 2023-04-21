@@ -16,16 +16,30 @@ public class HlpDskVO extends AbstractVO{
 	private String hlpDskPrcsDt;	
 	private String useYn;	
 	private String delYn;	
-	
+	private String hlpOkCntnt;
 	
 	private MbrVO mbrVO;
+	private MbrVO mstrVO;
 	
 	
+	public MbrVO getMstrVO() {
+		return mstrVO;
+	}
+	public void setMstrVO(MbrVO mstrVO) {
+		this.mstrVO = mstrVO;
+	}
 	public MbrVO getMbrVO() {
 		return mbrVO;
 	}
 	public void setMbrVO(MbrVO mbrVO) {
 		this.mbrVO = mbrVO;
+	}
+	
+	public String getHlpOkCntnt() {
+		return hlpOkCntnt;
+	}
+	public void setHlpOkCntnt(String hlpOkCntnt) {
+		this.hlpOkCntnt = hlpOkCntnt;
 	}
 	public String getHlpDskWrtId() {	
 		return hlpDskWrtId;

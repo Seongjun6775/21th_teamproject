@@ -11,34 +11,54 @@
 		<association property="mbrVO"
 					 javaType="com.ktds.fr.mbr.vo.MbrVO">
 			<id property="mbrId" column="MBR_ID"/>
-			<result property="mbrNm" column="M_MBR_NM"/>
+			<result property="mbrNm" column="MBR_NM"/>
 		</association>
+		<association property="mstrVO"
+					 javaType="com.ktds.fr.mbr.vo.MbrVO">
+			<id property="mbrId" column="MBR_ID"/>
+			<result property="mbrNm" column="MSTR_NM"/>
+		</association>
+		
 	</resultMap>
-	<select id="readAllMngrBrds"
+	<select id="readAllHlpDsks"
 			parameterType="com.ktds.fr.hlpdsk.vo.HlpDskVO"
 			resultMap="hlpDskMap">
 		<include refid ="Common.pageHeader"/>
 		SELECT H.HLP_DSK_WRT_ID PK_COL
-		     , DENSE_RANK() OVER(ORDER BY H.HLP_DSK_WRT_DT DESC) RNUM 
+		     , DENSE_RANK() OVER(ORDER BY H.HLP_DSK_WRT_DT DESC ) RNUM 
+		     , H.HLP_DSK_WRT_ID
 		     , H.HLP_DSK_SBJCT
 		     , H.HLP_DSK_TTL
 		     , H.HLP_DSK_CNTNT
-		     , H.MBR_ID
+		     , H.MBR_ID  
 		     , H.HLP_DSK_WRT_DT
-		     , H.MSTR_ID
+		     , H.MSTR_ID   
 		     , H.HLP_DSK_PRCS_YN
 		     , H.HLP_DSK_PRCS_DT
 		     , H.USE_YN
 		     , H.DEL_YN
-		     , M.MBR_NM 
+		     , H.HLP_OK_CNTNT
+		 	 , M.MBR_NM MBR_NM
+		     , RM.MBR_NM MSTR_NM
 		  FROM FRAN.HLP_DSK H
 		INNER JOIN MBR M
 		    ON H.MBR_ID = M.MBR_ID
+		  LEFT OUTER JOIN MBR RM
+		    ON H.MSTR_ID = RM.MBR_ID
+		 <if test= 'hlpDskTtl != null and hlpDskTtl != "" '>
+           AND  H.HLP_DSK_TTL LIKE '%' ||  #{hlpDskTtl} || '%'
+         </if>
+         <if test= 'hlpDskCntnt != null and hlpDskCntnt != "" '>
+           AND  H.HLP_DSK_CNTNT LIKE '%' ||  #{hlpDskCntnt} || '%'
+         </if> 
+         <if test= 'mbrVO != null and mbrVO.mbrNm != null and mbrVO.mbrNm != "" '>
+           AND  M.MBR_NM LIKE '%' ||  #{mbrVO.mbrNm} || '%'
+         </if>  
 		ORDER BY H.HLP_DSK_WRT_DT DESC 
 		<include refid="Common.pageFooter" />	
 	</select>
 	
-	<select id="readOneMngrBrdByMngrBrdId"
+	<select id="readOneHlpDskByHlpDskId"
 			parameterType="string"
 			resultMap="hlpDskMap">
 		SELECT H.HLP_DSK_WRT_ID
@@ -52,10 +72,15 @@
 		     , H.HLP_DSK_PRCS_DT
 		     , H.USE_YN
 		     , H.DEL_YN
-		     , M.MBR_NM 
+		     , H.HLP_OK_CNTNT
+			 , M.MBR_NM MBR_NM
+		     , RM.MBR_NM MSTR_NM
 		  FROM FRAN.HLP_DSK H
-		INNER JOIN MBR M
-		    ON H.MBR_ID = M.MBR_ID	
+		 INNER JOIN MBR M
+		    ON H.MBR_ID = M.MBR_ID
+		  LEFT OUTER JOIN MBR RM
+		    ON H.MSTR_ID = RM.MBR_ID	
+		 WHERE H.HLP_DSK_WRT_ID = #{_parameter}
 	</select>
 	
 	
@@ -78,7 +103,8 @@
         , HLP_DSK_PRCS_YN
         , HLP_DSK_PRCS_DT
         , USE_YN
-        , DEL_YN)
+        , DEL_YN
+        , HLP_OK_CNTNT)
         VALUES
          (#{hlpDskWrtId}
         , #{hlpDskSbjct}
@@ -87,11 +113,23 @@
         , #{mbrId}
         , SYSDATE
         , #{mstrId}
-        , NVL(#{hlpDskPrcsYn},'N')
-        , SYSDATE
-        , NVL(#{useYn},'N') 
-        , 'N' )
+        , 'N'
+        , NULL
+        , 'Y'
+        , 'N'
+        , NULL)
 	</insert>
+
+	<update id="updateNewHlpDsk"
+			parameterType="com.ktds.fr.hlpdsk.vo.HlpDskVO">
+		UPDATE FRAN.HLP_DSK
+		   SET HLP_DSK_PRCS_YN = 'Y'
+		     , HLP_DSK_PRCS_DT = SYSDATE
+		     , MSTR_ID = #{mstrId}
+		     , HLP_OK_CNTNT =#{hlpOkCntnt}
+		 WHERE HLP_DSK_WRT_ID = #{hlpDskWrtId}
+	</update>
+
 
 	<update id="deleteOneHlpDsk"
 			parameterType="string">

@@ -6,8 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <c:set var="date" value="<%= new Random().nextInt() %>"/>
 <c:set var="now" value="<%=new java.util.Date()%>" /><!-- 현재시간 -->
-<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="today" /><!-- 현재시간을 숫자로 -->
-<fmt:parseNumber value="${mngrBrd.mngrBrdWrtDt.time / (1000*60*60*24)}" integerOnly="true" var="chgDttm" /><!-- 게시글 작성날짜를 숫자로 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,16 +15,6 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
-		
-		$(".grid > table > tbody > tr").click(function(){ 
-			var data =$(this).data();
-/* 			alert(data);
-			var grdmbr = div.closet('.brdid');
-			console.log(grdmbr);
-			var brdid = 
-			$("#mngrBrdId").val(data.mngrbrdid);
-			alert("!!"); */
-		});
 		
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked",$(this).prop("checked"));
@@ -53,10 +41,10 @@
 			
 			$(".check_idx:checked").each(function(){
 				console.log($(this).val());
-				form.append("<input type='hidden' name='mngrBrdId' value='" + $(this).val() + "'>")
+				form.append("<input type='hidden' name='hlpDskWrtId' value='" + $(this).val() + "'>")
 			});
 
-			$.post("${context}/api/mngrbrd/delete",form.serialize(),function(response){
+			$.post("${context}/api/hlpdsk/delete",form.serialize(),function(response){
 				if(response.status =="200 OK"){
 					location.reload(); //새로고침	
 				}
@@ -67,23 +55,29 @@
 		});
 		
 	    $("#search-btn").click(function(){
+	    	var searchIdx = $("#search-select").val();	
+			var searchKeyword = $("#search-keyword").val();
 	        movePage(0);
 	     });
+	    
+	    $("select[name=selectFilter]").on("change", function(evetn) {
+			movePage(0);
+		});
 		
 	}); 
-
 	function movePage(pageNo){
 		//전송.
 		//입력 값.	 
 		var searchIdx = $("#search-select").val();	
 		var searchKeyword = $("#search-keyword").val();
+		var delYn = $("#search-keyword-delYn").val();
 		
 			var queryString = "searchIdx=" + searchIdx;
 			queryString += "&searchKeyword=" + searchKeyword
 			queryString += "&pageNo=" + pageNo;
-
-
-			location.href = "${context}/mngrbrd/list?" + queryString;
+			queryString += "&delYn=" + delYn;
+			
+			location.href = "${context}/hlpdsk/list?" + queryString;
 		
 	}
 
@@ -98,14 +92,16 @@
 		<div>
 			<div style="display: block; padding: 20px;">
 				<div class="list-title">
-					<h3 class="list-title"> 관리자 게시판</h3> 
+					<h3 class="list-title">고객센터</h3> 
 				</div> 
 				
-			    <div class="board_box row">	
+			
+			
+				<div class="board_box row">	
 					<div class=" col-sm-3 col-xs-4"> 
 						<select id="search-select" class="input-text" style="width: 100%;">
-							<option value="mngrBrdTtl"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>제목</option>
-							<option value="mngrBrdCntnt"${searchIdx eq 'mngrBrdCntnt' ?  'selected': ''}>본문</option>
+							<option value="hlpDskTtl"${searchIdx eq 'hlpDskTtl' ?  'selected': ''}>제목</option>
+							<option value="hlpDskCntnt"${searchIdx eq 'hlpDskCntnt' ?  'selected': ''}>본문</option>
 							<option value="Wrtr"${searchIdx eq 'Wrtr' ?  'selected': ''}>작성자</option>
 						</select> 
 					</div>
@@ -115,76 +111,54 @@
 					<div class=" col-sm-3 col-xs-12">
 						<a role="button" title="검색" id="search-btn" class="blue-btn" style="width:100%;">검색</a>
 					</div> 
-				</div>
-				
-				<div class="list-brd-top"> 
-					<div class="cnt">
-			    		<span>총  게시물 ${mngrBrdList.size()} <strong id="articleTotalCount"></strong> 개</span>,
-						<span class="division_line">페이지 <strong id="currentPageNo"></strong> / <span id="totalPageNo">${mngrBrdVO.pageNo+1}</span></span>
-					</div>
-					
-			    	<div class="write">   
-						<c:if test="${mbrVO.mbrLvl eq '001-01'}"> 
-							<button id="delete_btn" class="red-btn">삭제</button> 
-						</c:if>
-						<a href="${context}/mngrbrd/write" class="btn-m" style="text-decoration: none;"> 게시글 작성</a>
-					</div>
-			    </div>
-			
+				</div>	
 				<div class= "grid">
+				
 					<table>
 						<thead>
 							<tr>
-								<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-									<th><input type = "checkbox" id ="all_check"/></th>
-								</c:if>
 								<th>글번호</th>
-								<th>카테고리</th>					
+								<th>문의/건의</th>	
+								<th>답변상태
+									<select class="selectFilter" name="selectFilter"
+											id="search-keyword-delYn">
+										<option value="">--</option>
+										<option value="Y">답변완료</option>
+										<option value="N">답변대기중</option>
+									</select>
+								</th>			
 								<th>제목</th>
 								<th>작성자</th>
 								<th>작성일</th>
-								<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-									<th>게시여부</th>
-								</c:if>	
 							</tr>
 						</thead>
 						<tbody>
 							<c:choose>			 		
-								<c:when test="${not empty mngrBrdList}">
-									<c:forEach items="${mngrBrdList}" var="mngrBrd" >
-										<tr data-mngrid = "${mngrBrd.mngrId}"
-											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ffffaa7a' : ''}">
-											
-											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-												<td style="width: 20px;"> 
-													<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
-												</td>
-											</c:if>	
-											<td style="width: 160px;">${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
-											<td style="width: 90px;">
-											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
-											
+								<c:when test="${not empty hlpDskList}">
+									<c:forEach items="${hlpDskList}" var="hlpDsk" >
+										<tr data-hlpdskwrtid = "${hlpDsk.hlpDskWrtId}"
+											data-hlpdsksbjct = "${hlpDsk.hlpDskSbjct}"
+											data-hlpdskprcsyn = "${hlpDsk.hlpDskPrcsYn}"
+											data-hlpdskttl = "${hlpDsk.hlpDskTtl}"
+											data-mbrnm = "${mbrVO.mbrNm}"
+											data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
+											<td>${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>    
+											<td>${hlpDsk.hlpDskSbjct}</td>
+											<td>${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
 											<td>
-												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid" style="text-decoration: none;">
-													${mngrBrd.mngrBrdTtl}  
-												</a>[${mngrBrd.rplList.size()}] 
+												<a href="${context}/hlpdsk/${hlpDsk.hlpDskWrtId}" style="text-decoration: none;">
+													${hlpDsk.hlpDskTtl}  
+												</a>
 											</td>
-											<td>${mngrBrd.mbrVO.mbrNm}</td>
-											<td style="width: 160px;">${mngrBrd.mngrBrdWrtDt}</td> 
-											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-												<td style="width: 70px;">
-												${mngrBrd.useYn}</td>	
-											</c:if>	
-											
+											<td>${hlpDsk.mbrVO.mbrNm}</td>
+											<td>${hlpDsk.hlpDskWrtDt}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
-							
 								<c:otherwise>
 									<tr>
-										<td colspan="9" class="no-items">
-											검색 결과가 없습니다.
+										<td colspan="6" class="no-items">
+											등록한 글이 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -194,13 +168,13 @@
 				
 					 <div class="pagenate">
 						<ul>
-							<c:set value = "${mngrBrdList.size() > 0 ? mngrBrdList.get(0).lastPage : 0}" var="lastPage"/>
-							<c:set value = "${mngrBrdList.size() > 0 ? mngrBrdList.get(0).lastPage : 0}" var="lastGroup"/>
+							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastPage : 0}" var="lastPage"/>
+							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastPage : 0}" var="lastGroup"/>
 							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(MngrBrdVO.pageNo /10)}" integerOnly="true" />
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(hlpDskVO.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
 							<c:set value ="${nowGroup*10+ 10}" var="groupEndPageNo" />
-							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo}" var="groupEndPageNo" />
+							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo-1}" var="groupEndPageNo" />
 							
 							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
 							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
@@ -208,10 +182,11 @@
 								<li><a href="javascript:movePage(0)">처음</a></li>
 								<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
 							</c:if>
-
+							
 							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
-								<li><a class="${pageNo eq MngrBrdVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+								<li><a class="${pageNo eq hlpDskVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 							</c:forEach>
+					
 							
 							<c:if test="${lastGroup > nowGroup}">
 								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>

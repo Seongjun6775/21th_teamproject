@@ -51,6 +51,20 @@ public class RestHlpDskController {
 		}
 	}
 	
+	@PostMapping("/api/hlpdsk/update/{hlpDskWrtId}")
+	public ApiResponseVO doUpdateHlpDskBySelectedHlpDskId(HlpDskVO hlpDskVO,
+										@SessionAttribute("__MBR__") MbrVO mbrVO) {
+		boolean updateResult = hlpDskService.updateNewHlpDsk(hlpDskVO);
+		System.out.println(updateResult);
+		if(updateResult) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	}
+	
+	
 	@GetMapping("/api/hlpdsk/delete/{hlpDskWrtId}")
 	public ApiResponseVO doDeleteHlpDsk(@PathVariable String hlpDskWrtId,HlpDskVO hlpDskVO) {
 

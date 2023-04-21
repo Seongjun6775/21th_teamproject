@@ -22,7 +22,7 @@
 			<result property="mdfyDt" column="R_MDFY_DT" />
 			<result property="rplCntnt" column="R_RPL_CNTNT" />
 			<result property="depth" column="DEPTH" />
-			
+			<result property="delYn" column="R_DEL_YN" />
 			<association property="mbrVO"
 			             javaType="com.ktds.fr.mbr.vo.MbrVO">
 				<id property="mbrId" column="R_MBR_ID" /> <!-- 댓글 글쓴사람 id -->
@@ -78,7 +78,6 @@
          <if test= 'mbrVO != null and mbrVO.mbrNm != null and mbrVO.mbrNm != "" '>
            AND  M.MBR_NM LIKE '%' ||  #{mbrVO.mbrNm} || '%'
          </if> 
-         
          ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC
          <include refid="Common.pageFooter" />
 	</select>
@@ -132,15 +131,15 @@
 		     , R.ALTCL_ID
 		     , R.RPL_WRT_DT R_RPL_WRT_DT
 		     , R.MDFY_DT R_MDFY_DT
-		     , R.RPL_PRNT_RPL 
+		     , R.RPL_PRNT_RPL
+		     , R.DEL_YN R_DEL_YN 
 		     , RM.MBR_NM R_NM
           FROM FRAN.MNGR_BRD B
          INNER JOIN MBR M 
             ON B.MNGR_ID = M.MBR_ID
           LEFT OUTER JOIN (SELECT *
           					 FROM RPL
-          					WHERE USE_YN = 'Y'
-          					  AND DEL_YN = 'N') R 
+          					WHERE USE_YN = 'Y') R 
             ON B.MNGR_BRD_ID = R.ALTCL_ID
           LEFT OUTER JOIN MBR RM
             ON R.MBR_ID = RM.MBR_ID

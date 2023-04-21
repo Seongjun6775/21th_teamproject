@@ -15,20 +15,30 @@ public class HlpDskServiceImpl implements HlpDskService {
 	private HlpDskDAO hlpDskDAO; 
 	
 	@Override
-	public List<HlpDskVO> readAllMngrBrds(HlpDskVO hlpDskVO) {
-		return hlpDskDAO.readAllMngrBrds(hlpDskVO);
+	public List<HlpDskVO> readAllHlpDsks(HlpDskVO hlpDskVO) {
+		return hlpDskDAO.readAllHlpDsks(hlpDskVO);
 	}
 
 	@Override
-	public HlpDskVO readOneMngrBrdByMngrBrdId(String hlpDskId) {
-		return hlpDskDAO.readOneMngrBrdByMngrBrdId(hlpDskId);
+	public List<HlpDskVO> readAllHlpDsksPagination(String mngrBrdTtl) {
+		// TODO Auto-generated method stub
+		return hlpDskDAO.readAllHlpDsksPagination(mngrBrdTtl);
 	}
-
+	@Override
+	public HlpDskVO readOneHlpDskByHlpDskId(String hlpDskId) {
+		return hlpDskDAO.readOneHlpDskByHlpDskId(hlpDskId);
+	}
+	
 	@Override
 	public boolean createNewHlpDsk(HlpDskVO hlpDskVO) {
 		return hlpDskDAO.createNewHlpDsk(hlpDskVO) >0;
 	}
-
+	@Override
+	public boolean updateNewHlpDsk(HlpDskVO hlpDskVO) {
+		return hlpDskDAO.updateNewHlpDsk(hlpDskVO) >0;
+	}
+	
+	
 	@Override
 	public boolean deleteOneHlpDsk(String hlpDskId) {
 		return hlpDskDAO.deleteOneHlpDsk(hlpDskId) > 0;

@@ -26,37 +26,50 @@ public class HlpDskController {
 						@SessionAttribute("__MBR__") MbrVO mbrVO,
 						@RequestParam(required = false,defaultValue="")String searchIdx,
 						@RequestParam(required = false,defaultValue="")String searchKeyword) {
+		
+		if(mbrVO.getMbrLvl().equals("001-04")) {
+			return "hlpdsk/list";
+		}
+		
 		if(searchIdx.equals("Wrtr")){ 
 			hlpDskVO.setMbrVO(new MbrVO());
 			hlpDskVO.getMbrVO().setMbrNm(searchKeyword);
 		}		
-		if(searchIdx.equals("mngrBrdTtl")) {
+		if(searchIdx.equals("hlpDskTtl")) {
 			hlpDskVO.setHlpDskTtl(searchKeyword);
 		}
-		if(searchIdx.equals("mngrBrdCntnt")) {
+		if(searchIdx.equals("hlpDskCntnt")) {
 			hlpDskVO.setHlpDskCntnt(searchKeyword);
 		} 
-		List<HlpDskVO> hlpDskList = hlpDskService.readAllMngrBrds(hlpDskVO);
+		
+		List<HlpDskVO> hlpDskList = hlpDskService.readAllHlpDsks(hlpDskVO);
 		model.addAttribute("hlpDskList", hlpDskList);
 		model.addAttribute("hlpDskVO", hlpDskVO);
 		model.addAttribute("mbrVO", mbrVO);
 		
 		model.addAttribute("searchIdx", searchIdx);
 		model.addAttribute("searchKeyword", searchKeyword);
-		return "hlpdsk/list";
+
+		return "hlpdsk/mngr_list";
 	}
+	
+	
 	@GetMapping("/hlpdsk/{hlpDskId}")
-	public String viewHlpDskDetailPage(@PathVariable String hlpDskId,Model model,					
+	public String viewHlpDskDetailPage(@PathVariable String hlpDskId,Model model,HlpDskVO hlpDskVO,				
 								@SessionAttribute("__MBR__") MbrVO mbrVO) {
-		HlpDskVO hlpDsk = hlpDskService.readOneMngrBrdByMngrBrdId(hlpDskId);
+		HlpDskVO hlpDsk = hlpDskService.readOneHlpDskByHlpDskId(hlpDskId);
 		
 		model.addAttribute("hlpDsk", hlpDsk);
 		model.addAttribute("mbrVO", mbrVO);
-		
+		model.addAttribute("mbrNm", mbrVO.getMbrNm());
+		model.addAttribute("mbrId",mbrVO.getMbrId());
+
 		return "hlpdsk/detail";
 	}
+	
 	@GetMapping("/hlpdsk/write")
-	public String viewHlpDskWritePage() {
+	public String viewHlpDskWritePage(@SessionAttribute("__MBR__")MbrVO mbrVO, Model model) {
+		model.addAttribute("mbrId",mbrVO.getMbrId());
 		return "hlpdsk/write";
 	}
 

@@ -20,8 +20,10 @@
 			$.post("${context}/api/hlpdsk/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
 					var url= '${context}/hlpdsk/list'
-						//console.log(url);
-						location.replace(url);
+						alert("!!");
+						var url= '${context}/hlpdsk/list'
+						alert(url);
+						location.replace(url);	
 				}
 				else if (response.status =="400"){
 					//파라미터를 전달하지 않은 경우
@@ -60,27 +62,32 @@
 					<form id="create_form" >
 						<div class="header-option-right">
 							<div class=" col-sm-3 col-xs-4"> 
-								<select id="hlpDskSbjct" class="input-text" style="width: 20%;">
-									<option>문의/건의</option>
+								<label for="hlpDskSbjct">글 분류</label>
+								<select id="hlpDskSbjct" name="hlpDskSbjct" class="input-text" style="width: 20%;">
+									<option>선택</option>
 									<option value="문의하기">문의하기</option>				
 									<option value="건의하기">건의하기</option>
 								</select> 
 							</div>
 						</div>	
+						
+						<div class="create-group"> 
+							<input type="hidden" id="mbrId" name="mbrId" value="${mbrId}" />
+						</div>	
+						 
 						<div class="create-group">
 							<label for="mngrBrdTtl" class="label">제목</label> 
-							<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${hlpDsk.mngrBrdTtl}" />
+							<input type="text" id="mngrBrdTtl" name="hlpDskTtl" placeholder="제목을 입력해주세요." value="" />
 						</div>
-					
 						
 						<div class="create-group">
-							<label for="mngrBrdCntnt" class="label">본문</label> 
-							<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" placeholder="내용을 입력해주세요." >${hlpDsk.mngrBrdCntnt}</textarea>
+							<label for="hlpDskCntnt" class="label">본문</label> 
+							<textarea  id="hlpDskCntnt" name="hlpDskCntnt" placeholder="내용을 입력해주세요." >${hlpDsk.mngrBrdCntnt}</textarea>
 						</div>
-					</form>	
 					<div style="padding: 10px;text-align: right;"> 
 						<button id="new_btn" class="blue-btn">등록</button>
 					</div> 					
+					</form>	
 				</div>
 			</div>			
 			<jsp:include page="../include/footer.jsp" />

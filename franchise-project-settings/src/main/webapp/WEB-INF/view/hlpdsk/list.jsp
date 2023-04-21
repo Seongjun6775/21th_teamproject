@@ -63,13 +63,11 @@
 		//입력 값.	 
 		var searchIdx = $("#search-select").val();	
 		var searchKeyword = $("#search-keyword").val();
+		var queryString = "searchIdx=" + searchIdx;
+		queryString += "&searchKeyword=" + searchKeyword
+		queryString += "&pageNo=" + pageNo;
 		
-			var queryString = "searchIdx=" + searchIdx;
-			queryString += "&searchKeyword=" + searchKeyword
-			queryString += "&pageNo=" + pageNo;
-
-
-			location.href = "${context}/hlpdsk/list?" + queryString;
+		location.href = "${context}/hlpdsk/list?" + queryString;
 		
 	}
 
@@ -87,63 +85,50 @@
 					<h3 class="list-title">고객센터</h3> 
 				</div> 
 				
-			    <div class="board_box row">	
-					<div class=" col-sm-3 col-xs-4"> 
-						<select id="search-select" class="input-text" style="width: 100%;">
-							<option value="mngrBrdTtl"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>제목</option>
-							<option value="mngrBrdCntnt"${searchIdx eq 'mngrBrdCntnt' ?  'selected': ''}>본문</option>
-							<option value="Wrtr"${searchIdx eq 'Wrtr' ?  'selected': ''}>작성자</option>
-						</select> 
-					</div>
-					<div class=" col-sm-6 col-xs-8">
-						<input name="keyword" type="text" class="input-text" placeholder="검색어를 입력해주세요" id="search-keyword"  style="width: 100%;" value="${searchKeyword}" >
-					</div>
-					<div class=" col-sm-3 col-xs-12">
-						<a role="button" title="검색" id="search-btn" class="blue-btn" style="width:100%;">검색</a>
-					</div> 
-				</div>
-				
-				<div class="list-brd-top"> 
-					<div class="cnt">
-			    		<span>총  게시물 ${hlpDskList.size()} <strong id="articleTotalCount"></strong> 개</span>,
-						<span class="division_line">페이지 <strong id="currentPageNo"></strong> / <span id="totalPageNo">${hlpDskVO.pageNo+1}</span></span>
-					</div>
-					
-			    	<div class="write">   
-							<button id="delete_btn" class="red-btn">삭제</button> 
-						<a href="${context}/hlpdsk/write" class="btn-m" style="text-decoration: none;"> 작성</a>
-					</div>
-			    </div>
+			    <div class="qna_box row" >	 
+					<a href="${context}/hlpdsk/write" class="qna-btn" style="text-decoration: none; width:70%;"> 문의/건의 </a>
+				</div>		
 			
 				<div class= "grid">
 				
 					<table>
 						<thead>
 							<tr>
-								<th><input type = "checkbox" id ="all_check"/></th>
 								<th>글번호</th>
-								<th>카테고리</th>					
+								<th>문의/건의</th>	
+								<th>답변상태</th>			
 								<th>제목</th>
 								<th>작성자</th>
 								<th>작성일</th>
-								<th>게시여부</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:choose>			 		
 								<c:when test="${not empty hlpDskList}">
 									<c:forEach items="${hlpDskList}" var="hlpDsk" >
-										<tr>
-				
-											
+										<tr data-hlpdskwrtid = "${hlpDsk.hlpDskWrtId}"
+											data-hlpdsksbjct = "${hlpDsk.hlpDskSbjct}"
+											data-hlpdskprcsyn = "${hlpDsk.hlpDskPrcsYn}"
+											data-hlpdskttl = "${hlpDsk.hlpDskTtl}"
+											data-mbrnm = "${mbrVO.mbrNm}"
+											data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
+											<td>${hlpDsk.hlpDskWrtId}</td>
+											<td>${hlpDsk.hlpDskSbjct}</td>
+											<td>${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
+											<td>
+												<a href="${context}/hlpdsk/${hlpDsk.hlpDskWrtId}" style="text-decoration: none;">
+													${hlpDsk.hlpDskTtl}  
+												</a>
+											</td>
+											<td>${hlpDsk.mbrVO.mbrNm}</td>
+											<td>${hlpDsk.hlpDskWrtDt}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
-							
 								<c:otherwise>
 									<tr>
-										<td colspan="7" class="no-items">
-											검색 결과가 없습니다.
+										<td colspan="6" class="no-items">
+											등록한 글이 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -159,7 +144,7 @@
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(hlpDskVO.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
 							<c:set value ="${nowGroup*10+ 10}" var="groupEndPageNo" />
-							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo}" var="groupEndPageNo" />
+							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo -1}" var="groupEndPageNo" />
 							
 							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
 							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
@@ -167,9 +152,11 @@
 								<li><a href="javascript:movePage(0)">처음</a></li>
 								<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
 							</c:if>
-
-					
 							
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
+								<li><a class="${pageNo eq hlpDskVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+							</c:forEach>
+
 							<c:if test="${lastGroup > nowGroup}">
 								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
 								<li><a href="javascript:movePage(${lastPage})">끝</a></li>

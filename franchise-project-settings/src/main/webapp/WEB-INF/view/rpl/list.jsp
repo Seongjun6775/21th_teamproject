@@ -60,6 +60,7 @@
 		});
 		
 	    $("#search-btn").click(function(){
+	    	
 	        movePage(0);
 	     });
 	    
@@ -100,7 +101,7 @@
 			    <div class="board_box row">	
 					<div class=" col-sm-3 col-xs-4">
 						<select id="search-select" class="input-text" style="width: 100%;">
-							<option value="rplCntnt"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>제목</option>
+							<option value="rplCntnt"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>댓글</option>
 							<option value="Wrtr"${searchIdx eq 'Wrtr' ?  'selected': ''}>작성자</option>
 							<option value="mngrBrdTtl"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>게시글</option>
 						</select> 
@@ -202,7 +203,7 @@
 								<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
 							</c:if>
 
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo-1}" step="1" var="pageNo">
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
 								<li><a class="${pageNo eq rplVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 							</c:forEach> 
 							
