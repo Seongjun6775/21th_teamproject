@@ -23,7 +23,6 @@
 				if(resp.status == "200 OK"){
 					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;
-					alert("로그인");
 				}
 				else if(resp.message=="계정정보없음"){
 					localStorage.setItem("failCount", parseInt(failCount)+1);

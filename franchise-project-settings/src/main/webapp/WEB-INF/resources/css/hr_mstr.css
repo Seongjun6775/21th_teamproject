@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+
+table {
+	width: 100%;
+	border: solid 1px;
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 5px;
+	font-size: 10pt;
+}
+
+table > th, td {
+	border: solid 1px #333;
+}
+
+a {
+	text-decoration: none;
+	color: #222;
+}
+
+a:hover {
+	color: #777;
+}
+
+button {
+	border: solid 1px #333;
+	margin : 5px;
+}
+
+textarea {
+	width: 70%;
+	height: 450px;
+	resize: none;
+}
+
+.hr_detail_header {
+	display: inline-block;
+	padding-right: 20px;
+}
+
+.hr_detail_cntnt {
+	width: 800px;
+	height: 550px;
+}

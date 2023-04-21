@@ -66,8 +66,6 @@ public abstract class AbstractVO {
 	public void setEndDt(String endDt) {
 		this.endDt = endDt;
 	}
-	
-	
 	public int getPageNo() {
 		return pageNo;
 	}

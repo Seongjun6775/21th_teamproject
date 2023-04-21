@@ -1,55 +1,103 @@
-package com.ktds.fr.odrdtl.vo;		
-		
-public class OdrDtlVO {		
-		
-	private String odrDtlId;	
-	private String odrLstId;	
-	private String odrDtlPrdtId;	
-	private int odrDtlPrdtCnt;	
-	private String odrDtlStrId;	
-	private String useYn;	
-	private String delYn;	
-	public String getOdrDtlId() {	
+package com.ktds.fr.odrdtl.vo;
+
+public class OdrDtlVO {
+	
+	/**
+	 * 주문상세 ID
+	 */
+	private String odrDtlId;
+	/**
+	 * 주문서 ID
+	 */
+	private String odrLstId;
+	/**
+	 * 주문한 상품 ID
+	 */
+	private String odrDtlPrdtId;
+	/**
+	 * 주문한 상품 갯수
+	 */
+	private int odrDtlPrdtCnt;
+	/**
+	 * 주문한 매장 ID
+	 */
+	private String odrDtlStrId;
+	/**
+	 * 사용 여부
+	 */
+	private String useYn;
+	/**
+	 * 삭제 여부
+	 */
+	private String delYn;
+	/**
+	 * 주문한 회원 ID
+	 */
+	private String mbrId;
+
+	public String getOdrDtlId() {
 		return odrDtlId;
-	}	
-	public void setOdrDtlId(String odrDtlId) {	
+	}
+
+	public void setOdrDtlId(String odrDtlId) {
 		this.odrDtlId = odrDtlId;
-	}	
-	public String getOdrLstId() {	
+	}
+
+	public String getOdrLstId() {
 		return odrLstId;
-	}	
-	public void setOdrLstId(String odrLstId) {	
+	}
+
+	public void setOdrLstId(String odrLstId) {
 		this.odrLstId = odrLstId;
-	}	
-	public String getOdrDtlPrdtId() {	
+	}
+
+	public String getOdrDtlPrdtId() {
 		return odrDtlPrdtId;
-	}	
-	public void setOdrDtlPrdtId(String odrDtlPrdtId) {	
+	}
+
+	public void setOdrDtlPrdtId(String odrDtlPrdtId) {
 		this.odrDtlPrdtId = odrDtlPrdtId;
-	}	
-	public int getOdrDtlPrdtCnt() {	
+	}
+
+	public int getOdrDtlPrdtCnt() {
 		return odrDtlPrdtCnt;
-	}	
-	public void setOdrDtlPrdtCnt(int odrDtlPrdtCnt) {	
+	}
+
+	public void setOdrDtlPrdtCnt(int odrDtlPrdtCnt) {
 		this.odrDtlPrdtCnt = odrDtlPrdtCnt;
-	}	
-	public String getOdrDtlStrId() {	
+	}
+
+	public String getOdrDtlStrId() {
 		return odrDtlStrId;
-	}	
-	public void setOdrDtlStrId(String odrDtlStrId) {	
+	}
+
+	public void setOdrDtlStrId(String odrDtlStrId) {
 		this.odrDtlStrId = odrDtlStrId;
-	}	
-	public String getUseYn() {	
+	}
+
+	public String getUseYn() {
 		return useYn;
-	}	
-	public void setUseYn(String useYn) {	
+	}
+
+	public void setUseYn(String useYn) {
 		this.useYn = useYn;
-	}	
-	public String getDelYn() {	
+	}
+
+	public String getDelYn() {
 		return delYn;
-	}	
-	public void setDelYn(String delYn) {	
+	}
+
+	public void setDelYn(String delYn) {
 		this.delYn = delYn;
-	}	
-		
-}		
+	}
+
+	public String getMbrId() {
+		return mbrId;
+	}
+
+	public void setMbrId(String mbrId) {
+		this.mbrId = mbrId;
+	}
+	
+
+}

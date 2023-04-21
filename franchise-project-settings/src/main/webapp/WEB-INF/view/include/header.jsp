@@ -20,10 +20,10 @@
 			<a href="${context}/evnt/list">이벤트관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">채용 관리</a>
+			<a href="${context}/hr/list">채용 관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">쪽지 관리</a>
+			<a href="${context}/nt/list">쪽지 관리</a>
 		</li>
 		<li class="nav-item">
 			<a href="${context}/rv/list">리뷰관리</a>
@@ -35,7 +35,7 @@
 			<a href="${context}/mngrbrd/list">관리자게시판</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">고객센터</a>
+			<a href="#">고객센터</a>	
 		</li>
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
