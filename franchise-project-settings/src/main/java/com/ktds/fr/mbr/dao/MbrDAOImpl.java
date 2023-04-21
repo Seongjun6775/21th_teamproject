@@ -69,8 +69,8 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	}
 
 	@Override
-	public List<MbrVO> readAllEmployeeAdminMbr() {
-		return getSqlSession().selectList("Mbr.readAllAdminMbr");
+	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO) {
+		return getSqlSession().selectList("Mbr.readAllAdminMbr",mbrVO);
 	}
 
 	@Override

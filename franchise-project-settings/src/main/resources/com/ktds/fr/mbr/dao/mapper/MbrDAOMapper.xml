@@ -162,28 +162,47 @@
 		 <include refid="Mbrcommon.pageFooter" />
 	</select>
 	<!-- 수정필요 매장관련 정보도? -->
-	<select id="readAllEmployeeAdminMbr"
+	<select id="readAllAdminMbr"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
 			resultType="com.ktds.fr.mbr.vo.MbrVO">
-		SELECT MBR_ID
-			 , STR_ID
-			 , MBR_NM
-			 , MBR_PWD
-			 , MBR_EML
-			 , TO_CHAR(MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
-			 , TO_CHAR(MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
-			 , MBR_RCNT_LGN_IP
-			 , MBR_LGN_FL_CNT
-			 , MBR_LGN_BLCK_YN
-			 , TO_CHAR(MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
-			 , MBR_PWD_SLT
-			 , TO_CHAR(MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
-			 , MBR_LVL
+		<include refid="Mbrcommon.pageHeader" />
+		SELECT M.MBR_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY M.MBR_NM ASC) RNUM
+			 , M.MBR_ID
+			 , M.STR_ID
+			 , M.MBR_NM
+			 , M.MBR_EML
+			 , TO_CHAR(M.MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(M.MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , M.MBR_RCNT_LGN_IP
+			 , M.MBR_LGN_FL_CNT
+			 , M.MBR_LGN_BLCK_YN
+			 , TO_CHAR(M.MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , M.MBR_PWD_SLT
+			 , TO_CHAR(M.MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , CD.CD_NM MBR_LVL
+			 , CD.CD_ID
 			 , MBR_PY_MN
-			 , TO_CHAR(MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT 
-		  FROM FRAN.MBR
-		 WHERE USE_YN='Y'
-		   AND DEL_YN='N'
-		   AND MBR_LVL='EMPLOYEE'
+			 , TO_CHAR(M.MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT 
+		  FROM FRAN.MBR M
+		 INNER JOIN CMMN_CD CD
+ 		 	ON M.MBR_LVL = CD.CD_ID
+		 WHERE M.MBR_RGSTR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND M.MBR_RGSTR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		   AND MBR_LVL LIKE '001-%'
+		   AND MBR_LVL != '001-01'
+		   AND MBR_LVL != '001-04'
+		  <if test='mbrLvl != null and mbrLvl != ""'>
+		   AND CD.CD_ID = #{mbrLvl}
+		  </if>
+		  <if test='mbrNm != null and mbrNm !=""'>
+		   AND M.MBR_NM = #{mbrNm}
+		  </if>
+		  <if test='delYn != null and delYn !=""'>
+		   AND M.DEL_YN = #{delYn}
+		  </if>
+		 ORDER BY M.MBR_NM ASC
+		 <include refid="Mbrcommon.pageFooter" /> 
 	</select>
 	
 	<update id="updateOneMbr"

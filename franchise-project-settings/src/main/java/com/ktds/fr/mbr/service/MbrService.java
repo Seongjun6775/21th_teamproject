@@ -27,8 +27,8 @@ public interface MbrService {
 	
 	//이용자 조회용
 	public List<MbrVO> readAllMbr(MbrVO mbrVO);
-	//하위 관리자 조회용
-	public List<MbrVO> readAllEmployeeAdminMbr();
+	//관리자 조회용
+	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO);
 	//회원 수정
 	public boolean updateOneMbr(MbrVO mbrVO);
 	//회원 삭제

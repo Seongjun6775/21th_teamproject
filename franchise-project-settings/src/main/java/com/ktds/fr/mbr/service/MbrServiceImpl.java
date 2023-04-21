@@ -122,8 +122,35 @@ public class MbrServiceImpl implements MbrService {
 	}
 
 	@Override // 하위관리자 전체 조회
-	public List<MbrVO> readAllEmployeeAdminMbr() {
-		return mbrDAO.readAllEmployeeAdminMbr();
+	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO) {
+		if(mbrVO.getStartDt() == null || mbrVO.getStartDt().length()==0) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, -1);
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH)+1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			
+			String startDt = year+ "-" + strMonth + "-" + strDay;
+			mbrVO.setStartDt(startDt);
+		}
+		if(mbrVO.getEndDt() == null || mbrVO.getEndDt().length() == 0) {
+			Calendar cal = Calendar.getInstance();
+			
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			
+			String endDt = year + "-" + strMonth + "-" + strDay;
+			mbrVO.setEndDt(endDt);
+			
+		}
+		return mbrDAO.readAllAdminMbr(mbrVO);
 	}
 
 	@Override // 회원 정보 수정
