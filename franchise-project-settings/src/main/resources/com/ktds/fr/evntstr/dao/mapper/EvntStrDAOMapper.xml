@@ -5,5 +5,37 @@
 <mapper namespace="EvntStr">
 
 
+	<select id="readAllEvntStr"
+		parameterType="com.ktds.fr.evntstr.vo.EvntStrVO"
+		resultType="com.ktds.fr.evntstr.vo.EvntStrVO">
+	SELECT EVNT_STR_ID 
+	     , EVNT_ID 
+	     , STR_ID 
+	     , USE_YN 
+	     , DEL_YN
+	  FROM EVNT_STR
+	 WHERE 1 = 1
+	   AND EVNT_ID = #{evntId}
+	   AND DEL_YN = 'N'
+	</select>
+	
+	
+	
+	<insert id="createEvntStr"
+	   parameterType="com.ktds.fr.evntstr.vo.EvntStrVO">
+	INSERT INTO EVNT_STR
+                (EVNT_STR_ID
+               , EVNT_ID
+               , STR_ID
+               , USE_YN
+               , DEL_YN)
+               VALUES 
+               ('ES-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_STR_PK.NEXTVAL, 5, '0')
+               ,#{evntId}
+               ,#{strId}
+               , NVL(#{useYn},'Y')
+               , 'N' )
+      
+	</insert>
 
 </mapper>

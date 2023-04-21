@@ -68,7 +68,7 @@ function movePage(pageNo) {
 			<c:when test="${not empty prdtList}">
 				<c:forEach items="${prdtList}"
 							var="prdt">
-					<div class="prdt1">
+					<div class="prdt1" id="${prdt.prdtId}">
 						<div class="img-box">
 							<c:choose>
 								<c:when test="${empty prdt.uuidFlNm}">

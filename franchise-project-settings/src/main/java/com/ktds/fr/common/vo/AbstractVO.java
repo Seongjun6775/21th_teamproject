@@ -1,7 +1,7 @@
 package com.ktds.fr.common.vo;
 
 public abstract class AbstractVO {
-
+	
 	/**
 	 * 검색에 이용
 	 * 시작 날짜
@@ -66,8 +66,6 @@ public abstract class AbstractVO {
 	public void setEndDt(String endDt) {
 		this.endDt = endDt;
 	}
-	
-	
 	public int getPageNo() {
 		return pageNo;
 	}
@@ -112,3 +110,4 @@ public abstract class AbstractVO {
 	}
 
 }
+

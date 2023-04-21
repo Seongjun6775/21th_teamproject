@@ -19,22 +19,42 @@
 					autoMapping="true">
 			<id property="prdtId" column="PRDT_ID"/>
 		</association>
+		<association property="cmmnCdVO"
+					javaType="com.ktds.fr.cmmncd.vo.CmmnCdVO"
+					autoMapping="true">
+			<id property="cdId" column="CD_ID"/>
+		</association>
 		<association property="mdfyrMbrVO"
 					javaType="com.ktds.fr.mbr.vo.MbrVO"
 					autoMapping="true">
 			<id property="mbrId" column="MDFYR"/>
+			<result property="mbrNm" column="MDFYR_NM"/>
+		</association>
+		<association property="strMbrVO"
+					javaType="com.ktds.fr.mbr.vo.MbrVO"
+					autoMapping="true">
+			<id property="mbrId" column="MBR_ID"/>
+			<result property="mbrNm" column="MBR_NM"/>
 		</association>
 	</resultMap>
 	
 	
 	<select id="readAll"
-			parameterType="string"
+			parameterType="com.ktds.fr.strprdt.vo.StrPrdtVO"
 			resultMap="strPrdtVOMap">
-		SELECT SP.STR_PRDT_ID 
+		<include refid="StrPrdtCommon.pageHeader"></include>
+		SELECT SP.STR_PRDT_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY STR_PRDT_ID ASC) RNUM
+			 , SP.STR_PRDT_ID
 		     , SP.STR_ID 
 		     , S.STR_NM
+		     , SM.MBR_ID
+		     , SM.MBR_NM
 		     , SP.PRDT_ID
+		     , P.PRDT_SRT
+		     , C.CD_NM
 		     , P.PRDT_NM 
+		     , P.PRDT_PRC
 		     , SP.MDFYR 
 		     , M.MBR_NM MDFYR_NM
 		     , SP.MDFY_DT 
@@ -45,12 +65,74 @@
 		    ON SP.STR_ID = S.STR_ID 
 		 INNER JOIN PRDT P
 		    ON SP.PRDT_ID = P.PRDT_ID
+	      LEFT OUTER JOIN MBR SM
+	        ON S.MBR_ID = SM.MBR_ID
+		 INNER JOIN CMMN_CD C
+		    ON P.PRDT_SRT = C.CD_ID
 		  LEFT OUTER JOIN MBR M
 		    ON SP.MDFYR = M.MBR_ID
 		 WHERE SP.DEL_YN = 'N'
-		<if test='_parameter != null and _parameter != ""'>
-		   AND STR_ID = {_parameter}
+		   AND P.USE_YN = 'Y'
+		<if test='strId != null and strId != ""'>
+		   AND SP.STR_ID = #{strId}
 		</if>
+		<if test='useYn != null and useYn != ""'>
+		   AND SP.USE_YN = #{useYn}
+		</if>
+		<if test='cmmnCdVO != null and cmmnCdVO != ""'>
+		   AND C.CD_ID = #{cmmnCdVO.cdId}
+		</if>
+		<if test='prdtId != null and prdtId != ""'>
+		   AND SP.PRDT_ID = #{prdtId}
+		</if>
+		 ORDER BY S.STR_NM ASC 
+		<include refid="StrPrdtCommon.pageFooter"></include>
+	</select>
+
+	<select id="readAllNOPagenation"
+			parameterType="com.ktds.fr.strprdt.vo.StrPrdtVO"
+			resultMap="strPrdtVOMap">
+		SELECT SP.STR_PRDT_ID
+		     , SP.STR_ID 
+		     , S.STR_NM
+		     , SM.MBR_ID
+		     , SM.MBR_NM
+		     , SP.PRDT_ID
+		     , P.PRDT_SRT
+		     , C.CD_NM
+		     , P.PRDT_NM 
+		     , P.PRDT_PRC
+		     , SP.MDFYR 
+		     , M.MBR_NM MDFYR_NM
+		     , SP.MDFY_DT 
+		     , SP.USE_YN 
+		     , SP.DEL_YN 
+		  FROM STR_PRDT SP
+		 INNER JOIN STR S
+		    ON SP.STR_ID = S.STR_ID 
+		 INNER JOIN PRDT P
+		    ON SP.PRDT_ID = P.PRDT_ID
+	      LEFT OUTER JOIN MBR SM
+	        ON S.MBR_ID = SM.MBR_ID
+		 INNER JOIN CMMN_CD C
+		    ON P.PRDT_SRT = C.CD_ID
+		  LEFT OUTER JOIN MBR M
+		    ON SP.MDFYR = M.MBR_ID
+		 WHERE SP.DEL_YN = 'N'
+		   AND P.USE_YN = 'Y'
+		<if test='strId != null and strId != ""'>
+		   AND SP.STR_ID = #{strId}
+		</if>
+		<if test='useYn != null and useYn != ""'>
+		   AND SP.USE_YN = #{useYn}
+		</if>
+		<if test='cmmnCdVO != null and cmmnCdVO != ""'>
+		   AND C.CD_ID = #{cmmnCdVO.cdId}
+		</if>
+		<if test='prdtId != null and prdtId != ""'>
+		   AND SP.PRDT_ID = #{prdtId}
+		</if>
+		 ORDER BY S.STR_NM ASC, P.PRDT_NM
 	</select>
 
 
@@ -90,18 +172,13 @@
 		   SET MDFYR = #{mdfyr} 
 		     , MDFY_DT = SYSDATE
 		     , USE_YN = NVL(#{useYn}, 'N') 
-		 WHERE STR_PRDT_ID = #{strPrdtId} 
-	</update>
-	<update id="updateSelectAll"
-			parameterType="arrayList">
-		UPDATE STR_PRDT 
-		   SET MDFYR = #{mdfyr} 
-		     , MDFY_DT = SYSDATE
-		     , USE_YN = NVL(#{useYn}, 'N') 
 		 WHERE STR_PRDT_ID IN  
-		<foreach item="strPrdtId" collection="list"
-				open="(" separator=", " close=")">
-			#{strPrdtId}
+		<foreach item="id" 
+				collection="strPrdtIdList"
+				open="(" 
+				close=")"
+				separator=", "> 
+			#{id}
 	 	</foreach>
 	</update>
 	

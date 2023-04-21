@@ -4,6 +4,316 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Rv">
 
+	<resultMap id="rvVOMap"
+			   type="com.ktds.fr.rv.vo.RvVO" 			   
+			   autoMapping="true">
+		   <id property="rvId" column="RV_ID" />
+		<association property="strVO"
+					 javaType="com.ktds.fr.str.vo.StrVO"
+					 autoMapping="true">
+				 <id property="strId" column="STR_ID"></id>
+				 <result property="strNm" column="STR_NM" />
+		</association>					   
+	</resultMap>
+
+	<!-- 1-1.(제품 이력확인 후)리뷰 등록 == 이용자 -->
+	<insert id="createNewRv"
+			parameterType="com.ktds.fr.rv.vo.RvVO">
+		INSERT INTO RV
+		  (RV_ID
+	     , MBR_ID
+	     , ODR_LST_ID
+	     , RV_TTL
+	     , RV_CNTNT
+	     , RV_LK_DSLK
+	     , RV_RGST_DT
+	     , MDFY_DT
+	     , USE_YN
+	     , DEL_YN)
+		 VALUES
+		  ('RV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_RV_PK.NEXTVAL, 5, '0')
+		 , #{mbrId}
+		 , #{odrLstId}
+		 , #{rvTtl}
+		 , #{rvCntnt}
+		 , NVL(#{rvLkDslk}, 'T') 
+		 , SYSDATE
+		 , SYSDATE
+		 , NVL(#{useYn}, 'Y') 
+		 , NVL(#{delYn}, 'N') )				
+	</insert>
+
+	<!-- 1-2.이용자가 쓴 리뷰 개수 조회(리뷰 쓴 적이 없어야 리뷰 등록 가능) -->
+	<select id="readCountRvByRvId"
+			parameterType="com.ktds.fr.rv.vo.RvVO"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM RV
+		 WHERE MBR_ID = #{mbrId}
+		   AND ODR_LST_ID = #{odrLstId}
+	</select>
+
+	<!-- 1-3. 주문서 ID를 토대로 수정일로부터 7일 이내에만 리뷰를 등록할 수 있도록 함 -->
+	<select id="createNewRvWithin7days"
+			parameterType="com.ktds.fr.rv.vo.RvVO"
+			resultType="_int">
+		SELECT COUNT(1) 
+  		  FROM ODR_LST
+ 		 WHERE SYSDATE - MDFY_DT <![CDATA[<=]]> 7 
+ 		   AND ODR_LST_ID = #{odrLstId}
+	</select>
 
 
+	<!-- 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자 -->
+	<select id="readAllRvListForTopManager"
+			parameterType="com.ktds.fr.rv.vo.SearchRvVO"
+			resultMap="rvVOMap">
+			<include refid="Common.pageHeader" />
+		SELECT R.RV_ID
+			 , R.RV_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY R.RV_RGST_DT DESC) RNUM
+			 , R.MBR_ID
+			 , S.STR_NM
+			 , R.ODR_LST_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN ODR_LST OL
+		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN STR S
+		    ON OL.STR_ID = S.STR_ID 
+		 WHERE R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'
+		   <if test='type == "rvTtl"'>
+		   AND R.RV_TTL LIKE '%' || #{search} || '%'
+		   </if>
+		   <if test='type == "rvCntnt"'>
+		   AND R.RV_CNTNT LIKE '%' || #{search} || '%'
+		   </if>
+		   <if test='type == "mbrId"'>
+		   AND R.MBR_ID = #{search}
+		   </if>
+		 ORDER BY R.RV_RGST_DT DESC		   
+		   <include refid="Common.pageFooter" />
+	</select>
+	
+	<!-- 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자 -->
+	<select id="readOneRvVOForTopManagerByRvId"
+			parameterType="string"
+			resultMap="rvVOMap">
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , S.STR_NM
+			 , R.ODR_LST_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		  INNER JOIN ODR_LST OL
+		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN STR S
+		    ON OL.STR_ID = S.STR_ID
+		 WHERE R.RV_ID = #{_parameter}
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'		
+	</select>
+	
+	<!-- 2-3.자기 매장의 리뷰 목록 조회 == 중하위관리자 -->
+	<select id="readAllRvListForMiddleManager"
+			parameterType="com.ktds.fr.rv.vo.SearchRvVO"
+			resultMap="rvVOMap">
+			<include refid="Common.pageHeader" />
+		SELECT R.RV_ID
+			 , R.RV_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY R.RV_RGST_DT DESC)RNUM
+			 , R.MBR_ID
+			 , S.STR_NM
+			 , R.ODR_LST_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN ODR_LST OL
+		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN STR S
+		    ON OL.STR_ID = S.STR_ID
+		 WHERE R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'
+		   AND S.MBR_ID = #{mbrVO.mbrId}
+		   <if test='type == "rvTtl"'>
+		   AND R.RV_TTL LIKE '%' || #{search} || '%'
+		   </if>
+		   <if test='type == "rvCntnt"'>
+		   AND R.RV_CNTNT LIKE '%' || #{search} || '%'
+		   </if>
+		   <if test='type == "mbrId"'>
+		   AND R.MBR_ID = #{search}
+		   </if>
+		 ORDER BY R.RV_RGST_DT DESC	   
+		   <include refid="Common.pageFooter" />		
+	</select>
+	
+	
+	<!-- ▶ 님이 만든거: 중간관리자와 하위관리자 목록 조회(2-3) 대체 -->
+	<select id="readAllRvListForManager"
+			parameterType="com.ktds.fr.rv.vo.SearchRvVO"
+			resultMap="rvVOMap">
+		<include refid="Common.pageHeader" />
+		SELECT R.RV_ID
+			 , R.RV_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY R.RV_RGST_DT DESC) RNUM
+			 , R.MBR_ID
+			 , S.STR_NM
+			 , R.ODR_LST_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN ODR_LST OL 
+		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN STR S
+		    ON OL.STR_ID = S.STR_ID
+		 WHERE R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'
+		   AND OL.STR_ID = NVL(#{mbrVO.strId}, '-')
+		   <if test='type == "rvTtl"'>
+		   AND R.RV_TTL LIKE '%' || #{search} || '%'
+		   </if>
+		   <if test='type == "rvCntnt"'>
+		   AND R.RV_CNTNT LIKE '%' || #{search} || '%'
+		   </if>
+		   <if test='type == "mbrId"'>
+		   AND R.MBR_ID = #{search}
+		   </if>
+		 ORDER BY R.RV_RGST_DT DESC	
+		<include refid="Common.pageFooter" />		
+	</select>
+	
+	
+	<!-- 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자 -->
+	<select id="readOneRvVOForMiddleManagerByOdrId"
+			parameterType="com.ktds.fr.rv.vo.RvVO"
+			resultMap="rvVOMap">
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , S.STR_ID
+			 , S.STR_NM
+			 , R.ODR_LST_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN ODR_LST OL
+		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN STR S
+		    ON OL.STR_ID = S.STR_ID
+		 WHERE R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'
+		   AND R.RV_ID = #{rvId}
+	</select>
+	
+	<!-- 2-5.자기가 쓴 리뷰 목록 조회 == 이용자 -->
+	<select id="readAllRvListForMemberByRvId"
+			parameterType="com.ktds.fr.rv.vo.RvVO"
+			resultMap="rvVOMap">
+			<include refid="Common.pageHeader" />
+		SELECT R.RV_ID
+			 , R.RV_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY R.RV_RGST_DT DESC)RNUM
+			 , R.MBR_ID
+			 , S.STR_NM
+			 , R.ODR_LST_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN MBR M 
+		    ON R.MBR_ID = M.MBR_ID
+		 INNER JOIN ODR_LST OL
+		    ON R.ODR_LST_ID = OL.ODR_LST_ID 
+		 INNER JOIN STR S
+		    ON OL.STR_ID = S.STR_ID  
+		 WHERE M.MBR_LVL = '001-04'
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'
+		 ORDER BY R.RV_RGST_DT DESC
+		   <include refid="Common.pageFooter" />
+	</select>
+	
+	<!-- 2-6.자기가 쓴 리뷰 상세 조회 == 이용자 -->
+	<select id="readOneRvVOForMemberByRvId"
+			parameterType="string"
+			resultMap="rvVOMap">
+		SELECT R.RV_ID
+			 , R.MBR_ID
+			 , S.STR_NM
+			 , R.ODR_LST_ID
+			 , R.RV_TTL
+			 , R.RV_CNTNT
+			 , R.RV_LK_DSLK
+			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
+			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , R.USE_YN
+			 , R.DEL_YN
+		  FROM RV R
+		 INNER JOIN MBR M 
+		    ON R.MBR_ID = M.MBR_ID
+		 INNER JOIN ODR_LST OL
+		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN STR S
+		    ON OL.STR_ID = S.STR_ID
+		 WHERE M.MBR_LVL = '001-04'
+		   AND R.RV_ID = #{_parameter}
+		   AND R.USE_YN = 'Y'
+		   AND R.DEL_YN = 'N'
+	</select>
+
+	
+	<!-- 3-1.모든 매장의 리뷰 삭제 == 상위관리자 -->
+	<update id="deleteAllRvVOByRvIdList"
+			parameterType="arraylist">
+		UPDATE RV
+		   SET USE_YN = 'N'
+		     , DEL_YN = 'Y'
+		 WHERE RV_ID IN
+		 <foreach collection="list" item="rvId" open="(" close=")" separator=", ">
+		 	#{rvId}
+		 </foreach>	
+	</update>
+	
+	<!-- 3-2.자기가 쓴 리뷰 삭제 == 이용자 -->
+	<update id="deleteOneRvVOByRvId"
+			parameterType="string">
+		UPDATE RV
+		   SET USE_YN = 'N' 
+		     , DEL_YN = 'Y' 
+		 WHERE RV_ID = #{_parameter}
+	</update>
+	
 </mapper>
+

@@ -27,7 +27,8 @@
 			resultMap="strVOMap">
 			<include refid="Common.pageHeader"/>
 		SELECT S.STR_ID PK_COL
-			 , S.STR_ID
+			 , DENSE_RANK() OVER(ORDER BY S.STR_ID DESC) RNUM
+ 			 , S.STR_ID
 			 , S.STR_NM
 			 , S.STR_LCTN
 			 , L.LCT_NM 
@@ -55,6 +56,7 @@
 		<if test='strNm != null and strNm != ""'>
 		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
 		</if>
+
 		<if test='strId != null and strId != ""'>
 		   AND S.STR_ID = #{strId}
 		</if>

@@ -7,7 +7,13 @@ public class EvntPrdtVO {
 	private String prdtId;	
 	private int evntPrdtChngPrc;	
 	private String useYn;	
-	private String delYn;	
+	private String delYn;
+	
+	/* 상품 */
+	private String prdtNm;
+	private int prdtPrc;
+	
+	
 	public String getEvntPrdtId() {	
 		return evntPrdtId;
 	}	
@@ -44,5 +50,17 @@ public class EvntPrdtVO {
 	public void setDelYn(String delYn) {	
 		this.delYn = delYn;
 	}	
+	public String getPrdtNm() {
+		return prdtNm;
+	}
+	public void setPrdtNm(String prdtNm) {
+		this.prdtNm = prdtNm;
+	}
+	public int getPrdtPrc() {
+		return prdtPrc;
+	}
+	public void setPrdtPrc(int prdtPrc) {
+		this.prdtPrc = prdtPrc;
+	}
 		
 }		

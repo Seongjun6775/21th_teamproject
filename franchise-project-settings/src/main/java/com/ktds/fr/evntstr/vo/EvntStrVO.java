@@ -7,6 +7,9 @@ public class EvntStrVO {
 	private String strId;	
 	private String useYn;	
 	private String delYn;	
+	
+	
+	
 	public String getEvntStrId() {	
 		return evntStrId;
 	}	

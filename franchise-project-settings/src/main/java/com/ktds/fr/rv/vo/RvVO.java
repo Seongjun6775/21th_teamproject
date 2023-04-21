@@ -1,17 +1,41 @@
-package com.ktds.fr.rv.vo;		
+package com.ktds.fr.rv.vo;
+
+import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.str.vo.StrVO;
+
+/**
+ * 리뷰(RV)
+ * @author User
+ *
+ */
+public class RvVO extends AbstractVO {		
 		
-public class RvVO {		
-		
-	private String rvId;	
-	private String mbrId;	
-	private String odrDtlId;	
+	// 리뷰ID
+	private String rvId; 
+	// 회원 ID
+	private String mbrId;
+	// 주문서 ID
+	private String odrLstId;
+	// 제목
 	private String rvTtl;	
+	// 내용
 	private String rvCntnt;	
+	// 좋아요/싫어요
 	private String rvLkDslk;	
+	// 등록일
 	private String rvRgstDt;	
+	// 수정일
 	private String mdfyDt;	
-	private String useYn;	
+	// 사용유무
+	private String useYn;
+	// 삭제여부
 	private String delYn;	
+	
+	private MbrVO mbrVO;
+	private StrVO strVO;
+	
+	
 	public String getRvId() {	
 		return rvId;
 	}	
@@ -23,13 +47,12 @@ public class RvVO {
 	}	
 	public void setMbrId(String mbrId) {	
 		this.mbrId = mbrId;
-	}	
-	
-	public String getOdrDtlId() {
-		return odrDtlId;
+	}			
+	public String getOdrLstId() {
+		return odrLstId;
 	}
-	public void setOdrDtlId(String odrDtlId) {
-		this.odrDtlId = odrDtlId;
+	public void setOdrLstId(String odrLstId) {
+		this.odrLstId = odrLstId;
 	}
 	public String getRvTtl() {	
 		return rvTtl;
@@ -72,6 +95,18 @@ public class RvVO {
 	}	
 	public void setDelYn(String delYn) {	
 		this.delYn = delYn;
-	}	
-		
+	}
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
+	public StrVO getStrVO() {
+		return strVO;
+	}
+	public void setStrVO(StrVO strVO) {
+		this.strVO = strVO;
+	}
+	
 }		

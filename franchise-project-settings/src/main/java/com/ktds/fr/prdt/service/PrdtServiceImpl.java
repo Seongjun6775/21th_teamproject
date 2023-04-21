@@ -17,6 +17,7 @@ import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.prdt.dao.PrdtDAO;
 import com.ktds.fr.prdt.vo.PrdtVO;
+import com.ktds.fr.str.dao.StrDAO;
 import com.ktds.fr.str.vo.StrVO;
 import com.ktds.fr.strprdt.dao.StrPrdtDAO;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
@@ -31,6 +32,9 @@ public class PrdtServiceImpl implements PrdtService {
 	
 	@Autowired
 	private StrPrdtDAO strPrdtDAO;
+	
+	@Autowired
+	private StrDAO strDAO;
 
 	@Value("${upload.prdt.path:/franchise-prj/files/prdt/}")
 	private String profilePath;
@@ -66,6 +70,11 @@ public class PrdtServiceImpl implements PrdtService {
 		}
 
 		if (uploadFile != null && !uploadFile.isEmpty()) {
+			String fileExt = uploadFile.getContentType();
+			if (!(fileExt.contains("image"))) {
+				throw new ApiArgsException("400", "이미지 파일만 업로드 가능합니다.\njpg, jpeg, png, gif, bmp");
+			}
+			
 			File dir = new File(profilePath);
 			if (!dir.exists()) {
 				dir.mkdirs();
@@ -79,7 +88,6 @@ public class PrdtServiceImpl implements PrdtService {
 			}
 			String originFileName = uploadFile.getOriginalFilename();
 			long fileSize = uploadFile.getSize();
-			String fileExt = uploadFile.getContentType();
 			
 			prdtVO.setOrgnFlNm(originFileName);
 			prdtVO.setUuidFlNm(uuidFileName);
@@ -89,31 +97,20 @@ public class PrdtServiceImpl implements PrdtService {
 		
 		boolean isSuccess = prdtDAO.create(prdtVO) > 0;
 		
-		
 		if (isSuccess) {
-			// FIXME 매장 리스트를 가져올 수 있다면 교체할 것
-//			List<StrVO> strList = strDAO.readAll();
+			StrVO strVO = new StrVO();
+			List<StrVO> strList = strDAO.readAllStrMaster(strVO);
 			
-			// FIXME 조만간 삭제 해야하는 부분
-			List<StrVO> strList = new ArrayList<>();
-			StrVO str1 = new StrVO();
-			str1.setStrId("11");
-			StrVO str2 = new StrVO();
-			str2.setStrId("22");
-			strList.add(str1);
-			strList.add(str2);
-			
-			StrPrdtVO strPrdtVO = new StrPrdtVO();
+			StrPrdtVO strPrdtVO = null;
 			List<StrPrdtVO> strPrdtList = new ArrayList<>();
 			
-			for (StrVO strVO : strList) {
-				strPrdtVO.setStrId(strVO.getStrId());	// 반복도는 매장 id, 바뀔값
+			for (StrVO str : strList) {
+				strPrdtVO = new StrPrdtVO();
+				strPrdtVO.setStrId(str.getStrId());	// 반복도는 매장 id, 바뀔값
 				strPrdtVO.setPrdtId(prdtVO.getPrdtId());	//현재 등록된 상품 id
 				strPrdtVO.setMdfyr(prdtVO.getMdfyr());	//현재등록된 등록자 id
 				strPrdtList.add(strPrdtVO);
 			}
-			System.out.println(strList.size());
-			
 			strPrdtDAO.create(strPrdtList);
 		}
 		
@@ -174,6 +171,10 @@ public class PrdtServiceImpl implements PrdtService {
 
 		
 		if (isModify) {
+			String fileExt = uploadFile.getContentType();
+			if (!(fileExt.contains("image"))) {
+				throw new ApiArgsException("400", "이미지 파일만 업로드 가능합니다.\njpg, jpeg, png, gif, bmp");
+			}
 			if (uploadFile != null && !uploadFile.isEmpty()) {
 				File dir = new File(profilePath);
 				if (!dir.exists()) {
@@ -189,7 +190,6 @@ public class PrdtServiceImpl implements PrdtService {
 				
 				String originFileName = uploadFile.getOriginalFilename();
 				long fileSize = uploadFile.getSize();
-				String fileExt = uploadFile.getContentType();
 				
 				prdtVO.setOrgnFlNm(originFileName);
 				prdtVO.setUuidFlNm(uuidFileName);
@@ -203,6 +203,15 @@ public class PrdtServiceImpl implements PrdtService {
 		
 	}
 
+	@Override
+	public boolean updateAll(PrdtVO prdtVO) {
+		String useYn = prdtVO.getUseYn();
+		if (useYn == null || useYn.trim().length() == 0) {
+			throw new ApiArgsException("400", "사용유무 선택 필요");
+		}
+		return prdtDAO.updateAll(prdtVO) > 0;
+	}
+	
 	@Override
 	public boolean deleteOne(String prdtId) {
 		if (prdtId == null || prdtId.trim().length() == 0) {
@@ -227,5 +236,6 @@ public class PrdtServiceImpl implements PrdtService {
 		}
 		return result;
 	}
+
 	
 }
