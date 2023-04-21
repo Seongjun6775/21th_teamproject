@@ -26,6 +26,23 @@
 		, #{mbrId})
 	</insert>
 	
+	<select id="readAllOdrDtlByOdrLstId"
+			parameterType="string"
+			resultType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
+		SELECT ODR_DTL_ID
+			 , ODR_LST_ID
+			 , ODR_DTL_PRDT_ID
+			 , ODR_DTL_PRDT_CNT
+			 , ODR_DTL_STR_ID
+			 , USE_YN
+			 , DEL_YN
+			 , MBR_ID
+		  FROM ODR_DTL
+		 WHERE MBR_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+		   AND ODR_LST_ID IS NULL
+	</select>
+	
 	<select id="readOneOdrDtlByOdrDtlId"
 			parameterType="string"
 			resultType="com.ktds.fr.odrdtl.vo.OdrDtlVO">

@@ -1,5 +1,7 @@
 package com.ktds.fr.odrdtl.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,11 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 	@Override
 	public int createNewOdrDtl(OdrDtlVO odrDtlVO) {
 		return getSqlSession().insert("OdrDtl.createNewOdrDtl", odrDtlVO);
+	}
+	
+	@Override
+	public List<OdrDtlVO> readAllOdrDtlByOdrLstId(String mbrId) {
+		return getSqlSession().selectList("OdrDtl.readAllOdrDtlByOdrLstId", mbrId);
 	}
 
 	@Override
