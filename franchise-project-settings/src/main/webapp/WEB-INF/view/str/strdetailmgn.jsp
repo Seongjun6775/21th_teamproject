@@ -215,7 +215,7 @@ $().ready(function() {
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px">수정자</label>
-						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" value="${strVO.mdfyr}"/>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>

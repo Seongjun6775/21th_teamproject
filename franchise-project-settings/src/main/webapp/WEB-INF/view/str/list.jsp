@@ -46,9 +46,9 @@
 			$("#mbrId").val("");
 			$("#strOpnTm").val("");
 			$("#strClsTm").val("");
-			$("#strRgstr").val("");
+			$("#strRgstr").val("${MbrVO.mbrId}");
 			$("#strRgstDt").val("");
-			$("#mdfyr").val("");
+			$("#mdfyr").val("${MbrVO.mbrId}");
 			$("#mdfyDt").val("");
 			$("#useYn").prop("checked", false);
 
@@ -175,8 +175,34 @@
 						<th><input type="checkbox" id="all_check" /></th>
 						<th>매장ID</th>
 						<th>매장명</th>
-						<th>지역명</th>
-						<th>도시명</th>
+						<th>
+							<select class="selectFilter" name="selectFilter"
+										id="search-keyword-strLctn">
+								<option value="">지역명</option>
+								<c:choose>
+									<c:when test="${not empty strList}">
+										<c:forEach items="${strList}"
+													var="str">
+											<option value="${str.lctId}">${str.lctNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</th>
+						<th>
+							<select class="selectFilter" name="selectFilter"
+										id="search-keyword-strCty">
+								<option value="">도시명</option>
+								<c:choose>
+									<c:when test="${not empty strList}">
+										<c:forEach items="${strList}"
+													var="str">
+											<option value="${str.ctyId}">${str.ctyNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</th>
 						<th>매장주소</th>
 						<th>전화번호</th>
 						<th>관리자ID</th>
@@ -272,9 +298,31 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strLctn" style="width:60px">지역</label>
+						<select id="strLctn" name="strLctn">
+							<option value="">지역</option>
+							<c:choose>
+								<c:when test="${not empty strList}">
+									<c:forEach items="${strList}"
+												var="str">
+										<option value="${str.lctId}">${str.lctNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
 						<label for="strCty" style="width:60px">도시</label>
+						<select id="strCty" name="strCty">
+							<option value="">도시명</option>
+							<c:choose>
+								<c:when test="${not empty strList}">
+									<c:forEach items="${strList}"
+												var="str">
+										<option value="${str.ctyId}">${str.ctyNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
 						<label for="strAddr" style="width:60px">매장주소</label>
-						<select name="strLctn" id="strLctn">
+						<%-- <select name="strLctn" id="strLctn">
 						<option>지역 선택</option>
 							<option value="서울" ${strVO.strLctn eq '서울' ? 'selected' : ''}>서울</option>
 							<option value="부산">부산</option>
@@ -284,7 +332,7 @@
 							<option value="대구">대구</option>
 						</select>
 						<input type="text" id="strCty" name="strCty" maxlength="20" value="${strVO.strCty}"/>
-						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
+						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/> --%>
 					</div>
 					
 				    <div class="input-group inline">
@@ -306,7 +354,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstr" style="width:180px">등록자</label>
-						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" value="${strVO.strRgstr}"/>
+						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${MbrVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstDt" style="width:180px">등록일</label>
@@ -314,7 +362,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px">수정자</label>
-						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" value="${strVO.mdfyr}"/>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>
@@ -322,7 +370,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px">사용여부</label>
-						<input type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="${strVO.useYn}"/>
+						<input type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
 					</div>
 				</form>
 			</div>

@@ -1,6 +1,8 @@
 package com.ktds.fr.str.vo;
 
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.lctcd.vo.LctCdVO;
 
 public class StrVO extends AbstractVO {
 
@@ -20,8 +22,28 @@ public class StrVO extends AbstractVO {
 	private String useYn;
 	private String delYn;
 
+	private CtyCdVO ctyCdVO;
+	private LctCdVO lctCdVO;
+	
+	
 	public String getStrId() {
 		return strId;
+	}
+
+	public CtyCdVO getCtyCdVO() {
+		return ctyCdVO;
+	}
+
+	public void setCtyCdVO(CtyCdVO ctyCdVO) {
+		this.ctyCdVO = ctyCdVO;
+	}
+
+	public LctCdVO getLctCdVO() {
+		return lctCdVO;
+	}
+
+	public void setLctCdVO(LctCdVO lctCdVO) {
+		this.lctCdVO = lctCdVO;
 	}
 
 	public void setStrId(String strId) {

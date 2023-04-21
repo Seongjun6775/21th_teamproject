@@ -44,6 +44,7 @@ public class StrController {
 	public String viewStrDetailMstPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model) {
 		StrVO strVO = strService.readOneStrByMaster(strId);
 		model.addAttribute("strVO", strVO);
+		model.addAttribute("MbrVO", mbrVO);
 		return "str/strdetailmst";
 		
 	}
@@ -54,6 +55,7 @@ public class StrController {
 		}
 		StrVO strVO = strService.readOneStrByManager(strId);
 		model.addAttribute("strVO", strVO);
+		model.addAttribute("MbrVO", mbrVO);
 		return "str/strdetailmgn";
         
 	}

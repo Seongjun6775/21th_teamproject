@@ -50,7 +50,7 @@ public class RestStrController {
 		boolean isExistStrCallNum = strService.readBlockStrCallNum(strCallNum);
 		
 		if(isExistStrCallNum) {
-			throw new ApiArgsException("400", "기존 매장번호와 중복이 발생했습니다.");
+			throw new ApiArgsException("400", "기존 전화번호와 중복이 발생했습니다.");
 		}
 		
 		boolean createResult = strService.createOneStr(strVO);
