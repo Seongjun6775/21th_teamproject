@@ -63,6 +63,7 @@
 			 , P.DEL_YN
 			 , EP.EVNT_PRDT_ID 
 			 , EP.EVNT_ID 
+			 , EP.EVNT_TTL
 			 , EP.EVNT_PRDT_CHNG_PRC 
 			 , EP.EVNT_STRT_DT 
 			 , EP.EVNT_END_DT 
@@ -75,8 +76,9 @@
 		    ON P.MDFYR = M.MBR_ID
 	      LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
 						  , EP.PRDT_ID 
-						  , EP.EVNT_ID
-						  , EP.EVNT_PRDT_CHNG_PRC 
+						  , EP.EVNT_PRDT_CHNG_PRC
+						  , E.EVNT_ID
+						  , E.EVNT_TTL
 						  , E.EVNT_STRT_DT 
 						  , E.EVNT_END_DT 
 					   FROM EVNT_PRDT EP
@@ -130,6 +132,7 @@
 			 , P.DEL_YN
 			 , EP.EVNT_PRDT_ID 
 			 , EP.EVNT_ID 
+			 , EP.EVNT_TTL
 			 , EP.EVNT_PRDT_CHNG_PRC 
 			 , EP.EVNT_STRT_DT 
 			 , EP.EVNT_END_DT 
@@ -140,10 +143,11 @@
 		    ON P.PRDT_RGSTR = R.MBR_ID
 	      LEFT JOIN MBR M
 		    ON P.MDFYR = M.MBR_ID
-		  LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
+	      LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
 						  , EP.PRDT_ID 
-						  , EP.EVNT_ID
-						  , EP.EVNT_PRDT_CHNG_PRC 
+						  , EP.EVNT_PRDT_CHNG_PRC
+						  , E.EVNT_ID
+						  , E.EVNT_TTL
 						  , E.EVNT_STRT_DT 
 						  , E.EVNT_END_DT 
 					   FROM EVNT_PRDT EP

@@ -99,6 +99,24 @@ $().ready(function() {
 		$("#mdfyDt").val(data.mdfydt);
 		$("#mdfyDt").val(data.mdfydt);
 		$("#prdtCntnt").val(data.prdtcntnt);
+
+		
+// 		$("#validEvnt>a>span").remove();
+// 		$("#validEvnt>a").removeAttr("href")
+// 		if (data.evntid != "") {
+// 			$("#validEvnt>a").attr("href", "${context}/evnt/detail/"+data.evntid)
+// 			$("#validEvnt>a").append("<span>"+data.evntttl+"</span>")
+// 			$("#validEvnt>a").append("<span> 가격 : <del>"+data.prdtprc+"</del> → " +data.evntprdtchngprc+"</span>")
+// 			$("#validEvnt>a").append("<span> 기간 : "+data.evntstrtdt+" ~ "+data.evntenddt+"</span>")
+// 		}
+		$("#evntTtl").val(data.evntttl);
+		$("#evntPrdtChngPrc").val(data.evntprdtchngprc);
+		var startDt = data.evntstrtdt.substring(0,10).replaceAll("-", ".")
+		var endDt = data.evntenddt.substring(0,10).replaceAll("-", ".")
+		var evntDt = startDt+" ~ "+endDt;
+		$("#evntDt").val(evntDt);
+		
+		
 		
 		$("#useYn").prop("checked", data.useyn == "Y");
 		
@@ -460,6 +478,9 @@ function movePage(pageNo) {
 										data-prdtrgstr="${prdt.prdtRgstr}" 
 										data-prdtrgstdt="${prdt.prdtRgstDt}" 
 										data-evntid="${prdt.evntVO.evntId}" 
+										data-evntttl="${prdt.evntVO.evntTtl}" 
+										data-evntstrtdt="${prdt.evntVO.evntStrtDt}" 
+										data-evntenddt="${prdt.evntVO.evntEndDt}" 
 										data-evntPrdtChngPrc="${prdt.evntPrdtVO.evntPrdtChngPrc}" 
 										data-mdfyr="${prdt.mdfyr}" 
 										data-mdfydt="${prdt.mdfyDt}"
@@ -648,6 +669,24 @@ function movePage(pageNo) {
 						
 						
 					</form>
+					
+					<div>
+						<div>적용중인 이벤트</div>
+						<div>
+							<div class="show-group inline">
+								<label for="evntTtl">이벤트명</label>
+								<input type="text" id="evntTtl" disabled value=""/>
+							</div>
+							<div class="show-group inline">
+								<label for="evntPrdtChngPrc">변경가격</label>
+								<input type="text" id="evntPrdtChngPrc" disabled value=""/>
+							</div>
+							<div class="show-group inline">
+								<label for="evntDt">기간</label>
+								<input type="text" id="evntDt" disabled value=""/>
+							</div>
+						</div>
+					</div>
 					
 				</div>
 				<div class="align-right grid-btns">
