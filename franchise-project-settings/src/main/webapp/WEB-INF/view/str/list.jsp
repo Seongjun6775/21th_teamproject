@@ -179,7 +179,7 @@
 			<div class="path"> 매장 관리</div>
 				<div class="search-group">
 					<label for="search-keyword">매장명</label>
-					<input type="text" id="search-keyword" class="search-input" value=""/>
+					<input type="text" id="search-keyword" class="search-input" value="" />
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="search-group">
@@ -200,7 +200,6 @@
 				<thead>
 					<tr>
 						<th><input type="checkbox" id="all_check" /></th>
-						<th>매장ID</th>
 						<th>매장명</th>
 						<th>
 							<select class="selectFilter" name="selectFilter"
@@ -233,6 +232,7 @@
 						<th>매장주소</th>
 						<th>전화번호</th>
 						<th>관리자ID</th>
+						<th>상세조회</th>
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
 						<th>사용여부</th> -->
@@ -260,13 +260,17 @@
 							<td>
 								<input type="checkbox" class="check_idx" value="${str.strId}"/>
 							</td>
-								<td><a href="${context}/str/strdetailmst/${str.strId}">${str.strId}</a></td>
 								<td>${str.strNm}</td>
 								<td>${str.lctCdVO.lctNm}</td>
 								<td>${str.ctyCdVO.ctyNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
 								<td>${str.mbrId}</td>
+								<td style="width: 70px;">
+									<a href="${context}/str/strdetailmst/${str.strId}">
+									<input type="button" value="이동"/>
+									</a>
+								</td>
 								<%-- <td>${str.strOpnTm}</td>
 								<td>${str.strClsTm}</td>
 								<td>${str.useYn}</td> --%>
@@ -317,7 +321,7 @@
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
 						<label for="strId" style="width:180px">매장 ID</label>
-						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}"/>
+						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strNm" style="width:180px">매장명</label>
@@ -382,19 +386,19 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstr" style="width:180px">등록자</label>
-						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${MbrVO.mbrId}"/>
+						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstDt" style="width:180px">등록일</label>
-						<input type="date" id="strRgstDt" name="strRgstDt" value="${strVO.strRgstDt}"/>
+						<input type="date" id="strRgstDt" name="strRgstDt" value="${strVO.strRgstDt}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px">수정자</label>
-						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"/>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>
-						<input type="date" id="mdfyDt" name="mdfyDt" value="${strVO.mdfyDt}"/>
+						<input type="date" id="mdfyDt" name="mdfyDt" value="${strVO.mdfyDt}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px">사용여부</label>
