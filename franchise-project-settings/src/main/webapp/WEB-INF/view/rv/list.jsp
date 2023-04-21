@@ -49,7 +49,7 @@
 					alert("리뷰가 삭제되었습니다.")
 				}
 				else{
-					alert(response.errorCode + " / " + response.message);
+					alert(response.errorCode + "권한이 없습니다." + response.message);
 				}
 			})
 		});	
@@ -112,7 +112,7 @@
 											   value="${rv.rvId}"/>
 									</td>
 									<td>${rv.odrLstId}</td>
-									<td>${StrVO.getstrNm}</td>
+									<td>${rv.strVO.strNm}</td>
 									<td>${rv.rvTtl}</td>
 									<td>${rv.mbrId}</td>																			
 									<td>${rv.rvLkDslk}</td>					

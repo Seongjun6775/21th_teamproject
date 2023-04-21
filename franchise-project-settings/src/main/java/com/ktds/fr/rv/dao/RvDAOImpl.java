@@ -38,6 +38,13 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 	}
 	
 	
+	// ▶ 진영님이 만든거
+	@Override
+	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO) {
+		return getSqlSession().selectList("Rv.readAllRvListForManager", searchRvVO);
+	}
+
+		
 	// 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자
 	@Override
 	public List<RvVO> readAllRvListForTopManager(SearchRvVO searchRvVO) {

@@ -67,7 +67,7 @@
 					<div class="create-group">
 						<label for="rvCntnt">내용</label> <textarea id="rvCntnt"
 							name="rvCntnt" 
-							style="display: grid; margin: 5px; width: 700px; height: 500px; resize: none;"
+							style="display: grid; margin: 5px; width: 700px; height: 400px; resize: none;"
 							maxlength="1000"
 							placeholder="내용을 입력하세요(1000자 제한)" ></textarea>
 					</div>
