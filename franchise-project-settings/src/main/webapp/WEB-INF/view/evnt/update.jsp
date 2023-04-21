@@ -57,7 +57,9 @@ $().ready(function() {
    //'닫기'버튼 누르면 뒤로 돌아가기
    $("#btn-update-colse").click(function(){
 	   //location.href="${context}/evnt/list3"
-	   history.go(-1);
+	   //history.go(-1);
+	   //뒤로가기 먹통 에러가 너무 잦아서 코드 변경
+	   history.pushState(null, null, '${context}/evnt/list');
    });
    
 })
