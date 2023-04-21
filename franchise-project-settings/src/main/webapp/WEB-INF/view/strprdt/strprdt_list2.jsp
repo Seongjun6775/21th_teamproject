@@ -22,7 +22,12 @@ $().ready(function() {
 	$("#search-keyword-prdt").val("${strPrdtVO.prdtId}");
 	$("#search-keyword-useYn").val("${strPrdtVO.useYn}");
 	$("#search-keyword-prdtSrt").val("${strPrdtVO.cmmnCdVO.cdId}")
-	
+	var evntYn = ""
+	if (${strPrdtVO.evntVO.evntId != ""} && ${not empty strPrdtVO.evntVO.evntId} ) {
+	 evntYn = "${strPrdtVO.evntVO.evntId}"
+	}
+	$("#search-keyword-evntYn").val(evntYn);
+	 
 
 	$("#all-check").change(function(){
 		$(".check-idx").prop("checked",$(this).prop("checked"));
@@ -153,6 +158,16 @@ function movePage(pageNo) {
 									</c:choose>
 								</select>
 							</th>
+							<th>가격</th>
+							<th>
+								<select class="selectFilter" name="selectFilter"
+										id="search-keyword-evntYn">
+									<option value="">이벤트유무</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</th>
+							<th>이벤트가격</th>
 							<th>수정자</th>
 							<th>수정일</th>
 							<th>
@@ -178,6 +193,20 @@ function movePage(pageNo) {
 										</td>
 										<td>${strPrdt.cmmnCdVO.cdNm}</td>
 										<td>${strPrdt.prdtVO.prdtNm}</td>
+										<td class="money">
+											<fmt:formatNumber>${strPrdt.prdtVO.prdtPrc}</fmt:formatNumber>원
+										</td>
+										<td>${empty strPrdt.evntVO.evntId ? "N" : "Y"}</td>
+										<td class="money">
+											<c:choose>
+												<c:when test="${empty strPrdt.evntVO.evntId}">
+													-
+												</c:when>
+												<c:otherwise>
+													<fmt:formatNumber>${strPrdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>원
+												</c:otherwise>
+											</c:choose>
+										</td>
 										<td>${strPrdt.mdfyr}(${strPrdt.mdfyrMbrVO.mbrNm})</td>
 										<td>${strPrdt.mdfyDt}</td>
 										<td>${strPrdt.useYn}</td>

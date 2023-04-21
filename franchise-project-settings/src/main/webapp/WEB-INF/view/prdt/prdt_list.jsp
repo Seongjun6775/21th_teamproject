@@ -417,7 +417,7 @@ function movePage(pageNo) {
 									onkeyup="chkChar(this)" 
 									value="${prdtVO.prdtNm}">
 							</th>
-							<th>가격(원)</th>
+							<th>가격</th>
 							<th>
 								<select class="selectFilter" name="selectFilter"
 										id="search-keyword-evntYn">
