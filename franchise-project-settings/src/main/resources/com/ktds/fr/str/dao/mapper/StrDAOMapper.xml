@@ -62,7 +62,7 @@
 		</if>
 		
 		<if test='mbrId != null and mbrId != ""'>
-		   AND S.MBR_ID = #{mbrId}
+		   AND S.MBR_ID LIKE '%' || #{mbrId} || '%'
 		</if>
 		
 		<if test='strLctn != null and strLctn != ""'>
