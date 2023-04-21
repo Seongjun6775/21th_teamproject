@@ -92,6 +92,7 @@
 					<tr>
 						<th><input type="checkbox" id="all_check" /></th>
 						<th>주문서ID</th>
+						<th>매장명</th>
 						<th>제목</th>
 						<th>회원ID</th>						
 						<th>좋아요/싫어요</th>
@@ -111,6 +112,7 @@
 											   value="${rv.rvId}"/>
 									</td>
 									<td>${rv.odrLstId}</td>
+									<td>${StrVO.getstrNm}</td>
 									<td>${rv.rvTtl}</td>
 									<td>${rv.mbrId}</td>																			
 									<td>${rv.rvLkDslk}</td>					
