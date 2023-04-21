@@ -60,6 +60,7 @@
            AND DEL_YN = #{delYn}
         </if>
         <include refid="Common.pageFooter" />
+         ORDER BY NT_SNDR_DT DESC
 	</select>
 	
 	<update id="updateOneNtByNtId"

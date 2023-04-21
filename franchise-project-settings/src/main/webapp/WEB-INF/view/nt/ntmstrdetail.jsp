@@ -15,6 +15,8 @@
 
 	$().ready(function() {
 		
+		console.log("${nt.ntRdDt}");
+		
 		var ntId = ("${nt.ntId}");
 		
 		$("#del_btn").click(function() {
@@ -25,7 +27,7 @@
 			}
 			
 			var rdYn = ("${nt.ntRdDt}");
-			if (rdYn != null) {
+			if (rdYn != "") {
 				alert("이미 확인된 쪽지는 지울 수 없습니다!")
 				return;
 			}
