@@ -41,7 +41,7 @@
 	<!--TODO 로그아웃 주소 추가 -->
 	<div class="inline profile">
 
-		<a href="${context}/mbr/pwdCheck/${mbrVO.mbrId}" >
+		<a href="${context}/mbr/pwdCheck" >
 			${sessionScope.__MBR__.mbrNm} 님
 		</a> 
 		<a href="${context}/logout">
