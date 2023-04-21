@@ -9,6 +9,7 @@
 			resultType="com.ktds.fr.str.vo.StrVO">
 			<include refid="Common.pageHeader"/>
 		SELECT S.STR_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY S.STR_ID DESC) RNUM
  			 , S.STR_ID
 			 , S.STR_NM
 			 , S.STR_ADDR

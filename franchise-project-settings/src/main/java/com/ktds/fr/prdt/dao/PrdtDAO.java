@@ -7,6 +7,7 @@ import com.ktds.fr.prdt.vo.PrdtVO;
 public interface PrdtDAO {
 	
 	public List<PrdtVO> readAll(PrdtVO prdtVO);
+	public List<PrdtVO> readAllNoPagenation(PrdtVO prdtVO);
 	public PrdtVO readOne(String prdtId);
 	
 	public int create(PrdtVO prdtVO);

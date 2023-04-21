@@ -26,7 +26,8 @@
 			} */
 			$.post("${context}/api/rv/delete/${rvDetail.rvId}", function(response){
 				if(response.status == "200 OK"){
-					location.reload(); //새로고침
+					location.href = "${context}/rv/list" + response.redirectURL;
+					alert("리뷰가 삭제되었습니다.")
 				}else{
 					alert(response.errorCode + " / " + response.message);
 				}
@@ -64,7 +65,9 @@
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvTtl">제목</label>
-							<input type="text" id="rvTtl" name="rvTtl" disabled value="${rvDetail.rvTtl}">
+							<input type="text" id="rvTtl" name="rvTtl" 
+								   style="width: 665px;"
+								   disabled value="${rvDetail.rvTtl}">
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvCntnt">내용</label>

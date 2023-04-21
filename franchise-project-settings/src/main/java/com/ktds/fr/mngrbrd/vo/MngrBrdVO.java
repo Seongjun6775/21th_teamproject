@@ -1,6 +1,12 @@
-package com.ktds.fr.mngrbrd.vo;		
-		
-public class MngrBrdVO {		
+package com.ktds.fr.mngrbrd.vo;
+
+import java.util.List;
+
+import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.rpl.vo.RplVO;
+
+public class MngrBrdVO extends AbstractVO{		
 		
 	private String mngrBrdId;	
 	private String mngrBrdTtl;	
@@ -11,6 +17,33 @@ public class MngrBrdVO {
 	private String mdfyr;	
 	private String useYn;	
 	private String delYn;	
+	private String ntcYn;
+		
+	private List<RplVO> rplList;
+	
+	private MbrVO mbrVO;
+	
+	public List<RplVO> getRplList() {
+		return rplList;
+	}
+	public void setRplList(List<RplVO> rplList) {
+		this.rplList = rplList;
+	}
+	
+	public String getNtcYn() {
+		return ntcYn;
+	}
+	public void setNtcYn(String ntcYn) {
+		this.ntcYn = ntcYn;
+	}
+	
+	
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
 	public String getMngrBrdId() {	
 		return mngrBrdId;
 	}	

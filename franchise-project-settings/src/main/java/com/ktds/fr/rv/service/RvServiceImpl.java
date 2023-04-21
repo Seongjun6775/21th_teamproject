@@ -21,16 +21,27 @@ public class RvServiceImpl implements RvService {
 		@Override
 		public boolean createNewRv(RvVO rvVO) {
 			
+			if (rvVO.getRvLkDslk().equals("선택")) {
+				throw new ApiException("500", "좋아요 또는 싫어요를 선택하세요.");
+			}
+			int rvCount7 = rvDAO.createNewRvWithin7days(rvVO);
+			if (rvCount7 == 0) {
+				throw new ApiException("500", "주문서 수정일로부터 7일 이내에만 리뷰를 작성할 수 있습니다.");
+			}
+			
 			int rvCount = this.readCountRvByRvId(rvVO);
 			if (rvCount >= 1) {
 				throw new ApiException("500", "이미 리뷰를 작성하셨습니다.");
 			}
+						
 			try {
 				return rvDAO.createNewRv(rvVO) > 0;
 			}
+			
 			catch (RuntimeException re) {
 				throw new ApiException("500", "이미 리뷰를 작성하셨습니다.");
 			}		
+			
 		}
 	
 	// 1-2.이용자가 쓴 리뷰 개수 조회(리뷰 쓴 적이 없어야 리뷰 등록 가능)
