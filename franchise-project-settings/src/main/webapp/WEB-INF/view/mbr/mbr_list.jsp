@@ -61,7 +61,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">회원관리 > 회원 목록</div>
 				<!-- 검색영역 -->
