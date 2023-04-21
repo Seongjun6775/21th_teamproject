@@ -162,7 +162,8 @@
 								<fmt:parseNumber var="nowGroup" value="${Math.floor(mbrVO.pageNo / 10)}" integerOnly = "true"/>
 								<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
 								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
-								<c:set value="${groupEndPageNo > lastPage ? lastPage -1 : groupEndPageNo - 1}" var="groupEndPageNo"/>
+								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1 }" var="groupEndPageNo"/>
+								<%-- <c:set value="${groupEndPageNo > lastPage ? (lastPage-1 < 0 ? lastPage : lastPage -1 ) : groupEndPageNo - 1}" var="groupEndPageNo"/> --%>
 								
 								<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
 								<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
