@@ -37,10 +37,7 @@
 		var mbrNm = $("#search-keyword-mbrNm").val();
 		var startDt = $("#search-keyword-startdt").val();
 		var endDt = $("#search-keyword-enddt").val();
-		var delYn = 'N';
-		if($("#search-keyword-delYn").is(":checked")){
-			delYn = 'Y'
-		}
+		var delYn = $("#search-keyword-delYn").val();
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
@@ -82,8 +79,13 @@
 									</c:when>
 								</c:choose>
 						</select>
-						<label for="search-keyword-delYn" >탈퇴여부</label>
-						<input type="checkbox" id="search-keyword-delYn" class="search-input" style="flex-grow: 0.1;" value="${mbrVO.delYn eq 'Y' ? 'Y' : 'N'}"/>
+						<select id="search-keyword-delYn" name="delYn">
+								<option value="">탈퇴유무</option>
+								<option value="Y" ${MbrVO.delYn eq 'Y' ? 'selected' : ''}>Y</option>
+								<option value="N" ${MbrVO.delYn eq 'N' ? 'selected' : ''}>N</option>
+						</select>
+						<%-- <label for="search-keyword-delYn" >탈퇴여부</label>
+						<input type="checkbox" id="search-keyword-delYn" class="search-input" style="flex-grow: 0.1;" value="${mbrVO.delYn eq 'Y' ? 'Y' : 'N'}"/> --%>
 						<label for="search-keyword-startdt" >조회기간</label>
 						<input type="date" id="search-keyword-startdt" class="search-input" value="${mbrVO.startDt}"/>
 						<input type="date" id="search-keyword-enddt" class="search-input" value="${mbrVO.endDt}"/>
@@ -156,10 +158,12 @@
 								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastPage : 0}" var="lastPage"/>
 								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastGroup : 0}" var="lastGroup"/>
 								
+								<!-- Math.floor(mbrVO.pageNo / 10) -->
 								<fmt:parseNumber var="nowGroup" value="${Math.floor(mbrVO.pageNo / 10)}" integerOnly = "true"/>
 								<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
 								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
-								<c:set value="${groupEndPageNo > lastPage ? lastPage - 1 : groupEndPageNo - 1}" var="groupEndPageNo"/>
+								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1 }" var="groupEndPageNo"/>
+								<%-- <c:set value="${groupEndPageNo > lastPage ? (lastPage-1 < 0 ? lastPage : lastPage -1 ) : groupEndPageNo - 1}" var="groupEndPageNo"/> --%>
 								
 								<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
 								<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
@@ -172,7 +176,7 @@
 								prevGroupStartPageNo: ${prevGroupStartPageNo }
 								nextGroupStartPageNo: ${nextGroupStartPageNo } --%>
 								
-								<c:if test = "${nowGroup > 0}">
+								<c:if test="${nowGroup > 0}">
 									<li><a href="javascript:movePage(0)">처음</a></li>
 									<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
 								</c:if>
@@ -181,7 +185,7 @@
 									<li><a class="${pageNo eq mbrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 								</c:forEach>
 								
-								<c:if test = "${lastGroup >nowGroup }">
+								<c:if test="${lastGroup >nowGroup}">
 									<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
 									<li><a href="javascript:movePage(${lastPage})">끝</a></li>
 								</c:if>
