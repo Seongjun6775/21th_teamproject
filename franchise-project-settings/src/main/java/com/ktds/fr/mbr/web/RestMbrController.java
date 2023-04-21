@@ -46,9 +46,11 @@ public class RestMbrController {
 		}
 		mbrVO.setMbrRcntLgnIp(request.getRemoteAddr());
 		MbrVO mbr = mbrService.readOneMbrByMbrIdAndMbrPwd(mbrVO);
+		
 		if(mbr == null) {
 			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ mbrVO.getMbrLgnFlCnt() + " / 5");
 		}else {
+			mbr.setMbrRcntLgnIp(request.getRemoteAddr());
 			session.setAttribute("__MBR__", mbr);
 		}
 		return new ApiResponseVO(ApiStatus.OK, "/index");
