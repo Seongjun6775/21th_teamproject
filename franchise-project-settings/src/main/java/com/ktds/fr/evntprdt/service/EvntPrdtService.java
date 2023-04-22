@@ -14,4 +14,9 @@ public interface EvntPrdtService {
 		
 	// 이벤트 상품 선택하여 등록  ▶상위관리자
 		public boolean createEvntPrdt(EvntPrdtVO evntPrdtVO);
+		 
+     // 이벤트 상품 기간 중복 안되게 체크 ▶상위관리자
+		public List<EvntPrdtVO> chkEvntPrdt(EvntPrdtVO evntPrdtVO);
+
+		
 }

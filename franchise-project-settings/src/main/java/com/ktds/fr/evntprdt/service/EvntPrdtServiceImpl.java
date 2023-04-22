@@ -29,4 +29,11 @@ public class EvntPrdtServiceImpl implements EvntPrdtService {
 		return evntPrdtDAO.createEvntPrdt(evntPrdtVO) > 0;
 	}
 
+	@Override
+	public List<EvntPrdtVO> chkEvntPrdt(EvntPrdtVO evntPrdtVO) {
+		return evntPrdtDAO.chkEvntPrdt(evntPrdtVO);
+	}
+	
+	
+
 }

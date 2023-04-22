@@ -13,7 +13,10 @@
 		, EVNT_CNTNT
 		, EVNT_STRT_DT
 		, EVNT_END_DT
-		, EVNT_PHT
+		, ORGN_FL_NM
+		, UUID_FL_NM
+		, FL_SIZE
+		, FL_EXT
 		, USE_YN
 		, DEL_YN)
 		VALUES
@@ -22,7 +25,10 @@
 		, #{evntCntnt}
 		, TO_DATE(#{evntStrtDt})
 		, TO_DATE(#{evntEndDt})
-		, #{evntPht}
+		, #{orgnFlNm}
+		, #{uuidFlNm}
+		, #{flSize}
+		, #{flExt}
 		, NVL(#{useYn}, 'N')
 		, 'N')
 	</insert>
@@ -32,14 +38,17 @@
 		parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
 		<include refid="Common.pageHeader" />
-	SELECT dense_rank() OVER(ORDER BY EVNT_ID) EvntNum
-		     , EVNT_ID PK_COL
+		SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		     , EVNT_ID PK_COL     
 		     , EVNT_ID
 		     , EVNT_TTL
 		     , EVNT_CNTNT
 		     , EVNT_STRT_DT
 		     , EVNT_END_DT
-		     , EVNT_PHT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
 		     , USE_YN
 		     , DEL_YN
 		 FROM EVNT EVNT
@@ -63,7 +72,6 @@
 		AND EVNT.USE_YN = #{useYn}
 		 </if>		 
 		AND EVNT.DEL_YN = 'N'		
-		ORDER BY EvntNum DESC
 		<include refid="Common.pageFooter" />
 	   </select>
 	
@@ -76,7 +84,10 @@
 		     , EVNT_CNTNT
 		     , TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') EVNT_STRT_DT
 		     , TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') EVNT_END_DT
-		     , EVNT_PHT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
 		     , USE_YN
 		     , DEL_YN
 		  FROM EVNT EVNT
@@ -91,8 +102,11 @@
            , EVNT_CNTNT=#{evntCntnt}
            , EVNT_STRT_DT=TO_DATE(#{evntStrtDt})
            , EVNT_END_DT=TO_DATE(#{evntEndDt})
-           , EVNT_PHT=#{evntPht}
-           , USE_YN=#{useYn}
+           , ORGN_FL_NM=#{orgnFlNm}
+           , UUID_FL_NM=#{uuidFlNm}
+           , FL_SIZE=#{flSize}
+           , FL_EXT=#{flExt}
+           , USE_YN = NVL(#{useYn}, 'N')
        WHERE EVNT_ID=#{evntId}
 	</update>
 	

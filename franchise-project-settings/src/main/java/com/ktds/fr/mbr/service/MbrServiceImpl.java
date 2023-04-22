@@ -3,12 +3,17 @@ package com.ktds.fr.mbr.service;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
+import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.SHA256Util;
 import com.ktds.fr.lgnhist.dao.LgnHistDAO;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
@@ -131,5 +136,69 @@ public class MbrServiceImpl implements MbrService {
 		return mbrDAO.deleteOneMbr(mbrId) > 0;
 	}
 	
-	
+	@Override
+	public MbrVO readOneMbrByPwd(MbrVO mbrVO) {
+		//비밀번호 일치 여부
+		String salt = mbrDAO.readSaltMbrById(mbrVO.getMbrId());
+		if(salt == null) {
+			throw new ApiException("500", "오류가 발생했습니다. 다시 시도해주세요.");
+		}
+		String mbrPwd = mbrVO.getMbrPwd();
+		mbrPwd = SHA256Util.getEncrypt(mbrPwd, salt);
+		mbrVO.setMbrPwd(mbrPwd);
+		MbrVO loginData = mbrDAO.readOneMbrByMbrIdAndMbrPwd(mbrVO);
+		if(loginData == null) {
+			//실패처리
+			throw new ApiException(ApiStatus.FAIL, "비밀번호가 다릅니다.");
+		}else {
+			//성공
+			return loginData;
+		}
+	}
+	@Override
+	public MbrVO readOneMbrByMbrId(String mbrId) {
+		return mbrDAO.readOneMbrByMbrId(mbrId);
+	}
+	@Override
+	public boolean updateOneMbrPwd(MbrVO mbrVO) {
+		String mbrPwd = mbrVO.getMbrPwd();
+		String salt = SHA256Util.generateSalt();
+		mbrVO.setMbrPwdSlt(salt);
+		
+		mbrPwd = SHA256Util.getEncrypt(mbrPwd, salt);
+		mbrVO.setMbrPwd(mbrPwd);
+		return mbrDAO.updateOneMbrPwd(mbrVO) > 0;
+	}
+	@Override
+	public boolean logoutMbr(LgnHistVO lgnHistVO) {
+		return lgnHistDAO.createMbrLgnHist(lgnHistVO) > 0;
+	}
+	@Override
+	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO, String type) {
+		//이메일 주소 있는지 확인
+		List<MbrVO> mbrList = mbrDAO.readMbrByMbrEml(mbrVO);
+		if(mbrList == null || mbrList.size() == 0) {
+			throw new ApiException(ApiStatus.FAIL, "이메일을 확인해 주세요.");
+		}
+		if(type.equals("id")) {
+			//아이디 전달 - 암호화 하여서 뒤에 3글자만 *로 바꾸어서
+			log.info("size: {}",mbrList.size());
+			log.info("1번: {}",mbrList.get(0).getMbrId());
+			log.info("1번: {}",mbrList.get(1).getMbrId());
+			MbrVO mbr = null;
+			for(int i =0; i<mbrList.size(); i +=1) {
+				log.info("아이디값: {}",mbrList.get(i).getMbrId());
+				String mbrId = mbrList.get(i).getMbrId();
+				mbrId = mbrId.substring(0, mbrId.length()-3) + "***";
+				log.info("바뀐 아이디값: {}",mbrList.get(i).getMbrId());
+				mbr = mbrList.get(i);
+				mbr.setMbrId(mbrId);
+			}
+		}else if(type.equals("pw")) {
+			
+		}
+		
+		//비밀번호 초기화 후 전달
+		return mbrList;
+	}
 }

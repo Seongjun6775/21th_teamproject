@@ -5,10 +5,68 @@
 <mapper namespace="EvntPrdt">
 
 
+<insert id="createEvntPrdt"
+	parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
+
+INSERT INTO EVNT_PRDT
+ 		   (EVNT_PRDT_ID
+		  , EVNT_ID
+		  , PRDT_ID
+		  , EVNT_PRDT_CHNG_PRC
+		  , USE_YN
+	      , DEL_YN)
+		  VALUES
+          ('EP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PRDT_PK.NEXTVAL, 5, '0')
+          , #{evntId}
+          , #{prdtId}
+          , #{evntPrdtChngPrc}
+          , NVL(#{useYn},'N') 
+          ,'N' )
+</insert>
+
+
+
+
+<select id="chkEvntPrdt"
+	parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
+	resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
+ SELECT *
+   FROM (SELECT *
+	  	   FROM EVNT E
+	  	  INNER JOIN EVNT_PRDT EP 
+	  	     ON E.EVNT_ID = EP.EVNT_ID 
+	 	  WHERE EVNT_STRT_DT BETWEEN (SELECT DISTINCT E.EVNT_STRT_DT 
+			                            FROM EVNT E
+			                           WHERE E.EVNT_ID = #{evntId})
+			                     AND (SELECT DISTINCT E.EVNT_END_DT 
+			                            FROM EVNT E
+			                           WHERE E.EVNT_ID = #{evntId})
+	  	     OR EVNT_END_DT BETWEEN (SELECT DISTINCT E.EVNT_STRT_DT 
+			                           FROM EVNT E
+			                          WHERE E.EVNT_ID = #{evntId})
+			                     AND (SELECT DISTINCT E.EVNT_END_DT 
+			                            FROM EVNT E
+			                           WHERE E.EVNT_ID = #{evntId})
+	UNION ALL 
+	   SELECT *
+	     FROM EVNT E
+	     LEFT JOIN EVNT_PRDT EP
+	       ON E.EVNT_ID = EP.EVNT_ID 
+	    WHERE EVNT_END_DT >= (SELECT E.EVNT_END_DT 
+	                            FROM EVNT E
+	                           WHERE E.EVNT_ID = #{evntId})
+	      AND (SELECT E.EVNT_STRT_DT 
+                 FROM EVNT E
+                WHERE E.EVNT_ID = #{evntId}) >= EVNT_STRT_DT  )EP
+        WHERE EP.PRDT_ID = #{prdtId}
+</select>
+
+
+
+
 <select id="readAllEvntPrdt"
 parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
 	resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
-
    SELECT E.EVNT_PRDT_ID
         , E.EVNT_ID
         , E.PRDT_ID
@@ -23,7 +81,6 @@ parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
     WHERE E.EVNT_ID = #{evntId}
       AND E.DEL_YN = 'N'
 </select>
-
 
 <select id="readAllprdt"
  parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"

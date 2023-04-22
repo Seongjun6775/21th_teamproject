@@ -1,6 +1,8 @@
-package com.ktds.fr.evnt.vo;		
-		
-public class EvntVO {		
+package com.ktds.fr.evnt.vo;
+
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class EvntVO extends AbstractVO{		
 	
 	/* 이벤트 ID */
 	private String evntId;	
@@ -12,26 +14,27 @@ public class EvntVO {
 	private String evntStrtDt;	
 	/* 이벤트 종료일 */
 	private String evntEndDt;	
-	/* 이벤트 사진 */
-	private String evntPht;
 	/* 이벤트 사용유무 */
 	private String useYn;
 	/* 이벤트 삭제여부 */
 	private String delYn;
 	
 	
-	/* 페이지네이션 */
-	private int viewCnt;
-	private int pageCnt;
-	private int pageNo;
+	/* 파일 업로드를 위함 */
+	private String orgnFlNm;
+	private String uuidFlNm;
+	private long flSize;
+	private String flExt;
+	/* 파일 삭제*/
+	private String isDeletePctr;
 	
-	private int totalCount;
-	private int lastPage;
-	private int lastGroup;
 	
-	
-
-	
+	public String getIsDeletePctr() {
+		return isDeletePctr;
+	}
+	public void setIsDeletePctr(String isDeletePctr) {
+		this.isDeletePctr = isDeletePctr;
+	}
 	public String getEvntId() {	
 		return evntId;
 	}	
@@ -62,12 +65,6 @@ public class EvntVO {
 	public void setEvntEndDt(String evntEndDt) {	
 		this.evntEndDt = evntEndDt;
 	}	
-	public String getEvntPht() {	
-		return evntPht;
-	}	
-	public void setEvntPht(String evntPht) {	
-		this.evntPht = evntPht;
-	}	
 	public String getUseYn() {	
 		return useYn;
 	}	
@@ -80,41 +77,29 @@ public class EvntVO {
 	public void setDelYn(String delYn) {	
 		this.delYn = delYn;
 	}	
+	public String getOrgnFlNm() {
+		return orgnFlNm;
+	}
+	public void setOrgnFlNm(String orgnFlNm) {
+		this.orgnFlNm = orgnFlNm;
+	}
+	public String getUuidFlNm() {
+		return uuidFlNm;
+	}
+	public void setUuidFlNm(String uuidFlNm) {
+		this.uuidFlNm = uuidFlNm;
+	}
+	public long getFlSize() {
+		return flSize;
+	}
+	public void setFlSize(long flSize) {
+		this.flSize = flSize;
+	}
+	public String getFlExt() {
+		return flExt;
+	}
+	public void setFlExt(String flExt) {
+		this.flExt = flExt;
+	}
 		
-	public int getViewCnt() {
-		return viewCnt;
-	}
-	public void setViewCnt(int viewCnt) {
-		this.viewCnt = viewCnt;
-	}
-	public int getPageCnt() {
-		return pageCnt;
-	}
-	public void setPageCnt(int pageCnt) {
-		this.pageCnt = pageCnt;
-	}
-	public int getPageNo() {
-		return pageNo;
-	}
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-	}
-	public int getTotalCount() {
-		return totalCount;
-	}
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-	}
-	public int getLastPage() {
-		return lastPage;
-	}
-	public void setLastPage(int lastPage) {
-		this.lastPage = lastPage;
-	}
-	public int getLastGroup() {
-		return lastGroup;
-	}
-	public void setLastGroup(int lastGroup) {
-		this.lastGroup = lastGroup;
-	}
 }		

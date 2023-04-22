@@ -17,7 +17,7 @@
 		<div>
 			<jsp:include page="./include/sidemenu.jsp" />
 			<jsp:include page="./include/content.jsp" />
-				인덱스 페이지!<br />
+			
 			<jsp:include page="./include/footer.jsp" />
 		</div>
 	</div>

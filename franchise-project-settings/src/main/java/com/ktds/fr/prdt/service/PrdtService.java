@@ -13,6 +13,7 @@ public interface PrdtService {
 	
 	public boolean create(PrdtVO prdtVO, MultipartFile uploadFile);
 	public boolean update(PrdtVO prdtVO, MultipartFile uploadFile);
+	public boolean updateAll(PrdtVO prdtVO);
 	public boolean deleteOne(String prdtId);
 	public boolean deleteSelectAll(List<String> prdtIdList);
 	

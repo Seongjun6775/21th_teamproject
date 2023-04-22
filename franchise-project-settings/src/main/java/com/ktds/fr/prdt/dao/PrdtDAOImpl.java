@@ -22,6 +22,11 @@ public class PrdtDAOImpl extends SqlSessionDaoSupport implements PrdtDAO {
 	public List<PrdtVO> readAll(PrdtVO prdtVO) {
 		return getSqlSession().selectList("Prdt.readAll", prdtVO);
 	}
+	
+	@Override
+	public List<PrdtVO> readAllNoPagenation(PrdtVO prdtVO) {
+		return getSqlSession().selectList("Prdt.readAllNoPagenation", prdtVO);
+	}
 
 	@Override
 	public PrdtVO readOne(String prdtId) {
@@ -39,6 +44,10 @@ public class PrdtDAOImpl extends SqlSessionDaoSupport implements PrdtDAO {
 	}
 
 	@Override
+	public int updateAll(PrdtVO prdtVO) {
+		return getSqlSession().update("Prdt.updateAll", prdtVO);
+	}
+	@Override
 	public int deleteOne(String prdtId) {
 		return getSqlSession().update("Prdt.deleteOne", prdtId);
 	}
@@ -47,5 +56,6 @@ public class PrdtDAOImpl extends SqlSessionDaoSupport implements PrdtDAO {
 	public int deleteSelectAll(List<String> prdtIdList) {
 		return getSqlSession().update("Prdt.deleteSelectAll", prdtIdList);
 	}
+
 
 }

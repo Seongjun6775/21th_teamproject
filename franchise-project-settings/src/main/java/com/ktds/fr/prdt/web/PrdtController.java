@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.cmmncd.dao.CmmnCdDAO;
+import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.util.DownloadUtil;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -32,7 +34,7 @@ public class PrdtController {
 	private PrdtService prdtService;
 	
 	@Autowired
-	private CmmnCdDAO cmmnCdDAO;
+	private CmmnCdService cmmnCdService;
 	
 	@Value("${upload.prdt.path:/franchise-prj/files/prdt/}")
 	private String profilePath;
@@ -48,7 +50,7 @@ public class PrdtController {
 		}
 		
 		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
-		List<CmmnCdVO> srtList = cmmnCdDAO.readCategory("004");
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("prdtList", prdtList);
 		model.addAttribute("prdtVO", prdtVO);
@@ -63,7 +65,7 @@ public class PrdtController {
 			, Model model) {
 		// 손님용 페이지 (등급상관없이 전체조회가능)
 		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
-		List<CmmnCdVO> srtList = cmmnCdDAO.readCategory("004");
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("prdtList", prdtList);
 		model.addAttribute("prdtVO", prdtVO);
@@ -71,6 +73,20 @@ public class PrdtController {
 		
 		return "prdt/prdt_list_customer";
 	}
+	
+	@GetMapping("/prdt/list2/{prdtId}")
+	public String prdtDetail(@PathVariable String prdtId
+			, Model model) {
+		// 손님용 페이지 (등급상관없이 전체조회가능)
+		PrdtVO prdtVO = prdtService.readOne(prdtId);
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
+		
+		model.addAttribute("prdtVO", prdtVO);
+		model.addAttribute("srtList", srtList);
+		
+		return "prdt/prdt_detail";
+	}
+	
 
 	@GetMapping("/prdt/img/{filename}")
 	public void downloadPrflPctr(@PathVariable String filename,

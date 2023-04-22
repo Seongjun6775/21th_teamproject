@@ -5,64 +5,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../../css/evntCommon.css">
+<link rel="stylesheet" href="../css/evntCommon.css">
 <meta charset="UTF-8">
 <title>이벤트 등록 페이지</title>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
 <script type="text/javascript">
 $().ready(function() {
 	
 	
 	// 1. 등록 버튼을 누르면 수행할 내용
 	$("#btn-create").click(function(){
-		$.post(
-				// 1. 호출할 주소
-				"${context}/api/evnt/create",
+		
+		var ajaxUtil = new AjaxUtil();
+		ajaxUtil.upload("#form-create" , "${context}/api/evnt/create", function(response) {
+			console.log("업데이트돌고있음")
+			if (response.status == "200 OK") {
+				console.log("200임")
+				alert(response.message);
 				
-				// 2. 파라미터
-				{
-					evntId: $("#evntId").val(),
-					evntTtl: $("#evntTtl").val(),
-					evntCntnt: $("#evntCntnt").val(),
-					evntStrtDt: $("#evntStrtDt").val(),
-					evntEndDt: $("#evntEndDt").val(),
-					evntPht: $("#evntPht").val(),
-					useYn: $('#useYn:checked').val(),
-		            delYn: $('#delYn').val()
-				},
-				
-				// 3. 결과 처리
-				function(response) {
-					if (response.status == "200 OK") {
-						alert(response.message);
-						//location.reload(); // 새로고침
-					} else {
-						alert(response.errorCode + " / " + response.message);
-					}
-				});
+				//location.href="${context}/evnt/list"
+				//location.reload(); // 새로고침
+			} else {
+				console.log("안됨")
+				alert(response.errorCode + " / " + response.message);
+			}
+		}, {"orgnFlNm" : "uploadFile"})
 	});
 	
+	
 	//'돌아가기'버튼 누르면 뒤로 돌아가기
-	   $("#btn-cancle").click(function(){
-		   //location.href="${context}/evnt/list3"
-		   history.go(-1);
-	   });
+	$("#btn-cancle").click(function() {
+		//location.href="${context}/evnt/list3"
+		history.pushState(null, null, '${context}/evnt/list');
+	});
+
+});
 	
-	//상품 등록하기 버튼 누르면 팝업창으로 선택할 수 있는 창 뜸  
-	   $("#btn-prdt").click(function(){
-		   var pop = window.open("${context}/evntPrdt/prdtList/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
-	       pop.focus();	
-	   });
 	
-})
+	
+	
+	
+	
+
 </script>
 
 </head>
 <body>
 
-	<div class="main-layout">
-		<div>
-			<table border=1 style="width: 600px;">
+   <div class="main-layout" >
+		<form id="form-create" enctype="multipart/form-data">
+			<div>
+				<table border=1 style="width: 600px;">
 				<tr>
 					<td colspan="4"><h1 style="text-align: center;">이벤트 등록
 							페이지</h1></td>
@@ -94,9 +88,9 @@ $().ready(function() {
 				<tr>
 					<td>이벤트 사진</td>
 					<td colspan="3">
-					<input type="file" name="filename" id="evntPht"
+					<input type="file" name="orgnFlNm" id="orgnFlNm"
 						   style="width: 200px;" value="" />					
-				    <input type="submit" value="사진 업로드"></td>				
+				    <!-- <input type="submit" value="사진 업로드"></td>		 -->		
 				</tr>
 				<tr>
 					<td>사용 여부</td>
@@ -106,19 +100,17 @@ $().ready(function() {
 					<td><input type="checkbox" id="delYn" value="" /></td>
 				</tr>
 				<tr>
-				<td>이벤트상품 설정</td>
-				<td><button id="btn-prdt">이벤트 상품 설정하기</button></td>
 				</tr>
-				<tr>
-				</tr>
+				
 				<tr>
 					<td></td>
 					<td></td>
-					<td><button id="btn-create" class="btn-primary" style="width:100%;">등록</button></td>
+					<td><button type="button" id="btn-create" class="btn-primary" style="width:100%;">등록</button></td>
 					<td><button id="btn-cancle" class="btn-primary" style="width:100%;">돌아가기</button></td>
 				</tr>
 			</table>
 		</div>
-	</div>
+	</form>
+</div>
 </body>
 </html>

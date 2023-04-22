@@ -17,8 +17,10 @@ public class EvntStrController {
 	@Autowired
 	private EvntStrService evntStrService;
 
+	
+	// 이벤트 참여매장 리스트
 	@RequestMapping("/evntStr/list/{evntId}")
-	public String viewEvntListPage(Model model, EvntStrVO evntStrVO, @PathVariable String evntId) {
+	public String viewEvntStrListPage(Model model, EvntStrVO evntStrVO, @PathVariable String evntId) {
 		evntStrVO.setEvntId(evntId);
 		List<EvntStrVO> evntStrList = evntStrService.readAllEvntStr(evntStrVO);
 		model.addAttribute("evntStrList", evntStrList);
