@@ -27,4 +27,7 @@ public interface EvntDAO {
 		
 	// 7. 이벤트 삭제 ▶▶상위관리자
 	public int updateDeleteEvnt(String evntId);
+	
+	// 8. 이용자용 페이지
+	public List<EvntVO> readAllOngoingEvnt(EvntVO evntVO);
 }

@@ -74,7 +74,31 @@
 		AND EVNT.DEL_YN = 'N'		
 		<include refid="Common.pageFooter" />
 	   </select>
-	
+
+	<select id="readAllOngoingEvnt"
+		parameterType="com.ktds.fr.evnt.vo.EvntVO"
+		resultType="com.ktds.fr.evnt.vo.EvntVO">
+		<include refid="Common.pageHeader" />
+		SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		     , EVNT_ID PK_COL     
+		     , EVNT_ID
+		     , EVNT_TTL
+		     , EVNT_CNTNT
+		     , EVNT_STRT_DT
+		     , EVNT_END_DT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , USE_YN
+		     , DEL_YN
+		 FROM EVNT EVNT
+		 WHERE 1=1
+           AND #{strToday} BETWEEN TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') AND TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD')
+           AND EVNT.USE_YN = 'Y'
+           AND EVNT.DEL_YN = 'N'		
+		<include refid="Common.pageFooter" />
+	   </select>
 	
 	<select id="readOneEvnt"
 	       parameterType="string"
@@ -102,11 +126,19 @@
            , EVNT_CNTNT=#{evntCntnt}
            , EVNT_STRT_DT=TO_DATE(#{evntStrtDt})
            , EVNT_END_DT=TO_DATE(#{evntEndDt})
+           <if test="orgnFlNm != null and orgnFlNm != ''">
            , ORGN_FL_NM=#{orgnFlNm}
+           </if>
+           <if test="uuidFlNm != null and uuidFlNm != ''">
            , UUID_FL_NM=#{uuidFlNm}
+           </if>
+           <if test="flSize != null and flSize != ''">
            , FL_SIZE=#{flSize}
+           </if>
+           <if test="flExt != null and flExt != ''">
            , FL_EXT=#{flExt}
-           , USE_YN = NVL(#{useYn}, 'N')
+           </if>
+           , USE_YN=NVL(#{useYn}, 'N')
        WHERE EVNT_ID=#{evntId}
 	</update>
 	

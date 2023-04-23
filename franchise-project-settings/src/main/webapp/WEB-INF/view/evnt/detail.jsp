@@ -117,7 +117,8 @@
 							페이지</h1></td>
 				</tr>
 				<tr>
-					<td>이벤트 ID</td>
+					<td style="width:150px;">이벤트 ID</td>
+					
 					<td colspan="3"><input type="text" id="evntId"
 						style="width: 99%;" value="${evntVO.evntId}" readonly="readonly"
 						style="background-color:red;" /></td>
@@ -137,11 +138,11 @@
 				</tr>
 
 				<tr>
-					<td>이벤트 시작일</td>
-					<td><input type="date" id="evntStrtDt"
+					<td style="width:150px;">이벤트 시작일</td>
+					<td style="width:150px;"><input type="date" id="evntStrtDt"
 						value="${evntVO.evntStrtDt}" readonly="readonly" /></td>
-					<td>이벤트 종료일</td>
-					<td><input type="date" id="evntEndDt"
+					<td style="width:150px;">이벤트 종료일</td>
+					<td style="width:150px;"><input type="date" id="evntEndDt"
 						value="${evntVO.evntEndDt}" readonly="readonly" /></td>
 				</tr>
 
@@ -149,7 +150,8 @@
 		
 					<td>이벤트 사진</td>
 					<td colspan="3">
-					<img src="${context}/evnt/img/${evntVO.uuidFlNm}"/>
+					<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="width:100%;"/>
+					
 					</td>
 						
 				</tr>

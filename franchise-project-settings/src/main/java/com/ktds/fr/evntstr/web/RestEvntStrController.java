@@ -1,7 +1,10 @@
 package com.ktds.fr.evntstr.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -20,8 +23,7 @@ public class RestEvntStrController {
 	// 이벤트 등록 매장 생성
 
 	@PostMapping("/api/evntStr/create")
-	public ApiResponseVO createNewEvnt(EvntStrVO evntStrVO
-			, @SessionAttribute("__MBR__") MbrVO mbrVO) throws Exception {
+	public ApiResponseVO createNewEvnt(EvntStrVO evntStrVO, @SessionAttribute("__MBR__") MbrVO mbrVO) throws Exception {
 
 		// 실행여부 확인
 		System.out.println("/api/evntStr/create 호출 확인!!!");
@@ -33,20 +35,36 @@ public class RestEvntStrController {
 
 		// FIXME 나중에 중간관리자(매장권한 있을때) 있을 때 쓸것
 		String strId = mbrVO.getStrId();
-		
-		//강제로 값 넣어놓기 (나중에 삭제)
-		strId = "ST-20230419-00174";
-		
+
 		evntStrVO.setStrId(strId);
-		
-		boolean isSuccess = evntStrService.createEvntStr(evntStrVO);
-		if (isSuccess) {
-			return new ApiResponseVO(ApiStatus.OK, "이벤트 참여가 완료되었습니다.", "200", "");
+
+		boolean chkSuccess = evntStrService.chkAlreadyCreate(evntStrVO);
+		if (chkSuccess) {
+			return new ApiResponseVO(ApiStatus.FAIL, "이벤트에 이미 등록되어 있습니다.", "500", "");
 		} else {
-			return new ApiResponseVO(ApiStatus.FAIL, "이벤트에 참여할 수 없습니다.", "500", "");
+			boolean isSuccess = evntStrService.createEvntStr(evntStrVO);
+			if (isSuccess) {
+				return new ApiResponseVO(ApiStatus.OK, "이벤트 참여가 완료되었습니다.", "200", "");
+			} else {
+				return new ApiResponseVO(ApiStatus.FAIL, "이벤트에 참여할 수 없습니다.", "500", "");
+			}
 		}
 	}
-
+	
+	
+	@PostMapping("/api/evntStr/delete")
+	public ApiResponseVO doDeleteAllRv(@RequestParam List<String> evntStrIdList
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		boolean isDelete = evntStrService.deleteEvntStrListByEvntId(evntStrIdList, mbrVO);
+		
+		if (isDelete) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	}
+	
 	// -----------------공통적용 소스----------------------------
 
 	// 2023-04-09 -> 20230409 로 변환
