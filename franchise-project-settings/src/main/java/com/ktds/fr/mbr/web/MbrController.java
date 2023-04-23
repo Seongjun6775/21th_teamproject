@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.cmmncd.service.CmmnCdService;
@@ -76,6 +77,14 @@ public class MbrController {
 		MbrVO myMbr = mbrService.readOneMbrByMbrId(mbrVO.getMbrId());
 		model.addAttribute("myMbr" ,myMbr);
 		return "mbr/mbr_info";
+	}
+	@GetMapping("/mbr/str/search")
+	public String viewStrSearchPage(MbrVO mbrVO,
+									Model model) {
+		model.addAttribute("strNm", mbrVO.getStrVO().getStrNm());
+		model.addAttribute("useYn", mbrVO.getStrVO().getUseYn());
+		
+		return "mbr/str_search";
 	}
 	@GetMapping("/logout")
 	public String doLogout(@SessionAttribute("__MBR__")MbrVO mbrVO, HttpSession session) {

@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	var str;
 	$().ready(function(){
 		$(".grid > table > tbody > tr").click(function(){
 			var data = $(this).data();
@@ -19,7 +20,9 @@
 			$("#mbrNm").val(data.mbrnm);
 			$("#mbrEml").val(data.mbreml);
 			$("#prev-mbrLvl").val(data.mbrlvlnm);
+			$("#prev-strNm").val(data.strnm);
 			$("#prev-mbrLvl-hidden").val(data.mbrlvl);
+			$("#prev-strId-hidden").val(data.strid);
 		});
 		
 		$("#search-btn").click(function(){
@@ -66,6 +69,10 @@
 				}
 			});
 		});
+		$("#search-str-btn").click(function(event){
+			event.preventDefault();
+			str=window.open("${context}/mbr/str/search","매장검색", "width=500, height=500");
+		});
 		
 	});
 	
@@ -74,7 +81,6 @@
 		var mbrNm = $("#search-keyword-mbrNm").val();
 		var startDt = $("#search-keyword-startdt").val();
 		var endDt = $("#search-keyword-enddt").val();
-		var delYn = $("#search-keyword-delYn").val();
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
@@ -87,7 +93,6 @@
 		queryString += "&mbrNm=" + mbrNm;
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt=" + endDt;
-		queryString += "&delYn=" + delYn;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href="${context}/mbr/admin/list?" + queryString;
@@ -116,13 +121,6 @@
 									</c:when>
 								</c:choose>
 						</select>
-						<select id="search-keyword-delYn" name="delYn">
-								<option value="">탈퇴유무</option>
-								<option value="Y" ${MbrVO.delYn eq 'Y' ? 'selected' : ''}>Y</option>
-								<option value="N" ${MbrVO.delYn eq 'N' ? 'selected' : ''}>N</option>
-						</select>
-						<%-- <label for="search-keyword-delYn" >탈퇴여부</label>
-						<input type="checkbox" id="search-keyword-delYn" class="search-input" style="flex-grow: 0.1;" value="${mbrVO.delYn eq 'Y' ? 'Y' : 'N'}"/> --%>
 						<label for="search-keyword-startdt" >조회기간</label>
 						<input type="date" id="search-keyword-startdt" class="search-input" value="${mbrVO.startDt}"/>
 						<input type="date" id="search-keyword-enddt" class="search-input" value="${mbrVO.endDt}"/>
@@ -141,12 +139,12 @@
 								<th>ID</th>
 								<th>이름</th>
 								<th>이메일</th>
+								<th>매장명</th>
 								<th>회원등급</th>
 								<th>가입일</th>
 								<th>최근 로그인 날짜</th>
 								<th>최근 로그인 IP</th>
 								<th>로그인 제한</th>
-								<th>탈퇴</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -155,6 +153,7 @@
 									<c:forEach items="${mbrList}" var="mbr" varStatus="index">
 										<tr data-mbrId="${mbr.mbrId}" 
 											data-mbrNm="${mbr.mbrNm }" 
+											data-strId="${mbr.strId }" 
 											data-mbrEml="${mbr.mbrEml }" 
 											data-mbrLvl="${mbr.mbrLvl }" 
 											data-mbrLvlNm ="${mbr.cmmnCdVO.cdNm}"
@@ -168,17 +167,18 @@
 											data-mbrPwdChngDt="${mbr.mbrPwdChngDt }" 
 											data-mbrLeavDt="${mbr.mbrLeavDt}"
 											data-delYn="${mbr.delYn}"
+											data-strNm="${mbr.strVO.strNm}"
 											>
 											<td>${index.index+1}</td>
 											<td>${mbr.mbrId}</td>
 											<td>${mbr.mbrNm}</td>
 											<td>${mbr.mbrEml}</td>
+											<td>${mbr.strVO.strNm}</td>
 											<td>${mbr.cmmnCdVO.cdNm}</td>
 											<td>${mbr.mbrRgstrDt}</td>
 											<td>${mbr.mbrRcntLgnDt}</td>
 											<td>${mbr.mbrRcntLgnIp}</td>
 											<td>${mbr.mbrLgnBlckYn}</td>
-											<td>${mbr.delYn}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -201,7 +201,6 @@
 								<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
 								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
 								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1 }" var="groupEndPageNo"/>
-								<%-- <c:set value="${groupEndPageNo > lastPage ? (lastPage-1 < 0 ? lastPage : lastPage -1 ) : groupEndPageNo - 1}" var="groupEndPageNo"/> --%>
 								
 								<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
 								<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
@@ -256,12 +255,25 @@
 							<input type="hidden" id="prev-mbrLvl-hidden" name="originMbrLvl" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="mbrLvl" style="width: 180px;">변경등급</label>
-							<select id="select-mbrLvl" name="mbrLvl">
-								<option value="">멤버등급</option>
-								<option value="001-02">중간관리자</option>
-								<option value="001-03">하위관리자</option>
-							</select>
+							<label for="prev-strNm" style="width: 180px;">소속매장</label><input
+								type="text" id="prev-strNm" name="strVO.strNm" readonly value="" />
+							<input type="hidden" id="prev-strId-hidden" name="originStrId" value=""/>
+						</div>
+						<div class="update-group">
+							<div class="input-group inline">
+								<label for="mbrLvl" style="width: 180px;">등급변경</label>
+								<select id="select-mbrLvl" name="mbrLvl">
+									<option value="">멤버등급</option>
+									<option value="001-02">중간관리자</option>
+									<option value="001-03">하위관리자</option>
+								</select>
+							</div>
+							<div class="input-group inline">
+								<label for="mbrLvl" style="width: 180px;">소속변경</label>
+								<input type="text" id="search-strId" name="strId" readonly value="" />
+								<input type="hidden" id="prev-strId" name="originStrId" value="" />
+								<button id="search-str-btn">검색</button>
+							</div>
 						</div>
 					</form>
 				</div>

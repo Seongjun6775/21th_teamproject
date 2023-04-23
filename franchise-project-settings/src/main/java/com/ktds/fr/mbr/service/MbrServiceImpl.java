@@ -38,8 +38,6 @@ public class MbrServiceImpl implements MbrService {
 
 	@Override	//로그인
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO) {
-		//TODO 삭제할 log
-		log.info("아이디는 {}",mbrVO.getMbrId());
 		//아이디 차단 여부
 		String loginBlockYn = mbrDAO.readLgnBlockYnById(mbrVO.getMbrId());
 		if(loginBlockYn == null) {
@@ -214,10 +212,8 @@ public class MbrServiceImpl implements MbrService {
 		//아이디 전달 - 암호화 하여서 뒤에 3글자만 *로 바꾸어서
 		MbrVO mbr = null;
 		for(int i =0; i<mbrList.size(); i +=1) {
-			log.info("아이디값: {}",mbrList.get(i).getMbrId());
 			String mbrId = mbrList.get(i).getMbrId();
 			mbrId = mbrId.substring(0, mbrId.length()-3) + "***";
-			log.info("바뀐 아이디값: {}",mbrList.get(i).getMbrId());
 			mbr = mbrList.get(i);
 			mbr.setMbrId(mbrId);
 		}

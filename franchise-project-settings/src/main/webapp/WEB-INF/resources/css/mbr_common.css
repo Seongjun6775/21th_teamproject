@@ -473,3 +473,8 @@ img {
 .margin-Bot-10{
 	margin-bottom: 30px;
 }
+/*update*/
+.update-group{
+	display: flex;
+    flex-direction: column;
+}

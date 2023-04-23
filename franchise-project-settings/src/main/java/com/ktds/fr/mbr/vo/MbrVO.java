@@ -2,6 +2,7 @@ package com.ktds.fr.mbr.vo;
 
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.str.vo.StrVO;
 
 public class MbrVO extends AbstractVO {
 
@@ -24,12 +25,36 @@ public class MbrVO extends AbstractVO {
 	private String useYn;
 	private String delYn;
 
+	/**
+	 * 변경전 회원 등급
+	 */
 	private String originMbrLvl;
+	/**
+	 * 변경전 매장 ID
+	 */
 	private String originStrId;
 
+	/**
+	 * 회원 등급 변경자
+	 */
 	private String mdfyr;
 
+	/**
+	 * 공통코드
+	 */
 	private CmmnCdVO cmmnCdVO;
+	/**
+	 * 매장 정보
+	 */
+	private StrVO strVO;
+
+	public StrVO getStrVO() {
+		return strVO;
+	}
+
+	public void setStrVO(StrVO strVO) {
+		this.strVO = strVO;
+	}
 
 	public String getOriginMbrLvl() {
 		return originMbrLvl;
