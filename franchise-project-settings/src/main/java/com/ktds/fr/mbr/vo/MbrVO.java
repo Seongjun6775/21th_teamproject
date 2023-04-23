@@ -1,8 +1,9 @@
 package com.ktds.fr.mbr.vo;
 
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
 
-public class MbrVO extends AbstractVO{
+public class MbrVO extends AbstractVO {
 
 	private String mbrId;
 	private String strId;
@@ -22,6 +23,45 @@ public class MbrVO extends AbstractVO{
 	private String mbrRgstrDt;
 	private String useYn;
 	private String delYn;
+
+	private String originMbrLvl;
+	private String originStrId;
+
+	private String mdfyr;
+
+	private CmmnCdVO cmmnCdVO;
+
+	public String getOriginMbrLvl() {
+		return originMbrLvl;
+	}
+
+	public void setOriginMbrLvl(String originMbrLvl) {
+		this.originMbrLvl = originMbrLvl;
+	}
+
+	public String getOriginStrId() {
+		return originStrId;
+	}
+
+	public void setOriginStrId(String originStrId) {
+		this.originStrId = originStrId;
+	}
+
+	public String getMdfyr() {
+		return mdfyr;
+	}
+
+	public void setMdfyr(String mdfyr) {
+		this.mdfyr = mdfyr;
+	}
+
+	public CmmnCdVO getCmmnCdVO() {
+		return cmmnCdVO;
+	}
+
+	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
+		this.cmmnCdVO = cmmnCdVO;
+	}
 
 	public String getMbrId() {
 		return mbrId;

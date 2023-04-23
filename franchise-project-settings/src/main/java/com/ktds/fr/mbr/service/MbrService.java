@@ -45,4 +45,6 @@ public interface MbrService {
 	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO);
 	//PW 찾기용
 	public boolean updateMbrPwdByMbrIdAndMbrEml(MbrVO mbrVO);
+	//권한 및 소소 수정용
+	public boolean updateOneMbrLvlAndStrId(MbrVO mbrVO);
 }

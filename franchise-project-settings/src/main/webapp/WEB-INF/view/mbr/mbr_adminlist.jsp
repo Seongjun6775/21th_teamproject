@@ -13,6 +13,15 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		$(".grid > table > tbody > tr").click(function(){
+			var data = $(this).data();
+			$("#mbrId").val(data.mbrid);
+			$("#mbrNm").val(data.mbrnm);
+			$("#mbrEml").val(data.mbreml);
+			$("#prev-mbrLvl").val(data.mbrlvlnm);
+			$("#prev-mbrLvl-hidden").val(data.mbrlvl);
+		});
+		
 		$("#search-btn").click(function(){
 			movePage(0);
 		});
@@ -30,6 +39,34 @@
 			$("#search-keyword-startdt").val("");
 			$("#search-keyword-enddt").val("");
 		});
+		$("#update_btn").click(function(){
+			var updateLvl = $("#select-mbrLvl").val();
+			var prevLvl = $("#prev-mbrLvl-hidden").val();
+			var serialize = $("#detail_form").serialize();
+			serialize += "&prevLvl="+prevLvl;
+			if(prevLvl.length ==0){
+				alert("회원을 선택하세요.");
+				return;
+			}
+			if(updateLvl.length==0){
+				alert("변경시킬 등급을 선택하세요.");
+				return;
+			}
+			if(updateLvl == prevLvl){
+				alert("선택한 회원의 등급과 변경하려는 등급이 같습니다.");
+				return;
+			}
+			$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
+				if(resp.status=="200 OK"){
+					alert("변경이 완료되었습니다.");
+					location.reload();
+				}
+				else{
+					alert(resp.message);
+				}
+			});
+		});
+		
 	});
 	
 	function movePage(pageNo){
@@ -53,7 +90,7 @@
 		queryString += "&delYn=" + delYn;
 		queryString += "&pageNo=" + pageNo;
 		
-		location.href="${context}/mbr/list?" + queryString;
+		location.href="${context}/mbr/admin/list?" + queryString;
 	}
 </script>
 </head>
@@ -120,6 +157,7 @@
 											data-mbrNm="${mbr.mbrNm }" 
 											data-mbrEml="${mbr.mbrEml }" 
 											data-mbrLvl="${mbr.mbrLvl }" 
+											data-mbrLvlNm ="${mbr.cmmnCdVO.cdNm}"
 											data-mbrRgstrDt="${mbr.mbrRgstrDt }" 
 											data-useYn="${mbr.useYn}" 
 											data-mbrRcntLgnDt="${mbr.mbrRcntLgnDt }" 
@@ -135,7 +173,7 @@
 											<td>${mbr.mbrId}</td>
 											<td>${mbr.mbrNm}</td>
 											<td>${mbr.mbrEml}</td>
-											<td>${mbr.mbrLvl}</td>
+											<td>${mbr.cmmnCdVO.cdNm}</td>
 											<td>${mbr.mbrRgstrDt}</td>
 											<td>${mbr.mbrRcntLgnDt}</td>
 											<td>${mbr.mbrRcntLgnIp}</td>
@@ -191,7 +229,44 @@
 								</c:if>
 							</ul>
 						</div>
-					
+				</div>
+				<div class="grid-detail">
+					<h1>권한/소속 변경</h1>
+					<form id="detail_form">
+						<!-- 
+							 isModity== true -> 수정(update)
+							 isModity== false -> 등록(insert) 
+						--> 
+						<input type="hidden" id="isModify" value="false"/>
+						<div class="input-group inline">
+							<label for="mbrId" style="width: 180px;">ID</label><input
+								type="text" id="mbrId" name="mbrId" readonly value="" />
+						</div>
+						<div class="input-group inline">
+							<label for="mbrNm" style="width: 180px;">이름</label><input
+								type="text" id="mbrNm" name="mbrNm" readonly value="" />
+						</div>
+						<div class="input-group inline">
+							<label for="mbrEml" style="width: 180px;">이메일</label><input
+								type="email" id="mbrEml" name="mbrEml" readonly value="" />
+						</div>
+						<div class="input-group inline">
+							<label for="mbrLvl" style="width: 180px;">현재등급</label><input
+								type="text" id="prev-mbrLvl" name="cmmnCdVO.cdNm" readonly value="" />
+							<input type="hidden" id="prev-mbrLvl-hidden" name="originMbrLvl" value=""/>
+						</div>
+						<div class="input-group inline">
+							<label for="mbrLvl" style="width: 180px;">변경등급</label>
+							<select id="select-mbrLvl" name="mbrLvl">
+								<option value="">멤버등급</option>
+								<option value="001-02">중간관리자</option>
+								<option value="001-03">하위관리자</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="align-right">
+					<button id="update_btn" class="btn-primary">변경</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

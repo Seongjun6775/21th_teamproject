@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.SHA256Util;
@@ -31,6 +32,9 @@ public class MbrServiceImpl implements MbrService {
 	
 	@Autowired
 	private LgnHistDAO lgnHistDAO;
+	
+	@Autowired
+	private ChSrlDAO chSrlDAO;
 
 	@Override	//로그인
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO) {
@@ -228,6 +232,16 @@ public class MbrServiceImpl implements MbrService {
 		boolean updateResult = this.updateOneMbrPwd(mbrVO);
 		if(!updateResult) {
 			throw new ApiException(ApiStatus.FAIL, "비밀번호 찾기에 실패했습니다. 다시 시도해 주세요.");
+		}
+		return updateResult;
+	}
+	@Override
+	public boolean updateOneMbrLvlAndStrId(MbrVO mbrVO) {
+		boolean updateResult = mbrDAO.updateOneMbrLvlAndStrId(mbrVO) > 0;
+		if(!updateResult) {
+			throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+		}else {
+			chSrlDAO.createOneChHist(mbrVO);
 		}
 		return updateResult;
 	}

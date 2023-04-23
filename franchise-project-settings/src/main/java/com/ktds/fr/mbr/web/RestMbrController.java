@@ -198,4 +198,16 @@ public class RestMbrController {
 		}
 		return new ApiResponseVO(ApiStatus.FAIL,"계정 찾기에 실패했습니다.");
 	}
+	//권한및 소속 변경
+	@PostMapping("/api/mbr/update/admin")
+	public ApiResponseVO doUpdateAdmin(MbrVO mbrVO,
+									   @SessionAttribute("__MBR__")MbrVO mbr,
+									   @RequestParam(required = false) String prevLvl) {
+		mbrVO.setMdfyr(mbr.getMbrNm());
+		boolean updateResult = mbrService.updateOneMbrLvlAndStrId(mbrVO);
+		if(!updateResult) {
+			throw new ApiException(ApiStatus.FAIL, "변경에 실패했습니다. 다시 시도해주세요.");
+		}
+		return new ApiResponseVO(ApiStatus.OK);
+	}
 }
