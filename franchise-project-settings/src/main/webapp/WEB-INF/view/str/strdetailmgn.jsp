@@ -144,21 +144,21 @@ $().ready(function() {
 			
 			<h1>매장 상세 조회</h1>
 			<div class="grid">
-			<h2>중간 관리자는 오직 전화번호, 오픈시간, 클로즈시간, 수정자, 수정일만 관리가능합니다.</h2>
+			<h2>중간 관리자는 오직 매장주소, 전화번호, 오픈시간, 클로즈시간만 관리가능합니다.</h2>
 			<div class="grid-strdetailmgn">
 				<form id="strdetailmgn_form">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
 						<label for="strId" style="width:180px">매장 ID</label>
-						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}"/>
+						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strNm" style="width:180px">매장명</label>
-						<input type="text" id="strNm" name="strNm" maxlength="1000" readonly value="${strVO.strNm}" />
+						<input type="text" id="strNm" name="strNm" maxlength="1000" readonly value="${strVO.strNm}" style="background-color:orange"/>
 					</div>	
 					<div class="input-group inline">
 						<label for="strLctn" style="width:60px">지역</label>
-						<select id="strLctn" name="strLctn" disabled >
+						<select id="strLctn" name="strLctn" disabled style="background-color:orange">
 							<option value="">지역</option>
 							<c:choose>
 									<c:when test="${not empty lctList}">
@@ -170,10 +170,10 @@ $().ready(function() {
 								</c:choose>
 							</select>
 							<label for="strCty" style="width:60px">도시</label>
-							<select id="strCty" name="strCty" disabled>
-								<option value="">도시명</option>
+							<select id="strCty" name="strCty" disabled style="background-color:orange">
+								<option value="" >도시명</option>
 								<c:choose>
-									<c:when test="${not empty ctyList}">
+									<c:when test="${not empty ctyList}" >
 										<c:forEach items="${ctyList}"
 													var="cty" >
 											<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
@@ -191,7 +191,7 @@ $().ready(function() {
 				
 					<div class="input-group inline">
 						<label for="mbrId" style="width:180px">점주ID</label>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
@@ -203,23 +203,23 @@ $().ready(function() {
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstr" style="width:180px" hidden="">등록자</label>
-						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"/>
+						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"  hidden=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstDt" style="width:180px">등록일</label>
-						<input type="date" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
+						<input type="date" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px" hidden="">수정자</label>
-						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"/>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"  hidden=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>
-						<input type="date" id="mdfyDt" name="mdfyDt" value="${strVO.mdfyDt}"/>
+						<input type="date" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px" hidden="">사용여부</label>
-						<input type="text" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} readonly value="Y"  style="width: 20px;" hidden=""/>
+						<input type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} readonly value="Y"  style="width: 20px;" hidden=""/>
 					</div>
 				</form>
 			</div>

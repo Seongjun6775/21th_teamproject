@@ -386,11 +386,11 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
-						<input type="time" id="strOpnTm" name="strOpnTm" value="${strVO.strOpnTm}"/>
+						<input type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strClsTm" style="width:180px">종료시간</label>
-						<input type="time" id="strClsTm" name="strClsTm" value="${strVO.strClsTm}"/>
+						<input type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstr" style="width:180px">등록자</label>
