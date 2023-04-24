@@ -96,5 +96,13 @@ public class StrServiceImpl implements StrService {
 	public boolean readBlockStrByMan(String strId) {
 		return strDAO.readBlockStrByMan(strId) > 0;
 	}
+	
+	/**
+	 * 회원기능과 연동
+	 */
+	@Override
+	public List<StrVO> readAllStrNoPagenate(StrVO strVO) {
+		return strDAO.readAllStrNoPagenate(strVO);
+	}
 
 }
