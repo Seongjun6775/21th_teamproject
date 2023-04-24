@@ -19,4 +19,12 @@ public class LctCdServiceImpl implements LctCdService {
 		return lctCdDAO.readCategory(lctCdVO);
 	}
 
+	/**
+	 * 매장조회용
+	 */
+	@Override
+	public List<LctCdVO> read() {
+		return lctCdDAO.read();
+	}
+
 }

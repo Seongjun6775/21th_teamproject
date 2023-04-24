@@ -6,10 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
+import com.ktds.fr.ctycd.service.CtyCdService;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.lctcd.service.LctCdService;
+import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.service.PrdtService;
 import com.ktds.fr.prdt.vo.PrdtVO;
@@ -29,6 +34,12 @@ public class StrPrdtController {
 	
 	@Autowired
 	private PrdtService prdtService;
+	
+	@Autowired
+	private LctCdService lctService;
+	
+	@Autowired
+	private CtyCdService ctyService;
 	
 	@Autowired
 	private CmmnCdService cmmnCdService;
@@ -98,12 +109,22 @@ public class StrPrdtController {
 	@GetMapping("/strprdt/list2")
 	public String strPrdtListCustomer(StrPrdtVO strPrdtVO
 			, StrVO strVO
+			, @RequestParam(required = false) String lctId
+			, @RequestParam(required = false) String ctyId
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			, Model model) {
 		// 1. 매장선택
+		strVO.setStrLctn(lctId);
+		strVO.setStrCty(ctyId);
 		List<StrVO> strList = strService.readAllUseY(strVO);
+		List<LctCdVO> lctList = lctService.readCategory(null);
+		CtyCdVO ctyVO = new CtyCdVO();
+		ctyVO.setCtyId(lctId);
+		List<CtyCdVO> ctyList = ctyService.readCategory(ctyVO);
 		
 		model.addAttribute("strList",strList);
+		model.addAttribute("lctList",lctList);
+		model.addAttribute("ctyList",ctyList);
 		
 		return "strprdt/str_select";
 	}

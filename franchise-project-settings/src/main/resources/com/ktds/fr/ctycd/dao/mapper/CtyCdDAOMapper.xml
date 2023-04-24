@@ -15,9 +15,7 @@
 		  FROM CTY_CD C
 		  JOIN LCT_CD L
 		  	ON C.LCT_ID = L.LCT_ID
-		 <if test='ctyId != null and ctyId != ""'>
-		 WHERE CTY_ID LIKE '%' || #{ctyId} || '-%'
-		</if>
+		 WHERE CTY_ID = NVL(#{ctyId}, '-') 
 		 ORDER BY CTY_ID ASC 
 	</select>
 

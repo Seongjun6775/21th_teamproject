@@ -23,4 +23,12 @@ public class LctCdDAOImpl extends SqlSessionDaoSupport implements LctCdDAO {
 		return getSqlSession().selectList("LctCd.readCategory",lctCdVO);
 	}
 
+	/**
+	 * 매장조회용
+	 */
+	@Override
+	public List<LctCdVO> read() {
+		return getSqlSession().selectList("LctCd.readAll");
+	}
+
 }

@@ -319,12 +319,8 @@
 		  	ON S.STR_CTY = C.CTY_ID
 		 WHERE S.DEL_YN = 'N'
 		   AND S.USE_YN = 'Y'
-		<if test='strLctn != null and strLctn != ""'>
-		   AND S.STR_LCTN = #{strLctn}
-		</if>
-		<if test='strCty != null and strCty != ""'>
-		   AND S.STR_CTY = #{strCty}
-		</if>
+		   AND S.STR_LCTN = NVL(#{strLctn}, '-')
+		   AND S.STR_CTY = NVL(#{strCty}, '-')
 		 ORDER BY S.STR_NM ASC
 	</select>
 	

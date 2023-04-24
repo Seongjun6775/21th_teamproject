@@ -16,6 +16,15 @@
 		</if>
 		 ORDER BY LCT_ID ASC 
 	</select>
+	
+	<select id="read"
+			parameterType="com.ktds.fr.lctcd.vo.LctCdVO"
+			resultType="com.ktds.fr.lctcd.vo.LctCdVO">
+		SELECT LCT_ID
+			 , LCT_NM 
+		  FROM LCT_CD
+		 ORDER BY LCT_NM ASC 
+	</select>
 
 
 </mapper>
