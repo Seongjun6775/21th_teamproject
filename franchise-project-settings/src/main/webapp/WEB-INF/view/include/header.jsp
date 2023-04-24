@@ -37,6 +37,9 @@
 		<li class="nav-item">
 			<a href="#">고객센터</a>	
 		</li>
+		<li class="nav-item">
+			<a href="${context}/odrlst/list">주문목록</a>	
+		</li>
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
 	<div class="inline profile">
