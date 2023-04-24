@@ -98,13 +98,15 @@ public class StrPrdtController {
 	
 	@GetMapping("/strprdt/list2")
 	public String strPrdtListCustomer(StrPrdtVO strPrdtVO
+			, StrVO strVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			, Model model) {
 		// 1. 매장선택
-		List<StrVO> strList = strService.readAllStrMaster(null);
+		List<StrVO> strList = strService.readAllStrMaster(strVO);
 		
+		model.addAttribute("strList",strList);
 		
-		return null;
+		return "strprdt/str_select";
 	}
 
 }
