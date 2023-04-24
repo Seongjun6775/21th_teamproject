@@ -47,4 +47,6 @@ public interface MbrService {
 	public boolean updateMbrPwdByMbrIdAndMbrEml(MbrVO mbrVO);
 	//권한 및 소소 수정용
 	public boolean updateOneMbrLvlAndStrId(MbrVO mbrVO);
+	//관리자 권한 해임용
+	public boolean deleteOneMbrAdminByMbrId(MbrVO mbrVO);
 }

@@ -295,10 +295,18 @@
 	
 	<update id="updateOneMbrLvlAndMbrStrId"
 		parameterType="com.ktds.fr.mbr.vo.MbrVO">
-	UPDATE FRAN.MBR
-	   SET  MBR_LVL=#{mbrLvl}
-	  	  , STR_ID =#{strId}	 
-	 WHERE MBR_ID=#{mbrId}
-	   AND DEL_YN='N' 
+		UPDATE FRAN.MBR
+		   SET  MBR_LVL=#{mbrLvl}
+		  	  , STR_ID =#{strId}	 
+		 WHERE MBR_ID=#{mbrId}
+		   AND DEL_YN='N' 
+	</update>
+	
+	<update id="deleteOneMbrAdminByMbrId"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET MBR_LVL=DEFAULT
+		   	 , STR_ID=#{strId}
+		 WHERE MBR_ID=#{mbrId}
 	</update>
 </mapper>

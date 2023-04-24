@@ -111,6 +111,20 @@
 			event.preventDefault();
 			str=window.open("${context}/str/search","매장검색", "width=500, height=500");
 		});
+		$("#fire-btn").click(function(event){
+			var confirmFire = confirm("해당 관리자의 권한은 해지하시겠습니까?");
+			if(confirmFire){
+				var fireAdmin = $(this).closest("tr").data();
+				$.get("${context}/api/mbr/admin/fire",function(resp){
+					if(resp.status == "200 OK"){
+						alert("관리자가 해임되었습니다.");
+						location.reload();
+					}else{
+						alert(resp.message);
+					}
+				});
+			}
+		});
 		
 	});
 	
@@ -183,6 +197,8 @@
 								<th>최근 로그인 날짜</th>
 								<th>최근 로그인 IP</th>
 								<th>로그인 제한</th>
+								<th>관리자 해임</th>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -217,6 +233,7 @@
 											<td>${mbr.mbrRcntLgnDt}</td>
 											<td>${mbr.mbrRcntLgnIp}</td>
 											<td>${mbr.mbrLgnBlckYn}</td>
+											<td><button class="fire-btn">해임</button></td>
 										</tr>
 									</c:forEach>
 								</c:when>

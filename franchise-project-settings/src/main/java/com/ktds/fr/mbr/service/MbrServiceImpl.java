@@ -259,6 +259,32 @@ public class MbrServiceImpl implements MbrService {
 		}
 		return false;
 	}
+	@Override
+	public boolean deleteOneMbrAdminByMbrId(MbrVO mbrVO) {
+		if(mbrVO.getMbrLvl().equals("001-02")) {
+			int readResult = strDAO.readOneStrByMbrId(mbrVO.getMbrId());
+			if(readResult > 0) {
+				boolean delResult = strDAO.deleteOneManagerByMbrId(mbrVO.getMbrId()) > 0;
+				if(delResult) {
+					mbrVO.setStrId(null);
+					int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
+					chSrlDAO.createOneChHist(mbrVO);
+					return deleteResult > 0;
+				}
+			}else {
+				mbrVO.setStrId(null);
+				int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
+				chSrlDAO.createOneChHist(mbrVO);
+				return deleteResult > 0;
+			}
+		}else if(mbrVO.getMbrLvl().equals("001-03")) {
+			mbrVO.setStrId(null);
+			int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
+			chSrlDAO.createOneChHist(mbrVO);
+			return deleteResult > 0;
+		}
+		return false;
+	}
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {
 		if(mbrVO.getMbrLvl().equals("001-02")) {

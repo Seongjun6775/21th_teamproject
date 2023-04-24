@@ -45,6 +45,8 @@ public interface MbrDAO {
 	public int updateOneMbrPwd(MbrVO mbrVO);
 	//ID/PW 찾기 용
 	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO);
-	//권한 및 소소 수정용
+	//권한 및 소속 변경용
 	public int updateOneMbrLvlAndStrId(MbrVO mbrVO);
+	//관리자 권한 해임용
+	public int deleteOneMbrAdminByMbrId(MbrVO mbrVO);
 }
