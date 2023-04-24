@@ -33,4 +33,6 @@ public interface StrDAO {
 	 */
 	public List<StrVO>readAllStrNoPagenate(StrVO strVO);
 	
+	public List<StrVO>readAll();
+	
 }

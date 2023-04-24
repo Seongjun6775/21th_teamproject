@@ -39,11 +39,10 @@ public class StrPrdtController {
 			, Model model) {
 		// 세션>회원의 등급이 상위관리자가 아닐경우
 		if (mbrVO.getMbrLvl().equals("001-01")) {
-			StrVO strVO = new StrVO();
 			PrdtVO prdtVO = new PrdtVO();
 			
 			List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
-			List<StrVO> strList = strService.readAllStrMaster(strVO);
+			List<StrVO> strList = strService.readAll();
 			List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
 			List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 			

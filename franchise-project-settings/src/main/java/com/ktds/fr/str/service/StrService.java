@@ -33,4 +33,6 @@ public List<StrVO>readAllStrMaster(StrVO strVO);
 	 */
 	public List<StrVO>readAllStrNoPagenate(StrVO strVO);
 	
+	public List<StrVO>readAll();
+	
 }

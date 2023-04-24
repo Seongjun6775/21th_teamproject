@@ -58,6 +58,7 @@ public class StrServiceImpl implements StrService {
 				strPrdtVO.setMdfyr(strVO.getMdfyr());
 				strPrdtList.add(strPrdtVO);
 			}
+			strPrdtDAO.create(strPrdtList);
 		}
 		return isSuccess;
 	}
@@ -101,6 +102,11 @@ public class StrServiceImpl implements StrService {
 	@Override
 	public List<StrVO> readAllStrNoPagenate(StrVO strVO) {
 		return strDAO.readAllStrNoPagenate(strVO);
+	}
+
+	@Override
+	public List<StrVO> readAll() {
+		return strDAO.readAll();
 	}
 
 }

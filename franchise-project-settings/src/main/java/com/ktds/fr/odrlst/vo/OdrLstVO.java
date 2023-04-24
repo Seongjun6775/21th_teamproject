@@ -1,6 +1,8 @@
 package com.ktds.fr.odrlst.vo;
 
-public class OdrLstVO {
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class OdrLstVO extends AbstractVO{
 	/**
 	 * 장바구니 ID
 	 */

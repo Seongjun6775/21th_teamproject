@@ -278,6 +278,22 @@
 		</if>
 	</select>
 	
+	<!-- 누락매장검색용 -->
+	<select id="readAll"
+			resultType="com.ktds.fr.str.vo.StrVO">
+		SELECT S.STR_ID
+			 , S.STR_NM
+			 , S.STR_ADDR
+			 , S.STR_CALL_NUM
+			 , S.MBR_ID
+			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , S.USE_YN
+			 , S.DEL_YN
+		  FROM STR S
+		 WHERE S.DEL_YN = 'N'
+	</select>
+	
 	
 	<!-- 소비자용 매장조회 -->
 	<select id="id"
