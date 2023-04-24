@@ -46,15 +46,20 @@
 			$.post("${context}/api/rv/delete", form.serialize(), function(response){
 				if(response.status == "200 OK"){
 					location.reload(); //새로고침
+					alert("리뷰가 삭제되었습니다.")
 				}
 				else{
-					alert(response.errorCode + " / " + response.message);
+					alert(response.errorCode + "권한이 없습니다." + response.message);
 				}
 			})
 		});	
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});
+		$(".rvRow td").not(".firstcell").click(function() {
+			var rvid = $(this).closest(".rvRow").data("rvid")
+			location.href="${context}/rv/detail/" + rvid;
+		})
 	});
 		function movePage(pageNo){
 			//전송.
@@ -86,10 +91,10 @@
 				<thead>
 					<tr>
 						<th><input type="checkbox" id="all_check" /></th>
-						<th>리뷰ID</th>
-						<th>회원ID</th>
 						<th>주문서ID</th>
+						<th>매장명</th>
 						<th>제목</th>
+						<th>회원ID</th>						
 						<th>좋아요/싫어요</th>
 						<th>등록일</th>
 						<th>수정일</th>
@@ -100,16 +105,16 @@
 						<c:when test="${not empty rvList}">
 							<c:forEach items="${rvList}"
 									   var="rv">
-								<tr>
-									<td>
+								<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;"> 
+									<td class="firstcell">
 										<input type="checkbox" 
 											   class="check-idx" 
 											   value="${rv.rvId}"/>
 									</td>
-									<td><a href="${context}/rv/detail/${rv.rvId}" >${rv.rvId}]</a></td>
-									<td>${rv.mbrId}</td>
-									<td>${rv.odrLstId}</td>					
-									<td>${rv.rvTtl}</td>					
+									<td>${rv.odrLstId}</td>
+									<td>${rv.strVO.strNm}</td>
+									<td>${rv.rvTtl}</td>
+									<td>${rv.mbrId}</td>																			
 									<td>${rv.rvLkDslk}</td>					
 									<td>${rv.rvRgstDt}</td>					
 									<td>${rv.mdfyDt}</td>									
@@ -174,7 +179,7 @@
 					<select id="search_option" name="searchOption">
 						<option value="rvTtl">제목</option>					
 						<option value="rvCntnt">내용</option>					
-						<option value="mbrId">작성자</option>									
+						<option value="mbrId">회원ID</option>									
 					</select>
 					<input type="text" name="searchWrap" placeholder="검색어를 입력하세요">						
 					<button id="search_btn" class="btn-search">검색</button>				

@@ -48,6 +48,11 @@ public class PrdtServiceImpl implements PrdtService {
 	public PrdtVO readOne(String prdtId) {
 		return prdtDAO.readOne(prdtId);
 	}
+	
+	@Override
+	public List<PrdtVO> readAllCustomer(PrdtVO prdtVO) {
+		return prdtDAO.readAllCustomer(prdtVO);
+	}
 
 	@Override
 	public boolean create(PrdtVO prdtVO, MultipartFile uploadFile) {
@@ -70,6 +75,11 @@ public class PrdtServiceImpl implements PrdtService {
 		}
 
 		if (uploadFile != null && !uploadFile.isEmpty()) {
+			String fileExt = uploadFile.getContentType();
+			if (!(fileExt.contains("image"))) {
+				throw new ApiArgsException("400", "이미지 파일만 업로드 가능합니다.\njpg, jpeg, png, gif, bmp");
+			}
+			
 			File dir = new File(profilePath);
 			if (!dir.exists()) {
 				dir.mkdirs();
@@ -83,7 +93,6 @@ public class PrdtServiceImpl implements PrdtService {
 			}
 			String originFileName = uploadFile.getOriginalFilename();
 			long fileSize = uploadFile.getSize();
-			String fileExt = uploadFile.getContentType();
 			
 			prdtVO.setOrgnFlNm(originFileName);
 			prdtVO.setUuidFlNm(uuidFileName);
@@ -167,6 +176,10 @@ public class PrdtServiceImpl implements PrdtService {
 
 		
 		if (isModify) {
+			String fileExt = uploadFile.getContentType();
+			if (!(fileExt.contains("image"))) {
+				throw new ApiArgsException("400", "이미지 파일만 업로드 가능합니다.\njpg, jpeg, png, gif, bmp");
+			}
 			if (uploadFile != null && !uploadFile.isEmpty()) {
 				File dir = new File(profilePath);
 				if (!dir.exists()) {
@@ -182,7 +195,6 @@ public class PrdtServiceImpl implements PrdtService {
 				
 				String originFileName = uploadFile.getOriginalFilename();
 				long fileSize = uploadFile.getSize();
-				String fileExt = uploadFile.getContentType();
 				
 				prdtVO.setOrgnFlNm(originFileName);
 				prdtVO.setUuidFlNm(uuidFileName);
@@ -196,6 +208,15 @@ public class PrdtServiceImpl implements PrdtService {
 		
 	}
 
+	@Override
+	public boolean updateAll(PrdtVO prdtVO) {
+		String useYn = prdtVO.getUseYn();
+		if (useYn == null || useYn.trim().length() == 0) {
+			throw new ApiArgsException("400", "사용유무 선택 필요");
+		}
+		return prdtDAO.updateAll(prdtVO) > 0;
+	}
+	
 	@Override
 	public boolean deleteOne(String prdtId) {
 		if (prdtId == null || prdtId.trim().length() == 0) {
@@ -220,5 +241,6 @@ public class PrdtServiceImpl implements PrdtService {
 		}
 		return result;
 	}
+
 	
 }

@@ -31,21 +31,13 @@ public class RestStrPrdtController {
 	private PrdtService prdtService;
 	
 	@PostMapping("/api/strprdt/update")
-	public ApiResponseVO strPrdtList(@RequestParam List<String> strPrdtIdList
+	public ApiResponseVO updateAll(@RequestParam List<String> strPrdtIdList
 				, @RequestParam String useYn
 				, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-		for (String a : strPrdtIdList) {
-			System.out.println(a);
-		}
-		System.out.println(useYn);
 		StrPrdtVO strPrdtVO = new StrPrdtVO();
 		strPrdtVO.setStrPrdtIdList(strPrdtIdList);
 		strPrdtVO.setMdfyr(mbrVO.getMbrId());
 		strPrdtVO.setUseYn(useYn);
-		
-		System.out.println(strPrdtVO.getStrPrdtIdList().size());
-		System.out.println(strPrdtVO.getMdfyr());
-		System.out.println(strPrdtVO.getUseYn());
 		
 		boolean isSuccess = strPrdtService.update(strPrdtVO);
 		if (isSuccess) {

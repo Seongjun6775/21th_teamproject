@@ -16,21 +16,17 @@
 <script type="text/javascript">
 	$().ready(function() {
 		$("#delete_btn").click(function(){
-			/* var rvId = $("#rvId").val();
-			if(rvId == ""){
-				alert("선택된 리뷰가 없습니다.");
-				return;
+		
+			if(confirm("정말 삭제하시겠습니까?")) {
+				$.post("${context}/api/rv/delete/${rvDetail.rvId}", function(response){
+					if(response.status == "200 OK"){
+						location.href = "${context}/rv/list" + response.redirectURL;
+						alert("리뷰가 삭제되었습니다.")
+					}else{
+						alert(response.errorCode + "권한이 없습니다." + response.message);
+					}
+				})
 			}
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			} */
-			$.post("${context}/api/rv/delete/${rvDetail.rvId}", function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}else{
-					alert(response.errorCode + " / " + response.message);
-				}
-			})
 		});
 	});
 </script>
@@ -59,17 +55,23 @@
 							<input type="text" id="mbrId" name="mbrId" disabled value="${rvDetail.mbrId}">
 						</div>
 						<div class="detail-group-inline">
+							<label for="strNm">매장명</label>
+							<input type="text" id="strNm" name="strNm" disabled value="${rvDetail.strVO.strNm}">
+						</div>
+						<div class="detail-group-inline">
 							<label for="odrLstId">주문서 ID</label>
 							<input type="text" id="odrLstId" name="odrLstId" disabled value="${rvDetail.odrLstId}">
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvTtl">제목</label>
-							<input type="text" id="rvTtl" name="rvTtl" disabled value="${rvDetail.rvTtl}">
+							<input type="text" id="rvTtl" name="rvTtl" 
+								   style="width: 665px;"
+								   disabled value="${rvDetail.rvTtl}">
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvCntnt">내용</label>
 							<input type="text" id="rvCntnt" name="rvCntnt" 
-								   style="display: grid; margin: 5px; width: 700px; height: 500px; resize: none;"
+								   style="display: grid; margin: 5px; width: 700px; height: 400px; resize: none;"
 								   disabled value="${rvDetail.rvCntnt}">
 						</div>
 						<div class="detail-group-inline">

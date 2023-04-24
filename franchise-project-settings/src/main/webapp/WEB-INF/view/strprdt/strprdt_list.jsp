@@ -23,6 +23,11 @@ $().ready(function() {
 	$("#search-keyword-prdt").val("${strPrdtVO.prdtId}");
 	$("#search-keyword-useYn").val("${strPrdtVO.useYn}");
 	$("#search-keyword-prdtSrt").val("${strPrdtVO.cmmnCdVO.cdId}")
+	var evntYn = ""
+	 if (${strPrdtVO.evntVO.evntId != ""} && ${not empty strPrdtVO.evntVO.evntId} ) {
+		 evntYn = "${strPrdtVO.evntVO.evntId}"
+	 }
+	 $("#search-keyword-evntYn").val(evntYn);
 	
 
 	$("#all-check").change(function(){
@@ -91,11 +96,16 @@ function movePage(pageNo) {
 	if (srt == "" || srt == null) {
 		srt = '%' // cmmnCdVO의 cdId검색은 공백이 되면 왜 에러가 나는것일까?
 	}
+	var evntYn= $("#search-keyword-evntYn").val(); 
+	if (evntYn == "" || srt == null) {
+		evntYn = '%'
+	}
 	
 	var queryString = "strPrdtPageNo=" + pageNo;
 	queryString += "&strId=" + str;
 	queryString += "&prdtId=" + prdt;
 	queryString += "&useYn=" + useYn;
+	queryString += "&evntVO.evntId=" + evntYn;
 	queryString += "&cmmnCdVO.cdId=" + srt; // vo안에 vo에 멤버변수로 전달할 때
 	
 	location.href = "${context}/strprdt/list?" + queryString; // URL 요청
@@ -161,6 +171,14 @@ function movePage(pageNo) {
 									</c:choose>
 								</select>
 							</th>
+							<th>
+								<select class="selectFilter" name="selectFilter"
+										id="search-keyword-evntYn">
+									<option value="">이벤트유무</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</th>
 							<th>수정자</th>
 							<th>수정일</th>
 							<th>
@@ -187,6 +205,7 @@ function movePage(pageNo) {
 										<td>${strPrdt.strVO.strNm}</td>
 										<td>${strPrdt.cmmnCdVO.cdNm}</td>
 										<td>${strPrdt.prdtVO.prdtNm}</td>
+										<td>${empty strPrdt.evntVO.evntId ? "N" : "Y"}</td>
 										<td>${strPrdt.mdfyr}(${strPrdt.mdfyrMbrVO.mbrNm})</td>
 										<td>${strPrdt.mdfyDt}</td>
 										<td>${strPrdt.useYn}</td>

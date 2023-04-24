@@ -31,7 +31,20 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 		return getSqlSession().selectOne("Rv.readCountRvByRvId", rvVO);
 	}
 	
+	// 1-3. 주문서 ID를 토대로 수정일로부터 7일 이내에만 리뷰를 등록할 수 있도록 함	
+	@Override
+	public int createNewRvWithin7days(RvVO rvVO) {
+		return getSqlSession().selectOne("Rv.createNewRvWithin7days", rvVO);
+	}
 	
+	
+	// ▶ 진영님이 만든거
+	@Override
+	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO) {
+		return getSqlSession().selectList("Rv.readAllRvListForManager", searchRvVO);
+	}
+
+		
 	// 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자
 	@Override
 	public List<RvVO> readAllRvListForTopManager(SearchRvVO searchRvVO) {
@@ -52,14 +65,14 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 
 	// 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자
 	@Override
-	public RvVO readOneRvVOForMiddleManagerByOdrId(String odrId) {
-		return getSqlSession().selectOne("Rv.readOneRvVOForMiddleManagerByOdrId", odrId);
+	public RvVO readOneRvVOForMiddleManagerByOdrId(RvVO rvVO) {
+		return getSqlSession().selectOne("Rv.readOneRvVOForMiddleManagerByOdrId", rvVO);
 	}
 
 	// 2-5.자기가 쓴 리뷰 목록 조회 == 이용자
 	@Override
-	public List<RvVO> readAllRvListForMemberByRvId(String rvId) {
-		return getSqlSession().selectList("Rv.readAllRvListForMemberByRvId", rvId);
+	public List<RvVO> readAllRvListForMemberByRvId(RvVO rvVO) {
+		return getSqlSession().selectList("Rv.readAllRvListForMemberByRvId", rvVO);
 	}
 
 	// 2-6.자기가 쓴 리뷰 상세 조회 == 이용자
@@ -80,5 +93,6 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 	public int deleteOneRvVOByRvId(String rvId) {
 		return getSqlSession().update("Rv.deleteOneRvVOByRvId", rvId);
 	}
+
 	
 }

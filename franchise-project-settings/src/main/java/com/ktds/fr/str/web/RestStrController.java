@@ -20,7 +20,7 @@ public class RestStrController {
 	private StrService strService;
 	
 	@PostMapping("/api/str/create")
-	public ApiResponseVO createNewStr(StrVO strVO, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+	public ApiResponseVO createNewStr(StrVO strVO, String strNm, String strAddr, String strCallNum, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 //		String strNm = strVO.getStrNm();
 //		String strAddr = strVO.getStrAddr();
 //		String strStrCallNum = strVO.getStrCallNum();
@@ -35,22 +35,22 @@ public class RestStrController {
 //			throw new ApiArgsException("400", "전화번호가 중복되었습니다.");
 //		}
 //		
-		boolean isExist1 = strService.readBlockStrNm(strVO);
+		boolean isExistStrNm = strService.readBlockStrNm(strNm);
 		
-		if(isExist1) {
-			throw new ApiArgsException("400", "기존 매장과 중복이 발생했습니다.");
+		if(isExistStrNm) {
+			throw new ApiArgsException("400", "기존 매장명과 중복이 발생했습니다.");
 		}
 		
-		boolean isExist2 = strService.readBlockStrAddr(strVO);
+		boolean isExistStrAddr = strService.readBlockStrAddr(strAddr);
 		
-		if(isExist2) {
-			throw new ApiArgsException("400", "기존 매장과 중복이 발생했습니다.");
+		if(isExistStrAddr) {
+			throw new ApiArgsException("400", "기존 매장주소와 중복이 발생했습니다.");
 		}
 		
-		boolean isExist3 = strService.readBlockStrCallNum(strVO);
+		boolean isExistStrCallNum = strService.readBlockStrCallNum(strCallNum);
 		
-		if(isExist3) {
-			throw new ApiArgsException("400", "기존 매장과 중복이 발생했습니다.");
+		if(isExistStrCallNum) {
+			throw new ApiArgsException("400", "기존 전화번호와 중복이 발생했습니다.");
 		}
 		
 		boolean createResult = strService.createOneStr(strVO);
@@ -63,15 +63,33 @@ public class RestStrController {
 	 }
 	 
 	 @PostMapping("/api/str/update")
-	 public ApiResponseVO updateOneStrByMaster(StrVO strVO, @SessionAttribute("__MBR__")MbrVO mbrVO) {
+	 public ApiResponseVO updateOneStrByMaster(StrVO strVO, String strNm, String strAddr, String strCallNum, @SessionAttribute("__MBR__")MbrVO mbrVO) {
 		 
+//		 boolean isExistStrNm = strService.readBlockStrNm(strNm);
+//			
+//			if(isExistStrNm) {
+//				throw new ApiArgsException("400", "기존 매장명과 중복이 발생했습니다.");
+//			}
+//			
+//			boolean isExistStrAddr = strService.readBlockStrAddr(strAddr);
+//			
+//			if(isExistStrAddr) {
+//				throw new ApiArgsException("400", "기존 매장주소와 중복이 발생했습니다.");
+//			}
+//			
+//			boolean isExistStrCallNum = strService.readBlockStrCallNum(strCallNum);
+//			
+//			if(isExistStrCallNum) {
+//				throw new ApiArgsException("400", "기존 매장번호와 중복이 발생했습니다.");
+//			}
+//			
 		 boolean updateResult = strService.updateOneStrByMaster(strVO);
-		 if(updateResult) {
-			 return new ApiResponseVO(ApiStatus.OK);
-		 }
-		 else{
-			 return new ApiResponseVO(ApiStatus.FAIL);
-		 }
+			 if(updateResult) {
+				 return new ApiResponseVO(ApiStatus.OK);
+			 }
+			 else{
+				 return new ApiResponseVO(ApiStatus.FAIL);
+			 }
 	 }
 	 
 	 @PostMapping("/api/str/update/{strId}")

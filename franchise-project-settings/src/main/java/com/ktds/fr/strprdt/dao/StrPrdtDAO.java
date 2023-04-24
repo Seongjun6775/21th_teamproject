@@ -8,6 +8,7 @@ public interface StrPrdtDAO {
 	
 	// 전체 조회 (전체 / 각 매장별)
 	public List<StrPrdtVO> readAll(StrPrdtVO strPrdtVO);
+	public List<StrPrdtVO> readAllNOPagenation(StrPrdtVO strPrdtVO);
 	
 	// 메뉴등록시, 매장등록시 목록생성에 활용
 	public int create(List<StrPrdtVO> strPrdtList);

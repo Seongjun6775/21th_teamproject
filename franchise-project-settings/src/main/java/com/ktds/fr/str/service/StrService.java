@@ -12,11 +12,13 @@ public List<StrVO>readAllStrMaster(StrVO strVO);
 
 	public StrVO readOneStrByManager(String strId);
 	
-	public boolean readBlockStrNm(StrVO strVO);
+	public boolean readBlockStrByMan(String strId);
 	
-	public boolean readBlockStrAddr(StrVO strVO);
+	public boolean readBlockStrNm(String strNm);
 	
-	public boolean readBlockStrCallNum(StrVO strVO);
+	public boolean readBlockStrAddr(String strAddr);
+	
+	public boolean readBlockStrCallNum(String strCallNum);
 	
 	public boolean createOneStr(StrVO strVO);
 	
@@ -25,5 +27,10 @@ public List<StrVO>readAllStrMaster(StrVO strVO);
 	public boolean updateOneStrByManager(StrVO strVO);
 	
 	public boolean deleteOneStrByStrId(String strId);
+	
+	/**
+	 * 회원기능과 연동
+	 */
+	public List<StrVO>readAllStrNoPagenate(StrVO strVO);
 	
 }

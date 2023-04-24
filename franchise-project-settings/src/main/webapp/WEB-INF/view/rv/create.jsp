@@ -28,13 +28,15 @@
 						
 					}, function(response) {
 						if (response.status == "200 OK") {
-							location.reload(); // 새로고침
+							location.href = "${context}" + response.redirectURL;
+							alert("리뷰가 등록되었습니다.")
 						}
 						else {
 							alert(response.errorCode + " / " + response.message);
 						}	
 						
-					});			
+					});	
+			
 		});			
 	});		
 </script>
@@ -58,14 +60,16 @@
 					<div class="create-group">
 						<label for="rvTtl">제목</label> <input type="text" id="rvTtl"
 							name="rvTtl" 
-							style="margin: 5px;"
-							placeholder="제목을 입력하세요" />
+							style="margin: 5px; width: 665px;"
+							maxlength="50"
+							placeholder="제목을 입력하세요(50자 제한)" />
 					</div>
 					<div class="create-group">
 						<label for="rvCntnt">내용</label> <textarea id="rvCntnt"
 							name="rvCntnt" 
-							style="display: grid; margin: 5px; width: 700px; height: 500px; resize: none;"
-							placeholder="내용을 입력하세요" ></textarea>
+							style="display: grid; margin: 5px; width: 700px; height: 400px; resize: none;"
+							maxlength="1000"
+							placeholder="내용을 입력하세요(1000자 제한)" ></textarea>
 					</div>
 					<div class="create-group">
 						<label for="rvLkDslk">좋아요/싫어요</label> <select id="rvLkDslk"

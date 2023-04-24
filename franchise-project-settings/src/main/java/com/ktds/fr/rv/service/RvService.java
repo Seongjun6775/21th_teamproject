@@ -14,6 +14,10 @@ public interface RvService {
 	public int readCountRvByRvId(RvVO rvVO);	
 
 	
+	// ▶ 진영님이 만든거
+	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO);
+	
+		
 	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
 	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO);
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자

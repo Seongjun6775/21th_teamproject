@@ -12,11 +12,13 @@ public interface StrDAO {
 
 	public StrVO readOneStrByManager(String strId);
 
-	public int readBlockStrNm(StrVO strVO);
+	public int readBlockStrByMan(String strId);
+
+	public int readBlockStrNm(String strNm);
 	
-	public int readBlockStrAddr(StrVO strVO);
+	public int readBlockStrAddr(String strAddr);
 	
-	public int readBlockStrCallNum(StrVO strVO);
+	public int readBlockStrCallNum(String strCallNum);
 	
 	public int createOneStr(StrVO strVO);
 	
@@ -25,5 +27,10 @@ public interface StrDAO {
 	public int updateOneStrByManager(StrVO strVO);
 	
 	public int deleteOneStrByStrId(String strId);
+	
+	/**
+	 * 회원기능과 연동
+	 */
+	public List<StrVO>readAllStrNoPagenate(StrVO strVO);
 	
 }

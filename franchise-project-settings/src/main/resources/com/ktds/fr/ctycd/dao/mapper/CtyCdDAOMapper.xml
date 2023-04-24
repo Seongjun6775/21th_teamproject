@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Cty">
+
+
+	<select id="readCategory"
+			parameterType="com.ktds.fr.ctycd.vo.CtyCdVO"
+			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
+		SELECT C.CTY_ID
+			 , C.CTY_NM
+			 , C.LCT_ID
+			 , L.LCT_NM 
+		  FROM CTY_CD C
+		  JOIN LCT_CD L
+		  	ON C.LCT_ID = L.LCT_ID
+		 <if test='ctyId != null and ctyId != ""'>
+		 WHERE CTY_ID LIKE '%' || #{ctyId} || '-%'
+		</if>
+		 ORDER BY CTY_ID ASC 
+	</select>
+
+
+</mapper>

@@ -22,6 +22,8 @@ public class EvntPrdtController {
 	@Autowired
 	private EvntPrdtService evntService;
 	
+	
+	//상품불러오기
 	@GetMapping("/evntPrdt/create/{evntId}")
 	public String createEvntPrdtPage(Model model, EvntPrdtVO evntPrdtVO, PrdtVO prdtVO, @PathVariable String evntId) {
 		model.addAttribute("evntId", evntId);

@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <link rel="stylesheet" href="../../css/evntPrdtCommon.css">
 <meta charset="UTF-8">
 <title>이벤트 상품 등록 페이지</title>
@@ -20,14 +21,12 @@
 
 			// 2. 파라미터
 			{
+				evntId : "${evntId}",
 				evntPrdtId : $("#evntPrdtId").val(),
-				evntPrdtTtl : $("#evntPrdtTtl").val(),
-				evntPrdtCntnt : $("#evntPrdtCntnt").val(),
-				evntPrdtStrtDt : $("#evntPrdtStrtDt").val(),
-				evntPrdtEndDt : $("#evntPrdtEndDt").val(),
-				evntPrdtPht : $("#evntPrdtPht").val(),
-				useYn : $('#useYn:checked').val(),
-				delYn : $('#delYn').val()
+				prdtId : $("#prdtId").val(),
+				prdtNm : $("#prdtNm").val(),
+				prdtPrc : $("#prdtPrc").val(),
+				evntPrdtChngPrc : $("#evntPrdtChngPrc").val()
 			},
 
 			// 3. 결과 처리
@@ -116,7 +115,7 @@
 				<tr>
 
 					<td>상품 이벤트 가격</td>
-					<td colspan="2"><input type="text" id="prdtId" name="prdtId"
+					<td colspan="2"><input type="text" id="evntPrdtChngPrc" name="evntPrdtChngPrc"
 						style="width: 95%; text-align: right;" value="" style="" /></td>
 				</tr>
 				<tr>

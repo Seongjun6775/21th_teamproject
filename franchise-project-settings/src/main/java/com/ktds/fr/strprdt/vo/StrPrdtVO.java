@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.evnt.vo.EvntVO;
+import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.vo.StrVO;
@@ -18,10 +20,15 @@ public class StrPrdtVO extends AbstractVO {
 	private String useYn;	
 	private String delYn;	
 	
+	
+	private MbrVO strMbrVO;
 	private StrVO strVO;
 	private PrdtVO prdtVO;
 	private CmmnCdVO cmmnCdVO;
 	private MbrVO mdfyrMbrVO;	
+	
+	private EvntVO evntVO;
+	private EvntPrdtVO evntPrdtVO;
 	
 	
 	private List<String> strPrdtIdList;
@@ -81,6 +88,12 @@ public class StrPrdtVO extends AbstractVO {
 	}
 	
 	
+	public MbrVO getStrMbrVO() {
+		return strMbrVO;
+	}
+	public void setStrMbrVO(MbrVO strMbrVO) {
+		this.strMbrVO = strMbrVO;
+	}
 	public StrVO getStrVO() {
 		return strVO;
 	}
@@ -104,6 +117,20 @@ public class StrPrdtVO extends AbstractVO {
 	}
 	public void setMdfyrMbrVO(MbrVO mdfyrMbrVO) {
 		this.mdfyrMbrVO = mdfyrMbrVO;
+	}
+	
+	
+	public EvntVO getEvntVO() {
+		return evntVO;
+	}
+	public void setEvntVO(EvntVO evntVO) {
+		this.evntVO = evntVO;
+	}
+	public EvntPrdtVO getEvntPrdtVO() {
+		return evntPrdtVO;
+	}
+	public void setEvntPrdtVO(EvntPrdtVO evntPrdtVO) {
+		this.evntPrdtVO = evntPrdtVO;
 	}
 	
 	
