@@ -3,6 +3,7 @@ package com.ktds.fr.str.vo;
 import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.lctcd.vo.LctCdVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 
 public class StrVO extends AbstractVO {
 
@@ -22,10 +23,17 @@ public class StrVO extends AbstractVO {
 	private String useYn;
 	private String delYn;
 
-
+	private MbrVO mbrVO;
 	private CtyCdVO ctyCdVO;
 	private LctCdVO lctCdVO;
 
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+	
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
 	
 	public String getStrId() {
 		return strId;

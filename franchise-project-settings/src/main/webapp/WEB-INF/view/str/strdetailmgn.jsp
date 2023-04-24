@@ -95,6 +95,7 @@ $().ready(function() {
 			if($("#isModify").val() == "false"){
 				
 				$('select').attr("disabled", false);
+				$('input').attr("disabled", false);
 				//수정
 				$.post("${context}/api/str/update", $("#strdetailmgn_form").serialize(), function(response) {
 					console.log($("#strdetailmgn_form").serialize());
@@ -189,7 +190,7 @@ $().ready(function() {
 				    </div>	
 				
 					<div class="input-group inline">
-						<label for="mbrId" style="width:180px">관리자ID</label>
+						<label for="mbrId" style="width:180px">점주ID</label>
 						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
@@ -201,7 +202,7 @@ $().ready(function() {
 						<input type="time" id="strClsTm" name="strClsTm" value="${strVO.strClsTm}"/>
 					</div>
 					<div class="input-group inline">
-						<label for="strRgstr" style="width:180px">등록자</label>
+						<label for="strRgstr" style="width:180px" hidden="">등록자</label>
 						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"/>
 					</div>
 					<div class="input-group inline">
@@ -209,7 +210,7 @@ $().ready(function() {
 						<input type="date" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
 					</div>
 					<div class="input-group inline">
-						<label for="mdfyr" style="width:180px">수정자</label>
+						<label for="mdfyr" style="width:180px" hidden="">수정자</label>
 						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
@@ -217,8 +218,8 @@ $().ready(function() {
 						<input type="date" id="mdfyDt" name="mdfyDt" value="${strVO.mdfyDt}"/>
 					</div>
 					<div class="input-group inline">
-						<label for="useYn" style="width:180px">사용여부</label>
-						<input type="text" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} readonly value="Y"  style="width: 20px;"/>
+						<label for="useYn" style="width:180px" hidden="">사용여부</label>
+						<input type="text" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} readonly value="Y"  style="width: 20px;" hidden=""/>
 					</div>
 				</form>
 			</div>

@@ -209,7 +209,7 @@
 				    </div>	
 				
 					<div class="input-group inline">
-						<label for="mbrId" style="width:180px">관리자ID</label>
+						<label for="mbrId" style="width:180px">점주ID</label>
 						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">

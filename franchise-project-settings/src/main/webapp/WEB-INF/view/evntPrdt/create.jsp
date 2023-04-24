@@ -58,7 +58,6 @@
 		document.getElementById("prdtNmPrc").value = optionTxt;
 	}
 </script>
-
 </head>
 <body>
 
@@ -90,12 +89,12 @@
 										<option value="${prdt.prdtId}">${prdt.prdtNm}&nbsp;/&nbsp;${prdt.prdtPrc}</option>
 									</c:forEach>
 								</select>
-
 							</c:when>
 							<c:otherwise>
 									등록된 상품이 없습니다.
-															</c:otherwise>
-						</c:choose></td>
+							</c:otherwise>
+						</c:choose>
+					</td>
 					<td>상품 ID</td>
 					<td colspan="2"><input type="text" id="prdtId" name="prdtId"
 						style="width: 95%; text-align: center;" value="1234"

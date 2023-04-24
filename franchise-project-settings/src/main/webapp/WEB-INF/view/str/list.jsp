@@ -25,7 +25,7 @@
 			$("#strCty").val(data.strcty);
 			$("#strAddr").val(data.straddr);
 			$("#strCallNum").val(data.strcallnum);
-			$("#mbrId").val(data.mbrid);
+			$("#mbrId").val(data.mbrid + "(" + data.mbrnm + ")");
 			$("#strOpnTm").val(data.stropntm);
 			$("#strClsTm").val(data.strclstm);
 			$("#strRgstr").val(data.strrgstr);
@@ -143,28 +143,25 @@
 			$("#search-keyword-strCty").change(function(){
 				movePage(0);
 			});
-			$("#search-keyword-mbrId").change(function(){
-				movePage(0);
-			});
 			
 		});
 		function movePage(pageNo){
 		//전송
 		//입력 값.
-		var strNm = $("#search-keyword").val();
-		var mbrId = $("#search-keyword-mbrId").val();
+		var searchIdx = $("#search-select").val();
+		var keyword = $("#search-keyword").val();
 		var strLctn = $("#search-keyword-strLctn").val();
 		var strCty = $("#search-keyword-strCty").val();
 		
-		var queryString = "?strNm=" + strNm;
-		queryString += "&mbrId=" +mbrId;
+		var queryString = "searchIdx=" + searchIdx;
+		queryString += "&keyword=" + keyword;
 		queryString += "&strLctn=" +strLctn;
 		queryString += "&strCty=" +strCty;
 		queryString += "&pageNo=" +pageNo;
 		
 		
 		//url요청
-		location.href = "${context}/str/list" + queryString;
+		location.href = "${context}/str/list?" + queryString;
 		}
 		</script>
 </head>
@@ -176,17 +173,27 @@
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 		
-			<div class="path"> 매장 관리</div>
-				<div class="search-group">
+			<div class="path"> 매장 관리
+				<div class="search-group" >	
+					<div class=" col-sm-3 col-xs-4">
+						<select id="search-select" class="input-text" style="width: 97%;" >
+							<option value="strNm"${searchIdx eq 'strNm' ?  'selected': ''}>매장명</option>
+							<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>점주ID</option>
+						</select> 
+					</div>  
+						<input name="keyword" type="text" class="input-text" placeholder="검색어를 입력해주세요" id="search-keyword"  style="width: 95%; height: 25px;" value="${keyword}" >
+						<button class="btn-search" id="search-btn" style="width: 42px;">검색</button>
+				</div>
+				
+				<!-- <div class="search-group">
 					<label for="search-keyword">매장명</label>
 					<input type="text" id="search-keyword" class="search-input" value="" />
 					<button class="btn-search" id="search-btn">검색</button>
-				</div>
-				<div class="search-group">
 					<label for="search-keyword">관리자ID 조회</label>
 					<input type="text" id="search-keyword-mbrId" class="search-input" value=""/>
 					<button class="btn-search" id="search-btn">검색</button>
-				</div>
+				</div> -->
+			</div>
 				
 			<h1>매장 전체 조회</h1>
 			
@@ -231,7 +238,7 @@
 						</th>
 						<th>매장주소</th>
 						<th>전화번호</th>
-						<th>관리자ID</th>
+						<th>점주ID</th>
 						<th>상세조회</th>
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
@@ -250,6 +257,7 @@
 							data-straddr="${str.strAddr}" 
 							data-strcallnum="${str.strCallNum}" 
 							data-mbrid="${str.mbrId}" 
+							data-mbrnm="${str.mbrVO.mbrNm}" 
 							data-stropntm="${str.strOpnTm}" 
 							data-strclstm="${str.strClsTm}" 
 							data-strrgstr="${str.strRgstr}" 
@@ -265,7 +273,7 @@
 								<td>${str.ctyCdVO.ctyNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
-								<td>${str.mbrId}</td>
+								<td>${str.mbrId} (${str.mbrVO.mbrNm})</td>
 								<td style="width: 70px;">
 									<a href="${context}/str/strdetailmst/${str.strId}">
 									<input type="button" value="이동"/>
@@ -373,8 +381,8 @@
 				    </div>	
 				
 					<div class="input-group inline">
-						<label for="mbrId" style="width:180px">관리자ID</label>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
+						<label for="mbrId" style="width:180px">점주ID</label>
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
@@ -390,7 +398,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstDt" style="width:180px">등록일</label>
-						<input type="date" id="strRgstDt" name="strRgstDt" value="${strVO.strRgstDt}"  style="background-color:orange"/>
+						<input type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px">수정자</label>
@@ -398,7 +406,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>
-						<input type="date" id="mdfyDt" name="mdfyDt" value="${strVO.mdfyDt}"  style="background-color:orange"/>
+						<input type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px">사용여부</label>
