@@ -65,7 +65,7 @@ body{
 .main-layout > div > .side-menu > .menu-list > .menu-item:last-child{
 	padding-bottom: 10px;
 }
-.main-layout > div> .content{
+.main-layout > div > .content{
 	position: fixed;
 	top: 90px;
 	bottom: 0px;

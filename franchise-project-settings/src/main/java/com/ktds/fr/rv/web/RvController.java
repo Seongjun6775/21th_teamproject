@@ -68,11 +68,12 @@ public class RvController {
 			RvVO rvVO = new RvVO();
 			rvVO.setRvId(rvId);
 			RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
+			
 			if (rvDetail != null && !rvDetail.getStrVO().getStrId().equals(mbrVO.getStrId())) {
-				return "prdt/session_error";
+				return "rv/error_page";
+				
 			} else if (rvDetail == null) {
-				// FIXME 글없음 페이지 만들어서 보내기
-				return "prdt/session_error";
+				return "rv/error_page";
 			}
 							
 			model.addAttribute("rvDetail", rvDetail);

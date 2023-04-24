@@ -70,9 +70,15 @@
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvCntnt">내용</label>
-							<input type="text" id="rvCntnt" name="rvCntnt" 
-								   style="display: grid; margin: 5px; width: 700px; height: 400px; resize: none;"
-								   disabled value="${rvDetail.rvCntnt}">
+							<div id="rvCntnt" 
+								   style="display: grid; 
+								   		  margin: 3px; 
+								   		  width: 700px; 
+								   		  height: 400px; 
+								   		  resize: none; 
+								   		  border: none; 
+								   		  background-color: #3331; 
+								   		  white-space: pre-wrap;">${rvDetail.rvCntnt}</div>
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvLkDslk">좋아요/싫어요</label>

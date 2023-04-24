@@ -15,6 +15,11 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		$(".enterkey").keyup(function(event) {
+			if(event.keyCode == 13) {
+				$("#search_btn").click();
+			}
+		});
 		$("#new_btn").click(function() {
 			location.href = "${context}/rv/create";
 		});
@@ -55,7 +60,7 @@
 		});	
 		$("#search_btn").click(function(){			
 			movePage(0);
-		});
+		});		
 		$(".rvRow td").not(".firstcell").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
 			location.href="${context}/rv/detail/" + rvid;
@@ -140,7 +145,7 @@
 			
 			<div class="pagenate">
 				<ul>
-					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage-1 : 0}" var="lastPage"/>
+					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastGroup : 0}" var="lastGroup"/>
 					
 					<fmt:parseNumber var="nowGroup" value="${Math.floor(gnrVO.pageNo / 10)}" integerOnly = "true"/>
@@ -181,7 +186,7 @@
 						<option value="rvCntnt">내용</option>					
 						<option value="mbrId">회원ID</option>									
 					</select>
-					<input type="text" name="searchWrap" placeholder="검색어를 입력하세요">						
+					<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
 					<button id="search_btn" class="btn-search">검색</button>				
 				</div>
 			</div>
