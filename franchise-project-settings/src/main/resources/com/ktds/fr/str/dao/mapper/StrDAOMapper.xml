@@ -296,21 +296,37 @@
 	
 	
 	<!-- 소비자용 매장조회 -->
-	<select id="id"
+	<select id="readAllUseY"
 			parameterType="com.ktds.fr.str.vo.StrVO"
-			resultType="com.ktds.fr.str.vo.StrVO">
+			resultMap="strVOMap">
 		SELECT S.STR_ID
 			 , S.STR_NM
 			 , S.STR_LCTN
+			 , L.LCT_NM 
 			 , S.STR_CTY
+			 , C.CTY_NM
 			 , S.STR_ADDR
 			 , S.STR_CALL_NUM
 			 , S.MBR_ID
 			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
 			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
 		  FROM STR S
-		 WHERE S.USE_YN = 'Y'
-		   AND S.DEL_YN = 'N'
+		  LEFT JOIN MBR M	
+		    ON S.MBR_ID = M.MBR_ID
+		  LEFT JOIN LCT_CD L
+		  	ON S.STR_LCTN = L.LCT_ID
+		  LEFT JOIN CTY_CD C 
+		  	ON S.STR_CTY = C.CTY_ID
+		 WHERE S.DEL_YN = 'N'
+		   AND S.USE_YN = 'Y'
+		<if test='strLctn != null and strLctn != ""'>
+		   AND S.STR_LCTN = #{strLctn}
+		</if>
+		<if test='strCty != null and strCty != ""'>
+		   AND S.STR_CTY = #{strCty}
+		</if>
+		 ORDER BY S.STR_NM ASC
 	</select>
+	
 
 </mapper>

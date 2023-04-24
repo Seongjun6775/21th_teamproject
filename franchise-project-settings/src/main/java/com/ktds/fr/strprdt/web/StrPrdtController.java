@@ -101,7 +101,7 @@ public class StrPrdtController {
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			, Model model) {
 		// 1. 매장선택
-		List<StrVO> strList = strService.readAllStrMaster(strVO);
+		List<StrVO> strList = strService.readAllUseY(strVO);
 		
 		model.addAttribute("strList",strList);
 		

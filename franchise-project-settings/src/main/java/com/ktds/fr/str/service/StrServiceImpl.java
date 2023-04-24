@@ -104,9 +104,20 @@ public class StrServiceImpl implements StrService {
 		return strDAO.readAllStrNoPagenate(strVO);
 	}
 
+	/**
+	 * 매장별 상품등록시 사용 ... 사용유무에 관계없이 목록가져옴
+	 */
 	@Override
 	public List<StrVO> readAll() {
 		return strDAO.readAll();
+	}
+
+	/**
+	 *  손님이 매장 조회할 때 사용 ... 사용유무 Y
+	 */
+	@Override
+	public List<StrVO> readAllUseY(StrVO strVO) {
+		return strDAO.readAllUseY(strVO);
 	}
 
 }
