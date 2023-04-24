@@ -80,7 +80,7 @@
 						</div>
 								
 						 
-							<input type="hidden" id="mngrId" name="mngrId" value="${mngrBrd.mngrId}" />
+						<input type="hidden" id="mngrId" name="mngrId" value="${mngrBrd.mngrId}" />
 									
 						
 						<div class="create-group">
