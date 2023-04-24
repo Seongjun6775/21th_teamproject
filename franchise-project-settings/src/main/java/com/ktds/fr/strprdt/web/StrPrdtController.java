@@ -95,5 +95,16 @@ public class StrPrdtController {
 			return "prdt/session_error";
 		}
 	}
+	
+	@GetMapping("/strprdt/list2")
+	public String strPrdtListCustomer(StrPrdtVO strPrdtVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO
+			, Model model) {
+		// 1. 매장선택
+		List<StrVO> strList = strService.readAllStrMaster(null);
+		
+		
+		return null;
+	}
 
 }

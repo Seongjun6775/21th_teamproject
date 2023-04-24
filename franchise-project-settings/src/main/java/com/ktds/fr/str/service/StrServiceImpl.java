@@ -1,18 +1,29 @@
 package com.ktds.fr.str.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.prdt.dao.PrdtDAO;
+import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.dao.StrDAO;
 import com.ktds.fr.str.vo.StrVO;
+import com.ktds.fr.strprdt.dao.StrPrdtDAO;
+import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @Service
 public class StrServiceImpl implements StrService {
 
 	@Autowired
 	private StrDAO strDAO;
+	
+	@Autowired
+	private StrPrdtDAO strPrdtDAO;
+	
+	@Autowired
+	private PrdtDAO prdtDAO;
 	
 	@Override
 	public List<StrVO> readAllStrMaster(StrVO strVO) {
@@ -31,6 +42,25 @@ public class StrServiceImpl implements StrService {
 
 	@Override
 	public boolean createOneStr(StrVO strVO) {
+		
+		boolean isSuccess = strDAO.createOneStr(strVO) > 0;
+		// 매장이 생성되었을 때, 생성된 매장에 현재 등록되어 있는 모든 상품을 등록
+		if (isSuccess) {
+			PrdtVO prdtVO = new PrdtVO();
+			List<PrdtVO> prdtList = prdtDAO.readAllNoPagenation(prdtVO);
+			
+			StrPrdtVO strPrdtVO = null;
+			List<StrPrdtVO> strPrdtList = new ArrayList<>();
+			
+			for (PrdtVO prdt : prdtList) {
+				strPrdtVO = new StrPrdtVO();
+				strPrdtVO.setPrdtId(prdt.getPrdtId());
+				strPrdtVO.setStrId(strVO.getStrId());
+				strPrdtVO.setMdfyr(strVO.getMdfyr());
+				strPrdtList.add(strPrdtVO);
+			}
+			strPrdtDAO.create(strPrdtList);
+		}
 		return strDAO.createOneStr(strVO) > 0;
 	}
 
