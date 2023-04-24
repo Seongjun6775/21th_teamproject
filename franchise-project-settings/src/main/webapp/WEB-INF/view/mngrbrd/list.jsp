@@ -203,7 +203,7 @@
 									<tr>
 										<td colspan="8" class="no-items">
 											동록된 글이 없습니다.
-										</td>
+										</td> 
 									</tr>
 								</c:otherwise>
 							</c:choose>
