@@ -34,17 +34,6 @@ public class EvntServiceImpl implements EvntService {
 	@Override
 	public boolean createNewEvnt(EvntVO evntVO, MultipartFile uploadFile) {
 
-		/*
-		 * 나중에 수정해서 사용할 예정 !!! String srt = evntVO.getPrdtSrt(); if (srt == null ||
-		 * srt.trim().length() == 0) { throw new ApiArgsException("400", "분류 선택 필요"); }
-		 * String nm = evntVO.getPrdtNm(); if (nm == null || nm.trim().length() == 0) {
-		 * throw new ApiArgsException("400", "이름이 비었음"); } else if (nm.length() > 20) {
-		 * throw new ApiArgsException("400", "이름은 20글자를 넘을 수 없습니다."); } int prc =
-		 * evntVO.getPrdtPrc(); if (prc == 0) { throw new ApiArgsException("400",
-		 * "가격이 비었음"); } else if (prc > 9999999) { throw new ApiArgsException("400",
-		 * "가격은 9,999,999를 넘을 수 없습니다."); }
-		 */
-
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String fileExt = uploadFile.getContentType();
 			if (!(fileExt.contains("image"))) {
@@ -176,5 +165,15 @@ public class EvntServiceImpl implements EvntService {
 	@Override
 	public List<EvntVO> readAllOngoingEvnt(EvntVO evntVO) {
 		return evntDAO.readAllOngoingEvnt(evntVO);
+	}
+
+	@Override
+	public List<EvntVO> readAllPastEvnt(EvntVO evntVO) {
+		return evntDAO.readAllPastEvnt(evntVO);
+	}
+
+	@Override
+	public List<EvntVO> readAllPlanEvnt(EvntVO evntVO) {
+		return evntDAO.readAllPlanEvnt(evntVO);
 	}
 }

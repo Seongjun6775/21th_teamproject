@@ -32,8 +32,7 @@
 		, NVL(#{useYn}, 'N')
 		, 'N')
 	</insert>
-	
-	
+		
 	<select id="readAllEvnt"
 		parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
@@ -75,11 +74,12 @@
 		<include refid="Common.pageFooter" />
 	   </select>
 
+
 	<select id="readAllOngoingEvnt"
 		parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
 		<include refid="Common.pageHeader" />
-		SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+	    SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
 		     , EVNT_ID PK_COL     
 		     , EVNT_ID
 		     , EVNT_TTL
@@ -94,12 +94,67 @@
 		     , DEL_YN
 		 FROM EVNT EVNT
 		 WHERE 1=1
-           AND #{strToday} BETWEEN TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') AND TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD')
+           AND EVNT_STRT_DT <![CDATA[<=]]> SYSDATE 
+           AND EVNT_END_DT >= SYSDATE
            AND EVNT.USE_YN = 'Y'
            AND EVNT.DEL_YN = 'N'		
 		<include refid="Common.pageFooter" />
 	   </select>
-	
+	   
+	   
+	  <select id="readAllPastEvnt"
+		parameterType="com.ktds.fr.evnt.vo.EvntVO"
+		resultType="com.ktds.fr.evnt.vo.EvntVO">
+		<include refid="Common.pageHeader" />		
+SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		     , EVNT_ID PK_COL     
+		     , EVNT_ID
+		     , EVNT_TTL
+		     , EVNT_CNTNT
+		     , EVNT_STRT_DT
+		     , EVNT_END_DT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , USE_YN
+		     , DEL_YN
+		 FROM EVNT EVNT
+		 WHERE 1=1
+           AND EVNT_END_DT <![CDATA[<]]> SYSDATE
+           AND EVNT.USE_YN = 'Y'
+           AND EVNT.DEL_YN = 'N'			
+		<include refid="Common.pageFooter" />
+	   </select>
+	   
+	   
+	    <select id="readAllPlanEvnt"
+		parameterType="com.ktds.fr.evnt.vo.EvntVO"
+		resultType="com.ktds.fr.evnt.vo.EvntVO">
+		<include refid="Common.pageHeader" />
+		
+SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		     , EVNT_ID PK_COL     
+		     , EVNT_ID
+		     , EVNT_TTL
+		     , EVNT_CNTNT
+		     , EVNT_STRT_DT
+		     , EVNT_END_DT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , USE_YN
+		     , DEL_YN
+		 FROM EVNT EVNT
+	     WHERE 1=1
+           AND EVNT_STRT_DT > SYSDATE
+           AND EVNT.USE_YN = 'Y'
+           AND EVNT.DEL_YN = 'N'			
+		<include refid="Common.pageFooter" />
+	   </select>
+	   
+	   
 	<select id="readOneEvnt"
 	       parameterType="string"
 	       resultType="com.ktds.fr.evnt.vo.EvntVO">
