@@ -2,6 +2,8 @@ package com.ktds.fr.mngrbrd.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,40 +31,45 @@ public class MngrBrdController {
 	private MngrBrdService mngrBrdService;
 	
 	@GetMapping("/mngrbrd/list")
-	public String viewMngrBrdListPage(Model model, MngrBrdVO mngrBrd, 
+	public String viewMngrBrdListPage(HttpServletRequest request,
+								Model model, MngrBrdVO mngrBrd, 
 								@SessionAttribute("__MBR__") MbrVO mbrVO, 
 								@RequestParam(required = false,defaultValue="")String searchIdx,
 								@RequestParam(required = false,defaultValue="")String searchKeyword) {
 		
-		
-		
-		if(searchIdx.equals("Wrtr")){ 
-			mngrBrd.setMbrVO(new MbrVO());
-			 mngrBrd.getMbrVO().setMbrNm(searchKeyword);
-		}		
-		if(searchIdx.equals("mngrBrdTtl")) {
-			mngrBrd.setMngrBrdTtl(searchKeyword);
+		if(mbrVO.getMbrLvl().equals("001-01") ||mbrVO.getMbrLvl().equals("001-02")){
+			if(searchIdx.equals("Wrtr")){ 
+				mngrBrd.setMbrVO(new MbrVO());
+				 mngrBrd.getMbrVO().setMbrNm(searchKeyword);
+			}		
+			if(searchIdx.equals("mngrBrdTtl")) {
+				mngrBrd.setMngrBrdTtl(searchKeyword);
+			}
+			if(searchIdx.equals("mngrBrdCntnt")) {
+				mngrBrd.setMngrBrdCntnt(searchKeyword);
+			}
+			List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrd);
+			model.addAttribute("mngrBrdList", mngrBrdList);
+			model.addAttribute("mngrBrd", mngrBrd);
+			model.addAttribute("mbrVO", mbrVO);
+			
+			model.addAttribute("searchIdx", searchIdx);
+			model.addAttribute("searchKeyword", searchKeyword);
+			
+			return "mngrbrd/list";
 		}
-		if(searchIdx.equals("mngrBrdCntnt")) {
-			mngrBrd.setMngrBrdCntnt(searchKeyword);
-		}
-		List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrd);
-		model.addAttribute("mngrBrdList", mngrBrdList);
-		model.addAttribute("mngrBrd", mngrBrd);
-		model.addAttribute("mbrVO", mbrVO);
 		
-		model.addAttribute("searchIdx", searchIdx);
-		model.addAttribute("searchKeyword", searchKeyword);
+		String referer = request.getHeader("Referer");
+		 return "redirect:"+ referer;
 		
-		return "mngrbrd/list";
+
 	}
 	
 	
 	@GetMapping("/mngrbrd/{mngrBrdId}")
 	public String viewMngrBrdDetailPage(@PathVariable String mngrBrdId, Model model,
 									RplVO rplVO,
-									@SessionAttribute("__MBR__") MbrVO mbrVO
-								) {
+									@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
 		MngrBrdVO mngrBrd = mngrBrdService.readOneMngrBrdByMngrBrdId(mngrBrdId);
 		

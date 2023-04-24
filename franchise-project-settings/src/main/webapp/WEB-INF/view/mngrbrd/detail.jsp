@@ -249,25 +249,44 @@
 									<c:choose>
 										<c:when test="${not empty mngrBrd.rplList && not empty mngrBrd.rplList.get(0).rplId}" >
 											<div class="rplBox">
-												<ul class="rpl-box">							
+												<ul class="rpl-box">							 
 													<c:forEach items="${mngrBrd.rplList}" var="rpl" varStatus="index"> 
 														<div class="rplymember" style="border: 1px solid #e0e0e0; padding: 5px; margin-left: ${rpl.depth*50}px">
+														<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
 															<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
 															<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
 															<li class="rpl-one" style="margin-top: 10px;">${rpl.mbrVO.mbrNm}</li>
 															<li class="rpl-one">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
-															${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>
-																							
-															<li class="replace" id="cntnt" >${rpl.rplCntnt}</li>
+															${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>								 	
+															<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''};"> ${rpl.rplCntnt } ${rpl.delYn eq 'Y' ? '[이미 삭제된 댓글입니다.]<br>' : ''}</li>
 															<div class="rplbtn">
 																<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
 																<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
 																	<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
+																</c:if>						
+																<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
+																	<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button>		
 																</c:if>	
-																<c:if test="${mbr.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
+															</div>	
+														
+														</c:if>	
+														<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-02'}">
+															<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
+															<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
+															<li class="rpl-one" style="margin-top: 10px;">${rpl.mbrVO.mbrNm}</li>
+															<li class="rpl-one">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
+															${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>								 	
+															<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''};">${rpl.delYn eq 'Y' ? '이미 삭제된 댓글입니다. ' : rpl.rplCntnt}</li>
+															<div class="rplbtn">
+																<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
+																<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
+																	<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
+																</c:if>						
+																<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
 																	<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button>		
 																</c:if>	
 															</div>
+														</c:if>
 														</div>
 													</c:forEach>								
 												</ul>

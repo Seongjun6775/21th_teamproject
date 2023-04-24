@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <c:set var="date" value="<%= new Random().nextInt() %>"/>
 <!DOCTYPE html>
@@ -60,6 +61,7 @@
 		});
 		
 	    $("#search-btn").click(function(){
+	    	
 	        movePage(0);
 	     });
 	    
@@ -100,7 +102,7 @@
 			    <div class="board_box row">	
 					<div class=" col-sm-3 col-xs-4">
 						<select id="search-select" class="input-text" style="width: 100%;">
-							<option value="rplCntnt"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>제목</option>
+							<option value="rplCntnt"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>댓글</option>
 							<option value="Wrtr"${searchIdx eq 'Wrtr' ?  'selected': ''}>작성자</option>
 							<option value="mngrBrdTtl"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>게시글</option>
 						</select> 
@@ -162,15 +164,15 @@
 												<input type ="checkbox" class="check_idx" value="${rpl.rplId}">
 											</td>
 											<td style="width: 160px;">${rpl.rplId} </td>
-											<td style="width: 160px;">
-												<a href="${context}/mngrbrd/${rpl.altclId}" style="text-decoration: none;">
+											<td style="width: 200px;"> 
+												<a href="${context}/mngrbrd/${rpl.altclId}" class="brdid">
 												${rpl.mngrbrdVO.mngrBrdTtl}</a>
 											</td>
 											<td>${rpl.rplCntnt} </td>
 											<td style="width: 110px;">${rpl.mbrVO.mbrNm} </td>
-											<td style="width: 160px;">${rpl.rplWrtDt} </td>
-											<td style="width: 160px;">${rpl.mdfyDt} </td>
-											<td style="width: 70px;">${rpl.delYn} </td>		
+											<td style="width: 180px;">${rpl.rplWrtDt} </td>
+											<td style="width: 180px;">${rpl.mdfyDt} </td>
+											<td style="width: 70px;">${rpl.delYn} </td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -188,7 +190,7 @@
 					<div class="pagenate">
 						<ul>
 							<c:set value = "${rplList.size() > 0 ? rplList.get(0).lastPage : 0}" var="lastPage"/>
-							<c:set value = "${rplList.size() > 0 ? rplList.get(0).lastPage : 0}" var="lastGroup"/>
+							<c:set value = "${rplList.size() > 0 ? rplList.get(0).lastGroup : 0}" var="lastGroup"/>
 							
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(rplVO.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
@@ -202,7 +204,7 @@
 								<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
 							</c:if>
 
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo-1}" step="1" var="pageNo">
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
 								<li><a class="${pageNo eq rplVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 							</c:forEach> 
 							
