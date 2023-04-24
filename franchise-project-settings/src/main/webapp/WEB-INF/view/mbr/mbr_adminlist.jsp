@@ -13,6 +13,11 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	var str;
+	function addStrFn(search){
+		$("#search-strId").val(search.strid);
+		$("#search-strNm").val(search.strnm);
+	}
+	
 	$().ready(function(){
 		$(".grid > table > tbody > tr").click(function(){
 			var data = $(this).data();
@@ -36,7 +41,7 @@
 	        }
 		});
 		$("#search-clear-btn").click(function(){
-			$("#search-keyword-mbrNm").val("");search-clear-btn
+			$("#search-keyword-mbrNm").val("");
 			$("#mbrLvl").val("");
 			$("#search-keyword-delYn").prop("checked", false);
 			$("#search-keyword-startdt").val("");
@@ -71,7 +76,7 @@
 		});
 		$("#search-str-btn").click(function(event){
 			event.preventDefault();
-			str=window.open("${context}/mbr/str/search","매장검색", "width=500, height=500");
+			str=window.open("${context}/str/search","매장검색", "width=500, height=500");
 		});
 		
 	});
@@ -270,7 +275,8 @@
 							</div>
 							<div class="input-group inline">
 								<label for="mbrLvl" style="width: 180px;">소속변경</label>
-								<input type="text" id="search-strId" name="strId" readonly value="" />
+								<input type="text" id="search-strNm" name="strNm" readonly value="" />
+								<input type="hidden" id="search-strId" name="strId" readonly value="" />
 								<input type="hidden" id="prev-strId" name="originStrId" value="" />
 								<button id="search-str-btn">검색</button>
 							</div>

@@ -61,5 +61,4 @@ public class StrServiceImpl implements StrService {
 	public boolean readBlockStrCallNum(StrVO strVO) {
 		return strDAO.readBlockStrCallNum(strVO) > 0;
 	}
-
 }

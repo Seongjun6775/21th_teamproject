@@ -78,14 +78,6 @@ public class MbrController {
 		model.addAttribute("myMbr" ,myMbr);
 		return "mbr/mbr_info";
 	}
-	@GetMapping("/mbr/str/search")
-	public String viewStrSearchPage(MbrVO mbrVO,
-									Model model) {
-		model.addAttribute("strNm", mbrVO.getStrVO().getStrNm());
-		model.addAttribute("useYn", mbrVO.getStrVO().getUseYn());
-		
-		return "mbr/str_search";
-	}
 	@GetMapping("/logout")
 	public String doLogout(@SessionAttribute("__MBR__")MbrVO mbrVO, HttpSession session) {
 		session.invalidate();

@@ -205,7 +205,7 @@
 		  FROM FRAN.MBR M
 		 INNER JOIN CMMN_CD CD
  		 	ON M.MBR_LVL = CD.CD_ID
- 		 INNER JOIN STR ST
+ 		  LEFT OUTER JOIN STR ST
  		 	ON M.STR_ID = ST.STR_ID
 		 WHERE M.MBR_RGSTR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
 		   AND M.MBR_RGSTR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
@@ -297,16 +297,14 @@
 		parameterType="com.ktds.fr.mbr.vo.MbrVO">
 	UPDATE FRAN.MBR
 	   SET 
-	  <if test='mbrLvl != null and mbrLvl != ""'>
-	  	<if test='strId != null and strId != ""'>
-	  	,
-	   	</if>
+	  <if test='mbrLvl != null and mbrLvl != "" and strId != null and strId != ""'>
+  		    MBR_LVL=#{mbrLvl}
+	  	  , STR_ID = #{strId}
+	  </if> 
+	  <if test='mbrLvl != null and mbrLvl != "" and (strId == null or strId == "")'>
    	    MBR_LVL=#{mbrLvl}
 	  </if>
-	  <if test='strId != null and strId != ""'>
-	  	<if test='mbrLvl != null and mbrLvl != ""'>
-	  	,
-	   	</if>
+	  <if test='strId != null and strId != "" and (mbrLvl == null or mbrLvl == "")'>
 		STR_ID = #{strId}
 	  </if> 	 
 	 WHERE MBR_ID=#{mbrId}
