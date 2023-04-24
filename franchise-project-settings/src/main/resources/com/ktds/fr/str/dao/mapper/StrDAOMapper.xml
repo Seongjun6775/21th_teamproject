@@ -176,9 +176,7 @@
 			 (STR_ID
 			 , STR_NM
 			 , STR_LCTN
-			 , LCT_NM 
 			 , STR_CTY
-			 , CTY_NM
 			 , STR_ADDR
 			 , STR_CALL_NUM
 			 , MBR_ID
@@ -194,9 +192,7 @@
 			   ('ST-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_STR_PK.NEXTVAL, 5, '0')
 			 , #{strNm}
 			 , #{strLctn}
-			 , #{lctNm}
 			 , #{strCty}
-			 , #{ctyNm}
 			 , #{strAddr}
 			 , #{strCallNum}
 			 , #{mbrId}
