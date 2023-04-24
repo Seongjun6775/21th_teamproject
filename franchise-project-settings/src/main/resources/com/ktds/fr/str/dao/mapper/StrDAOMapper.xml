@@ -267,6 +267,7 @@
 		  FROM STR S
 		 WHERE S.DEL_YN = 'N'
 		   AND S.USE_YN = 'N'
+		   AND S.MBR_ID IS NULL
 		<if test='strNm != null and strNm != ""'>
 		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
 		</if>
@@ -275,5 +276,26 @@
 		   AND S.STR_ADDR LIKE '%' || #{strAddr} || '%'
 		</if>
 	</select>
+	<!-- 회원 기능과 연동 -->
+	<select id="readOneStrByMbrId"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM STR
+		 WHERE MBR_ID= #{_parameter}
+	</select>
+	<!-- 회원 기능과 연동 -->
+	<update id="deleteOneManagerByMbrId"
+			parameterType="string">
+			UPDATE STR
+			   SET MBR_ID = NULL 
+			 WHERE MBR_ID = #{_parameter}
+	</update>
+	<update id="updateOneStrByStrIdAndMbrId"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+			UPDATE STR
+			   SET MBR_ID = #{mbrId} 
+			 WHERE STR_ID = #{strId}
+	</update>
 
 </mapper>

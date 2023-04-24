@@ -74,6 +74,6 @@ public class StrServiceImpl implements StrService {
 	public List<StrVO> readAllStrNoPagenate(StrVO strVO) {
 		return strDAO.readAllStrNoPagenate(strVO);
 	}
-
+	
 }
 

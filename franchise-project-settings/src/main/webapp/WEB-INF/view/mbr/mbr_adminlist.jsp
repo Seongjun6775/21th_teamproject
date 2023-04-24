@@ -50,29 +50,62 @@
 		$("#update_btn").click(function(){
 			var updateLvl = $("#select-mbrLvl").val();
 			var prevLvl = $("#prev-mbrLvl-hidden").val();
-			var serialize = $("#detail_form").serialize();
-			serialize += "&prevLvl="+prevLvl;
+			var strNm = $("#search-strNm").val();
 			if(prevLvl.length ==0){
-				alert("회원을 선택하세요.");
-				return;
-			}
-			if(updateLvl.length==0){
-				alert("변경시킬 등급을 선택하세요.");
-				return;
-			}
-			if(updateLvl == prevLvl){
-				alert("선택한 회원의 등급과 변경하려는 등급이 같습니다.");
-				return;
-			}
-			$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
-				if(resp.status=="200 OK"){
-					alert("변경이 완료되었습니다.");
-					location.reload();
+				if(prevLvl.length ==0){
+					alert("회원을 선택하세요.");
+					return;
 				}
-				else{
-					alert(resp.message);
+			}
+			if(strNm.length == 0 ){
+				if(updateLvl.length==0){
+					alert("변경시킬 등급을 선택하세요.");
+					return;
 				}
-			});
+				if(updateLvl == prevLvl){
+					alert("선택한 회원의 등급과 변경하려는 등급이 같습니다.");
+					return;
+				}
+			
+				$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
+					if(resp.status=="200 OK"){
+						alert("변경이 완료되었습니다.");
+						location.reload();
+					}
+					else{
+						alert(resp.message);
+					}
+				});
+			}
+			else if (strNm.length > 0){
+				if(updateLvl == prevLvl || updateLvl.length==0){
+					var confirmAlert = confirm("선택한 관리자의 등급과 변경하려는 등급이 같습니다.\n이대로 진행하시겠습니까?");
+					if(confirmAlert){
+						$("#select-mbrLvl").val(prevLvl);
+						$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
+							if(resp.status=="200 OK"){
+								alert("변경이 완료되었습니다.");
+								location.reload();
+							}
+							else{
+								alert(resp.message);
+							}
+						});
+					}else{
+						return;
+					}
+				}else{
+					$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
+						if(resp.status=="200 OK"){
+							alert("변경이 완료되었습니다.");
+							location.reload();
+						}
+						else{
+							alert(resp.message);
+						}
+					});
+				}
+			}
 		});
 		$("#search-str-btn").click(function(event){
 			event.preventDefault();
@@ -277,7 +310,6 @@
 								<label for="mbrLvl" style="width: 180px;">소속변경</label>
 								<input type="text" id="search-strNm" name="strNm" readonly value="" />
 								<input type="hidden" id="search-strId" name="strId" readonly value="" />
-								<input type="hidden" id="prev-strId" name="originStrId" value="" />
 								<button id="search-str-btn">검색</button>
 							</div>
 						</div>

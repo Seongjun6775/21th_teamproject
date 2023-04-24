@@ -200,9 +200,10 @@ public class RestMbrController {
 	}
 	//권한및 소속 변경
 	@PostMapping("/api/mbr/update/admin")
-	public ApiResponseVO doUpdateAdmin(MbrVO mbrVO,
-									   @SessionAttribute("__MBR__")MbrVO mbr,
-									   @RequestParam(required = false) String prevLvl) {
+	public ApiResponseVO doUpdateAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO mbr){
+		if((mbrVO.getStrId() == null || mbrVO.getStrId().length() == 0) && (mbrVO.getMbrLvl() == null || mbrVO.getMbrLvl().length() == 0)) {
+			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "변경하려는 값을 선택 해 주세요.");
+		}
 		mbrVO.setMdfyr(mbr.getMbrNm());
 		boolean updateResult = mbrService.updateOneMbrLvlAndStrId(mbrVO);
 		if(!updateResult) {

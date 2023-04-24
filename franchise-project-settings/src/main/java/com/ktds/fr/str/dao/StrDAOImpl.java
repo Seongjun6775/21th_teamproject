@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.vo.StrVO;
 
 @Repository
@@ -79,4 +80,18 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 		return getSqlSession().selectList("Str.readAllStrNoPagenate", strVO);
 	}
 
+	@Override
+	public int readOneStrByMbrId(String mbrId) {
+		return getSqlSession().selectOne("Str.readOneStrByMbrId",mbrId);
+	}
+	
+	@Override
+	public int deleteOneManagerByMbrId(String mbrId) {
+		return getSqlSession().update("Str.deleteOneManagerByMbrId", mbrId);
+	}
+	
+	@Override
+	public int updateOneStrByStrIdAndMbrId(MbrVO mbrVO) {
+		return getSqlSession().update("Str.updateOneStrByStrIdAndMbrId", mbrVO);
+	}
 }

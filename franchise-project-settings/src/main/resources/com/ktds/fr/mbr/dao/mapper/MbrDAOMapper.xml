@@ -296,17 +296,8 @@
 	<update id="updateOneMbrLvlAndMbrStrId"
 		parameterType="com.ktds.fr.mbr.vo.MbrVO">
 	UPDATE FRAN.MBR
-	   SET 
-	  <if test='mbrLvl != null and mbrLvl != "" and strId != null and strId != ""'>
-  		    MBR_LVL=#{mbrLvl}
-	  	  , STR_ID = #{strId}
-	  </if> 
-	  <if test='mbrLvl != null and mbrLvl != "" and (strId == null or strId == "")'>
-   	    MBR_LVL=#{mbrLvl}
-	  </if>
-	  <if test='strId != null and strId != "" and (mbrLvl == null or mbrLvl == "")'>
-		STR_ID = #{strId}
-	  </if> 	 
+	   SET  MBR_LVL=#{mbrLvl}
+	  	  , STR_ID =#{strId}	 
 	 WHERE MBR_ID=#{mbrId}
 	   AND DEL_YN='N' 
 	</update>
