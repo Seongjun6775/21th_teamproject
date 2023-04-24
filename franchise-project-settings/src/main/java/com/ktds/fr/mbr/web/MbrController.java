@@ -35,12 +35,15 @@ public class MbrController {
 	}
 	
 	@GetMapping("/mbr/list")
-	public String viewMbrListPage(Model model, MbrVO mbrVO) {
+	public String viewMbrListPage(@SessionAttribute("__MBR__")MbrVO session, Model model, MbrVO mbrVO) {
+		if(!session.getMbrLvl().equals("001-01")) {
+			//TODO 에러 페이지경로 따로 설정해주기 PRDT말고 공용으로
+			return "prdt/session_error";
+		}
 		List<MbrVO> mbrList = mbrService.readAllMbr(mbrVO);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("001");
 		model.addAttribute("mbrList", mbrList);
 		model.addAttribute("srtList", srtList);
-		log.info(mbrVO.getDelYn());
 		model.addAttribute("MbrVO", mbrVO);
 		
 		return "mbr/mbr_list";

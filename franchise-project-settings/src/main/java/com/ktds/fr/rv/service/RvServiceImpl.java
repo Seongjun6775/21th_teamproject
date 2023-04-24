@@ -50,7 +50,7 @@ public class RvServiceImpl implements RvService {
 		return rvDAO.readCountRvByRvId(rvVO);
 	}
 
-	
+			
 	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
 	@Override
 	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO) {
@@ -68,20 +68,29 @@ public class RvServiceImpl implements RvService {
 			return rvDAO.readAllRvListForMemberByRvId(rvVO);
 		}
 	}
+	
+	
+	// ▶ 진영님이 만든거
+	@Override
+	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO) {
+		return rvDAO.readAllRvListForManager(searchRvVO);
+	}
 
+	
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
 	@Override
 	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO) {
-		rvVO.setMbrId(mbrVO.getMbrId());
-		if (mbrVO.getMbrLvl().equals("001-01")) {
-			return rvDAO.readOneRvVOForTopManagerByRvId(rvVO.getRvId());
-		}
-		else if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			return rvDAO.readOneRvVOForMiddleManagerByOdrId(rvVO);
-		}
-		else {
-			return rvDAO.readOneRvVOForMemberByRvId(rvVO.getRvId());
-		}
+//		rvVO.setMbrId(mbrVO.getMbrId());
+//		if (mbrVO.getMbrLvl().equals("001-01")) {
+//			return rvDAO.readOneRvVOForTopManagerByRvId(rvVO.getRvId());
+//		}
+//		else if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+//			return rvDAO.readOneRvVOForMiddleManagerByOdrId(rvVO);
+//		}
+//		else {
+//			return rvDAO.readOneRvVOForMemberByRvId(rvVO.getRvId());
+//		}
+		return rvDAO.readOneRvVOForMiddleManagerByOdrId(rvVO);
 	}
 
 	
