@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@page import="java.util.Random"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%=new Random().nextInt()%>" />
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<jsp:include page="../include/stylescript.jsp" />
+<script type="text/javascript">
+	$().ready(function() {
+		
+		
+		
+		
+		
+		
+	});
+</script>
+</head>
+<body>
+	<div class="main-layout">
+		<jsp:include page="../include/header.jsp" />
+		<div>
+			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/content.jsp" />
+			<div>총 ${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}건</div>
+			
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>주문 번호</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:choose>
+						<c:when test="${not empty myOdrLst}">
+							<c:forEach items="${myOdrLst}" var="odrLst">
+								<tr data-odrlstid="${odrLst.odrLstId}"
+									data-mbrid="${odrLst.mbrId}"
+									data-odrlstodrprcs="${odrLst.odrLstOdrPrcs}"
+									data-odrlstrgstdt="${odrLst.odrLstRgstDt}"
+									data-odrlstrgstr="${odrLst.odrLstRgstr}"
+									data-mdfydt="${odrLst.mdfyDt}"
+									data-mdfyr="${odrLst.mdfyr}"
+									data-useyn="${odrLst.useYn}"
+									data-delyn="${odrLst.delYn}">
+									<td>${odrLst.odrLstId}</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td colspan="9">주문 내역이 없습니다.</td>
+						</c:otherwise>
+					</c:choose>
+				</tbody>
+			</table>
+			
+			<jsp:include page="../include/footer.jsp" />
+		</div>
+	</div>
+</body>
+</html>
