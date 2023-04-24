@@ -2,27 +2,32 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@page import="java.util.Random"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../../css/evntCommon.css">
+<link rel="stylesheet" href="../../css/evntCommon.css?p=${date}" />
 <meta charset="UTF-8">
 <title>이벤트 수정 페이지</title>
+<jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
 <script type="text/javascript">
 $().ready(function() {
 
-// 	$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
+ 	$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
 	
 	//수정 완료 버튼
    $("#btn-update-success").click(function(){
 	   
 // 	   var useyn = $('#useYn').is(':checked') ? 'Y' : 'N' ;
+	  
 	   
 		var ajaxUtil = new AjaxUtil();
 		ajaxUtil.upload("#form-update" , "${context}/api/evnt/update", function(response) {
+			
 			if (response.status == "200 OK") {
 				console.log("200임")
 				alert(response.message);
@@ -62,6 +67,10 @@ $().ready(function() {
 </head>
 <body>
 	<div class="main-layout">
+	<jsp:include page="../include/header.jsp" />
+		<div>
+			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/content.jsp" />
 		<form id="form-update" enctype="multipart/form-data">
 			<div>
 				<table border=1 style="width: 600px;">
@@ -106,13 +115,13 @@ $().ready(function() {
 
 					<tr>
 						<td>사용 여부</td>
-						<td><input type="checkbox" id="useYn" name="useYn" onClick="check(this)" value="${evntVO.useYn}"/></td>
+						<td><input type="checkbox" id="useYn" name="useYn" onClick="check(this)" value="Y"/></td>
 					</tr>
 
 					<tr>
 						<td></td>
 						<td></td>
-						<td><button id="btn-update-success" class="btn-primary"
+						<td><button id="btn-update-success" type="button" class="btn-primary"
 								style="width: 100%;">완료</button></td>
 						<td><button id="btn-update-close" class="btn-primary"
 								style="width: 100%;">닫기</button></td>
@@ -120,6 +129,8 @@ $().ready(function() {
 				</table>
 			</div>
 		</form>
+		<jsp:include page="../include/footer.jsp" />
+		</div>
 	</div>
 </body>
 </html>

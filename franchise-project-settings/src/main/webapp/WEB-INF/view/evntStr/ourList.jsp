@@ -88,8 +88,8 @@
 							<c:when test="${not empty evntStrList}">
 								<c:forEach items="${evntStrList}" var="evntStr">
 									<tr>
-										<td class="firstcell"><input type="checkbox"
-											class="check-idx" value="${evntStr.evntStrId}" /></td>
+										<td class="firstcell">
+										<input type="checkbox" class="check-idx" value="${evntStr.evntStrId}" /></td>
 										<td>${evntStr.evntStrId}</td>
 										<td>${evntStr.evntId}</td>
 										<td>${evntStr.evntTtl}</td>

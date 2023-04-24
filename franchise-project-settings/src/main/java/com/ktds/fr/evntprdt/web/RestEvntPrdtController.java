@@ -1,17 +1,21 @@
 package com.ktds.fr.evntprdt.web;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.evntprdt.service.EvntPrdtService;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 
 @RestController
@@ -55,6 +59,22 @@ public class RestEvntPrdtController {
 			return new ApiResponseVO(ApiStatus.FAIL, "해당 상품을 등록할 수 없습니다.", "500", "");
 		}
 	}
+
+	
+	// 이벤트상품 등록 삭제
+	@PostMapping("/api/evntPrdt/delete")
+	public ApiResponseVO doDeleteOurEvnt(@RequestParam List<String> evntPrdtIdList
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		boolean isDelete = evntPrdtService.deleteEvntPrdtListByEvntId(evntPrdtIdList, mbrVO);
+		
+		if (isDelete) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	}
+		
 
 	// -----------------공통적용 소스----------------------------
 

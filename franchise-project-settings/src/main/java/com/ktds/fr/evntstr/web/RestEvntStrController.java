@@ -51,9 +51,9 @@ public class RestEvntStrController {
 		}
 	}
 	
-	
+	//이벤트 참여 해제
 	@PostMapping("/api/evntStr/delete")
-	public ApiResponseVO doDeleteAllRv(@RequestParam List<String> evntStrIdList
+	public ApiResponseVO doDeleteOurEvnt(@RequestParam List<String> evntStrIdList
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		boolean isDelete = evntStrService.deleteEvntStrListByEvntId(evntStrIdList, mbrVO);
 		

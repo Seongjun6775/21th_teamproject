@@ -2,16 +2,19 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.ktds.fr.mbr.vo.MbrVO" %>
+<%@page import="java.util.Random"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
 <html>
 <head>
 <%
 	MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 %>
-<link rel="stylesheet" href="../../css/evntCommon.css">
+<link rel="stylesheet" href="../../css/evntCommon.css?p=${date}" />
 <meta charset="UTF-8">
 <title>이벤트 상세 페이지</title>
+<jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
@@ -110,6 +113,10 @@
 <body>
 
 	<div class="main-layout">
+		<jsp:include page="../include/header.jsp" />
+		<div>
+			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/content.jsp" />
 		<div>
 			<table border=1 style="width: 600px;">
 				<tr>
@@ -183,6 +190,8 @@
 							style="width: 100%;">이벤트상품등록</button></td>
 				</tr>
 			</table>
+		</div>
+		<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
 	

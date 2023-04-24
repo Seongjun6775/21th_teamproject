@@ -130,11 +130,12 @@ public class EvntServiceImpl implements EvntService {
 
 		
 		if (isModify) {
-			String fileExt = uploadFile.getContentType();
-			if (!(fileExt.contains("image"))) {
-				throw new ApiArgsException("400", "이미지 파일만 업로드 가능합니다.\njpg, jpeg, png, gif, bmp");
-			}
+			
 			if (uploadFile != null && !uploadFile.isEmpty()) {
+				String fileExt = uploadFile.getContentType();
+				if (!(fileExt.contains("image"))) {
+					throw new ApiArgsException("400", "이미지 파일만 업로드 가능합니다.\njpg, jpeg, png, gif, bmp");
+				}
 				File dir = new File(profilePath);
 				if (!dir.exists()) {
 					dir.mkdirs();

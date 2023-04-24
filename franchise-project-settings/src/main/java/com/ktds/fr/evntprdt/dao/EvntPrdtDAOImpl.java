@@ -42,4 +42,10 @@ public class EvntPrdtDAOImpl extends SqlSessionDaoSupport implements EvntPrdtDAO
 		return getSqlSession().selectList("EvntPrdt.chkEvntPrdt", evntPrdtVO);
 	}
 
+	// 이벤트 상품 등록 취소
+	@Override
+	public int deleteEvntPrdtListByEvntId(List<String> evntPrdtIdList) {
+		return getSqlSession().update("EvntPrdt.deleteEvntPrdtListByEvntId",evntPrdtIdList );
+	}
+
 }

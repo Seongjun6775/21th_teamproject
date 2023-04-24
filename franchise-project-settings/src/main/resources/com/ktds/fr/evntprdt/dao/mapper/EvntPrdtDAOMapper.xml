@@ -31,7 +31,9 @@ INSERT INTO EVNT_PRDT
 	parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
 	resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
  SELECT *
-   FROM (SELECT *
+   FROM (SELECT E.*
+   			  , EP.PRDT_ID
+   			  , EP.DEL_YN DDEL_YN
 	  	   FROM EVNT E
 	  	  INNER JOIN EVNT_PRDT EP 
 	  	     ON E.EVNT_ID = EP.EVNT_ID 
@@ -41,14 +43,16 @@ INSERT INTO EVNT_PRDT
 			                     AND (SELECT DISTINCT E.EVNT_END_DT 
 			                            FROM EVNT E
 			                           WHERE E.EVNT_ID = #{evntId})
-	  	     OR EVNT_END_DT BETWEEN (SELECT DISTINCT E.EVNT_STRT_DT 
-			                           FROM EVNT E
-			                          WHERE E.EVNT_ID = #{evntId})
+	  	      OR EVNT_END_DT BETWEEN (SELECT DISTINCT E.EVNT_STRT_DT 
+			                            FROM EVNT E
+			                           WHERE E.EVNT_ID = #{evntId})
 			                     AND (SELECT DISTINCT E.EVNT_END_DT 
 			                            FROM EVNT E
 			                           WHERE E.EVNT_ID = #{evntId})
 	UNION ALL 
-	   SELECT *
+	   SELECT E.*
+	   		, EP.PRDT_ID
+	   		, EP.DEL_YN DDEL_YN
 	     FROM EVNT E
 	     LEFT JOIN EVNT_PRDT EP
 	       ON E.EVNT_ID = EP.EVNT_ID 
@@ -58,7 +62,8 @@ INSERT INTO EVNT_PRDT
 	      AND (SELECT E.EVNT_STRT_DT 
                  FROM EVNT E
                 WHERE E.EVNT_ID = #{evntId}) >= EVNT_STRT_DT  )EP
-        WHERE EP.PRDT_ID = #{prdtId}
+   WHERE EP.PRDT_ID = #{prdtId}
+     AND EP.DDEL_YN = 'N'
 </select>
 
 
@@ -96,6 +101,17 @@ parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
     
 </select>
 
+
+<update id="deleteEvntPrdtListByEvntId"
+parameterType="arraylist">
+	UPDATE EVNT_PRDT
+       SET USE_YN = 'N'
+		 , DEL_YN = 'Y'
+	 WHERE EVNT_PRDT_ID IN
+	 <foreach collection="list" item="evntPrdtId" open="(" close=")" separator=", ">
+		 #{evntPrdtId}
+	</foreach>	
+</update>
 
 
 </mapper>

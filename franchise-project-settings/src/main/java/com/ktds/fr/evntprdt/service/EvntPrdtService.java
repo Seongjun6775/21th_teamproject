@@ -3,6 +3,7 @@ package com.ktds.fr.evntprdt.service;
 import java.util.List;
 
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 
 public interface EvntPrdtService {
 
@@ -18,5 +19,7 @@ public interface EvntPrdtService {
      // 이벤트 상품 기간 중복 안되게 체크 ▶상위관리자
 		public List<EvntPrdtVO> chkEvntPrdt(EvntPrdtVO evntPrdtVO);
 
+	// 이벤트 상품 등록 해제
+		public boolean deleteEvntPrdtListByEvntId(List<String> evntPrdtIdList, MbrVO mbrVO);
 		
 }

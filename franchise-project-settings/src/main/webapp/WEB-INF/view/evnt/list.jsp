@@ -3,15 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.ktds.fr.mbr.vo.MbrVO" %>
+<%@page import="java.util.Random"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
 <html>
 <head>
 <%
 	MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 %>
-<%-- <jsp:include page="../include/stylescript.jsp"></jsp:include> --%>
-<link rel="stylesheet" href="../css/evntCommon.css">
+<jsp:include page="../include/stylescript.jsp"></jsp:include>
+<link rel="stylesheet" href="../css/evntCommon.css?p=${date}" />
 <meta charset="UTF-8">
 <title>이벤트 목록 조회</title>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
@@ -105,9 +107,10 @@
 </head>
 <body>
 	<div class="main-layout">
-		<%-- <jsp:include page="../include/header.jsp"></jsp:include>
+		 <jsp:include page="../include/header.jsp"></jsp:include>
+		 <div>
 			<jsp:include page="../include/sidemenu.jsp"></jsp:include>
-			<jsp:include page="../include/content.jsp"></jsp:include> --%>
+			<jsp:include page="../include/content.jsp"></jsp:include> 
 		<div>
 			<h1>이벤트 리스트 목록 조회</h1>
 			<div>총 ${evntList.size() > 0 ? evntList.get(0).totalCount : 0}건</div>
@@ -248,7 +251,9 @@
 			<div>
 				<button id="btn-checkEvnts" class="btn-primary">체크 이벤트..</button>
 			</div>
-
+			
+			<jsp:include page="../include/footer.jsp" />
+		  </div>
 		</div>
 	</div>
 </body>
