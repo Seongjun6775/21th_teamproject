@@ -18,9 +18,4 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
 	
-//	@Override
-//	public List<OdrDtlVO> readAllOdrDtlByOdrLstId(String odrLstId) {
-//		return null;
-//	}
-	
 }

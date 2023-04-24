@@ -47,3 +47,10 @@ textarea {
 	width: 800px;
 	height: 550px;
 }
+
+.layer_popup {
+	border: solid 1px #222;
+	position: absolute;
+	z-index: 10px;
+}
+

@@ -108,6 +108,26 @@ public class NtController {
 	}
 	
 	/**
+	 * 최고관리자 계정의 경우, 쪽지를 작성할 수 있습니다.
+	 * @param mbrVO 현재 로그인 계정 정보
+	 * @param model
+	 * @return 쪽지 작성 페이지
+	 */
+	@GetMapping("/nt/ntcreate/{mbrId}")
+	public String viewNtCreatePage(@SessionAttribute("__MBR__") MbrVO mbrVO
+								, @PathVariable String mbrId, Model model) {
+		
+		if (mbrVO.getMbrLvl().equals("001-01")) {
+			model.addAttribute("mbrVO", mbrVO);
+			model.addAttribute("rcvrId", mbrId);
+			
+			return "nt/ntcreate";
+		}
+		// 최고관리자 계정이 아닌 경우, list로 돌려보내 권한에 맞는 페이지로 이동시킵니다.
+		return "redirect:/nt/list";
+	}
+	
+	/**
 	 * 최고관리자 계정의 경우, 삭제된 쪽지를 포함해 모든 쪽지를 상세조회 할 수 있습니다.
 	 * @param mbrVO 현재 로그인 계정 정보
 	 * @param ntId 조회할 쪽지의 Id

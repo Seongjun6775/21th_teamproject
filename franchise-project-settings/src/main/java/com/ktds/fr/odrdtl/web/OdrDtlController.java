@@ -1,5 +1,7 @@
 package com.ktds.fr.odrdtl.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +21,7 @@ public class OdrDtlController {
 	@GetMapping("/odrdtl/list")
 	public String viewOdrDtlPage(@SessionAttribute("__MBR__") MbrVO mbrVO, Model model) {
 		
-		OdrDtlVO odrDtlList = odrDtlService.readOneOdrDtlByOdrDtlId(mbrVO.getMbrId());
+		List<OdrDtlVO> odrDtlList = odrDtlService.readAllOdrDtlByOdrLstId(mbrVO.getMbrId());
 		model.addAttribute("odrDtlList", odrDtlList);
 		
 		return "odrdtl/detail";

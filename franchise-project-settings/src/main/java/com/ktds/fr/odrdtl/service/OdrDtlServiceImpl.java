@@ -1,5 +1,7 @@
 package com.ktds.fr.odrdtl.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,12 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public boolean createNewOdrDtl(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.createNewOdrDtl(odrDtlVO) > 0;
 	}
-
+	
+	@Override
+	public List<OdrDtlVO> readAllOdrDtlByOdrLstId(String mbrId) {
+		return odrDtlDAO.readAllOdrDtlByOdrLstId(mbrId);
+	}
+	
 	@Override
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId) {
 		return odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlId);
