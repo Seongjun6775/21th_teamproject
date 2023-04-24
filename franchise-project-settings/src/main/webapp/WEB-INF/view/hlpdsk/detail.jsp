@@ -114,14 +114,15 @@
 			</c:if>
 			<c:if test="${hlpDsk.hlpDskPrcsYn eq 'N'&& sessionScope.__MBR__.mbrLvl eq '001-04'}">
 				<div class="wait-box"  >
-					답변대기중입니다.	
+					답변대기중입니다.		
 				</div>
 			</c:if>
 			<c:if test="${hlpDsk.hlpDskPrcsYn eq 'N' && sessionScope.__MBR__.mbrLvl ne '001-04'}">
 				<form id="create_form" >
 					<div class="qna_box row" style="background: #ffffff;" >	
-						<button class="qna-btn" style="width:70%;">답변하기</button>
+						<button class="qna-btn" id="fix_btn" style="width:70%;">답변하기</button>
 					</div>
+					<input type="hidden" id="mstrId" name="mstrId" value="${sessionScope.__MBR__.mbrId}" />
 					<div>
 						<textarea id="hlpOkCntnt" name="hlpOkCntnt" placeholder="답변을 입력해주세요." class="qna-text"></textarea>
 					</div>	

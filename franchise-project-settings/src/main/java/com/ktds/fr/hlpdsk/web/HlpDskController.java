@@ -28,8 +28,14 @@ public class HlpDskController {
 						@RequestParam(required = false,defaultValue="")String searchKeyword) {
 		
 		if(mbrVO.getMbrLvl().equals("001-04")) {
+			hlpDskVO.setMbrId(mbrVO.getMbrId());
+			List<HlpDskVO> myHlpDskList = hlpDskService.readAllMyHlpDsks(hlpDskVO);
+			model.addAttribute("hlpDskVO", hlpDskVO);
+			model.addAttribute("mbrVO", mbrVO);
+			model.addAttribute("myHlpDskList", myHlpDskList);
 			return "hlpdsk/list";
 		}
+	
 		
 		if(searchIdx.equals("Wrtr")){ 
 			hlpDskVO.setMbrVO(new MbrVO());
@@ -41,7 +47,6 @@ public class HlpDskController {
 		if(searchIdx.equals("hlpDskCntnt")) {
 			hlpDskVO.setHlpDskCntnt(searchKeyword);
 		} 
-		
 		List<HlpDskVO> hlpDskList = hlpDskService.readAllHlpDsks(hlpDskVO);
 		model.addAttribute("hlpDskList", hlpDskList);
 		model.addAttribute("hlpDskVO", hlpDskVO);
@@ -50,6 +55,7 @@ public class HlpDskController {
 		model.addAttribute("searchIdx", searchIdx);
 		model.addAttribute("searchKeyword", searchKeyword);
 
+		
 		return "hlpdsk/mngr_list";
 	}
 	

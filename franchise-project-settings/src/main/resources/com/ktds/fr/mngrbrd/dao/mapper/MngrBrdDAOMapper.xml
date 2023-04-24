@@ -41,8 +41,13 @@
 		     , B.MNGR_BRD_TTL
 		     , B.MNGR_BRD_CNTNT
 		     , B.MNGR_ID
-		     , TO_CHAR(B.MNGR_BRD_WRT_DT ,'YYYY-MM-DD HH24:MI:SS') MNGR_BRD_WRT_DT
 		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , CASE 
+		     	WHEN ((B.MNGR_BRD_WRT_DT+1) - SYSDATE) > 0  THEN
+		     	  TO_CHAR(B.MNGR_BRD_WRT_DT  ,'YYYY-MM-DD HH24:MI:SS') 
+		        ELSE 
+		          TO_CHAR(B.MNGR_BRD_WRT_DT  ,'YYYY-MM-DD')    	
+		     	END MNGR_BRD_WRT_DT
 		     , B.MDFYR
 		     , B.USE_YN
 		     , B.DEL_YN

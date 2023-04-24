@@ -23,6 +23,11 @@ public class HlpDskDAOImpl extends SqlSessionDaoSupport implements HlpDskDAO {
 	}
 
 	@Override
+	public List<HlpDskVO> readAllMyHlpDsks(HlpDskVO hlpDskVO) {
+		return getSqlSession().selectList("HlpDsk.readAllMyHlpDsks", hlpDskVO);
+	}
+	
+	@Override
 	public List<HlpDskVO> readAllHlpDsksPagination(String hlpDskTtl) {
 		// TODO Auto-generated method stub
 		return getSqlSession().selectList("HlpDsk.readAllHlpDsksPagination",hlpDskTtl);

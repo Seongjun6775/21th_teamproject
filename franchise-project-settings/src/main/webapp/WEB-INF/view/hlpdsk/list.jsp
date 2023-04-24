@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <c:set var="date" value="<%= new Random().nextInt() %>"/>
 <!DOCTYPE html>
@@ -14,58 +15,16 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
-		$("#all_check").change(function() {
-			$(".check_idx").prop("checked",$(this).prop("checked"));
-		});
-		
-			
-		$(".check_idx").change(function(){
-			var count = $(".check_idx").length;
-			var checkCount =$(".check_idx:checked").length;
-			console.log(count,checkCount)
-			$("#all_check").prop("checked",count==checkCount);
-		});
-		$("#delete_btn").click(function(){
-			var checkLen= $(".check_idx:checked").length;
-			if(checkLen ==0){
-				alert("삭제할 글이 없습니다.");
-				return;
-			} 
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			}
-			
-			var form =$("<form></form>")	
-			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='hlpDskWrtId' value='" + $(this).val() + "'>")
-			});
+		console.log(${mbrVO.mbrId});
 
-			$.post("${context}/api/hlpdsk/delete",form.serialize(),function(response){
-				if(response.status =="200 OK"){
-					location.reload(); //새로고침	
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
-		
 	    $("#search-btn").click(function(){
 	        movePage(0);
 	     });
 		
-	}); 
-
+	});
 	function movePage(pageNo){
-		//전송.
-		//입력 값.	 
-		var searchIdx = $("#search-select").val();	
-		var searchKeyword = $("#search-keyword").val();
-		var queryString = "searchIdx=" + searchIdx;
-		queryString += "&searchKeyword=" + searchKeyword
-		queryString += "&pageNo=" + pageNo;
+
+		var queryString = "pageNo=" + pageNo;
 		
 		location.href = "${context}/hlpdsk/list?" + queryString;
 		
@@ -82,13 +41,12 @@
 		<div>
 			<div style="display: block; padding: 20px;">
 				<div class="list-title">
-					<h3 class="list-title">고객센터</h3> 
+					<h3 class="list-title">고객센터</h3>
 				</div> 
 				
 			    <div class="qna_box row" >	 
 					<a href="${context}/hlpdsk/write" class="qna-btn" style="text-decoration: none; width:70%;"> 문의/건의 </a>
 				</div>		
-			
 				<div class= "grid">
 				
 					<table>
@@ -104,31 +62,32 @@
 						</thead>
 						<tbody>
 							<c:choose>			 		
-								<c:when test="${not empty hlpDskList}">
-									<c:forEach items="${hlpDskList}" var="hlpDsk" >
+								<c:when test="${not empty myHlpDskList}">
+									<c:forEach items="${myHlpDskList}" var="hlpDsk" >
 										<tr data-hlpdskwrtid = "${hlpDsk.hlpDskWrtId}"
 											data-hlpdsksbjct = "${hlpDsk.hlpDskSbjct}"
 											data-hlpdskprcsyn = "${hlpDsk.hlpDskPrcsYn}"
 											data-hlpdskttl = "${hlpDsk.hlpDskTtl}"
 											data-mbrnm = "${mbrVO.mbrNm}"
+											data-mbrid = "${hlpDsk.mbrId}"
 											data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
-											<td>${hlpDsk.hlpDskWrtId}</td>
-											<td>${hlpDsk.hlpDskSbjct}</td>
-											<td>${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
-											<td>
-												<a href="${context}/hlpdsk/${hlpDsk.hlpDskWrtId}" style="text-decoration: none;">
-													${hlpDsk.hlpDskTtl}  
-												</a>
-											</td>
-											<td>${hlpDsk.mbrVO.mbrNm}</td>
-											<td>${hlpDsk.hlpDskWrtDt}</td>
+												<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>
+												<td style="width: 130px;">${hlpDsk.hlpDskSbjct}</td>
+												<td style="width: 130px;">${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
+												<td>
+													<a href="${context}/hlpdsk/${hlpDsk.hlpDskWrtId}" class="brdid">
+														${hlpDsk.hlpDskTtl}  
+													</a>
+												</td>
+												<td style="width: 180px;">${hlpDsk.mbrVO.mbrNm}</td>
+												<td style="width: 200px;">${hlpDsk.hlpDskWrtDt}</td>				
 										</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
 										<td colspan="6" class="no-items">
-											등록한 글이 없습니다.
+											등록된 글이 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -138,8 +97,8 @@
 				
 					 <div class="pagenate">
 						<ul>
-							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastPage : 0}" var="lastPage"/>
-							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastPage : 0}" var="lastGroup"/>
+							<c:set value = "${myHlpDskList.size() > 0 ? myHlpDskList.get(0).lastPage : 0}" var="lastPage"/>
+							<c:set value = "${myHlpDskList.size() > 0 ? myHlpDskList.get(0).lastGroup : 0}" var="lastGroup"/>
 							
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(hlpDskVO.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
@@ -156,7 +115,6 @@
 							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
 								<li><a class="${pageNo eq hlpDskVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 							</c:forEach>
-
 							<c:if test="${lastGroup > nowGroup}">
 								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
 								<li><a href="javascript:movePage(${lastPage})">끝</a></li>

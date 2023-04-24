@@ -20,6 +20,11 @@ public class HlpDskServiceImpl implements HlpDskService {
 	}
 
 	@Override
+	public List<HlpDskVO> readAllMyHlpDsks(HlpDskVO hlpDskVO) {
+		return hlpDskDAO.readAllMyHlpDsks(hlpDskVO);
+	}
+	
+	@Override
 	public List<HlpDskVO> readAllHlpDsksPagination(String mngrBrdTtl) {
 		// TODO Auto-generated method stub
 		return hlpDskDAO.readAllHlpDsksPagination(mngrBrdTtl);

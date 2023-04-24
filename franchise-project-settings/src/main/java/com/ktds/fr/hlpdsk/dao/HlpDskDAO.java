@@ -7,7 +7,8 @@ import com.ktds.fr.mngrbrd.vo.MngrBrdVO;
 
 public interface HlpDskDAO {
 	
-	public List<HlpDskVO> readAllHlpDsks(HlpDskVO hlpDskVO);  
+	public List<HlpDskVO> readAllHlpDsks(HlpDskVO hlpDskVO); 
+	public List<HlpDskVO> readAllMyHlpDsks(HlpDskVO hlpDskVO); 
 	public HlpDskVO readOneHlpDskByHlpDskId(String hlpDskId);
 	
 	public List<HlpDskVO> readAllHlpDsksPagination(String hlpDskTtl); 

@@ -31,6 +31,53 @@
 		     , H.HLP_DSK_TTL
 		     , H.HLP_DSK_CNTNT
 		     , H.MBR_ID  
+		     ,CASE 
+		     	WHEN ((H.HLP_DSK_WRT_DT+1) - SYSDATE) > 0  THEN
+		     	  TO_CHAR(H.HLP_DSK_WRT_DT  ,'YYYY-MM-DD HH24:MI:SS') 
+		        ELSE 
+		          TO_CHAR(H.HLP_DSK_WRT_DT  ,'YYYY-MM-DD')    	
+		     	END HLP_DSK_WRT_DT
+		     , H.MSTR_ID   
+		     , H.HLP_DSK_PRCS_YN
+		     , H.HLP_DSK_PRCS_DT
+		     , H.USE_YN
+		     , H.DEL_YN
+		     , H.HLP_OK_CNTNT
+		 	 , M.MBR_NM MBR_NM
+		     , RM.MBR_NM MSTR_NM
+		  FROM FRAN.HLP_DSK H
+		INNER JOIN MBR M
+		    ON H.MBR_ID = M.MBR_ID
+		  LEFT OUTER JOIN MBR RM
+		    ON H.MSTR_ID = RM.MBR_ID
+		 WHERE 1=1 
+		<if test= 'hlpDskTtl != null and hlpDskTtl != "" '>
+           AND H.HLP_DSK_TTL LIKE '%' ||  #{hlpDskTtl} || '%'
+         </if>
+         <if test= 'hlpDskCntnt != null and hlpDskCntnt != "" '>
+           AND  H.HLP_DSK_CNTNT LIKE '%' ||  #{hlpDskCntnt} || '%'
+         </if> 
+         <if test= 'mbrVO != null and mbrVO.mbrNm != null and mbrVO.mbrNm != "" '>
+           AND  M.MBR_NM LIKE '%' ||  #{mbrVO.mbrNm} || '%'
+         </if>  
+         <if test= 'hlpDskPrcsYn != null and hlpDskPrcsYn != "" '>
+          AND H.HLP_DSK_PRCS_YN = #{hlpDskPrcsYn}
+         </if> 
+		ORDER BY H.HLP_DSK_WRT_DT DESC 
+		<include refid="Common.pageFooter" />	
+	</select>
+	
+	<select id="readAllMyHlpDsks"
+			parameterType="com.ktds.fr.hlpdsk.vo.HlpDskVO"
+			resultMap="hlpDskMap">
+		<include refid ="Common.pageHeader"/>
+		SELECT H.HLP_DSK_WRT_ID PK_COL
+		     , DENSE_RANK() OVER(ORDER BY H.HLP_DSK_WRT_DT DESC ) RNUM 
+		     , H.HLP_DSK_WRT_ID
+		     , H.HLP_DSK_SBJCT
+		     , H.HLP_DSK_TTL
+		     , H.HLP_DSK_CNTNT
+		     , H.MBR_ID  
 		     , H.HLP_DSK_WRT_DT
 		     , H.MSTR_ID   
 		     , H.HLP_DSK_PRCS_YN
@@ -45,15 +92,7 @@
 		    ON H.MBR_ID = M.MBR_ID
 		  LEFT OUTER JOIN MBR RM
 		    ON H.MSTR_ID = RM.MBR_ID
-		 <if test= 'hlpDskTtl != null and hlpDskTtl != "" '>
-           AND  H.HLP_DSK_TTL LIKE '%' ||  #{hlpDskTtl} || '%'
-         </if>
-         <if test= 'hlpDskCntnt != null and hlpDskCntnt != "" '>
-           AND  H.HLP_DSK_CNTNT LIKE '%' ||  #{hlpDskCntnt} || '%'
-         </if> 
-         <if test= 'mbrVO != null and mbrVO.mbrNm != null and mbrVO.mbrNm != "" '>
-           AND  M.MBR_NM LIKE '%' ||  #{mbrVO.mbrNm} || '%'
-         </if>  
+		 WHERE H.MBR_ID  = #{mbrId}
 		ORDER BY H.HLP_DSK_WRT_DT DESC 
 		<include refid="Common.pageFooter" />	
 	</select>

@@ -36,7 +36,7 @@ public class RestHlpDskController {
 		}
 		
 		if(hlpDskVO.getHlpDskCntnt()==null || hlpDskVO.getHlpDskCntnt().trim().length() ==0) {
-		throw new ApiArgsException("400", "본문을 입력해주세요.");
+		throw new ApiArgsException("400", "내용을 입력해주세요.");
 		}
 		
 		hlpDskVO.setMbrId(mbrVO.getMbrId());
@@ -54,6 +54,10 @@ public class RestHlpDskController {
 	@PostMapping("/api/hlpdsk/update/{hlpDskWrtId}")
 	public ApiResponseVO doUpdateHlpDskBySelectedHlpDskId(HlpDskVO hlpDskVO,
 										@SessionAttribute("__MBR__") MbrVO mbrVO) {
+		
+		if(hlpDskVO.getHlpOkCntnt() ==null || hlpDskVO.getHlpOkCntnt().trim().length() ==0) {
+			throw new ApiArgsException("400", "답변 내용을 입력해주세요.");
+		}
 		boolean updateResult = hlpDskService.updateNewHlpDsk(hlpDskVO);
 		System.out.println(updateResult);
 		if(updateResult) {

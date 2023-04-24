@@ -11,6 +11,7 @@ import com.ktds.fr.mngrbrd.vo.MngrBrdVO;
 public interface HlpDskService {
 	
 	public List<HlpDskVO> readAllHlpDsks(HlpDskVO hlpDskVO);  
+	public List<HlpDskVO> readAllMyHlpDsks(HlpDskVO hlpDskVO);  
 	
 	public List<HlpDskVO> readAllHlpDsksPagination(String mngrBrdTtl);
 	

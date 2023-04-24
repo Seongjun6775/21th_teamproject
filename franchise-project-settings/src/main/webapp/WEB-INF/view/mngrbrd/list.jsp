@@ -99,7 +99,7 @@
 			<div style="display: block; padding: 20px;">
 				<div class="list-title">
 					<h3 class="list-title"> 관리자 게시판</h3> 
-				</div> 
+				</div> 	
 				
 			    <div class="board_box row">	
 					<div class=" col-sm-3 col-xs-4"> 
@@ -143,9 +143,6 @@
 								<th>제목</th>
 								<th>작성자</th>
 								<th>작성일</th>
-								<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-									<th>게시여부</th>
-								</c:if>	
 							</tr>
 						</thead>
 						<tbody>
@@ -161,30 +158,25 @@
 													<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
 												</td>
 											</c:if>	
-											<td style="width: 160px;">${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
-											<td style="width: 90px;">
+											<td style="width: 100px;">${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
+											<td style="width: 130px;">
 											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
 											
 											<td>
-												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid" style="text-decoration: none;">
+												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid">
 													${mngrBrd.mngrBrdTtl}  
 												</a>[${mngrBrd.rplList.size()}] 
 											</td>
-											<td>${mngrBrd.mbrVO.mbrNm}</td>
-											<td style="width: 160px;">${mngrBrd.mngrBrdWrtDt}</td> 
-											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-												<td style="width: 70px;">
-												${mngrBrd.useYn}</td>	
-											</c:if>	
-											
+											<td style="width: 180px;">${mngrBrd.mbrVO.mbrNm}</td>
+											<td style="width: 200px;">${mngrBrd.mngrBrdWrtDt}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
 							
 								<c:otherwise>
 									<tr>
-										<td colspan="9" class="no-items">
-											검색 결과가 없습니다.
+										<td colspan="8" class="no-items">
+											동록된 글이 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -195,7 +187,7 @@
 					 <div class="pagenate">
 						<ul>
 							<c:set value = "${mngrBrdList.size() > 0 ? mngrBrdList.get(0).lastPage : 0}" var="lastPage"/>
-							<c:set value = "${mngrBrdList.size() > 0 ? mngrBrdList.get(0).lastPage : 0}" var="lastGroup"/>
+							<c:set value = "${mngrBrdList.size() > 0 ? mngrBrdList.get(0).lastGroup : 0}" var="lastGroup"/>
 							
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(MngrBrdVO.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />

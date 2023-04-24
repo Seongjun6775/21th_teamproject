@@ -19,11 +19,10 @@
 		$("#new_btn").click(function(){	
 			$.post("${context}/api/hlpdsk/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
+					alert("!!");
 					var url= '${context}/hlpdsk/list'
-						alert("!!");
-						var url= '${context}/hlpdsk/list'
-						alert(url);
-						location.replace(url);	
+					alert(url);
+					location.replace(url);	
 				}
 				else if (response.status =="400"){
 					//파라미터를 전달하지 않은 경우
@@ -64,7 +63,7 @@
 							<div class=" col-sm-3 col-xs-4"> 
 								<label for="hlpDskSbjct">글 분류</label>
 								<select id="hlpDskSbjct" name="hlpDskSbjct" class="input-text" style="width: 20%;">
-									<option>선택</option>
+									<option value="">선택</option>
 									<option value="문의하기">문의하기</option>				
 									<option value="건의하기">건의하기</option>
 								</select> 

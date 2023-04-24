@@ -57,6 +57,9 @@
 	    $("#search-btn").click(function(){
 	    	var searchIdx = $("#search-select").val();	
 			var searchKeyword = $("#search-keyword").val();
+			console.log(searchIdx);
+			console.log(searchKeyword);
+			
 	        movePage(0);
 	     });
 	    
@@ -70,12 +73,12 @@
 		//입력 값.	 
 		var searchIdx = $("#search-select").val();	
 		var searchKeyword = $("#search-keyword").val();
-		var delYn = $("#search-keyword-delYn").val();
+		var hlpDskPrcsYn = $("#search-keyword-hlpDskPrcsYn").val();
 		
 			var queryString = "searchIdx=" + searchIdx;
 			queryString += "&searchKeyword=" + searchKeyword
 			queryString += "&pageNo=" + pageNo;
-			queryString += "&delYn=" + delYn;
+			queryString += "&hlpDskPrcsYn=" + hlpDskPrcsYn;
 			
 			location.href = "${context}/hlpdsk/list?" + queryString;
 		
@@ -121,7 +124,7 @@
 								<th>문의/건의</th>	
 								<th>답변상태
 									<select class="selectFilter" name="selectFilter"
-											id="search-keyword-delYn">
+											id="search-keyword-hlpDskPrcsYn">
 										<option value="">--</option>
 										<option value="Y">답변완료</option>
 										<option value="N">답변대기중</option>
@@ -142,23 +145,23 @@
 											data-hlpdskttl = "${hlpDsk.hlpDskTtl}"
 											data-mbrnm = "${mbrVO.mbrNm}"
 											data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
-											<td>${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>    
-											<td>${hlpDsk.hlpDskSbjct}</td>
-											<td>${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
+											<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>    
+											<td style="width: 130px;">${hlpDsk.hlpDskSbjct}</td>
+											<td style="width: 130px;">${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
 											<td>
-												<a href="${context}/hlpdsk/${hlpDsk.hlpDskWrtId}" style="text-decoration: none;">
+												<a href="${context}/hlpdsk/${hlpDsk.hlpDskWrtId}" class="brdid">
 													${hlpDsk.hlpDskTtl}  
 												</a>
 											</td>
-											<td>${hlpDsk.mbrVO.mbrNm}</td>
-											<td>${hlpDsk.hlpDskWrtDt}</td>
+											<td style="width: 180px;">${hlpDsk.mbrVO.mbrNm}</td>
+											<td style="width: 200px;">${hlpDsk.hlpDskWrtDt}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
 										<td colspan="6" class="no-items">
-											등록한 글이 없습니다.
+											등록된 글이 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -169,7 +172,7 @@
 					 <div class="pagenate">
 						<ul>
 							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastPage : 0}" var="lastPage"/>
-							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastPage : 0}" var="lastGroup"/>
+							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastGroup : 0}" var="lastGroup"/>
 							
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(hlpDskVO.pageNo /10)}" integerOnly="true" />
 							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
@@ -187,7 +190,6 @@
 								<li><a class="${pageNo eq hlpDskVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 							</c:forEach>
 					
-							
 							<c:if test="${lastGroup > nowGroup}">
 								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
 								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
