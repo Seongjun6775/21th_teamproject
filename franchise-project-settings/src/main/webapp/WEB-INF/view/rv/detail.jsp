@@ -11,6 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
@@ -40,10 +41,7 @@
 			<jsp:include page="../include/content.jsp" />
 			
 			<div class="path"> 리뷰 > 리뷰목록 > 리뷰상세</div>	
-			
-				<h1>상세 리뷰</h1>	
-					
-								
+													
 				<div>
 					<form id="detail_form" method="post">
 						<div class="detail-group-inline">
@@ -71,26 +69,28 @@
 						<div class="detail-group-inline">
 							<label for="rvCntnt">내용</label>
 							<div id="rvCntnt" 
-								   style="display: grid; 
-								   		  margin: 3px; 
-								   		  width: 700px; 
-								   		  height: 400px; 
-								   		  resize: none; 
-								   		  border: none; 
-								   		  background-color: #3331; 
-								   		  white-space: pre-wrap;">${rvDetail.rvCntnt}</div>
+								 style="display: grid; 
+								   		margin: 3px; 
+								   		width: 700px; 
+								   		height: 400px; 
+								   		resize: none; 
+								   		border: none; 
+								   		background-color: #3331; 
+								   		white-space: pre-wrap;">${rvDetail.rvCntnt}</div>
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvLkDslk">좋아요/싫어요</label>
 							<input type="text" id="rvLkDslk" name="rvLkDslk" disabled value="${rvDetail.rvLkDslk}">
 						</div>
-						<div class="detail-group-inline">
+						<div class="detail-group-inline" style= "display: inline-flex;">
 							<label for="rvRgstDt">등록일</label>
-							<input type="text" id="rvRgstDt" name="rvRgstDt" disabled value="${rvDetail.rvRgstDt}">
+							<input type="text" id="rvRgstDt" name="rvRgstDt"								    
+								   disabled value="${rvDetail.rvRgstDt}">
 						</div>
-						<div class="detail-group-inline">
+						<div class="detail-group-inline" style= "display: inline-flex;">
 							<label for="mdfyDt">수정일</label>
-							<input type="text" id="mdfyDt" name="mdfyDt" disabled value="${rvDetail.mdfyDt}">
+							<input type="text" id="mdfyDt" name="mdfyDt"								   
+								   disabled value="${rvDetail.mdfyDt}">
 						</div>
 					</form>
 				</div>

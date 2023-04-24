@@ -11,6 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
@@ -48,15 +49,17 @@
 				console.log($(this).val());
 				form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'")
 			});
-			$.post("${context}/api/rv/delete", form.serialize(), function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-					alert("리뷰가 삭제되었습니다.")
-				}
-				else{
-					alert(response.errorCode + "권한이 없습니다." + response.message);
-				}
-			})
+			if(confirm("정말 삭제하시겠습니까?")) {
+				$.post("${context}/api/rv/delete", form.serialize(), function(response){
+					if(response.status == "200 OK"){
+						location.reload(); //새로고침
+						alert("리뷰가 삭제되었습니다.")
+					}
+					else{
+						alert(response.errorCode + "권한이 없습니다." + response.message);
+					}
+				})
+			}
 		});	
 		$("#search_btn").click(function(){			
 			movePage(0);
@@ -89,7 +92,13 @@
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">리뷰 > 리뷰목록</div>
 			
-			<h1>리뷰 목록</h1>
+			<div class="container">
+			    <header class="d-flex justify-content-center py-3">
+			      <ul class="nav nav-pills">
+			        <li class="nav-item"><h3>리뷰 목록</h3></li>
+			      </ul>
+			    </header>
+			</div>
 			<div>총 ${rvList[0].totalCount}건</div>
 			
 			<table>
@@ -134,15 +143,13 @@
 					</c:choose>			
 				</tbody>
 			</table>	
-			
 			<div class="align-right mt-10">
 				<button id="delete_all_btn" class="btn-delete">삭제</button>
 			</div>
 			
 			<div class="align-right">				
 				<button id="new_btn" class="btn-primary">등록</button>
-			</div>
-			
+			</div>			
 			<div class="pagenate">
 				<ul>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
