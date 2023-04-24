@@ -86,6 +86,7 @@
 					  INNER JOIN EVNT E 
 					     ON EP.EVNT_ID = E.EVNT_ID
 					  WHERE E.USE_YN = 'Y'
+						AND EP.DEL_YN = 'N'
 					    AND SYSDATE >= E.EVNT_STRT_DT
 					    AND E.EVNT_END_DT >= SYSDATE) EP 
     		ON P.PRDT_ID = EP.PRDT_ID 
@@ -158,6 +159,17 @@
 		   AND SP.PRDT_ID = #{prdtId}
 		</if>
 		 ORDER BY S.STR_NM ASC, P.PRDT_NM
+	</select>
+	
+	<select id="missingList"
+			parameterType="String"
+			resultType="com.ktds.fr.prdt.vo.PrdtVO">
+		SELECT *
+ 		  FROM PRDT
+		 WHERE PRDT_ID NOT IN (SELECT PRDT_ID
+		 						 FROM STR_PRDT
+		 						WHERE DEL_YN = 'N'
+		 						  AND STR_ID = #{_parameter} )
 	</select>
 
 

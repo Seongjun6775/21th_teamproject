@@ -85,6 +85,7 @@
 					  INNER JOIN EVNT E 
 					     ON EP.EVNT_ID = E.EVNT_ID
 					  WHERE E.USE_YN = 'Y'
+						AND EP.DEL_YN = 'N'
 					    AND SYSDATE >= E.EVNT_STRT_DT
 					    AND E.EVNT_END_DT >= SYSDATE) EP 
     		ON P.PRDT_ID = EP.PRDT_ID 
@@ -154,6 +155,7 @@
 					  INNER JOIN EVNT E 
 					     ON EP.EVNT_ID = E.EVNT_ID
 					  WHERE E.USE_YN = 'Y'
+						AND EP.DEL_YN = 'N'
 					    AND SYSDATE >= E.EVNT_STRT_DT
 					    AND E.EVNT_END_DT >= SYSDATE) EP 
     		ON P.PRDT_ID = EP.PRDT_ID 
@@ -214,6 +216,7 @@
 					  INNER JOIN EVNT E 
 					     ON EP.EVNT_ID = E.EVNT_ID
 					  WHERE E.USE_YN = 'Y'
+						AND EP.DEL_YN = 'N'
 					    AND SYSDATE >= E.EVNT_STRT_DT
 					    AND E.EVNT_END_DT >= SYSDATE) EP 
     		ON P.PRDT_ID = EP.PRDT_ID 
@@ -269,6 +272,7 @@
 					  INNER JOIN EVNT E 
 					     ON EP.EVNT_ID = E.EVNT_ID
 					  WHERE E.USE_YN = 'Y'
+						AND EP.DEL_YN = 'N'
 					    AND SYSDATE >= E.EVNT_STRT_DT
 					    AND E.EVNT_END_DT >= SYSDATE) EP 
     		ON P.PRDT_ID = EP.PRDT_ID 

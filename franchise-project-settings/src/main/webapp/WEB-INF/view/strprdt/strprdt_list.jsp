@@ -74,6 +74,19 @@ $().ready(function() {
 	})
 	
 	
+	$("#btn-missingCheck").click(function() {
+		$.post("${context}/api/strprdt/listCheck", null, function(response) {
+			if (response.status == "200 OK") {
+				alert(response.message)
+				location.reload(); //새로고침
+			}
+			else {
+				alert(response.errorCode + " / " + response.message);
+			}
+		});
+	});
+	
+	
 	// 검색 기능 : 셀렉트박스 변경시
 	$("select[name=selectFilter]").on("change", function(event) {
 		movePage(0);
@@ -277,6 +290,9 @@ function movePage(pageNo) {
 				<div class="align-right grid-btns">
 					<a href="${context}/prdt/list">메뉴리스트</a>
 				</div>
+				<button id="btn-missingCheck" 
+								class="btn-primary btn-delete" 
+								style="vertical-align: top;">누락체크</button>
 				
 			</div>
 			
