@@ -34,6 +34,11 @@ public class PrdtDAOImpl extends SqlSessionDaoSupport implements PrdtDAO {
 	}
 	
 	@Override
+	public List<PrdtVO> readAllCustomer(PrdtVO prdtVO) {
+		return getSqlSession().selectList("Prdt.readAllCustomer", prdtVO);
+	}
+	
+	@Override
 	public int create(PrdtVO prdtVO) {
 		return getSqlSession().insert("Prdt.create", prdtVO);
 	}

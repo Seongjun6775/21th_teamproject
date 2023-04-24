@@ -97,7 +97,6 @@ $().ready(function() {
 		$("#prdtRgstDt").val(data.prdtrgstdt);
 		$("#mdfyr").val(data.mdfyr+"("+data.mdfyrnm+")");
 		$("#mdfyDt").val(data.mdfydt);
-		$("#mdfyDt").val(data.mdfydt);
 		$("#prdtCntnt").val(data.prdtcntnt);
 
 		
@@ -109,6 +108,7 @@ $().ready(function() {
 // 			$("#validEvnt>a").append("<span> 가격 : <del>"+data.prdtprc+"</del> → " +data.evntprdtchngprc+"</span>")
 // 			$("#validEvnt>a").append("<span> 기간 : "+data.evntstrtdt+" ~ "+data.evntenddt+"</span>")
 // 		}
+		$("#evntId").val(data.evntid);
 		$("#evntTtl").val(data.evntttl);
 		$("#evntPrdtChngPrc").val(data.evntprdtchngprc);
 		var startDt = data.evntstrtdt.substring(0,10).replaceAll("-", ".")
@@ -128,6 +128,25 @@ $().ready(function() {
 		
 		
 	});
+	
+	$("#evntTtl").click(function() {
+		console.log($("#evntTtl"))
+		
+		if ($("#evntTtl") != "") {
+			console.log("!")
+			
+		}
+	});
+	$("#evntaa").click(function() {
+		var evntTtl = $("#evntTtl").val();
+		if (evntTtl != "") {
+			var evntId = $("#evntId").val();
+			window.open("${context}/evnt/detail/"+evntId, "이벤트 - "+evntTtl, "width=600, height=450");
+		}
+	})
+	
+	
+	
 	
 	$("#all-check").change(function(){
 		$(".check-idx").prop("checked",$(this).prop("checked"));
@@ -672,7 +691,10 @@ function movePage(pageNo) {
 					
 					<div>
 						<div>적용중인 이벤트</div>
-						<div>
+						<div id="evntaa">
+							<div class="show-group inline none">
+								<input type="text" id="evntId" disabled style="display: none;" value=""/>
+							</div>
 							<div class="show-group inline">
 								<label for="evntTtl">이벤트명</label>
 								<input type="text" id="evntTtl" disabled value=""/>

@@ -64,29 +64,34 @@ function movePage(pageNo) {
 	</div>
 	
 	<div>
+		<div class="img-box">
+			<c:choose>
+				<c:when test="${empty prdtVO.uuidFlNm}">
+					<img src="${context}/img/default_photo.jpg">
+				</c:when>
+				<c:otherwise>
+					<img src="${context}/prdt/img/${prdtVO.uuidFlNm}/">
+				</c:otherwise>
+			</c:choose>	
+		</div>
 		<c:choose>
-			<c:when test="${not empty prdtList}">
-				<c:forEach items="${prdtList}"
-							var="prdt">
-					<div class="prdt1">
-						<div class="img-box">
-							<c:choose>
-								<c:when test="${empty prdt.uuidFlNm}">
-									<img src="${context}/img/default_photo.jpg">
-								</c:when>
-								<c:otherwise>
-									<img src="${context}/prdt/img/${prdt.uuidFlNm}/">
-								</c:otherwise>
-							</c:choose>	
-						</div>
-						<div class="prdt3">
-							<div class="name">${prdt.prdtNm}</div>
-							<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
-						</div>
-					</div>
-				</c:forEach>
+			<c:when test="${not empty prdtVO.evntVO.evntId}">
+				<div>할인중!!</div>
 			</c:when>
 		</c:choose>
+<%-- 		<div>이벤트명 : <a href="${context}/evnt/detail/${prdtVO.evntVO.evntId}">${prdtVO.evntVO.evntTtl}</a></div> --%>
+		<div>${prdtVO.cmmnCdVO.cdNm}</div>
+		<div>${prdtVO.prdtNm}</div>
+		<c:choose>
+			<c:when test="${empty prdtVO.evntVO.evntId}">
+				<div><fmt:formatNumber>${prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></div>
+			</c:when>
+			<c:otherwise>
+				<div><del><fmt:formatNumber>${prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></del></div>
+				<div><fmt:formatNumber>${prdtVO.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber><span>원</span></div>
+			</c:otherwise>
+		</c:choose>
+		<div>${prdtVO.prdtCntnt}</div>
 	</div>
 	
 	
