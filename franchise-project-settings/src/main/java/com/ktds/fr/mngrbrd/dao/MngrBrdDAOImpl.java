@@ -26,6 +26,11 @@ public class MngrBrdDAOImpl extends SqlSessionDaoSupport implements MngrBrdDAO {
 	}
 	
 	@Override
+	public List<MngrBrdVO> readAllNotice(MngrBrdVO mngrBrdVO) {
+		return getSqlSession().selectList("MngrBrd.readAllNotice", mngrBrdVO);
+	}
+	
+	@Override
 	public List<MngrBrdVO> readAllMngrBrdsNopagination(String mngrBrdTtl) {
 		return getSqlSession().selectList("MngrBrd.readAllMngrBrdsNopagination", mngrBrdTtl);
 	}

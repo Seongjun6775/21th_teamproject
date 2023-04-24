@@ -49,7 +49,10 @@ public class MngrBrdController {
 				mngrBrd.setMngrBrdCntnt(searchKeyword);
 			}
 			List<MngrBrdVO> mngrBrdList = mngrBrdService.readAllMngrBrds(mngrBrd);
+			List<MngrBrdVO> noticeList = mngrBrdService.readAllNotice(mngrBrd);
+			
 			model.addAttribute("mngrBrdList", mngrBrdList);
+			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("mngrBrd", mngrBrd);
 			model.addAttribute("mbrVO", mbrVO);
 			

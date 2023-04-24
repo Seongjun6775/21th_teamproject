@@ -20,6 +20,11 @@ public class MngrBrdServiceImpl implements MngrBrdService {
 	
 		return mngrBrdDAO.readAllMngrBrds(mngrBrdVO);
 	}
+	
+	@Override
+	public List<MngrBrdVO> readAllNotice(MngrBrdVO mngrBrdVO) {
+		return mngrBrdDAO.readAllNotice(mngrBrdVO);
+	}
 
 	@Override
 	public List<MngrBrdVO> readAllMngrBrdsPagination(String mngrBrdTtl) {

@@ -146,9 +146,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:choose>			 		
-								<c:when test="${not empty mngrBrdList}">
-									<c:forEach items="${mngrBrdList}" var="mngrBrd" >
+							<c:choose>
+							<c:when test="${not empty noticeList}">
+									<c:forEach items="${noticeList}" var="mngrBrd" >
 										<tr data-mngrid = "${mngrBrd.mngrId}"
 											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
 											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ffffaa7a' : ''}">
@@ -158,7 +158,7 @@
 													<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
 												</td>
 											</c:if>	
-											<td style="width: 100px;">${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
+											<td style="width: 100px;">No.${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
 											<td style="width: 130px;">
 											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
 											
@@ -172,7 +172,33 @@
 										</tr>
 									</c:forEach>
 								</c:when>
-							
+							</c:choose>
+							<c:choose>			 		
+								<c:when test="${not empty mngrBrdList}">
+									<c:forEach items="${mngrBrdList}" var="mngrBrd" >
+										<tr data-mngrid = "${mngrBrd.mngrId}"
+											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
+											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ffffaa7a' : ''}">
+											
+											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+												<td style="width: 20px;"> 
+													<input type ="checkbox" class="check_idx" value="${mngrBrd.mngrBrdId}">
+												</td>
+											</c:if>	
+											<td style="width: 100px;">No.${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
+											<td style="width: 130px;">
+											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
+											
+											<td>
+												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid">
+													${mngrBrd.mngrBrdTtl}  
+												</a>[${mngrBrd.rplList.size()}] 
+											</td>
+											<td style="width: 180px;">${mngrBrd.mbrVO.mbrNm}</td>
+											<td style="width: 200px;">${mngrBrd.mngrBrdWrtDt}</td>
+										</tr>
+									</c:forEach>
+								</c:when>
 								<c:otherwise>
 									<tr>
 										<td colspan="8" class="no-items">

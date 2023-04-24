@@ -74,6 +74,7 @@
             ON R.MBR_ID = RM.MBR_ID
          WHERE B.DEL_YN ='N'
            AND B.USE_YN ='Y'
+           AND B.NTC_YN ='N'
          <if test= 'mngrBrdTtl != null and mngrBrdTtl != "" '>
            AND  B.MNGR_BRD_TTL LIKE '%' ||  #{mngrBrdTtl} || '%'
          </if>
@@ -85,6 +86,52 @@
          </if> 
          ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC
          <include refid="Common.pageFooter" />
+	</select>
+	
+	
+	<!-- 공지만 줏어오기 -->
+	<select id="readAllNotice"
+			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO"
+			resultMap="brdMap">
+		SELECT B.MNGR_BRD_ID
+		     , B.MNGR_BRD_TTL
+		     , B.MNGR_BRD_CNTNT
+		     , B.MNGR_ID
+		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , CASE 
+		     	WHEN ((B.MNGR_BRD_WRT_DT+1) - SYSDATE) > 0  THEN
+		     	  TO_CHAR(B.MNGR_BRD_WRT_DT  ,'YYYY-MM-DD HH24:MI:SS') 
+		        ELSE 
+		          TO_CHAR(B.MNGR_BRD_WRT_DT  ,'YYYY-MM-DD')    	
+		     	END MNGR_BRD_WRT_DT
+		     , B.MDFYR
+		     , B.USE_YN
+		     , B.DEL_YN
+		     , B.NTC_YN
+		     , M.MBR_ID
+		     , M.MBR_NM
+		     , R.RPL_ID
+		     , R.RPL_CNTNT R_RPL_CNTNT 
+		     , R.MBR_ID R_MBR_ID
+		     , R.ALTCL_ID
+		     , R.RPL_WRT_DT R_RPL_WRT_DT
+		     , R.MDFY_DT R_MDFY_DT
+		     , R.RPL_PRNT_RPL 
+		     , RM.MBR_NM R_NM
+          FROM FRAN.MNGR_BRD B
+         INNER JOIN MBR M 
+            ON B.MNGR_ID = M.MBR_ID
+          LEFT OUTER JOIN (SELECT *
+    					 	 FROM RPL
+    						WHERE USE_YN = 'Y'
+    					      AND DEL_YN = 'N') R 
+            ON B.MNGR_BRD_ID = R.ALTCL_ID
+          LEFT OUTER JOIN MBR RM
+            ON R.MBR_ID = RM.MBR_ID
+         WHERE B.DEL_YN ='N'
+           AND B.USE_YN ='Y'
+           AND B.NTC_YN = 'Y'
+         ORDER BY B.MNGR_BRD_WRT_DT DESC
 	</select>
 	
 	
