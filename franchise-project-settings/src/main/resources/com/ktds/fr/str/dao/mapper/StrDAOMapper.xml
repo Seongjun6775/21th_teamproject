@@ -250,5 +250,30 @@
 			 WHERE STR_ID = #{_parameter}
 			
 	</update>
+	
+	<!-- 회원 기능과 연동 -->
+	<select id="readAllStrNoPagenate"
+			parameterType="com.ktds.fr.str.vo.StrVO"
+			resultType="com.ktds.fr.str.vo.StrVO">
+		SELECT S.STR_ID
+			 , S.STR_NM
+			 , S.STR_ADDR
+			 , S.STR_CALL_NUM
+			 , S.MBR_ID
+			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , S.USE_YN
+			 , S.DEL_YN
+		  FROM STR S
+		 WHERE S.DEL_YN = 'N'
+		   AND S.USE_YN = 'N'
+		<if test='strNm != null and strNm != ""'>
+		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
+		</if>
+	
+		<if test='strAddr != null and strAddr != ""'>
+		   AND S.STR_ADDR LIKE '%' || #{strAddr} || '%'
+		</if>
+	</select>
 
 </mapper>

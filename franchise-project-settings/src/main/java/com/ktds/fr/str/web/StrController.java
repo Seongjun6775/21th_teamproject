@@ -83,4 +83,16 @@ public class StrController {
 		return "str/strdetailmgn";
         
 	}
+	
+	/**
+	 * 회원 기능과 연동
+	 */
+	@GetMapping("/str/search")
+	public String viewStrSearchPage(StrVO strVO, Model model) {
+		model.addAttribute("strNm", strVO.getStrNm());
+		model.addAttribute("strAddr", strVO.getStrAddr());
+		List<StrVO> strList = strService.readAllStrNoPagenate(strVO);
+		model.addAttribute("strList",strList);
+		return "mbr/str_search";
+	}
 }
