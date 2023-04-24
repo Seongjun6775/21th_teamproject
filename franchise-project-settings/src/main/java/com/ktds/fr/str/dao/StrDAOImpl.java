@@ -70,5 +70,13 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 	public int readBlockStrByMan(String strId) {
 		return getSqlSession().selectOne("Str.readBlockStrByMan", strId);
 	}
+	
+	/**
+	 * 회원 기능과 연동
+	 */
+	@Override
+	public List<StrVO> readAllStrNoPagenate(StrVO strVO) {
+		return getSqlSession().selectList("Str.readAllStrNoPagenate", strVO);
+	}
 
 }

@@ -28,4 +28,9 @@ public List<StrVO>readAllStrMaster(StrVO strVO);
 	
 	public boolean deleteOneStrByStrId(String strId);
 	
+	/**
+	 * 회원기능과 연동
+	 */
+	public List<StrVO>readAllStrNoPagenate(StrVO strVO);
+	
 }
