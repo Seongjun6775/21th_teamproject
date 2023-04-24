@@ -15,6 +15,10 @@ public interface RvDAO {
 	public int createNewRvWithin7days(RvVO rvVO);
 
 	
+	// ▶ 진영님이 만든거
+	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO);
+	
+
 	// 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자
 	public List<RvVO> readAllRvListForTopManager(SearchRvVO searchRvVO);
 	// 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자

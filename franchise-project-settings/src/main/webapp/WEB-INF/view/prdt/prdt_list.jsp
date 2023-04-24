@@ -97,8 +97,26 @@ $().ready(function() {
 		$("#prdtRgstDt").val(data.prdtrgstdt);
 		$("#mdfyr").val(data.mdfyr+"("+data.mdfyrnm+")");
 		$("#mdfyDt").val(data.mdfydt);
-		$("#mdfyDt").val(data.mdfydt);
 		$("#prdtCntnt").val(data.prdtcntnt);
+
+		
+// 		$("#validEvnt>a>span").remove();
+// 		$("#validEvnt>a").removeAttr("href")
+// 		if (data.evntid != "") {
+// 			$("#validEvnt>a").attr("href", "${context}/evnt/detail/"+data.evntid)
+// 			$("#validEvnt>a").append("<span>"+data.evntttl+"</span>")
+// 			$("#validEvnt>a").append("<span> 가격 : <del>"+data.prdtprc+"</del> → " +data.evntprdtchngprc+"</span>")
+// 			$("#validEvnt>a").append("<span> 기간 : "+data.evntstrtdt+" ~ "+data.evntenddt+"</span>")
+// 		}
+		$("#evntId").val(data.evntid);
+		$("#evntTtl").val(data.evntttl);
+		$("#evntPrdtChngPrc").val(data.evntprdtchngprc);
+		var startDt = data.evntstrtdt.substring(0,10).replaceAll("-", ".")
+		var endDt = data.evntenddt.substring(0,10).replaceAll("-", ".")
+		var evntDt = startDt+" ~ "+endDt;
+		$("#evntDt").val(evntDt);
+		
+		
 		
 		$("#useYn").prop("checked", data.useyn == "Y");
 		
@@ -110,6 +128,25 @@ $().ready(function() {
 		
 		
 	});
+	
+	$("#evntTtl").click(function() {
+		console.log($("#evntTtl"))
+		
+		if ($("#evntTtl") != "") {
+			console.log("!")
+			
+		}
+	});
+	$("#evntaa").click(function() {
+		var evntTtl = $("#evntTtl").val();
+		if (evntTtl != "") {
+			var evntId = $("#evntId").val();
+			window.open("${context}/evnt/detail/"+evntId, "이벤트 - "+evntTtl, "width=600, height=450");
+		}
+	})
+	
+	
+	
 	
 	$("#all-check").change(function(){
 		$(".check-idx").prop("checked",$(this).prop("checked"));
@@ -417,7 +454,7 @@ function movePage(pageNo) {
 									onkeyup="chkChar(this)" 
 									value="${prdtVO.prdtNm}">
 							</th>
-							<th>가격(원)</th>
+							<th>가격</th>
 							<th>
 								<select class="selectFilter" name="selectFilter"
 										id="search-keyword-evntYn">
@@ -460,6 +497,9 @@ function movePage(pageNo) {
 										data-prdtrgstr="${prdt.prdtRgstr}" 
 										data-prdtrgstdt="${prdt.prdtRgstDt}" 
 										data-evntid="${prdt.evntVO.evntId}" 
+										data-evntttl="${prdt.evntVO.evntTtl}" 
+										data-evntstrtdt="${prdt.evntVO.evntStrtDt}" 
+										data-evntenddt="${prdt.evntVO.evntEndDt}" 
 										data-evntPrdtChngPrc="${prdt.evntPrdtVO.evntPrdtChngPrc}" 
 										data-mdfyr="${prdt.mdfyr}" 
 										data-mdfydt="${prdt.mdfyDt}"
@@ -648,6 +688,27 @@ function movePage(pageNo) {
 						
 						
 					</form>
+					
+					<div>
+						<div>적용중인 이벤트</div>
+						<div id="evntaa">
+							<div class="show-group inline none">
+								<input type="text" id="evntId" disabled style="display: none;" value=""/>
+							</div>
+							<div class="show-group inline">
+								<label for="evntTtl">이벤트명</label>
+								<input type="text" id="evntTtl" disabled value=""/>
+							</div>
+							<div class="show-group inline">
+								<label for="evntPrdtChngPrc">변경가격</label>
+								<input type="text" id="evntPrdtChngPrc" disabled value=""/>
+							</div>
+							<div class="show-group inline">
+								<label for="evntDt">기간</label>
+								<input type="text" id="evntDt" disabled value=""/>
+							</div>
+						</div>
+					</div>
 					
 				</div>
 				<div class="align-right grid-btns">

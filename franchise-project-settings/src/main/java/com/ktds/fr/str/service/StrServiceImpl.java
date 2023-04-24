@@ -50,15 +50,20 @@ public class StrServiceImpl implements StrService {
 	}
 
 	@Override
-	public boolean readBlockStrNm(StrVO strVO) {
-		return strDAO.readBlockStrNm(strVO) > 0;
+	public boolean readBlockStrNm(String strNm) {
+		return strDAO.readBlockStrNm(strNm) > 0;
 	}
 	@Override
-	public boolean readBlockStrAddr(StrVO strVO) {
-		return strDAO.readBlockStrAddr(strVO) > 0;
+	public boolean readBlockStrAddr(String strAddr) {
+		return strDAO.readBlockStrAddr(strAddr) > 0;
 	}
 	@Override
-	public boolean readBlockStrCallNum(StrVO strVO) {
-		return strDAO.readBlockStrCallNum(strVO) > 0;
+	public boolean readBlockStrCallNum(String strCallNum) {
+		return strDAO.readBlockStrCallNum(strCallNum) > 0;
+	}
+
+	@Override
+	public boolean readBlockStrByMan(String strId) {
+		return strDAO.readBlockStrByMan(strId) > 0;
 	}
 }

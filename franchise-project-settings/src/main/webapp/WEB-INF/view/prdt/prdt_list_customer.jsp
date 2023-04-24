@@ -25,6 +25,14 @@ $().ready(function() {
 	});
 	
 	
+	$(".prdt1").click(function() {
+		var data = $(this).data();
+		location.href="${context}/prdt/list2/"+data.prdtid
+	})
+	
+	
+	
+	
 });
 
 
@@ -68,7 +76,8 @@ function movePage(pageNo) {
 			<c:when test="${not empty prdtList}">
 				<c:forEach items="${prdtList}"
 							var="prdt">
-					<div class="prdt1" id="${prdt.prdtId}">
+					<div class="prdt1" id="${prdt.prdtId}"
+						data-prdtid="${prdt.prdtId}">
 						<div class="img-box">
 							<c:choose>
 								<c:when test="${empty prdt.uuidFlNm}">
@@ -80,7 +89,13 @@ function movePage(pageNo) {
 							</c:choose>	
 						</div>
 						<div class="prdt3">
-							<div class="name">${prdt.prdtNm}</div>
+							<div class="name">${prdt.prdtNm}
+								<c:choose>
+									<c:when test="${not empty prdt.evntVO.evntId}">
+										<span>할인중!!</span>
+									</c:when>
+								</c:choose>
+							</div>
 							<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
 						</div>
 					</div>

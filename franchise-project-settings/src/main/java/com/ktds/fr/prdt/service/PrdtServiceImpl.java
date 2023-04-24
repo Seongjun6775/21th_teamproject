@@ -48,6 +48,11 @@ public class PrdtServiceImpl implements PrdtService {
 	public PrdtVO readOne(String prdtId) {
 		return prdtDAO.readOne(prdtId);
 	}
+	
+	@Override
+	public List<PrdtVO> readAllCustomer(PrdtVO prdtVO) {
+		return prdtDAO.readAllCustomer(prdtVO);
+	}
 
 	@Override
 	public boolean create(PrdtVO prdtVO, MultipartFile uploadFile) {

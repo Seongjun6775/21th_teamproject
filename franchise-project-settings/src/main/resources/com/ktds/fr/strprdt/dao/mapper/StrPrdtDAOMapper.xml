@@ -60,6 +60,11 @@
 		     , SP.MDFY_DT 
 		     , SP.USE_YN 
 		     , SP.DEL_YN 
+		     , EP.EVNT_PRDT_ID 
+			 , EP.EVNT_ID 
+			 , EP.EVNT_PRDT_CHNG_PRC 
+			 , EP.EVNT_STRT_DT 
+			 , EP.EVNT_END_DT 
 		  FROM STR_PRDT SP
 		 INNER JOIN STR S
 		    ON SP.STR_ID = S.STR_ID 
@@ -71,6 +76,19 @@
 		    ON P.PRDT_SRT = C.CD_ID
 		  LEFT OUTER JOIN MBR M
 		    ON SP.MDFYR = M.MBR_ID
+	      LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
+						  , EP.PRDT_ID 
+						  , EP.EVNT_ID
+						  , EP.EVNT_PRDT_CHNG_PRC 
+						  , E.EVNT_STRT_DT 
+						  , E.EVNT_END_DT 
+					   FROM EVNT_PRDT EP
+					  INNER JOIN EVNT E 
+					     ON EP.EVNT_ID = E.EVNT_ID
+					  WHERE E.USE_YN = 'Y'
+					    AND SYSDATE >= E.EVNT_STRT_DT
+					    AND E.EVNT_END_DT >= SYSDATE) EP 
+    		ON P.PRDT_ID = EP.PRDT_ID 
 		 WHERE SP.DEL_YN = 'N'
 		   AND P.USE_YN = 'Y'
 		<if test='strId != null and strId != ""'>
@@ -84,6 +102,13 @@
 		</if>
 		<if test='prdtId != null and prdtId != ""'>
 		   AND SP.PRDT_ID = #{prdtId}
+		</if>
+		<if test='evntVO != null and evntVO!= ""'>
+		   AND EP.EVNT_ID IS 
+			<if test='evntVO.evntId == "Y"' >
+		   		NOT
+			</if>
+		   NULL
 		</if>
 		 ORDER BY S.STR_NM ASC 
 		<include refid="StrPrdtCommon.pageFooter"></include>

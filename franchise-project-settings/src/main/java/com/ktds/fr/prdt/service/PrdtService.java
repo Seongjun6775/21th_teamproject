@@ -10,6 +10,7 @@ public interface PrdtService {
 
 	public List<PrdtVO> readAll(PrdtVO prdtVO);
 	public PrdtVO readOne(String prdtId);
+	public List<PrdtVO> readAllCustomer(PrdtVO prdtVO);
 	
 	public boolean create(PrdtVO prdtVO, MultipartFile uploadFile);
 	public boolean update(PrdtVO prdtVO, MultipartFile uploadFile);

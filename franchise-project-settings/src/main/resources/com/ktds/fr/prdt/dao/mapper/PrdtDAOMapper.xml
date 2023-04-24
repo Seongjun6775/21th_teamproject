@@ -63,6 +63,7 @@
 			 , P.DEL_YN
 			 , EP.EVNT_PRDT_ID 
 			 , EP.EVNT_ID 
+			 , EP.EVNT_TTL
 			 , EP.EVNT_PRDT_CHNG_PRC 
 			 , EP.EVNT_STRT_DT 
 			 , EP.EVNT_END_DT 
@@ -75,8 +76,9 @@
 		    ON P.MDFYR = M.MBR_ID
 	      LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
 						  , EP.PRDT_ID 
-						  , EP.EVNT_ID
-						  , EP.EVNT_PRDT_CHNG_PRC 
+						  , EP.EVNT_PRDT_CHNG_PRC
+						  , E.EVNT_ID
+						  , E.EVNT_TTL
 						  , E.EVNT_STRT_DT 
 						  , E.EVNT_END_DT 
 					   FROM EVNT_PRDT EP
@@ -130,6 +132,7 @@
 			 , P.DEL_YN
 			 , EP.EVNT_PRDT_ID 
 			 , EP.EVNT_ID 
+			 , EP.EVNT_TTL
 			 , EP.EVNT_PRDT_CHNG_PRC 
 			 , EP.EVNT_STRT_DT 
 			 , EP.EVNT_END_DT 
@@ -140,10 +143,11 @@
 		    ON P.PRDT_RGSTR = R.MBR_ID
 	      LEFT JOIN MBR M
 		    ON P.MDFYR = M.MBR_ID
-		  LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
+	      LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
 						  , EP.PRDT_ID 
-						  , EP.EVNT_ID
-						  , EP.EVNT_PRDT_CHNG_PRC 
+						  , EP.EVNT_PRDT_CHNG_PRC
+						  , E.EVNT_ID
+						  , E.EVNT_TTL
 						  , E.EVNT_STRT_DT 
 						  , E.EVNT_END_DT 
 					   FROM EVNT_PRDT EP
@@ -167,26 +171,127 @@
 	</select>
 	
 	<select id="readOne"
-			resultType="com.ktds.fr.prdt.vo.PrdtVO">
-		SELECT PRDT_ID
-			 , PRDT_NM
-			 , PRDT_PRC
-			 , PRDT_CNTNT
-			 , PRDT_SRT
+			resultMap="prdtVOMap">
+		SELECT P.PRDT_ID
+			 , P.PRDT_NM
+			 , P.PRDT_PRC
+			 , P.PRDT_CNTNT
+			 , P.PRDT_SRT
 			 , ORGN_FL_NM
 			 , UUID_FL_NM
 			 , FL_SIZE
 			 , FL_EXT
-			 , PRDT_RGSTR
-			 , PRDT_RGST_DT
-			 , MDFYR
-			 , MDFY_DT
-			 , USE_YN
-			 , DEL_YN
-		  FROM PRDT
-		 WHERE DEL_YN = 'N'
-		   AND USE_YN = 'Y'
-		   AND PRDT_ID = #{_parameter}
+			 , CMMN.CD_NM
+			 , P.PRDT_RGSTR
+			 , R.MBR_NM RGSTR_NM
+			 , P.PRDT_RGST_DT
+			 , P.MDFYR
+			 , M.MBR_NM MDFYR_NM
+			 , P.MDFY_DT
+			 , P.USE_YN
+			 , P.DEL_YN
+			 , EP.EVNT_PRDT_ID 
+			 , EP.EVNT_ID 
+			 , EP.EVNT_TTL
+			 , EP.EVNT_PRDT_CHNG_PRC 
+			 , EP.EVNT_STRT_DT 
+			 , EP.EVNT_END_DT 
+		  FROM PRDT P
+		  LEFT JOIN CMMN_CD CMMN
+		    ON P.PRDT_SRT = CMMN.CD_ID
+		  LEFT JOIN MBR R
+		    ON P.PRDT_RGSTR = R.MBR_ID
+	      LEFT JOIN MBR M
+		    ON P.MDFYR = M.MBR_ID
+	      LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
+						  , EP.PRDT_ID 
+						  , EP.EVNT_PRDT_CHNG_PRC
+						  , E.EVNT_ID
+						  , E.EVNT_TTL
+						  , E.EVNT_STRT_DT 
+						  , E.EVNT_END_DT 
+					   FROM EVNT_PRDT EP
+					  INNER JOIN EVNT E 
+					     ON EP.EVNT_ID = E.EVNT_ID
+					  WHERE E.USE_YN = 'Y'
+					    AND SYSDATE >= E.EVNT_STRT_DT
+					    AND E.EVNT_END_DT >= SYSDATE) EP 
+    		ON P.PRDT_ID = EP.PRDT_ID 
+		 WHERE P.DEL_YN = 'N'
+		   AND P.PRDT_ID = #{_parameter}
+	</select>
+	
+	<select id="readAllCustomer"
+			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
+			resultMap="prdtVOMap">
+		<include refid="PrdtCommon.pageHeader"></include>
+		SELECT P.PRDT_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY P.PRDT_ID DESC) RNUM
+			 , P.PRDT_ID
+			 , P.PRDT_NM
+			 , P.PRDT_PRC
+			 , P.PRDT_CNTNT
+			 , P.PRDT_SRT
+			 , ORGN_FL_NM
+			 , UUID_FL_NM
+			 , FL_SIZE
+			 , FL_EXT
+			 , CMMN.CD_NM
+			 , P.PRDT_RGSTR
+			 , R.MBR_NM RGSTR_NM
+			 , P.PRDT_RGST_DT
+			 , P.MDFYR
+			 , M.MBR_NM MDFYR_NM
+			 , P.MDFY_DT
+			 , P.USE_YN
+			 , P.DEL_YN
+			 , EP.EVNT_PRDT_ID 
+			 , EP.EVNT_ID 
+			 , EP.EVNT_TTL
+			 , EP.EVNT_PRDT_CHNG_PRC 
+			 , EP.EVNT_STRT_DT 
+			 , EP.EVNT_END_DT 
+		  FROM PRDT P
+		  LEFT JOIN CMMN_CD CMMN
+		    ON P.PRDT_SRT = CMMN.CD_ID
+		  LEFT JOIN MBR R
+		    ON P.PRDT_RGSTR = R.MBR_ID
+	      LEFT JOIN MBR M
+		    ON P.MDFYR = M.MBR_ID
+	      LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
+						  , EP.PRDT_ID 
+						  , EP.EVNT_PRDT_CHNG_PRC
+						  , E.EVNT_ID
+						  , E.EVNT_TTL
+						  , E.EVNT_STRT_DT 
+						  , E.EVNT_END_DT 
+					   FROM EVNT_PRDT EP
+					  INNER JOIN EVNT E 
+					     ON EP.EVNT_ID = E.EVNT_ID
+					  WHERE E.USE_YN = 'Y'
+					    AND SYSDATE >= E.EVNT_STRT_DT
+					    AND E.EVNT_END_DT >= SYSDATE) EP 
+    		ON P.PRDT_ID = EP.PRDT_ID 
+		 WHERE P.DEL_YN = 'N'
+		   AND P.USE_YN = 'Y'
+		<if test='prdtSrt != null and prdtSrt != ""'>
+		   AND P.PRDT_SRT = #{prdtSrt} 
+		</if>
+		<if test='prdtNm != null and prdtNm != ""'>
+		   AND P.PRDT_NM LIKE '%' || #{prdtNm} || '%'
+		</if>
+		<if test='useYn != null and useYn != ""'>
+		   AND P.USE_YN LIKE #{useYn}
+		</if>
+		<if test='evntVO != null and evntVO!= ""'>
+		   AND EP.EVNT_ID IS 
+			<if test='evntVO.evntId == "Y"' >
+		   		NOT
+			</if>
+		   NULL
+		</if>
+		ORDER BY P.PRDT_NM ASC
+		<include refid="PrdtCommon.pageFooter"></include>
 	</select>
 	
 	

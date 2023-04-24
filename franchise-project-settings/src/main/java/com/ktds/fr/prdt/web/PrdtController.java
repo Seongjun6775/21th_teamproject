@@ -73,7 +73,7 @@ public class PrdtController {
 		
 		return "prdt/prdt_list_customer";
 	}
-	
+
 	@GetMapping("/prdt/list2/{prdtId}")
 	public String prdtDetail(@PathVariable String prdtId
 			, Model model) {
