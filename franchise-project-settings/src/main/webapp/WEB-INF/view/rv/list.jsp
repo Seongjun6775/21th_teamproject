@@ -145,7 +145,7 @@
 			
 			<div class="pagenate">
 				<ul>
-					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage-1 : 0}" var="lastPage"/>
+					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastGroup : 0}" var="lastGroup"/>
 					
 					<fmt:parseNumber var="nowGroup" value="${Math.floor(gnrVO.pageNo / 10)}" integerOnly = "true"/>
