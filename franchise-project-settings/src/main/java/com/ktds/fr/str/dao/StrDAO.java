@@ -28,4 +28,9 @@ public interface StrDAO {
 	
 	public int deleteOneStrByStrId(String strId);
 	
+	/**
+	 * 회원기능과 연동
+	 */
+	public List<StrVO>readAllStrNoPagenate(StrVO strVO);
+	
 }
