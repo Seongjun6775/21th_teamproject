@@ -39,7 +39,9 @@ public class StrController {
 	        model.addAttribute("ctyList", ctyList);
 	        model.addAttribute("lctList", lctList);
 	        model.addAttribute("StrVO", strVO);
-	        model.addAttribute("MbrVO", mbrVO);
+	        model.addAttribute("StrVO", strVO);
+	        model.addAttribute("CtyCdVO", ctyCdVO);
+	        model.addAttribute("LctCdVO", lctCdVO);
 	        return "str/list";
 	        
 	    } else if (mbrVO.getMbrLvl().equals("001-02")) {
