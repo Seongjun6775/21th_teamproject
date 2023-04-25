@@ -141,8 +141,8 @@
 				<button id="search_btn">검색</button>
 				</div>
 			</div>
-			<div>
-				<table class=".hr_table_grid">
+			<div class="hr_table_grid">
+				<table>
 					<thead>
 						<tr>
 							<!-- <th><input type="checkbox" id="all_check"/></th> -->
@@ -199,7 +199,7 @@
 									    	</c:when>
 									    </c:choose>
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
-										<td><a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
 											
 										</td>
 										<td>${hr.cdNm}</td>
