@@ -92,7 +92,7 @@
 		
 		//'참여매장목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntStr").click(function() {
-			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=800, height=600, scrollbars=yes, resizable=yes"); 
 		       pop.focus();	
 		});
 		
@@ -115,7 +115,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/evntSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 		<div>
 			<table border=1 style="width: 600px;">

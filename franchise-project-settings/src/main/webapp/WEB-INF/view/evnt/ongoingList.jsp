@@ -88,7 +88,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/evntSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<div>
 				<h1>이벤트 리스트 목록 조회</h1>

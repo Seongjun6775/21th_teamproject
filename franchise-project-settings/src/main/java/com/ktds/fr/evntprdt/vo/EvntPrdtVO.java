@@ -1,6 +1,8 @@
-package com.ktds.fr.evntprdt.vo;		
-		
-public class EvntPrdtVO {		
+package com.ktds.fr.evntprdt.vo;
+
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class EvntPrdtVO  extends AbstractVO{		
 		
 	private String evntPrdtId;	
 	private String evntId;	

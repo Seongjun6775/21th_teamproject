@@ -7,6 +7,12 @@
  
 	<insert id="createNewEvnt"
 		parameterType="com.ktds.fr.evnt.vo.EvntVO">
+	<selectKey keyProperty="evntId"
+					order="BEFORE"
+					resultType="string">
+			SELECT 'EV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+	</selectKey>
   INSERT INTO EVNT
 		(EVNT_ID
 		, EVNT_TTL
@@ -20,7 +26,7 @@
 		, USE_YN
 		, DEL_YN)
 		VALUES
-		( 'EV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PK.NEXTVAL, 5, '0')
+		( #{evntId}
 		, #{evntTtl}
 		, #{evntCntnt}
 		, TO_DATE(#{evntStrtDt})
@@ -42,8 +48,8 @@
 		     , EVNT_ID
 		     , EVNT_TTL
 		     , EVNT_CNTNT
-		     , EVNT_STRT_DT
-		     , EVNT_END_DT
+		     , TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') AS EVNT_STRT_DT
+		     , TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') AS EVNT_END_DT
 		     , ORGN_FL_NM
 		     , UUID_FL_NM
 		     , FL_SIZE
@@ -70,8 +76,9 @@
 		 <if test="useYn != null and useYn != 'ALL'">
 		AND EVNT.USE_YN = #{useYn}
 		 </if>		 
-		AND EVNT.DEL_YN = 'N'		
+		AND EVNT.DEL_YN = 'N'
 		<include refid="Common.pageFooter" />
+		ORDER BY RNUM DESC
 	   </select>
 
 

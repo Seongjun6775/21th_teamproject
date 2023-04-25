@@ -21,7 +21,7 @@ public class RestEvntController {
 
 	// 이벤트 생성
 	@PostMapping("/api/evnt/create")
-	public ApiResponseVO createNewEvnt(EvntVO evntVO,  EvntStrVO evntStrVO, MultipartFile uploadFile) throws Exception {
+	public ApiResponseVO createNewEvnt(EvntVO evntVO, MultipartFile uploadFile) throws Exception {
 		
 		// 실행여부 확인
 		System.out.println("/api/evnt/create 호출 확인!!!");
@@ -39,7 +39,7 @@ public class RestEvntController {
 			System.out.println("uploadFile.getContentType() : " + uploadFile.getContentType());
 		}
 
-		boolean isSuccess = evntService.createNewEvnt(evntVO, evntStrVO, uploadFile);
+		boolean isSuccess = evntService.createNewEvnt(evntVO, uploadFile);
 		if (isSuccess) {
 			return new ApiResponseVO(ApiStatus.OK, "이벤트 등록이 정상적으로 수행되었습니다.", "200", "");
 		} else {

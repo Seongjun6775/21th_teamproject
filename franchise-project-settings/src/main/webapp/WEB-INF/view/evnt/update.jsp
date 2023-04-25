@@ -31,8 +31,8 @@ $().ready(function() {
 			if (response.status == "200 OK") {
 				console.log("200임")
 				alert(response.message);
-				
-				location.href = "${context}/evnt/list";
+				var evntId = document.getElementById("evntId").value;
+				location.href = "${context}/evnt/detail/"+evntId;
 				//location.reload(); // 새로고침
 			} else {
 				console.log("안됨")
@@ -69,7 +69,7 @@ $().ready(function() {
 	<div class="main-layout">
 	<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/evntSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 		<form id="form-update" enctype="multipart/form-data">
 			<div>

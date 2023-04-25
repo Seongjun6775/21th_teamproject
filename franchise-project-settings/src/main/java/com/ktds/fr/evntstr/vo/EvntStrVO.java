@@ -1,6 +1,8 @@
 package com.ktds.fr.evntstr.vo;
 
-public class EvntStrVO {
+import com.ktds.fr.common.vo.AbstractVO;
+
+public class EvntStrVO extends AbstractVO{
 
 	private String evntStrId;
 	private String evntId;
@@ -17,6 +19,9 @@ public class EvntStrVO {
 	private String strNm;
 	private String useYn;
 	private String delYn;
+
+	private String mbrId;
+	private String mbrNm;
 
 	public String getEvntStrId() {
 		return evntStrId;
@@ -96,6 +101,22 @@ public class EvntStrVO {
 
 	public void setDelYn(String delYn) {
 		this.delYn = delYn;
+	}
+
+	public String getMbrId() {
+		return mbrId;
+	}
+
+	public void setMbrId(String mbrId) {
+		this.mbrId = mbrId;
+	}
+
+	public String getMbrNm() {
+		return mbrNm;
+	}
+
+	public void setMbrNm(String mbrNm) {
+		this.mbrNm = mbrNm;
 	}
 
 }
