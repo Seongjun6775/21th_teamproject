@@ -1,0 +1,10 @@
+@charset "UTF-8";
+footer {
+	margin-top: 60px;
+}
+
+.hr_detail_cntnt {
+	height: 500px;
+	weight: 750px;
+	margin: 10px;
+}

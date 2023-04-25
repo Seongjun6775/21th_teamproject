@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.cmmncd.service.CmmnCdService;
@@ -35,15 +36,33 @@ public class MbrController {
 	}
 	
 	@GetMapping("/mbr/list")
-	public String viewMbrListPage(Model model, MbrVO mbrVO) {
+	public String viewMbrListPage(@SessionAttribute("__MBR__")MbrVO session, Model model, MbrVO mbrVO) {
+		if(!session.getMbrLvl().equals("001-01")) {
+			//TODO 에러 페이지경로 따로 설정해주기 PRDT말고 공용으로
+			return "prdt/session_error";
+		}
 		List<MbrVO> mbrList = mbrService.readAllMbr(mbrVO);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("001");
 		model.addAttribute("mbrList", mbrList);
 		model.addAttribute("srtList", srtList);
-		log.info(mbrVO.getDelYn());
 		model.addAttribute("MbrVO", mbrVO);
 		
 		return "mbr/mbr_list";
+	}
+	@GetMapping("/mbr/admin/list")
+	public String viewAdminMbrListPage(@SessionAttribute("__MBR__")MbrVO session,
+									   Model model,
+									   MbrVO mbrVO) {
+		if(!session.getMbrLvl().equals("001-01")) {
+			//TODO 에러 페이지경로 따로 설정해주기 PRDT말고 공용으로
+			return "prdt/session_error";
+		}
+		List<MbrVO> mbrList = mbrService.readAllAdminMbr(mbrVO);
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("001admin");
+		model.addAttribute("mbrList", mbrList);
+		model.addAttribute("srtList", srtList);
+		model.addAttribute("MbrVO", mbrVO);
+		return "mbr/mbr_adminlist";
 	}
 	@GetMapping("/mbr/pwdCheck")
 	public String viewPwdCheckPage() {

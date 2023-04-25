@@ -2,6 +2,8 @@ package com.ktds.fr.rv.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +32,25 @@ public class RvController {
 	@GetMapping("/rv/list")
 	public String viewRvListPage(Model model, RvVO rvVO, SearchRvVO searchRvVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		
+		
+		// ▶ 진영님이 만든거
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			System.out.println(mbrVO.getStrId());
+			System.out.println("중하로 돌았음");
+			searchRvVO.setMbrVO(mbrVO);
+			List<RvVO> rvList = rvService.readAllRvListForManager(searchRvVO);
+			System.out.println(rvList.size());
+			for (RvVO rvVO2 : rvList) {
+				System.out.println(rvVO2.getRvId());
+			}
+			model.addAttribute("rvList", rvList);
+			model.addAttribute("rvVO", rvVO);
+			return "rv/list";
+		}
+		// ▶ 여기까지
+		
+				
 		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO, searchRvVO);
 		
 		model.addAttribute("rvList", rvList);
@@ -41,7 +62,24 @@ public class RvController {
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
 	@GetMapping("/rv/detail/{rvId}")
 	public String viewRvDetailPage(Model model, @PathVariable String rvId
-			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+			, @SessionAttribute("__MBR__") MbrVO mbrVO
+			,HttpServletRequest request) {
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			RvVO rvVO = new RvVO();
+			rvVO.setRvId(rvId);
+			RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
+			
+			if (rvDetail != null && !rvDetail.getStrVO().getStrId().equals(mbrVO.getStrId())) {
+				return "rv/error_page";
+				
+			} else if (rvDetail == null) {
+				return "rv/error_page";
+			}
+							
+			model.addAttribute("rvDetail", rvDetail);
+			return "rv/detail";
+		}
+		
 		RvVO rvVO = new RvVO();
 		rvVO.setRvId(rvId);
 		RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
