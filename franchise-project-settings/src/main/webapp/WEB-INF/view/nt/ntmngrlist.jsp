@@ -15,6 +15,32 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			
+			url = "${context}/nt/ntcreate/" + mbrId
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url) {
+				location.href = url;
+			}
+		});
+		
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
@@ -47,6 +73,10 @@
 			
 			$.post("${context}/api/nt/delete", form.serialize(), function(response) {});
 			location.reload();
+		});
+		
+		$("#crt_btn").click(function() {
+			location.href = "${context}/nt/ntcreate";
 		});
 		
 		$(".nt_table_grid > table > tbody > tr").click(function() {
@@ -137,8 +167,8 @@
 									    data-ntrddt="${nt.ntRdDt}">
 										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
 										<td><a href="${context}/nt/ntmngrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
-										<td>${nt.sndrId}</td>
-										<td>${nt.rcvrId}</td>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.sndrId}</a></td>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.rcvrId}</a></td>
 										<td>${nt.ntSndrDt}</td>
 										<td>${nt.ntRdDt ne null ? '수신' : '미수신'}</td>
 									</tr>
@@ -174,7 +204,6 @@
 							<li><a class="${pageNo eq ntVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 						</c:forEach>
 						
-						${lastGroup} /// ${nowGroup} 
 						<c:if test="${lastGroup > nowGroup}">
 							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
 							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
@@ -182,6 +211,7 @@
 					</ul>
 				</div>
 				<div>
+					<button id="crt_btn">작성</button>
 					<button id="check_del_btn">일괄삭제</button>
 				</div>
 				<div>
@@ -189,5 +219,17 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>
