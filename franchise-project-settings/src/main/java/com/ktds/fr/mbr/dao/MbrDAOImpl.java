@@ -69,8 +69,8 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	}
 
 	@Override
-	public List<MbrVO> readAllEmployeeAdminMbr() {
-		return getSqlSession().selectList("Mbr.readAllAdminMbr");
+	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO) {
+		return getSqlSession().selectList("Mbr.readAllAdminMbr",mbrVO);
 	}
 
 	@Override
@@ -98,5 +98,13 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	@Override
 	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO) {
 		return getSqlSession().selectList("Mbr.readMbrByMbrEml",mbrVO);
+	}
+	@Override
+	public int updateOneMbrLvlAndStrId(MbrVO mbrVO) {
+		return getSqlSession().update("Mbr.updateOneMbrLvlAndMbrStrId", mbrVO);
+	}
+	@Override
+	public int deleteOneMbrAdminByMbrId(MbrVO mbrVO) {
+		return getSqlSession().update("Mbr.deleteOneMbrAdminByMbrId", mbrVO);
 	}
 }

@@ -22,5 +22,6 @@ public class CmmnCdDAOImpl extends SqlSessionDaoSupport implements CmmnCdDAO {
 	public List<CmmnCdVO> readCategory(String codeId) {
 		return getSqlSession().selectList("CmmnCd.readCategory",codeId);
 	}
+	
 
 }

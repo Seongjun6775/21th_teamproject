@@ -302,7 +302,7 @@ img {
 	margin-top: 10px;
 }
 .content .grid-detail:before {
-	content: "상세정보";
+	/* content: "상세정보"; */
 	font-size: 13pt;
 	font-weight: bold;
 }
@@ -472,4 +472,9 @@ img {
 /*margin*/
 .margin-Bot-10{
 	margin-bottom: 30px;
+}
+/*update*/
+.update-group{
+	display: flex;
+    flex-direction: column;
 }
