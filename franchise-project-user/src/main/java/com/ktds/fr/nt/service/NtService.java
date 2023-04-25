@@ -1,0 +1,29 @@
+package com.ktds.fr.nt.service;
+
+import java.util.List;
+
+import com.ktds.fr.nt.vo.NtVO;
+
+public interface NtService {
+	
+	public boolean createNewNt(NtVO ntVO);
+	
+	public List<NtVO> readAllNt(NtVO ntVO);
+	
+	public boolean updateOneNtByNtId(NtVO ntVO);
+	
+	public boolean deleteOneNtByNtId(String ntId);
+	
+	public boolean deleteNtBySelectedNtId(List<String> ntId);
+	
+	public NtVO readOneNtByNtId(String ntId);
+	
+//	public List<NtVO> readAllFilteredNt(NtVO ntVO);
+	
+	public List<NtVO> readAllMyNt(NtVO ntVO);
+	
+	public boolean updateNtRdDtByNtId(String ntId);
+	
+	public boolean checkOneMbr(String rcvrId);
+
+}

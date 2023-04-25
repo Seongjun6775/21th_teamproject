@@ -4,10 +4,20 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Cty">
 
+	<resultMap id="ctyCdVOMap" 
+				type="com.ktds.fr.ctycd.vo.CtyCdVO"
+				autoMapping="true">
+		<id property="ctyId" column="CTY_ID"/>
+		<association property="lctCdVO"
+					  javaType="com.ktds.fr.lctcd.vo.LctCdVO">
+			<id property="lctId" column="LCT_ID"/>
+			<result property="lctNm" column="LCT_NM"/>
+		</association>
+	</resultMap>
 
 	<select id="readCategory"
 			parameterType="com.ktds.fr.ctycd.vo.CtyCdVO"
-			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
+			resultMap="ctyCdVOMap">
 		SELECT C.CTY_ID
 			 , C.CTY_NM
 			 , C.LCT_ID
@@ -15,8 +25,10 @@
 		  FROM CTY_CD C
 		  JOIN LCT_CD L
 		  	ON C.LCT_ID = L.LCT_ID
-		 WHERE CTY_ID = NVL(#{ctyId}, '-') 
-		 ORDER BY CTY_ID ASC 
+		 <if test='ctyId != null and ctyId != ""'>
+		 WHERE C.CTY_ID LIKE '%' || #{ctyId} || '-%'
+		</if>
+		 ORDER BY C.CTY_ID ASC 
 	</select>
 
 
