@@ -68,15 +68,12 @@ public class RvServiceImpl implements RvService {
 			return rvDAO.readAllRvListForMemberByRvId(rvVO);
 		}
 	}
-	
-	
-	// ▶ 진영님이 만든거
+	// ▶ 진영님이 만든거: 중간관리자와 하위관리자 목록 조회(2-1) 대체
 	@Override
 	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO) {
 		return rvDAO.readAllRvListForManager(searchRvVO);
 	}
-
-	
+			
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
 	@Override
 	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO) {

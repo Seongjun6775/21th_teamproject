@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+
 	$().ready(function() {
 		$(".enterkey").keyup(function(event) {
 			if(event.keyCode == 13) {
@@ -92,12 +93,25 @@
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">리뷰 > 리뷰목록</div>
 			
+			
 			<div class="container">
 			    <header class="d-flex justify-content-center py-3">
 			      <ul class="nav nav-pills">
 			        <li class="nav-item"><h3>리뷰 목록</h3></li>
 			      </ul>
 			    </header>
+			</div>
+			<div class="search-row-group">
+				<div class="search-group">
+					<select id="search_option" name="searchOption">
+						<option value="rvTtl">제목</option>					
+						<option value="rvCntnt">내용</option>					
+						<option value="${strNm}">매장명</option>					
+						<option value="mbrId">회원ID</option>									
+					</select>
+					<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
+					<button id="search_btn" class="btn-search">검색</button>				
+				</div>
 			</div>
 			<div>총 ${rvList[0].totalCount}건</div>
 			
@@ -186,17 +200,6 @@
 					</c:if>
 				</ul>
 			</div>				
-			<div class="search-row-group">
-				<div class="search-group">
-					<select id="search_option" name="searchOption">
-						<option value="rvTtl">제목</option>					
-						<option value="rvCntnt">내용</option>					
-						<option value="mbrId">회원ID</option>									
-					</select>
-					<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
-					<button id="search_btn" class="btn-search">검색</button>				
-				</div>
-			</div>
 						
 			<jsp:include page="../include/footer.jsp" />
 		</div>
