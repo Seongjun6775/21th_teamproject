@@ -111,7 +111,14 @@ public class StrServiceImpl implements StrService {
 	public List<StrVO> readAll() {
 		return strDAO.readAll();
 	}
-
+	
+	/**
+	 *  손님이 매장 조회할 때 사용 ... 사용유무 Y
+	 */
+	@Override
+	public List<StrVO> readAllUseY(String ctyId) {
+		return strDAO.readAllUseY(ctyId);
+	}
 
 }
 
