@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -18,13 +19,21 @@ public class OdrDtlController {
 	@Autowired
 	public OdrDtlService odrDtlService;
 	
-	@GetMapping("/odrdtl/list")
-	public String viewOdrDtlPage(@SessionAttribute("__MBR__") MbrVO mbrVO, Model model) {
-		
-		List<OdrDtlVO> odrDtlList = odrDtlService.readAllOdrDtlByOdrLstId(mbrVO.getMbrId());
-		model.addAttribute("odrDtlList", odrDtlList);
-		
-		return "odrdtl/detail";
+	@GetMapping("/odrdtl/list/{odrLstId}")
+	public String viewOdrDtlPage(@SessionAttribute("__MBR__") MbrVO mbrVO
+								,@PathVariable String odrLstId, OdrDtlVO odrDtlVO, Model model) {
+		if (mbrVO.getMbrLvl().equals("001-04")) {
+			
+			odrDtlVO.setMbrId(mbrVO.getMbrId());
+			odrDtlVO.setOdrLstId(odrLstId);
+			List<OdrDtlVO> odrDtlList = odrDtlService.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
+			
+			model.addAttribute("odrDtlList", odrDtlList);
+			model.addAttribute("mbrVO", mbrVO);
+			
+			return "odrdtl/odrdtllist";
+		}
+		return "redirect:/index";
 	}
 
 }

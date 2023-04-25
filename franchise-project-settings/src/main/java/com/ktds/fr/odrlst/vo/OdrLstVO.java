@@ -1,6 +1,9 @@
 package com.ktds.fr.odrlst.vo;
 
+import java.util.List;
+
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 
 public class OdrLstVO extends AbstractVO{
 	/**
@@ -39,6 +42,8 @@ public class OdrLstVO extends AbstractVO{
 	 * 삭제 여부
 	 */
 	private String delYn;
+	
+	private List<OdrDtlVO> odrDtlList;
 
 	public String getOdrLstId() {
 		return odrLstId;
@@ -112,4 +117,13 @@ public class OdrLstVO extends AbstractVO{
 		this.delYn = delYn;
 	}
 
+	public List<OdrDtlVO> getOdrDtlList() {
+		return odrDtlList;
+	}
+
+	public void setOdrDtlList(List<OdrDtlVO> odrDtlList) {
+		this.odrDtlList = odrDtlList;
+	}
+	
+	
 }

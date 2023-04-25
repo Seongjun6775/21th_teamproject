@@ -20,8 +20,8 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	}
 	
 	@Override
-	public List<OdrDtlVO> readAllOdrDtlByOdrLstId(String mbrId) {
-		return odrDtlDAO.readAllOdrDtlByOdrLstId(mbrId);
+	public List<OdrDtlVO> readAllOdrDtlByOdrLstIdAndMbrId(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
 	}
 	
 	@Override

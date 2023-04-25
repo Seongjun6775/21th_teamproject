@@ -41,6 +41,13 @@
 			location.href="${context}/hr/hrcreate"
 		});
 		
+		$(".hr_table_grid > table > tbody > tr").click(function() {
+			var data = $(this).data();
+			if (data.hrid != null && (data.hrid) != "") {
+				location.href="${context}/hr/hrmstrdetail/" + data.hrid;
+			}
+		});
+		
 		/* 일괄 다운로드 기능 추가 예정이 사라져서 주석 처리 해 두었습니다.
 		
 		$("#all_check").change(function() {
@@ -135,7 +142,7 @@
 				</div>
 			</div>
 			<div>
-				<table>
+				<table class=".hr_table_grid">
 					<thead>
 						<tr>
 							<!-- <th><input type="checkbox" id="all_check"/></th> -->
