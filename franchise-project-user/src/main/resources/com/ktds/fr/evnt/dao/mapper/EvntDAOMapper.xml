@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="Evnt">
+ 
+ 
+	<insert id="createNewEvnt"
+		parameterType="com.ktds.fr.evnt.vo.EvntVO">
+  INSERT INTO EVNT
+		(EVNT_ID
+		, EVNT_TTL
+		, EVNT_CNTNT
+		, EVNT_STRT_DT
+		, EVNT_END_DT
+		, ORGN_FL_NM
+		, UUID_FL_NM
+		, FL_SIZE
+		, FL_EXT
+		, USE_YN
+		, DEL_YN)
+		VALUES
+		( 'EV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PK.NEXTVAL, 5, '0')
+		, #{evntTtl}
+		, #{evntCntnt}
+		, TO_DATE(#{evntStrtDt})
+		, TO_DATE(#{evntEndDt})
+		, #{orgnFlNm}
+		, #{uuidFlNm}
+		, #{flSize}
+		, #{flExt}
+		, NVL(#{useYn}, 'N')
+		, 'N')
+	</insert>
+		
+	<select id="readAllEvnt"
+		parameterType="com.ktds.fr.evnt.vo.EvntVO"
+		resultType="com.ktds.fr.evnt.vo.EvntVO">
+		<include refid="Common.pageHeader" />
+		SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID ASC) RNUM
+		     , EVNT_ID PK_COL     
+		     , EVNT_ID
+		     , EVNT_TTL
+		     , EVNT_CNTNT
+		     , EVNT_STRT_DT
+		     , EVNT_END_DT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , USE_YN
+		     , DEL_YN
+		 FROM EVNT EVNT
+		 WHERE 1=1
+		 <if test="evntId != null and evntId != ''">
+		AND EVNT.EVNT_ID LIKE '%' || #{evntId} || '%'
+		 </if>
+		 <if test="evntTtl != null and evntTtl != ''">
+		AND EVNT.EVNT_TTL LIKE '%' || #{evntTtl} || '%'
+		 </if>
+		 <if test="evntCntnt != null and evntCntnt != ''">
+		AND EVNT.EVNT_CNTNT LIKE '%' || #{evntCntnt} || '%'
+		 </if>
+		 <if test="evntStrtDt != null and evntStrtDt != ''">
+		AND TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') = #{evntStrtDt}
+		 </if>
+		 <if test="evntEndDt != null and evntEndDt != ''">
+		AND TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') = #{evntEndDt}
+		 </if>
+		 <if test="useYn != null and useYn != 'ALL'">
+		AND EVNT.USE_YN = #{useYn}
+		 </if>		 
+		AND EVNT.DEL_YN = 'N'		
+		<include refid="Common.pageFooter" />
+	   </select>
+
+
+	<select id="readAllOngoingEvnt"
+		parameterType="com.ktds.fr.evnt.vo.EvntVO"
+		resultType="com.ktds.fr.evnt.vo.EvntVO">
+		<include refid="Common.pageHeader" />
+	    SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		     , EVNT_ID PK_COL     
+		     , EVNT_ID
+		     , EVNT_TTL
+		     , EVNT_CNTNT
+		     , EVNT_STRT_DT
+		     , EVNT_END_DT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , USE_YN
+		     , DEL_YN
+		 FROM EVNT EVNT
+		 WHERE 1=1
+           AND EVNT_STRT_DT <![CDATA[<=]]> SYSDATE 
+           AND EVNT_END_DT >= SYSDATE
+           AND EVNT.USE_YN = 'Y'
+           AND EVNT.DEL_YN = 'N'		
+		<include refid="Common.pageFooter" />
+	   </select>
+	   
+	   
+	  <select id="readAllPastEvnt"
+		parameterType="com.ktds.fr.evnt.vo.EvntVO"
+		resultType="com.ktds.fr.evnt.vo.EvntVO">
+		<include refid="Common.pageHeader" />		
+SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		     , EVNT_ID PK_COL     
+		     , EVNT_ID
+		     , EVNT_TTL
+		     , EVNT_CNTNT
+		     , EVNT_STRT_DT
+		     , EVNT_END_DT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , USE_YN
+		     , DEL_YN
+		 FROM EVNT EVNT
+		 WHERE 1=1
+           AND EVNT_END_DT <![CDATA[<]]> SYSDATE
+           AND EVNT.USE_YN = 'Y'
+           AND EVNT.DEL_YN = 'N'			
+		<include refid="Common.pageFooter" />
+	   </select>
+	   
+	   
+	    <select id="readAllPlanEvnt"
+		parameterType="com.ktds.fr.evnt.vo.EvntVO"
+		resultType="com.ktds.fr.evnt.vo.EvntVO">
+		<include refid="Common.pageHeader" />
+		
+SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		     , EVNT_ID PK_COL     
+		     , EVNT_ID
+		     , EVNT_TTL
+		     , EVNT_CNTNT
+		     , EVNT_STRT_DT
+		     , EVNT_END_DT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , USE_YN
+		     , DEL_YN
+		 FROM EVNT EVNT
+	     WHERE 1=1
+           AND EVNT_STRT_DT > SYSDATE
+           AND EVNT.USE_YN = 'Y'
+           AND EVNT.DEL_YN = 'N'			
+		<include refid="Common.pageFooter" />
+	   </select>
+	   
+	   
+	<select id="readOneEvnt"
+	       parameterType="string"
+	       resultType="com.ktds.fr.evnt.vo.EvntVO">
+     	SELECT EVNT_ID
+		     , EVNT_TTL
+		     , EVNT_CNTNT
+		     , TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') EVNT_STRT_DT
+		     , TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') EVNT_END_DT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		     , USE_YN
+		     , DEL_YN
+		  FROM EVNT EVNT
+		 WHERE EVNT_ID=#{_parameter}    
+	</select>
+		
+
+	<update id="updateEvnt"
+		    parameterType="com.ktds.fr.evnt.vo.EvntVO">
+	  UPDATE EVNT
+         SET EVNT_TTL=#{evntTtl}
+           , EVNT_CNTNT=#{evntCntnt}
+           , EVNT_STRT_DT=TO_DATE(#{evntStrtDt})
+           , EVNT_END_DT=TO_DATE(#{evntEndDt})
+           <if test="orgnFlNm != null and orgnFlNm != ''">
+           , ORGN_FL_NM=#{orgnFlNm}
+           </if>
+           <if test="uuidFlNm != null and uuidFlNm != ''">
+           , UUID_FL_NM=#{uuidFlNm}
+           </if>
+           <if test="flSize != null and flSize != ''">
+           , FL_SIZE=#{flSize}
+           </if>
+           <if test="flExt != null and flExt != ''">
+           , FL_EXT=#{flExt}
+           </if>
+           , USE_YN=NVL(#{useYn}, 'N')
+       WHERE EVNT_ID=#{evntId}
+	</update>
+	
+	
+	<update id="updateDeleteEvnt"
+			parameterType="string">
+ 	  UPDATE EVNT
+         SET DEL_YN='Y'
+       WHERE EVNT_ID=#{_parameter}
+       </update>
+              
+       
+</mapper>

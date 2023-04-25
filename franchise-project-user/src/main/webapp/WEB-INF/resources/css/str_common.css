@@ -1,0 +1,35 @@
+@charset "UTF-8";
+table{
+	border: solid 1px #333;
+	
+}
+table th, td {
+	border: solid 1px #333;
+}
+ul{
+	border: solid 1px #333;
+}
+.grid{
+	border: solid 1px #333;
+}
+label {
+	border: solid 1px #333;
+}
+form #strdetailmgn_form{
+	border: solid 1px #333;
+}
+form #strdetailmst_form{
+	border: solid 1px #333;
+}
+div.path{
+	border: solid 1px #333;
+}
+div.search_group{
+	border: solid 1px #333;
+}
+div.grid-count.align-right{
+	border: solid 1px #333;
+}
+div.align-right{
+	border: solid 1px #333;
+}
