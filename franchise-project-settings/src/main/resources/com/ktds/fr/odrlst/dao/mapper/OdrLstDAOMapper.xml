@@ -4,6 +4,29 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OdrLst">
 	
+	<resultMap id="odrLstMap"
+				type="com.ktds.fr.odrlst.vo.OdrLstVO"
+				autoMapping="true">
+		<id property="odrLstId" column="ODR_LST_ID" />
+		<collection property="odrDtlList"
+		             ofType="com.ktds.fr.odrdtl.vo.OdrDtlVO" >
+			<id property="odrDtlId" column="ODR_DTL_ID" />
+			<association property="prdtVO"
+			              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
+				<id property="prdtId" column="PRDT_ID" />
+				<result property="prdtNm" column="PRDT_NM" />
+				<result property="prdtPrc" column="PRDT_PRC" />
+			</association>
+			<association property="strVO"
+			              javaType="com.ktds.fr.str.vo.StrVO" >
+				<id property="strId" column="STR_ID" />
+				<result property="strNm" column="STR_NM" />
+				<result property="strCallNum" column="STR_CALL_NUM" />
+			</association>
+		</collection>
+	</resultMap>
+	
+	
 	
 	<insert id="createNewOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
@@ -40,9 +63,9 @@
 		     , ODR_LST_ID
 		     , MBR_ID
 		     , ODR_LST_ODR_PRCS
-		     , ODR_LST_RGST_DT
+		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
 		     , ODR_LST_RGSTR
-		     , MDFY_DT
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 		     , MDFYR
 		     , USE_YN
 		     , DEL_YN
@@ -50,6 +73,9 @@
 		  FROM ODR_LST
 		<include refid="Common.pageFooter" />
 	</select>
+	
+	
+
 	
 	<select id="readAllMyOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
@@ -60,12 +86,10 @@
 		     , ODR_LST_ID
 		     , MBR_ID
 		     , ODR_LST_ODR_PRCS
-		     , ODR_LST_RGST_DT
+		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
 		     , ODR_LST_RGSTR
-		     , MDFY_DT
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 		     , MDFYR
-		     , USE_YN
-		     , DEL_YN
 		     , STR_ID
 		  FROM ODR_LST
 		 WHERE MBR_ID = #{mbrId}
@@ -78,9 +102,9 @@
 		SELECT ODR_LST_ID
 		     , MBR_ID
 		     , ODR_LST_ODR_PRCS
-		     , ODR_LST_RGST_DT
+		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
 		     , ODR_LST_RGSTR
-		     , MDFY_DT
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 		     , MDFYR
 		     , USE_YN
 		     , DEL_YN

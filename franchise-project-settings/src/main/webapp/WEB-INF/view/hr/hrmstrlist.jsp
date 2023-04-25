@@ -14,8 +14,38 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF" 
+			}).show();
+			
+			url = "${context}/nt/ntcreate/" + mbrId
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url) {
+				location.href = url;
+			}
+		});
+		
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
 		$(".create_btn").click(function() {
 			location.href="${context}/hr/hrcreate"
+		});
+		
+		$(".hr_table_grid > table > tbody > tr").click(function() {
+			var data = $(this).data();
+			if (data.hrid != null && (data.hrid) != "") {
+				location.href="${context}/hr/hrmstrdetail/" + data.hrid;
+			}
 		});
 		
 		/* 일괄 다운로드 기능 추가 예정이 사라져서 주석 처리 해 두었습니다.
@@ -84,6 +114,7 @@
 		
 		location.href = "${context}/hr/hrmstrlist?" + queryString;
 	}
+	
 </script>
 </head>
 <body>
@@ -96,13 +127,25 @@
 			<div>
 				<div>총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
 				<!-- <button id="check_download_btn">전체 다운로드</button> -->
+				<div>
+					<label for="startDt">검색 시작일</label>
+					<input type="date" id="startDt" name="startDt" value="${hrVO.startDt}" />
+					<label for="endDt">검색 종료일</label>
+					<input type="date" id="endDt" name="endDt" value="${hrVO.endDt}" />
+					<select id="search_idx">
+						<option value="">검색 조건</option>
+						<option value="hrTtl" ${searchIdx eq "hrTtl" ? 'selected' : '' }>제목</option>
+						<option value="mbrId" ${searchIdx eq "mbrId" ? 'selected' : '' }>지원자</option>
+					</select>
+				<input type="text" id="search-keyword" value="${keyword}"/>
+				<button id="search_btn">검색</button>
+				</div>
 			</div>
 			<div>
-				<table>
+				<table class=".hr_table_grid">
 					<thead>
 						<tr>
 							<!-- <th><input type="checkbox" id="all_check"/></th> -->
-							<th>채용 번호</th>
 							<th>지원자 ID</th>
 							<th>
 								<select id="hrLvl">
@@ -156,8 +199,9 @@
 									    	</c:when>
 									    </c:choose>
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
-										<td>${hr.hrId}</td>
-										<td>${hr.mbrId}</td>
+										<td><a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
+											
+										</td>
 										<td>${hr.cdNm}</td>
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
@@ -168,7 +212,7 @@
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="8">등록된 지원서가 없습니다.</td>
+								<td colspan="7">등록된 지원서가 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
@@ -194,7 +238,7 @@
 					</c:if>
 				
 					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo-1}" step="1" var="pageNo">
+					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
 						<li><a class="${pageNo eq hrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 					</c:forEach>
 					
@@ -206,21 +250,21 @@
 			</div>
 			<div>
 				<button class="create_btn">작성</button>
-				<div>
-					<label for="startDt">검색 시작일</label>
-					<input type="date" id="startDt" name="startDt" value="${hrVO.startDt}" />
-					<label for="endDt">검색 종료일</label>
-					<input type="date" id="endDt" name="endDt" value="${hrVO.endDt}" />
-				</div>
-				<select id="search_idx">
-					<option value="">검색 조건</option>
-					<option value="hrTtl" ${searchIdx eq "hrTtl" ? 'selected' : '' }>제목</option>
-					<option value="mbrId" ${searchIdx eq "mbrId" ? 'selected' : '' }>지원자</option>
-				</select>
-				<input type="text" id="search-keyword" value="${keyword}"/>
-				<button id="search_btn">검색</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
+		</div>
+	</div>
+	
+	
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			</div>
 		</div>
 	</div>
 </body>

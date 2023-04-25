@@ -1,5 +1,7 @@
 package com.ktds.fr.odrdtl.service;
 
+import java.util.List;
+
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 
 public interface OdrDtlService {
@@ -10,6 +12,13 @@ public interface OdrDtlService {
 	 * @return 작성한 건수
 	 */
 	public boolean createNewOdrDtl(OdrDtlVO odrDtlVO);
+	
+	/**
+	 * VO 내의 주문서 ID를 기준으로 주문서 내의 모든 상품 정보를 읽어옵니다.
+	 * @param odrDtlVO 주문서 ID + pagenation 구현용 VO
+	 * @return 주문서 내의 모든 상품 정보 목록
+	 */
+	public List<OdrDtlVO> readAllOdrDtlByOdrLstIdAndMbrId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문에 대해 상세 조회합니다.

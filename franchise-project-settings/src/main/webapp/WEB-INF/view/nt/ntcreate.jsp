@@ -68,7 +68,7 @@
 					</div>
 					<div>
 						<label for="rcvrId">수신인</label>
-						<input type="text" id="rcvrId" name="rcvrId" />
+						<input type="text" id="rcvrId" name="rcvrId" value="${rcvrId}"/>
 					</div>
 					<div>
 						<label for="ntTtl">쪽지 제목</label>

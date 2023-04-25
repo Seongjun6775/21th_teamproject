@@ -49,5 +49,4 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	}
 	
 	
-	
 }

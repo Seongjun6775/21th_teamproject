@@ -17,6 +17,13 @@
 			location.href="${context}/hr/hrcreate"
 		});
 		
+		$(".hr_table_grid > table > tbody > tr").click(function() {
+			var data = $(this).data();
+			if (data.hrid != null && (data.hrid) != "") {
+				location.href="${context}/hr/hrdetail/" + data.hrid;
+			}
+		});
+		
 	});
 </script>
 </head>
@@ -40,43 +47,44 @@
 			<div>
 				<div>총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
 			</div>
-			
-			<table class="table">
-			  <thead>
-			    <tr>
-			      <th>채용 번호</th>
-				  <th>작성자 ID</th>
-				  <th>제목</th>
-				  <th>등록일</th>
-				  <th>채용 상태</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <c:choose>
-					<c:when test="${not empty myHrList}">
-						<c:forEach items="${myHrList}" var="hr">
-							<tr data-hrid="${hr.hrId}"
-							    data-mbrid="${hr.mbrId}"
-							    data-hrttl="${hr.hrTtl}"
-							    data-hrrgstdt="${hr.hrRgstDt}"
-							    data-hrapryn="${hr.hrAprYn}"
-							    data-hrstat="${hr.hrStat}"
-							    data-delyn="${hr.delYn}"
-							    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
-								<td>${hr.hrId}</td>
-								<td>${hr.mbrId}</td>
-								<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
-								<td>${hr.hrRgstDt}</td>
-								<td>${hr.hrStat}</td>
-							</tr>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<td colspan="5">등록된 지원서가 없습니다.</td>
-					</c:otherwise>
-				</c:choose>
-			  </tbody>
-			</table>
+			<div class="hr_table_grid">
+				<table class="table">
+				  <thead>
+				    <tr>
+				      <th>채용 번호</th>
+					  <th>작성자 ID</th>
+					  <th>제목</th>
+					  <th>등록일</th>
+					  <th>채용 상태</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <c:choose>
+						<c:when test="${not empty myHrList}">
+							<c:forEach items="${myHrList}" var="hr">
+								<tr data-hrid="${hr.hrId}"
+								    data-mbrid="${hr.mbrId}"
+								    data-hrttl="${hr.hrTtl}"
+								    data-hrrgstdt="${hr.hrRgstDt}"
+								    data-hrapryn="${hr.hrAprYn}"
+								    data-hrstat="${hr.hrStat}"
+								    data-delyn="${hr.delYn}"
+								    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
+									<td>${hr.hrId}</td>
+									<td>${hr.mbrId}</td>
+									<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
+									<td>${hr.hrRgstDt}</td>
+									<td>${hr.hrStat}</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td colspan="5">등록된 지원서가 없습니다.</td>
+						</c:otherwise>
+					</c:choose>
+				  </tbody>
+				</table>
+			</div>
 			<!-- 
 			<div>
 				<table>
