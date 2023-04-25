@@ -3,7 +3,19 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
+$().ready(function() {
+	
+	$(".nav-item").mouseenter(function() {
+		$(this).addClass("on");
+		$(this).find(".sub-item").addClass("on");
+	}).mouseleave(function() {
+		$(this).removeClass("on");
+		$(this).find(".sub-item").removeClass("on");
+	});
+	
+}); 
 </script>
 <div class="header bg-black">
 	<ul class="nav">

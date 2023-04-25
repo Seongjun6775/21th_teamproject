@@ -32,7 +32,10 @@ body{
 	margin: 0px;
 	color: #eee;
 	text-decoration: none;
+	position: relative;
 }
+
+
 .main-layout > .header > .nav > .active{
 	font-weight: bold;
 	color: #ddd;
