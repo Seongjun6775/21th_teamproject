@@ -43,4 +43,11 @@ public class EvntStrDAOImpl extends SqlSessionDaoSupport implements EvntStrDAO {
 		return getSqlSession().update("EvntStr.deleteEvntStrListByEvntId", evntStrIdList );
 	}
 
+	@Override
+	public int insertAllEvntStr(EvntStrVO evntStrVO) {
+		return getSqlSession().insert("EvntStr.insertAllEvntStr", evntStrVO);
+	}
+
+
+
 }

@@ -44,6 +44,24 @@
 	   AND EVNT.STR_ID = #{strId}
 	   AND EVNT.DEL_YN = 'N'
 	</select>
+	
+	
+	
+	<insert id="insertAllEvntStr"
+	parameterType="com.ktds.fr.evntstr.vo.EvntStrVO">
+ 
+      INSERT INTO EVNT_STR
+     SELECT 'ES-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_STR_PK.NEXTVAL, 5, '0')
+	      , #{evntId}
+          , #{strId}
+          , NVL(#{useYn},'Y')
+	      , 'N'
+	   FROM STR 
+      WHERE 1=1
+	    AND USE_YN = 'Y'
+	    AND DEL_YN = 'N'		
+	    
+	</insert>
 		
 	<insert id="createEvntStr"
 	   parameterType="com.ktds.fr.evntstr.vo.EvntStrVO">

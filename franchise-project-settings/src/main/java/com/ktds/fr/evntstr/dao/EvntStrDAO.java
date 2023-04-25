@@ -19,5 +19,8 @@ public interface EvntStrDAO {
 	
 	// 참여매장 해제기능
 	public int deleteEvntStrListByEvntId(List<String> evntStrIdList);
+	
+	//이벤트 생성 시 모든 매장 자동 이벤트참여되도록
+	public int insertAllEvntStr(EvntStrVO evntStrVO);
 
 }

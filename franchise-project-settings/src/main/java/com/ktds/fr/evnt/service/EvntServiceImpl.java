@@ -16,6 +16,8 @@ import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.evnt.dao.EvntDAO;
 import com.ktds.fr.evnt.vo.EvntVO;
+import com.ktds.fr.evntstr.dao.EvntStrDAO;
+import com.ktds.fr.evntstr.vo.EvntStrVO;
 import com.ktds.fr.prdt.service.PrdtServiceImpl;
 
 @Service
@@ -26,13 +28,16 @@ public class EvntServiceImpl implements EvntService {
 	@Autowired
 	private EvntDAO evntDAO;
 
+	@Autowired
+	private EvntStrDAO evntStrDAO;
+	
 	@Value("${upload.evnt.path:/franchise-prj/files/evnt/}")
 
 	private String profilePath;
 
 	// 1. 이벤트 등록 ▶▶상위관리자
 	@Override
-	public boolean createNewEvnt(EvntVO evntVO, MultipartFile uploadFile) {
+	public boolean createNewEvnt(EvntVO evntVO, EvntStrVO evntStrVO, MultipartFile uploadFile) {
 
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String fileExt = uploadFile.getContentType();
@@ -60,7 +65,12 @@ public class EvntServiceImpl implements EvntService {
 			evntVO.setFlExt(fileExt);
 		}
 
-		return evntDAO.createNewEvnt(evntVO) > 0;
+		boolean createResult = evntDAO.createNewEvnt(evntVO) > 0;
+		evntStrDAO.insertAllEvntStr(evntStrVO);
+		
+		return  createResult;
+		
+		
 	}
 
 	// 2. 이벤트 전체목록 조회 ▶▶상위관리자
@@ -160,6 +170,7 @@ public class EvntServiceImpl implements EvntService {
 	public boolean updateDeleteEvnt(String evntId) {
 		return evntDAO.updateDeleteEvnt(evntId) > 0;
 	}
+	
 
 	// 8. 이용자용 페이지
 	@Override

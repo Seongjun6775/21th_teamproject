@@ -15,6 +15,7 @@ public class EvntStrServiceImpl implements EvntStrService {
 	@Autowired
 	private EvntStrDAO evntStrDAO;
 	
+	
 	@Override
 	public List<EvntStrVO> readAllEvntStr(EvntStrVO evntStrVO) {
 		return evntStrDAO.readAllEvntStr(evntStrVO);
@@ -36,5 +37,10 @@ public class EvntStrServiceImpl implements EvntStrService {
 			return evntStrDAO.deleteEvntStrListByEvntId(evntPrdtIdList) > 0;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean insertAllEvntStr(EvntStrVO evntStrVO) {
+		return evntStrDAO.insertAllEvntStr(evntStrVO) > 0;
 	}
 }
