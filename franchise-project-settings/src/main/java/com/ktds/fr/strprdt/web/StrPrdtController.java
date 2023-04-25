@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -114,5 +115,22 @@ public class StrPrdtController {
 		
 		return "strprdt/str_select";
 	}
+	
+	/**
+	 * 주문용 매장상세
+	 */
+	@GetMapping("/strprdt/{strId}")
+	public String viewStrOne(@PathVariable String strId, Model model) {
+		List<StrPrdtVO> strPrdtList = strPrdtService.readAllCustomerByStr(strId);
+		StrVO strVO = strService.readOneStrByMaster(strId);
+		
+		
+		model.addAttribute("strPrdtList", strPrdtList);
+		model.addAttribute("strVO", strVO);
+		
+		return "str/str_select_menu";
+	}
+	
+	
 
 }

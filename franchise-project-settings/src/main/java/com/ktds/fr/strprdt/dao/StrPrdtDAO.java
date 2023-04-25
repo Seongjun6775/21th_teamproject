@@ -11,6 +11,9 @@ public interface StrPrdtDAO {
 	public List<StrPrdtVO> readAll(StrPrdtVO strPrdtVO);
 	public List<StrPrdtVO> readAllNOPagenation(StrPrdtVO strPrdtVO);
 	
+	// 매장의 물품 조회 - 손님용
+	public List<StrPrdtVO> readAllCustomerByStr(String strId);
+	
 	// 매장별 누락물품 조회
 	public List<PrdtVO> missingList(String strId);
 	

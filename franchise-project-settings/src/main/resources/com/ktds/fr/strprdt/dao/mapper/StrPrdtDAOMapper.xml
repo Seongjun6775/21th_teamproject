@@ -161,6 +161,73 @@
 		 ORDER BY S.STR_NM ASC, P.PRDT_NM
 	</select>
 	
+	
+	<select id="readAllCustomerByStr"
+			parameterType="com.ktds.fr.strprdt.vo.StrPrdtVO"
+			resultMap="strPrdtVOMap">
+		<include refid="StrPrdtCommon.pageHeader"></include>
+		SELECT *
+			 , ROWNUM RNUM
+		  FROM (
+		SELECT SP.STR_PRDT_ID PK_COL
+			 , SP.STR_ID
+			 , SP.PRDT_ID
+			 , SP.USE_YN
+			 , P.PRDT_ID
+			 , P.PRDT_NM
+			 , P.PRDT_PRC
+			 , P.PRDT_CNTNT
+			 , P.PRDT_SRT
+			 , P.UUID_FL_NM
+			 , EP.EVNT_ID
+			 , EP.EVNT_TTL
+		     , EP.EVNT_STRT_DT
+		     , EP.EVNT_END_DT
+		     , EP.EVNT_PRDT_ID
+			 , EP.EVNT_PRDT_CHNG_PRC
+		  FROM (SELECT SP.STR_PRDT_ID
+					 , SP.STR_ID
+					 , SP.PRDT_ID
+					 , USE_YN
+				  FROM STR_PRDT
+				 WHERE STR_ID = 'ST-20230419-00172') SP
+		 INNER JOIN STR S
+		    ON SP.STR_ID = S.STR_ID
+		  LEFT OUTER JOIN PRDT P 
+		    ON SP.PRDT_ID = P.PRDT_ID 
+		  LEFT OUTER JOIN (SELECT E.EVNT_ID
+		  						, E.EVNT_TTL
+							    , E.EVNT_STRT_DT
+							    , E.EVNT_END_DT
+							    , EP.EVNT_PRDT_ID
+								, EP.PRDT_ID
+								, EP.EVNT_PRDT_CHNG_PRC
+		  					 FROM (SELECT EVNT_ID
+		  							    , EVNT_TTL
+		  							    , EVNT_STRT_DT
+		  							    , EVNT_END_DT
+				  					 FROM EVNT
+				  					WHERE USE_YN = 'Y'
+				  					  AND DEL_YN = 'N'
+				  					  AND EVNT_STRT_DT <= SYSDATE
+				  					  AND EVNT_END_DT >= SYSDATE) E
+		  					INNER JOIN (SELECT EVNT_PRDT_ID 
+		  									 , EVNT_ID
+		  									 , PRDT_ID
+		  									 , EVNT_PRDT_CHNG_PRC
+					  					  FROM EVNT_PRDT 
+					  					 WHERE DEL_YN = 'N')EP 
+		  					   ON E.EVNT_ID = EP.EVNT_ID ) EP
+		    ON SP.PRDT_ID = EP.PRDT_ID
+		<if test='prdtSrt != null and prdtSrt != ""'>
+		   AND P.PRDT_SRT = #{prdtSrt} 
+		</if>
+		ORDER BY SP.USE_YN DESC, EVNT_ID ASC, P.PRDT_NM ASC )
+		<include refid="StrPrdtCommon.pageFooter"></include>
+	</select>
+	
+	
+	
 	<select id="missingList"
 			parameterType="String"
 			resultType="com.ktds.fr.prdt.vo.PrdtVO">

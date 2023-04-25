@@ -22,6 +22,11 @@ public class StrPrdtServiceImpl implements StrPrdtService {
 	}
 	
 	@Override
+	public List<StrPrdtVO> readAllCustomerByStr(String strId) {
+		return strPrdtDAO.readAllCustomerByStr(strId);
+	}
+	
+	@Override
 	public List<PrdtVO> missingList(String strId) {
 		return strPrdtDAO.missingList(strId);
 	}

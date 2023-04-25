@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>주문 - 매장 선택</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
 <script type="text/javascript">
 $(document).ready(function() {
 	
@@ -27,7 +27,7 @@ $(document).ready(function() {
 //     });
 	
 	
-	$("tr").click(function() {
+	$("tbody").children("tr").click(function() {
 		var lct = $(this).data().lctid;
 		
 		$("#ctyTable").children("tbody").empty();
@@ -69,7 +69,7 @@ $(document).ready(function() {
 					    var strNm = data[i].strNm;
 					    
 					    var tr = $("<tr data-strid='" + strId + "'></tr>'");
-					    var td = "<td><a href='#'>" + strNm + "</a><td>"
+					    var td = "<td><a href='${context}/str/"+strId+"'>" + strNm + "</a><td>"
 					    
 					    $("#strTable").children("tbody").append(tr);
 					    tr.append(td);
@@ -91,54 +91,60 @@ $(document).ready(function() {
 		<br><a href="javascript:window.history.back();">뒤로가기</a>
 	</div>
 	
-					
-	<table id="lctTable"
-			class="mb-10">
-		<thead>
-			<tr>
-				<th>지역</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:choose>
-				<c:when test="${not empty lctList}">
-					<c:forEach items="${lctList}"
-								var="lct">
-						<tr data-lctid="${lct.lctId}">
-							<td><a href="#">${lct.lctNm}</a></td>
+	<div class="overflow lctTable inline-block">
+		<table id="lctTable"
+				class="">
+			<thead>
+				<tr>
+					<th>지역</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${not empty lctList}">
+						<c:forEach items="${lctList}"
+									var="lct">
+							<tr data-lctid="${lct.lctId}">
+								<td><a href="#">${lct.lctNm}</a></td>
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<tr>
+							<td colspan="1" class="no-items">
+								조회된 항목이 없습니다.
+							</td>
 						</tr>
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<td colspan="1" class="no-items">
-							조회된 항목이 없습니다.
-						</td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
-		</tbody>
-	</table>
-	<table id="ctyTable"
-			class="mb-10">
-		<thead>
-			<tr>
-				<th>도시</th>
-			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
-	<table id="strTable"
-			class="mb-10">
-		<thead>
-			<tr>
-				<th>매장이름일까</th>
-			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
+	</div>
+	<div class="overflow ctyTable inline-block">
+		<table id="ctyTable"
+				class="">
+			<thead>
+				<tr>
+					<th>도시</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<div class="overflow strTable inline-block">
+		<table id="strTable"
+				class="">
+			<thead>
+				<tr>
+					<th>매장이름일까</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	
 	
 	<div class="relative">
 		<div class="align-right absolute " style="right: 0px;" >

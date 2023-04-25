@@ -127,7 +127,6 @@
 		  LEFT JOIN CTY_CD C 
 		  	ON S.STR_CTY = C.CTY_ID
 		 WHERE S.STR_ID= #{_parameter}
-		 ORDER BY S.STR_ID ASC
 	</select>
 	
 	<select id="readBlockStrByMan"
@@ -167,7 +166,6 @@
 		  LEFT JOIN CTY_CD C 
 		  	ON S.STR_CTY = C.CTY_ID
 		 WHERE S.STR_ID= #{_parameter}
-		 ORDER BY S.STR_ID ASC
 	</select>
 	
 	<insert id="createOneStr"

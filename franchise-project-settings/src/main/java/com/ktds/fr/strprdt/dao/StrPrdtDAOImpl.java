@@ -28,6 +28,11 @@ public class StrPrdtDAOImpl extends SqlSessionDaoSupport implements StrPrdtDAO {
 	public List<StrPrdtVO> readAllNOPagenation(StrPrdtVO strPrdtVO) {
 		return getSqlSession().selectList("StrPrdt.readAllNOPagenation", strPrdtVO);
 	}
+	
+	@Override
+	public List<StrPrdtVO> readAllCustomerByStr(String strId) {
+		return getSqlSession().selectList("StrPrdt.readAllCustomerByStr", strId);
+	}
 
 	@Override
 	public List<PrdtVO> missingList(String strId) {
