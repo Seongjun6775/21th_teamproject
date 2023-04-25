@@ -121,7 +121,9 @@ public class StrPrdtController {
 	 */
 	@GetMapping("/strprdt/{strId}")
 	public String viewStrOne(@PathVariable String strId, Model model) {
-		List<StrPrdtVO> strPrdtList = strPrdtService.readAllCustomerByStr(strId);
+		StrPrdtVO strPrdtVO = new StrPrdtVO();
+		strPrdtVO.setStrId(strId);
+		List<StrPrdtVO> strPrdtList = strPrdtService.readAllCustomerByStr(strPrdtVO);
 		StrVO strVO = strService.readOneStrByMaster(strId);
 		
 		

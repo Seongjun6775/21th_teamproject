@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주문하기 - ${strVO.strNm}</title>
+<title>${strVO.strNm} - 주문하기</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <script type="text/javascript">
@@ -30,11 +30,6 @@ $().ready(function() {
 		location.href = "${context}/prdt/list2?" + queryString;
 	});
 	
-	
-// 	$(".prdt1").click(function() {
-// 		var data = $(this).data();
-// 		location.href="${context}/prdt/list2/"+data.prdtid
-// 	})
 	
 	
 	

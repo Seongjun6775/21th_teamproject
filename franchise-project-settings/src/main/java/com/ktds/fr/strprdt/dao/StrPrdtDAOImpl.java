@@ -30,8 +30,8 @@ public class StrPrdtDAOImpl extends SqlSessionDaoSupport implements StrPrdtDAO {
 	}
 	
 	@Override
-	public List<StrPrdtVO> readAllCustomerByStr(String strId) {
-		return getSqlSession().selectList("StrPrdt.readAllCustomerByStr", strId);
+	public List<StrPrdtVO> readAllCustomerByStr(StrPrdtVO strPrdtVO) {
+		return getSqlSession().selectList("StrPrdt.readAllCustomerByStr", strPrdtVO);
 	}
 
 	@Override

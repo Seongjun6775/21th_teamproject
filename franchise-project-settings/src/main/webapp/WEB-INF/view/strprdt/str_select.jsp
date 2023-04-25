@@ -69,7 +69,7 @@ $(document).ready(function() {
 					    var strNm = data[i].strNm;
 					    
 					    var tr = $("<tr data-strid='" + strId + "'></tr>'");
-					    var td = "<td><a href='${context}/str/"+strId+"'>" + strNm + "</a><td>"
+					    var td = "<td><a href='${context}/strprdt/"+strId+"'>" + strNm + "</a><td>"
 					    
 					    $("#strTable").children("tbody").append(tr);
 					    tr.append(td);
