@@ -9,6 +9,8 @@
 	 <!-- <context:property-placeholder location="/WEB-INF/config/dbconfig.properties"/>  -->
 	<!-- 강의장 공용DB -->
 	 <context:property-placeholder location="/WEB-INF/config/srdbconfig.properties"/>  
+	<!--   <context:property-placeholder location="/WEB-INF/config/dbconfig.properties"/> -->
+
 
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
