@@ -16,6 +16,33 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			
+			url = "${context}/nt/ntcreate/" + mbrId
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url) {
+				location.href = url;
+			}
+		});
+		
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
+		
 		$("#all_check").change(function() {
 			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
 		});
@@ -174,8 +201,8 @@
 										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"
 										            ${nt.delYn eq 'Y' ? 'disabled' : ''}/></td>
 										<td><a href="${context}/nt/ntmstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
-										<td>${nt.sndrId}</td>
-										<td>${nt.rcvrId}</td>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.sndrId}</a></td>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.rcvrId}</a></td>
 										<td>${nt.ntSndrDt}</td>
 										<td>${nt.ntRdDt ne null ? '수신' : '미수신'}</td>
 										<td>${nt.delYn eq 'Y' ? '삭제됨' : ''}</td>
@@ -225,5 +252,17 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>
