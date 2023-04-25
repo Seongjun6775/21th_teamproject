@@ -32,4 +32,21 @@
 	</select>
 
 
+	<!-- 매장이 있는 도시만 줏어오기 -->
+	<select id="read"
+			parameterType="com.ktds.fr.ctycd.vo.CtyCdVO"
+			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
+		SELECT CTY_ID
+			 , CTY_NM
+			 , LCT_ID
+		  FROM CTY_CD 
+		 WHERE LCT_ID = NVL(#{lctId}, '-') 
+		   AND CTY_ID IN (SELECT DISTINCT STR_CTY
+				 			FROM STR
+				 		   WHERE USE_YN = 'Y'
+				 			 AND DEL_YN = 'N')
+		 ORDER BY CTY_NM ASC 
+	</select>
+
+
 </mapper>

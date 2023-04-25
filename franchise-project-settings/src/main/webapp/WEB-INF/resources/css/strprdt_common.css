@@ -1,0 +1,267 @@
+@charset "UTF-8";
+body {
+	margin: 0px;
+	padding: 0px;
+}
+* {
+	font-size: 12pt;
+	color: #333;
+}
+.fullscreen {
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+}
+.bg-gray {
+	background-color: #ccc;
+}
+.item-align-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.align-right {
+	text-align: right;
+}
+.align-left {
+	text-align: left;
+}
+.align-center {
+	text-align: center;
+}
+.memo {
+	font-size: 80%;
+}
+
+
+
+
+/* display */
+.flex {
+	display: flex;
+}
+.inline-flex {
+	display: inline-flex;
+}
+.inline-block {
+	display: inline-block;
+}
+
+/* position */
+.relative {
+	position: relative;
+}
+.absolute {
+	position: absolute;
+}
+
+/* justify-content */
+.space-between {
+	justify-content: space-between;
+}
+
+
+
+
+
+
+
+/* Search */
+.search-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+.search-row-group {
+	display: flex;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+}
+.search-row-group > .search-group {
+	margin: 0;
+		
+}
+
+.search-group > label, .search-input {
+	margin-right:10px;
+	align-self: baseline;
+}
+.search-group > .search-input {
+	flex-grow: 1;
+	border: 1px solid #999;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.grow-1 {
+	flex-grow: 1;
+}
+
+
+
+
+/* Button */
+.btn-primary {
+	background-color: #382e98;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+	font-size: 10pt;
+	width: 80px;
+	padding: 5px;
+}
+.btn-delete {
+	background: #ea021f;
+}
+.btn-primary:active {
+	background-color: #9f98e0;
+}
+.btn-delete:active {
+	background-color: #fe8393;
+}
+.btn-search {
+	background-color: #382e98;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+	font-size: 10pt;
+	padding: 5px;
+}
+
+
+
+
+
+
+
+
+/* margin */
+.mt-10 {
+	margin-top: 10px;
+}
+.mb-10 {
+	margin-bottom: 10px;
+}
+.ml-10 {
+	margin-left: 10px;
+}
+.ml-20 {
+	margin-left: 20px;
+}
+.mr-10 {
+	margin-right: 10px;
+}
+.m-10{
+	margin: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+/* prdt-customer */
+.prdt1 {
+	display: inline-flex;
+	background-color: #3333;
+	width: 320px;
+	margin:10px;
+	padding: 10px;
+	flex-direction: column;
+}
+.prdt2 {
+	width: 180px;
+	height: 180px;
+	background-color: #3333;
+}
+.prdt3 {
+	background-color: #3003;
+}
+.name {
+	font-size: 24pt;
+	font-weight: bold;
+}
+.price {
+	font-size: 16pt;
+	text-align: right;
+}
+
+
+/* 손님용 customer */
+.headline {
+	height: 200px;
+	background-color: #0f02;
+}
+
+
+
+
+/* table */
+table {
+	width: 100%;
+	background-color: #0033;
+	border-collapse: collapse;
+	display: inline-block;
+}
+.lctTable , .ctyTable {
+	width: 100px;
+}
+
+.strTable {
+	width: 300px;	
+}
+tr {
+	height: 30px;
+}
+th, td {
+	
+}
+
+
+
+/* overflow */
+.overflow {
+	overflow: auto;
+	height: 150px;
+	background-color: #0080ff11;
+}
+
+.overflow thead {
+	position: sticky;
+	top: 0;	
+	background-color: #e4e4e4;
+}
+
+
+
+
+
+
+
+
+
+
+
+@keyframes transbg {
+    0% {
+        background-color: cyan;
+    }
+    33% {
+        background-color: magenta;
+    }
+    66% {
+        background-color: yellow;
+    }
+    100% {
+        background-color: cyan;
+    }
+}
+

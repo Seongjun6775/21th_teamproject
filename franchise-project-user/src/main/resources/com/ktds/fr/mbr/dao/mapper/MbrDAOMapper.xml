@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Mbr">
+
+	<select id="readSaltMbrById"
+			parameterType="string"
+			resultType="string">
+		SELECT MBR_PWD_SLT
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{_parameter}
+		   AND USE_YN='Y'
+		   AND DEL_YN='N'
+	</select>
+	
+	<select id="readLgnBlockYnById"
+			parameterType="string"
+			resultType="string">
+		SELECT MBR_LGN_BLCK_YN
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{_parameter}
+		   AND USE_YN='Y'
+		   AND DEL_YN='N'
+	</select>
+	
+	<select id="readOneMbrByMbrIdAndMbrPwd"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+		SELECT MBR_ID
+			 , STR_ID
+			 , MBR_NM
+			 , MBR_EML
+			 , TO_CHAR(MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , MBR_RCNT_LGN_IP
+			 , MBR_LGN_FL_CNT
+			 , MBR_LGN_BLCK_YN
+			 , TO_CHAR(MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , MBR_PWD_SLT
+			 , TO_CHAR(MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , MBR_LVL
+			 , MBR_PY_MN
+			 , TO_CHAR(MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{mbrId}
+		   AND MBR_PWD=#{mbrPwd}
+		   AND DEL_YN='N'
+		   AND USE_YN='Y'
+	</select>
+	
+	<update id="updateMbrLgnSucc"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET MBR_RCNT_LGN_DT=SYSDATE
+		   	 , MBR_RCNT_LGN_IP=#{mbrRcntLgnIp}
+		   	 , MBR_LGN_FL_CNT=0
+		   	 , MBR_LST_LGN_FL_DT=NULL
+		 WHERE MBR_ID=#{mbrId}
+		   AND USE_YN='Y'
+		   AND DEL_YN='N'  
+	</update>
+	
+	<update id="updateMbrLgnFail"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET MBR_LGN_FL_CNT=MBR_LGN_FL_CNT+1
+		   	 , MBR_LST_LGN_FL_DT=SYSDATE
+		 WHERE MBR_ID=#{mbrId}
+	</update>
+	
+	<update id="updateMbrLgnBlock"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET MBR_LGN_BLCK_YN='Y' 
+		 WHERE MBR_ID=#{mbrId}
+		   AND MBR_LGN_FL_CNT >= 5
+	</update>
+	
+	<select id="readOneMbrLgnFailCnt"
+			parameterType="string"
+			resultType="_int">
+		SELECT MBR_LGN_FL_CNT
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{_parameter}
+	</select>
+	
+	<select id="readCountMbrById"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1) 
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{_parameter}
+	</select>
+	
+	<insert id="createNewMbr"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		INSERT INTO FRAN.MBR
+			 ( MBR_ID
+			 , MBR_NM
+			 , MBR_PWD
+			 , MBR_EML
+			 , MBR_LGN_FL_CNT
+			 , MBR_LGN_BLCK_YN
+			 , MBR_PWD_SLT
+			 , MBR_LVL
+			 , MBR_PY_MN
+			 , MBR_RGSTR_DT
+			 , USE_YN
+			 , DEL_YN)
+	    VALUES 
+	    	 ( #{mbrId}
+	    	 , #{mbrNm}
+	    	 , #{mbrPwd}
+	    	 , #{mbrEml}
+	    	 , 0
+	    	 , 'N' 
+	    	 , #{mbrPwdSlt}
+	    	 , '001-04'
+	    	 , 0
+	    	 , SYSDATE
+	    	 , 'Y'
+	    	 , 'N' )
+	</insert>
+
+	<select id="readAllMbr"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+	    <include refid="Mbrcommon.pageHeader" />
+		SELECT M.MBR_ID PK_COL
+		     , DENSE_RANK() OVER(ORDER BY M.MBR_NM ASC) RNUM
+			 , M.MBR_ID
+			 , M.MBR_NM
+			 , M.MBR_EML
+			 , TO_CHAR(M.MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(M.MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , M.MBR_RCNT_LGN_IP
+			 , M.MBR_LGN_FL_CNT
+			 , M.MBR_LGN_BLCK_YN
+			 , TO_CHAR(M.MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , TO_CHAR(M.MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , CD.CD_NM MBR_LVL
+			 , CD.CD_ID
+			 , M.MBR_PY_MN
+			 , TO_CHAR(M.MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT 
+			 , M.DEL_YN
+		  FROM MBR M
+ 		 INNER JOIN CMMN_CD CD
+ 		 	ON M.MBR_LVL = CD.CD_ID
+ 		 WHERE M.MBR_RGSTR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND M.MBR_RGSTR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		  <if test='mbrLvl != null and mbrLvl != ""'>
+		   AND CD.CD_ID = #{mbrLvl}
+		  </if>
+		  <if test='mbrNm != null and mbrNm !=""'>
+		   AND M.MBR_NM = #{mbrNm}
+		  </if>
+		  <if test='delYn != null and delYn !=""'>
+		   AND M.DEL_YN = #{delYn}
+		  </if>
+		 ORDER BY M.MBR_NM ASC 
+		 <include refid="Mbrcommon.pageFooter" />
+	</select>
+	
+	<resultMap id="MbrVOMap" type="com.ktds.fr.mbr.vo.MbrVO"
+			   autoMapping="true">
+	   <id property="mbrId" column="MBR_ID"/>
+	   <association property="cmmnCdVO"
+	   				javaType="com.ktds.fr.cmmncd.vo.CmmnCdVO"
+	   				autoMapping="true">
+	   		<id property="cdId" column="MBR_LVL"/>
+	   </association>
+	   <association property="strVO"
+	   				javaType="com.ktds.fr.str.vo.StrVO"
+	   				autoMapping="true">
+	   		<id property="strId" column="STR_ID"/>
+	   </association>
+	</resultMap>
+	
+	<!-- 수정필요 매장관련 정보도? -->
+	<select id="readAllAdminMbr"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
+			resultMap="MbrVOMap">
+		<include refid="Mbrcommon.pageHeader" />
+		SELECT M.MBR_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY M.MBR_NM ASC) RNUM
+			 , M.MBR_ID
+			 , M.STR_ID
+			 , M.MBR_NM
+			 , M.MBR_EML
+			 , M.MBR_LVL
+			 , TO_CHAR(M.MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(M.MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , M.MBR_RCNT_LGN_IP
+			 , M.MBR_LGN_FL_CNT
+			 , M.MBR_LGN_BLCK_YN
+			 , TO_CHAR(M.MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , M.MBR_PWD_SLT
+			 , TO_CHAR(M.MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , M.MBR_PY_MN
+			 , TO_CHAR(M.MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT 
+			 , CD.CD_NM
+			 , CD.CD_ID
+			 , ST.STR_NM
+		  FROM FRAN.MBR M
+		 INNER JOIN CMMN_CD CD
+ 		 	ON M.MBR_LVL = CD.CD_ID
+ 		  LEFT OUTER JOIN STR ST
+ 		 	ON M.STR_ID = ST.STR_ID
+		 WHERE M.MBR_RGSTR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND M.MBR_RGSTR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		   AND MBR_LVL LIKE '001-%'
+		   AND MBR_LVL != '001-01'
+		   AND MBR_LVL != '001-04'
+		  <if test='mbrLvl != null and mbrLvl != ""'>
+		   AND CD.CD_ID = #{mbrLvl}
+		  </if>
+		  <if test='mbrNm != null and mbrNm !=""'>
+		   AND M.MBR_NM = #{mbrNm}
+		  </if>
+		 ORDER BY M.MBR_NM ASC
+		 <include refid="Mbrcommon.pageFooter" /> 
+	</select>
+	
+	<update id="updateOneMbr"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET MBR_NM=#{mbrNm}
+		 WHERE MBR_ID=#{mbrId}
+		   AND DEL_YN='N' 
+	</update>
+	
+	<update id="deleteOneMbr"
+			parameterType="string">
+		UPDATE FRAN.MBR
+		   SET MBR_LEAV_DT=SYSDATE
+		   	 , DEL_YN='Y' 
+		 WHERE MBR_ID=#{_parameter}
+	</update>
+	
+	<select id="readOneMbrByPwd"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+		SELECT MBR_ID
+			 , MBR_LVL
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{mbrId}
+		   AND MBR_PWD=#{mbrPwd}
+		   AND DEL_YN='N'
+		   AND USE_YN='Y'
+	</select>
+	
+	<select id="readOneMbrByMbrId"
+			parameterType="string"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+		SELECT MBR_ID
+			 , MBR_NM
+			 , MBR_EML
+			 , TO_CHAR(MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , MBR_RCNT_LGN_IP
+			 , MBR_LGN_FL_CNT
+			 , MBR_LGN_BLCK_YN
+			 , TO_CHAR(MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , MBR_PWD_SLT
+			 , TO_CHAR(MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , MBR_LVL
+			 , MBR_PY_MN
+			 , TO_CHAR(MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT
+		  FROM FRAN.MBR
+		 WHERE MBR_ID=#{_parameter}
+		   AND DEL_YN='N'
+		   AND USE_YN='Y'
+	</select>
+	
+	<update id="updateOneMbrPwd"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET MBR_PWD=#{mbrPwd}
+		   	 , MBR_PWD_SLT=#{mbrPwdSlt}
+		 WHERE MBR_ID=#{mbrId}
+		   AND DEL_YN='N' 
+	</update>
+	
+	<select id="readMbrByMbrEml"
+			parameterType="string"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+		SELECT MBR_ID
+		  FROM FRAN.MBR
+		 WHERE MBR_EML=#{mbrEml}
+		   AND DEL_YN='N'
+		   AND USE_YN='Y'
+		 ORDER BY MBR_RGSTR_DT ASC
+	</select>
+	
+	<update id="updateOneMbrLvlAndMbrStrId"
+		parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET  MBR_LVL=#{mbrLvl}
+		  	  , STR_ID =#{strId}	 
+		 WHERE MBR_ID=#{mbrId}
+		   AND DEL_YN='N' 
+	</update>
+	
+	<update id="deleteOneMbrAdminByMbrId"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE FRAN.MBR
+		   SET MBR_LVL=DEFAULT
+		   	 , STR_ID=#{strId}
+		 WHERE MBR_ID=#{mbrId}
+	</update>
+</mapper>
