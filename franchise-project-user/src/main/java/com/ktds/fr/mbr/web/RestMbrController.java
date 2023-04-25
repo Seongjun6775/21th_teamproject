@@ -54,7 +54,7 @@ public class RestMbrController {
 			mbr.setMbrRcntLgnIp(request.getRemoteAddr());
 			session.setAttribute("__MBR__", mbr);
 		}
-		return new ApiResponseVO(ApiStatus.OK, "/index");
+		return new ApiResponseVO(ApiStatus.OK, "/");
 	}
 	//회원의 회원가입
 	@PostMapping("/api/mbr/regist")
