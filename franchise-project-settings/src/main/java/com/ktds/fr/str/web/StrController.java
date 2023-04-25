@@ -44,6 +44,13 @@ public class StrController {
 	    	if (searchIdx.equals("mbrId")) {
 	    		strVO.setMbrId(keyword);
 	    	}
+	    	if (strVO.getStrCty() != null && strVO.getStrCty().trim().length() != 0) {
+	    		ctyCdVO.setCtyId(strVO.getStrCty());
+	    	}
+	    	if (strVO.getStrLctn() != null && strVO.getStrLctn().trim().length() != 0) {
+	    		lctCdVO.setLctId(strVO.getStrLctn());
+	    		ctyCdVO.setLctId(strVO.getStrLctn());
+	    	}
 	    	
 	        List<StrVO> strList = strService.readAllStrMaster(strVO);
 	        List<MbrVO> mbrList = mbrService.readAllMbr(mbr2VO);

@@ -25,8 +25,12 @@
 		  FROM CTY_CD C
 		  JOIN LCT_CD L
 		  	ON C.LCT_ID = L.LCT_ID
-		 <if test='ctyId != null and ctyId != ""'>
-		 WHERE C.CTY_ID LIKE '%' || #{ctyId} || '-%'
+		 WHERE 1 = 1
+		<if test='ctyId != null and ctyId != ""'>
+		   AND C.CTY_ID LIKE '%' || #{ctyId} || '%'
+		</if>
+		<if test='lctId != null and lctId != ""'>
+		   AND L.LCT_ID LIKE '%' || #{lctId} || '%'
 		</if>
 		 ORDER BY C.CTY_ID ASC 
 	</select>

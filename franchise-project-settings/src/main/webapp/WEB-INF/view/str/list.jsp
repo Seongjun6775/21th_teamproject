@@ -273,7 +273,16 @@
 								<td>${str.ctyCdVO.ctyNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
-								<td>${str.mbrId} (${str.mbrVO.mbrNm})</td>
+								<td>
+								  <c:choose>
+								    <c:when test="${empty str.mbrId}">
+								      점주ID가 없습니다.
+								    </c:when>
+								    <c:otherwise>
+								      ${str.mbrId} (${str.mbrVO.mbrNm})
+								    </c:otherwise>
+								  </c:choose>
+								</td>
 								<td style="width: 70px;">
 									<a href="${context}/str/strdetailmst/${str.strId}">
 									<input type="button" value="이동"/>
