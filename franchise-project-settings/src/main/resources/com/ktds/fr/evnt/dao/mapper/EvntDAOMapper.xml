@@ -37,7 +37,7 @@
 		parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
 		<include refid="Common.pageHeader" />
-		SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
+		SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID ASC) RNUM
 		     , EVNT_ID PK_COL     
 		     , EVNT_ID
 		     , EVNT_TTL
