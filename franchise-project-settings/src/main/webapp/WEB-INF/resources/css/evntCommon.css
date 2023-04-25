@@ -108,73 +108,7 @@ body {
 }
 
 /* Main Layouts */
-.main-layout>.header {
-	height: 70px;
-	padding: 10px;
-	position: relative;
-}
 
-.bg-black {
-	background-color: #0080ff;
-}
-
-.main-layout>.header>.nav {
-	display: inline-block;
-	padding: 0px;
-	margin: 0px;
-	list-style-type: none;
-	position: absolute;
-	bottom: 10px;
-}
-
-.main-layout>.header>.nav>.nav-item, .main-layout>.header>.nav>.nav-item>a
-	{
-	display: inline-block;
-	padding: 0px;
-	margin: 0px;
-	color: #EEE;
-	text-decoration: none;
-}
-
-.main-layout>.header>.nav>.active {
-	font-weight: bold;
-	color: #DDD;
-}
-
-.main-layout>.header>.profile {
-	color: #EEE;
-	position: absolute;
-	right: 10px;
-	top: 10px;
-}
-
-.inline {
-	display: inline-block;
-}
-
-.main-layout>div>.side-menu {
-	background: linear-gradient(to right, blue, pink);
-	width: 150px;
-	position: fixed;
-	top: 90px;
-	bottom: 0px;
-}
-
-.main-layout>div>.side-menu>.menu-list {
-	margin: 0px;
-	padding: 0px;
-	list-style-type: none;
-}
-
-.main-layout>div>.side-menu>.menu-list>.menu-item {
-	color: #FFF;
-	padding-top: 10px;
-	padding-left: 10px;
-}
-
-.main-layout>div>.side-menu>.menu-list>.menu-item:last-child {
-	padding-bottom: 10px;
-}
 
 .main-layout>div>.content {
 	position: fixed;

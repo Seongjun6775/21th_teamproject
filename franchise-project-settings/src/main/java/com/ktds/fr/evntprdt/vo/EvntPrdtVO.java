@@ -13,6 +13,10 @@ public class EvntPrdtVO {
 	private String prdtNm;
 	private int prdtPrc;
 	
+	/* 이벤트 날짜 */
+	private String evntStrtDt;
+	private String evntEndDt;
+	
 	
 	public String getEvntPrdtId() {	
 		return evntPrdtId;
@@ -61,6 +65,19 @@ public class EvntPrdtVO {
 	}
 	public void setPrdtPrc(int prdtPrc) {
 		this.prdtPrc = prdtPrc;
+	}
+	
+	public String getEvntStrtDt() {
+		return evntStrtDt;
+	}
+	public void setEvntStrtDt(String evntStrtDt) {
+		this.evntStrtDt = evntStrtDt;
+	}
+	public String getEvntEndDt() {
+		return evntEndDt;
+	}
+	public void setEvntEndDt(String evntEndDt) {
+		this.evntEndDt = evntEndDt;
 	}
 		
 }		

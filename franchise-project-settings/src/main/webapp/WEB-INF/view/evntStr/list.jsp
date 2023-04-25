@@ -33,11 +33,10 @@
 				<table>
 					<thead>
 						<tr>
-							<th style="width: 100px">이벤트 참여매장 번호</th>
+							<th style="width: 100px">이벤트 참여번호</th>
 							<th style="width: 200px">이벤트 ID</th>
 							<th style="width: 200px">이벤트 참여매장 ID</th>
-							<th style="width: 80px">사용유무</th>
-							<th style="width: 80px">삭제여부</th>
+							<th style="width: 200px">이벤트 참여매장명</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -48,8 +47,7 @@
 										<td>${evntStr.evntStrId}</td>
 										<td>${evntStr.evntId}</td>
 										<td>${evntStr.strId}</td>
-										<td>${evntStr.useYn}</td>
-										<td>${evntStr.delYn}</td>
+										<td>${evntStr.strNm}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -62,7 +60,7 @@
 					</tbody>
 				</table>
 			</div>
-
+			
 			<button id="btn-close" class="btn-primary">닫기</button>
 
 		</div>

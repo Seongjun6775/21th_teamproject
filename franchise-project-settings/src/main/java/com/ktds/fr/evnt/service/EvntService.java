@@ -26,5 +26,14 @@ public interface EvntService {
 	
 	// 7. 이벤트 삭제 ▶▶상위관리자
 	public boolean updateDeleteEvnt(String evntId);
+	
+	// 8. 이용자용 페이지
+	public List<EvntVO> readAllOngoingEvnt(EvntVO evntVO);
+	
+	// 9. 이용자용 페이지(지난이벤트)
+	public List<EvntVO> readAllPastEvnt(EvntVO evntVO);
+		
+	// 10. 이용자용 페이지(예정 이벤트)
+	public List<EvntVO> readAllPlanEvnt(EvntVO evntVO);
 
 }
