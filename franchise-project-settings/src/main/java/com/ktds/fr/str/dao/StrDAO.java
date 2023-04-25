@@ -36,6 +36,8 @@ public interface StrDAO {
 	public int readOneStrByMbrId(String mbrId);
 	public int deleteOneManagerByMbrId(String mbrId);
 	public int updateOneStrByStrIdAndMbrId(MbrVO mbrVO);
+	public List<String>readAllStrByMbrId(List<String> mbrIdList);
+	public int deleteAllManagerByStrId(List<String> strIdList);
 	
 	public List<StrVO>readAll();
 	

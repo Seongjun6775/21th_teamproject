@@ -98,4 +98,14 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 	public int updateOneStrByStrIdAndMbrId(MbrVO mbrVO) {
 		return getSqlSession().update("Str.updateOneStrByStrIdAndMbrId", mbrVO);
 	}
+	
+	@Override
+	public List<String> readAllStrByMbrId(List<String> mbrIdList) {
+		return getSqlSession().selectList("Str.readAllStrByMbrId", mbrIdList);
+	}
+	
+	@Override
+	public int deleteAllManagerByStrId(List<String> strIdList) {
+		return getSqlSession().update("Str.deleteAllManagerByStrId", strIdList);
+	}
 }

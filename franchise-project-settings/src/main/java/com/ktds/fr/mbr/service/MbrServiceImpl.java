@@ -260,30 +260,20 @@ public class MbrServiceImpl implements MbrService {
 		return false;
 	}
 	@Override
-	public boolean deleteOneMbrAdminByMbrId(MbrVO mbrVO) {
-		if(mbrVO.getMbrLvl().equals("001-02")) {
-			int readResult = strDAO.readOneStrByMbrId(mbrVO.getMbrId());
-			if(readResult > 0) {
-				boolean delResult = strDAO.deleteOneManagerByMbrId(mbrVO.getMbrId()) > 0;
-				if(delResult) {
-					mbrVO.setStrId(null);
-					int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
-					chSrlDAO.createOneChHist(mbrVO);
-					return deleteResult > 0;
-				}
-			}else {
-				mbrVO.setStrId(null);
-				int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
-				chSrlDAO.createOneChHist(mbrVO);
-				return deleteResult > 0;
-			}
-		}else if(mbrVO.getMbrLvl().equals("001-03")) {
-			mbrVO.setStrId(null);
-			int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
-			chSrlDAO.createOneChHist(mbrVO);
-			return deleteResult > 0;
+	public boolean deleteAllMbrAdminByMbrId(MbrVO mbrVO, List<String>mbrIdList) {
+		if( !mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl() == null || mbrVO.getMbrLvl().length()==0) {
+			throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요.");
 		}
-		return false;
+		//STR 테이블에서 mbrIdList를 가지고 검색 -> 매장찾기
+		List<String> strIdList = strDAO.readAllStrByMbrId(mbrIdList);
+		if(strIdList == null) {
+			//없으면 MBR테이블의 str_id->null && MBR테이블의 mbrLvl -> default로
+			return mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+		}else {
+			//있으면 해당 mbrId -> null
+			strDAO.deleteAllManagerByStrId(strIdList);
+			return mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+		}
 	}
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {

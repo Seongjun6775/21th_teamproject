@@ -55,7 +55,7 @@
 		   SET MBR_RCNT_LGN_DT=SYSDATE
 		   	 , MBR_RCNT_LGN_IP=#{mbrRcntLgnIp}
 		   	 , MBR_LGN_FL_CNT=0
-		   	 , MBR_LST_LGN_FL_DT=NULL
+		   	 , MBR_LST_LGN_FL_DT=''
 		 WHERE MBR_ID=#{mbrId}
 		   AND USE_YN='Y'
 		   AND DEL_YN='N'  
@@ -153,7 +153,7 @@
 		   AND CD.CD_ID = #{mbrLvl}
 		  </if>
 		  <if test='mbrNm != null and mbrNm !=""'>
-		   AND M.MBR_NM = #{mbrNm}
+		   AND M.MBR_NM '%' || #{mbrNm} || '%'
 		  </if>
 		  <if test='delYn != null and delYn !=""'>
 		   AND M.DEL_YN = #{delYn}
@@ -216,7 +216,10 @@
 		   AND CD.CD_ID = #{mbrLvl}
 		  </if>
 		  <if test='mbrNm != null and mbrNm !=""'>
-		   AND M.MBR_NM = #{mbrNm}
+		   AND M.MBR_NM LIKE '%' || #{mbrNm} || '%'
+		  </if>
+		  <if test='strVO != null and strVO != ""'>
+		   AND ST.STR_NM LIKE '%' || #{strVO.strNm} || '%'
 		  </if>
 		 ORDER BY M.MBR_NM ASC
 		 <include refid="Mbrcommon.pageFooter" /> 
@@ -302,11 +305,14 @@
 		   AND DEL_YN='N' 
 	</update>
 	
-	<update id="deleteOneMbrAdminByMbrId"
-			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+	<update id="deleteAllMbrAdminByMbrId"
+			parameterType="arrayList">
 		UPDATE FRAN.MBR
 		   SET MBR_LVL=DEFAULT
-		   	 , STR_ID=#{strId}
-		 WHERE MBR_ID=#{mbrId}
+		   	 , STR_ID = ''
+		 WHERE MBR_ID IN 
+		 <foreach collection="list" item="mbrId" open="(" close=")" separator=", ">
+		 	#{mbrId}
+		 </foreach>
 	</update>
 </mapper>

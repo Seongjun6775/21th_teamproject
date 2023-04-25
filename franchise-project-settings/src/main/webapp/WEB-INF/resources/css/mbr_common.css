@@ -473,8 +473,20 @@ img {
 .margin-Bot-10{
 	margin-bottom: 30px;
 }
+.mt-10{
+	margin-top: 10px;
+}
 /*update*/
 .update-group{
 	display: flex;
     flex-direction: column;
 }
+/*checkbox*/
+.check-idx{
+	width: 70px;
+}
+/*align*/
+.align-right{
+	text-align: right;
+}
+

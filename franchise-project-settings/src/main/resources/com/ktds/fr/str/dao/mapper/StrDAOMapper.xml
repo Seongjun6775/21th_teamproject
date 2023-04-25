@@ -277,41 +277,6 @@
 		</if>
 	</select>
 	
-	<!-- 누락매장검색용 -->
-	<select id="readAll"
-			resultType="com.ktds.fr.str.vo.StrVO">
-		SELECT S.STR_ID
-			 , S.STR_NM
-			 , S.STR_ADDR
-			 , S.STR_CALL_NUM
-			 , S.MBR_ID
-			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
-			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
-			 , S.USE_YN
-			 , S.DEL_YN
-		  FROM STR S
-		 WHERE S.DEL_YN = 'N'
-	</select>
-	
-	
-	<!-- 소비자용 매장조회 -->
-	<select id="id"
-			parameterType="com.ktds.fr.str.vo.StrVO"
-			resultType="com.ktds.fr.str.vo.StrVO">
-		SELECT S.STR_ID
-			 , S.STR_NM
-			 , S.STR_LCTN
-			 , S.STR_CTY
-			 , S.STR_ADDR
-			 , S.STR_CALL_NUM
-			 , S.MBR_ID
-			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
-			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
-		  FROM STR S
-		 WHERE S.USE_YN = 'Y'
-		   AND S.DEL_YN = 'N'
-	</select>
-	
 	<!-- 회원 기능과 연동 -->
 	<select id="readOneStrByMbrId"
 			parameterType="string"
@@ -327,11 +292,49 @@
 			   SET MBR_ID = NULL 
 			 WHERE MBR_ID = #{_parameter}
 	</update>
+	<!-- 회원 기능과 연동 -->
 	<update id="updateOneStrByStrIdAndMbrId"
 			parameterType="com.ktds.fr.mbr.vo.MbrVO">
 			UPDATE STR
 			   SET MBR_ID = #{mbrId} 
 			 WHERE STR_ID = #{strId}
 	</update>
+	<!-- 회원 기능과 연동 -->
+	<select id="readAllStrByMbrId"
+			parameterType="arrayList"
+			resultType="string">
+		SELECT STR_ID
+		  FROM STR
+		 WHERE MBR_ID IN
+		 <foreach collection="list" item="mbrId" open="(" close=")" separator=", ">
+		 	#{mbrId}
+		 </foreach>	
+	</select>
+	<!-- 회원 기능과 연동 -->
+	<update id="deleteAllManagerByStrId"
+			parameterType="arrayList">
+			UPDATE STR
+			   SET MBR_ID = '' 
+			 WHERE STR_ID IN 
+			 <foreach collection="list" item="strId" open="(" close=")" separator=", ">
+			 	#{strId}
+			 </foreach>	
+	</update>
+	
+	<!-- 누락매장검색용 -->
+	<select id="readAll"
+			resultType="com.ktds.fr.str.vo.StrVO">
+		SELECT S.STR_ID
+			 , S.STR_NM
+			 , S.STR_ADDR
+			 , S.STR_CALL_NUM
+			 , S.MBR_ID
+			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+			 , S.USE_YN
+			 , S.DEL_YN
+		  FROM STR S
+		 WHERE S.DEL_YN = 'N'
+	</select>
 
 </mapper>
