@@ -157,33 +157,37 @@ $().ready(function() {
 						<input type="text" id="strNm" name="strNm" maxlength="1000" readonly value="${strVO.strNm}" style="background-color:orange"/>
 					</div>	
 					<div class="input-group inline">
-						<label for="strLctn" style="width:60px">지역</label>
+						<label for="strLctn" style="width:180px">지역</label>
 						<select id="strLctn" name="strLctn" disabled style="background-color:orange">
 							<option value="">지역</option>
 							<c:choose>
-									<c:when test="${not empty lctList}">
-										<c:forEach items="${lctList}"
-													var="lct"> 
-											<option value="${lct.lctId}" ${lct.lctId eq strVO.strLctn ? 'selected' : ''}>${lct.lctNm} </option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-							</select>
-							<label for="strCty" style="width:60px">도시</label>
-							<select id="strCty" name="strCty" disabled style="background-color:orange">
-								<option value="" >도시명</option>
-								<c:choose>
-									<c:when test="${not empty ctyList}" >
-										<c:forEach items="${ctyList}"
-													var="cty" >
-											<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
+								<c:when test="${not empty lctList}">
+									<c:forEach items="${lctList}"
+												var="lct"> 
+										<option value="${lct.lctId}" ${lct.lctId eq strVO.strLctn ? 'selected' : ''}>${lct.lctNm} </option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
 						</select>
-						<label for="strAddr" style="width:60px">매장주소</label>
+						<label for="strCty" style="width:180px">도시</label>
+						<select id="strCty" name="strCty" disabled style="background-color:orange">
+							<option value="" >도시명</option>
+							<c:choose>
+								<c:when test="${not empty ctyList}" >
+									<c:forEach items="${ctyList}"
+												var="cty" >
+										<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
+					</div>
+					
+					<div class="input-group inline">
+						<label for="strAddr" style="width:180px;">매장주소</label>
 						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 					</div>
+					
 				    <div class="input-group inline">
 				        <label for="strCallNum" style="width:180px">전화번호</label>
 				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">

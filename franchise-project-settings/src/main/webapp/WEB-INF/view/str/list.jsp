@@ -46,9 +46,9 @@
 			$("#mbrId").val("");
 			$("#strOpnTm").val("");
 			$("#strClsTm").val("");
-			$("#strRgstr").val("${MbrVO.mbrId}");
+			$("#strRgstr").val("${mbrVO.mbrId}");
 			$("#strRgstDt").val("");
-			$("#mdfyr").val("${MbrVO.mbrId}");
+			$("#mdfyr").val("${mbrVO.mbrId}");
 			$("#mdfyDt").val("");
 			$("#useYn").prop("checked", false);
 
@@ -216,7 +216,7 @@
 									<c:when test="${not empty lctList}">
 										<c:forEach items="${lctList}"
 													var="lct"> 
-											<option value="${lct.lctId}" ${StrVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
+											<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -230,7 +230,7 @@
 									<c:when test="${not empty ctyList}">
 										<c:forEach items="${ctyList}"
 													var="cty" >
-											<option value="${cty.ctyId}" ${StrVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+											<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -335,6 +335,7 @@
 						<label for="strNm" style="width:180px">매장명</label>
 						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}"/>
 					</div>
+					<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 					<div class="input-group inline">
 						<label for="strLctn" style="width:60px">지역</label>
 						<select id="strLctn" name="strLctn">
@@ -360,29 +361,30 @@
 								</c:when>
 							</c:choose>
 						</select>
+					</div>
+					<div class="input-group inline">
 						<label for="strAddr" style="width:60px">매장주소</label>
 						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
-						<%-- <select name="strLctn" id="strLctn">
-						<option>지역 선택</option>
-							<option value="서울" ${strVO.strLctn eq '서울' ? 'selected' : ''}>서울</option>
-							<option value="부산">부산</option>
-							<option value="강원">강원</option>
-							<option value="경기">경기</option>
-							<option value="인천">인천</option>
-							<option value="대구">대구</option>
-						</select>
-						<input type="text" id="strCty" name="strCty" maxlength="20" value="${strVO.strCty}"/>
-						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/> --%>
 					</div>
-					
 				    <div class="input-group inline">
-				        <label for="strCallNum" style="width:180px">전화번호</label>
+				        <label for="strCallNum" style="width:180px;">전화번호</label>
 				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
 				    </div>	
 				
 					<div class="input-group inline">
 						<label for="mbrId" style="width:180px">점주ID</label>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
+						<%-- <select id="mbrId" name="mbrId">
+							<option value="">점주ID명</option>
+							<c:choose>
+								<c:when test="${not empty mbrList}">
+									<c:forEach items="${mbrList}"
+												var="mbr" >
+										<option value="${mbr.mbrId}">${mbr.mbrId}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select> --%>
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
@@ -394,7 +396,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstr" style="width:180px">등록자</label>
-						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
+						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstDt" style="width:180px">등록일</label>
@@ -402,7 +404,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px">수정자</label>
-						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${mbrVO.mbrId}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>

@@ -18,6 +18,11 @@
 			<id property="ctyId" column="STR_CTY"/>
 			<result property="ctyNm" column="CTY_NM"/>
 		</association>
+		<association property="mbrVO"
+					  javaType="com.ktds.fr.mbr.vo.MbrVO">
+			<id property="mbrId" column="MBR_ID"/>
+			<result property="mbrNm" column="MBR_NM"/>
+		</association>
 	</resultMap>
 
 
