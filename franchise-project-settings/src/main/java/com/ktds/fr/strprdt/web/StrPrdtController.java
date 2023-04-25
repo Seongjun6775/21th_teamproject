@@ -130,7 +130,7 @@ public class StrPrdtController {
 		model.addAttribute("strPrdtList", strPrdtList);
 		model.addAttribute("strVO", strVO);
 		
-		return "str/str_select_menu";
+		return "strprdt/str_select_menu";
 	}
 	
 	/**
@@ -139,7 +139,7 @@ public class StrPrdtController {
 	@GetMapping("/strprdt/detail/{strPrdtId}")
 	public String strPrdtDetail(@PathVariable String strPrdtId, Model model) {
 		
-		return "str/str_select_menu";
+		return "strprdt/strprdt_detail";
 	}
 	
 	
