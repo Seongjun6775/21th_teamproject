@@ -26,7 +26,14 @@
 			<a href="${context}/nt/list">쪽지 관리</a>
 		</li>
 		<li class="nav-item">
-			<a href="${context}/rv/list">리뷰관리</a>
+			<c:choose> 
+				<c:when test="${sessionScope.__MBR__.mbrLvl == '001-02' || sessionScope.__MBR__.mbrLvl == '001-03'}">
+					<a href="${context}/rv/list/store">리뷰관리</a>
+				</c:when> 
+				<c:otherwise>
+					<a href="${context}/rv/list">리뷰관리</a>
+				</c:otherwise> 
+			</c:choose> 
 		</li>
 		<li class="nav-item">
 			<a href="${context}/rpl/list">댓글관리</a>

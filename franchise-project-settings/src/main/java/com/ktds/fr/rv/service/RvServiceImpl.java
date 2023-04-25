@@ -51,27 +51,29 @@ public class RvServiceImpl implements RvService {
 	}
 
 			
-	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
-	@Override
-	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO) {
-		rvVO.setMbrVO(mbrVO);
-		
-		if (mbrVO.getMbrLvl().equals("001-01")) {
-			searchRvVO.setMbrVO(mbrVO);
-			return rvDAO.readAllRvListForTopManager(searchRvVO);
-		}
-		else if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			searchRvVO.setMbrVO(mbrVO);
-			return rvDAO.readAllRvListForMiddleManager(searchRvVO);
-		}
-		else {
-			return rvDAO.readAllRvListForMemberByRvId(rvVO);
-		}
-	}
 	// ▶ 진영님이 만든거: 중간관리자와 하위관리자 목록 조회(2-1) 대체
 	@Override
 	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO) {
 		return rvDAO.readAllRvListForManager(searchRvVO);
+	}
+	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
+	@Override
+	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO) {
+		rvVO.setMbrVO(mbrVO);
+			searchRvVO.setMbrVO(mbrVO);
+			return rvDAO.readAllRvListForTopManager(searchRvVO);
+			/*
+			 * if (mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl().equals("001-04"))
+			 * { }
+			 */
+		/*
+		 * else { searchRvVO.setMbrVO(mbrVO); return
+		 * rvDAO.readAllRvListForMiddleManager(searchRvVO); }
+		 */
+//		else {
+//			return rvDAO.readAllRvListForMemberByRvId(rvVO);
+//		}
+//		 if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03"))
 	}
 			
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자

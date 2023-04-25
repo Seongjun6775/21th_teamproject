@@ -17,6 +17,36 @@
 <script type="text/javascript">
 
 	$().ready(function() {
+		
+		var url;
+		$(".open-layer").click(function(event) {
+			// event.preventDefault();
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			
+			url = mbrId
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url) {
+				$("input[name=searchWrap]").val(url)
+				$("#search_option").val("mbrId").prop("selected", true);
+				$("#search_btn").click();
+			}
+		});
+		
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
 		$(".enterkey").keyup(function(event) {
 			if(event.keyCode == 13) {
 				$("#search_btn").click();
@@ -38,19 +68,26 @@
 			$("#all_check").prop("checked", count == checkCount);
 		});
 		$("#delete_all_btn").click(function(){
+			
 			var checkLen = $(".check-idx:checked").length;
 			
 			if(checkLen == 0){
 				alert("삭제할 리뷰가 없습니다.");
 				return;
 			}
-			
-			var form = $("<form></form>")
-			$(".check-idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'")
-			});
 			if(confirm("정말 삭제하시겠습니까?")) {
+				var form = $("<form></form>")
+				$(".check-idx:checked").each(function(){
+					var myMbrId = "${mbrVO.mbrId}";
+					var myMbrLvl = "${mbrVO.mbrLvl}";
+					var mbrId = $(this).closest("tr").find(".open-layer").text();
+					if (myMbrLvl == "001-04" && myMbrId != mbrId) {
+						alert("자신의 리뷰만 삭제 가능합니다.");
+						return;		
+					}
+					console.log($(this).val());
+					form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'");
+				});
 				$.post("${context}/api/rv/delete", form.serialize(), function(response){
 					if(response.status == "200 OK"){
 						location.reload(); //새로고침
@@ -64,8 +101,8 @@
 		});	
 		$("#search_btn").click(function(){			
 			movePage(0);
-		});		
-		$(".rvRow td").not(".firstcell").click(function() {
+		});		 
+		$(".rvRow td").not(".firstcell, .mbrId").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
 			location.href="${context}/rv/detail/" + rvid;
 		})
@@ -73,12 +110,12 @@
 		function movePage(pageNo){
 			//전송.
 			//입력 값:
-			var id = $("input[name=searchWrap]").val();
-			var selec = $("#search_option").val();
+			 var id = $("input[name=searchWrap]").val();
+			 var selec = $("#search_option").val();
 			
 			var queryString = "?pageNo=" + pageNo;
-			queryString += "&type="+selec+"&search=" + id;
-
+			queryString += "&type="+selec + "&search=" + id;
+			
 			//URL요청
 			location.href="${context}/rv/list" + queryString;
 			
@@ -89,7 +126,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/rvMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">리뷰 > 리뷰목록</div>
 			
@@ -103,10 +140,8 @@
 			</div>
 			<div class="search-row-group">
 				<div class="search-group">
-					<select id="search_option" name="searchOption">
-						<option value="rvTtl">제목</option>					
-						<option value="rvCntnt">내용</option>					
-						<option value="${strNm}">매장명</option>					
+					<select id="search_option" name="searchOption">					
+						<option value="strNm">매장명</option>					
 						<option value="mbrId">회원ID</option>									
 					</select>
 					<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
@@ -142,7 +177,7 @@
 									<td>${rv.odrLstId}</td>
 									<td>${rv.strVO.strNm}</td>
 									<td>${rv.rvTtl}</td>
-									<td>${rv.mbrId}</td>																			
+									<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
 									<td>${rv.rvLkDslk}</td>					
 									<td>${rv.rvRgstDt}</td>					
 									<td>${rv.mdfyDt}</td>									
@@ -204,5 +239,17 @@
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">작성 리뷰 보기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>

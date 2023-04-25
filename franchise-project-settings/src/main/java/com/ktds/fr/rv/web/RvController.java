@@ -29,18 +29,16 @@ public class RvController {
 	}
 	
 	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
-	@GetMapping("/rv/list")
-	public String viewRvListPage(Model model, RvVO rvVO, SearchRvVO searchRvVO
+	@GetMapping("/rv/list/store")
+	public String viewRvListStorePage(Model model, RvVO rvVO, SearchRvVO searchRvVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
 		
 		// ▶ 진영님이 만든거
 		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			System.out.println(mbrVO.getStrId());
-			System.out.println("중하로 돌았음");
 			searchRvVO.setMbrVO(mbrVO);
 			List<RvVO> rvList = rvService.readAllRvListForManager(searchRvVO);
-			System.out.println(rvList.size());
+
 			for (RvVO rvVO2 : rvList) {
 				System.out.println(rvVO2.getRvId());
 			}
@@ -50,9 +48,18 @@ public class RvController {
 		}
 		// ▶ 여기까지
 		
-				
-		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO, searchRvVO);
+			return "rv/list";		
+	}
+	
+	@GetMapping("/rv/list")
+	public String viewRvListPage(Model model, RvVO rvVO, SearchRvVO searchRvVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			this.viewRvListStorePage(model, rvVO, searchRvVO, mbrVO);
+		}	
 		
+		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO, searchRvVO);
+		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("rvList", rvList);
 		model.addAttribute("rvVO", rvVO);
 		

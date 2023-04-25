@@ -17,13 +17,22 @@
 <script type="text/javascript">
 	$().ready(function() {
 		$("#delete_btn").click(function(){
-		
+			
 			if(confirm("정말 삭제하시겠습니까?")) {
+				var form = $("<form></form>")
+				var myMbrId = "${rvDetail.mbrId}";
+				var myMbrLvl = "${sessionScope.__MBR__.mbrLvl}";
+				var mbrId = "${sessionScope.__MBR__.mbrId}";
+				if (myMbrLvl == "001-04" && myMbrId != mbrId) {
+					alert("자신의 리뷰만 삭제 가능합니다.");
+					return;		
+				}
 				$.post("${context}/api/rv/delete/${rvDetail.rvId}", function(response){
 					if(response.status == "200 OK"){
 						location.href = "${context}/rv/list" + response.redirectURL;
 						alert("리뷰가 삭제되었습니다.")
-					}else{
+					}
+					else {
 						alert(response.errorCode + "권한이 없습니다." + response.message);
 					}
 				})
