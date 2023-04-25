@@ -49,4 +49,6 @@ public interface MbrDAO {
 	public int updateOneMbrLvlAndStrId(MbrVO mbrVO);
 	//관리자 권한 해임용
 	public int deleteAllMbrAdminByMbrId(List<String> mbrIdList);
+	//중간관리자용 매장직원 조회
+	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO);
 }

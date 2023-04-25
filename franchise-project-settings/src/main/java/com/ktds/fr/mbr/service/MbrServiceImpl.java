@@ -191,7 +191,11 @@ public class MbrServiceImpl implements MbrService {
 	}
 	@Override
 	public MbrVO readOneMbrByMbrId(String mbrId) {
-		return mbrDAO.readOneMbrByMbrId(mbrId);
+		MbrVO mbrVO = mbrDAO.readOneMbrByMbrId(mbrId);
+		if(mbrVO==null) {
+			throw new ApiException(ApiStatus.FAIL, "조회에 실패했습니다.");
+		}
+		return mbrVO;
 	}
 	@Override
 	public boolean updateOneMbrPwd(MbrVO mbrVO) {
@@ -274,6 +278,14 @@ public class MbrServiceImpl implements MbrService {
 			strDAO.deleteAllManagerByStrId(strIdList);
 			return mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
 		}
+	}
+	
+	@Override
+	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO) {
+		if(mbrVO.getMbrLvl().equals("001-03") || mbrVO.getMbrLvl().equals("001-04")) {
+			throw new ApiException(ApiStatus.FAIL, "권한이 없습니다.");
+		}
+		return mbrDAO.readAllCrewMbrByStrId(mbrVO);
 	}
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {

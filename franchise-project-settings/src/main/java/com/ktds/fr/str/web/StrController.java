@@ -15,6 +15,7 @@ import com.ktds.fr.ctycd.service.CtyCdService;
 import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.lctcd.service.LctCdService;
 import com.ktds.fr.lctcd.vo.LctCdVO;
+import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.service.StrService;
 import com.ktds.fr.str.vo.StrVO;
@@ -28,6 +29,8 @@ public class StrController {
 	private CtyCdService ctyCdService;
 	@Autowired
 	private LctCdService lctCdService;
+	@Autowired
+	private MbrService mbrService;
 	
 	@GetMapping("/str/list")
 	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, String strId, Model model, StrVO strVO
@@ -106,5 +109,16 @@ public class StrController {
 		List<StrVO> strList = strService.readAllStrNoPagenate(strVO);
 		model.addAttribute("strList",strList);
 		return "mbr/str_search";
+	}
+	
+	/**
+	 * 매장의 직원들 정보 조회(전체)
+	 */
+	@GetMapping("/str/crew/list")
+	public String viewStrCrewPage(@SessionAttribute("__MBR__")MbrVO mbrVO, Model model) {
+		//
+		List<MbrVO> mbrList = mbrService.readAllCrewMbrByStrId(mbrVO);
+		model.addAttribute("mbrList",mbrList);
+		return "str/str_crewlist";
 	}
 }

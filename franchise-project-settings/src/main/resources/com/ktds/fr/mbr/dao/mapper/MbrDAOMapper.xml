@@ -315,4 +315,35 @@
 		 	#{mbrId}
 		 </foreach>
 	</update>
+	
+	<select id="readAllCrewMbrByStrId"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
+			resultMap="MbrVOMap">
+		SELECT M.MBR_ID
+			 , M.MBR_NM
+			 , M.MBR_EML
+			 , TO_CHAR(M.MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(M.MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , M.MBR_RCNT_LGN_IP
+			 , M.MBR_LGN_FL_CNT
+			 , M.MBR_LGN_BLCK_YN
+			 , TO_CHAR(M.MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , TO_CHAR(M.MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , M.MBR_LVL
+			 , M.MBR_PY_MN
+			 , TO_CHAR(M.MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT
+			 , CD.CD_NM
+			 , CD.CD_ID
+			 , ST.STR_NM
+		  FROM FRAN.MBR M
+		 INNER JOIN CMMN_CD CD
+		 	ON M.MBR_LVL = CD.CD_ID
+		 INNER JOIN STR ST
+ 		 	ON M.STR_ID = ST.STR_ID
+		 WHERE M.STR_ID=#{strId}
+		   AND M.DEL_YN='N'
+		   AND M.USE_YN='Y'
+		   AND M.MBR_ID != #{mbrId}
+	</select>
+	
 </mapper>

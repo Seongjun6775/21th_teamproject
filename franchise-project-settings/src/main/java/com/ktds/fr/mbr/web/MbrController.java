@@ -10,11 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
+import com.ktds.fr.common.api.vo.ApiResponseVO;
+import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -88,6 +92,13 @@ public class MbrController {
 		mbrService.logoutMbr(lgnHistVO);
 		return "redirect:/join";
 	}
-	
-	
+	//직원 정보 상세 조회
+	@GetMapping("/mbr/detail/{mbrId}")
+	public String doCrewDetail(@PathVariable String mbrId, @SessionAttribute("__MBR__")MbrVO mbrVO, Model model) {
+		
+		MbrVO mbr = mbrService.readOneMbrByMbrId(mbrId);
+		model.addAttribute("mbr" ,mbr);
+		return "mbr/mbr_detail";
+	}
+
 }
