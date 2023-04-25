@@ -169,7 +169,7 @@
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
 						<label for="strId" style="width:180px">매장 ID</label>
-						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}"/>
+						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strNm" style="width:180px">매장명</label>
@@ -209,8 +209,8 @@
 				    </div>	
 				
 					<div class="input-group inline">
-						<label for="mbrId" style="width:180px">관리자ID</label>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
+						<label for="mbrId" style="width:180px">점주ID</label>
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}" />
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
@@ -222,19 +222,19 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstr" style="width:180px">등록자</label>
-						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" value="${strVO.strRgstr}"/>
+						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstDt" style="width:180px">등록일</label>
-						<input type="date" id="strRgstDt" name="strRgstDt" value="${strVO.strRgstDt}"/>
+						<input type="date" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px">수정자</label>
-						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"/>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>
-						<input type="date" id="mdfyDt" name="mdfyDt" value="${strVO.mdfyDt}"/>
+						<input type="date" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px">사용여부</label>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ktds.fr.evntstr.vo.EvntStrVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 
 @Repository
 public class EvntStrDAOImpl extends SqlSessionDaoSupport implements EvntStrDAO {
@@ -29,6 +30,17 @@ public class EvntStrDAOImpl extends SqlSessionDaoSupport implements EvntStrDAO {
 	// 참여매장 등록하기 ▶ 중간관리자
 	public int createEvntStr(EvntStrVO evntStrVO) {
 		return getSqlSession().insert("EvntStr.createEvntStr", evntStrVO );
+	}
+
+	@Override
+	public int chkAlreadyCreate(EvntStrVO evntStrVO) {
+		return getSqlSession().selectOne("EvntStr.chkAlreadyCreate", evntStrVO );
+	}
+
+
+	@Override
+	public int deleteEvntStrListByEvntId(List<String> evntStrIdList) {
+		return getSqlSession().update("EvntStr.deleteEvntStrListByEvntId", evntStrIdList );
 	}
 
 }

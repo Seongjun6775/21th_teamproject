@@ -7,6 +7,7 @@ import com.ktds.fr.mngrbrd.vo.MngrBrdVO;
 public interface MngrBrdDAO {
 	
 	public List<MngrBrdVO> readAllMngrBrds(MngrBrdVO mngrBrdVO); // 목록
+	public List<MngrBrdVO> readAllNotice(MngrBrdVO mngrBrdVO); // 목록
 	public List<MngrBrdVO> readAllMngrBrdsNopagination(String mngrBrdTtl); // 목록
 	
 	

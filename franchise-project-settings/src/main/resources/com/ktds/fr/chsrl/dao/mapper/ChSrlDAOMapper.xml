@@ -4,6 +4,25 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ChSrl">
 
-
-
+	<insert id="createOneChHist"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		INSERT INTO CH_SRL
+			 ( CH_SRL_NUM_ID
+			 , MBR_ID
+			 , CH_SRL_ORGN_LVL
+			 , CH_SRL_CHNG_LVL
+			 , EXSTNG_STR
+			 , CHNG_STR
+			 , MDFYR
+			 , MDFY_DT)
+	   VALUES
+	   		 ( 'CS-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_CH_SRL_PK.NEXTVAL, 5, '0')
+	   		 , #{mbrId}
+	   		 , #{originMbrLvl}
+	   		 , #{mbrLvl}
+	   		 , #{originStrId}
+	   		 , #{strId}
+	   		 , #{mdfyr}
+	   		 , SYSDATE)				
+	</insert>
 </mapper>

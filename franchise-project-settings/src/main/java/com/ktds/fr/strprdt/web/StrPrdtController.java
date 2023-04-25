@@ -39,11 +39,10 @@ public class StrPrdtController {
 			, Model model) {
 		// 세션>회원의 등급이 상위관리자가 아닐경우
 		if (mbrVO.getMbrLvl().equals("001-01")) {
-			StrVO strVO = new StrVO();
 			PrdtVO prdtVO = new PrdtVO();
 			
 			List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
-			List<StrVO> strList = strService.readAllStrMaster(strVO);
+			List<StrVO> strList = strService.readAll();
 			List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
 			List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 			
@@ -98,13 +97,15 @@ public class StrPrdtController {
 	
 	@GetMapping("/strprdt/list2")
 	public String strPrdtListCustomer(StrPrdtVO strPrdtVO
+			, StrVO strVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			, Model model) {
 		// 1. 매장선택
-		List<StrVO> strList = strService.readAllStrMaster(null);
+		List<StrVO> strList = strService.readAllStrMaster(strVO);
 		
+		model.addAttribute("strList",strList);
 		
-		return null;
+		return "strprdt/str_select";
 	}
 
 }

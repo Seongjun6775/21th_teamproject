@@ -52,4 +52,22 @@ public class EvntDAOImpl extends SqlSessionDaoSupport implements EvntDAO {
 		return getSqlSession().update("Evnt.updateDeleteEvnt", evntId );
 	}
 
+	//이용자용 페이지(현재 진행중인 이벤트)
+	@Override
+	public List<EvntVO> readAllOngoingEvnt(EvntVO evntVO) {
+		return getSqlSession().selectList("Evnt.readAllOngoingEvnt", evntVO );
+	}
+
+	//이용자용 페이지(지난 이벤트)
+	@Override
+	public List<EvntVO> readAllPastEvnt(EvntVO evntVO) {
+		return getSqlSession().selectList("Evnt.readAllPastEvnt", evntVO);
+	}
+
+	//이용자용 페이지(예정된 이벤트)
+	@Override
+	public List<EvntVO> readAllPlanEvnt(EvntVO evntVO) {
+		return getSqlSession().selectList("Evnt.readAllPlanEvnt", evntVO);
+	}
+
 }

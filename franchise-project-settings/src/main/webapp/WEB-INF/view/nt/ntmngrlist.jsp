@@ -15,6 +15,32 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			
+			url = "${context}/nt/ntcreate/" + mbrId
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url) {
+				location.href = url;
+			}
+		});
+		
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
@@ -47,6 +73,17 @@
 			
 			$.post("${context}/api/nt/delete", form.serialize(), function(response) {});
 			location.reload();
+		});
+		
+		$("#crt_btn").click(function() {
+			location.href = "${context}/nt/ntcreate";
+		});
+		
+		$(".nt_table_grid > table > tbody > tr").click(function() {
+			var data = $(this).data();
+			if (data.ntid != null && data.ntid != "") {
+				location.href="${context}/nt/ntmngrdetail/" + data.ntid;
+			}
 		});
 		
 		// 수신인, 발신인 검색 기능입니다
@@ -92,19 +129,30 @@
 			<jsp:include page="../include/content.jsp" />
 			<h3>중간관리자 상세조회 페이지</h3>
 			<div>
-				<div>총 ${myNtList.size() > 0 ? myNtList.size() : 0}건</div> 
+				<div>총 ${myNtList.size() > 0 ? myNtList.size() : 0}건</div>
+				<div>
+					<label for="startDt">검색 시작일</label>
+					<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
+					<label for="endDt">검색 종료일</label>
+					<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
+					<select class="search_idx">
+						<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
+						<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
+					</select>
+					<input type="text" id="search-keyword" value="${keyword}"/>
+					<button id="search_btn">검색</button>
+				</div>
 			</div>
-			<div>
+			<div class="nt_table_grid">
 				<table>
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
-							<th>쪽지 번호</th>
 							<th>쪽지 제목</th>
 							<th>발신인</th>
 							<th>수신인</th>
 							<th>쪽지 발송 일자</th>
-							<th>쪽지 확인 일자</th>
+							<th>쪽지 수신 여부</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -118,17 +166,16 @@
 									    data-ntsndrdt="${nt.ntSndrDt}"
 									    data-ntrddt="${nt.ntRdDt}">
 										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
-										<td>${nt.ntId}</td>
 										<td><a href="${context}/nt/ntmngrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
-										<td>${nt.sndrId}</td>
-										<td>${nt.rcvrId}</td>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.sndrId}</a></td>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.rcvrId}</a></td>
 										<td>${nt.ntSndrDt}</td>
-										<td>${nt.ntRdDt}</td>
+										<td>${nt.ntRdDt ne null ? '수신' : '미수신'}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="7">쪽지 송수신 이력이 없습니다.</td>
+								<td colspan="6">쪽지 송수신 이력이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
@@ -164,24 +211,25 @@
 					</ul>
 				</div>
 				<div>
+					<button id="crt_btn">작성</button>
 					<button id="check_del_btn">일괄삭제</button>
 				</div>
 				<div>
-					<label for="startDt">검색 시작일</label>
-					<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
-					<label for="endDt">검색 종료일</label>
-					<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
-				</div>
-				<div>
-					<select class="search_idx">
-						<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
-						<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
-					</select>
-					<input type="text" id="search-keyword" value="${keyword}"/>
-					<button id="search_btn">검색</button>
 				<jsp:include page="../include/footer.jsp" />
 			</div>
 		</div>
 	</div>
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>

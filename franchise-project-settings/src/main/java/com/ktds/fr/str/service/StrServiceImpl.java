@@ -42,13 +42,12 @@ public class StrServiceImpl implements StrService {
 
 	@Override
 	public boolean createOneStr(StrVO strVO) {
-		
 		boolean isSuccess = strDAO.createOneStr(strVO) > 0;
 		// 매장이 생성되었을 때, 생성된 매장에 현재 등록되어 있는 모든 상품을 등록
 		if (isSuccess) {
+			
 			PrdtVO prdtVO = new PrdtVO();
 			List<PrdtVO> prdtList = prdtDAO.readAllNoPagenation(prdtVO);
-			
 			StrPrdtVO strPrdtVO = null;
 			List<StrPrdtVO> strPrdtList = new ArrayList<>();
 			
@@ -61,7 +60,7 @@ public class StrServiceImpl implements StrService {
 			}
 			strPrdtDAO.create(strPrdtList);
 		}
-		return strDAO.createOneStr(strVO) > 0;
+		return isSuccess;
 	}
 
 	@Override
@@ -105,4 +104,11 @@ public class StrServiceImpl implements StrService {
 		return strDAO.readAllStrNoPagenate(strVO);
 	}
 
+	@Override
+	public List<StrVO> readAll() {
+		return strDAO.readAll();
+	}
+
+
 }
+

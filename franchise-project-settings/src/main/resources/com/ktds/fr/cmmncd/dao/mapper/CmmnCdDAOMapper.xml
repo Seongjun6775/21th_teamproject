@@ -10,10 +10,15 @@
 		SELECT CD_ID 
 		     , CD_NM 
 		  FROM CMMN_CD
-		 <if test='_parameter != null and _parameter != ""'>
+		  
+		 <if test='_parameter != null and _parameter != "" and _parameter == "001admin"'>
+		 WHERE CD_ID LIKE '001-%'
+		   AND CD_ID != '001-01'
+		   AND CD_ID != '001-04'
+		 </if>
+		 <if test='_parameter != null and _parameter != "" and _parameter != "001admin"'>
 		 WHERE CD_ID LIKE '%' || #{_parameter} || '-%'
-		</if>
+		 </if>
 		 ORDER BY CD_ID ASC 
 	</select>
-
 </mapper>

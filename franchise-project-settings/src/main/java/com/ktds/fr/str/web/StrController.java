@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.exceptions.IllegalRequestException;
@@ -30,8 +31,17 @@ public class StrController {
 	
 	@GetMapping("/str/list")
 	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, String strId, Model model, StrVO strVO
-									, CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
+									, @RequestParam(required = false, defaultValue = "") String searchIdx
+									, @RequestParam(required = false, defaultValue = "")String keyword ,CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
 	    if (mbrVO.getMbrLvl().equals("001-01")) {
+	    	
+	    	if (searchIdx.equals("strNm")) {
+	    		strVO.setStrNm(keyword);
+	    	}
+	    	if (searchIdx.equals("mbrId")) {
+	    		strVO.setMbrId(keyword);
+	    	}
+	    	
 	        List<StrVO> strList = strService.readAllStrMaster(strVO);
 	        List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
 	        List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
@@ -40,6 +50,8 @@ public class StrController {
 	        model.addAttribute("lctList", lctList);
 	        model.addAttribute("StrVO", strVO);
 	        model.addAttribute("MbrVO", mbrVO);
+	        model.addAttribute("searchIdx", searchIdx);
+	        model.addAttribute("keyword", keyword);
 	        model.addAttribute("CtyCdVO", ctyCdVO);
 	        model.addAttribute("LctCdVO", lctCdVO);
 	        return "str/list";

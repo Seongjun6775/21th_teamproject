@@ -16,6 +16,33 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			
+			url = "${context}/nt/ntcreate/" + mbrId
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url) {
+				location.href = url;
+			}
+		});
+		
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
+		
 		$("#all_check").change(function() {
 			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
 		});
@@ -51,8 +78,16 @@
 			location.reload();
 		});
 		
+		
 		$("#crt_btn").click(function() {
 			location.href = "${context}/nt/ntcreate";
+		});
+		
+		$(".nt_table_grid > table > tbody > tr").click(function() {
+			var data = $(this).data();
+			if (data.ntid != null && (data.ntid) != "") {
+				location.href="${context}/nt/ntmstrdetail/" + data.ntid;
+			}
 		});
 		
 		// 수신인, 발신인 검색 기능입니다
@@ -66,7 +101,7 @@
 		
 		$("#checkDelYn").change(function() {
 			movePage(0);
-		})
+		});
 	});
 	
 	
@@ -99,7 +134,6 @@
 		location.href = "${context}/nt/ntmstrlist?" + queryString;
 	}
 	
-	
 </script>
 </head>
 <body>
@@ -113,14 +147,26 @@
 			</div>
 			<div>
 				<div>총 ${allNtList.size() > 0 ? allNtList.get(0).totalCount : 0}건</div>
-				<div></div>
 			</div>
-			<div>
+			<div >
+				<label for="startDt">검색 시작일</label>
+				<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
+				<label for="endDt">검색 종료일</label>
+				<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
+				<select class="search_idx">
+					<option value="">검색 조건</option>
+					<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
+					<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
+					<option value="rcvrId" ${searchVal eq "rcvrId" ? 'selected' : '' }>수신인</option>
+				</select>
+				<input type="text" id="search-keyword" value="${keyword}"/>
+				<button id="search_btn">검색</button>
+			</div>
+			<div class="nt_table_grid">
 				<table>
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
-							<th>쪽지 번호</th>
 							<th>쪽지 제목</th>
 							<th>발신인</th>
 							<th>수신인</th>
@@ -154,18 +200,17 @@
 									    data-delyn="${nt.delYn}">
 										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"
 										            ${nt.delYn eq 'Y' ? 'disabled' : ''}/></td>
-										<td>${nt.ntId}</td>
 										<td><a href="${context}/nt/ntmstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
-										<td>${nt.sndrId}</td>
-										<td>${nt.rcvrId}</td>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.sndrId}</a></td>
+										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.rcvrId}</a></td>
 										<td>${nt.ntSndrDt}</td>
-										<td>${nt.ntRdDt}</td>
+										<td>${nt.ntRdDt ne null ? '수신' : '미수신'}</td>
 										<td>${nt.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="8">쪽지 송수신 이력이 없습니다.</td>
+								<td colspan="7">쪽지 송수신 이력이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
@@ -189,11 +234,9 @@
 						<li><a href="javascript:movePage(0)">처음</a></li>
 						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
 					</c:if>
-					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo-1}" step="1" var="pageNo">
+					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
 						<li><a class="${pageNo eq ntVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 					</c:forEach>
-					
 					<c:if test="${lastGroup > nowGroup}">
 						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
 						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
@@ -205,23 +248,21 @@
 				<button id="check_del_btn">일괄삭제</button>
 			</div>
 			<div>
-				<div>
-					<label for="startDt">검색 시작일</label>
-					<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
-					<label for="endDt">검색 종료일</label>
-					<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
-				</div>
-				<select class="search_idx">
-					<option value="">검색 조건</option>
-					<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
-					<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
-					<option value="rcvrId" ${searchVal eq "rcvrId" ? 'selected' : '' }>수신인</option>
-				</select>
-				<input type="text" id="search-keyword" value="${keyword}"/>
-				<button id="search_btn">검색</button>
 				<jsp:include page="../include/footer.jsp" />
 			</div>
 		</div>
 	</div>
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>

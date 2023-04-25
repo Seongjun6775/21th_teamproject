@@ -11,10 +11,57 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
+		
+		//체크박스기능
+		$("#all-check").click(function() {
+			$(".check_idx").prop("checked", $("#all-check").prop("checked"));
+		});
+		$("#all-check").change(function(){
+			$(".check-idx").prop("checked", $(this).prop("checked"));
+		});
+		$(".check-idx").change(function(){
+			var count = $(".check-idx").length;
+			var checkCount = $(".check-idx:checked").length;
+			
+			$("#all-check").prop("checked", count == checkCount);
+		});
+		
+		
+		// 체크 버튼 클릭 시 체크된 리스트 뜸
+		$("#btn-revomeEvntPrdt").click(function() {
+			var checkLen = $(".check-idx:checked").length;
+			
+			if(checkLen == 0){
+				alert("체크한 대상이 없습니다.");
+				return;
+			}
+			
+			var form = $("<form></form>")
+			$(".check-idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='evntPrdtIdList' value='"+$(this).val() + "'>'")
+			});
+			
+			$.post("${context}/api/evntPrdt/delete", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+					alert("이벤트 상품 등록이 해제되었습니다.")
+				}
+				else{
+					alert(response.errorCode + " / " + response.message);
+				}
+			})
+			
+		});	
+		
+		
 		// 창 닫기
 		$("#btn-close").click(function() {
 			window.close();
 		});
+		
+	
+		
 
 	});
 </script>
@@ -32,6 +79,7 @@
 				<table>
 					<thead>
 						<tr>
+						   <th><input type="checkbox" id="all-check" /></th>
 							<th style="width: 100px">이벤트 상품 ID</th>
 							<th style="width: 200px">이벤트 ID</th>
 							<th style="width: 200px">상품 ID</th>
@@ -47,6 +95,8 @@
 							<c:when test="${not empty evntPrdtList}">
 								<c:forEach items="${evntPrdtList}" var="evntPrdt">
 									<tr>
+									 <td class="firstcell">
+									    <input type="checkbox" class="check-idx" value="${evntPrdt.evntPrdtId}"/></td>
 										<td>${evntPrdt.evntPrdtId}</td>
 										<td>${evntPrdt.evntId}</td>
 										<td>${evntPrdt.prdtId}</td>
@@ -68,6 +118,7 @@
 				</table>
 			</div>
 			<button id="btn-close" class="btn-primary">닫기</button>
+			<button id="btn-revomeEvntPrdt" class="btn-primary">상품 삭제</button>
 
 		</div>
 	</div>

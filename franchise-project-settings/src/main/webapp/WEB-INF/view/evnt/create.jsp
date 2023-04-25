@@ -16,15 +16,44 @@ $().ready(function() {
 	
 	// 1. 등록 버튼을 누르면 수행할 내용
 	$("#btn-create").click(function(){
+		var evntTtl = document.getElementById("evntTtl").value;
+		var evntCntnt = document.getElementById("evntCntnt").value;
+		var evntStrtDt = document.getElementById("evntStrtDt").value;
+		var evntEndDt = document.getElementById("evntEndDt").value;
+		var orgnFlNm = document.getElementById("orgnFlNm").value;
+		
+		if (evntTtl == ""){
+			alert("이벤트 제목을 입력해주세요.");
+			return;
+		}
+		if (evntCntnt == ""){
+			alert("이벤트 내용을 입력해주세요.");
+			return;
+		}
+		if (evntStrtDt == ""){
+			alert("이벤트 시작일자를 입력해주세요.");
+			return;
+		}
+		if (evntEndDt == ""){
+			alert("이벤트 종료일자를 입력해주세요.");
+			return;
+		}
+		if (orgnFlNm == ""){
+			alert("사진을 등록해주세요.");
+			return;
+		}
+		if(evntStrtDt > evntEndDt){
+			alert("시작일자("+evntStrtDt+")가 종료일자("+evntEndDt+")보다 큽니다");
+			return;
+		}
 		
 		var ajaxUtil = new AjaxUtil();
 		ajaxUtil.upload("#form-create" , "${context}/api/evnt/create", function(response) {
-			console.log("업데이트돌고있음")
 			if (response.status == "200 OK") {
 				console.log("200임")
 				alert(response.message);
 				
-				//location.href="${context}/evnt/list"
+				location.href = "${context}/evnt/list";
 				//location.reload(); // 새로고침
 			} else {
 				console.log("안됨")
@@ -44,10 +73,14 @@ $().ready(function() {
 	
 	
 	
-	
-	
-	
 
+	function check(box) {
+		if (box.checked == true) {
+			box.value = "Y";
+		} else {
+			box.value = "N";
+		}
+	}
 </script>
 
 </head>
@@ -89,15 +122,14 @@ $().ready(function() {
 					<td>이벤트 사진</td>
 					<td colspan="3">
 					<input type="file" name="orgnFlNm" id="orgnFlNm"
-						   style="width: 200px;" value="" />					
+						   style="width: 200px;" value="" accept="image/png, image/jpeg"/>					
 				    <!-- <input type="submit" value="사진 업로드"></td>		 -->		
 				</tr>
 				<tr>
 					<td>사용 여부</td>
-					<td><input type="checkbox" id="useYn"
-						value="Y" checked/></td>
+					<td><input type="checkbox" id="useYn" onClick="check(this)" value=""/></td>
 					<td>삭제 여부</td>
-					<td><input type="checkbox" id="delYn" value="" /></td>
+					<td><input type="checkbox" id="delYn" onClick="check(this)" value="" /></td>
 				</tr>
 				<tr>
 				</tr>

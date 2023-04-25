@@ -1,6 +1,10 @@
 package com.ktds.fr.odrdtl.vo;
 
-public class OdrDtlVO {
+import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.prdt.vo.PrdtVO;
+import com.ktds.fr.str.vo.StrVO;
+
+public class OdrDtlVO extends AbstractVO{
 	
 	/**
 	 * 주문상세 ID
@@ -34,6 +38,9 @@ public class OdrDtlVO {
 	 * 주문한 회원 ID
 	 */
 	private String mbrId;
+	
+	private PrdtVO prdtVO;
+	private StrVO strVO;
 
 	public String getOdrDtlId() {
 		return odrDtlId;
@@ -97,6 +104,22 @@ public class OdrDtlVO {
 
 	public void setMbrId(String mbrId) {
 		this.mbrId = mbrId;
+	}
+
+	public PrdtVO getPrdtVO() {
+		return prdtVO;
+	}
+
+	public void setPrdtVO(PrdtVO prdtVO) {
+		this.prdtVO = prdtVO;
+	}
+
+	public StrVO getStrVO() {
+		return strVO;
+	}
+
+	public void setStrVO(StrVO strVO) {
+		this.strVO = strVO;
 	}
 	
 
