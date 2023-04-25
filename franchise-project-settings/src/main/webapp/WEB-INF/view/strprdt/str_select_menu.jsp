@@ -80,31 +80,31 @@ function movePage(pageNo) {
 	
 	<div>
 		<c:choose>
-			<c:when test="${not empty prdtList}">
-				<c:forEach items="${prdtList}"
-							var="prdt">
-					<a href="${context}/prdt/list2/${prdt.prdtId}">
-						<div class="prdt1" id="${prdt.prdtId}"
-							data-prdtid="${prdt.prdtId}">
+			<c:when test="${not empty srtPrdtList}">
+				<c:forEach items="${srtPrdtList}"
+							var="srtPrdt">
+					<a href="${context}/srtPrdt/list2/${srtPrdt.srtPrdtId}">
+						<div class="srtPrdt1" id="${srtPrdt.srtPrdtId}"
+							data-srtPrdtid="${srtPrdt.srtPrdtId}">
 							<div class="img-box">
 								<c:choose>
-									<c:when test="${empty prdt.uuidFlNm}">
+									<c:when test="${empty srtPrdt.uuidFlNm}">
 										<img src="${context}/img/default_photo.jpg">
 									</c:when>
 									<c:otherwise>
-										<img src="${context}/prdt/img/${prdt.uuidFlNm}/">
+										<img src="${context}/srtPrdt/img/${srtPrdt.uuidFlNm}/">
 									</c:otherwise>
 								</c:choose>	
 							</div>
-							<div class="prdt3">
-								<div class="name">${prdt.prdtNm}
+							<div class="srtPrdt3">
+								<div class="name">${srtPrdt.srtPrdtNm}
 									<c:choose>
-										<c:when test="${not empty prdt.evntVO.evntId}">
+										<c:when test="${not empty srtPrdt.evntVO.evntId}">
 											<span>할인중!!</span>
 										</c:when>
 									</c:choose>
 								</div>
-								<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
+								<div class="price"><fmt:formatNumber>${srtPrdt.srtPrdtPrc}</fmt:formatNumber><span>원</span></div>
 							</div>
 						</div>
 					</a>

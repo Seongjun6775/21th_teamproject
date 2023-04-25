@@ -133,6 +133,15 @@ public class StrPrdtController {
 		return "str/str_select_menu";
 	}
 	
+	/**
+	 * 주문용 매장 > 상품선택
+	 */
+	@GetMapping("/strprdt/detail/{strPrdtId}")
+	public String strPrdtDetail(@PathVariable String strPrdtId, Model model) {
+		
+		return "str/str_select_menu";
+	}
+	
 	
 
 }
