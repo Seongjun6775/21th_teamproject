@@ -209,7 +209,7 @@
 				  					 FROM EVNT
 				  					WHERE USE_YN = 'Y'
 				  					  AND DEL_YN = 'N'
-				  					  AND EVNT_STRT_DT <= SYSDATE
+				  					  AND SYSDATE >= EVNT_STRT_DT
 				  					  AND EVNT_END_DT >= SYSDATE) E
 		  					INNER JOIN (SELECT EVNT_PRDT_ID 
 		  									 , EVNT_ID
