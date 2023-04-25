@@ -85,8 +85,8 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 	}
 
 	@Override
-	public List<StrVO> readAllUseY(StrVO strVO) {
-		return getSqlSession().selectList("Str.readAllUseY", strVO);
+	public List<StrVO> readAllUseY(String ctyId) {
+		return getSqlSession().selectList("Str.readAllUseY", ctyId);
 	}
 
 }

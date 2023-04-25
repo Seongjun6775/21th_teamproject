@@ -107,24 +107,10 @@ public class StrPrdtController {
 	}
 	
 	@GetMapping("/strprdt/list2")
-	public String strPrdtListCustomer(StrPrdtVO strPrdtVO
-			, StrVO strVO
-			, @RequestParam(required = false) String lctId
-			, @RequestParam(required = false) String ctyId
-			, @SessionAttribute("__MBR__") MbrVO mbrVO
-			, Model model) {
-		// 1. 매장선택
-		strVO.setStrLctn(lctId);
-		strVO.setStrCty(ctyId);
-		List<StrVO> strList = strService.readAllUseY(strVO);
-		List<LctCdVO> lctList = lctService.readCategory(null);
-		CtyCdVO ctyVO = new CtyCdVO();
-		ctyVO.setCtyId(lctId);
-		List<CtyCdVO> ctyList = ctyService.readCategory(ctyVO);
-		
-		model.addAttribute("strList",strList);
+	public String strPrdtListCustomer(Model model
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		List<LctCdVO> lctList = lctService.read();
 		model.addAttribute("lctList",lctList);
-		model.addAttribute("ctyList",ctyList);
 		
 		return "strprdt/str_select";
 	}

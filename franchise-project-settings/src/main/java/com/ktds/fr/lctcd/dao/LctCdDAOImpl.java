@@ -28,7 +28,7 @@ public class LctCdDAOImpl extends SqlSessionDaoSupport implements LctCdDAO {
 	 */
 	@Override
 	public List<LctCdVO> read() {
-		return getSqlSession().selectList("LctCd.readAll");
+		return getSqlSession().selectList("LctCd.read");
 	}
 
 }

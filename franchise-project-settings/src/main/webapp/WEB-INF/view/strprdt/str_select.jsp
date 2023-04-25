@@ -13,10 +13,70 @@
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <script type="text/javascript">
-$().ready(function() {
+$(document).ready(function() {
 	
 	console.log("ready function!")
 	var ajaxUtil = new AjaxUtil();
+	
+	
+	$(document).on('click', 'a[href="#"]', function(e) {
+		  e.preventDefault();
+		});
+// 	$('a[href="#"]').click(function(ignore) {
+//         ignore.preventDefault();
+//     });
+	
+	
+	$("tr").click(function() {
+		var lct = $(this).data().lctid;
+		
+		$("#ctyTable").children("tbody").empty();
+		$("#strTable").children("tbody").empty();
+		
+		$.post("${context}/api/strprdt/list2/lct",
+			{lctId: lct},
+			function(data) {
+				for (var i = 0; i < data.length; i++) {
+				    var ctyId = data[i].ctyId;
+				    var ctyNm = data[i].ctyNm;
+				    
+				    var tr = $("<tr data-ctyid='" + ctyId + "'></tr>'");
+				    var td = "<td><a href='#'>" + ctyNm + "</a><td>"
+				    
+				    $("#ctyTable").children("tbody").append(tr);
+				    tr.append(td);
+				    
+				    tr.click(function() {
+				    	var ctyId = $(this).data().ctyid;
+				    	strCall(ctyId);
+				    });
+				}
+			});
+		
+		
+		
+	});
+	
+	function strCall(ctyId) {
+		$("#strTable").children("tbody").empty();
+		if (!ctyId)	return;
+		
+		$.post("${context}/api/strprdt/list2/cty",
+		        {ctyId: ctyId},
+		        function(data) {
+		        	for (var i = 0; i < data.length; i++) {
+					    var strId = data[i].strId;
+					    var strNm = data[i].strNm;
+					    
+					    var tr = $("<tr data-strid='" + strId + "'></tr>'");
+					    var td = "<td><a href='#'>" + strNm + "</a><td>"
+					    
+					    $("#strTable").children("tbody").append(tr);
+					    tr.append(td);
+					    
+		        }
+	        })
+	}
 	
 	
 	
@@ -32,7 +92,7 @@ $().ready(function() {
 	</div>
 	
 					
-	<table id="dataTable1"
+	<table id="lctTable"
 			class="mb-10">
 		<thead>
 			<tr>
@@ -59,7 +119,7 @@ $().ready(function() {
 			</c:choose>
 		</tbody>
 	</table>
-	<table id="dataTable2"
+	<table id="ctyTable"
 			class="mb-10">
 		<thead>
 			<tr>
@@ -67,26 +127,9 @@ $().ready(function() {
 			</tr>
 		</thead>
 		<tbody>
-			<c:choose>
-				<c:when test="${not empty ctyList}">
-					<c:forEach items="${ctyList}"
-								var="cty">
-						<tr data-strid="${cty.ctyId}">
-							<td><a href="#">${cty.ctyNm}</a></td>
-						</tr>
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<td colspan="1" class="no-items">
-							조회된 항목이 없습니다.
-						</td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
 		</tbody>
 	</table>
-	<table id="dataTable3"
+	<table id="strTable"
 			class="mb-10">
 		<thead>
 			<tr>
@@ -94,23 +137,6 @@ $().ready(function() {
 			</tr>
 		</thead>
 		<tbody>
-			<c:choose>
-				<c:when test="${not empty strList}">
-					<c:forEach items="${strList}"
-								var="str">
-						<tr data-strid="${str.strId}">
-							<td><a href="#">${str.strNm}</a></td>
-						</tr>
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<td colspan="1" class="no-items">
-							조회된 항목이 없습니다.
-						</td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
 		</tbody>
 	</table>
 	

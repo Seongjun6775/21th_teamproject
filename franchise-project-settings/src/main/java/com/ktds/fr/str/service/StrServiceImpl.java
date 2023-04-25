@@ -116,8 +116,8 @@ public class StrServiceImpl implements StrService {
 	 *  손님이 매장 조회할 때 사용 ... 사용유무 Y
 	 */
 	@Override
-	public List<StrVO> readAllUseY(StrVO strVO) {
-		return strDAO.readAllUseY(strVO);
+	public List<StrVO> readAllUseY(String ctyId) {
+		return strDAO.readAllUseY(ctyId);
 	}
 
 }

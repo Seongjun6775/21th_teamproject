@@ -302,8 +302,10 @@
 		SELECT S.STR_ID
 			 , S.STR_NM
 			 , S.STR_LCTN
+			 , L.LCT_ID 
 			 , L.LCT_NM 
 			 , S.STR_CTY
+			 , C.CTY_ID
 			 , C.CTY_NM
 			 , S.STR_ADDR
 			 , S.STR_CALL_NUM
@@ -319,8 +321,7 @@
 		  	ON S.STR_CTY = C.CTY_ID
 		 WHERE S.DEL_YN = 'N'
 		   AND S.USE_YN = 'Y'
-		   AND S.STR_LCTN = NVL(#{strLctn}, '-')
-		   AND S.STR_CTY = NVL(#{strCty}, '-')
+		   AND S.STR_CTY = NVL(#{_parameter}, '%')
 		 ORDER BY S.STR_NM ASC
 	</select>
 	
