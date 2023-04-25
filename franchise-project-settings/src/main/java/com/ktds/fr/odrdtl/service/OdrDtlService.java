@@ -41,5 +41,7 @@ public interface OdrDtlService {
 	 */
 	public boolean deleteOneOdrDtlByOdrDtlId(String odrDtlId);
 	
+	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId);
+	
 
 }

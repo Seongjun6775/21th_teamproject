@@ -14,14 +14,12 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
-		
 		$(".odrlst_table_grid > table > tbody > tr").click(function() {
 			var data = $(this).data();
 			if (data.odrlstid != null && (data.odrlstid) != "") {
 				location.href="${context}/odrdtl/list/" + data.odrlstid;
 			}
 		});
-		
 		
 	});
 </script>
@@ -33,17 +31,14 @@
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<div>총 ${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}건</div>
-			
+			<div></div>
 			<div class="odrlst_table_grid">
 				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>주문 번호</th>
+							<th>주문 일자</th>
 							<th>주문 상태</th>
-							<th></th>
-							<th></th>
-							<th></th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -60,17 +55,13 @@
 										data-useyn="${odrLst.useYn}"
 										data-delyn="${odrLst.delYn}">
 										<td>${odrLst.odrLstId}</td>
+										<td>${odrLst.odrLstRgstDt}</td>
 										<td>${odrLst.odrLstOdrPrcs}</td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="9">주문 내역이 없습니다.</td>
+								<td colspan="3">주문 내역이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>

@@ -40,9 +40,12 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 
 	@Override
 	public int deleteOneOdrDtlByOdrDtlId(String odrDtlId) {
-		return getSqlSession().delete("OdrDtl.deleteOneOdrDtlByOdrDtlId", odrDtlId);
+		return getSqlSession().update("OdrDtl.deleteOneOdrDtlByOdrDtlId", odrDtlId);
 	}
 	
-	
+	@Override
+	public int deleteOdrDtlBySelectedDtlId(List<String> odrDtlId) {
+		return getSqlSession().update("OdrDtl.deleteOdrDtlBySelectedDtlId", odrDtlId);
+	}
 	
 }

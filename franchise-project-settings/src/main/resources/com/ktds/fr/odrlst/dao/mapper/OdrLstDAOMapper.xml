@@ -14,14 +14,12 @@
 			<association property="prdtVO"
 			              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
 				<id property="prdtId" column="PRDT_ID" />
-				<result property="prdtNm" column="PRDT_NM" />
 				<result property="prdtPrc" column="PRDT_PRC" />
 			</association>
 			<association property="strVO"
 			              javaType="com.ktds.fr.str.vo.StrVO" >
 				<id property="strId" column="STR_ID" />
 				<result property="strNm" column="STR_NM" />
-				<result property="strCallNum" column="STR_CALL_NUM" />
 			</association>
 		</collection>
 	</resultMap>
@@ -71,6 +69,7 @@
 		     , DEL_YN
 		     , STR_ID
 		  FROM ODR_LST
+		 INNER JOIN ODR_DTL
 		<include refid="Common.pageFooter" />
 	</select>
 	

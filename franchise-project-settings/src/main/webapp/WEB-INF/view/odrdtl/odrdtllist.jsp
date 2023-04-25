@@ -14,57 +14,62 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
-		$(document).ready(function() {
-			  $(".plus").on("click", function() {
-			    var $cnt = $(this).siblings(".cnt");
-			    var num = parseInt($cnt.val()) + 1;
-			    var price = num * $(this).closest(".updown").siblings(".price").data("price");
-			    $cnt.val(num);
-			    $(this).closest(".updown").siblings(".price").children("span").text(price);
-			  });
-
-			  $(".minus").on("click", function() {
-			    var $cnt = $(this).siblings(".cnt");
-			    var num = parseInt($cnt.val()) - 1;
-			    if (num < 1) {
-			      num = 1;
-			    }
-			    var price = num * $(this).closest(".updown").siblings(".price").data("price");
-			    $cnt.val(num);
-			    $(this).closest(".updown").siblings(".price").children("span").text(price);
-			  });
+		$(".odrdtl_table_grid > table > tbody > tr").not(".delete_btn").click(function() {
+			var data = $(this).data();
+			if (data.odrdtlid != null && (data.odrdtlid) != "") {
+				location.href="${context}/odrdtl/" + data.odrdtlid;
+			}
 		});
-		/* $(".updown button").click(function(e) {
-			e.preventDefault();
-			var $count = $(this).closest(".updown").find(".cnt");
-			var now = parseInt($count.val());
-			var min = 1;
-			var max = 999;
-			var num = now;
+		
+		$("#all_check").change(function() {
+			$(".check_idx").prop("checked", $(this).prop("checked"));
+		});
+		
+		$(".check_idx").change(function() {
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
+		});
+		
+		$("#check_del_btn").click(function() {
+			var checkLen = $(".check_idx:checked").length;
 			
-			if($(this).hasClass("minus")){
-				var type="m";
-			} else {
-				var type="p"
+			if (checkLen == 0) {
+				alert("선택하신 주문 상품이 없습니다.")
+				return;
 			}
 			
-			if (type == "m") {
-				if (now > min) {
-					num = now - 1;
+			if (!confirm("정말 삭제하시겠습니까?")) {
+				return;
+			}
+			
+			var form = $("<form></form>");
+			$(".check_idx:checked").each(function() {
+				form.append("<input type='hidden' name='odrDtlId' value ='" + $ (this).val() +"'>")
+			});
+			
+			$.post("${context}/api/odrdtl/delete", form.serialize(), function(response) {});
+			location.reload();
+			
+		});
+		
+		$(".delete_btn").click(function(){
+			
+			if (!confirm("해당 물품을 삭제하시겠습니까?")) {
+				return;
+			}
+			var odrDtlId = $(this).val();
+			$.post("${context}/api/odrdtl/delete/" + odrDtlId, function(response) {
+				if (response.status == "200 OK") {
+					location.href = "${context}/odrdtl/list/${odrLstId}"
 				}
-			} else {
-				if (now < max) {
-					num = now + 1;
+				else {
+					alert(response.errorCode + " / " + response.message);
 				}
-			}
+			})
 			
-			if (num != now) {
-				$count.val(num);
-				
-				var price = num * $(".price").data("price");
-				$("#price").text(price);
-			}
-		}); */
+		});
+		
 	});
 </script>
 </head>
@@ -77,56 +82,48 @@
 			
 			<h2>구매 예정 물품 조회 페이지</h2>
 			<div>총 ${odrDtlList.size() > 0 ? odrDtlList.get(0).totalCount : 0}건</div>
+			<button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button>
+			
 			<div class="odrdtl_table_grid">
 				<table class="table table-striped">
 					<thead>
 						<tr>
+							<th><input type="checkbox" id="all_check"/></th>
 							<th>사진</th>
-							<th>정보</th>
+							<th>상품명</th>
+							<th>수량</th>
+							<th>가격</th>
+							<th>총액</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:choose>
 							<c:when test="${not empty odrDtlList}">
+								<c:set var="sum" value="0" />
 								<c:forEach items="${odrDtlList}" var="odr">
-									<tr data-odrDtlId="${odr.odrDtlId}"
-										data-odrLstId="${odr.odrLstId}"
-										data-odrDtlPrdtId="${odr.odrDtlPrdtId}"
-										data-odrDtlPrdtCnt="${odr.odrDtlPrdtCnt}"
-										data-odrDtlStrId="${odr.odrDtlStrId}"
-										data-useYn="${odr.useYn}"
-										data-delYn="${odr.delYn}"
-										data-mbrId="${odr.mbrId}"
-										data-prdtNm="${odr.prdtVO.prdtNm}"
-										data-prdtPrc="${odr.prdtVO.prdtPrc}"
-										data-strNm="${odr.strVO.strNm}"
-										data-strCallNum="${odr.strVO.strCallNum}">
-										<td>
-											
-										</td>
-										<td>
-											<div class="container text-center">
-											  <div class="row">
-											    <div class="col">
-											      상품명 : <span>${odr.prdtVO.prdtNm}</span>
-											    </div>
-											    <div class="col updown">
-											    	<button class="minus">-</button>
-											    	<input type="text" class="cnt" value="${odr.odrDtlPrdtCnt}" readonly/>
-											    	<button class="plus">+</button>
-											    </div>
-											  </div>
-											  <div class="row">
-											    <div class="col price" data-price="${odr.prdtVO.prdtPrc}">
-											      가격 : <span id="price">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</span>
-											    </div>
-											    <div class="col">
-											      매장명 : <span>${odr.strVO.strNm}</span>
-											    </div>
-											  </div>
-											</div>
-										</td>
+									<tr data-odrdtlid="${odr.odrDtlId}"
+										data-odrlstid="${odr.odrLstId}"
+										data-odrdtlprdtid="${odr.odrDtlPrdtId}"
+										data-odrdtlprdtcnt="${odr.odrDtlPrdtCnt}"
+										data-odrdtlstrid="${odr.odrDtlStrId}"
+										data-useyn="${odr.useYn}"
+										data-delyn="${odr.delYn}"
+										data-mbrid="${odr.mbrId}"
+										data-prdtnm="${odr.prdtVO.prdtNm}"
+										data-prdtprc="${odr.prdtVO.prdtPrc}"
+										data-strnm="${odr.strVO.strNm}"
+										data-strcallnum="${odr.strVO.strCallNum}">
+										<td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${odr.odrDtlId}" /></td>
+										<td><img src=""></td>
+										<td>${odr.prdtVO.prdtNm}</td>
+										<td>${odr.odrDtlPrdtCnt}</td>
+										<td>${odr.prdtVO.prdtPrc}</td>
+										<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
+										<td onclick="event.cancelBubble=true"><button type="button" class="btn btn-danger btn-sm delete_btn"
+													 value="${odr.odrDtlId}">삭제</button></td>
 									</tr>
+									<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}" />
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
@@ -135,6 +132,10 @@
 						</c:choose>
 					</tbody>
 				</table>
+				<div>
+					<div>합계 : <span><c:out value="${sum}" /></span>원</div>
+					<div><button type="button" class="btn btn-success">결제하기</button></div>
+				</div>
 			</div>
 			
 			<jsp:include page="../include/footer.jsp" />

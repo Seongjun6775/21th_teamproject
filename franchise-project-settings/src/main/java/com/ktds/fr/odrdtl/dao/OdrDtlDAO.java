@@ -40,5 +40,7 @@ public interface OdrDtlDAO {
 	 * @return 삭제한 건수
 	 */
 	public int deleteOneOdrDtlByOdrDtlId(String odrDtlId);
+	
+	public int deleteOdrDtlBySelectedDtlId(List<String> odrDtlId);
 
 }

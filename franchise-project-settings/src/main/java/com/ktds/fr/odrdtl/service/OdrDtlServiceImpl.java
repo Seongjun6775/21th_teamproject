@@ -39,5 +39,9 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		return odrDtlDAO.deleteOneOdrDtlByOdrDtlId(odrDtlId) > 0;
 	}
 	
+	@Override
+	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId) {
+		return odrDtlDAO.deleteOdrDtlBySelectedDtlId(odrDtlId) > 0;
+	}
 	
 }
