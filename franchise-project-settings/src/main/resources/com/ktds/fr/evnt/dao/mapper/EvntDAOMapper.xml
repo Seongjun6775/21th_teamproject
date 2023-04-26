@@ -77,8 +77,11 @@
 		AND EVNT.USE_YN = #{useYn}
 		 </if>		 
 		AND EVNT.DEL_YN = 'N'
+
 		ORDER BY EVNT_ID DESC
+
 		<include refid="Common.pageFooter" />
+		ORDER BY RNUM DESC
 	   </select>
 
 
