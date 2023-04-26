@@ -17,7 +17,7 @@
 		<div>
 			<jsp:include page="./include/sidemenu.jsp" />
 			<jsp:include page="./include/content.jsp" />
-			
+			유저페이지입니다.
 			<jsp:include page="./include/footer.jsp" />
 		</div>
 	</div>

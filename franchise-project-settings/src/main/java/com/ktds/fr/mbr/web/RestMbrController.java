@@ -212,17 +212,16 @@ public class RestMbrController {
 		return new ApiResponseVO(ApiStatus.OK);
 	}
 	//권한 해임
-	@GetMapping("/api/mbr/admin/fire")
-	public ApiResponseVO doFireAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session) {
-		log.info("넘겨지니? {}",mbrVO.getMbrId());
-		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length()==0) {
+	@PostMapping("/api/mbr/admin/fire")
+	public ApiResponseVO doFireAdmin(@SessionAttribute("__MBR__")MbrVO mbrVO,@RequestParam List<String> mbrIdList) {
+		if(mbrIdList == null || mbrIdList.size()==0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "해임하려는 직원을 다시 확인해 주세요.");
 		}
-		mbrVO.setMdfyr(session.getMbrId());
-		boolean delResult = mbrService.deleteOneMbrAdminByMbrId(mbrVO);
+		boolean delResult = mbrService.deleteAllMbrAdminByMbrId(mbrVO, mbrIdList);
 		if(!delResult) {
 			throw new ApiException(ApiStatus.FAIL, "관리자 해임에 실패했습니다. 다시 시도해주세요."); 
 		}
 		return new ApiResponseVO(ApiStatus.OK);
 	}
+	
 }

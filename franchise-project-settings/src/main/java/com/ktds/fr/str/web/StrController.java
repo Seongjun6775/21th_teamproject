@@ -119,4 +119,15 @@ public class StrController {
 		model.addAttribute("strList",strList);
 		return "mbr/str_search";
 	}
+	
+	/**
+	 * 매장의 직원들 정보 조회(전체)
+	 */
+	@GetMapping("/str/crew/list")
+	public String viewStrCrewPage(@SessionAttribute("__MBR__")MbrVO mbrVO, Model model) {
+		//
+		List<MbrVO> mbrList = mbrService.readAllCrewMbrByStrId(mbrVO);
+		model.addAttribute("mbrList",mbrList);
+		return "str/str_crewlist";
+	}
 }
