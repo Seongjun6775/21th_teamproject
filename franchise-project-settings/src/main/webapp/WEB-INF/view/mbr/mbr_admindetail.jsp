@@ -17,8 +17,6 @@
 		<div>
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			
-			
 			<!-- 조회영역 -->
 			<div class="grid">
 				<div class="detail-header">
