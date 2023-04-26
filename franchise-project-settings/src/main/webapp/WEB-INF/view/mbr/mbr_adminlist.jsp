@@ -30,6 +30,19 @@
 			$("#prev-strId-hidden").val(data.strid);
 		});
 		
+		$("#all_check").click(function() {
+			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
+		});
+		$("#all_check").change(function(){
+			$(".check-idx").prop("checked", $(this).prop("checked"));
+		});
+		$(".check-idx").change(function(){
+			var count = $(".check-idx").length;
+			var checkCount = $(".check-idx:checked").length;
+			
+			$("#all_check").prop("checked", count == checkCount);
+		});
+		
 		$("#search-btn").click(function(){
 			movePage(0);
 		});
@@ -112,10 +125,21 @@
 			str=window.open("${context}/str/search","매장검색", "width=500, height=500");
 		});
 		$("#fire-btn").click(function(event){
-			var confirmFire = confirm("해당 관리자의 권한은 해지하시겠습니까?");
+			var confirmFire = confirm("선택된 관리자의 권한을 해지하시겠습니까?");
+			var checkLen = $(".check-idx:checked").length;
+			if(checkLen == 0){
+				alert("권한을 해지할 관리자를 선택하세요.");
+				return;
+			}
+			var form = $("<form></form>")
+			$(".check-idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='mbrIdList' value='"+$(this).val() + "'>'")
+			});
 			if(confirmFire){
-				var fireAdmin = $(this).closest("tr").data();
-				$.get("${context}/api/mbr/admin/fire",function(resp){
+				/* var fireAdmin = $(this).closest("tr").data(); */
+				
+				$.post("${context}/api/mbr/admin/fire", form.serialize(),function(resp){
 					if(resp.status == "200 OK"){
 						alert("관리자가 해임되었습니다.");
 						location.reload();
@@ -133,7 +157,10 @@
 		var mbrNm = $("#search-keyword-mbrNm").val();
 		var startDt = $("#search-keyword-startdt").val();
 		var endDt = $("#search-keyword-enddt").val();
-		
+		var strNm = $("#search-keyword-strNm").val();
+		if(strNm == null || strNm.length == 0){
+			strNm="%";
+		}
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
@@ -145,6 +172,7 @@
 		queryString += "&mbrNm=" + mbrNm;
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt=" + endDt;
+		queryString += "&strVO.strNm=" + strNm;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href="${context}/mbr/admin/list?" + queryString;
@@ -163,6 +191,8 @@
 					<div class="search-group">
 						<label for="search-keyword-mbrNm" >이름</label>
 						<input type="text" id="search-keyword-mbrNm" class="search-input" value="${mbrVO.mbrNm}"/>
+						<label for="search-keyword-strNm" >매장명</label>
+						<input type="text" id="search-keyword-strNm" class="search-input" value="${mbrVO.strVO.strNm}"/>
 						<select id="mbrLvl" name="mbrLvl">
 							<option value="">멤버등급</option>
 							<c:choose>
@@ -187,7 +217,7 @@
 					<table>
 						<thead>
 							<tr>
-								<th>순번</th>
+								<th>선택<input type="checkbox" id="all_check" /></th>
 								<th>ID</th>
 								<th>이름</th>
 								<th>이메일</th>
@@ -197,7 +227,6 @@
 								<th>최근 로그인 날짜</th>
 								<th>최근 로그인 IP</th>
 								<th>로그인 제한</th>
-								<th>관리자 해임</th>
 								
 							</tr>
 						</thead>
@@ -223,7 +252,9 @@
 											data-delYn="${mbr.delYn}"
 											data-strNm="${mbr.strVO.strNm}"
 											>
-											<td>${index.index+1}</td>
+											<td class="firstcell">
+												<input type="checkbox" class="check-idx" value="${mbr.mbrId}"/>
+											</td>
 											<td>${mbr.mbrId}</td>
 											<td>${mbr.mbrNm}</td>
 											<td>${mbr.mbrEml}</td>
@@ -233,7 +264,6 @@
 											<td>${mbr.mbrRcntLgnDt}</td>
 											<td>${mbr.mbrRcntLgnIp}</td>
 											<td>${mbr.mbrLgnBlckYn}</td>
-											<td><button class="fire-btn">해임</button></td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -245,7 +275,9 @@
 							</c:choose>
 						</tbody>
 					</table>
-					
+						<div class="align-right mt-10">
+							<button id="fire-btn" class="fire-btn">해임</button>
+						</div>
 						<div class="pagenate">
 							<ul>
 								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastPage : 0}" var="lastPage"/>

@@ -22,7 +22,7 @@ public class BlockPageInterceptor extends HandlerInterceptorAdapter{
 		//세션이 없는지 체크.
 		//세션이 있다 = return false;
 		if(member != null) {
-			response.sendRedirect(request.getContextPath() + "/index");
+			response.sendRedirect(request.getContextPath() + "/");
 			return false;
 		}
 		

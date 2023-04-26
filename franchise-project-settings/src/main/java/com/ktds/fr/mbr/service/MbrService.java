@@ -48,5 +48,7 @@ public interface MbrService {
 	//권한 및 소소 수정용
 	public boolean updateOneMbrLvlAndStrId(MbrVO mbrVO);
 	//관리자 권한 해임용
-	public boolean deleteOneMbrAdminByMbrId(MbrVO mbrVO);
+	public boolean deleteAllMbrAdminByMbrId(MbrVO mbrVO, List<String> mbrIdList);
+	//중간관리자 직원 조회용
+	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO);
 }
