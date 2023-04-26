@@ -26,7 +26,7 @@
 			
 			<!-- 조회영역 -->
 			<div class="grid">
-				<div class="grid-count align-right">총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
+				<div class="grid-count align-right">총 ${mbrList.size()}명</div>
 					<table>
 						<thead>
 							<tr>
