@@ -16,7 +16,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/strMgmtSideMenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<!-- 조회영역 -->
 			<div class="grid">
@@ -81,7 +81,14 @@
 						<div class="content-items">
 							<div class="item">
 								<input type="text" style="width:200px;" value="${empty mbr.hrVO.orgnFlNm ? '파일이 없습니다.' : mbr.hrVO.orgnFlNm}"/>
-								<a href="${context}/hr/hrfile/${mbr.hrVO.hrId}"><i class='bx bx-file'></i></a>
+								<c:choose>
+									<c:when test ="${empty mbr.hrVO.hrId}">
+										<a href="javascript:alert('파일이 없습니다.')"><i class='bx bx-file'></i></a>
+									</c:when>
+									<c:otherwise>
+										<a href="${context}/hr/hrfile/${mbr.hrVO.hrId}"><i class='bx bx-file'></i></a>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 					</div>

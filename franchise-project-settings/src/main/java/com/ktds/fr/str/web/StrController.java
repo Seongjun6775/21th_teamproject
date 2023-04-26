@@ -100,6 +100,8 @@ public class StrController {
 		StrVO strVO = strService.readOneStrByManager(strId);
 		List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
 	    List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
+	    List<MbrVO> mbrList = mbrService.readAllCrewMbrByStrId(mbrVO);
+		model.addAttribute("mbrList",mbrList);
         model.addAttribute("ctyList", ctyList);
         model.addAttribute("lctList", lctList);
 		model.addAttribute("strVO", strVO);
@@ -122,12 +124,13 @@ public class StrController {
 	
 	/**
 	 * 매장의 직원들 정보 조회(전체)
+	 * 
+	 *@GetMapping("/str/crew/list")
+	 *public String viewStrCrewPage(@SessionAttribute("__MBR__")MbrVO mbrVO, Model model) {
+	 *	//
+	 *	List<MbrVO> mbrList = mbrService.readAllCrewMbrByStrId(mbrVO);
+	 *	model.addAttribute("mbrList",mbrList);
+	 *	return "str/str_crewlist";
+	 *}
 	 */
-	@GetMapping("/str/crew/list")
-	public String viewStrCrewPage(@SessionAttribute("__MBR__")MbrVO mbrVO, Model model) {
-		//
-		List<MbrVO> mbrList = mbrService.readAllCrewMbrByStrId(mbrVO);
-		model.addAttribute("mbrList",mbrList);
-		return "str/str_crewlist";
-	}
 }

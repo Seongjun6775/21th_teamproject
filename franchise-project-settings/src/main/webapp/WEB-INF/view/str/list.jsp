@@ -175,7 +175,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/strMgmtSideMenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 		
 			<div class="path"> 매장 관리
