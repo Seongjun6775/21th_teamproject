@@ -45,7 +45,7 @@ function movePage(pageNo) {
 </head>
 <body>
 
-	<div class="headline relative">
+	<%-- <div class="headline relative">
 		상단 헤드라인임 //////// <a href="${context}/prdt/list">관리자 메뉴로 돌아가깅</a>
 		<div>${prdtList}</div>
 		<div>${prdtVO}</div>
@@ -79,7 +79,7 @@ function movePage(pageNo) {
 				<div>할인중!!</div>
 			</c:when>
 		</c:choose>
-<%-- 		<div>이벤트명 : <a href="${context}/evnt/detail/${prdtVO.evntVO.evntId}">${prdtVO.evntVO.evntTtl}</a></div> --%>
+		<div>이벤트명 : <a href="${context}/evnt/detail/${prdtVO.evntVO.evntId}">${prdtVO.evntVO.evntTtl}</a></div>
 		<div>${prdtVO.cmmnCdVO.cdNm}</div>
 		<div>${prdtVO.prdtNm}</div>
 		<c:choose>
@@ -92,7 +92,36 @@ function movePage(pageNo) {
 			</c:otherwise>
 		</c:choose>
 		<div>${prdtVO.prdtCntnt}</div>
-	</div>
+	</div> --%>
+	
+	
+	<div class="container">
+				<div class="row content text-center">
+					<div class="col img-grid">
+						<img src="" alt="사진이 들어갈 예정입니다.">
+					</div>
+					<!-- 임시로 style을 넣어 두었습니다. css 작업을 하실 때 지워야 합니다. -->
+					<div class="col text-grid">
+						<div style="text-align: left; font-size: 20px;">상품명 : 
+							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtNm}</span>
+						</div>
+						<div style="text-align: left; font-size: 20px;">개당 가격 : 
+							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtPrc}</span>원
+						</div>
+						<div class="col updown" style="text-align: left; font-size: 20px; padding: 0px;">수량 :
+								<button class="minus">-</button>
+								<input type="text" class="cnt text-center" value="${odrDtl.odrDtlPrdtCnt}" readonly/>
+								<button class="plus">+</button>
+						</div>
+						<div class="col price" style="text-align: left; font-size: 20px; padding: 0px;">합계 : 
+							<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * odrDtl.prdtVO.prdtPrc}" readonly>
+						</div>
+					</div>
+				</div>
+				<button type="button" id="modify_btn"class="btn btn-success">수정</button>
+				<button type="button" id="list_btn" class="btn btn-secondary">목록</button>
+				<button type="button" id="delete_btn" class="btn btn-danger">삭제</button>
+			</div>
 	
 	
 
