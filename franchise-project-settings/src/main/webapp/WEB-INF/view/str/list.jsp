@@ -153,7 +153,9 @@
 				console.log(strLctn);
 				console.log(strLctn);
 				
-				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){})
+				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+					
+				})
 			});
 			
 		});
