@@ -124,33 +124,6 @@
 				</div>
 			</div>
 			<button id="btn-close" class="btn-primary">닫기</button>
-			<div>
-				<div>
-					<ul>
-
-						<fmt:parseNumber var="nowGroup" value="${Math.floor(evntStrVO.pageNo /10)}" integerOnly="true" />
-						<c:set value="${nowGroup*10}" var="groupStartPageNo" />
-						<c:set value="${nowGroup*10+ 10}" var="groupEndPageNo" />
-						<c:set value="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo -1}" var="groupEndPageNo" />
-
-						<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-						</c:if>
-
-						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
-							<li><a class="${pageNo eq evntStrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-						</c:forEach>
-						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-						</c:if>
-					</ul>
-				</div>
-			</div>
-			<button id="btn-close" class="btn-primary">닫기</button>
 		</div>
 	</div>
 </body>
