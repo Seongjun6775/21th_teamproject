@@ -117,10 +117,6 @@
 		});
 
 		
-		
-		
-		
-		
 		 $("#btn-create-evntPrdt").click(function() {
 				var checkLen = $(".check-idx:checked").length;
 				if (checkLen == 0) {
@@ -134,20 +130,24 @@
 				var form = $("<form></form>")
 				
 				$(".check-idx:checked").each(function() {
-					console.log($(this).val());
-					form.append("<input type='hiedden' name='evntPrdtList' value='" + $(this).val() + "'>");
-					console.log(document.getElementById("search-keyword-changePrice"));
-					console.log(document.getElementById("search-keyword-changePrice").value);
+					var chgPrice = $(this).closest("tr").find("input[type=text]").val();
+					// var evntId
+					console.log(chgPrice);
+// 					console.log($(this).val());
+ 					form.append("<input type='hiedden' name='evntPrdtList' value='" + $(this).val() + "'>");
+ 					form.append("<input type='hiedden' name='evntPrdtPriceList' value='" + chgPrice + "'>");
+//					console.log(document.getElementById("search-keyword-changePrice"));
+//					console.log(document.getElementById("search-keyword-changePrice").value);
 				});
-				
-// 				$.post("${context}/api/prdt/createPrdtListAll", form.serialize(), function(response) {
-// 					if (response.status == "200 OK") {
-// 						location.reload(); //새로고침
-// 					}
-// 					else {
-// 						alert(response.errorCode + " / " + response.message);
-// 					}
-// 				});
+							
+				$.post("${context}/api/evntPrdt/createCheckedEvntPrdtList", form.serialize(), function(response) {
+					if (response.status == "200 OK") {
+						location.reload(); //새로고침
+					}
+					else {
+						alert(response.errorCode + " / " + response.message);
+					}
+				});
 			})
 	});
 

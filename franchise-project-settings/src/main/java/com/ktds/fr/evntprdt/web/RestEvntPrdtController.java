@@ -1,9 +1,7 @@
 package com.ktds.fr.evntprdt.web;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +14,6 @@ import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.evntprdt.service.EvntPrdtService;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
 import com.ktds.fr.mbr.vo.MbrVO;
-import com.ktds.fr.prdt.vo.PrdtVO;
 
 @RestController
 public class RestEvntPrdtController {
@@ -72,23 +69,36 @@ public class RestEvntPrdtController {
 		}
 	}
 
-	@PostMapping("/api/evntPrdt/createList")
-	public ApiResponseVO doCreateEvntPrdtLsit(@RequestParam List<PrdtVO> evntPrdtList,
+	@PostMapping("/api/evntPrdt/createCheckedEvntPrdtList")
+	public ApiResponseVO doCreateEvntPrdtList(@RequestParam List<String> evntPrdtList, @RequestParam List<String> evntPrdtPriceList,
 			@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
+		List<EvntPrdtVO> listEvntPrdt = new ArrayList<EvntPrdtVO>(); 
+		
+		for(int i = 0 ; i < evntPrdtList.size() ; i ++) {
+			EvntPrdtVO evntPrdtVO = new EvntPrdtVO();
+			evntPrdtVO.setEvntPrdtId(evntPrdtList.get(i));
+			evntPrdtVO.setEvntPrdtChngPrc(Integer.parseInt(evntPrdtPriceList.get(i)));
+			//내일할거
+			//evntPrdtVO.setEvntId();	
+			
+			listEvntPrdt.add(evntPrdtVO);					
+		}
+				
+		
 		for (int i = 0 ; i < evntPrdtList.size() ; i ++ ) {
-			System.out.println(evntPrdtList.get(i).getPrdtId());
-			System.out.println(evntPrdtList.get(i).getPrdtId());
-			System.out.println(evntPrdtList.get(i).getPrdtId());
+			System.out.println("상품리스트 : " + evntPrdtList.get(i));
+			System.out.println("변경 가격 : " + evntPrdtPriceList.get(i));
 		}
 		
-		boolean isSuccess = evntPrdtService.createEvntPrdtListByEvntId(evntPrdtList, mbrVO);
-
-		if (isSuccess) {
-			return new ApiResponseVO(ApiStatus.OK);
-		} else {
-			return new ApiResponseVO(ApiStatus.FAIL);
-		}
+//밑에 끝에다가 아이디리스트 넣어주고 서비스/디에이오 변경 디에오에서 insert 치기	
+//		boolean isSuccess = evntPrdtService.createEvntPrdtListByEvntId(listEvntPrdt, mbrVO);
+//
+//		if (isSuccess) {
+ 		return new ApiResponseVO(ApiStatus.OK);
+//		} else {
+//			return new ApiResponseVO(ApiStatus.FAIL);
+//		}
 	}
 
 	// -----------------공통적용 소스----------------------------
