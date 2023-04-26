@@ -4,6 +4,18 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Hr">
 	
+	<resultMap id="hrMap"
+				type="com.ktds.fr.hr.vo.HrVO"
+				autoMapping="true">
+		<id property="hrId" column="HR_ID" />
+		<association property="mbrVO"
+					  javaType="com.ktds.fr.mbr.vo.MbrVO" >
+			<id property="mbrId" column="MBR_ID" />
+		</association>
+	</resultMap>
+	
+	
+	
 	<select id="readAllHr"
 			parameterType="com.ktds.fr.hr.vo.HrVO"
 			resultType="com.ktds.fr.hr.vo.HrVO">
@@ -119,7 +131,7 @@
 	
 	<select id="readOneHrByHrId"
 			parameterType="string"
-			resultType="com.ktds.fr.hr.vo.HrVO">
+			resultMap="hrMap">
 		SELECT H.HR_ID
 		     , H.MBR_ID
 		     , H.HR_TTL
@@ -137,7 +149,10 @@
 		     , H.DEL_YN
 		     , H.NTC_YN
 		     , H.HR_LVL
+		     , M.STR_ID
 		  FROM HR H
+		 INNER JOIN MBR M
+		    ON H.MBR_ID = M.MBR_ID
 		  LEFT JOIN CMMN_CD C
 		    ON H.HR_LVL = C.CD_ID
 		 WHERE H.HR_ID = #{_parameter}

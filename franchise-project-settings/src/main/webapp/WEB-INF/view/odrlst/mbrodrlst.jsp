@@ -58,7 +58,12 @@
 										<td>${odrLst.odrLstId}</td>
 										<td>${odrLst.odrLstRgstDt}</td>
 										<td>${odrLst.strVO.strNm}</td>
-										<td>${odrLst.odrLstOdrPrcs}</td>
+										<td>
+											<c:if test="${odrLst.odrLstOdrPrcs eq '003-01'}">주문접수</c:if>
+											<c:if test="${odrLst.odrLstOdrPrcs eq '003-02'}">주문취소</c:if>
+											<c:if test="${odrLst.odrLstOdrPrcs eq '003-03'}">주문처리</c:if>
+											<c:if test="${odrLst.odrLstOdrPrcs eq '003-04'}">주문완료</c:if>
+										</td>
 									</tr>
 								</c:forEach>
 							</c:when>

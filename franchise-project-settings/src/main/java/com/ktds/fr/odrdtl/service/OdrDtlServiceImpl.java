@@ -43,9 +43,15 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 			odrLstVO.setOdrLstRgstr(odrDtlVO.getMbrId());
 			odrLstVO.setMdfyr(odrDtlVO.getMbrId());
 			odrLstVO.setStrId(odrDtlVO.getOdrDtlStrId());
+			// 새 주문서를 생성합니다.
+			odrLstDAO.createNewOdrLst(odrLstVO);
 			
-			int odrList = odrLstDAO.createNewOdrLst(odrLstVO);
-			
+			// odrDtl 내의 mbrId로 OdrLst에 접근해, 방금 생성한 주문서의 ID를 받아옵니다.
+			OdrLstVO OdrLstId = odrLstDAO.getOdrLstId(odrDtlVO.getMbrId());
+			// 받아온 주문서 ID를 odrDtlVO 안에 세팅합니다.
+			odrDtlVO.setOdrLstId(OdrLstId.getOdrLstId());
+			// 주문서 ID가 포함된 odrDtlVO로 새 주문상세를 생성합니다.
+			createResult = odrDtlDAO.createNewOdrDtl(odrDtlVO) > 0;
 		}
 		
 		return createResult;
