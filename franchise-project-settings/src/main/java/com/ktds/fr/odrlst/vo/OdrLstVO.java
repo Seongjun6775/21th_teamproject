@@ -1,6 +1,12 @@
 package com.ktds.fr.odrlst.vo;
 
-public class OdrLstVO {
+import java.util.List;
+
+import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.str.vo.StrVO;
+
+public class OdrLstVO extends AbstractVO{
 	/**
 	 * 장바구니 ID
 	 */
@@ -37,6 +43,18 @@ public class OdrLstVO {
 	 * 삭제 여부
 	 */
 	private String delYn;
+	/**
+	 * 주문한 매장 ID
+	 */
+	private String strId;
+	/**
+	 * 주문한 매장의 정보
+	 */
+	private StrVO strVO;
+	/**
+	 * 주문서 안의 물품들 정보
+	 */
+	private List<OdrDtlVO> odrDtlList;
 
 	public String getOdrLstId() {
 		return odrLstId;
@@ -109,5 +127,30 @@ public class OdrLstVO {
 	public void setDelYn(String delYn) {
 		this.delYn = delYn;
 	}
+	
+	public String getStrId() {
+		return strId;
+	}
 
+	public void setStrId(String strId) {
+		this.strId = strId;
+	}
+
+	public StrVO getStrVO() {
+		return strVO;
+	}
+
+	public void setStrVO(StrVO strVO) {
+		this.strVO = strVO;
+	}
+
+	public List<OdrDtlVO> getOdrDtlList() {
+		return odrDtlList;
+	}
+
+	public void setOdrDtlList(List<OdrDtlVO> odrDtlList) {
+		this.odrDtlList = odrDtlList;
+	}
+	
+	
 }

@@ -14,11 +14,11 @@ public interface OdrDtlDAO {
 	public int createNewOdrDtl(OdrDtlVO odrDtlVO);
 	
 	/**
-	 * 회원 ID를 기준으로 회원이 주문한 모든 상품의 주문상세를 읽어옵니다.
-	 * @param odrLstId 주문한 회원 ID
-	 * @return 회원이 주문한 상품의 주문 상세 목록
+	 * VO 내의 주문서 ID와 mbrId를 기준으로 주문서 내의 모든 상품 정보를 읽어옵니다.
+	 * @param odrDtlVO 주문서 ID + pagenation 구현용 VO
+	 * @return 주문서 내의 모든 상품 정보 목록
 	 */
-	public List<OdrDtlVO> readAllOdrDtlByOdrLstId(String mbrId);
+	public List<OdrDtlVO> readAllOdrDtlByOdrLstIdAndMbrId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문에 대해 상세 조회합니다.
@@ -32,7 +32,7 @@ public interface OdrDtlDAO {
 	 * @param odrDtlId 주문 상세 ID
 	 * @return 수정한 건수
 	 */
-	public int updateOneOdrDtlByOdrDtlId(String odrDtlId);
+	public int updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문을 삭제합니다.
@@ -40,5 +40,7 @@ public interface OdrDtlDAO {
 	 * @return 삭제한 건수
 	 */
 	public int deleteOneOdrDtlByOdrDtlId(String odrDtlId);
+	
+	public int deleteOdrDtlBySelectedDtlId(List<String> odrDtlId);
 
 }

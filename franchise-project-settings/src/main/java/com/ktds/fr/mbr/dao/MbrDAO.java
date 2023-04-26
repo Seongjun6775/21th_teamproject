@@ -31,18 +31,25 @@ public interface MbrDAO {
 	
 	//이용자 조회용
 	public List<MbrVO> readAllMbr(MbrVO mbrVO);
-	//하위 관리자 조회용
-	public List<MbrVO> readAllEmployeeAdminMbr();
+	//관리자 조회용
+	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO);
 	//회원 수정
 	public int updateOneMbr(MbrVO mbrVO);
 	//회원 삭제
 	public int deleteOneMbr(String mbrId);
 	//비밀번호 확인
 	public MbrVO readOneMbrByPwd(MbrVO mbrVO);
-	//개인정보 조회용
+	//개인정보 조회용(이용자)
 	public MbrVO readOneMbrByMbrId(String mbrId);
 	//비밀번호 변경용
 	public int updateOneMbrPwd(MbrVO mbrVO);
 	//ID/PW 찾기 용
 	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO);
+	//권한 및 소속 변경용
+	public int updateOneMbrLvlAndStrId(MbrVO mbrVO);
+	//관리자 권한 해임용
+	public int deleteAllMbrAdminByMbrId(List<String> mbrIdList);
+	//중간관리자용 매장직원 조회
+	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO);
+	
 }

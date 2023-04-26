@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Rpl">
+	
+	<resultMap id="rplMap" 
+			   type="com.ktds.fr.rpl.vo.RplVO"  
+			   autoMapping="true">
+		<id property="rplId" column="RPl_ID"/>
+		<association property="mbrVO"
+					 javaType="com.ktds.fr.mbr.vo.MbrVO"
+					 autoMapping="true">
+			<id property="mbrId" column="MBR_ID"/>
+		</association>	
+		<association property="mngrbrdVO"
+					 javaType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+			<id property="mngrBrdId" column="MNGR_BRD_ID"/>
+			<result property="delYn" column="B_DEL_YN" />	
+			<result property="mngrBrdTtl" column="B_MNGR_BRD_TTL" />		
+		</association>
+	</resultMap>
+	
+	
+	<select id="readAllRpls"
+			parameterType="com.ktds.fr.rpl.vo.RplVO"
+			resultMap="rplMap">
+			<include refid ="Common.pageHeader"/>
+			SELECT R.RPL_ID PK_COL
+				 , DENSE_RANK() OVER(ORDER BY R.RPL_WRT_DT DESC) RNUM
+				 , R.RPL_ID
+				 , R.RPL_CNTNT
+				 , TO_CHAR(R.RPL_WRT_DT ,'YYYY-MM-DD HH24:MI:SS') RPL_WRT_DT
+		     	 , TO_CHAR(R.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+				 , R.MBR_ID
+				 , R.ALTCL_ID
+				 , R.RPL_PRNT_RPL
+				 , R.USE_YN
+				 , R.DEL_YN 
+				 , M.MBR_NM 
+				 , B.MNGR_BRD_TTL B_MNGR_BRD_TTL 
+				 , B.DEL_YN B_DEL_YN 
+              FROM FRAN.RPL R 
+             INNER JOIN MBR M
+                ON R.MBR_ID  = M.MBR_ID 
+             INNER JOIN MNGR_BRD B
+                ON R.ALTCL_ID = B.MNGR_BRD_ID
+             WHERE B.DEL_YN ='N'
+             <if test= 'rplCntnt != null and rplCntnt != "" '>
+             AND  R.RPL_CNTNT LIKE '%' ||  #{rplCntnt} || '%'
+             </if>
+             <if test= 'mbrVO != null and mbrVO.mbrNm != null and mbrVO.mbrNm != "" '>
+          	 AND  M.MBR_NM LIKE '%' ||  #{mbrVO.mbrNm} || '%'
+         	 </if> 
+             <if test= 'mngrbrdVO != null and mngrbrdVO.mngrBrdTtl != null and mngrbrdVO.mngrBrdTtl != "" '>
+             AND  B.MNGR_BRD_TTL LIKE '%' ||  #{mngrbrdVO.mngrBrdTtl} || '%'
+             </if>      
+             <if test= 'delYn != null and delYn != "" '>
+             AND  R.DEL_YN = #{delYn}
+             </if>
+             ORDER BY R.RPL_WRT_DT DESC	
+             <include refid="Common.pageFooter" />
+	</select>
+
+
+	<insert id="createNewRpl" 
+			parameterType="com.ktds.fr.rpl.vo.RplVO"> 
+		<selectKey keyProperty="rplId" 
+				   resultType="string"
+				   order="BEFORE">
+			SELECT 'RP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MNGR_BRD_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>	
+		INSERT INTO FRAN.RPL
+		 (RPL_ID
+		, RPL_CNTNT
+		, MBR_ID
+		, ALTCL_ID
+		, RPL_PRNT_RPL
+		, RPL_WRT_DT
+		, MDFY_DT
+		, USE_YN
+		, DEL_YN)
+		VALUES
+		 (#{rplId}
+		, #{rplCntnt}
+		, #{mbrId}
+		, #{altclId}
+		, #{rplPrntRpl}
+		, SYSDATE
+		, SYSDATE
+		, NVL(#{useYn},'Y') 
+		, 'N' )
+		
+	</insert>
+	
+	<update id="updateOneRpl"
+			parameterType="com.ktds.fr.rpl.vo.RplVO">
+		UPDATE FRAN.RPL
+           SET RPL_CNTNT= #{rplCntnt}
+             , MDFY_DT = SYSDATE
+         WHERE RPL_ID = #{rplId}      
+	</update>
+
+	<update id="deleteOneRplByRplId"
+			parameterType="string">
+		 UPDATE FRAN.RPL
+           SET DEL_YN= 'Y'
+         WHERE RPL_ID = #{_parameter}
+	</update>
+				
+	<update id="deleteRplBySelectedRplId"
+		parameterType="arrayList">
+		 UPDATE FRAN.RPL
+           SET DEL_YN= 'Y'
+         WHERE RPL_ID IN
+		 	<foreach collection="list" item="rplId" open="(" close=")" separator=", ">
+			#{rplId}
+		</foreach>
+	</update>
+	
+
+</mapper>

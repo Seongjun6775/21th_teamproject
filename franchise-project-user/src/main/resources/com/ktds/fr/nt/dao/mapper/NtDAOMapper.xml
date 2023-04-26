@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Nt">
+	
+	<insert id="createNewNt"
+			parameterType="com.ktds.fr.nt.vo.NtVO">
+		INSERT INTO NT
+         (NT_ID
+        , SNDR_ID
+        , RCVR_ID
+        , NT_RD_DT
+        , NT_SNDR_DT
+        , NT_TTL
+        , NT_CNTNT
+        , USE_YN
+        , DEL_YN)
+        VALUES
+         ('NT-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_NT_PK.NEXTVAL, 5, '0')
+        , #{sndrId}
+        , #{rcvrId}
+        , NULL
+        , SYSDATE
+        , #{ntTtl}
+        , #{ntCntnt}
+        , NVL(#{useYn}, 'N')
+        , 'N' )
+	</insert>
+	
+	<select id="readAllNt"
+			parameterType="com.ktds.fr.nt.vo.NtVO"
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		<include refid="Common.pageHeader" />
+		SELECT NT_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY NT_ID DESC)RNUM
+			 , NT_ID
+		     , SNDR_ID
+		     , RCVR_ID
+		     , NT_SNDR_DT
+		     , NT_RD_DT
+		     , NT_TTL
+		     , DEL_YN
+          FROM NT
+		 WHERE NT_SNDR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND NT_SNDR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+        <if test='ntTtl != null and ntTtl != ""'>
+           AND NT_TTL LIKE '%' || #{ntTtl} || '%'
+        </if>
+        <if test='sndrId != null and sndrId != ""'>
+           AND SNDR_ID = #{sndrId}
+        </if>
+        <if test='rcvrId != null and rcvrId != ""'>
+           AND RCVR_ID = #{rcvrId}
+        </if>
+        <if test='useYn != null and useYn != ""'>
+           AND USE_YN = #{useYn}
+        </if>
+        <if test='delYn != null and delYn != ""'>
+           AND DEL_YN = #{delYn}
+        </if>
+        <include refid="Common.pageFooter" />
+         ORDER BY NT_SNDR_DT DESC
+	</select>
+	
+	<update id="updateOneNtByNtId"
+			parameterType="com.ktds.fr.nt.vo.NtVO">
+		UPDATE NT
+           SET NT_TTL = #{ntTtl}
+             , NT_CNTNT = #{ntCntnt}
+         WHERE NT_ID = #{ntId}
+	</update>
+	
+	<update id="deleteOneNtByNtId"
+			parameterType="string">
+		UPDATE NT
+           SET DEL_YN = 'Y' 
+         WHERE NT_ID = #{ntId}
+	</update>
+	
+	<update id="deleteNtBySelectedNtId"
+			parameterType="arraylist">
+		UPDATE NT
+           SET DEL_YN = 'Y' 
+         WHERE NT_ID IN
+         <foreach collection="list" item="ntId" open="(" close=")" separator=", ">
+         	#{ntId}
+         </foreach>
+	</update>
+	
+	<select id="readOneNtByNtId"
+			parameterType="string"
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		SELECT NT_ID
+		     , SNDR_ID
+		     , RCVR_ID
+		     , NT_SNDR_DT
+		     , NT_RD_DT
+		     , NT_TTL
+		     , NT_CNTNT
+		     , DEL_YN
+		  FROM FRAN.NT
+		 WHERE NT_ID = #{_parameter}
+	</select>
+	
+	
+	<select id="readAllMyNt"
+			parameterType="com.ktds.fr.nt.vo.NtVO"
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		<include refid="Common.pageHeader" />
+		SELECT NT_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY NT_ID DESC)RNUM
+			 , NT_ID
+		     , SNDR_ID
+			 , RCVR_ID
+			 , NT_SNDR_DT
+		     , NT_RD_DT
+		     , NT_TTL
+          FROM NT
+         WHERE RCVR_ID = #{rcvrId}
+           AND DEL_YN = 'N'
+		   AND NT_SNDR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND NT_SNDR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+        <if test='ntTtl != null and ntTtl != ""'>
+           AND NT_TTL LIKE '%' || #{ntTtl} || '%'
+        </if>
+        <if test='sndrId != null and sndrId != ""'>
+           AND SNDR_ID = #{sndrId}
+        </if>
+        <include refid="Common.pageFooter" />
+	</select>
+	
+	
+	<update id="updateNtRdDtByNtId"
+			parameterType="string">
+		UPDATE NT
+		   SET NT_RD_DT = SYSDATE
+		     , USE_YN = 'Y'
+		 WHERE NT_ID = #{_parameter}
+	</update>
+	
+	<select id="checkOneMbr"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM MBR
+		 WHERE MBR_ID = #{_parameter}
+	</select>
+	
+	
+</mapper>

@@ -1,20 +1,30 @@
 package com.ktds.fr.str.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ktds.fr.ctycd.dao.CtyCdDAO;
 import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.prdt.dao.PrdtDAO;
+import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.dao.StrDAO;
 import com.ktds.fr.str.vo.StrVO;
+import com.ktds.fr.strprdt.dao.StrPrdtDAO;
+import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @Service
 public class StrServiceImpl implements StrService {
 
 	@Autowired
 	private StrDAO strDAO;
+	
+	@Autowired
+	private StrPrdtDAO strPrdtDAO;
+	
+	@Autowired
+	private PrdtDAO prdtDAO;
 	
 	@Override
 	public List<StrVO> readAllStrMaster(StrVO strVO) {
@@ -33,7 +43,25 @@ public class StrServiceImpl implements StrService {
 
 	@Override
 	public boolean createOneStr(StrVO strVO) {
-		return strDAO.createOneStr(strVO) > 0;
+		boolean isSuccess = strDAO.createOneStr(strVO) > 0;
+		// 매장이 생성되었을 때, 생성된 매장에 현재 등록되어 있는 모든 상품을 등록
+		if (isSuccess) {
+			
+			PrdtVO prdtVO = new PrdtVO();
+			List<PrdtVO> prdtList = prdtDAO.readAllNoPagenation(prdtVO);
+			StrPrdtVO strPrdtVO = null;
+			List<StrPrdtVO> strPrdtList = new ArrayList<>();
+			
+			for (PrdtVO prdt : prdtList) {
+				strPrdtVO = new StrPrdtVO();
+				strPrdtVO.setPrdtId(prdt.getPrdtId());
+				strPrdtVO.setStrId(strVO.getStrId());
+				strPrdtVO.setMdfyr(strVO.getMdfyr());
+				strPrdtList.add(strPrdtVO);
+			}
+			strPrdtDAO.create(strPrdtList);
+		}
+		return isSuccess;
 	}
 
 	@Override
@@ -80,6 +108,21 @@ public class StrServiceImpl implements StrService {
 	@Override
 	public List<CtyCdVO> readCategory(String lctId) {
 		return strDAO.readCategory(lctId);
+	/**
+	 * 매장별 상품등록시 사용 ... 사용유무에 관계없이 목록가져옴
+	 */
+	@Override
+	public List<StrVO> readAll() {
+		return strDAO.readAll();
+	}
+	
+	/**
+	 *  손님이 매장 조회할 때 사용 ... 사용유무 Y
+	 */
+	@Override
+	public List<StrVO> readAllUseY(String ctyId) {
+		return strDAO.readAllUseY(ctyId);
 	}
 
 }
+

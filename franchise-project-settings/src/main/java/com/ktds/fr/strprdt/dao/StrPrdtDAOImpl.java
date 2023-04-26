@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @Repository
@@ -27,7 +28,17 @@ public class StrPrdtDAOImpl extends SqlSessionDaoSupport implements StrPrdtDAO {
 	public List<StrPrdtVO> readAllNOPagenation(StrPrdtVO strPrdtVO) {
 		return getSqlSession().selectList("StrPrdt.readAllNOPagenation", strPrdtVO);
 	}
+	
+	@Override
+	public List<StrPrdtVO> readAllCustomerByStr(StrPrdtVO strPrdtVO) {
+		return getSqlSession().selectList("StrPrdt.readAllCustomerByStr", strPrdtVO);
+	}
 
+	@Override
+	public List<PrdtVO> missingList(String strId) {
+		return getSqlSession().selectList("StrPrdt.missingList", strId);
+	}
+	
 	@Override
 	public int create(List<StrPrdtVO> strPrdtList) {
 		return getSqlSession().insert("StrPrdt.create", strPrdtList);
@@ -57,6 +68,7 @@ public class StrPrdtDAOImpl extends SqlSessionDaoSupport implements StrPrdtDAO {
 	public int deleteStrList(List<String> StrList) {
 		return getSqlSession().update("StrPrdt.deleteStrList", StrList);
 	}
+
 
 	
 	

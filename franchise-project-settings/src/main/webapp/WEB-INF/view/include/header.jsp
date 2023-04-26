@@ -35,7 +35,13 @@
 			<a href="${context}/mngrbrd/list">관리자게시판</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">고객센터</a>	
+			<a href="${context}/hlpdsk/list">고객센터</a>
+		</li>
+		<li class="nav-item">
+			<a href="${context}/odrlst/list">주문목록</a>	
+		</li>
+		<li class="nav-item">
+			<a href="${context}/prdt/list2">소비자화면</a>	
 		</li>
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->

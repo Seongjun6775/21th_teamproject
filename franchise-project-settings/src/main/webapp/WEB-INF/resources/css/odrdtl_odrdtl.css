@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.img-grid, .text-grid {
+	border: solid 1px #bbb;
+	width: 100%;
+	height: 100%;
+}
+
+.img-grid > img {
+	width: 80%;
+	height: 80%;
+}

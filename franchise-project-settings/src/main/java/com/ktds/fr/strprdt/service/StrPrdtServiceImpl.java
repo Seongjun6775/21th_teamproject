@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ktds.fr.common.api.exceptions.ApiArgsException;
+import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.strprdt.dao.StrPrdtDAO;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
@@ -18,6 +19,21 @@ public class StrPrdtServiceImpl implements StrPrdtService {
 	@Override
 	public List<StrPrdtVO> readAll(StrPrdtVO strPrdtId) {
 		return strPrdtDAO.readAll(strPrdtId);
+	}
+	
+	@Override
+	public List<StrPrdtVO> readAllCustomerByStr(StrPrdtVO strPrdtVO) {
+		return strPrdtDAO.readAllCustomerByStr(strPrdtVO);
+	}
+	
+	@Override
+	public List<PrdtVO> missingList(String strId) {
+		return strPrdtDAO.missingList(strId);
+	}
+	
+	@Override
+	public boolean create(List<StrPrdtVO> strPrdtList) {
+		return strPrdtDAO.create(strPrdtList) > 0;
 	}
 
 	@Override

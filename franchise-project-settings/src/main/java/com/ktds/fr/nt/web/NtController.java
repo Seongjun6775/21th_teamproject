@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.nt.service.NtService;
 import com.ktds.fr.nt.vo.NtVO;
@@ -98,8 +99,32 @@ public class NtController {
 	@GetMapping("/nt/ntcreate")
 	public String viewNtCreatePage(@SessionAttribute("__MBR__") MbrVO mbrVO, Model model) {
 		
-		if (mbrVO.getMbrLvl().equals("001-01")) {
+		if (mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
 			model.addAttribute("mbrVO", mbrVO);
+			
+			return "nt/ntcreate";
+		}
+		// 최고관리자 계정이 아닌 경우, list로 돌려보내 권한에 맞는 페이지로 이동시킵니다.
+		return "redirect:/nt/list";
+	}
+	
+	/**
+	 * 최고관리자 계정의 경우, 쪽지를 작성할 수 있습니다.
+	 * @param mbrVO 현재 로그인 계정 정보
+	 * @param model
+	 * @return 쪽지 작성 페이지
+	 */
+	@GetMapping("/nt/ntcreate/{mbrId}")
+	public String viewNtCreatePage(@SessionAttribute("__MBR__") MbrVO mbrVO
+								, @PathVariable String mbrId, Model model) {
+		
+		if (mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			if (mbrVO.getMbrId().equals(mbrId)) {
+				throw new ApiException("400", "자기 자신에게는 쪽지를 보낼 수 없습니다!");
+			}
+			
+			model.addAttribute("mbrVO", mbrVO);
+			model.addAttribute("rcvrId", mbrId);
 			
 			return "nt/ntcreate";
 		}
@@ -120,11 +145,16 @@ public class NtController {
 		
 		if (mbrVO.getMbrLvl().equals("001-01")) {
 			NtVO nt = ntService.readOneNtByNtId(ntId);
+			// 만약 쪽지를 받는 사람이 접속한 최고관리자 본인이고, 아직 삭제되지 않은 쪽지라면 수신 여부를 '수신'으로 변경합니다.
+			if (nt.getRcvrId().equals(mbrVO.getMbrId()) && nt.getDelYn().equals("N")) {
+				ntService.updateNtRdDtByNtId(ntId);
+			}
+			// 수신 여부를 업데이트한 내용을 다시 한번 불러와서 model로 전달합니다.
+			nt = ntService.readOneNtByNtId(ntId);
 			model.addAttribute("nt", nt);
-			/**
-			 * detail 페이지에서 쪽지 수정을 할 수 있는데, 자신이 작성한 쪽지만 수정할 수 있습니다.
-			 * 만약 ${mbrVO.mbrId}가 쪽지의 sndrId와 다르다면 수정을 할 수 없습니다.
-			 */
+			
+			// detail 페이지에서 쪽지 수정을 할 수 있는데, 자신이 작성한 쪽지만 수정할 수 있습니다.
+			// 만약 ${mbrVO.mbrId}가 쪽지의 sndrId와 다르다면 수정을 할 수 없습니다.
 			model.addAttribute("mbrVO", mbrVO);
 			
 			return "nt/ntmstrdetail";

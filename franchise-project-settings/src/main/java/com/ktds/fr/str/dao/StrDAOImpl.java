@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.vo.StrVO;
 
 @Repository
@@ -85,4 +86,28 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 		return getSqlSession().selectList("Str.readCategory", lctId);
 	}
 
+	@Override
+	public List<StrVO> readAll() {
+		return getSqlSession().selectList("Str.readAll");
+	}
+	@Override
+	public int readOneStrByMbrId(String mbrId) {
+		return getSqlSession().selectOne("Str.readOneStrByMbrId",mbrId);
+	}
+	
+	@Override
+	public int deleteOneManagerByMbrId(String mbrId) {
+		return getSqlSession().update("Str.deleteOneManagerByMbrId", mbrId);
+	}
+	
+	@Override
+	public int updateOneStrByStrIdAndMbrId(MbrVO mbrVO) {
+		return getSqlSession().update("Str.updateOneStrByStrIdAndMbrId", mbrVO);
+	}
+	
+	@Override
+	public List<StrVO> readAllUseY(String ctyId) {
+		return getSqlSession().selectList("Str.readAllUseY", ctyId);
+	}
+	
 }
