@@ -13,8 +13,8 @@
 		<li class="menu-item">
 			<a href="#">채용관리</a>
 		</li>
-		<li class="menu-item">
-			<a href="${context}/str/crew/list">태용씨선물</a>
-		</li>
+		<%-- <li class="menu-item">
+			<a href="${context}/str/crew/list"></a>
+		</li> --%>
 	</ul>
 </div>
