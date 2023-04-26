@@ -421,7 +421,7 @@
 		 			ON M.MBR_LVL = CD.CD_ID
 		 		 INNER JOIN STR ST
  		 			ON M.STR_ID = ST.STR_ID 
-				 INNER JOIN HR H
+				  LEFT OUTER JOIN HR H
 				 	ON M.MBR_ID = H.MBR_ID
 				 WHERE M.MBR_ID=#{_parameter}
 				   AND H.HR_STAT='심사완료'

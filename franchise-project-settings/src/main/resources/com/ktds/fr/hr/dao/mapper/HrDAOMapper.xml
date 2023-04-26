@@ -206,7 +206,28 @@
 		   AND DEL_YN = 'N'
 	</select>
 	
-	
+	<select id="readOneHrByMbrId"
+			parameterType="string"
+			resultType="com.ktds.fr.hr.vo.HrVO">
+		SELECT HR_ID
+		     , HR_APR_DT
+		     , HR_STAT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		  FROM (SELECT HR_ID
+				     , HR_APR_DT
+				     , HR_STAT
+				     , ORGN_FL_NM
+				     , UUID_FL_NM
+				     , FL_SIZE
+				     , FL_EXT
+				  FROM HR 
+				 WHERE MBR_ID = #{_parameter}
+				 ORDER BY HR_APR_DT DESC)
+		 WHERE ROWNUM=1
+	</select>	
 
 
 </mapper>

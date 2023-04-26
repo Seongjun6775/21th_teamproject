@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 	<div class="main-layout">
@@ -79,8 +80,8 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" value="${mbr.hrVO.orgnFlNm}"/>
-								<a href="${context}/hr/hrfile/${mbr.hrVO.hrId}"></a>
+								<input type="text" style="width:200px;" value="${empty mbr.hrVO.orgnFlNm ? '파일이 없습니다.' : mbr.hrVO.orgnFlNm}"/>
+								<a href="${context}/hr/hrfile/${mbr.hrVO.hrId}"><i class='bx bx-file'></i></a>
 							</div>
 						</div>
 					</div>
