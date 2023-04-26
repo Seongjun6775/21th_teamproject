@@ -108,6 +108,7 @@ public class StrServiceImpl implements StrService {
 	@Override
 	public List<CtyCdVO> readCategory(String lctId) {
 		return strDAO.readCategory(lctId);
+	}
 	/**
 	 * 매장별 상품등록시 사용 ... 사용유무에 관계없이 목록가져옴
 	 */
