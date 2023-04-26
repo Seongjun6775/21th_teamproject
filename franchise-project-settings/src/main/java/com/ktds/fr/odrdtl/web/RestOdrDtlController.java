@@ -49,5 +49,24 @@ public class RestOdrDtlController {
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
+	
+	@PostMapping("/api/odrdtl/update/{odrDtlId}")
+	public ApiResponseVO updateOneOdrDtlByOdrDtlId (@SessionAttribute("__MBR__") MbrVO mbrVO
+												, @PathVariable String odrDtlId, OdrDtlVO odrDtlVO) {
+		
+		OdrDtlVO check = odrDtlService.readOneOdrDtlByOdrDtlId(odrDtlId);
+		if (!check.getMbrId().equals(mbrVO.getMbrId())) {
+			throw new ApiException("400", "권한이 없습니다.");
+		}
+		odrDtlVO.setOdrDtlId(odrDtlId);
+		boolean isSuccess = odrDtlService.updateOneOdrDtlByOdrDtlId(odrDtlVO);
+		
+		if (isSuccess) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		return new ApiResponseVO(ApiStatus.FAIL);
+		
+	}
+	
 
 }

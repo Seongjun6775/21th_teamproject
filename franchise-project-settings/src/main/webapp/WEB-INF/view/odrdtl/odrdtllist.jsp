@@ -133,7 +133,7 @@
 					</tbody>
 				</table>
 				<div>
-					<div>합계 : <span><c:out value="${sum}" /></span>원</div>
+					<div>합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
 					<div><button type="button" class="btn btn-success">결제하기</button></div>
 				</div>
 			</div>

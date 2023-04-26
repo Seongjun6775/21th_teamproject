@@ -38,6 +38,7 @@
 						<tr>
 							<th>주문 번호</th>
 							<th>주문 일자</th>
+							<th>주문 매장</th>
 							<th>주문 상태</th>
 						</tr>
 					</thead>
@@ -56,6 +57,7 @@
 										data-delyn="${odrLst.delYn}">
 										<td>${odrLst.odrLstId}</td>
 										<td>${odrLst.odrLstRgstDt}</td>
+										<td>${odrLst.strVO.strNm}</td>
 										<td>${odrLst.odrLstOdrPrcs}</td>
 									</tr>
 								</c:forEach>

@@ -106,7 +106,7 @@
 	</select>
 	
 	<update id="updateOneOdrDtlByOdrDtlId"
-			parameterType="string">
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
 		UPDATE ODR_DTL
 		   SET ODR_DTL_PRDT_CNT = #{odrDtlPrdtCnt}
 		 WHERE ODR_DTL_ID = #{odrDtlId}

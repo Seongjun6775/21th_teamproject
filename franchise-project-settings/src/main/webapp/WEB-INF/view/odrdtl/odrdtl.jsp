@@ -50,6 +50,29 @@
 			location.href = "${context}/odrdtl/list/${odrDtl.odrLstId}";
 		});
 		
+		$("#modify_btn").click(function() {
+			var cnt = $(".cnt").val();
+			
+			if (cnt == ${odrDtl.odrDtlPrdtCnt}) {
+				if (!confirm("수량이 변경되지 않았습니다. 이대로 수정을 완료하시겠습니까?")) {
+					return;
+				}
+			}
+			if (!confirm("수량 변경을 완료하시겠습니까?")) {
+				return;
+			}
+			
+			$.post("${context}/api/odrdtl/update/${odrDtl.odrDtlId}", {"odrDtlPrdtCnt": cnt}, function(response) {
+				if (response.status == "200 OK") {
+					location.href = "${context}/odrdtl/list/${odrDtl.odrLstId}";
+				}
+				else {
+					alert(response.errorCode + " / " + response.message);
+				}
+			});
+			
+		});
+		
 		
 		
 		$("#delete_btn").click(function(){
@@ -78,29 +101,34 @@
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			
-			<div class="container text-center">
-				<div class="row content">
+			<div class="container">
+				<div class="row content text-center">
 					<div class="col img-grid">
 						<img src="" alt="사진이 들어갈 예정입니다.">
 					</div>
+					<!-- 임시로 style을 넣어 두었습니다. css 작업을 하실 때 지워야 합니다. -->
 					<div class="col text-grid">
-						<div>${odrDtl.prdtVO.prdtNm}</div>
-						<div>${odrDtl.prdtVO.prdtPrc}원</div>
-						<div class="col updown">
-							<button class="minus">-</button>
-							<input type="text" class="cnt text-center" value="${odrDtl.odrDtlPrdtCnt}" readonly/>
-							<button class="plus">+</button>
+						<div style="text-align: left; font-size: 20px;">상품명 : 
+							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtNm}</span>
 						</div>
-						<div class="col price">
+						<div style="text-align: left; font-size: 20px;">개당 가격 : 
+							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtPrc}</span>원
+						</div>
+						<div class="col updown" style="text-align: left; font-size: 20px; padding: 0px;">수량 :
+								<button class="minus">-</button>
+								<input type="text" class="cnt text-center" value="${odrDtl.odrDtlPrdtCnt}" readonly/>
+								<button class="plus">+</button>
+						</div>
+						<div class="col price" style="text-align: left; font-size: 20px; padding: 0px;">합계 : 
 							<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * odrDtl.prdtVO.prdtPrc}" readonly>
 						</div>
 					</div>
 				</div>
+				<button type="button" id="modify_btn"class="btn btn-success">수정</button>
+				<button type="button" id="list_btn" class="btn btn-secondary">목록</button>
+				<button type="button" id="delete_btn" class="btn btn-danger">삭제</button>
 			</div>
 			
-			<button type="button" id="modify_btn"class="btn btn-success">수정</button>
-			<button type="button" id="list_btn" class="btn btn-secondary">목록</button>
-			<button type="button" id="delete_btn" class="btn btn-danger">삭제</button>
 			
 			<jsp:include page="../include/footer.jsp" />
 		</div>

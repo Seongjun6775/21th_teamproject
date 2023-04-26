@@ -32,7 +32,7 @@ public interface OdrDtlService {
 	 * @param odrDtlId 주문 상세 ID
 	 * @return 수정한 건수
 	 */
-	public boolean updateOneOdrDtlByOdrDtlId(String odrDtlId);
+	public boolean updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문을 삭제합니다.

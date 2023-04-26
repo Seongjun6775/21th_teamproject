@@ -34,8 +34,8 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 	}
 
 	@Override
-	public int updateOneOdrDtlByOdrDtlId(String odrDtlId) {
-		return getSqlSession().update("OdrDtl.updateOneOdrDtlByOdrDtlId", odrDtlId);
+	public int updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO) {
+		return getSqlSession().update("OdrDtl.updateOneOdrDtlByOdrDtlId", odrDtlVO);
 	}
 
 	@Override
