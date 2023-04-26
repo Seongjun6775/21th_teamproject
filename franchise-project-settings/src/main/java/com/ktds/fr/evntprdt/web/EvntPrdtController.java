@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ktds.fr.cmmncd.service.CmmnCdService;
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.evntprdt.service.EvntPrdtService;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
 import com.ktds.fr.prdt.service.PrdtService;
@@ -19,8 +21,12 @@ public class EvntPrdtController {
 
 	@Autowired
 	private PrdtService prdtService;
+	
 	@Autowired
 	private EvntPrdtService evntService;
+	
+	@Autowired
+	private CmmnCdService cmmnCdService;
 	
 	
 	//상품불러오기
@@ -48,5 +54,19 @@ public class EvntPrdtController {
 		List<EvntPrdtVO> evntPrdtList = evntService.readAllPrdt(evntPrdtVO);
 		model.addAttribute("evntPrdtList", evntPrdtList);		
 		return "/evntPrdt/prdtList";
+	}
+	
+	//★☆이건 확인용도!!!!!!!! 수정을위하여 <다되면 지우기>  
+	@RequestMapping("/evntPrdt/prdtList2")
+	public String viewPrdtListSecondPage(Model model, PrdtVO prdtVO) {
+		
+		prdtVO.setUseYn("Y");
+		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
+		
+		model.addAttribute("prdtList", prdtList);
+		model.addAttribute("srtList", srtList);
+		model.addAttribute("prdtVO", prdtVO);
+		return "/evntPrdt/prdtList2";
 	}
 }

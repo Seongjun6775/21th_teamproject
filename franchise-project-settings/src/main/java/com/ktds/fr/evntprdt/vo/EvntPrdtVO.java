@@ -1,6 +1,7 @@
 package com.ktds.fr.evntprdt.vo;
 
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.prdt.vo.PrdtVO;
 
 public class EvntPrdtVO  extends AbstractVO{		
 		
@@ -14,6 +15,7 @@ public class EvntPrdtVO  extends AbstractVO{
 	/* 상품 */
 	private String prdtNm;
 	private int prdtPrc;
+	private PrdtVO prdtVO;
 	
 	/* 이벤트 날짜 */
 	private String evntStrtDt;
@@ -81,5 +83,13 @@ public class EvntPrdtVO  extends AbstractVO{
 	public void setEvntEndDt(String evntEndDt) {
 		this.evntEndDt = evntEndDt;
 	}
+	
+	public PrdtVO getPrdtVO() {
+		return prdtVO;
+	}
+	public void setPrdtVO(PrdtVO prdtVO) {
+		this.prdtVO = prdtVO;
+	}
+	
 		
 }

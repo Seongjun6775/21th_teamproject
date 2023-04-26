@@ -61,6 +61,14 @@
 		$("#btn-close").click(function() {
 			window.close();
 		});
+		
+		//★☆확인용도(나중에 삭제할것)
+		$("#btn-listEvntPrdt").click(function() {
+			var pop = window.open("${context}/evntPrdt/prdtList2", "resPopup", "width=1200, height=600, scrollbars=yes, resizable=yes");
+			pop.focus();
+		});
+		
+		
 	});
 	
 	function movePage(pageNum){
@@ -148,6 +156,7 @@
 			</div>
 			<button id="btn-close" class="btn-primary">닫기</button>
 			<button id="btn-revomeEvntPrdt" class="btn-primary">상품 삭제</button>
+			<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button>
 
 		</div>
 	</div>

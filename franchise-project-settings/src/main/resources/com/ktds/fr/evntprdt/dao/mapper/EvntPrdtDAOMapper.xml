@@ -90,7 +90,6 @@ parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
 <select id="readAllprdt"
  parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
 	 resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
-
    SELECT PRDT_ID
         , PRDT_NM 
         , PRDT_PRC 
@@ -98,6 +97,7 @@ parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
         , DEL_YN
      FROM PRDT 
     WHERE DEL_YN = 'N'
+    
     
 </select>
 

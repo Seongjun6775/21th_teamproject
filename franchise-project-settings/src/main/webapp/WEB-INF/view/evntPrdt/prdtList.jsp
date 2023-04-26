@@ -89,7 +89,7 @@
 					</tbody>
 				</table>
 			</div>
-			<button id="btn-createPrdt" calss="btn-primary">확인</button>
+			<button id="btn-createPrdt" class="btn-primary">확인</button>
 			<button id="btn-close" class="btn-primary">닫기</button>
 
 		</div>
