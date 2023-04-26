@@ -37,20 +37,19 @@ public class RestEvntPrdtController {
 		 * System.out.println("evntVO.getEvntCntnt() : " +
 		 * evntPrdtVO.getEvntPrdtChngPrc());
 		 */
-		
-		//boolean isSuccess = 저거를 불러오는 코드 == 0;
-		
+
+		// boolean isSuccess = 저거를 불러오는 코드 == 0;
+
 		System.out.println(evntPrdtVO.getPrdtId());
 		System.out.println(evntPrdtVO.getEvntId());
-		
+
 //		evntPrdtVO.setPrdtId(null);
 //		evntPrdtVO.setEvntStrtDt(null);
 //		evntPrdtVO.setEvntEndDt(null);
-		
+
 		boolean isSuccess = evntPrdtService.chkEvntPrdt(evntPrdtVO).size() == 0;
-		
-		
-		if(isSuccess) {
+
+		if (isSuccess) {
 			evntPrdtService.createEvntPrdt(evntPrdtVO);
 		}
 		if (isSuccess) {
@@ -60,21 +59,37 @@ public class RestEvntPrdtController {
 		}
 	}
 
-	
 	// 이벤트상품 등록 삭제
 	@PostMapping("/api/evntPrdt/delete")
-	public ApiResponseVO doDeleteOurEvnt(@RequestParam List<String> evntPrdtIdList
-			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+	public ApiResponseVO doDeleteOurEvnt(@RequestParam List<String> evntPrdtIdList,
+			@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		boolean isDelete = evntPrdtService.deleteEvntPrdtListByEvntId(evntPrdtIdList, mbrVO);
-		
+
 		if (isDelete) {
 			return new ApiResponseVO(ApiStatus.OK);
-		}
-		else {
+		} else {
 			return new ApiResponseVO(ApiStatus.FAIL);
 		}
 	}
+
+	@PostMapping("/api/evntPrdt/createList")
+	public ApiResponseVO doCreateEvntPrdtLsit(@RequestParam List<PrdtVO> evntPrdtList,
+			@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
+		for (int i = 0 ; i < evntPrdtList.size() ; i ++ ) {
+			System.out.println(evntPrdtList.get(i).getPrdtId());
+			System.out.println(evntPrdtList.get(i).getPrdtId());
+			System.out.println(evntPrdtList.get(i).getPrdtId());
+		}
+		
+		boolean isSuccess = evntPrdtService.createEvntPrdtListByEvntId(evntPrdtList, mbrVO);
+
+		if (isSuccess) {
+			return new ApiResponseVO(ApiStatus.OK);
+		} else {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	}
 
 	// -----------------공통적용 소스----------------------------
 

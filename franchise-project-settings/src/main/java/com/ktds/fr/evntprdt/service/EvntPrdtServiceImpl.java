@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ktds.fr.evntprdt.dao.EvntPrdtDAO;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.prdt.vo.PrdtVO;
 
 @Service	
 public class EvntPrdtServiceImpl implements EvntPrdtService {
@@ -39,6 +40,14 @@ public class EvntPrdtServiceImpl implements EvntPrdtService {
 	public boolean deleteEvntPrdtListByEvntId(List<String> evntPrdtIdList, MbrVO mbrVO) {
 		if(mbrVO.getMbrLvl().equals("001-04")) {
 			return evntPrdtDAO.deleteEvntPrdtListByEvntId(evntPrdtIdList) > 0;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean createEvntPrdtListByEvntId(List<PrdtVO> evntPrdtList, MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-01")) {
+			return evntPrdtDAO.createEvntPrdtListByEvntId(evntPrdtList) > 0;
 		}
 		return false;
 	}

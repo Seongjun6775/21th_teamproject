@@ -114,4 +114,25 @@ parameterType="arraylist">
 </update>
 
 
+<insert id="createEvntPrdtListByEvntId"
+	parameterType="arraylist">
+
+INSERT INTO EVNT_PRDT
+ 		   (EVNT_PRDT_ID
+		  , EVNT_ID
+		  , PRDT_ID
+		  , EVNT_PRDT_CHNG_PRC
+		  , USE_YN
+	      , DEL_YN)
+		  VALUES
+          ()
+          <foreach collection="list" item="arraylist" separator=" , ">
+            ('EP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PRDT_PK.NEXTVAL, 5, '0')
+          , #{evntId}
+          , #{prdtId}
+          , #{evntPrdtChngPrc}
+          , NVL(#{useYn},'N') 
+          ,'N' )
+        </foreach>
+</insert>
 </mapper>

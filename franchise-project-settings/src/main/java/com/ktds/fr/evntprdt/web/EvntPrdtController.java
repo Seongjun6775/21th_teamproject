@@ -56,7 +56,6 @@ public class EvntPrdtController {
 		return "/evntPrdt/prdtList";
 	}
 	
-	//★☆이건 확인용도!!!!!!!! 수정을위하여 <다되면 지우기>  
 	@RequestMapping("/evntPrdt/prdtList2")
 	public String viewPrdtListSecondPage(Model model, PrdtVO prdtVO) {
 		
