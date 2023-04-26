@@ -18,6 +18,12 @@ $().ready(function() {
 	console.log("ready function!")
 	var ajaxUtil = new AjaxUtil();
 	
+	
+	$('a[href="#"]').click(function(ignore) {
+		ignore.preventDefault();
+	});
+
+	
 	$("li").click(function() {
 		var srt = $(this).attr('value');
 		var queryString = "prdtSrt=" + srt;
@@ -25,10 +31,10 @@ $().ready(function() {
 	});
 	
 	
-	$(".prdt1").click(function() {
-		var data = $(this).data();
-		location.href="${context}/prdt/list2/"+data.prdtid
-	})
+// 	$(".prdt1").click(function() {
+// 		var data = $(this).data();
+// 		location.href="${context}/prdt/list2/"+data.prdtid
+// 	})
 	
 	
 	
@@ -56,16 +62,19 @@ function movePage(pageNo) {
 	<div class="headline relative">
 		상단 헤드라인임 //////// <a href="${context}/prdt/list">관리자 메뉴로 돌아가깅</a>
 		<br><a href="${context}/strprdt/list2">주문가볼까</a>
-		<div>${prdtList}</div>
-		<div>${prdtVO}</div>
-		<div>${srtList}</div>
+		
 			<ul id="prdtSrtList" class="flex absolute" style="list-style-type: none; bottom: 0px;">
-				<li value="">전체메뉴</li>
+				<li value=""><a href="#">전체메뉴</a></li>
 				<c:choose>
 					<c:when test="${not empty srtList}">
 						<c:forEach items="${srtList}"
 									var="srt">
-							<li class="ml-20" value="${srt.cdId}">${srt.cdNm}</li>
+							
+								<li class="ml-20" value="${srt.cdId}">
+									<a href="#">
+									${srt.cdNm}
+									</a>
+								</li>
 						</c:forEach>
 					</c:when>
 				</c:choose>
@@ -77,29 +86,31 @@ function movePage(pageNo) {
 			<c:when test="${not empty prdtList}">
 				<c:forEach items="${prdtList}"
 							var="prdt">
-					<div class="prdt1" id="${prdt.prdtId}"
-						data-prdtid="${prdt.prdtId}">
-						<div class="img-box">
-							<c:choose>
-								<c:when test="${empty prdt.uuidFlNm}">
-									<img src="${context}/img/default_photo.jpg">
-								</c:when>
-								<c:otherwise>
-									<img src="${context}/prdt/img/${prdt.uuidFlNm}/">
-								</c:otherwise>
-							</c:choose>	
-						</div>
-						<div class="prdt3">
-							<div class="name">${prdt.prdtNm}
+					<a href="${context}/prdt/list2/${prdt.prdtId}">
+						<div class="prdt1" id="${prdt.prdtId}"
+							data-prdtid="${prdt.prdtId}">
+							<div class="img-box">
 								<c:choose>
-									<c:when test="${not empty prdt.evntVO.evntId}">
-										<span>할인중!!</span>
+									<c:when test="${empty prdt.uuidFlNm}">
+										<img src="${context}/img/default_photo.jpg">
 									</c:when>
-								</c:choose>
+									<c:otherwise>
+										<img src="${context}/prdt/img/${prdt.uuidFlNm}/">
+									</c:otherwise>
+								</c:choose>	
 							</div>
-							<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
+							<div class="prdt3">
+								<div class="name">${prdt.prdtNm}
+									<c:choose>
+										<c:when test="${not empty prdt.evntVO.evntId}">
+											<span>할인중!!</span>
+										</c:when>
+									</c:choose>
+								</div>
+								<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
+							</div>
 						</div>
-					</div>
+					</a>
 				</c:forEach>
 			</c:when>
 		</c:choose>

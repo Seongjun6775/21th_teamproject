@@ -175,10 +175,11 @@
 						<label for="strNm" style="width:180px">매장명</label>
 						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}"/>
 					</div>
+					
 					<div class="input-group inline">
-						<label for="strLctn" style="width:60px">지역</label>
+						<label for="strLctn" style="width:180px">지역</label>
 						<select id="strLctn" name="strLctn" >
-							<option value="">지역</option>
+							<option value="">지역명</option>
 							<c:choose>
 								<c:when test="${not empty lctList}">
 									<c:forEach items="${lctList}"
@@ -188,9 +189,9 @@
 								</c:when>
 							</c:choose>
 						</select>
-						<label for="strCty" style="width:60px">도시</label>
+						<label for="strCty" style="width:180px">도시</label>
 						<select id="strCty" name="strCty">
-							<option value="">도시명</option>
+							<option value="">도시</option>
 							<c:choose>
 								<c:when test="${not empty ctyList}">
 									<c:forEach items="${ctyList}"
@@ -200,7 +201,10 @@
 								</c:when>
 							</c:choose>
 						</select>
-						<label for="strAddr" style="width:60px">매장주소</label>
+					</div>
+					
+				    <div class="input-group inline">
+						<label for="strAddr" style="width:180px">매장주소</label>
 						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 					</div>
 				    <div class="input-group inline">

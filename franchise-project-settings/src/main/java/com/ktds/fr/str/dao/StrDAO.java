@@ -2,6 +2,7 @@ package com.ktds.fr.str.dao;
 
 import java.util.List;
 
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.vo.StrVO;
 
@@ -38,5 +39,8 @@ public interface StrDAO {
 	public int updateOneStrByStrIdAndMbrId(MbrVO mbrVO);
 	
 	public List<StrVO>readAll();
+	public List<StrVO>readAllUseY(String ctyId);
+	
+	public List<CtyCdVO> readCategory(String lctId);
 	
 }

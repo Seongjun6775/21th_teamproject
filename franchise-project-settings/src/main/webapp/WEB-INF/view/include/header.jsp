@@ -52,6 +52,9 @@ $().ready(function() {
 		<li class="nav-item">
 			<a href="${context}/odrlst/list">주문목록</a>	
 		</li>
+		<li class="nav-item">
+			<a href="${context}/prdt/list2">소비자화면</a>	
+		</li>
 	</ul>
 	<!--TODO 로그아웃 주소 추가 -->
 	<div class="inline profile">

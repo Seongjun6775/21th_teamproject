@@ -165,7 +165,7 @@
 									    data-rcvrid="${nt.rcvrId}"
 									    data-ntsndrdt="${nt.ntSndrDt}"
 									    data-ntrddt="${nt.ntRdDt}">
-										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
+										<td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
 										<td><a href="${context}/nt/ntmngrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.sndrId}</a></td>
 										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.rcvrId}</a></td>

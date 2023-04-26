@@ -145,11 +145,16 @@ public class NtController {
 		
 		if (mbrVO.getMbrLvl().equals("001-01")) {
 			NtVO nt = ntService.readOneNtByNtId(ntId);
+			// 만약 쪽지를 받는 사람이 접속한 최고관리자 본인이고, 아직 삭제되지 않은 쪽지라면 수신 여부를 '수신'으로 변경합니다.
+			if (nt.getRcvrId().equals(mbrVO.getMbrId()) && nt.getDelYn().equals("N")) {
+				ntService.updateNtRdDtByNtId(ntId);
+			}
+			// 수신 여부를 업데이트한 내용을 다시 한번 불러와서 model로 전달합니다.
+			nt = ntService.readOneNtByNtId(ntId);
 			model.addAttribute("nt", nt);
-			/**
-			 * detail 페이지에서 쪽지 수정을 할 수 있는데, 자신이 작성한 쪽지만 수정할 수 있습니다.
-			 * 만약 ${mbrVO.mbrId}가 쪽지의 sndrId와 다르다면 수정을 할 수 없습니다.
-			 */
+			
+			// detail 페이지에서 쪽지 수정을 할 수 있는데, 자신이 작성한 쪽지만 수정할 수 있습니다.
+			// 만약 ${mbrVO.mbrId}가 쪽지의 sndrId와 다르다면 수정을 할 수 없습니다.
 			model.addAttribute("mbrVO", mbrVO);
 			
 			return "nt/ntmstrdetail";

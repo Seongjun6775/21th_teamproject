@@ -1,14 +1,19 @@
 package com.ktds.fr.str.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.exceptions.ApiArgsException;
+import com.ktds.fr.common.api.vo.ApiDataResponseVO;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.service.StrService;
 import com.ktds.fr.str.vo.StrVO;
@@ -54,12 +59,12 @@ public class RestStrController {
 		}
 		
 		boolean createResult = strService.createOneStr(strVO);
-		 if(createResult) {
-			 return new ApiResponseVO(ApiStatus.OK);
-		 }
-		 else{
-			 return new ApiResponseVO(ApiStatus.FAIL);
-		 }
+		if(createResult) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else{
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
 	 }
 	 
 	 @PostMapping("/api/str/update")
@@ -83,36 +88,45 @@ public class RestStrController {
 //				throw new ApiArgsException("400", "기존 매장번호와 중복이 발생했습니다.");
 //			}
 //			
-		 boolean updateResult = strService.updateOneStrByMaster(strVO);
-			 if(updateResult) {
-				 return new ApiResponseVO(ApiStatus.OK);
-			 }
-			 else{
-				 return new ApiResponseVO(ApiStatus.FAIL);
-			 }
+		boolean updateResult = strService.updateOneStrByMaster(strVO);
+		if(updateResult) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else{
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
 	 }
 	 
 	 @PostMapping("/api/str/update/{strId}")
 	 public ApiResponseVO updateOneStrByManager(StrVO strVO, @SessionAttribute("__MBR__")MbrVO mbrVO) {
-		 
-		 boolean updateResult = strService.updateOneStrByManager(strVO);
-		 if(updateResult) {
-			 return new ApiResponseVO(ApiStatus.OK);
+		
+		boolean updateResult = strService.updateOneStrByManager(strVO);
+		if(updateResult) {
+			return new ApiResponseVO(ApiStatus.OK);
 		 }
-		 else{
-			 return new ApiResponseVO(ApiStatus.FAIL);
-		 }
+		else{
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
 	 }
 	 
 	 @PostMapping("/api/str/delete/{strId}")
 	 public ApiResponseVO deleteOneStrByStrId(@PathVariable String strId) {
-		 boolean deleteResult = strService.deleteOneStrByStrId(strId);
-		 if(deleteResult) {
-			 return new ApiResponseVO(ApiStatus.OK);
-		 }
-		 else{
-			 return new ApiResponseVO(ApiStatus.FAIL);
-		 }
+		boolean deleteResult = strService.deleteOneStrByStrId(strId);
+		if(deleteResult) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else{
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	 }
+	 
+	 @GetMapping("/api/str/changecty")
+	 public ApiDataResponseVO changeCty(String lctId) {
+		
+		List<CtyCdVO> ctyChangedList = strService.readCategory(lctId);
+		 
+		return new ApiDataResponseVO(ApiStatus.OK, ctyChangedList);
+		 
 	 }
 	 
 }

@@ -32,7 +32,7 @@ public interface OdrDtlDAO {
 	 * @param odrDtlId 주문 상세 ID
 	 * @return 수정한 건수
 	 */
-	public int updateOneOdrDtlByOdrDtlId(String odrDtlId);
+	public int updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문을 삭제합니다.
@@ -40,5 +40,7 @@ public interface OdrDtlDAO {
 	 * @return 삭제한 건수
 	 */
 	public int deleteOneOdrDtlByOdrDtlId(String odrDtlId);
+	
+	public int deleteOdrDtlBySelectedDtlId(List<String> odrDtlId);
 
 }

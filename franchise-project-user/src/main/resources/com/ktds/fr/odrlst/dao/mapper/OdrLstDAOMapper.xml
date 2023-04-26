@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OdrLst">
+	
+	<resultMap id="odrLstMap"
+				type="com.ktds.fr.odrlst.vo.OdrLstVO"
+				autoMapping="true">
+		<id property="odrLstId" column="ODR_LST_ID" />
+		<collection property="odrDtlList"
+		             ofType="com.ktds.fr.odrdtl.vo.OdrDtlVO" >
+			<id property="odrDtlId" column="ODR_DTL_ID" />
+			<association property="prdtVO"
+			              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
+				<id property="prdtId" column="PRDT_ID" />
+				<result property="prdtNm" column="PRDT_NM" />
+				<result property="prdtPrc" column="PRDT_PRC" />
+			</association>
+			<association property="strVO"
+			              javaType="com.ktds.fr.str.vo.StrVO" >
+				<id property="strId" column="STR_ID" />
+				<result property="strNm" column="STR_NM" />
+				<result property="strCallNum" column="STR_CALL_NUM" />
+			</association>
+		</collection>
+	</resultMap>
+	
+	
+	
+	<insert id="createNewOdrLst"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		INSERT INTO ODR_LST
+		 (ODR_LST_ID
+		, MBR_ID
+		, ODR_LST_ODR_PRCS
+		, ODR_LST_RGST_DT
+		, ODR_LST_RGSTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, STR_ID)
+		VALUES
+		 ('OL-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_LST_PK.NEXTVAL, 5, '0')
+		, #{mbrId}
+		, #{odrLstOdrPrcs}
+		, SYSDATE
+		, #{odrLstRgstr}
+		, SYSDATE
+		, #{mdfyr}
+		, 'Y'
+		, 'N'
+		, #{strId})
+	</insert>
+	
+	<select id="readAllOdrLst"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		<include refid="Common.pageHeader" />
+		SELECT ODR_LST_ID PK_COL
+		     , DENSE_RANK() OVER(ORDER BY ODR_LST_ID DESC) RNUM
+		     , ODR_LST_ID
+		     , MBR_ID
+		     , ODR_LST_ODR_PRCS
+		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , ODR_LST_RGSTR
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , MDFYR
+		     , USE_YN
+		     , DEL_YN
+		     , STR_ID
+		  FROM ODR_LST
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	
+
+	
+	<select id="readAllMyOdrLst"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		<include refid="Common.pageHeader" />
+		SELECT ODR_LST_ID PK_COL
+		     , DENSE_RANK() OVER(ORDER BY ODR_LST_ID DESC) RNUM
+		     , ODR_LST_ID
+		     , MBR_ID
+		     , ODR_LST_ODR_PRCS
+		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , ODR_LST_RGSTR
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , MDFYR
+		     , STR_ID
+		  FROM ODR_LST
+		 WHERE MBR_ID = #{mbrId}
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readOneOdrLstByOdrLstId"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ID
+		     , MBR_ID
+		     , ODR_LST_ODR_PRCS
+		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , ODR_LST_RGSTR
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , MDFYR
+		     , USE_YN
+		     , DEL_YN
+		     , STR_ID
+		  FROM FRAN.ODR_LST
+		 WHERE ODR_LST_ID = #{_parameter}
+	</select>
+	
+	<update id="updateOneOdrLstByOdrLstId"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		UPDATE ODR_LST
+		   SET ODR_LST_ODR_PRCS = #{odrLstOdrPrcs}
+		     , MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		 WHERE ODR_LST_ID = #{odrLstId}
+	</update>
+	
+	<update id="deleteOneOdrLstByOdrLstId"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		UPDATE ODR_LST
+		   SET DEL_YN = 'Y'
+		     , MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		 WHERE ODR_LST_ID = #{odrLstId}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+</mapper>
