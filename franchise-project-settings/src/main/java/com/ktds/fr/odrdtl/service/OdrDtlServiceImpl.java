@@ -30,8 +30,8 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	}
 
 	@Override
-	public boolean updateOneOdrDtlByOdrDtlId(String odrDtlId) {
-		return odrDtlDAO.updateOneOdrDtlByOdrDtlId(odrDtlId) > 0;
+	public boolean updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.updateOneOdrDtlByOdrDtlId(odrDtlVO) > 0;
 	}
 
 	@Override
@@ -39,5 +39,9 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		return odrDtlDAO.deleteOneOdrDtlByOdrDtlId(odrDtlId) > 0;
 	}
 	
+	@Override
+	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId) {
+		return odrDtlDAO.deleteOdrDtlBySelectedDtlId(odrDtlId) > 0;
+	}
 	
 }
