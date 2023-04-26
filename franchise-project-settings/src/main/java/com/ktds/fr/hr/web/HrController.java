@@ -210,6 +210,7 @@ public class HrController {
 		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !mbrVO.getMbrLvl().equals("001-01")) {
 			// 둘 모두 아니라면, 접근한 사람이 회원이 지원한 지점의 점주(중간관리자)인지 확인합니다.
 			if(!mbrVO.getMbrLvl().equals("001-02") && !hr.getMbrVO().getStrId().equals(mbrVO.getStrId())) {
+				// 위 조건을 모두 통과하지 못했다면, 접근을 거부합니다.
 				throw new ApiException("500", "권한이 없습니다");
 			}
 		}

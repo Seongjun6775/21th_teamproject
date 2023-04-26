@@ -68,5 +68,20 @@ public class RestOdrDtlController {
 		
 	}
 	
+	@PostMapping("/api/odrdtl/create/{strPrdtId}")
+	public ApiResponseVO createNewOdrDtl(@SessionAttribute("__MBR__") MbrVO mbrVO
+										, @PathVariable String strPrdtId, OdrDtlVO odrDtlVO) {
+		
+		odrDtlVO.setMbrId(mbrVO.getMbrId());
+		
+		boolean isSuccess = odrDtlService.createNewOdrDtl(odrDtlVO);
+		
+		if (isSuccess) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		return new ApiResponseVO(ApiStatus.FAIL);
+		
+	}
+	
 
 }

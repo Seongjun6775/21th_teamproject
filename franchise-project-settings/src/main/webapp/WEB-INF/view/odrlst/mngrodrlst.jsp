@@ -22,6 +22,43 @@
 			}
 		});
 		
+		$("#all_check").change(function() {
+			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
+		});
+		
+		$(".check_idx").change(function() {
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
+		});
+		
+		$("#check_no_btn").click(function() {
+			var checkLen = $(".check_idx:checked").length;
+			
+			if (${sessionScope.__MBR__.mbrLvl} != "001-02" || ${sessionScope.__MBR__.mbrLvl} != "001-03") {
+				alert("권한이 없습니다!");
+				return;
+			}
+			
+			if (checkLen == 0) {
+				alert("선택한 쪽지가 없습니다.");
+				return;
+			}
+			
+			if (!confirm("선택한 주문을 취소 처리 하시겠습니까?")) {
+				return;
+			}
+			
+			/* var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				form.append("<input type='hidden' name='odrLstId' value='" + $(this).val() + "'>")
+			});
+			
+			$.post("${context}/api/odrlst/no", form.serialize(), function(response) {});
+			location.reload(); */
+		});
+		
 	});
 
 	function movePage(pageNo) {
@@ -40,9 +77,11 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
+							<th><input type="checkbox" id="all_check"/></th>
 							<th>주문 번호</th>
 							<th>주문 일자</th>
 							<th>주문 매장</th>
+							<th>최종 수정자</th>
 							<th>주문 상태</th>
 						</tr>
 					</thead>
@@ -59,14 +98,18 @@
 										data-mdfyr="${odrLst.mdfyr}"
 										data-useyn="${odrLst.useYn}"
 										data-delyn="${odrLst.delYn}">
+										<td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${odrLst.odrLstId}"
+										            ${odrLst.delYn eq 'Y' ? 'disabled' : ''}/></td>
 										<td>${odrLst.odrLstId}</td>
 										<td>${odrLst.odrLstRgstDt}</td>
 										<td>${odrLst.strVO.strNm}</td>
+										<td>${odrLst.mdfyr}</td>
 										<td>
-											<c:if test="${odrLst.odrLstOdrPrcs eq '003-01'}">주문접수</c:if>
-											<c:if test="${odrLst.odrLstOdrPrcs eq '003-02'}">주문취소</c:if>
+											<c:if test="${odrLst.odrLstOdrPrcs eq '003-01'}">주문대기</c:if>
+											<c:if test="${odrLst.odrLstOdrPrcs eq '003-02'}">주문접수</c:if>
 											<c:if test="${odrLst.odrLstOdrPrcs eq '003-03'}">주문처리</c:if>
 											<c:if test="${odrLst.odrLstOdrPrcs eq '003-04'}">주문완료</c:if>
+											<c:if test="${odrLst.odrLstOdrPrcs eq '003-05'}">주문취소</c:if>
 										</td>
 									</tr>
 								</c:forEach>
@@ -77,6 +120,8 @@
 						</c:choose>
 					</tbody>
 				</table>
+				<button type="button" id="check_yes_btn" class="btn btn-success">일괄처리</button>
+				<button type="button" id="check_no_btn" class="btn btn-danger">일괄취소</button>
 			</div>
 			<div class="pagenate">
 				<ul>
