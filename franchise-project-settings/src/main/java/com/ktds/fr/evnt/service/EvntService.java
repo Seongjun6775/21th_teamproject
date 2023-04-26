@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ktds.fr.evnt.vo.EvntVO;
-import com.ktds.fr.evntstr.vo.EvntStrVO;
 
 public interface EvntService {
 

@@ -16,7 +16,6 @@
 <script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
 <script type="text/javascript">
 $().ready(function() {
-
  	$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
 	
 	//수정 완료 버튼
@@ -45,7 +44,6 @@ $().ready(function() {
 	
 	
 	
-
    //'닫기'버튼 누르면 뒤로 돌아가기
    $("#btn-update-close").click(function(){
 	   //location.href="${context}/evnt/list3"
@@ -55,7 +53,6 @@ $().ready(function() {
    });
    
 });
-
 	function check(box) {
 		if (box.checked == true) {
 			box.value = "Y";

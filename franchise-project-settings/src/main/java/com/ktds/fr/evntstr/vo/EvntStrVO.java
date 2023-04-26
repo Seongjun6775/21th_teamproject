@@ -119,4 +119,8 @@ public class EvntStrVO extends AbstractVO{
 		this.mbrNm = mbrNm;
 	}
 
+
 }
+
+
+

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -16,14 +17,22 @@
 		$("#btn-close").click(function() {
 			window.close();
 		});
-
 	});
 	
+
+	/* function movePage(pageNo){
 	function movePage(pageNo){
+
 
 		var queryString = "pageNo=" + pageNo;
 		
 		location.href = "${context}/evntStr/list?" + queryString;
+		
+
+	} */
+	
+	function movePage(pageNum){
+		location.href = "${context}/evntStr/list/${evntId}?pageNum=" + (pageNum);
 		
 	}
 </script>
@@ -76,6 +85,9 @@
 				</table>
 				<div class="pagenate">
 					<ul>
+						<c:set value="${evntStrList.size() > 0 ? evntStrList.get(0).lastPage : 0}" var="lastPage" />
+						  <c:set value="${evntStrList.size() > 0 ? evntStrList.get(0).lastGroup : 0}" var="lastGroup" />
+
 						<c:set
 							value="${evntStrList.size() > 0 ? evntStrList.get(0).lastPage : 0}"
 							var="lastPage" />
@@ -95,7 +107,7 @@
 						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
 						<c:if test="${nowGroup > 0}">
 							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a href="javascript:movePage(${prevGroupStartPageNo})" )>이전</a></li>
+							<li><a href="javascript:movePage(${prevGroupStartPageNo})" >이전</a></li>
 						</c:if>
 
 						<c:forEach begin="${groupStartPageNo}"
@@ -112,7 +124,6 @@
 				</div>
 			</div>
 			<button id="btn-close" class="btn-primary">닫기</button>
-
 		</div>
 	</div>
 </body>

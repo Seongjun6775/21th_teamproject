@@ -3,7 +3,6 @@ package com.ktds.fr.evntstr.dao;
 import java.util.List;
 
 import com.ktds.fr.evntstr.vo.EvntStrVO;
-import com.ktds.fr.mbr.vo.MbrVO;
 
 public interface EvntStrDAO {
 

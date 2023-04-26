@@ -20,7 +20,6 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 <script type="text/javascript">
 	$().ready(
 			function() {
-
 				//이벤트 리스트 조회(검색)
 				$("#btn-init").click(function() {
 					document.getElementById("evntTtl").value = "";
@@ -28,14 +27,12 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 					document.getElementById("evntStrtDt").value = "";
 					document.getElementById("evntEndDt").value = "";
 				});
-
 				// 이전 페이지        
 				$("#btn-prevPage").click(
 						function() {
 							// 			alert("totalCount : " + Number(document.getElementById("totalCount").value) 
 							// 					+ ", lastPage : " + Number(document.getElementById("lastPage").value)
 							// 					+ ", lastGroup : " + Number(document.getElementById("lastGroup").value));
-
 							const pageNum = Number(document
 									.getElementById("pageNo").value) - 1;
 							if (pageNum < 0) {
@@ -46,7 +43,6 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 										+ pageNum;
 							}
 						});
-
 				// 다음 페이지
 				$("#btn-nextPage").click(
 						function() {
@@ -61,24 +57,19 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 										+ pageNum;
 							}
 						});
-
 				//종료 이벤트 확인          
 				$("#btn-pastEvnt").click(function() {
 					location.href = "${context}/evnt/pastEvntList";
 				});
-
 				//미래 이벤트 확인
 				$("#btn-planEvnt").click(function() {
 					location.href = "${context}/evnt/planEvntList";
 				});
-
 				$("#picture").click(function() {
 					var data = $(this).data();
 					location.href = "${context}/evnt/detail/" + data.evntid;
 				})
-
 			});
-
 	function movePage(pageNum) {
 		location.href = "${context}/evnt/list?pageNo=" + (pageNum);
 	}

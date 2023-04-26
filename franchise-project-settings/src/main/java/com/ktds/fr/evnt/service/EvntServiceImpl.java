@@ -22,7 +22,7 @@ import com.ktds.fr.evntstr.vo.EvntStrVO;
 import com.ktds.fr.prdt.service.PrdtServiceImpl;
 import com.ktds.fr.str.dao.StrDAO;
 import com.ktds.fr.str.vo.StrVO;
-import com.ktds.fr.strprdt.vo.StrPrdtVO;
+
 
 @Service
 public class EvntServiceImpl implements EvntService {

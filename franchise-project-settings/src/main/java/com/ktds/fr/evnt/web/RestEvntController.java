@@ -9,8 +9,6 @@ import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.evnt.service.EvntService;
 import com.ktds.fr.evnt.vo.EvntVO;
-import com.ktds.fr.evntstr.service.EvntStrService;
-import com.ktds.fr.evntstr.vo.EvntStrVO;
 
 @RestController
 public class RestEvntController {

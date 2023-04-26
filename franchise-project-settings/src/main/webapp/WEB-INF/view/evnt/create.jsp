@@ -71,12 +71,10 @@ $().ready(function() {
 		//location.href="${context}/evnt/list3"
 		history.pushState(null, null, '${context}/evnt/list');
 	});
-
 });
 	
 	
 	
-
 	function check(box) {
 		if (box.checked == true) {
 			box.value = "Y";

@@ -218,7 +218,8 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
 							<c:if test="${nowGroup > 0}">
 								<li><a href="javascript:movePage(0)">처음</a></li>
-								<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
+								<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+								<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
 							</c:if>
 							
 							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
