@@ -117,7 +117,7 @@
 			queryString += "&type="+selec + "&search=" + id;
 			
 			//URL요청
-			location.href="${context}/rv/list" + queryString;
+			location.href="${context}/rv/list/store" + queryString;
 			
 		}
 </script>

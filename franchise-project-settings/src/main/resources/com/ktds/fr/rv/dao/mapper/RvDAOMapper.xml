@@ -101,7 +101,7 @@
 		   <if test='type == "mbrId"'>
 		   AND R.MBR_ID = #{search}
 		   </if>
-		 ORDER BY R.RV_RGST_DT DESC		   
+		 ORDER BY R.RV_RGST_DT DESC
 		   <include refid="Common.pageFooter" />
 	</select>
 	

@@ -11,72 +11,71 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+
 	$().ready(function() {
+		
+		var url;
+		$(".open-layer").click(function(event) {
+			// event.preventDefault();
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			
+			url = mbrId
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url) {
+				$("input[name=searchWrap]").val(url)
+				$("#search_option").val("mbrId").prop("selected", true);
+				$("#search_btn").click();
+			}
+		});
+		
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
 		$(".enterkey").keyup(function(event) {
 			if(event.keyCode == 13) {
 				$("#search_btn").click();
 			}
 		});
 		$("#new_btn").click(function() {
+			// 로그인 세션 가져오기
+			// 로그인이 되지 않은 이용자일 시 "로그인이 필요합니다."메시지가 뜨게 하고, 로그인 페이지로 넘어가도록 만들기
 			location.href = "${context}/rv/create";
 		});
-		$("#all_check").click(function() {
-			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
-		});
-		$("#all_check").change(function(){
-			$(".check-idx").prop("checked", $(this).prop("checked"));
-		});
-		$(".check-idx").change(function(){
-			var count = $(".check-idx").length;
-			var checkCount = $(".check-idx:checked").length;
-			
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		$("#delete_all_btn").click(function(){
-			var checkLen = $(".check-idx:checked").length;
-			
-			if(checkLen == 0){
-				alert("삭제할 리뷰가 없습니다.");
-				return;
-			}
-			
-			var form = $("<form></form>")
-			$(".check-idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'")
-			});
-			$.post("${context}/api/rv/delete", form.serialize(), function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-					alert("리뷰가 삭제되었습니다.")
-				}
-				else{
-					alert(response.errorCode + "권한이 없습니다." + response.message);
-				}
-			})
-		});	
 		$("#search_btn").click(function(){			
 			movePage(0);
-		});		
-		$(".rvRow td").not(".firstcell").click(function() {
+		});		 
+		$(".rvRow td").not(".mbrId").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
-			location.href="${context}/rv/detail/" + rvid;
+			location.href="${context}/user/rv/detail/" + rvid;
 		})
 	});
 		function movePage(pageNo){
 			//전송.
 			//입력 값:
-			var id = $("input[name=searchWrap]").val();
-			var selec = $("#search_option").val();
+			 var id = $("input[name=searchWrap]").val();
+			 var selec = $("#search_option").val();
 			
 			var queryString = "?pageNo=" + pageNo;
-			queryString += "&type="+selec+"&search=" + id;
-
+			queryString += "&type="+selec + "&search=" + id;
+			
 			//URL요청
-			location.href="${context}/rv/list" + queryString;
+			location.href="${context}/user/rv/list" + queryString;
 			
 		}
 </script>
@@ -85,17 +84,33 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/rvMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">리뷰 > 리뷰목록</div>
 			
-			<h1>리뷰 목록</h1>
+			
+			<div class="container">
+			    <header class="d-flex justify-content-center py-3">
+			      <ul class="nav nav-pills">
+			        <li class="nav-item"><h3>리뷰 목록</h3></li>
+			      </ul>
+			    </header>
+			</div>
+			<div class="search-row-group">
+				<div class="search-group">
+					<select id="search_option" name="searchOption">					
+						<option value="strNm">매장명</option>					
+						<option value="mbrId">회원ID</option>									
+					</select>
+					<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
+					<button id="search_btn" class="btn-search">검색</button>				
+				</div>
+			</div>
 			<div>총 ${rvList[0].totalCount}건</div>
 			
 			<table>
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="all_check" /></th>
 						<th>주문서ID</th>
 						<th>매장명</th>
 						<th>제목</th>
@@ -111,15 +126,10 @@
 							<c:forEach items="${rvList}"
 									   var="rv">
 								<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;"> 
-									<td class="firstcell">
-										<input type="checkbox" 
-											   class="check-idx" 
-											   value="${rv.rvId}"/>
-									</td>
 									<td>${rv.odrLstId}</td>
 									<td>${rv.strVO.strNm}</td>
 									<td>${rv.rvTtl}</td>
-									<td>${rv.mbrId}</td>																			
+									<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
 									<td>${rv.rvLkDslk}</td>					
 									<td>${rv.rvRgstDt}</td>					
 									<td>${rv.mdfyDt}</td>									
@@ -134,15 +144,9 @@
 					</c:choose>			
 				</tbody>
 			</table>	
-			
-			<div class="align-right mt-10">
-				<button id="delete_all_btn" class="btn-delete">삭제</button>
-			</div>
-			
 			<div class="align-right">				
 				<button id="new_btn" class="btn-primary">등록</button>
-			</div>
-			
+			</div>			
 			<div class="pagenate">
 				<ul>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
@@ -179,20 +183,21 @@
 					</c:if>
 				</ul>
 			</div>				
-			<div class="search-row-group">
-				<div class="search-group">
-					<select id="search_option" name="searchOption">
-						<option value="rvTtl">제목</option>					
-						<option value="rvCntnt">내용</option>					
-						<option value="mbrId">회원ID</option>									
-					</select>
-					<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
-					<button id="search_btn" class="btn-search">검색</button>				
-				</div>
-			</div>
 						
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">작성 리뷰 보기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>

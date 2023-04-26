@@ -65,16 +65,21 @@ body{
 .main-layout > div > .side-menu > .menu-list > .menu-item:last-child{
 	padding-bottom: 10px;
 }
-.main-layout > div > .content{
-	position: fixed;
-	top: 90px;
-	bottom: 0px;
-	left: 150px;
-	right: 0px;
-	overflow: auto;
-	padding: 10px;
+
+.main-layout > div > .content > table > thead > tr >th {
+	border-top: 2px solid #ddd;
+	border-bottom: 2px solid #ddd;
+	border-left: 2px solid #ddd;
+	border-right: 2px solid #ddd;
+	padding: 5px;
 }
 
+.main-layout > div > .content > table > tbody > tr >td {
+	padding: 5px;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
 input {
 	border: none;
 	background-color: #3331;
