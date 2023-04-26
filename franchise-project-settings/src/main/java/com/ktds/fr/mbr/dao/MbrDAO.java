@@ -39,7 +39,7 @@ public interface MbrDAO {
 	public int deleteOneMbr(String mbrId);
 	//비밀번호 확인
 	public MbrVO readOneMbrByPwd(MbrVO mbrVO);
-	//개인정보 조회용
+	//개인정보 조회용(이용자)
 	public MbrVO readOneMbrByMbrId(String mbrId);
 	//비밀번호 변경용
 	public int updateOneMbrPwd(MbrVO mbrVO);
@@ -51,4 +51,8 @@ public interface MbrDAO {
 	public int deleteAllMbrAdminByMbrId(List<String> mbrIdList);
 	//중간관리자용 매장직원 조회
 	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO);
+	//관리자 개인정보 조회
+	public MbrVO readOneCrewByMbrId(String mbrId);
+	//이력서 다운용 
+	public MbrVO readOneCrewHrByMbrId(String mbrId);
 }

@@ -175,6 +175,11 @@
 	   				autoMapping="true">
 	   		<id property="strId" column="STR_ID"/>
 	   </association>
+	   <association property="hrVO"
+	   				javaType="com.ktds.fr.hr.vo.HrVO"
+	   				autoMapping="true">
+	   		<id property="hrId" column="HR_ID"/>
+	   </association>
 	</resultMap>
 	
 	<!-- 수정필요 매장관련 정보도? -->
@@ -345,5 +350,84 @@
 		   AND M.USE_YN='Y'
 		   AND M.MBR_ID != #{mbrId}
 	</select>
-	
+	<!-- TODO 채용 수정일(채용일)을 가져와 채용일로 보여주기 -->
+	<select id="readOneCrewByMbrId"
+			parameterType="string"
+			resultMap="MbrVOMap">
+		SELECT M.MBR_ID
+			 , M.MBR_NM
+			 , M.MBR_EML
+			 , TO_CHAR(M.MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(M.MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , M.MBR_RCNT_LGN_IP
+			 , M.MBR_LGN_FL_CNT
+			 , M.MBR_LGN_BLCK_YN
+			 , TO_CHAR(M.MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , TO_CHAR(M.MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , M.MBR_LVL
+			 , M.MBR_PY_MN
+			 , TO_CHAR(M.MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT
+			 , CD.CD_NM
+			 , CD.CD_ID
+			 , ST.STR_NM
+		  FROM FRAN.MBR M
+		 INNER JOIN CMMN_CD CD
+		 	ON M.MBR_LVL = CD.CD_ID
+		 INNER JOIN STR ST
+ 		 	ON M.STR_ID = ST.STR_ID
+		 WHERE M.MBR_ID =#{mbrId}
+		   AND M.DEL_YN='N'
+		   AND M.USE_YN='Y'
+	</select>
+	<select id="readOneCrewHrByMbrId"
+			parameterType="string"
+			resultMap="MbrVOMap">
+		SELECT MBR_ID
+			 , STR_ID
+			 , MBR_NM
+			 , MBR_EML
+			 , MBR_LVL
+			 , MBR_RCNT_LGN_DT
+			 , MBR_LGN_BLCK_YN
+			 , MBR_RGSTR_DT
+			 , HR_ID
+			 , HR_STAT
+			 , ORGN_FL_NM
+			 , UUID_FL_NM
+			 , FL_SIZE
+			 , FL_EXT
+			 , CD_NM
+	 		 , CD_ID
+	 		 , STR_NM
+		  FROM (SELECT M.MBR_ID
+		  			 , M.STR_ID
+		  			 , M.MBR_NM
+		  			 , M.MBR_EML
+		  			 , M.MBR_LVL
+		  			 , TO_CHAR(M.MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+		  			 , M.MBR_LGN_BLCK_YN
+		  			 , TO_CHAR(M.MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT
+		  			 , H.HR_ID
+		  			 , H.HR_STAT
+		  			 , H.ORGN_FL_NM
+		  			 , H.UUID_FL_NM
+		  			 , H.FL_SIZE
+		  			 , H.FL_EXT
+		  			 , CD.CD_NM
+			 		 , CD.CD_ID
+			 		 , ST.STR_NM
+				  FROM MBR M
+				 INNER JOIN CMMN_CD CD
+		 			ON M.MBR_LVL = CD.CD_ID
+		 		 INNER JOIN STR ST
+ 		 			ON M.STR_ID = ST.STR_ID 
+				 INNER JOIN HR H
+				 	ON M.MBR_ID = H.MBR_ID
+				 WHERE M.MBR_ID=#{_parameter}
+				   AND H.HR_STAT='심사완료'
+				   AND H.DEL_YN='N'
+				   AND H.NTC_YN='N'
+				 ORDER BY H.HR_APR_DT DESC)
+		  WHERE ROWNUM=1
+	</select>
 </mapper>

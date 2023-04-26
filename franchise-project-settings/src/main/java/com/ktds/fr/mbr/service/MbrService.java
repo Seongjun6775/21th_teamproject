@@ -51,4 +51,8 @@ public interface MbrService {
 	public boolean deleteAllMbrAdminByMbrId(MbrVO mbrVO, List<String> mbrIdList);
 	//중간관리자 직원 조회용
 	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO);
+	//관리자 개인정보 조회
+	public MbrVO readOneCrewByMbrId(String mbrId);
+	//이력서 다운용 
+	public MbrVO readOneCrewHrByMbrId(String mbrId);
 }

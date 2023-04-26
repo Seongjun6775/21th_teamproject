@@ -288,6 +288,18 @@ public class MbrServiceImpl implements MbrService {
 		return mbrDAO.readAllCrewMbrByStrId(mbrVO);
 	}
 	
+	@Override
+	public MbrVO readOneCrewByMbrId(String mbrId) {
+		if(mbrId == null || mbrId.length() == 0) {
+			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+		}
+		return mbrDAO.readOneCrewByMbrId(mbrId);
+	}
+	@Override
+	public MbrVO readOneCrewHrByMbrId(String mbrId) {
+		return mbrDAO.readOneCrewHrByMbrId(mbrId);
+	}
+	
 	public boolean updateMbrLvl(MbrVO mbrVO) {
 		if(mbrVO.getMbrLvl().equals("001-02")) {
 			int updateResult = mbrDAO.updateOneMbrLvlAndStrId(mbrVO);

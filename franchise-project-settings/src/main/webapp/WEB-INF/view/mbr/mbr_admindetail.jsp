@@ -59,17 +59,17 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" readonly value="${mbr.strVO.strNm}"/>
 							</div>
 						</div>
 					</div>
 					<div class="content-block">
 						<div class="content-subject">
-							<h1>등급</h1>
+							<h1>직급</h1>
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" value="${mbr.cmmnCdVO.cdNm}"/>
 							</div>
 						</div>
 					</div>
@@ -79,7 +79,8 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" value="${mbr.hrVO.orgnFlNm}"/>
+								<a href="${context}/hr/hrfile/${mbr.hrVO.hrId}"></a>
 							</div>
 						</div>
 					</div>
@@ -89,7 +90,7 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" readonly value="${mbr.mbrRcntLgnDt}"/>
 							</div>
 						</div>
 					</div>
@@ -99,7 +100,7 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" readonly value="${mbr.mbrLgnBlckYn}"/>
 							</div>
 						</div>
 					</div>
@@ -109,7 +110,7 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" readonly value="${mbr.mbrRgstrDt}"/>
 							</div>
 						</div>
 					</div>
