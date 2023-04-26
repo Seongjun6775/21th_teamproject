@@ -47,7 +47,7 @@ function movePage(pageNo) {
 	var queryString = "?prdtSrt=" + srt;
 	queryString += "&prdtPageNo=" + pageNo;
 	
-	location.href = "${context}/strprdt/"+${strVO.strId} + queryString; // URL 요청
+	location.href = "${context}/strprdt/${strVO.strId}"+ queryString; // URL 요청
 } 
 
 </script>
@@ -87,7 +87,8 @@ function movePage(pageNo) {
 			<c:when test="${not empty strPrdtList}">
 				<c:forEach items="${strPrdtList}"
 							var="strPrdt">
-					<a href="${context}/strprdt/detail/${strPrdt.strPrdtId}">
+					<a href="${context}/strprdt/detail/${strPrdt.strPrdtId}"
+						onclick="if('${strPrdt.useYn}'==='N') {return false;}">
 						<div class="prdt1" id="${strPrdt.strPrdtId}"
 							data-strPrdtid="${strPrdt.strPrdtId}">
 							<c:if test="${strPrdt.useYn eq 'N'}">
