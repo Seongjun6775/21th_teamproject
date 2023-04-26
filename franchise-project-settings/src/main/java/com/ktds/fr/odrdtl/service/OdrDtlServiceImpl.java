@@ -9,6 +9,8 @@ import com.ktds.fr.odrdtl.dao.OdrDtlDAO;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.dao.OdrLstDAO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
+import com.ktds.fr.strprdt.dao.StrPrdtDAO;
+import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @Service
 public class OdrDtlServiceImpl implements OdrDtlService {
@@ -18,9 +20,13 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	
 	@Autowired
 	public OdrLstDAO odrLstDAO;
+	
+	@Autowired
+	public StrPrdtDAO strPrdtDAO;
 
 	@Override
 	public boolean createNewOdrDtl(OdrDtlVO odrDtlVO) {
+		
 		// 이전에 주문이 완료되지 않은 주문서가 존재하는지 확인합니다.
 		int remainList = odrLstDAO.checkRemainOdrLst(odrDtlVO.getMbrId());
 		
@@ -32,6 +38,17 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 			OdrLstVO OdrLstId = odrLstDAO.getOdrLstId(odrDtlVO.getMbrId());
 			// 받아온 주문서 ID를 odrDtlVO 안에 세팅합니다.
 			odrDtlVO.setOdrLstId(OdrLstId.getOdrLstId());
+			
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
+			System.out.println(odrDtlVO.getOdrLstId());
 			// 주문서 ID가 포함된 odrDtlVO로 새 주문상세를 생성합니다.
 			createResult = odrDtlDAO.createNewOdrDtl(odrDtlVO) > 0;
 		}
@@ -66,6 +83,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId) {
 		return odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlId);
 	}
+	
+	@Override
+	public StrPrdtVO readOneCustomerByStr(String strPrdtId) {
+		return strPrdtDAO.readOneCustomerByStr(strPrdtId);
+	}
 
 	@Override
 	public boolean updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO) {
@@ -81,5 +103,7 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId) {
 		return odrDtlDAO.deleteOdrDtlBySelectedDtlId(odrDtlId) > 0;
 	}
+	
+	
 	
 }

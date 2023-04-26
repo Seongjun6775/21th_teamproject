@@ -3,6 +3,7 @@ package com.ktds.fr.odrdtl.service;
 import java.util.List;
 
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 public interface OdrDtlService {
 	
@@ -26,6 +27,13 @@ public interface OdrDtlService {
 	 * @return 주문한 상품의 상세 정보
 	 */
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId);
+	
+	/**
+	 * OdrDtl을 생성하기 위해 주문한 물품의 물품 + 매장 정보를 가져옵니다.
+	 * @param strPrdtId 매장 + 물품 ID
+	 * @return 주문한 물품의 상세 정보
+	 */
+	public StrPrdtVO readOneCustomerByStr(String strPrdtId);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문의 정보를 수정합니다.

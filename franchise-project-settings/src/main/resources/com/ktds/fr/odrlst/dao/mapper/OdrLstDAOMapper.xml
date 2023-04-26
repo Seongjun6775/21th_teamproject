@@ -49,7 +49,7 @@
 		VALUES
 		 ('OL-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_LST_PK.NEXTVAL, 5, '0')
 		, #{mbrId}
-		, '대기'
+		, '003-01'
 		, SYSDATE
 		, #{mbrId}
 		, SYSDATE

@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>${prdtVO.prdtNm}</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
+<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
@@ -18,10 +19,54 @@ $().ready(function() {
 	console.log("ready function!")
 	var ajaxUtil = new AjaxUtil();
 	
-	$("li").click(function() {
-		var srt = $(this).attr('value');
-		var queryString = "prdtSrt=" + srt;
-		location.href = "${context}/prdt/list2?" + queryString;
+	$(".updown button").click(function(e) {
+		e.preventDefault();
+		var count = $(this).closest(".updown").find(".cnt");
+		var now = parseInt(count.val());
+		var min = 1;
+		var max = 999;
+		var num = now;
+		
+		if($(this).hasClass("minus")){
+			var type="m";
+		} else {
+			var type="p"
+		}
+		
+		if (type == "m") {
+			if (now > min) {
+				num = now - 1;
+			}
+		} else {
+			if (now < max) {
+				num = now + 1;
+			}
+		}
+		
+		if (num != now) {
+			count.val(num);
+			
+			var prdtPrc = ${strPrdtVO.evntVO.evntId != null ? strPrdtVO.evntPrdtVO.evntPrdtChngPrc : strPrdtVO.prdtVO.prdtPrc}
+			
+			var price = num * prdtPrc;
+			$(".total-price").val(price);
+		}
+	});
+	
+	$("#add_btn").click(function() {
+		
+		var cnt = $(".cnt").val();
+		
+		$.post("${context}/api/odrdtl/create/${strPrdtVO.strPrdtId}", {"odrDtlPrdtCnt": cnt}, function(response) {
+			if (response.status == "200 OK") {
+				if(confirm("상품을 저장했습니다. 지금 결제 페이지로 이동할까요?")) {
+					location.href = "${context}/odrlst/list";
+				}
+				else{
+					location.href = "${context}/strprdt/${strPrdtVO.strId}"
+				}
+			}
+		})
 	});
 	
 	
@@ -103,7 +148,7 @@ function movePage(pageNo) {
 								<img src="${context}/img/default_photo.jpg">
 							</c:when>
 							<c:otherwise>
-								<img src="${context}/prdt/img/${strPrdtVO.prdtVO.uuidFlNm}/">
+								<img src="${context}/prdt/img/${strPrdtVO.prdtVO.uuidFlNm}/" alt="이미지 예정">
 							</c:otherwise>
 						</c:choose>	
 					</div>
@@ -132,27 +177,28 @@ function movePage(pageNo) {
 						</div>
 						<div class="col updown" style="text-align: left; font-size: 20px; padding: 0px;">수량 :
 								<button class="minus">-</button>
-								<input type="text" class="cnt text-center" value="${odrDtl.odrDtlPrdtCnt}" readonly/>
+								<input type="text" class="cnt text-center" value="1" readonly/>
 								<button class="plus">+</button>
 						</div>
 						<div class="col price" style="text-align: left; font-size: 20px; padding: 0px;">합계 : 
 							<c:choose>
 								<c:when test="${not empty strPrdtVO.evntVO.evntId}">
-									<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * strPrdtVO.evntPrdtVO.evntPrdtChngPrc}" readonly>
+									<input type="text" class="total-price" value="${strPrdtVO.evntPrdtVO.evntPrdtChngPrc}" readonly>
 								</c:when>
 								<c:otherwise>
-									<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * strPrdtVO.prdtVO.prdtPrc}" readonly>
+									<input type="text" class="total-price" value="${strPrdtVO.prdtVO.prdtPrc}" readonly>
 								</c:otherwise>
 							</c:choose>
 						</div>
 					</div>
 				</div>
-				<button type="button" id="modify_btn"class="btn btn-success">수정</button>
-				<button type="button" id="list_btn" class="btn btn-secondary">목록</button>
-				<button type="button" id="delete_btn" class="btn btn-danger">삭제</button>
+				<button type="button" id="add_btn"class="btn btn-success">추가</button>
+				<button type="button" id="cancle_btn" class="btn btn-danger">취소</button>
 			</div>
 	
 		<br>정보확인용
+		<br>상품ID : ${strPrdtVO.strPrdtId}
+		<br>매장ID : ${strPrdtVO.strId}
 		<br>이벤트 이름 : ${strPrdtVO.evntVO.evntTtl}	
 		<fmt:parseDate value="${strPrdtVO.evntVO.evntStrtDt}" var="startDt" pattern="yyyy-MM-dd"></fmt:parseDate>
 		<fmt:parseDate value="${strPrdtVO.evntVO.evntEndDt}" var="endDt" pattern="yyyy-MM-dd"></fmt:parseDate>
