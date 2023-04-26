@@ -71,12 +71,10 @@ $().ready(function() {
 		//location.href="${context}/evnt/list3"
 		history.pushState(null, null, '${context}/evnt/list');
 	});
-
 });
 	
 	
 	
-
 	function check(box) {
 		if (box.checked == true) {
 			box.value = "Y";
@@ -92,21 +90,17 @@ $().ready(function() {
    <div class="main-layout" >
   	 <jsp:include page="../include/header.jsp" />	
 	<div>
-		<jsp:include page="../include/sidemenu.jsp" />
+		<jsp:include page="../include/evntSidemenu.jsp" />
 		<jsp:include page="../include/content.jsp" />
 		
 		<form id="form-create" enctype="multipart/form-data">
-	
+			<input type="hidden" id="evntId"
+						style="width: 99%;" readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."value=""  />
 			<div>
 				<table border=1 style="width: 600px;">
 				<tr>
 					<td colspan="4"><h1 style="text-align: center;">이벤트 등록
 							페이지</h1></td>
-				</tr>
-				<tr>
-					<td>이벤트 ID</td>
-					<td colspan="3"><input type="text" id="evntId"
-						style="width: 99%;" readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."value=""  /></td>
 				</tr>
 
 				<tr>

@@ -3,7 +3,6 @@ package com.ktds.fr.evntstr.dao;
 import java.util.List;
 
 import com.ktds.fr.evntstr.vo.EvntStrVO;
-import com.ktds.fr.mbr.vo.MbrVO;
 
 public interface EvntStrDAO {
 
@@ -21,6 +20,6 @@ public interface EvntStrDAO {
 	public int deleteEvntStrListByEvntId(List<String> evntStrIdList);
 	
 	//이벤트 생성 시 모든 매장 자동 이벤트참여되도록
-	public int insertAllEvntStr(EvntStrVO evntStrVO);
+	public int insertAllEvntStr(List<EvntStrVO> evntStrList);
 
 }

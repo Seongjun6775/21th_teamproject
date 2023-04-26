@@ -5,12 +5,11 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ktds.fr.evnt.vo.EvntVO;
-import com.ktds.fr.evntstr.vo.EvntStrVO;
 
 public interface EvntService {
 
 	// 1. 이벤트 등록 ▶▶상위관리자
-	public boolean createNewEvnt(EvntVO evntVO,  EvntStrVO evntStrVO, MultipartFile uploadFile);
+	public boolean createNewEvnt(EvntVO evntVO, MultipartFile uploadFile);
 	
 	// 2. 이벤트 전체목록 조회 ▶▶상위관리자
 	public List<EvntVO> readAllEvnt(EvntVO evntVO);

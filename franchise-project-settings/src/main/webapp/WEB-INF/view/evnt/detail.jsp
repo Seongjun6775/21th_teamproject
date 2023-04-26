@@ -18,15 +18,12 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
-
 		$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
 		
 		//수정 버튼을 누르면 수정화면으로 전환 
 		$("#btn-update").click(function() {
-
 			location.href = "${context}/evnt/update/${evntVO.evntId}"
 		});
-
 		//삭제 버튼 누르면 삭제하시겠습니까? 물어보고 삭제하기
 		
 		$("#btn-updateDelete").click(function() {
@@ -38,13 +35,10 @@
 				$.post(							
 						// 1. 호출할 주소
 						"${context}/api/evnt/delete",
-
 						// 2. 파라미터
 						{
 							evntId : $("#evntId").val(),
-
 						},
-
 						// 3. 결과 처리
 						function(response) {
 							if (response.status == "200 OK") {
@@ -66,12 +60,10 @@
 	        	$.post(
 	        			// 1. 호출할 주소
 	        			"${context}/api/evntStr/create",
-
 	        			// 2. 파라미터
 	        			{
 	        				evntId : $("#evntId").val(),
 	        			},
-
 	        			// 3. 결과 처리
 	        			function(response) {
 	        				if (response.status == "200 OK") {
@@ -92,7 +84,7 @@
 		
 		//'참여매장목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntStr").click(function() {
-			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=800, height=600, scrollbars=yes, resizable=yes"); 
 		       pop.focus();	
 		});
 		
@@ -115,7 +107,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/evntSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 		<div>
 			<table border=1 style="width: 600px;">
@@ -201,13 +193,11 @@
 	
 	var mbrLvl = "<%=mbrVO.getMbrLvl()%>";
 	alert("mbrLv1 : " + mbrLvl);
-
 	if (mbrLvl == "ADMIN"){
 		btn1.style.visibility = "visible";
 	} else {
 		btn1.style.visibility = "hidden";
 	}
-
 	if (mbrLvl == "MANAGER"){
 		btn2.style.visibility = "visible";
 	} else {

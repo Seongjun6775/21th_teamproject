@@ -40,7 +40,7 @@ public class EvntStrServiceImpl implements EvntStrService {
 	}
 
 	@Override
-	public boolean insertAllEvntStr(EvntStrVO evntStrVO) {
-		return evntStrDAO.insertAllEvntStr(evntStrVO) > 0;
+	public boolean insertAllEvntStr(List<EvntStrVO> evntStrList) {
+		return evntStrDAO.insertAllEvntStr(evntStrList) > 0;
 	}
 }

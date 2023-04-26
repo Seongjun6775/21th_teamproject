@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
+<jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="../../css/evntCommon.css">
 <meta charset="UTF-8">
 <title>이벤트 상품 목록 조회</title>
@@ -59,11 +61,12 @@
 		$("#btn-close").click(function() {
 			window.close();
 		});
-		
-	
-		
-
 	});
+	
+	function movePage(pageNum){
+		location.href = "${context}/evntPrdt/list/${evntId}?pageNum=" + (pageNum);	
+	}
+	
 </script>
 
 
@@ -116,6 +119,32 @@
 						</c:choose>
 					</tbody>
 				</table>
+						<div class="pagenate">
+					<ul>
+						<c:set value="${evntPrdtList.size() > 0 ? evntPrdtList.get(0).lastPage : 0}" var="lastPage" />
+						  <c:set value="${evntPrdtList.size() > 0 ? evntPrdtList.get(0).lastGroup : 0}" var="lastGroup" />
+
+						<fmt:parseNumber var="nowGroup" value="${Math.floor(evntPrdtVO.pageNo /10)}" integerOnly="true" />
+						<c:set value="${nowGroup*10}" var="groupStartPageNo" />
+						<c:set value="${nowGroup*10+ 10}" var="groupEndPageNo" />
+						<c:set value="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo -1}" var="groupEndPageNo" />
+
+						<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+						<c:if test="${nowGroup > 0}">
+							<li><a href="javascript:movePage(0)">처음</a></li>
+							<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+						</c:if>
+
+						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
+							<li><a class="${pageNo eq evntPrdtVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+						</c:forEach>
+						<c:if test="${lastGroup > nowGroup}">
+							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+						</c:if>
+					</ul>
+				</div>	
 			</div>
 			<button id="btn-close" class="btn-primary">닫기</button>
 			<button id="btn-revomeEvntPrdt" class="btn-primary">상품 삭제</button>
