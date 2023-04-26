@@ -115,8 +115,4 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	public MbrVO readOneCrewByMbrId(String mbrId) {
 		return getSqlSession().selectOne("Mbr.readOneCrewByMbrId", mbrId);
 	}
-	@Override
-	public MbrVO readOneCrewHrByMbrId(String mbrId) {
-		return getSqlSession().selectOne("Mbr.readOneCrewHrByMbrId",mbrId);
-	}
 }

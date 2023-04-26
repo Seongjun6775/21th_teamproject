@@ -306,10 +306,6 @@ public class MbrServiceImpl implements MbrService {
 		mbrVO.setHrVO(readHrVO);
 		return mbrVO;
 	}
-	@Override
-	public MbrVO readOneCrewHrByMbrId(String mbrId) {
-		return mbrDAO.readOneCrewHrByMbrId(mbrId);
-	}
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {
 		if(mbrVO.getMbrLvl().equals("001-02")) {
