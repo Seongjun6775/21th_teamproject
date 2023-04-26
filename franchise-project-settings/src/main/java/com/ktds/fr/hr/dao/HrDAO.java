@@ -23,5 +23,10 @@ public interface HrDAO {
 	public int updateHrAprByHrId(HrVO hrVO);
 	
 	public int checkCreateYn(String mbrId);
+	
+	/**
+	 * 직원 조회용
+	 */
+	public HrVO readOneHrByMbrId(String mbrId);
 
 }

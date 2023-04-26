@@ -16,6 +16,8 @@ import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.SHA256Util;
+import com.ktds.fr.hr.dao.HrDAO;
+import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.lgnhist.dao.LgnHistDAO;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.dao.MbrDAO;
@@ -40,6 +42,9 @@ public class MbrServiceImpl implements MbrService {
 	
 	@Autowired
 	private StrDAO strDAO;
+	
+	@Autowired
+	private HrDAO hrDAO;
 
 	@Override	//로그인
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO) {
@@ -286,6 +291,20 @@ public class MbrServiceImpl implements MbrService {
 			throw new ApiException(ApiStatus.FAIL, "권한이 없습니다.");
 		}
 		return mbrDAO.readAllCrewMbrByStrId(mbrVO);
+	}
+	
+	@Override
+	public MbrVO readOneCrewByMbrId(String mbrId) {
+		if(mbrId == null || mbrId.length() == 0) {
+			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+		}
+		MbrVO mbrVO = mbrDAO.readOneCrewByMbrId(mbrId);
+		if(mbrVO==null) {
+			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+		}
+		HrVO readHrVO = hrDAO.readOneHrByMbrId(mbrId);
+		mbrVO.setHrVO(readHrVO);
+		return mbrVO;
 	}
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {
