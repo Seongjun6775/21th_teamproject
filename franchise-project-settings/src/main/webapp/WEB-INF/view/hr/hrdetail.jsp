@@ -61,7 +61,7 @@
 				return;
 			}
 			
-			if (hrStat != "접수") {
+			if (hrStat != "002-01") {
 				alert("접수 상태의 게시글만 수정할 수 있습니다.");
 				return;
 			}

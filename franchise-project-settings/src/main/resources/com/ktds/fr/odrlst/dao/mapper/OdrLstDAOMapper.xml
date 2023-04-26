@@ -15,7 +15,23 @@
 		</association>
 	</resultMap>
 	
+	<select id="checkRemainOdrLst"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM ODR_LST
+		 WHERE MBR_ID = #{_parameter}
+		   AND ODR_LST_ODR_PRCS = '대기'
+	</select>
 	
+	<select id="getOdrLstId"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ID 
+		  FROM ODR_LST
+		 WHERE MBR_ID = #{_parameter}
+		   AND ODR_LST_ODR_PRCS = '대기'
+	</select>
 	
 	<insert id="createNewOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
@@ -33,14 +49,14 @@
 		VALUES
 		 ('OL-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_LST_PK.NEXTVAL, 5, '0')
 		, #{mbrId}
-		, #{odrLstOdrPrcs}
+		, '대기'
 		, SYSDATE
-		, #{odrLstRgstr}
+		, #{mbrId}
 		, SYSDATE
-		, #{mdfyr}
+		, #{mbrId}
 		, 'Y'
 		, 'N'
-		, #{strId})
+		, #{odrDtlStrId})
 	</insert>
 	
 	<select id="readAllOdrLst"

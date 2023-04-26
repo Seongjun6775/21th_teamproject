@@ -79,12 +79,12 @@
 		 , SYSDATE
 		 , NULL
 		 , NULL
-		 , '접수'
+		 , '002-01'
 		 , #{orgnFlNm}
 		 , #{uuidFlNm}
 		 , #{flSize}
 		 , #{flExt}
-		 , 'N'
+		 , 'Y'
 		 , 'N'
 		 , #{ntcYn}
 		 , #{hrLvl})
@@ -168,7 +168,7 @@
 	<update id="updateHrStatByHrId"
 			parameterType="string">
 		UPDATE HR
-		   SET HR_STAT = '심사중'
+		   SET HR_STAT = '002-02'
 		 WHERE HR_ID = #{_parameter}
 	</update>
 	
@@ -177,7 +177,7 @@
 		UPDATE HR
 		   SET HR_APR_YN = #{hrAprYn}
 		     , HR_APR_DT = SYSDATE
-		     , HR_STAT = '심사완료'
+		     , HR_STAT = '002-03'
 		 WHERE HR_ID = #{hrId}
 	</update>
 	
@@ -187,7 +187,7 @@
 		SELECT COUNT(1)
 		  FROM HR
 		 WHERE MBR_ID = #{_parameter}
-		   AND HR_STAT IN ('접수', '심사중')
+		   AND HR_STAT IN ('002-01', '002-01')
 		   AND DEL_YN = 'N'
 	</select>
 	

@@ -32,7 +32,7 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId) {
 		return getSqlSession().selectOne("OdrDtl.readOneOdrDtlByOdrDtlId", odrDtlId);
 	}
-
+	
 	@Override
 	public int updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO) {
 		return getSqlSession().update("OdrDtl.updateOneOdrDtlByOdrDtlId", odrDtlVO);

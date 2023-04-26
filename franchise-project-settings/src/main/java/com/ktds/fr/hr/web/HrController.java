@@ -153,7 +153,7 @@ public class HrController {
 			HrVO hr = hrService.readOneHrByHrId(hrId);
 			
 			// 조회하는 글이 공지가 아니고, 최고관리자가 읽은 적이 없어 "접수"인 상태라면 "심사중"으로 변경시킨 후 조회합니다.
-			if (hr.getNtcYn().equals("N") && hr.getHrStat().equals("접수")) {
+			if (hr.getNtcYn().equals("N") && hr.getHrStat().equals("002-01")) {
 				hrService.updateHrStatByHrId(hrId);
 				hr = hrService.readOneHrByHrId(hrId);
 			}
@@ -238,7 +238,7 @@ public class HrController {
 		
 		HrVO hr = hrService.readOneHrByHrId(hrId);
 		if (mbrVO.getMbrId().equals(hr.getMbrId())) {
-			if (hr.getHrStat().equals("접수")) {
+			if (hr.getHrStat().equals("002-01")) {
 				model.addAttribute("hr", hr);
 				model.addAttribute("mbrVO", mbrVO);
 				return "hr/hrupdate";
