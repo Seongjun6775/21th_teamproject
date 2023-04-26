@@ -148,14 +148,7 @@
 				
 				var strLctn = $("#strLctn").val();
 				
-				console.log(strLctn);
-				console.log(strLctn);
-				console.log(strLctn);
-				console.log(strLctn);
-				
-				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
-					
-				})
+				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){})
 			});
 			
 		});
@@ -390,19 +383,10 @@
 							<c:choose>
 								<c:when test="${not empty lctList}">
 									<c:forEach items="${lctList}"
-												var="lct">
-										<tr data-lctid="${lct.lctId}">
-											<td><a href="#">${lct.lctNm}</a></td>
-										</tr>
+												var="lct"> 
+										<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
 									</c:forEach>
 								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="1" class="no-items">
-											조회된 항목이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
 							</c:choose>
 						</select>
 						<label for="strCty" style="width:60px">도시</label>
