@@ -35,6 +35,11 @@ public class StrPrdtDAOImpl extends SqlSessionDaoSupport implements StrPrdtDAO {
 	}
 
 	@Override
+	public StrPrdtVO readOneCustomerByStr(String strPrdtId) {
+		return getSqlSession().selectOne("StrPrdt.readOneCustomerByStr", strPrdtId);
+	}
+
+	@Override
 	public List<PrdtVO> missingList(String strId) {
 		return getSqlSession().selectList("StrPrdt.missingList", strId);
 	}
@@ -68,6 +73,7 @@ public class StrPrdtDAOImpl extends SqlSessionDaoSupport implements StrPrdtDAO {
 	public int deleteStrList(List<String> StrList) {
 		return getSqlSession().update("StrPrdt.deleteStrList", StrList);
 	}
+
 
 
 	

@@ -98,15 +98,37 @@ function movePage(pageNo) {
 	<div class="container">
 				<div class="row content text-center">
 					<div class="col img-grid">
-						<img src="" alt="사진이 들어갈 예정입니다.">
+						<c:choose>
+							<c:when test="${empty strPrdtVO.prdtVO.uuidFlNm}">
+								<img src="${context}/img/default_photo.jpg">
+							</c:when>
+							<c:otherwise>
+								<img src="${context}/prdt/img/${strPrdtVO.prdtVO.uuidFlNm}/">
+							</c:otherwise>
+						</c:choose>	
 					</div>
 					<!-- 임시로 style을 넣어 두었습니다. css 작업을 하실 때 지워야 합니다. -->
 					<div class="col text-grid">
 						<div style="text-align: left; font-size: 20px;">상품명 : 
-							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtNm}</span>
+							<span style="text-align: left; font-size: 30px; font-weight: bold;">${strPrdtVO.prdtVO.prdtNm}</span>
+							<c:if test="${not empty strPrdtVO.evntVO.evntId}">
+								<span>이벤트중!!</span>
+							</c:if>
 						</div>
 						<div style="text-align: left; font-size: 20px;">개당 가격 : 
-							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtPrc}</span>원
+							<c:choose>
+								<c:when test="${not empty strPrdtVO.evntVO.evntId}">
+									<span style="text-align: left; font-size: 30px; font-weight: bold;">
+										<del><fmt:formatNumber>${strPrdtVO.prdtVO.prdtPrc}</fmt:formatNumber></del>
+										<fmt:formatNumber>${strPrdtVO.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>
+									</span>원
+								</c:when>
+								<c:otherwise>
+									<span style="text-align: left; font-size: 30px; font-weight: bold;">
+										<fmt:formatNumber>${strPrdtVO.prdtVO.prdtPrc}</fmt:formatNumber>
+									</span>원
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div class="col updown" style="text-align: left; font-size: 20px; padding: 0px;">수량 :
 								<button class="minus">-</button>
@@ -114,7 +136,14 @@ function movePage(pageNo) {
 								<button class="plus">+</button>
 						</div>
 						<div class="col price" style="text-align: left; font-size: 20px; padding: 0px;">합계 : 
-							<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * odrDtl.prdtVO.prdtPrc}" readonly>
+							<c:choose>
+								<c:when test="${not empty strPrdtVO.evntVO.evntId}">
+									<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * strPrdtVO.evntPrdtVO.evntPrdtChngPrc}" readonly>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * strPrdtVO.prdtVO.prdtPrc}" readonly>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</div>
@@ -123,8 +152,11 @@ function movePage(pageNo) {
 				<button type="button" id="delete_btn" class="btn btn-danger">삭제</button>
 			</div>
 	
-	
-
+		<br>정보확인용
+		<br>이벤트 이름 : ${strPrdtVO.evntVO.evntTtl}	
+		<fmt:parseDate value="${strPrdtVO.evntVO.evntStrtDt}" var="startDt" pattern="yyyy-MM-dd"></fmt:parseDate>
+		<fmt:parseDate value="${strPrdtVO.evntVO.evntEndDt}" var="endDt" pattern="yyyy-MM-dd"></fmt:parseDate>
+		<br>이벤트 기간 : <fmt:formatDate value="${startDt}" pattern="yyyy.MM.dd"/>  ~ <fmt:formatDate value="${endDt}" pattern="yyyy.MM.dd"/>
 
 </body>
 </html>

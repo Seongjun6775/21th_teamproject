@@ -138,6 +138,9 @@ public class StrPrdtController {
 	 */
 	@GetMapping("/strprdt/detail/{strPrdtId}")
 	public String strPrdtDetail(@PathVariable String strPrdtId, Model model) {
+		StrPrdtVO strPrdtVO = strPrdtService.readOneCustomerByStr(strPrdtId);
+		
+		model.addAttribute("strPrdtVO", strPrdtVO);
 		
 		return "strprdt/strprdt_detail";
 	}
