@@ -205,7 +205,7 @@
 		   AND HR_STAT IN ('002-01', '002-01')
 		   AND DEL_YN = 'N'
 	</select>
-	
+	<!-- 직원조회용 -->
 	<select id="readOneHrByMbrId"
 			parameterType="string"
 			resultType="com.ktds.fr.hr.vo.HrVO">
@@ -228,6 +228,15 @@
 				 ORDER BY HR_APR_DT DESC)
 		 WHERE ROWNUM=1
 	</select>	
-
+	<!-- 직원 해임용 -->
+	<update id="deleteAllHrByMbrId"
+			parameterType="arrayList">
+		UPDATE HR
+		   SET DEL_YN = 'Y'
+		 WHERE MBR_ID IN
+		 <foreach collection="list" item="mbrId" separator=", " open="(" close=")">
+			 #{mbrId}
+		 </foreach> 
+	</update>
 
 </mapper>
