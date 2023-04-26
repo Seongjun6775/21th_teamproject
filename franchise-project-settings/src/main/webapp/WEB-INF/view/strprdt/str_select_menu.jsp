@@ -12,6 +12,7 @@
 <title>${strVO.strNm} - 주문하기</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -26,8 +27,11 @@ $().ready(function() {
 	
 	$("li").click(function() {
 		var srt = $(this).attr('value');
-		var queryString = "prdtSrt=" + srt;
-		location.href = "${context}/prdt/list2?" + queryString;
+		if (srt == "" || srt == null) {
+			srt = '%'
+		}
+		var queryString = "?prdtVO.prdtSrt=" + srt;
+		location.href = "${context}/strprdt/${strVO.strId}" + queryString;
 	});
 	
 	
@@ -39,15 +43,11 @@ $().ready(function() {
 
 function movePage(pageNo) {
 	var srt = $("#search-keyword-prdtSrt").val(); 
-	var prdtNm= $("#search-keyword-prdtNm").val(); 
-	var useYn= $("#search-keyword-useYn").val(); 
 	
-	var queryString = "prdtSrt=" + srt;
-	queryString += "&prdtNm=" + prdtNm;
-	queryString += "&useYn=" + useYn;
+	var queryString = "?prdtSrt=" + srt;
 	queryString += "&prdtPageNo=" + pageNo;
 	
-	location.href = "${context}/prdt/list2?" + queryString; // URL 요청
+	location.href = "${context}/strprdt/"+${strVO.strId} + queryString; // URL 요청
 } 
 
 </script>
@@ -78,7 +78,7 @@ function movePage(pageNo) {
 			</ul>
 	</div>
 	
-	<div> aaaaaaa
+	<div>
 		<br>매장이름임 ${strVO.strNm} (${strVO.strId})
 		<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
 		<br>리스트 조회개수 ${strPrdtList.size()}
@@ -90,6 +90,11 @@ function movePage(pageNo) {
 					<a href="${context}/strprdt/detail/${strPrdt.strPrdtId}">
 						<div class="prdt1" id="${strPrdt.strPrdtId}"
 							data-strPrdtid="${strPrdt.strPrdtId}">
+							<c:if test="${strPrdt.useYn eq 'N'}">
+								<div class="bg-black">
+									<div class="warning">구매할 수 없습니다</div>
+								</div>
+							</c:if>
 							<div class="img-box">
 								<c:choose>
 									<c:when test="${empty strPrdt.prdtVO.uuidFlNm}">
@@ -101,7 +106,7 @@ function movePage(pageNo) {
 								</c:choose>	
 							</div>
 							<div class="prdt3">
-								<div class="name">${strPrdt.prdtVO.prdtNm} aaaaaa
+								<div class="name">${strPrdt.prdtVO.prdtNm}
 									<c:choose>
 										<c:when test="${not empty strPrdt.evntVO.evntId}">
 											<span>할인중!!</span>

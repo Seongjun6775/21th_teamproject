@@ -62,9 +62,7 @@ function movePage(pageNo) {
 	<div class="headline relative">
 		상단 헤드라인임 //////// <a href="${context}/prdt/list">관리자 메뉴로 돌아가깅</a>
 		<br><a href="${context}/strprdt/list2">주문가볼까</a>
-		<div>${prdtList}</div>
-		<div>${prdtVO}</div>
-		<div>${srtList}</div>
+		
 			<ul id="prdtSrtList" class="flex absolute" style="list-style-type: none; bottom: 0px;">
 				<li value=""><a href="#">전체메뉴</a></li>
 				<c:choose>

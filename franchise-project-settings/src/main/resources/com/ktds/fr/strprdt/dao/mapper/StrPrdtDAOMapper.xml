@@ -230,7 +230,7 @@
 		  					   ON E.EVNT_ID = EP.EVNT_ID ) EP
 		    ON SP.PRDT_ID = EP.PRDT_ID
 		<if test='prdtVO != null and prdtVO != ""'>
-		   AND P.PRDT_SRT = #{prdtVO.prdtSrt} 
+		WHERE P.PRDT_SRT = #{prdtVO.prdtSrt} 
 		</if>
 		ORDER BY SP.USE_YN DESC, EVNT_ID ASC, P.PRDT_NM ASC ) A
 		<include refid="StrPrdtCommon.pageFooter"></include>

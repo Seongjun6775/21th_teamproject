@@ -29,6 +29,8 @@ $(document).ready(function() {
 	
 	$("tbody").children("tr").click(function() {
 		var lct = $(this).data().lctid;
+		$(this).closest("tbody").find(".on").removeClass("on");
+		$(this).addClass("on");
 		
 		$("#ctyTable").children("tbody").empty();
 		$("#strTable").children("tbody").empty();
@@ -40,13 +42,15 @@ $(document).ready(function() {
 				    var ctyId = data[i].ctyId;
 				    var ctyNm = data[i].ctyNm;
 				    
-				    var tr = $("<tr data-ctyid='" + ctyId + "'></tr>'");
+				    var tr = $("<tr data-ctyid='" + ctyId + "'></tr>");
 				    var td = "<td><a href='#'>" + ctyNm + "</a><td>"
 				    
 				    $("#ctyTable").children("tbody").append(tr);
 				    tr.append(td);
 				    
 				    tr.click(function() {
+				    	$(this).closest("tbody").find(".on").removeClass("on");
+						$(this).addClass("on");
 				    	var ctyId = $(this).data().ctyid;
 				    	strCall(ctyId);
 				    });
@@ -145,27 +149,6 @@ $(document).ready(function() {
 		</table>
 	</div>
 	
-	
-	<div class="relative">
-		<div class="align-right absolute " style="right: 0px;" >
-			<button class="btn-primary" 
-					id="btn-search-reset">검색초기화</button>
-			<select class="selectFilter"
-					id="select-useYn">
-				<option value="">사용유무</option>
-				<option value="Y">Y</option>
-				<option value="N">N</option>
-			</select>
-			<button id="btn-update-all" 
-					class="btn-primary btn-delete" 
-					style="vertical-align: top;">일괄수정</button>
-		</div>
 		
-	</div>
-	
-	<div class="align-right grid-btns">
-		<a href="${context}/prdt/list">메뉴리스트</a>
-	</div>
-	
 </body>
 </html>

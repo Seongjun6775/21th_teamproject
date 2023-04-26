@@ -7,13 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.ctycd.service.CtyCdService;
-import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.lctcd.service.LctCdService;
 import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -120,15 +118,17 @@ public class StrPrdtController {
 	 * 주문용 매장상세
 	 */
 	@GetMapping("/strprdt/{strId}")
-	public String viewStrOne(@PathVariable String strId, Model model) {
-		StrPrdtVO strPrdtVO = new StrPrdtVO();
+	public String viewStrOne(StrPrdtVO strPrdtVO, @PathVariable String strId, Model model) {
+		
 		strPrdtVO.setStrId(strId);
+		
 		List<StrPrdtVO> strPrdtList = strPrdtService.readAllCustomerByStr(strPrdtVO);
 		StrVO strVO = strService.readOneStrByMaster(strId);
-		
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("strPrdtList", strPrdtList);
 		model.addAttribute("strVO", strVO);
+		model.addAttribute("srtList", srtList);
 		
 		return "strprdt/str_select_menu";
 	}

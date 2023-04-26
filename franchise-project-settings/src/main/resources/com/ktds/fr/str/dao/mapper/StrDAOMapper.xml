@@ -289,6 +289,7 @@
 			 , S.DEL_YN
 		  FROM STR S
 		 WHERE S.DEL_YN = 'N'
+		 ORDER BY S.STR_NM ASC
 	</select>
 	
 	
