@@ -2,6 +2,7 @@ package com.ktds.fr.str.dao;
 
 import java.util.List;
 
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.str.vo.StrVO;
 
 public interface StrDAO {
@@ -32,5 +33,7 @@ public interface StrDAO {
 	 * 회원기능과 연동
 	 */
 	public List<StrVO>readAllStrNoPagenate(StrVO strVO);
+	
+	public List<CtyCdVO> readCategory(String lctId);
 	
 }

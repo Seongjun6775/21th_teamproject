@@ -179,7 +179,7 @@
 					<div class="input-group inline">
 						<label for="strLctn" style="width:180px">지역</label>
 						<select id="strLctn" name="strLctn" >
-							<option value="">지역</option>
+							<option value="">지역명</option>
 							<c:choose>
 								<c:when test="${not empty lctList}">
 									<c:forEach items="${lctList}"
@@ -191,7 +191,7 @@
 						</select>
 						<label for="strCty" style="width:180px">도시</label>
 						<select id="strCty" name="strCty">
-							<option value="">도시명</option>
+							<option value="">도시</option>
 							<c:choose>
 								<c:when test="${not empty ctyList}">
 									<c:forEach items="${ctyList}"

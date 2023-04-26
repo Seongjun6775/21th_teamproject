@@ -144,6 +144,18 @@
 				movePage(0);
 			});
 			
+			$("#strLctn").change(function() {
+				
+				var strLctn = $("#strLctn").val();
+				
+				console.log(strLctn);
+				console.log(strLctn);
+				console.log(strLctn);
+				console.log(strLctn);
+				
+				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){})
+			});
+			
 		});
 		function movePage(pageNo){
 		//전송
@@ -333,7 +345,7 @@
 					</c:if>
 				</ul>
 			</div>
-			<div class="grid-strdetailmst">
+			<div class="grid-strdetailmst" style="margin-top: 10px;">
 				<form id="strdetailmst_form">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
@@ -344,32 +356,58 @@
 						<label for="strNm" style="width:180px">매장명</label>
 						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}"/>
 					</div>
-					<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 					<div class="input-group inline">
-						<label for="strLctn" style="width:60px">지역</label>
-						<select id="strLctn" name="strLctn">
+						<%-- 
+						<select id="search-keyword-strLctn" name="strLctn">
 							<option value="">지역</option>
 							<c:choose>
 								<c:when test="${not empty lctList}">
 									<c:forEach items="${lctList}"
 												var="lct"> 
-										<option value="${lct.lctId}" >${lct.lctNm}</option>
+										<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
 									</c:forEach>
 								</c:when>
 							</c:choose>
 						</select>
 						<label for="strCty" style="width:60px">도시</label>
-						<select id="strCty" name="strCty">
+						<select id="search-keyword-strCty" name="strCty">
 							<option value="">도시명</option>
 							<c:choose>
 								<c:when test="${not empty ctyList}">
 									<c:forEach items="${ctyList}"
 												var="cty" >
-										<option value="${cty.ctyId}" >${cty.ctyNm}</option>
+										<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select> --%>
+						<label for="strLctn" style="width:60px">지역</label>
+						<select class="selectFilter" name="strLctn"
+								id="strLctn">
+						<option value="">지역명</option>
+							<c:choose>
+								<c:when test="${not empty lctList}">
+									<c:forEach items="${lctList}"
+												var="lct"> 
+										<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
 									</c:forEach>
 								</c:when>
 							</c:choose>
 						</select>
+						<label for="strCty" style="width:60px">도시</label>
+						<select class="selectFilter" name="strCty"
+								id="strCty">
+						<option value="">도시명</option>
+							<c:choose>
+								<c:when test="${not empty ctyList}">
+									<c:forEach items="${ctyChangedList ne null ? ctyChangedList : ctyList}"
+												var="cty" >
+										<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
+						
 					</div>
 					<div class="input-group inline">
 						<label for="strAddr" style="width:60px">매장주소</label>

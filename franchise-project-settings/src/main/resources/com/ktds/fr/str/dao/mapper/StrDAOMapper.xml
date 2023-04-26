@@ -25,6 +25,16 @@
 		</association>
 	</resultMap>
 
+<!-- 	<resultMap id="ctyCdVOMap" 
+				type="com.ktds.fr.ctycd.vo.CtyCdVO"
+				autoMapping="true">
+		<id property="ctyId" column="CTY_ID"/>
+		<association property="lctCdVO"
+					  javaType="com.ktds.fr.lctcd.vo.LctCdVO">
+			<id property="lctId" column="LCT_ID"/>
+			<result property="lctNm" column="LCT_NM"/>
+		</association>
+	</resultMap> -->
 
 
 	<select id="readAllStrMaster"
@@ -273,6 +283,22 @@
 		<if test='strAddr != null and strAddr != ""'>
 		   AND S.STR_ADDR LIKE '%' || #{strAddr} || '%'
 		</if>
+	</select>
+	
+	<select id="readCategory"
+			parameterType="string"
+			resultMap="strVOMap">
+		SELECT C.CTY_ID
+			 , C.CTY_NM
+			 , C.LCT_ID
+			 , L.LCT_NM 
+		  FROM CTY_CD C
+		  JOIN LCT_CD L
+		  	ON C.LCT_ID = L.LCT_ID
+		<if test='lctId != null and lctId != ""'>
+		 WHERE L.LCT_ID LIKE '%' || #{_parameter} || '%'
+		</if>
+		 ORDER BY C.CTY_ID ASC 
 	</select>
 
 </mapper>

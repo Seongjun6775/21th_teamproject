@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.str.vo.StrVO;
 
 @Repository
@@ -77,6 +78,11 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 	@Override
 	public List<StrVO> readAllStrNoPagenate(StrVO strVO) {
 		return getSqlSession().selectList("Str.readAllStrNoPagenate", strVO);
+	}
+	
+	@Override
+	public List<CtyCdVO> readCategory(String lctId) {
+		return getSqlSession().selectList("Str.readCategory", lctId);
 	}
 
 }

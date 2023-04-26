@@ -159,7 +159,7 @@ $().ready(function() {
 					<div class="input-group inline">
 						<label for="strLctn" style="width:180px">지역</label>
 						<select id="strLctn" name="strLctn" disabled style="background-color:orange">
-							<option value="">지역</option>
+							<option value="">지역명</option>
 							<c:choose>
 								<c:when test="${not empty lctList}">
 									<c:forEach items="${lctList}"

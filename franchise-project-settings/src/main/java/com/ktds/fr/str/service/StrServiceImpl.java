@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.ctycd.dao.CtyCdDAO;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.str.dao.StrDAO;
 import com.ktds.fr.str.vo.StrVO;
 
@@ -73,6 +75,11 @@ public class StrServiceImpl implements StrService {
 	@Override
 	public List<StrVO> readAllStrNoPagenate(StrVO strVO) {
 		return strDAO.readAllStrNoPagenate(strVO);
+	}
+
+	@Override
+	public List<CtyCdVO> readCategory(String lctId) {
+		return strDAO.readCategory(lctId);
 	}
 
 }
