@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MngrBrd">
+
+	<resultMap id="brdMap" 
+			   type="com.ktds.fr.mngrbrd.vo.MngrBrdVO"  
+			   autoMapping="true">
+		<id property="mngrBrdId" column="MNGR_BRD_ID" />
+		<association property="mbrVO"
+					 javaType="com.ktds.fr.mbr.vo.MbrVO"
+					 autoMapping="true">
+			<id property="mbrId" column="MBR_ID"/>
+		</association>
+		<!-- rplList --> 
+		<collection property="rplList"
+					ofType="com.ktds.fr.rpl.vo.RplVO">
+			<id property="rplId" column="RPL_ID"/>		
+			<result property="mbrId" column="R_MBR_ID" />
+			<result property="rplWrtDt" column="R_RPL_WRT_DT" />
+			<result property="mdfyDt" column="R_MDFY_DT" />
+			<result property="rplCntnt" column="R_RPL_CNTNT" />
+			<result property="depth" column="DEPTH" />
+			<result property="delYn" column="R_DEL_YN" />
+			<association property="mbrVO"
+			             javaType="com.ktds.fr.mbr.vo.MbrVO">
+				<id property="mbrId" column="R_MBR_ID" /> <!-- 댓글 글쓴사람 id -->
+				<result property="mbrNm" column="R_NM" />
+			</association>	
+		</collection>
+	</resultMap>
+	
+	<select id="readAllMngrBrds"
+			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO"
+			resultMap="brdMap">
+		<include refid ="Common.pageHeader"/>
+			SELECT B.MNGR_BRD_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC) RNUM <!-- 여기 PK_COL을 RNUM으로 바꾸면 정상적으로 작동 -->
+			 , B.MNGR_BRD_ID
+		     , B.MNGR_BRD_TTL
+		     , B.MNGR_BRD_CNTNT
+		     , B.MNGR_ID
+		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , CASE 
+		     	WHEN ((B.MNGR_BRD_WRT_DT+1) - SYSDATE) > 0  THEN
+		     	  TO_CHAR(B.MNGR_BRD_WRT_DT  ,'YYYY-MM-DD HH24:MI:SS') 
+		        ELSE 
+		          TO_CHAR(B.MNGR_BRD_WRT_DT  ,'YYYY-MM-DD')    	
+		     	END MNGR_BRD_WRT_DT
+		     , B.MDFYR
+		     , B.USE_YN
+		     , B.DEL_YN
+		     , B.NTC_YN
+		     , M.MBR_ID
+		     , M.MBR_NM
+		     , R.RPL_ID
+		     , R.RPL_CNTNT R_RPL_CNTNT 
+		     , R.MBR_ID R_MBR_ID
+		     , R.ALTCL_ID
+		     , R.RPL_WRT_DT R_RPL_WRT_DT
+		     , R.MDFY_DT R_MDFY_DT
+		     , R.RPL_PRNT_RPL 
+		     , RM.MBR_NM R_NM
+          FROM FRAN.MNGR_BRD B
+         INNER JOIN MBR M 
+            ON B.MNGR_ID = M.MBR_ID
+          LEFT OUTER JOIN (SELECT *
+    					 	 FROM RPL
+    						WHERE USE_YN = 'Y'
+    					      AND DEL_YN = 'N') R 
+            ON B.MNGR_BRD_ID = R.ALTCL_ID
+          LEFT OUTER JOIN MBR RM
+            ON R.MBR_ID = RM.MBR_ID
+         WHERE B.DEL_YN ='N'
+           AND B.USE_YN ='Y'
+           AND B.NTC_YN ='N'
+         <if test= 'mngrBrdTtl != null and mngrBrdTtl != "" '>
+           AND  B.MNGR_BRD_TTL LIKE '%' ||  #{mngrBrdTtl} || '%'
+         </if>
+         <if test= 'mngrBrdCntnt != null and mngrBrdCntnt != "" '>
+           AND  B.MNGR_BRD_CNTNT LIKE '%' ||  #{mngrBrdCntnt} || '%'
+         </if> 
+         <if test= 'mbrVO != null and mbrVO.mbrNm != null and mbrVO.mbrNm != "" '>
+           AND  M.MBR_NM LIKE '%' ||  #{mbrVO.mbrNm} || '%'
+         </if> 
+         ORDER BY B.NTC_YN DESC ,  B.MNGR_BRD_WRT_DT DESC
+         <include refid="Common.pageFooter" />
+	</select>
+	
+	
+	<!-- 공지만 줏어오기 -->
+	<select id="readAllNotice"
+			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO"
+			resultMap="brdMap">
+		SELECT B.MNGR_BRD_ID
+		     , B.MNGR_BRD_TTL
+		     , B.MNGR_BRD_CNTNT
+		     , B.MNGR_ID
+		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , CASE 
+		     	WHEN ((B.MNGR_BRD_WRT_DT+1) - SYSDATE) > 0  THEN
+		     	  TO_CHAR(B.MNGR_BRD_WRT_DT  ,'YYYY-MM-DD HH24:MI:SS') 
+		        ELSE 
+		          TO_CHAR(B.MNGR_BRD_WRT_DT  ,'YYYY-MM-DD')    	
+		     	END MNGR_BRD_WRT_DT
+		     , B.MDFYR
+		     , B.USE_YN
+		     , B.DEL_YN
+		     , B.NTC_YN
+		     , M.MBR_ID
+		     , M.MBR_NM
+		     , R.RPL_ID
+		     , R.RPL_CNTNT R_RPL_CNTNT 
+		     , R.MBR_ID R_MBR_ID
+		     , R.ALTCL_ID
+		     , R.RPL_WRT_DT R_RPL_WRT_DT
+		     , R.MDFY_DT R_MDFY_DT
+		     , R.RPL_PRNT_RPL 
+		     , RM.MBR_NM R_NM
+          FROM FRAN.MNGR_BRD B
+         INNER JOIN MBR M 
+            ON B.MNGR_ID = M.MBR_ID
+          LEFT OUTER JOIN (SELECT *
+    					 	 FROM RPL
+    						WHERE USE_YN = 'Y'
+    					      AND DEL_YN = 'N') R 
+            ON B.MNGR_BRD_ID = R.ALTCL_ID
+          LEFT OUTER JOIN MBR RM
+            ON R.MBR_ID = RM.MBR_ID
+         WHERE B.DEL_YN ='N'
+           AND B.USE_YN ='Y'
+           AND B.NTC_YN = 'Y'
+         ORDER BY B.MNGR_BRD_WRT_DT DESC
+	</select>
+	
+	
+	<select id="readAllMngrBrdsNopagination"
+			parameterType="string"
+			resultType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+			SELECT B.MNGR_BRD_ID
+		     , B.MNGR_BRD_TTL
+		     , B.MNGR_BRD_CNTNT
+		     , B.MNGR_ID
+		     , TO_CHAR(B.MNGR_BRD_WRT_DT ,'YYYY-MM-DD HH24:MI:SS') MNGR_BRD_WRT_DT
+		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , B.MDFYR
+		     , B.USE_YN
+		     , B.DEL_YN
+		     , B.NTC_YN
+		     , M.MBR_ID
+		     , M.MBR_NM
+          FROM FRAN.MNGR_BRD B
+         INNER JOIN MBR M 
+            ON B.MNGR_ID = M.MBR_ID
+         WHERE B.DEL_YN ='N'
+           AND B.USE_YN ='Y'
+           AND  B.MNGR_BRD_TTL '%' ||  #{_parameter} || '%'
+         ORDER BY NTC_YN DESC , MNGR_BRD_WRT_DT DESC
+	</select>
+
+
+	
+	<select id="readOneMngrBrdByMngrBrdId"
+			parameterType="string"
+			resultMap="brdMap">
+		SELECT LEVEL - 1 DEPTH
+			 , B.MNGR_BRD_ID
+		     , B.MNGR_BRD_TTL
+		     , B.MNGR_BRD_CNTNT
+		     , B.MNGR_ID
+		     , TO_CHAR(B.MNGR_BRD_WRT_DT ,'YYYY-MM-DD HH24:MI:SS') MNGR_BRD_WRT_DT
+		     , TO_CHAR(B.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , B.MDFYR
+		     , B.USE_YN
+		     , B.NTC_YN	     
+		     , B.DEL_YN
+		     , M.MBR_ID 
+		     , M.MBR_NM 
+		     , R.RPL_ID
+		     , R.RPL_CNTNT R_RPL_CNTNT
+		     , R.MBR_ID R_MBR_ID
+		     , R.ALTCL_ID
+		     , R.RPL_WRT_DT R_RPL_WRT_DT
+		     , R.MDFY_DT R_MDFY_DT
+		     , R.RPL_PRNT_RPL
+		     , R.DEL_YN R_DEL_YN 
+		     , RM.MBR_NM R_NM
+          FROM FRAN.MNGR_BRD B
+         INNER JOIN MBR M 
+            ON B.MNGR_ID = M.MBR_ID
+          LEFT OUTER JOIN (SELECT *
+          					 FROM RPL
+          					WHERE USE_YN = 'Y') R 
+            ON B.MNGR_BRD_ID = R.ALTCL_ID
+          LEFT OUTER JOIN MBR RM
+            ON R.MBR_ID = RM.MBR_ID
+         WHERE B.MNGR_BRD_ID = #{_parameter}
+           AND B.DEL_YN ='N'
+           AND B.USE_YN ='Y'
+         START WITH R.RPL_PRNT_RPL IS NULL
+            OR R.RPL_PRNT_RPL = '0'
+        CONNECT BY PRIOR R.RPL_ID = R.RPL_PRNT_RPL
+	</select>
+
+	<insert id="createNewMngrBrd"
+			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+		<selectKey keyProperty="mngrBrdId" 
+				   resultType="string"
+				   order="BEFORE">
+			SELECT 'BR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MNGR_BRD_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>		
+		INSERT INTO FRAN.MNGR_BRD
+         (MNGR_BRD_ID
+        , MNGR_BRD_TTL
+        , MNGR_BRD_CNTNT
+        , MNGR_ID
+        , MNGR_BRD_WRT_DT
+        , MDFY_DT
+        , MDFYR
+        , USE_YN
+        , DEL_YN
+        , NTC_YN)
+        VALUES
+         (#{mngrBrdId}
+        , #{mngrBrdTtl}
+        , #{mngrBrdCntnt}
+        , #{mngrId}
+        , SYSDATE
+        , SYSDATE
+        , #{mdfyr}
+        , NVL(#{useYn},'N')  
+        , 'N'
+        , NVL(#{ntcYn},'N'))	
+	</insert>
+
+	<update id="updateOneMngrBrd"
+			parameterType="com.ktds.fr.mngrbrd.vo.MngrBrdVO">
+		UPDATE FRAN.MNGR_BRD
+           SET MNGR_BRD_TTL = #{mngrBrdTtl}
+             , MNGR_BRD_CNTNT = #{mngrBrdCntnt}      
+             , MDFY_DT = SYSDATE
+             , MDFYR = #{mdfyr}
+             , USE_YN = NVL(#{useYn},'N')
+             , NTC_YN = NVL(#{ntcYn},'N')
+		 WHERE MNGR_BRD_ID = #{mngrBrdId}
+	</update>
+	
+
+	<update id="deleteOneMngrBrd"
+			parameterType="string">
+	    UPDATE FRAN.MNGR_BRD
+           SET DEL_YN='Y' 
+		 WHERE MNGR_BRD_ID = #{_parameter}	
+	</update>
+	
+	<update id="deleteMngrBrdBySelectedMngrBrdId"
+		parameterType="arrayList">
+		UPDATE FRAN.MNGR_BRD
+		   SET DEL_YN='Y'
+		 WHERE MNGR_BRD_ID IN
+		 	<foreach collection="list" item="mngrBrdId" open="(" close=")" separator=", ">
+			#{mngrBrdId}
+		</foreach>
+	</update>
+</mapper>

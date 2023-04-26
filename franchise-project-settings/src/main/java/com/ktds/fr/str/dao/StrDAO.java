@@ -38,5 +38,6 @@ public interface StrDAO {
 	public int updateOneStrByStrIdAndMbrId(MbrVO mbrVO);
 	
 	public List<StrVO>readAll();
+	public List<StrVO>readAllUseY(String ctyId);
 	
 }

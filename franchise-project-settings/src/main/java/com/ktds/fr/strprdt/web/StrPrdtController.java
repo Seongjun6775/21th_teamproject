@@ -6,10 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
+import com.ktds.fr.ctycd.service.CtyCdService;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.lctcd.service.LctCdService;
+import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.service.PrdtService;
 import com.ktds.fr.prdt.vo.PrdtVO;
@@ -29,6 +35,12 @@ public class StrPrdtController {
 	
 	@Autowired
 	private PrdtService prdtService;
+	
+	@Autowired
+	private LctCdService lctService;
+	
+	@Autowired
+	private CtyCdService ctyService;
 	
 	@Autowired
 	private CmmnCdService cmmnCdService;
@@ -96,16 +108,40 @@ public class StrPrdtController {
 	}
 	
 	@GetMapping("/strprdt/list2")
-	public String strPrdtListCustomer(StrPrdtVO strPrdtVO
-			, StrVO strVO
-			, @SessionAttribute("__MBR__") MbrVO mbrVO
-			, Model model) {
-		// 1. 매장선택
-		List<StrVO> strList = strService.readAllStrMaster(strVO);
-		
-		model.addAttribute("strList",strList);
+	public String strPrdtListCustomer(Model model
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		List<LctCdVO> lctList = lctService.read();
+		model.addAttribute("lctList",lctList);
 		
 		return "strprdt/str_select";
 	}
+	
+	/**
+	 * 주문용 매장상세
+	 */
+	@GetMapping("/strprdt/{strId}")
+	public String viewStrOne(@PathVariable String strId, Model model) {
+		StrPrdtVO strPrdtVO = new StrPrdtVO();
+		strPrdtVO.setStrId(strId);
+		List<StrPrdtVO> strPrdtList = strPrdtService.readAllCustomerByStr(strPrdtVO);
+		StrVO strVO = strService.readOneStrByMaster(strId);
+		
+		
+		model.addAttribute("strPrdtList", strPrdtList);
+		model.addAttribute("strVO", strVO);
+		
+		return "strprdt/str_select_menu";
+	}
+	
+	/**
+	 * 주문용 매장 > 상품선택
+	 */
+	@GetMapping("/strprdt/detail/{strPrdtId}")
+	public String strPrdtDetail(@PathVariable String strPrdtId, Model model) {
+		
+		return "strprdt/strprdt_detail";
+	}
+	
+	
 
 }

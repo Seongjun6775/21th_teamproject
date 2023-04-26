@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EvntStr">
+
+
+	<select id="readAllEvntStr"
+		parameterType="com.ktds.fr.evntstr.vo.EvntStrVO"
+		resultType="com.ktds.fr.evntstr.vo.EvntStrVO">
+   	SELECT ESTR.EVNT_STR_ID 
+	     , ESTR.EVNT_ID
+	     , EVNT.EVNT_TTL
+	     , EVNT.EVNT_CNTNT
+	     , TO_CHAR(EVNT.EVNT_STRT_DT, 'YYYY-MM-DD') AS EVNT_STRT_DT
+	     , TO_CHAR(EVNT.EVNT_END_DT, 'YYYY-MM-DD') AS EVNT_END_DT
+	     , ESTR.STR_ID
+	     , STR.STR_NM
+	     , ESTR.USE_YN 
+	     , ESTR.DEL_YN
+	  FROM EVNT_STR ESTR
+      LEFT OUTER JOIN STR STR
+                   ON ESTR.STR_ID = STR.STR_ID
+      LEFT OUTER JOIN EVNT EVNT
+                   ON ESTR.EVNT_ID = EVNT.EVNT_ID 
+	 WHERE 1 = 1
+       <if test="evntId != null and evntId != ''">
+	   AND ESTR.EVNT_ID = #{evntId}
+       </if>
+       <if test="strId != null and strId != ''">
+       AND ESTR.STR_ID = #{strId}
+       </if>
+	   AND ESTR.DEL_YN = 'N'
+	</select>
+	
+	
+	<select id="chkAlreadyCreate"
+		parameterType="com.ktds.fr.evntstr.vo.EvntStrVO"
+		resultType="int">
+   	SELECT COUNT(*)
+	  FROM EVNT_STR EVNT
+	 WHERE 1 = 1
+	   AND EVNT.EVNT_ID = #{evntId}
+	   AND EVNT.STR_ID = #{strId}
+	   AND EVNT.DEL_YN = 'N'
+	</select>
+		
+	<insert id="createEvntStr"
+	   parameterType="com.ktds.fr.evntstr.vo.EvntStrVO">
+	INSERT INTO EVNT_STR
+                (EVNT_STR_ID
+               , EVNT_ID
+               , STR_ID
+               , USE_YN
+               , DEL_YN)
+               VALUES 
+               ('ES-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_STR_PK.NEXTVAL, 5, '0')
+               ,#{evntId}
+               ,#{strId}
+               , NVL(#{useYn},'Y')
+               , 'N' )
+      
+	</insert>
+
+
+	<update id="deleteEvntStrListByEvntId"
+			parameterType="arraylist">
+		UPDATE EVNT_STR
+		   SET USE_YN = 'N'
+		     , DEL_YN = 'Y'
+		 WHERE EVNT_STR_ID IN
+		 <foreach collection="list" item="evntStrId" open="(" close=")" separator=", ">
+		 	#{evntStrId}
+		 </foreach>	
+	</update>
+	
+
+</mapper>

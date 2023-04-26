@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OdrDtl">
+	
+	<resultMap id="odrDtlMap"
+				type="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+				autoMapping="true">
+		<id property="odrDtlId" column="ODR_DTL_ID" />
+		<association property="prdtVO"
+		              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
+			<id property="prdtId" column="PRDT_ID" />
+			<result property="prdtNm" column="PRDT_NM" />
+			<result property="prdtPrc" column="PRDT_PRC" />
+		</association>
+		<association property="strVO"
+		              javaType="com.ktds.fr.str.vo.StrVO" >
+			<id property="strId" column="STR_ID" />
+			<result property="strNm" column="STR_NM" />
+			<result property="strCallNum" column="STR_CALL_NUM" />
+		</association>
+	</resultMap>
+	
+	
+	
+	<insert id="createNewOdrDtl"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
+		INSERT INTO FRAN.ODR_DTL
+		 (ODR_DTL_ID
+		, ODR_LST_ID
+		, ODR_DTL_PRDT_ID
+		, ODR_DTL_PRDT_CNT
+		, ODR_DTL_STR_ID
+		, USE_YN
+		, DEL_YN
+		, MBR_ID)
+		VALUES
+		 ('OD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_DTL_PK.NEXTVAL, 5, '0')
+		, NULL
+		, #{odrDtlPrdtId}
+		, #{odrDtlPrdtCnt}
+		, #{odrDtlStrId}
+		, 'Y'
+		, 'N'
+		, #{mbrId})
+	</insert>
+	
+	<select id="readAllOdrDtlByOdrLstIdAndMbrId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT OD.ODR_DTL_ID
+			 , OD.ODR_LST_ID
+			 , OD.ODR_DTL_PRDT_ID
+			 , OD.ODR_DTL_PRDT_CNT
+			 , OD.ODR_DTL_STR_ID
+			 , OD.USE_YN
+			 , OD.DEL_YN
+			 , OD.MBR_ID
+			 , P.PRDT_NM
+			 , P.PRDT_PRC 
+			 , S.STR_NM
+			 , S.STR_CALL_NUM 
+		  FROM ODR_DTL OD
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		 INNER JOIN STR S
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
+		 WHERE ODR_LST_ID = #{odrLstId}
+		   AND OD.MBR_ID = #{mbrId}
+		   AND OD.DEL_YN = 'N'
+	</select>
+	
+	
+	<select id="readOneOdrDtlByOdrDtlId"
+			parameterType="string"
+			resultType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
+		SELECT ODR_DTL_ID
+			 , ODR_LST_ID
+			 , ODR_DTL_PRDT_ID
+			 , ODR_DTL_PRDT_CNT
+			 , ODR_DTL_STR_ID
+			 , USE_YN
+			 , DEL_YN
+			 , MBR_ID
+		  FROM ODR_DTL
+		 WHERE ODR_DTL_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</select>
+	
+	<update id="updateOneOdrDtlByOdrDtlId"
+			parameterType="string">
+		UPDATE ODR_DTL
+		   SET ODR_DTL_PRDT_CNT = #{odrDtlPrdtCnt}
+		 WHERE ODR_DTL_ID = #{odrDtlId}
+	</update>
+	
+	<update id="deleteOneOdrDtlByOdrDtlId"
+			parameterType="string">
+		UPDATE ODR_DTL
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_DTL_ID = #{odrDtlId}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+</mapper>
