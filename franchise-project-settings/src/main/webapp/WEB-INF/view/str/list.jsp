@@ -367,9 +367,10 @@
 							<c:choose>
 								<c:when test="${not empty ctyList}">
 									<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
+										 	<%-- ${cty.lctCdVO.lctId eq cty.lctId ? 'selected' : ''} --%>
 										<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
 									</c:forEach>
-								</c:when>
+								</c:when>s
 							</c:choose>
 						</select>
 					</div>
