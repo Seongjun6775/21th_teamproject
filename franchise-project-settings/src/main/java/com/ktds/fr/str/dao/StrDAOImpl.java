@@ -90,6 +90,7 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 	public List<StrVO> readAll() {
 		return getSqlSession().selectList("Str.readAll");
 	}
+	
 	@Override
 	public int readOneStrByMbrId(String mbrId) {
 		return getSqlSession().selectOne("Str.readOneStrByMbrId",mbrId);
