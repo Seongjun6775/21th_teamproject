@@ -6,6 +6,10 @@ import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 public interface OdrLstDAO {
 	
+	public int checkRemainOdrLst(String mbrId);
+	
+	public OdrLstVO getOdrLstId(String mbrId);
+	
 	public int createNewOdrLst(OdrLstVO odrLstVO);
 	
 	public List<OdrLstVO> readAllOdrLst(OdrLstVO odrLstVO);

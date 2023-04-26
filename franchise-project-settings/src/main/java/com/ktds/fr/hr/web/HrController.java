@@ -153,7 +153,7 @@ public class HrController {
 			HrVO hr = hrService.readOneHrByHrId(hrId);
 			
 			// 조회하는 글이 공지가 아니고, 최고관리자가 읽은 적이 없어 "접수"인 상태라면 "심사중"으로 변경시킨 후 조회합니다.
-			if (hr.getNtcYn().equals("N") && hr.getHrStat().equals("접수")) {
+			if (hr.getNtcYn().equals("N") && hr.getHrStat().equals("002-01")) {
 				hrService.updateHrStatByHrId(hrId);
 				hr = hrService.readOneHrByHrId(hrId);
 			}
@@ -206,8 +206,12 @@ public class HrController {
 								HttpServletResponse response) {
 		
 		HrVO hr = hrService.readOneHrByHrId(hrId);
+		// 파일에 접근한 사람이 파일을 업로드한 본인인지, 혹은 최고관리자인지 확인합니다.
 		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !mbrVO.getMbrLvl().equals("001-01")) {
-			throw new ApiException("500", "권한이 없습니다");
+			// 둘 모두 아니라면, 접근한 사람이 회원이 지원한 지점의 점주(중간관리자)인지 확인합니다.
+			if(!mbrVO.getMbrLvl().equals("001-02") && !hr.getMbrVO().getStrId().equals(mbrVO.getStrId())) {
+				throw new ApiException("500", "권한이 없습니다");
+			}
 		}
 		if (hr.getOrgnFlNm() == null || hr.getOrgnFlNm().trim().length() == 0) {
 			throw new ApiException("400", "파일이 없습니다.");
@@ -238,7 +242,7 @@ public class HrController {
 		
 		HrVO hr = hrService.readOneHrByHrId(hrId);
 		if (mbrVO.getMbrId().equals(hr.getMbrId())) {
-			if (hr.getHrStat().equals("접수")) {
+			if (hr.getHrStat().equals("002-01")) {
 				model.addAttribute("hr", hr);
 				model.addAttribute("mbrVO", mbrVO);
 				return "hr/hrupdate";

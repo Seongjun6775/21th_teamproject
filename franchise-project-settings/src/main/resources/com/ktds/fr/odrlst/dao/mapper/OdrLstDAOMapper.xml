@@ -15,7 +15,23 @@
 		</association>
 	</resultMap>
 	
+	<select id="checkRemainOdrLst"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM ODR_LST
+		 WHERE MBR_ID = #{_parameter}
+		   AND ODR_LST_ODR_PRCS = '003-01'
+	</select>
 	
+	<select id="getOdrLstId"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ID 
+		  FROM ODR_LST
+		 WHERE MBR_ID = #{_parameter}
+		   AND ODR_LST_ODR_PRCS = '003-01'
+	</select>
 	
 	<insert id="createNewOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
@@ -33,34 +49,36 @@
 		VALUES
 		 ('OL-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_LST_PK.NEXTVAL, 5, '0')
 		, #{mbrId}
-		, #{odrLstOdrPrcs}
+		, '대기'
 		, SYSDATE
-		, #{odrLstRgstr}
+		, #{mbrId}
 		, SYSDATE
-		, #{mdfyr}
+		, #{mbrId}
 		, 'Y'
 		, 'N'
-		, #{strId})
+		, #{odrDtlStrId})
 	</insert>
 	
 	<select id="readAllOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
-			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+			resultMap="odrLstMap">
 		<include refid="Common.pageHeader" />
-		SELECT ODR_LST_ID PK_COL
-		     , DENSE_RANK() OVER(ORDER BY ODR_LST_ID DESC) RNUM
-		     , ODR_LST_ID
-		     , MBR_ID
-		     , ODR_LST_ODR_PRCS
-		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
-		     , ODR_LST_RGSTR
-		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		     , MDFYR
-		     , USE_YN
-		     , DEL_YN
-		     , STR_ID
-		  FROM ODR_LST
-		 INNER JOIN ODR_DTL
+		SELECT ROWNUM RNUM
+		     , ROWNUM PK_COL
+		     , E.*
+		  FROM (SELECT OL.ODR_LST_ID
+				     , OL.MBR_ID
+				     , OL.ODR_LST_ODR_PRCS
+				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+				     , OL.ODR_LST_RGSTR
+				     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+				     , OL.MDFYR
+				     , OL.STR_ID
+				     , S.STR_NM
+				  FROM ODR_LST OL
+				 INNER JOIN STR S
+				    ON OL.STR_ID = S.STR_ID
+				 ORDER BY ODR_LST_RGST_DT DESC) E
 		<include refid="Common.pageFooter" />
 	</select>
 	
@@ -68,21 +86,23 @@
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
 			resultMap="odrLstMap">
 		<include refid="Common.pageHeader" />
-		SELECT OL.ODR_LST_ID PK_COL
-		     , DENSE_RANK() OVER(ORDER BY OL.ODR_LST_ID DESC) RNUM
-		     , OL.ODR_LST_ID
-		     , OL.MBR_ID
-		     , OL.ODR_LST_ODR_PRCS
-		     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
-		     , OL.ODR_LST_RGSTR
-		     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		     , OL.MDFYR
-		     , OL.STR_ID
-		     , S.STR_NM
-		  FROM ODR_LST OL
-		 INNER JOIN STR S
-		    ON OL.STR_ID = S.STR_ID
-		 WHERE OL.MBR_ID = #{mbrId}
+		SELECT ROWNUM RNUM
+		     , ROWNUM PK_COL
+		     , E.*
+		  FROM (SELECT OL.ODR_LST_ID
+				     , OL.MBR_ID
+				     , OL.ODR_LST_ODR_PRCS
+				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+				     , OL.ODR_LST_RGSTR
+				     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+				     , OL.MDFYR
+				     , OL.STR_ID
+				     , S.STR_NM
+				  FROM ODR_LST OL
+				 INNER JOIN STR S
+				    ON OL.STR_ID = S.STR_ID
+				 WHERE OL.MBR_ID = #{mbrId}
+				 ORDER BY ODR_LST_RGST_DT DESC) E
 		<include refid="Common.pageFooter" />
 	</select>
 	
