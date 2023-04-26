@@ -46,9 +46,9 @@
 			$("#mbrId").val("");
 			$("#strOpnTm").val("");
 			$("#strClsTm").val("");
-			$("#strRgstr").val("${MbrVO.mbrId}");
+			$("#strRgstr").val("${mbrVO.mbrId}");
 			$("#strRgstDt").val("");
-			$("#mdfyr").val("${MbrVO.mbrId}");
+			$("#mdfyr").val("${mbrVO.mbrId}");
 			$("#mdfyDt").val("");
 			$("#useYn").prop("checked", false);
 
@@ -144,6 +144,20 @@
 				movePage(0);
 			});
 			
+			$("#strLctn").change(function() {
+				
+				var strLctn = $("#strLctn").val();
+				
+				console.log(strLctn);
+				console.log(strLctn);
+				console.log(strLctn);
+				console.log(strLctn);
+				
+				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+					
+				})
+			});
+			
 		});
 		function movePage(pageNo){
 		//전송
@@ -216,7 +230,7 @@
 									<c:when test="${not empty lctList}">
 										<c:forEach items="${lctList}"
 													var="lct"> 
-											<option value="${lct.lctId}" ${StrVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
+											<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -230,7 +244,7 @@
 									<c:when test="${not empty ctyList}">
 										<c:forEach items="${ctyList}"
 													var="cty" >
-											<option value="${cty.ctyId}" ${StrVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+											<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -273,7 +287,16 @@
 								<td>${str.ctyCdVO.ctyNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
-								<td>${str.mbrId} (${str.mbrVO.mbrNm})</td>
+								<td>
+								  <c:choose>
+								    <c:when test="${empty str.mbrId}">
+								      점주ID가 없습니다.
+								    </c:when>
+								    <c:otherwise>
+								      ${str.mbrId} (${str.mbrVO.mbrNm})
+								    </c:otherwise>
+								  </c:choose>
+								</td>
 								<td style="width: 70px;">
 									<a href="${context}/str/strdetailmst/${str.strId}">
 									<input type="button" value="이동"/>
@@ -324,7 +347,7 @@
 					</c:if>
 				</ul>
 			</div>
-			<div class="grid-strdetailmst">
+			<div class="grid-strdetailmst" style="margin-top: 10px;">
 				<form id="strdetailmst_form">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
@@ -336,53 +359,81 @@
 						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}"/>
 					</div>
 					<div class="input-group inline">
-						<label for="strLctn" style="width:60px">지역</label>
-						<select id="strLctn" name="strLctn">
+						<%-- 
+						<select id="search-keyword-strLctn" name="strLctn">
 							<option value="">지역</option>
 							<c:choose>
 								<c:when test="${not empty lctList}">
 									<c:forEach items="${lctList}"
 												var="lct"> 
-										<option value="${lct.lctId}" >${lct.lctNm}</option>
+										<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
 									</c:forEach>
 								</c:when>
 							</c:choose>
 						</select>
 						<label for="strCty" style="width:60px">도시</label>
-						<select id="strCty" name="strCty">
+						<select id="search-keyword-strCty" name="strCty">
 							<option value="">도시명</option>
 							<c:choose>
 								<c:when test="${not empty ctyList}">
 									<c:forEach items="${ctyList}"
 												var="cty" >
-										<option value="${cty.ctyId}" >${cty.ctyNm}</option>
+										<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select> --%>
+						<label for="strLctn" style="width:60px">지역</label>
+						<select class="selectFilter" name="strLctn"
+								id="strLctn">
+						<option value="">지역명</option>
+							<c:choose>
+								<c:when test="${not empty lctList}">
+									<c:forEach items="${lctList}"
+												var="lct"> 
+										<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
 									</c:forEach>
 								</c:when>
 							</c:choose>
 						</select>
+						<label for="strCty" style="width:60px">도시</label>
+						<select class="selectFilter" name="strCty"
+								id="strCty">
+						<option value="">도시명</option>
+							<c:choose>
+								<c:when test="${not empty ctyList}">
+									<c:forEach items="${ctyChangedList ne null ? ctyChangedList : ctyList}"
+												var="cty" >
+										<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
+						
+					</div>
+					<div class="input-group inline">
 						<label for="strAddr" style="width:60px">매장주소</label>
 						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
-						<%-- <select name="strLctn" id="strLctn">
-						<option>지역 선택</option>
-							<option value="서울" ${strVO.strLctn eq '서울' ? 'selected' : ''}>서울</option>
-							<option value="부산">부산</option>
-							<option value="강원">강원</option>
-							<option value="경기">경기</option>
-							<option value="인천">인천</option>
-							<option value="대구">대구</option>
-						</select>
-						<input type="text" id="strCty" name="strCty" maxlength="20" value="${strVO.strCty}"/>
-						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/> --%>
 					</div>
-					
 				    <div class="input-group inline">
-				        <label for="strCallNum" style="width:180px">전화번호</label>
+				        <label for="strCallNum" style="width:180px;">전화번호</label>
 				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
 				    </div>	
 				
 					<div class="input-group inline">
 						<label for="mbrId" style="width:180px">점주ID</label>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
+						<%-- <select id="mbrId" name="mbrId">
+							<option value="">점주ID명</option>
+							<c:choose>
+								<c:when test="${not empty mbrList}">
+									<c:forEach items="${mbrList}"
+												var="mbr" >
+										<option value="${mbr.mbrId}">${mbr.mbrId}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select> --%>
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
@@ -394,7 +445,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstr" style="width:180px">등록자</label>
-						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
+						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstDt" style="width:180px">등록일</label>
@@ -402,7 +453,7 @@
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px">수정자</label>
-						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
+						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${mbrVO.mbrId}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>

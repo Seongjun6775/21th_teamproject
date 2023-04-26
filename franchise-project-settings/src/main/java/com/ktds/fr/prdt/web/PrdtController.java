@@ -64,7 +64,7 @@ public class PrdtController {
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			, Model model) {
 		// 손님용 페이지 (등급상관없이 전체조회가능)
-		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
+		List<PrdtVO> prdtList = prdtService.readAllNoPagenation(prdtVO);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("prdtList", prdtList);

@@ -8,13 +8,33 @@
 	<select id="readCategory"
 			parameterType="com.ktds.fr.lctcd.vo.LctCdVO"
 			resultType="com.ktds.fr.lctcd.vo.LctCdVO">
-		SELECT LCT_ID
-			 , LCT_NM 
-		  FROM LCT_CD
-		 <if test='lctId != null and lctId != ""'>
-		 WHERE LCT_ID LIKE '%' || #{lctId} || '-%'
-		</if>
-		 ORDER BY LCT_ID ASC 
+			SELECT DISTINCT L.LCT_ID
+				 , L.LCT_NM 
+			  FROM LCT_CD L
+			  JOIN CTY_CD C
+			  	ON C.LCT_ID = L.LCT_ID
+			 WHERE 1 = 1
+			<if test='lctId != null and lctId != ""'>
+			   AND L.LCT_ID LIKE '%' || #{lctId} || '%'
+			</if>
+			 ORDER BY LCT_ID ASC 
+	</select>
+	
+	
+	<!-- 매장이 있는 지역만 줏어오기 -->
+	<select id="read"
+			resultType="com.ktds.fr.lctcd.vo.LctCdVO">
+		SELECT L.LCT_ID
+			 , L.LCT_NM 
+		  FROM LCT_CD L
+		 WHERE L.LCT_ID IN (SELECT DISTINCT C.LCT_ID
+							  FROM CTY_CD C
+							 INNER JOIN (SELECT DISTINCT STR_CTY
+							 			   FROM STR
+							 			  WHERE USE_YN = 'Y'
+							 			    AND DEL_YN = 'N') S
+							    ON C.CTY_ID = S.STR_CTY)
+		 ORDER BY L.LCT_NM ASC
 	</select>
 
 

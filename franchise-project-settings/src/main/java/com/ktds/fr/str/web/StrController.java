@@ -33,7 +33,7 @@ public class StrController {
 	private MbrService mbrService;
 	
 	@GetMapping("/str/list")
-	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, String strId, Model model, StrVO strVO
+	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, MbrVO mbr2VO, String strId, Model model, StrVO strVO
 									, @RequestParam(required = false, defaultValue = "") String searchIdx
 									, @RequestParam(required = false, defaultValue = "")String keyword ,CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
 	    if (mbrVO.getMbrLvl().equals("001-01")) {
@@ -44,15 +44,24 @@ public class StrController {
 	    	if (searchIdx.equals("mbrId")) {
 	    		strVO.setMbrId(keyword);
 	    	}
+	    	if (strVO.getStrCty() != null && strVO.getStrCty().trim().length() != 0) {
+	    		ctyCdVO.setCtyId(strVO.getStrCty());
+	    	}
+	    	if (strVO.getStrLctn() != null && strVO.getStrLctn().trim().length() != 0) {
+	    		lctCdVO.setLctId(strVO.getStrLctn());
+	    		ctyCdVO.setLctId(strVO.getStrLctn());
+	    	}
 	    	
 	        List<StrVO> strList = strService.readAllStrMaster(strVO);
+	        List<MbrVO> mbrList = mbrService.readAllMbr(mbr2VO);
 	        List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
 	        List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
 	        model.addAttribute("strList", strList);
+	        model.addAttribute("mbrList", mbrList);
 	        model.addAttribute("ctyList", ctyList);
 	        model.addAttribute("lctList", lctList);
-	        model.addAttribute("StrVO", strVO);
-	        model.addAttribute("MbrVO", mbrVO);
+	        model.addAttribute("strVO", strVO);
+	        model.addAttribute("mbrVO", mbrVO);
 	        model.addAttribute("searchIdx", searchIdx);
 	        model.addAttribute("keyword", keyword);
 	        model.addAttribute("CtyCdVO", ctyCdVO);

@@ -160,9 +160,9 @@
 							<th>
 								<select id="hrStat">
 									<option value="">채용 상태</option>
-									<option value="접수" ${hrVO.hrStat eq "접수" ? 'selected' : '' }>접수</option>
-									<option value="심사중" ${hrVO.hrStat eq "심사중" ? 'selected' : '' }>심사중</option>
-									<option value="심사완료" ${hrVO.hrStat eq "심사완료" ? 'selected' : '' }>심사완료</option>
+									<option value="002-01" ${hrVO.hrStat eq "002-01" ? 'selected' : '' }>접수</option>
+									<option value="002-02" ${hrVO.hrStat eq "002-02" ? 'selected' : '' }>심사중</option>
+									<option value="002-03" ${hrVO.hrStat eq "002-03" ? 'selected' : '' }>심사완료</option>
 								</select>
 							</th>
 							<th>

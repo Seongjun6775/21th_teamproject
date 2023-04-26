@@ -54,7 +54,6 @@
 		});
 		
 		$("#check_del_btn").click(function() {
-			console.log($(this).val());
 			var checkLen = $(".check_idx:checked").length;
 			
 			if (checkLen == 0) {
@@ -198,7 +197,7 @@
 									    data-ntsndrdt="${nt.ntSndrDt}"
 									    data-ntrddt="${nt.ntRdDt}"
 									    data-delyn="${nt.delYn}">
-										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"
+										<td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${nt.ntId}"
 										            ${nt.delYn eq 'Y' ? 'disabled' : ''}/></td>
 										<td><a href="${context}/nt/ntmstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.sndrId}</a></td>

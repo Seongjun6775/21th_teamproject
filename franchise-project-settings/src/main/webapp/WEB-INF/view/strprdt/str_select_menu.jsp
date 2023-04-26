@@ -9,9 +9,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메뉴 관리</title>
+<title>${strVO.strNm} - 주문하기</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -26,15 +27,13 @@ $().ready(function() {
 	
 	$("li").click(function() {
 		var srt = $(this).attr('value');
-		var queryString = "prdtSrt=" + srt;
-		location.href = "${context}/prdt/list2?" + queryString;
+		if (srt == "" || srt == null) {
+			srt = '%'
+		}
+		var queryString = "?prdtVO.prdtSrt=" + srt;
+		location.href = "${context}/strprdt/${strVO.strId}" + queryString;
 	});
 	
-	
-// 	$(".prdt1").click(function() {
-// 		var data = $(this).data();
-// 		location.href="${context}/prdt/list2/"+data.prdtid
-// 	})
 	
 	
 	
@@ -44,15 +43,11 @@ $().ready(function() {
 
 function movePage(pageNo) {
 	var srt = $("#search-keyword-prdtSrt").val(); 
-	var prdtNm= $("#search-keyword-prdtNm").val(); 
-	var useYn= $("#search-keyword-useYn").val(); 
 	
-	var queryString = "prdtSrt=" + srt;
-	queryString += "&prdtNm=" + prdtNm;
-	queryString += "&useYn=" + useYn;
+	var queryString = "?prdtSrt=" + srt;
 	queryString += "&prdtPageNo=" + pageNo;
 	
-	location.href = "${context}/prdt/list2?" + queryString; // URL 요청
+	location.href = "${context}/strprdt/${strVO.strId}"+ queryString; // URL 요청
 } 
 
 </script>
@@ -62,7 +57,9 @@ function movePage(pageNo) {
 	<div class="headline relative">
 		상단 헤드라인임 //////// <a href="${context}/prdt/list">관리자 메뉴로 돌아가깅</a>
 		<br><a href="${context}/strprdt/list2">주문가볼까</a>
-		
+		<div>${prdtList}</div>
+		<div>${prdtVO}</div>
+		<div>${srtList}</div>
 			<ul id="prdtSrtList" class="flex absolute" style="list-style-type: none; bottom: 0px;">
 				<li value=""><a href="#">전체메뉴</a></li>
 				<c:choose>
@@ -82,32 +79,42 @@ function movePage(pageNo) {
 	</div>
 	
 	<div>
+		<br>매장이름임 ${strVO.strNm} (${strVO.strId})
+		<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
+		<br>리스트 조회개수 ${strPrdtList.size()}
+		<br>
 		<c:choose>
-			<c:when test="${not empty prdtList}">
-				<c:forEach items="${prdtList}"
-							var="prdt">
-					<a href="${context}/prdt/list2/${prdt.prdtId}">
-						<div class="prdt1" id="${prdt.prdtId}"
-							data-prdtid="${prdt.prdtId}">
+			<c:when test="${not empty strPrdtList}">
+				<c:forEach items="${strPrdtList}"
+							var="strPrdt">
+					<a href="${context}/strprdt/detail/${strPrdt.strPrdtId}"
+						onclick="if('${strPrdt.useYn}'==='N') {return false;}">
+						<div class="prdt1" id="${strPrdt.strPrdtId}"
+							data-strPrdtid="${strPrdt.strPrdtId}">
+							<c:if test="${strPrdt.useYn eq 'N'}">
+								<div class="bg-black">
+									<div class="warning">구매할 수 없습니다</div>
+								</div>
+							</c:if>
 							<div class="img-box">
 								<c:choose>
-									<c:when test="${empty prdt.uuidFlNm}">
+									<c:when test="${empty strPrdt.prdtVO.uuidFlNm}">
 										<img src="${context}/img/default_photo.jpg">
 									</c:when>
 									<c:otherwise>
-										<img src="${context}/prdt/img/${prdt.uuidFlNm}/">
+										<img src="${context}/prdt/img/${strPrdt.prdtVO.uuidFlNm}/">
 									</c:otherwise>
 								</c:choose>	
 							</div>
 							<div class="prdt3">
-								<div class="name">${prdt.prdtNm}
+								<div class="name">${strPrdt.prdtVO.prdtNm}
 									<c:choose>
-										<c:when test="${not empty prdt.evntVO.evntId}">
+										<c:when test="${not empty strPrdt.evntVO.evntId}">
 											<span>할인중!!</span>
 										</c:when>
 									</c:choose>
 								</div>
-								<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
+								<div class="price"><fmt:formatNumber>${strPrdt.prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></div>
 							</div>
 						</div>
 					</a>

@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.vo.StrVO;
 
@@ -79,11 +80,17 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 	public List<StrVO> readAllStrNoPagenate(StrVO strVO) {
 		return getSqlSession().selectList("Str.readAllStrNoPagenate", strVO);
 	}
+	
+	@Override
+	public List<CtyCdVO> readCategory(String lctId) {
+		return getSqlSession().selectList("Str.readCategory", lctId);
+	}
 
 	@Override
 	public List<StrVO> readAll() {
 		return getSqlSession().selectList("Str.readAll");
 	}
+	
 	@Override
 	public int readOneStrByMbrId(String mbrId) {
 		return getSqlSession().selectOne("Str.readOneStrByMbrId",mbrId);
@@ -100,6 +107,10 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 	}
 	
 	@Override
+	public List<StrVO> readAllUseY(String ctyId) {
+		return getSqlSession().selectList("Str.readAllUseY", ctyId);
+	}
+
 	public List<String> readAllStrByMbrId(List<String> mbrIdList) {
 		return getSqlSession().selectList("Str.readAllStrByMbrId", mbrIdList);
 	}
@@ -108,4 +119,5 @@ public class StrDAOImpl extends SqlSessionDaoSupport implements StrDAO {
 	public int deleteAllManagerByStrId(List<String> strIdList) {
 		return getSqlSession().update("Str.deleteAllManagerByStrId", strIdList);
 	}
+
 }

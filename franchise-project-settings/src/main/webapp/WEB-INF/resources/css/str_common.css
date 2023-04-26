@@ -6,9 +6,6 @@ table{
 table th, td {
 	border: solid 1px #333;
 }
-ul{
-	border: solid 1px #333;
-}
 .grid{
 	border: solid 1px #333;
 }
@@ -32,4 +29,36 @@ div.grid-count.align-right{
 }
 div.align-right{
 	border: solid 1px #333;
+}
+.grid-strdetailmst {
+	background-color: #0002;
+}
+.grid-strdetailmgn {
+	background-color: #0002;
+}
+.grid-left {
+	display: inline-block;
+	background-color: #f002;
+	width: 300px;
+    vertical-align: top;
+
+}
+.grid-right {
+	display: inline-block;
+	background-color: #0f02;
+	width : 40%;
+}
+
+#strdetailmst_form {
+	display: inline-block;
+	width : 30%;
+	align-items: stretch;
+}
+#strdetailmgn_form {
+	display: inline-block;
+	width : 30%;
+	align-items: stretch;
+}
+.input-group .inline{
+	display: flex;
 }
