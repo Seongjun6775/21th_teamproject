@@ -98,7 +98,7 @@ public class MbrController {
 		
 		MbrVO mbr = mbrService.readOneMbrByMbrId(mbrId);
 		model.addAttribute("mbr" ,mbr);
-		return "mbr/mbr_detail";
+		return "mbr/mbr_admindetail";
 	}
 
 }
