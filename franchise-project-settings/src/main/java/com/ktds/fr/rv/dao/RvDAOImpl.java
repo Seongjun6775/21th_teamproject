@@ -47,17 +47,17 @@ public class RvDAOImpl extends SqlSessionDaoSupport implements RvDAO {
 		return getSqlSession().selectOne("Rv.readOneRvVOForTopManagerByRvId", rvId);
 	}
 	
-	// ▶ 진영님이 만든거: 중간관리자와 하위관리자 목록 조회(2-3) 대체
+	// 2-3.자기 매장의 리뷰 목록 조회 == 중간관리자, 하위관리자
 	@Override
 	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO) {
 		return getSqlSession().selectList("Rv.readAllRvListForManager", searchRvVO);
 	}
-	// 2-3.자기 매장의 리뷰 목록 조회 == 중하위관리자
-	@Override
-	public List<RvVO> readAllRvListForMiddleManager(SearchRvVO searchRvVO) {
-		return getSqlSession().selectList("Rv.readAllRvListForMiddleManager", searchRvVO);
-	}
-	// 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자
+	// 2-3.자기 매장의 리뷰 목록 조회 == 중간관리자, 하위관리자
+//	@Override
+//	public List<RvVO> readAllRvListForMiddleManager(SearchRvVO searchRvVO) {
+//		return getSqlSession().selectList("Rv.readAllRvListForMiddleManager", searchRvVO);
+//	}
+	// 2-4.자기 매장의 리뷰 상세 조회 == 중간관리자, 하위관리자
 	@Override
 	public RvVO readOneRvVOForMiddleManagerByOdrId(RvVO rvVO) {
 		return getSqlSession().selectOne("Rv.readOneRvVOForMiddleManagerByOdrId", rvVO);

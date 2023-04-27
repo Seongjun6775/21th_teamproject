@@ -153,7 +153,9 @@
 			<table>
 				<thead>
 					<tr>
+						<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
 						<th><input type="checkbox" id="all_check" /></th>
+						</c:if>
 						<th>주문서ID</th>
 						<th>매장명</th>
 						<th>제목</th>
@@ -168,12 +170,14 @@
 						<c:when test="${not empty rvList}">
 							<c:forEach items="${rvList}"
 									   var="rv">
-								<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;"> 
+								<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;">
+									<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
 									<td class="firstcell">
 										<input type="checkbox" 
 											   class="check-idx" 
 											   value="${rv.rvId}"/>
 									</td>
+									</c:if>
 									<td>${rv.odrLstId}</td>
 									<td>${rv.strVO.strNm}</td>
 									<td>${rv.rvTtl}</td>
@@ -192,14 +196,16 @@
 					</c:choose>			
 				</tbody>
 			</table>	
-			<div class="align-right mt-10">
-				<button id="delete_all_btn" class="btn-delete">삭제</button>
-			</div>
-			
-			<div class="align-right">				
-				<button id="new_btn" class="btn-primary">등록</button>
-			</div>
-						
+			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+				<div class="align-right mt-10">
+					<button id="delete_all_btn" class="btn-delete">삭제</button>
+				</div>
+			</c:if>
+			<c:if test="${mbrVO.mbrLvl eq '001-04'}">
+				<div class="align-right">				
+					<button id="new_btn" class="btn-primary">등록</button>
+				</div>
+			</c:if>						
 			<div class="pagenate">
 				<ul>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>

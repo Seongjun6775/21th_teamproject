@@ -4,8 +4,12 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <div class="side-menu inline bg-black">
 	<ul class="menu-list">
-		<li class="menu-item active-item">							
-			<a href="${context}/rv/list">전체 리뷰</a>							
+		<li class="menu-item active-item">
+			<c:choose>	
+				<c:when test="${sessionScope.__MBR__.mbrLvl == '001-01' || sessionScope.__MBR__.mbrLvl == '001-04'}">						
+					<a href="${context}/rv/list">전체 리뷰</a>
+				</c:when>
+			</c:choose>						
 		</li>
 		<li class="menu-item">
 			<c:choose>

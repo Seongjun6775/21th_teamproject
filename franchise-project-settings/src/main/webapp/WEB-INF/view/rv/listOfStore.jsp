@@ -52,61 +52,15 @@
 				$("#search_btn").click();
 			}
 		});
-		$("#new_btn").click(function() {
-			location.href = "${context}/rv/create";
-		});
-		$("#all_check").click(function() {
-			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
-		});
-		$("#all_check").change(function(){
-			$(".check-idx").prop("checked", $(this).prop("checked"));
-		});
-		$(".check-idx").change(function(){
-			var count = $(".check-idx").length;
-			var checkCount = $(".check-idx:checked").length;
 			
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		$("#delete_all_btn").click(function(){
-			
-			var checkLen = $(".check-idx:checked").length;
-			
-			if(checkLen == 0){
-				alert("삭제할 리뷰가 없습니다.");
-				return;
-			}
-			if(confirm("정말 삭제하시겠습니까?")) {
-				var form = $("<form></form>")
-				$(".check-idx:checked").each(function(){
-					var myMbrId = "${mbrVO.mbrId}";
-					var myMbrLvl = "${mbrVO.mbrLvl}";
-					var mbrId = $(this).closest("tr").find(".open-layer").text();
-					if (myMbrLvl == "001-04" && myMbrId != mbrId) {
-						alert("자신의 리뷰만 삭제 가능합니다.");
-						return;		
-					}
-					console.log($(this).val());
-					form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'");
-				});
-				$.post("${context}/api/rv/delete", form.serialize(), function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-						alert("리뷰가 삭제되었습니다.")
-					}
-					else{
-						alert(response.errorCode + "권한이 없습니다." + response.message);
-					}
-				})
-			}
-		});	
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});		 
-		$(".rvRow td").not(".firstcell, .mbrId").click(function() {
+		$(".rvRow td").not(".mbrId").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
 			location.href="${context}/rv/detail/" + rvid;
-		})
-	});
+		});
+	});	
 		function movePage(pageNo){
 			//전송.
 			//입력 값:
@@ -153,7 +107,6 @@
 			<table>
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="all_check" /></th>
 						<th>주문서ID</th>
 						<th>매장명</th>
 						<th>제목</th>
@@ -169,11 +122,6 @@
 							<c:forEach items="${rvList}"
 									   var="rv">
 								<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;"> 
-									<td class="firstcell">
-										<input type="checkbox" 
-											   class="check-idx" 
-											   value="${rv.rvId}"/>
-									</td>
 									<td>${rv.odrLstId}</td>
 									<td>${rv.strVO.strNm}</td>
 									<td>${rv.rvTtl}</td>
@@ -185,21 +133,13 @@
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<td colspan="8" class="no-item">
+							<td colspan="7" class="no-item">
 								등록된 리뷰가 없습니다.
 							</td>
 						</c:otherwise>
 					</c:choose>			
 				</tbody>
-			</table>	
-			<div class="align-right mt-10">
-				<button id="delete_all_btn" class="btn-delete">삭제</button>
-			</div>
-			
-			<div class="align-right">				
-				<button id="new_btn" class="btn-primary">등록</button>
-			</div>
-						
+			</table>				
 			<div class="pagenate">
 				<ul>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>

@@ -23,7 +23,7 @@
 	<div class="main-layout">
 	<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/rvMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			
 			<div class="path"> 리뷰 > 리뷰목록 > 리뷰상세</div>													

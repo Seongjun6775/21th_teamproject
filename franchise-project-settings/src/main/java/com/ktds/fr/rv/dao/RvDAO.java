@@ -20,11 +20,11 @@ public interface RvDAO {
 	// 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자
 	public RvVO readOneRvVOForTopManagerByRvId(String rvId);
 	
-	// ▶ 진영님이 만든거: 중간관리자와 하위관리자 목록 조회(2-3) 대체
+	// 2-3.자기 매장의 리뷰 목록 조회 == 중간관리자, 하위관리자
 	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO);	
-	// 2-3.자기 매장의 리뷰 목록 조회 == 중하위관리자
-	public List<RvVO> readAllRvListForMiddleManager(SearchRvVO searchRvVO);
-	// 2-4.자기 매장의 리뷰 상세 조회 == 중하위관리자
+	// 2-3.자기 매장의 리뷰 목록 조회 == 중간관리자, 하위관리자
+//	public List<RvVO> readAllRvListForMiddleManager(SearchRvVO searchRvVO);
+	// 2-4.자기 매장의 리뷰 상세 조회 == 중간관리자, 하위관리자
 	public RvVO readOneRvVOForMiddleManagerByOdrId(RvVO rvVO);
 	
 	// 2-5.자기가 쓴 리뷰 목록 조회 == 이용자

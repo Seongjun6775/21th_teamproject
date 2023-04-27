@@ -53,9 +53,8 @@
 			}
 		});
 		$("#new_btn").click(function() {
-			// 로그인 세션 가져오기
-			// 로그인이 되지 않은 이용자일 시 "로그인이 필요합니다."메시지가 뜨게 하고, 로그인 페이지로 넘어가도록 만들기
-			location.href = "${context}/rv/create";
+			alert("로그인이 필요합니다.")
+			location.href = "${context}/user/join";
 		});
 		$("#search_btn").click(function(){			
 			movePage(0);
