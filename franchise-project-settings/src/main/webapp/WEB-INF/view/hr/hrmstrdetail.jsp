@@ -67,7 +67,6 @@
 		});
 		
 		$("#hrApr_Y_btn").click(function() {
-			
 			if (ntcYn == "Y") {
 				alert("공지 게시글은 채용 처리를 할 수 없습니다!");
 				return;
@@ -81,7 +80,12 @@
 			if (!confirm("정말 채용하시겠습니까?")) {
 				return;
 			}
-			$.post("${context}/api/hr/updateapr", {hrId: "${hr.hrId}", hrAprYn: "Y"}, function(response) {
+			var form = $("<form></form>");
+			form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
+			form.append("<input type='hidden' name='mbrVO.mbrLvl' value='${hr.hrLvl}'>");
+			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
+			form.append("<input type='hidden' name='hrAprYn' value='N'>");
+			$.post("${context}/api/hr/updateapr",  form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 채용 처리 되었습니다.");
 					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
@@ -93,7 +97,6 @@
 		});
 		
 		$("#hrApr_N_btn").click(function() {
-			
 			if (ntcYn == "Y") {
 				alert("공지 게시글은 채용 처리를 할 수 없습니다!");
 				return;
@@ -107,7 +110,8 @@
 			if (!confirm("정말 미채용하시겠습니까?")) {
 				return;
 			}
-			$.post("${context}/api/hr/updateapr", {hrId: "${hr.hrId}", hrAprYn : "N"}, function(response) {
+			/*  */
+			$.post("${context}/api/hr/updateapr", {hrId: "${hr.hrId}", hrAprYn : "N", mbrId: "${hr.mbrId}"}, function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 미채용 처리 되었습니다.");
 					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
@@ -125,7 +129,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<h3>채용 지원 상세조회 페이지(최고관리자)</h3>
 			
