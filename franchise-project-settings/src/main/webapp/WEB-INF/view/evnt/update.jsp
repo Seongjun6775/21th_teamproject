@@ -16,7 +16,6 @@
 <script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
 <script type="text/javascript">
 $().ready(function() {
-
  	$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
 	
 	//수정 완료 버튼
@@ -31,8 +30,8 @@ $().ready(function() {
 			if (response.status == "200 OK") {
 				console.log("200임")
 				alert(response.message);
-				
-				location.href = "${context}/evnt/list";
+				var evntId = document.getElementById("evntId").value;
+				location.href = "${context}/evnt/detail/"+evntId;
 				//location.reload(); // 새로고침
 			} else {
 				console.log("안됨")
@@ -45,7 +44,6 @@ $().ready(function() {
 	
 	
 	
-
    //'닫기'버튼 누르면 뒤로 돌아가기
    $("#btn-update-close").click(function(){
 	   //location.href="${context}/evnt/list3"
@@ -55,7 +53,6 @@ $().ready(function() {
    });
    
 });
-
 	function check(box) {
 		if (box.checked == true) {
 			box.value = "Y";
@@ -69,7 +66,7 @@ $().ready(function() {
 	<div class="main-layout">
 	<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/evntSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 		<form id="form-update" enctype="multipart/form-data">
 			<div>

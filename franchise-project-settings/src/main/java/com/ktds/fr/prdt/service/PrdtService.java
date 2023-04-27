@@ -19,4 +19,7 @@ public interface PrdtService {
 	public boolean deleteOne(String prdtId);
 	public boolean deleteSelectAll(List<String> prdtIdList);
 	
+	
+	public List<PrdtVO> readAllNoPagenationEvnt(PrdtVO prdtVO);
+	
 }

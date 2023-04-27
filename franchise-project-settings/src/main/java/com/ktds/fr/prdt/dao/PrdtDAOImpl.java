@@ -62,5 +62,10 @@ public class PrdtDAOImpl extends SqlSessionDaoSupport implements PrdtDAO {
 		return getSqlSession().update("Prdt.deleteSelectAll", prdtIdList);
 	}
 
+	@Override
+	public List<PrdtVO> readAllNoPagenationEvnt(PrdtVO prdtVO) {
+		return getSqlSession().selectList("Prdt.readAllNoPagenationEvnt", prdtVO);
+	}
+
 
 }

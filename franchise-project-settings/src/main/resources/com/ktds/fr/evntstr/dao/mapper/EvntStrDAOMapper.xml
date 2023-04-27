@@ -16,13 +16,17 @@
 	     , TO_CHAR(EVNT.EVNT_END_DT, 'YYYY-MM-DD') AS EVNT_END_DT
 	     , ESTR.STR_ID
 	     , STR.STR_NM
+	     , STR.MBR_ID
+	     , MBR.MBR_NM
 	     , ESTR.USE_YN 
 	     , ESTR.DEL_YN
 	  FROM EVNT_STR ESTR
       LEFT OUTER JOIN STR STR
                    ON ESTR.STR_ID = STR.STR_ID
       LEFT OUTER JOIN EVNT EVNT
-                   ON ESTR.EVNT_ID = EVNT.EVNT_ID 
+                   ON ESTR.EVNT_ID = EVNT.EVNT_ID
+      LEFT OUTER JOIN MBR MBR
+                   ON STR.MBR_ID = MBR.MBR_ID
 	 WHERE 1 = 1
        <if test="evntId != null and evntId != ''">
 	   AND ESTR.EVNT_ID = #{evntId}
@@ -44,6 +48,33 @@
 	   AND EVNT.STR_ID = #{strId}
 	   AND EVNT.DEL_YN = 'N'
 	</select>
+	
+	
+	
+	<insert id="insertAllEvntStr" parameterType="arrayList" >
+	INSERT INTO	EVNT_STR
+		(EVNT_STR_ID,
+		 EVNT_ID,
+		 STR_ID,
+		 USE_YN,
+		 DEL_YN)
+		SELECT 
+			'ES-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_STR_PK.NEXTVAL, 5, '0')
+			, EVNT_ID
+			, STR_ID
+			, 'Y'
+			, 'N' 
+		FROM (
+		<foreach collection="list" 
+		    		item="evntStr" 
+			        separator=" UNION ALL ">
+	        SELECT  #{evntStr.evntId} EVNT_ID
+	        	  , #{evntStr.strId} STR_ID
+	          FROM DUAL
+	    </foreach>
+	    )
+	
+	</insert>
 		
 	<insert id="createEvntStr"
 	   parameterType="com.ktds.fr.evntstr.vo.EvntStrVO">
