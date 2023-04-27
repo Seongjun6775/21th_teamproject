@@ -49,7 +49,6 @@
 			$("#mdfyr").val("${mbrVO.mbrId}");
 			$("#mdfyDt").val("");
 			$("#useYn").prop("checked", false);
-
 		});
 		
 		$("#delete_btn").click(function(){
