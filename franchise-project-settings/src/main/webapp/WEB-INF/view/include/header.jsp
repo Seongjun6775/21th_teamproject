@@ -4,7 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
-<jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 $().ready(function() {
 	$("li.nav-item").children("a").mouseover(function(){

@@ -47,34 +47,7 @@
 				location.href="${context}/hr/hrmstrdetail/" + data.hrid;
 			}
 		});
-		
-		/* 일괄 다운로드 기능 추가 예정이 사라져서 주석 처리 해 두었습니다.
-		
-		$("#all_check").change(function() {
-			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
-		$("#check_download_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			
-			if (checkLen == 0) {
-				alert("선택한 글이 없습니다.");
-				return;
-			}
-			
-			$(".check_idx:checked").each(function() {
-				location.href= "${context}/hr/hrfile/" + $(this).val();
-				
-			});
-			
-		}); */
-		
+
 		$("#search_btn").click(function() {
 			movePage(0);
 		});
@@ -116,13 +89,114 @@
 	}
 	
 </script>
+<style>
+   .bd-placeholder-img {
+     font-size: 1.125rem;
+     text-anchor: middle;
+     -webkit-user-select: none;
+     -moz-user-select: none; 
+     user-select: none;
+   }
+
+   @media (min-width: 768px) {
+     .bd-placeholder-img-lg {
+       font-size: 3.5rem;
+     }
+   }
+
+   .b-example-divider {
+     width: 100%;
+     height: 3rem;
+     background-color: rgba(0, 0, 0, .1);
+     border: solid rgba(0, 0, 0, .15);
+     border-width: 1px 0;
+     box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+   }
+
+   .b-example-vr {
+     flex-shrink: 0;
+     width: 1.5rem;
+     height: 100vh;
+   }
+
+   .bi {
+     vertical-align: -.125em;
+     fill: currentColor;
+   }
+
+   .nav-scroller {
+     position: relative;
+     z-index: 2;
+     height: 2.75rem;
+     overflow-y: hidden;
+   }
+
+   .nav-scroller .nav {
+     display: flex;
+     flex-wrap: nowrap;
+     padding-bottom: 1rem;
+     margin-top: -1px;
+     overflow-x: auto;
+     text-align: center;
+     white-space: nowrap;
+     -webkit-overflow-scrolling: touch;
+   }
+
+   .btn-bd-primary {
+     --bd-violet-bg: #712cf9;
+     --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+     --bs-btn-font-weight: 600;
+     --bs-btn-color: var(--bs-white);
+     --bs-btn-bg: var(--bd-violet-bg);
+     --bs-btn-border-color: var(--bd-violet-bg);
+     --bs-btn-hover-color: var(--bs-white);
+     --bs-btn-hover-bg: #6528e0;
+     --bs-btn-hover-border-color: #6528e0;
+     --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+     --bs-btn-active-color: var(--bs-btn-hover-color);
+     --bs-btn-active-bg: #5a23c8;
+     --bs-btn-active-border-color: #5a23c8;
+   }
+   .bd-mode-toggle {
+     z-index: 1500;
+   }
+
+   .btn-toggle:hover{
+     background-color: var(--bs-tertiary-color) !important;
+   }
+
+   .btn-toggle:focus{
+     background-color: var(--bs-tertiary-color) !important;
+   }
+
+   .collapse > ul > li:hover{
+     background-color: var(--bs-tertiary-color) !important;
+   }
+   .collapse > ul > li:focus{
+     background-color: var(--bs-tertiary-color) !important;
+   }
+   .collapse > ul > li > a:hover {
+     background-color: #fff0 !important;
+   }
+   .collapse > ul > li > a:focus {
+     background-color: #fff0 !important;
+   }
+   
+   .pagenate{
+     display: flex;
+     margin-top: 10px;
+     justify-content: center;
+     align-items: center;
+   }
+ </style>
 </head>
 <body>
 	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
+		<jsp:include page="../include/header.jsp"/>
 		<div>
 			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
+			<div class="content inline">
 			<h3>master 채용 페이지 테스트</h3>
 			<div>
 				<div>총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
@@ -142,7 +216,7 @@
 				</div>
 			</div>
 			<div class="hr_table_grid">
-				<table>
+				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
 							<!-- <th><input type="checkbox" id="all_check"/></th> -->
@@ -251,7 +325,7 @@
 			<div>
 				<button class="create_btn">작성</button>
 			</div>
-			<jsp:include page="../include/footer.jsp" />
+			</div>
 		</div>
 	</div>
 	

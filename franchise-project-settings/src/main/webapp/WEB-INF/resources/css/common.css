@@ -7,6 +7,16 @@ body{
 	color: #333;
 	font-size: 12pt;
 }
+
+.table-hover > tbody > tr:hover > * {
+	background-color: #000 !important;
+}
+
+a {
+	color: #333;
+	font-size: 12pt;
+}
+
 li{
 	list-style: none;
 	display: inline-block;
@@ -17,9 +27,7 @@ li{
 	padding: 10px;
 	position: relative;
 }
-.bg-black{
-	background-color: #555;
-}
+
 .main-layout > .header > .nav{
 	display: inline-block;
 	padding: 0px;
