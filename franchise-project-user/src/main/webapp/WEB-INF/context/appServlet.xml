@@ -61,7 +61,7 @@
 		</mvc:interceptors>
 		<mvc:interceptors>
 			<mvc:interceptor>
-				<mvc:mapping path="/**"/>
+				<mvc:mapping path="/mbr/**"/>
 				<!-- <mvc:exclude-mapping path="/login" /> -->
 				<!-- <mvc:exclude-mapping path="/regist" /> -->
 				<mvc:exclude-mapping path="/user/join" />
