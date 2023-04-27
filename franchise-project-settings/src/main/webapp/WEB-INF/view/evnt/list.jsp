@@ -9,9 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%
-MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
-%>
+<% MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__"); %>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="../css/evntCommon.css?p=${date}" />
 <meta charset="UTF-8">
@@ -241,7 +239,9 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 			</div>
 			 --%>
 				<div>
-					<button id="btn-ourStrEvnt" class="btn-primary">우리매장 참여중인 이벤트</button>
+					<c:if test="${mbrVO.mbrLvl eq '001-02'}">
+					<button type="submit" id="btn-ourStrEvnt" class="btn-primary">우리매장 참여중인 이벤트</button>
+					</c:if>
 				</div>
 				<div>
 					<button id="btn-checkEvnts" class="btn-primary">체크 이벤트..</button>
