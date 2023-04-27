@@ -137,7 +137,12 @@
 			<div>
 				<div class="hr_detail_header">제목 : ${hr.hrTtl}</div>
 				<div class="hr_detail_header">지원 직군 : ${hr.cdNm}</div>
-				<div class="hr_detail_header">지원 상태 : ${hr.hrStat}</div>
+				<c:choose>
+					<c:when test="${hr.hrStat eq '002-01'}">지원 상태 : 접수</c:when>
+					<c:when test="${hr.hrStat eq '002-02'}">지원 상태 : 심사중</c:when>
+					<c:when test="${hr.hrStat eq '002-03'}">지원 상태 : 심사완료</c:when>
+					<c:otherwise></c:otherwise>
+				</c:choose>
 			</div>
 			<div>
 				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>

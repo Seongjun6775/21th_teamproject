@@ -19,7 +19,7 @@ public interface OdrLstDAO {
 	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);
 	
-	public int updateOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
+	public int updateOdrPrcsToReadyByOdrLstId(String odrLstId);
 	
 	public int deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
 

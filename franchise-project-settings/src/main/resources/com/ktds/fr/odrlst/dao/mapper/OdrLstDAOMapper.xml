@@ -124,12 +124,11 @@
 		 WHERE ODR_LST_ID = #{_parameter}
 	</select>
 	
-	<update id="updateOneOdrLstByOdrLstId"
-			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
+	<update id="updateOdrPrcsToReadyByOdrLstId"
+			parameterType="string">
 		UPDATE ODR_LST
-		   SET ODR_LST_ODR_PRCS = #{odrLstOdrPrcs}
+		   SET ODR_LST_ODR_PRCS = '003-02'
 		     , MDFY_DT = SYSDATE
-		     , MDFYR = #{mdfyr}
 		 WHERE ODR_LST_ID = #{odrLstId}
 	</update>
 	

@@ -50,8 +50,8 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	}
 
 	@Override
-	public int updateOneOdrLstByOdrLstId(OdrLstVO odrLstVO) {
-		return getSqlSession().update("OdrLst.updateOneOdrLstByOdrLstId", odrLstVO);
+	public int updateOdrPrcsToReadyByOdrLstId(String odrLstId) {
+		return getSqlSession().update("OdrLst.updateOdrPrcsToReadyByOdrLstId", odrLstId);
 	}
 
 	@Override

@@ -53,4 +53,8 @@ public interface MbrDAO {
 	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO);
 	//관리자 개인정보 조회
 	public MbrVO readOneCrewByMbrId(String mbrId);
+	
+	
+	//결제 후 페이머니 잔량 업데이트
+	public int updateRestMbrPyMn(MbrVO mbrVO);
 }
