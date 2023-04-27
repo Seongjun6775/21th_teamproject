@@ -11,7 +11,7 @@
 			<a href="${context}/mbr/admin/list">권한/소속 변경</a>
 		</li>
 		<li class="menu-item">
-			<a href="#">채용관리</a>
+			<a href="${context}/hr/list">채용관리</a>
 		</li>
 		<%-- <li class="menu-item">
 			<a href="${context}/str/crew/list"></a>

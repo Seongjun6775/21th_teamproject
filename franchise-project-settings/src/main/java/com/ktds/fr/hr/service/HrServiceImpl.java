@@ -2,7 +2,6 @@ package com.ktds.fr.hr.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -14,15 +13,20 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
+import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.ObjectUtils;
 import com.ktds.fr.hr.dao.HrDAO;
 import com.ktds.fr.hr.vo.HrVO;
+import com.ktds.fr.mbr.dao.MbrDAO;
 
 @Service
 public class HrServiceImpl implements HrService {
 
 	@Autowired
 	private HrDAO hrDAO;
+	
+	@Autowired
+	private MbrDAO mbrDAO;
 	
 	// 채용 지원서 작성 시 업로드된 파일이 저장될 경로입니다.
 	@Value("${upload.hr.path:/franchise-prj/files/hr/}")
@@ -248,7 +252,13 @@ public class HrServiceImpl implements HrService {
 	 */
 	@Override
 	public boolean updateHrAprByHrId(HrVO hrVO) {
-		return hrDAO.updateHrAprByHrId(hrVO) > 0;
+		
+		boolean updateResult = hrDAO.updateHrAprByHrId(hrVO) > 0;
+		if(!updateResult) {
+			throw new ApiException(ApiStatus.FAIL, "오류가 발생하여 실패했습니다.");
+		}
+		mbrDAO.updateOneMbrLvlAndStrId(hrVO.getMbrVO());
+		return updateResult;
 	}
 	
 	/**
