@@ -19,9 +19,9 @@ public interface OdrLstService {
 	
 	public boolean updateOdrPrcsToReadyByOdrLstId(String odrLstId);
 	
-	public boolean deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
+	public boolean deleteOneOdrLstByOdrLstId(String odrLstId);
 	
-	
+	public boolean deleteOdrLstBySelectedLstId(List<String> odrLstId);
 
 	/**
 	 * 매장용

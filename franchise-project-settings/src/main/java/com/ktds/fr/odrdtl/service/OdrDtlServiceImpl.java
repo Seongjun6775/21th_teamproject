@@ -70,6 +70,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	}
 	
 	@Override
+	public OdrLstVO isThisMyOdrLst(String odrLstId) {
+		return odrLstDAO.isThisMyOdrLst(odrLstId);
+	}
+	
+	@Override
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId) {
 		return odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlId);
 	}

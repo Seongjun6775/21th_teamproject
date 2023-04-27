@@ -50,8 +50,13 @@ public class OdrLstServiceImpl implements OdrLstService {
 	}
 	
 	@Override
-	public boolean deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO) {
-		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstVO) > 0;
+	public boolean deleteOneOdrLstByOdrLstId(String odrLstId) {
+		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstId) > 0;
+	}
+	
+	@Override
+	public boolean deleteOdrLstBySelectedLstId(List<String> odrLstId) {
+		return odrLstDAO.deleteOdrLstBySelectedLstId(odrLstId) > 0;
 	}
 
 	@Override

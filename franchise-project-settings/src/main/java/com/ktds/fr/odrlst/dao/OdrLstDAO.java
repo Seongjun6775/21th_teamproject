@@ -17,11 +17,15 @@ public interface OdrLstDAO {
 	
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO);
 	
+	public OdrLstVO isThisMyOdrLst(String odrLstId);
+	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);
 	
 	public int updateOdrPrcsToReadyByOdrLstId(String odrLstId);
 	
-	public int deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
+	public int deleteOneOdrLstByOdrLstId(String odrLstId);
+	
+	public int deleteOdrLstBySelectedLstId(List<String> odrLstId);
 
 	/**
 	 * 매장용

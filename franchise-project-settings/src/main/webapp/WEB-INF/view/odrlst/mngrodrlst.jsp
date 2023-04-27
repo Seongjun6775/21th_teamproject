@@ -13,7 +13,34 @@
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-	$().ready(function() {
+
+
+
+
+
+
+
+
+
+
+
+<!-- 현재 사용하지 않는 페이지입니다. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$().ready(function() {
 		
 		$(".odrlst_table_grid > table > tbody > tr").click(function() {
 			var data = $(this).data();

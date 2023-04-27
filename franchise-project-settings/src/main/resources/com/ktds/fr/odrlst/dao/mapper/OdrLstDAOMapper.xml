@@ -23,6 +23,7 @@
 		 WHERE MBR_ID = #{mbrId}
 		   AND STR_ID = #{odrDtlStrId}
 		   AND ODR_LST_ODR_PRCS = '003-01'
+		   AND DEL_YN = 'N'
 	</select>
 	
 	<select id="getOdrLstId"
@@ -32,6 +33,7 @@
 		  FROM ODR_LST
 		 WHERE MBR_ID = #{_parameter}
 		   AND ODR_LST_ODR_PRCS = '003-01'
+		   AND DEL_YN = 'N'
 	</select>
 	
 	<insert id="createNewOdrLst"
@@ -103,8 +105,17 @@
 				 INNER JOIN STR S
 				    ON OL.STR_ID = S.STR_ID
 				 WHERE OL.MBR_ID = #{mbrId}
+				   AND OL.DEL_YN = 'N'
 				 ORDER BY ODR_LST_RGST_DT DESC) E
 		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="isThisMyOdrLst"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT MBR_ID
+		  FROM ODR_LST
+		 WHERE ODR_LST_ID = #{_parameter}
 	</select>
 	
 	<select id="readOneOdrLstByOdrLstId"
@@ -133,12 +144,20 @@
 	</update>
 	
 	<update id="deleteOneOdrLstByOdrLstId"
-			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
+			parameterType="string">
 		UPDATE ODR_LST
 		   SET DEL_YN = 'Y'
-		     , MDFY_DT = SYSDATE
-		     , MDFYR = #{mdfyr}
 		 WHERE ODR_LST_ID = #{odrLstId}
+	</update>
+	
+	<update id="deleteOdrLstBySelectedLstId"
+			parameterType="arraylist">
+		UPDATE ODR_LST
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_LST_ID IN
+		<foreach collection="list" item="odrLstId" open="(" close=")" separator=", ">
+			#{odrLstId}
+		</foreach>
 	</update>
 	
 	

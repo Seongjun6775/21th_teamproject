@@ -3,6 +3,7 @@ package com.ktds.fr.odrdtl.service;
 import java.util.List;
 
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 public interface OdrDtlService {
@@ -20,6 +21,13 @@ public interface OdrDtlService {
 	 * @return 주문서 내의 모든 상품 정보 목록
 	 */
 	public List<OdrDtlVO> readAllOdrDtlByOdrLstIdAndMbrId(OdrDtlVO odrDtlVO);
+	
+	/**
+	 * 주문서 ID를 기준으로 그 주문서를 생성한 회원의 ID를 받아옵니다.
+	 * @param odrLstId 주문서 ID
+	 * @return 회원 ID
+	 */
+	public OdrLstVO isThisMyOdrLst(String odrLstId);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문에 대해 상세 조회합니다.
@@ -48,7 +56,11 @@ public interface OdrDtlService {
 	 * @return 삭제한 건수
 	 */
 	public boolean deleteOneOdrDtlByOdrDtlId(String odrDtlId);
-	
+	/**
+	 * 주문 상세 ID를 기준으로 선택한 주문들을 삭제합니다.
+	 * @param odrDtlId 주문 상세 ID
+	 * @return 삭제한 건수
+	 */
 	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId);
 	
 

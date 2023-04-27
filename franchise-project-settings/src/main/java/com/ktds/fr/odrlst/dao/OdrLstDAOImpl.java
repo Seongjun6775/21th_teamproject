@@ -43,6 +43,13 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO) {
 		return getSqlSession().selectList("OdrLst.readAllMyOdrLst", odrLstVO);
 	}
+	/**
+	 * 주문서 ID를 기준으로 그 주문서를 생성한 회원의 ID를 받아옵니다.
+	 */
+	@Override
+	public OdrLstVO isThisMyOdrLst(String odrLstId) {
+		return getSqlSession().selectOne("OdrLst.isThisMyOdrLst", odrLstId);
+	}
 
 	@Override
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId) {
@@ -55,8 +62,13 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	}
 
 	@Override
-	public int deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO) {
-		return getSqlSession().update("OdrLst.deleteOneOdrLstByOdrLstId", odrLstVO);
+	public int deleteOneOdrLstByOdrLstId(String odrLstId) {
+		return getSqlSession().update("OdrLst.deleteOneOdrLstByOdrLstId", odrLstId);
+	}
+	
+	@Override
+	public int deleteOdrLstBySelectedLstId(List<String> odrLstId) {
+		return getSqlSession().update("OdrLst.deleteOdrLstBySelectedLstId", odrLstId);
 	}
 
 	@Override
