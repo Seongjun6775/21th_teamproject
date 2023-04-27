@@ -30,7 +30,7 @@ public class MbrController {
 	@Autowired
 	private CmmnCdService cmmnCdService;
 	
-	@GetMapping("/user/join")
+	@GetMapping("/join")
 	public String viewJoinPage() {
 		return "mbr/joinSite";
 	}
@@ -78,7 +78,7 @@ public class MbrController {
 		model.addAttribute("myMbr" ,myMbr);
 		return "mbr/mbr_info";
 	}
-	@GetMapping("/logout")
+	@GetMapping("/mbr/logout")
 	public String doLogout(@SessionAttribute("__MBR__")MbrVO mbrVO, HttpSession session) {
 		session.invalidate();
 		LgnHistVO lgnHistVO = new LgnHistVO();

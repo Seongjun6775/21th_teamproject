@@ -37,7 +37,7 @@ public class RestMbrController {
 	private MailSendService mailService;
 
 	//회원 로그인
-	@PostMapping("/api/mbr/login")
+	@PostMapping("/mbr/login")
 	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {
 		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
