@@ -370,7 +370,7 @@
 										 	<%-- ${cty.lctCdVO.lctId eq cty.lctId ? 'selected' : ''} --%>
 										<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
 									</c:forEach>
-								</c:when>s
+								</c:when>
 							</c:choose>
 						</select>
 					</div>
