@@ -38,8 +38,13 @@ public class OdrDtlVO extends AbstractVO{
 	 * 주문한 회원 ID
 	 */
 	private String mbrId;
-	
+	/**
+	 * 주문한 상품의 정보
+	 */
 	private PrdtVO prdtVO;
+	/**
+	 * 주문한 매장의 정보
+	 */
 	private StrVO strVO;
 
 	public String getOdrDtlId() {

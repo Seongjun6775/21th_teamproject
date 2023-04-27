@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.prdt.vo.PrdtVO;
 
 @Repository
 public class EvntPrdtDAOImpl extends SqlSessionDaoSupport implements EvntPrdtDAO {
@@ -46,6 +47,11 @@ public class EvntPrdtDAOImpl extends SqlSessionDaoSupport implements EvntPrdtDAO
 	@Override
 	public int deleteEvntPrdtListByEvntId(List<String> evntPrdtIdList) {
 		return getSqlSession().update("EvntPrdt.deleteEvntPrdtListByEvntId",evntPrdtIdList );
+	}
+
+	@Override
+	public int createEvntPrdtListByEvntId(List<EvntPrdtVO> evntPrdtList) {
+		return getSqlSession().insert("EvntPrdt.createEvntPrdtListByEvntId", evntPrdtList);
 	}
 
 }

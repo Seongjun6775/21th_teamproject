@@ -87,18 +87,18 @@ parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
       AND E.DEL_YN = 'N'
 </select>
 
+
+
 <select id="readAllprdt"
  parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
 	 resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
-
    SELECT PRDT_ID
         , PRDT_NM 
         , PRDT_PRC 
         , USE_YN
         , DEL_YN
      FROM PRDT 
-    WHERE DEL_YN = 'N'
-    
+    WHERE DEL_YN = 'N'   
 </select>
 
 
@@ -114,4 +114,33 @@ parameterType="arraylist">
 </update>
 
 
+<insert id="createEvntPrdtListByEvntId"
+	parameterType="arraylist">
+
+   INSERT INTO EVNT_PRDT
+ 		   (EVNT_PRDT_ID
+		  , EVNT_ID
+		  , PRDT_ID
+		  , EVNT_PRDT_CHNG_PRC
+		  , USE_YN
+	      , DEL_YN)
+	 SELECT 
+	 	   'EP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_EVNT_PRDT_PK.NEXTVAL, 5, '0')
+		  , EVNT_ID
+		  , PRDT_ID
+		  , EVNT_PRDT_CHNG_PRC
+		  , 'Y'
+		  , 'N'
+		FROM (
+          <foreach collection="list" 
+          				 item="evntPrdt" 
+          				 separator=" UNION ALL">
+        SELECT #{evntPrdt.evntId} EVNT_ID
+        	 , #{evntPrdt.prdtId} PRDT_ID
+        	 , #{evntPrdt.evntPrdtChngPrc} EVNT_PRDT_CHNG_PRC 
+          FROM DUAL
+     </foreach>
+     )
+   </insert>
+   
 </mapper>

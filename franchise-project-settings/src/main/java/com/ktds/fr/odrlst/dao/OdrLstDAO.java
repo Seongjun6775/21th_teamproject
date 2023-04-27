@@ -2,11 +2,12 @@ package com.ktds.fr.odrlst.dao;
 
 import java.util.List;
 
+import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 public interface OdrLstDAO {
 	
-	public int checkRemainOdrLst(String mbrId);
+	public int checkRemainOdrLst(OdrDtlVO odrDtlVO);
 	
 	public OdrLstVO getOdrLstId(String mbrId);
 	

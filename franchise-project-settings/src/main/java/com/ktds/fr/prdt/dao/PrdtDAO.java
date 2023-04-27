@@ -19,5 +19,6 @@ public interface PrdtDAO {
 	public int deleteSelectAll(List<String> prdtIdList);
 	
 	
+	public List<PrdtVO> readAllNoPagenationEvnt(PrdtVO prdtVO);
 	
 }

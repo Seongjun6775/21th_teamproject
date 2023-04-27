@@ -43,4 +43,6 @@ public class EvntStrController {
 		model.addAttribute("evntStrList", evntStrList);
 		return "evntStr/ourList";
 	}
+	
+
 }

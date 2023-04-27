@@ -117,10 +117,15 @@ public class StrController {
 	/**
 	 * 회원 기능과 연동
 	 */
-	@GetMapping("/str/search")
-	public String viewStrSearchPage(StrVO strVO, Model model) {
+	@GetMapping("/str/search/{mbrLvl}")
+	public String viewStrSearchPage(@PathVariable String mbrLvl,StrVO strVO, Model model) {
 		model.addAttribute("strNm", strVO.getStrNm());
 		model.addAttribute("strAddr", strVO.getStrAddr());
+		if(mbrLvl.equals("001-02")) {
+			MbrVO mbrVO = new MbrVO();
+			mbrVO.setMbrLvl(mbrLvl);
+			strVO.setMbrVO(mbrVO);
+		}
 		List<StrVO> strList = strService.readAllStrNoPagenate(strVO);
 		model.addAttribute("strList",strList);
 		return "mbr/str_search";

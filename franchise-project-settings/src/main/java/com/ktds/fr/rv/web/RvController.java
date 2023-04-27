@@ -28,42 +28,42 @@ public class RvController {
 		return "rv/create";
 	}
 	
-	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
+	// 2-1-ⓛ.리뷰 목록 조회 == 중간관리자, 하위관리자
+	@GetMapping("/rv/list/store")
+	public String viewRvListStorePage(Model model, RvVO rvVO, SearchRvVO searchRvVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			searchRvVO.setMbrVO(mbrVO);
+			List<RvVO> rvList = rvService.readAllRvListForManager(searchRvVO);
+
+			model.addAttribute("rvList", rvList);
+			model.addAttribute("rvVO", rvVO);
+			return "rv/listOfStore";
+		}
+		
+			return "rv/listOfStore";		
+	}
+	
+	// 2-1-②.리뷰 목록 조회 == 상위관리자, 이용자
 	@GetMapping("/rv/list")
 	public String viewRvListPage(Model model, RvVO rvVO, SearchRvVO searchRvVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
-		
-		// ▶ 진영님이 만든거
-		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			System.out.println(mbrVO.getStrId());
-			System.out.println("중하로 돌았음");
-			searchRvVO.setMbrVO(mbrVO);
-			List<RvVO> rvList = rvService.readAllRvListForManager(searchRvVO);
-			System.out.println(rvList.size());
-			for (RvVO rvVO2 : rvList) {
-				System.out.println(rvVO2.getRvId());
-			}
-			model.addAttribute("rvList", rvList);
-			model.addAttribute("rvVO", rvVO);
-			return "rv/list";
-		}
-		// ▶ 여기까지
-		
-				
 		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO, searchRvVO);
-		
+		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("rvList", rvList);
 		model.addAttribute("rvVO", rvVO);
 		
 		return "rv/list";
 	}
 	
-	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
+	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자
 	@GetMapping("/rv/detail/{rvId}")
 	public String viewRvDetailPage(Model model, @PathVariable String rvId
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			,HttpServletRequest request) {
+		
 		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
 			RvVO rvVO = new RvVO();
 			rvVO.setRvId(rvId);
@@ -77,6 +77,9 @@ public class RvController {
 			}
 							
 			model.addAttribute("rvDetail", rvDetail);
+			model.addAttribute("mbrVO", mbrVO);
+			model.addAttribute("rvVO", rvVO);
+			
 			return "rv/detail";
 		}
 		
@@ -85,6 +88,8 @@ public class RvController {
 		RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
 		
 		model.addAttribute("rvDetail", rvDetail);
+		model.addAttribute("mbrVO", mbrVO);
+		model.addAttribute("rvVO", rvVO);
 		
 		return "rv/detail";
 	}

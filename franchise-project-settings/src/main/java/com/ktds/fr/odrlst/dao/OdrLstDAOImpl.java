@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 @Repository
@@ -19,8 +20,8 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	}
 	
 	@Override
-	public int checkRemainOdrLst(String mbrId) {
-		return getSqlSession().selectOne("OdrLst.checkRemainOdrLst", mbrId);
+	public int checkRemainOdrLst(OdrDtlVO odrDtlVO) {
+		return getSqlSession().selectOne("OdrLst.checkRemainOdrLst", odrDtlVO);
 	}
 	
 	@Override
