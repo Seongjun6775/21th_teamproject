@@ -424,7 +424,20 @@ function movePage(pageNo) {
 			
 			<div class="grid">
 				<div class="space-between mb-10">
+				
+				<div>
+					<button class="btn-primary" 
+								id="btn-search-reset">검색초기화</button>
+					<label>이름검색</label>
+					<input type="text" class="selectFilter" 
+										id="search-keyword-prdtNm" 
+										placeholder="검색어 입력 후 Enter"
+										onkeyup="chkChar(this)" 
+										value="${prdtVO.prdtNm}">	
+					<button id="btn-search" class="btn-primary">검색</button>
+				</div>
 					
+				
 					
 				</div>
 				<table id="dataTable"
@@ -447,13 +460,7 @@ function movePage(pageNo) {
 								</c:choose>
 							</select>
 							</th>
-							<th>이름
-							<input type="text" class="selectFilter" 
-									id="search-keyword-prdtNm" 
-									placeholder="검색어 입력 후 Enter"
-									onkeyup="chkChar(this)" 
-									value="${prdtVO.prdtNm}">
-							</th>
+							<th>이름</th>
 							<th>가격</th>
 							<th>
 								<select class="selectFilter" name="selectFilter"
@@ -559,8 +566,6 @@ function movePage(pageNo) {
 						<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
 					</div>
 					<div class="align-right absolute " style="right: 0px;" >
-						<button class="btn-primary" 
-								id="btn-search-reset">검색초기화</button>
 						<select class="selectFilter"
 								id="select-useYn">
 							<option value="">사용유무</option>

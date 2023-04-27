@@ -27,6 +27,11 @@ public class PrdtDAOImpl extends SqlSessionDaoSupport implements PrdtDAO {
 	public List<PrdtVO> readAllNoPagenation(PrdtVO prdtVO) {
 		return getSqlSession().selectList("Prdt.readAllNoPagenation", prdtVO);
 	}
+	
+	@Override
+	public List<PrdtVO> readAllCustomerNoPagenation(PrdtVO prdtVO) {
+		return getSqlSession().selectList("Prdt.readAllCustomerNoPagenation", prdtVO);
+	}
 
 	@Override
 	public PrdtVO readOne(String prdtId) {

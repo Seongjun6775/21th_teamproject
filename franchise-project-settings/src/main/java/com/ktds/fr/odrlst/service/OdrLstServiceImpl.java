@@ -44,4 +44,9 @@ public class OdrLstServiceImpl implements OdrLstService {
 		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstVO) > 0;
 	}
 
+	@Override
+	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO) {
+		return odrLstDAO.readAllOdrLstForStr(odrLstVO);
+	}
+
 }

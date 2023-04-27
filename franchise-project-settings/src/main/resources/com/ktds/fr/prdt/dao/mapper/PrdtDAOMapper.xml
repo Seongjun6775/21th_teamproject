@@ -172,6 +172,68 @@
 		ORDER BY P.PRDT_NM ASC
 	</select>
 	
+	<select id="readAllCustomerNoPagenation"
+			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
+			resultMap="prdtVOMap">
+		SELECT P.PRDT_ID
+			 , P.PRDT_NM
+			 , P.PRDT_PRC
+			 , P.PRDT_CNTNT
+			 , P.PRDT_SRT
+			 , ORGN_FL_NM
+			 , UUID_FL_NM
+			 , FL_SIZE
+			 , FL_EXT
+			 , CMMN.CD_NM
+			 , P.PRDT_RGSTR
+			 , R.MBR_NM RGSTR_NM
+			 , P.PRDT_RGST_DT
+			 , P.MDFYR
+			 , M.MBR_NM MDFYR_NM
+			 , P.MDFY_DT
+			 , P.USE_YN
+			 , P.DEL_YN
+			 , EP.EVNT_PRDT_ID 
+			 , EP.EVNT_ID 
+			 , EP.EVNT_TTL
+			 , EP.EVNT_PRDT_CHNG_PRC 
+			 , EP.EVNT_STRT_DT 
+			 , EP.EVNT_END_DT 
+		  FROM PRDT P
+		  LEFT JOIN CMMN_CD CMMN
+		    ON P.PRDT_SRT = CMMN.CD_ID
+		  LEFT JOIN MBR R
+		    ON P.PRDT_RGSTR = R.MBR_ID
+	      LEFT JOIN MBR M
+		    ON P.MDFYR = M.MBR_ID
+	      LEFT JOIN (SELECT EP.EVNT_PRDT_ID 
+						  , EP.PRDT_ID 
+						  , EP.EVNT_PRDT_CHNG_PRC
+						  , E.EVNT_ID
+						  , E.EVNT_TTL
+						  , E.EVNT_STRT_DT 
+						  , E.EVNT_END_DT 
+					   FROM EVNT_PRDT EP
+					  INNER JOIN EVNT E 
+					     ON EP.EVNT_ID = E.EVNT_ID
+					  WHERE E.USE_YN = 'Y'
+						AND EP.DEL_YN = 'N'
+					    AND SYSDATE >= E.EVNT_STRT_DT
+					    AND E.EVNT_END_DT >= SYSDATE) EP 
+    		ON P.PRDT_ID = EP.PRDT_ID 
+		 WHERE P.DEL_YN = 'N'
+		<if test='prdtSrt != null and prdtSrt != ""'>
+		   AND P.PRDT_SRT = #{prdtSrt} 
+		</if>
+		<if test='prdtNm != null and prdtNm != ""'>
+		   AND P.PRDT_NM LIKE '%' || #{prdtNm} || '%'
+		</if>
+		<if test='useYn != null and useYn != ""'>
+		   AND P.USE_YN LIKE #{useYn}
+		</if>
+		ORDER BY EP.EVNT_ID ASC, P.PRDT_NM ASC
+	</select>
+	
 	<select id="readOne"
 			resultMap="prdtVOMap">
 		SELECT P.PRDT_ID

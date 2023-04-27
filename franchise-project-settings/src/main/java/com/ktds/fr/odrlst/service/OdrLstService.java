@@ -18,4 +18,9 @@ public interface OdrLstService {
 	
 	public boolean deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
 
+	/**
+	 * 매장용
+	 */
+	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO);
+
 }
