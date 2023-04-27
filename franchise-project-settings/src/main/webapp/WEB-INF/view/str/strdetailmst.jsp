@@ -248,7 +248,7 @@
 			</div>
 		</div>
 			<div class="align-right">
-				<button id="save_btn" class="btn-primary">수정</button>
+				<button id="save_btn" class="btn-primary">매장 수정</button>
 				<button id="delete_btn" class="btn-delete">삭제</button>
 				<button id="list_btn" class="btn-list">목록</button>
 				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
