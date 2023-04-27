@@ -479,7 +479,8 @@
 		     AND USE_YN = 'Y'
 		     AND PRDT_ID NOT IN (SELECT PRDT_ID
 								   FROM EVNT_PRDT
-								  WHERE EVNT_ID = #{evntVO.evntId} )
+								  WHERE EVNT_ID = #{evntVO.evntId} 
+								    AND DEL_YN = 'N' )
 		<if test='prdtSrt != null and prdtSrt != ""'>
 		   AND PRDT_SRT = #{prdtSrt} 
 		</if>

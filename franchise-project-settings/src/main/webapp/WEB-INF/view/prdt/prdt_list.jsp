@@ -10,8 +10,17 @@
 <head>
 <meta charset="UTF-8">
 <title>메뉴 관리</title>
-<jsp:include page="../include/stylescript.jsp"></jsp:include>
+<%-- <jsp:include page="../include/stylescript.jsp"></jsp:include> --%>
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
+
+<script type="text/javascript" src="${context}/js/ValueUtil.js"></script>
+<link rel="stylesheet" href="${context}/css/common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 
 // input 가격 입력의 최대길이를 제한하기 위한 기능
@@ -81,6 +90,10 @@ $().ready(function() {
 	
 	
 	$(".grid > table > tbody > tr").click(function() {
+		
+		$(this).closest("tbody").find(".on").removeClass("on");
+		$(this).addClass("on");
+		
 		if ($(this).attr('id') == "notFound") {
 			return;
 		}
@@ -400,35 +413,14 @@ function movePage(pageNo) {
 			<jsp:include page="../include/sidemenu.jsp"></jsp:include>
 			<jsp:include page="../include/content.jsp"></jsp:include>
 			
-		<%-- 	
-			<div class="search-row-group">
-				<div class="search-group">
-					<label for="search-keyword-prdtSrt">분류</label>
-					<select id="search-keyword-prdtSrt">
-						<option value="">선택</option>
-						<option value="분류-가">기역</option>
-						<option value="분류-나">니은</option>
-						<option value="분류-다">디귿</option>
-						<option value="분류-라">리을</option>
-					</select>
-					
-					<label for="search-keyword-prdtNm">이름</label>
-					<input type="text" id="search-keyword-prdtNm" class="search-input" value="${prdtVO.prdtNm}">
-					
-					<button class="btn-search" id="btn-search">검색</button>
-				</div>
-				<div class="search-group">
-				</div>
-			</div>
-			 --%>
 			
 			<div class="grid">
 				<div class="space-between mb-10">
-				
-				<div>
+				<div class="title" style="font-size:26px; font-weight: bold">메뉴 관리</div>
+				<div class="top-bar">
 					<button class="btn-primary" 
 								id="btn-search-reset">검색초기화</button>
-					<label>이름검색</label>
+					<label>메뉴 이름 검색</label>
 					<input type="text" class="selectFilter" 
 										id="search-keyword-prdtNm" 
 										placeholder="검색어 입력 후 Enter"
@@ -444,10 +436,10 @@ function movePage(pageNo) {
 						class="mb-10">
 					<thead>
 						<tr>
-							<th><input type="checkbox" id="all-check"/></th>
-							<th>ID</th>
-							<th>
-							<select class="selectFilter" name="selectFilter"
+							<th class="th-checkbox"><input type="checkbox" id="all-check"/></th>
+							<th class="width140">ID</th>
+							<th class="width0">
+							<select class="select-align-center" name="selectFilter"
 									id="search-keyword-prdtSrt">
 								<option value="">분류</option>
 								<c:choose>
@@ -460,23 +452,23 @@ function movePage(pageNo) {
 								</c:choose>
 							</select>
 							</th>
-							<th>이름</th>
-							<th>가격</th>
-							<th>
-								<select class="selectFilter" name="selectFilter"
+							<th class="min-width300">메뉴 이름</th>
+							<th class="width140">가격</th>
+							<th class="width0 ">
+								<select class="select-align-center" name="selectFilter"
 										id="search-keyword-evntYn">
 									<option value="">이벤트유무</option>
 									<option value="Y">Y</option>
 									<option value="N">N</option>
 								</select>
 							</th>
-							<th>이벤트가격</th>
-							<th>등록자</th>
-							<th>등록일</th>
-							<th>수정자</th>
-							<th>수정일</th>
-							<th>
-								<select class="selectFilter" name="selectFilter"
+							<th class="width140">이벤트가격</th>
+							<th class="width120">등록자</th>
+							<th class="width120">등록일</th>
+							<th class="width120">수정자</th>
+							<th class="width120">수정일</th>
+							<th class="width0 ">
+								<select class="select-align-center" name="selectFilter"
 										id="search-keyword-useYn">
 									<option value="">사용유무</option>
 									<option value="Y">Y</option>
@@ -516,14 +508,15 @@ function movePage(pageNo) {
 										<td class="align-center">
 											<input type="checkbox" class="check-idx" value="${prdt.prdtId}" />
 										</td>
-										<td>${prdt.prdtId}
+										<td class="td-id">${prdt.prdtId}</td>
+										<td >${prdt.cmmnCdVO.cdNm}</td>
+										<td>
 											<c:choose>
-												<c:when test="${empty prdt.uuidFlNm}"><span class="memo">(사진없음)</span>
+												<c:when test="${empty prdt.uuidFlNm}"><i class='bx bx-camera-off' ></i>
 												</c:when>
 											</c:choose>
+											${prdt.prdtNm}
 										</td>
-										<td>${prdt.cmmnCdVO.cdNm}</td>
-										<td>${prdt.prdtNm}</td>
 										<td class="money">
 											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
 										</td>
@@ -540,10 +533,16 @@ function movePage(pageNo) {
 												</c:otherwise>
 											</c:choose>
 										</td>
-										<td>${prdt.prdtRgstr}(${prdt.prdtRgstrMbrVO.mbrNm})</td>
-										<td>${prdt.prdtRgstDt}</td>
-										<td>${prdt.mdfyr}(${prdt.mdfyrMbrVO.mbrNm})</td>
-										<td>${prdt.mdfyDt}</td>
+										<td>${prdt.prdtRgstrMbrVO.mbrNm}</td>
+										<td>
+											<fmt:parseDate value="${prdt.prdtRgstDt}" pattern="yyyy-MM-dd" var="prdtRgstDt"/>
+											<fmt:formatDate value="${prdtRgstDt}" pattern="yyyy.MM.dd"/>
+										</td>
+										<td>${prdt.mdfyrMbrVO.mbrNm}</td>
+										<td>
+											<fmt:parseDate value="${prdt.mdfyDt}" pattern="yyyy-MM-dd" var="mdftyDt"/>
+											<fmt:formatDate value="${mdftyDt}" pattern="yyyy.MM.dd"/>
+										</td>
 										<td>${prdt.useYn}</td>
 									</tr>
 								</c:forEach>	
@@ -624,12 +623,13 @@ function movePage(pageNo) {
 							<div class="input-group relative">
 								<div>
 									<label for="prdtFile">사진</label>
+									<button id="del-img" style="position: absolute; right:10px; bottom:10px;">X</button>
 									<input type="file" id="prdtFile"  name="prdtFile" value=""/>
 								</div>
 								<div class="img-box">
 									<img src="${context}/img/default_photo.jpg" id="prdtImg" class="img">
 								</div>
-								<button id="del-img" style="position: absolute; right:10px; bottom:10px;">X</button>
+								
 								<input type="hidden" id="isDeleteImg" name="isDeleteImg" value="N">
 							</div>	
 						</div>

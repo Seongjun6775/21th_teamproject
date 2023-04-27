@@ -112,8 +112,8 @@
 										<td>${evntPrdt.evntId}</td>
 										<td>${evntPrdt.prdtId}</td>
 										<td>${evntPrdt.prdtNm}</td>
-										<td><fmt:formatNumber>${evntPrdt.prdtPrc}</fmt:formatNumber></td>
-										<td><fmt:formatNumber>${evntPrdt.evntPrdtChngPrc}</fmt:formatNumber></td>
+										<td><fmt:formatNumber>${evntPrdt.prdtPrc}</fmt:formatNumber>원</td>
+										<td><fmt:formatNumber>${evntPrdt.evntPrdtChngPrc}</fmt:formatNumber>원</td>
 <%-- 										<td>${evntPrdt.useYn}</td> --%>
 <%-- 										<td>${evntPrdt.delYn}</td> --%>
 									</tr>
@@ -156,7 +156,7 @@
 			</div>
 			<button id="btn-close" class="btn-primary">닫기</button>
 			<button id="btn-revomeEvntPrdt" class="btn-primary">상품 삭제</button>
-			<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button>
+			<%--<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button>--%>
 
 		</div>
 	</div>

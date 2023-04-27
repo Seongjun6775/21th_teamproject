@@ -35,7 +35,7 @@ public class EvntStrController {
 	public String viewOurEvntStrListPage(Model model, EvntStrVO evntStrVO, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
 		// 세션에서 Store ID를 가져옴
-		String strId = mbrVO.getStrId();
+		String strId = mbrVO.getStrId() == null ? "-" : mbrVO.getStrId() ;
 		evntStrVO.setStrId(strId);
 		
 		List<EvntStrVO> evntStrList = evntStrService.readAllEvntStr(evntStrVO);
