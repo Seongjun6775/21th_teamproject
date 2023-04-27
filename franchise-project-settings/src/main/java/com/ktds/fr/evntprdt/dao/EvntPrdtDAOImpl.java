@@ -50,7 +50,7 @@ public class EvntPrdtDAOImpl extends SqlSessionDaoSupport implements EvntPrdtDAO
 	}
 
 	@Override
-	public int createEvntPrdtListByEvntId(List<PrdtVO> evntPrdtList) {
+	public int createEvntPrdtListByEvntId(List<EvntPrdtVO> evntPrdtList) {
 		return getSqlSession().insert("EvntPrdt.createEvntPrdtListByEvntId", evntPrdtList);
 	}
 

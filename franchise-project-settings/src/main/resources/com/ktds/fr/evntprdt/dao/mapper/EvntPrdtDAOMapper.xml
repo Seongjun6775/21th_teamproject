@@ -87,6 +87,8 @@ parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
       AND E.DEL_YN = 'N'
 </select>
 
+
+
 <select id="readAllprdt"
  parameterType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
 	 resultType="com.ktds.fr.evntprdt.vo.EvntPrdtVO">
@@ -131,7 +133,7 @@ parameterType="arraylist">
 		  , 'N'
 		FROM (
           <foreach collection="list" 
-          				 item="arraylist" 
+          				 item="evntPrdt" 
           				 separator=" UNION ALL">
         SELECT #{evntPrdt.evntId} EVNT_ID
         	 , #{evntPrdt.prdtId} PRDT_ID

@@ -247,6 +247,13 @@ public class PrdtServiceImpl implements PrdtService {
 		return result;
 	}
 
+	
+	
+	@Override
+	public List<PrdtVO> readAllNoPagenationEvnt(PrdtVO prdtVO) {
+		return prdtDAO.readAllNoPagenationEvnt(prdtVO);
+	}
+
 
 
 	

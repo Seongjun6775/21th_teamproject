@@ -45,8 +45,10 @@ public class EvntPrdtServiceImpl implements EvntPrdtService {
 	}
 
 	@Override
-	public boolean createEvntPrdtListByEvntId(List<PrdtVO> evntPrdtList, MbrVO mbrVO) {
+	public boolean createEvntPrdtListByEvntId(List<EvntPrdtVO> evntPrdtList, MbrVO mbrVO) {
+		System.out.println("생성돌앗나");
 		if (mbrVO.getMbrLvl().equals("001-01")) {
+			System.out.println("권한확인");
 			return evntPrdtDAO.createEvntPrdtListByEvntId(evntPrdtList) > 0;
 		}
 		return false;

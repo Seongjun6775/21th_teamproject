@@ -393,6 +393,40 @@
 	</update>
 	
 
+	<!-- 이벤트용 중복상품 제거(이벤트상품 등록이 완료되면 이벤트상품 페이지에서 사라지도록) -->
+	<select id="readAllNoPagenationEvnt"
+			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
+			resultMap="prdtVOMap">
+		SELECT PRDT_ID
+			 , PRDT_NM
+			 , PRDT_PRC
+			 , PRDT_CNTNT
+			 , PRDT_SRT
+			 , ORGN_FL_NM
+			 , UUID_FL_NM
+			 , FL_SIZE
+			 , FL_EXT
+			 , PRDT_RGSTR
+			 , PRDT_RGST_DT
+			 , MDFYR
+			 , MDFY_DT
+			 , USE_YN
+			 , DEL_YN
+		  FROM PRDT
+		   WHERE DEL_YN = 'N'
+		     AND USE_YN = 'Y'
+		     AND PRDT_ID NOT IN (SELECT PRDT_ID
+								   FROM EVNT_PRDT
+								  WHERE EVNT_ID = #{evntVO.evntId} )
+		<if test='prdtSrt != null and prdtSrt != ""'>
+		   AND PRDT_SRT = #{prdtSrt} 
+		</if>
+		<if test='prdtNm != null and prdtNm != ""'>
+		   AND PRDT_NM LIKE '%' || #{prdtNm} || '%'
+		</if>
+		ORDER BY PRDT_NM ASC
+	</select>
+
 	
 
 

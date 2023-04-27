@@ -131,15 +131,16 @@
 				
 				$(".check-idx:checked").each(function() {
 					var chgPrice = $(this).closest("tr").find("input[type=text]").val();
-   // 				var evntId = $(this).val();
+					chgPrice = chgPrice.replaceAll(",","");
+//    				var evntId = $(this).();
 					console.log(chgPrice);
 // 					console.log($(this).val());
  					form.append("<input type='hiedden' name='prdtId' value='" + $(this).val() + "'>");
  					form.append("<input type='hiedden' name='evntPrdtChngPrc' value='" + chgPrice + "'>");
- 					form.append("<input type='hiedden' name='evntId' value='" + evntId + "'>");
 //					console.log(document.getElementById("search-keyword-changePrice"));
 //					console.log(document.getElementById("search-keyword-changePrice").value);
 				});
+ 					form.append("<input type='hiedden' name='evntId' value='${evntId}'>");
 							
 				$.post("${context}/api/evntPrdt/createCheckedEvntPrdtList", form.serialize(), function(response) {
 					if (response.status == "200 OK") {

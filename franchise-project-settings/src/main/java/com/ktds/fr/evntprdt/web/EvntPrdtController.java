@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
+import com.ktds.fr.evnt.vo.EvntVO;
 import com.ktds.fr.evntprdt.service.EvntPrdtService;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
 import com.ktds.fr.prdt.service.PrdtService;
@@ -60,7 +61,10 @@ public class EvntPrdtController {
 	public String viewPrdtListSecondPage(Model model, PrdtVO prdtVO, @PathVariable String evntId) {
 		
 		prdtVO.setUseYn("Y");
-		List<PrdtVO> prdtList = prdtService.readAllNoPagenation(prdtVO);
+		EvntVO evntVO = new EvntVO();
+		evntVO.setEvntId(evntId);
+		prdtVO.setEvntVO(evntVO);
+		List<PrdtVO> prdtList = prdtService.readAllNoPagenationEvnt(prdtVO);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("prdtList", prdtList);

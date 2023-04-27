@@ -24,6 +24,6 @@ public interface EvntPrdtDAO {
 	public int deleteEvntPrdtListByEvntId(List<String> evntPrdtIdList);
 	
 	// 체크된 이벤트 상품 등록
-	public int createEvntPrdtListByEvntId(List<PrdtVO> evntPrdtList);
+	public int createEvntPrdtListByEvntId(List<EvntPrdtVO> evntPrdtList);
 
 }

@@ -24,6 +24,6 @@ public interface EvntPrdtService {
 	public boolean deleteEvntPrdtListByEvntId(List<String> evntPrdtIdList, MbrVO mbrVO);
 
 	// 체크된 이벤트 상품 등록
-	public boolean createEvntPrdtListByEvntId(List<PrdtVO> evntPrdtList, MbrVO mbrVO);
+	public boolean createEvntPrdtListByEvntId(List<EvntPrdtVO> evntPrdtList, MbrVO mbrVO);
 
 }
