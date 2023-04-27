@@ -52,12 +52,12 @@
 		, #{mbrId}
 		, '003-01'
 		, SYSDATE
-		, #{mbrId}
+		, #{odrLstRgstr}
 		, SYSDATE
-		, #{mbrId}
+		, #{mdfyr}
 		, 'Y'
 		, 'N'
-		, #{odrDtlStrId})
+		, #{strId})
 	</insert>
 	
 	<select id="readAllOdrLst"

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -80,8 +81,6 @@
 				return;
 			}
 			var restMn = pyMn - sumPrice;
-			alert(sumPrice);
-			alert(restMn);
 			$.post("${context}/api/odrlst/update/${odrLstId}", {"mbrPyMn": restMn}, function(response){
 				if (response.status == "200 OK") {
 					alert("주문이 접수되었습니다.");
@@ -93,8 +92,17 @@
 			});
 		});
 		
+		$("#list_btn").click(function() {
+			location.href = "${context}/odrlst/list";
+		});
+		
 		
 	});
+	
+	function movePage(pageNo) {
+		location.href = "${context}/odrdtl/list/${odrLstId}?pageNo=" + pageNo;
+	}
+	
 </script>
 </head>
 <body>
@@ -152,7 +160,7 @@
 										</c:choose>
 										<c:choose>
 											<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
-												<td><del>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span>${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
+												<td><del style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span>${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
 											</c:when>
 											<c:otherwise>
 												<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
@@ -184,10 +192,42 @@
 						<div style="display: inline-block;">합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
 						<div style="display: inline-block;">충전 잔량 : <span><c:out value="${mbrVO.mbrPyMn}" /></span>원</div>
 					</div>
-					<div><button id="pay_btn" type="button" class="btn btn-success">결제하기</button></div>
+					<div>
+						<button id="pay_btn" type="button" class="btn btn-success">결제하기</button>
+						<button id="list_btn" type="button" class="btn btn-secondary">목록</button>
+					</div>
 				</div>
 			</div>
-			
+			<div class="pagenate">
+				<ul>
+					<c:set value="${odrDtlList.size() >0 ? odrDtlList.get(0).lastPage : 0}" var="lastPage" />
+					<c:set value="${odrDtlList.size() >0 ? odrDtlList.get(0).lastGroup : 0}" var="lastGroup" />
+					
+					<fmt:parseNumber var="nowGroup" value="${Math.floor(odrDtlVO.pageNo / 10)}" integerOnly="true" />
+					<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+					
+					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+					<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+					
+					
+					<c:if test="${nowGroup > 0}">
+						<li><a href="javascript:movePage(0)">처음</a></li>
+						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+					</c:if>
+				
+					
+					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+						<li><a class="${pageNo eq odrDtlVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+					</c:forEach>
+					
+					<c:if test="${lastGroup > nowGroup}">
+						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+					</c:if>
+				</ul>
+			</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

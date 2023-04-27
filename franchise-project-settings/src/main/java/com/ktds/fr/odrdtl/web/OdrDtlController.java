@@ -32,6 +32,7 @@ public class OdrDtlController {
 			
 			model.addAttribute("odrDtlList", odrDtlList);
 			model.addAttribute("odrLstId", odrLstId);
+			model.addAttribute("odrDtlVO", odrDtlVO);
 			model.addAttribute("mbrVO", mbrVO);
 			
 			return "odrdtl/odrdtllist";
