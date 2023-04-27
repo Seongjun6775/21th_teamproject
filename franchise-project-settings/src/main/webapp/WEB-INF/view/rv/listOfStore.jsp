@@ -77,32 +77,30 @@
 </script>
 </head>
 <body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/rvMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<div class="path">리뷰 > 리뷰목록</div>
-			
-			
-			<div class="container">
-			    <header class="d-flex justify-content-center py-3">
-			      <ul class="nav nav-pills">
-			        <li class="nav-item"><h3>리뷰 목록</h3></li>
-			      </ul>
-			    </header>
-			</div>
-			<div class="search-row-group">
-				<div class="search-group">
-					<select id="search_option" name="searchOption">					
-						<option value="strNm">매장명</option>					
-						<option value="mbrId">회원ID</option>									
-					</select>
-					<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
-					<button id="search_btn" class="btn-search">검색</button>				
-				</div>
-			</div>
+<div class="main-layout">
+	<jsp:include page="../include/header.jsp" />
+	<div>
+		<jsp:include page="../include/rvMgmtSidemenu.jsp" />
+		<jsp:include page="../include/content.jsp" />
+		
+		<div class="path">리뷰 > 리뷰목록</div>
+			<div>
+				<div style="display: block; padding: 20px;">
+					<div class="list-title">
+						<h3 class="list-title" style="font-weight: bold;">리뷰 게시판</h3>
+					</div>			
+					<div class="search-row-group">
+						<div class="search-group">
+							<select id="search_option" name="searchOption">					
+								<option value="strNm">매장명</option>					
+								<option value="mbrId">회원ID</option>									
+							</select>
+							<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
+							<button id="search_btn" class="btn-search">검색</button>				
+						</div>
+					</div>
 			<div>총 ${rvList[0].totalCount}건</div>
+			<div class="grid">
 			
 			<table>
 				<thead>
@@ -126,7 +124,7 @@
 									<td>${rv.strVO.strNm}</td>
 									<td>${rv.rvTtl}</td>
 									<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
-									<td>${rv.rvLkDslk}</td>					
+									<td>${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}</td>					
 									<td>${rv.rvRgstDt}</td>					
 									<td>${rv.mdfyDt}</td>									
 								</tr>
@@ -140,47 +138,48 @@
 					</c:choose>			
 				</tbody>
 			</table>				
-			<div class="pagenate">
-				<ul>
-					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
-					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastGroup : 0}" var="lastGroup"/>
-					
-					<fmt:parseNumber var="nowGroup" value="${Math.floor(gnrVO.pageNo / 10)}" integerOnly = "true"/>
-					<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
-					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
-					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
-					
-					<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
-					<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
-					
-					<%-- lastPage: ${lastPage }
-					lastGroup: ${lastGroup }
-					nowGroup: ${nowGroup }
-					groupStartPageNo:${groupStartPageNo }
-					groupEndPageNo:${groupEndPageNo}
-					prevGroupStartPageNo: ${prevGroupStartPageNo }
-					nextGroupStartPageNo: ${nextGroupStartPageNo } --%>
-					
-					<c:if test = "${nowGroup > 0}">
-						<li><a href="javascript:movePage(0)">처음</a></li>
-						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-					</c:if>
-					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-						<li><a class="${pageNo eq gnrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-					</c:forEach>
-					
-					<c:if test = "${lastGroup >nowGroup }">
-						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-					</c:if>
-				</ul>
-			</div>				
-						
+					<div class="pagenate">
+						<ul>
+							<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
+							<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastGroup : 0}" var="lastGroup"/>
+							
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(gnrVO.pageNo / 10)}" integerOnly = "true"/>
+							<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
+							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
+							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
+							
+							<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
+							<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
+							
+							<%-- lastPage: ${lastPage }
+							lastGroup: ${lastGroup }
+							nowGroup: ${nowGroup }
+							groupStartPageNo:${groupStartPageNo }
+							groupEndPageNo:${groupEndPageNo}
+							prevGroupStartPageNo: ${prevGroupStartPageNo }
+							nextGroupStartPageNo: ${nextGroupStartPageNo } --%>
+							
+							<c:if test = "${nowGroup > 0}">
+								<li><a href="javascript:movePage(0)">처음</a></li>
+								<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+							</c:if>
+							
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+								<li><a class="${pageNo eq gnrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+							</c:forEach>
+							
+							<c:if test = "${lastGroup >nowGroup }">
+								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div>				
+			</div>			
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
-	
+</div>	
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">

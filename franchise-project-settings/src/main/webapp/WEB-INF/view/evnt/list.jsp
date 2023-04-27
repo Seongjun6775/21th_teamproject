@@ -194,7 +194,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 									<c:forEach items="${evntList}" var="evnt">
 										<tr>
 											<td class="firstcell"><input type="checkbox"
-												class="check-idx" value="${evnt.evntId}" /></td>
+												class="check-idx" value="${evnt.evntId}" style="width:20px;"/></td>
 											<td>${evnt.evntId}</td>
 											<td><a href="${context}/evnt/detail/${evnt.evntId}">${evnt.evntTtl}</a></td>
 											<td>${evnt.evntCntnt}</td>
