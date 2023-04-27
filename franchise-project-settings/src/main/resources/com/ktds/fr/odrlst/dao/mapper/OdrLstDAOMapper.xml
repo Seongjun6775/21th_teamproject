@@ -142,8 +142,33 @@
 	</update>
 	
 	
-	
-	
+	<!-- 매장용 -->
+	<select id="readAllOdrLstForStr"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ID
+		     , MBR_ID
+		     , ODR_LST_ODR_PRCS
+		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , ODR_LST_RGSTR
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , MDFYR
+		  FROM ODR_LST
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND STR_ID = #{strId}
+		   AND ODR_LST_ODR_PRCS != '003-01'
+		<choose>
+			<when test='odrLstOdrPrcs == "003-04"'>
+		   AND ODR_LST_ODR_PRCS = '003-04'
+		 ORDER BY MDFY_DT ASC
+			</when>
+			<otherwise>
+		   AND ODR_LST_ODR_PRCS != '003-04'
+		 ORDER BY ODR_LST_RGST_DT DESC
+			</otherwise>
+		</choose>
+	</select>
 	
 	
 	

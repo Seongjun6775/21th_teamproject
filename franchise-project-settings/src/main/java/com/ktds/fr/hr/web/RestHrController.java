@@ -3,6 +3,7 @@ package com.ktds.fr.hr.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import com.ktds.fr.hr.service.HrService;
 import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 
+import oracle.jdbc.logging.annotations.Log;
 import oracle.jdbc.proxy.annotation.Post;
 
 @RestController
@@ -79,6 +81,11 @@ public class RestHrController {
 			throw new ApiException("500", "권한이 없습니다.");
 		}
 		// 최고관리자가 맞다면, 채용 여부를 수정하고 결과를 받아옵니다.
+		if(hrVO.getMbrVO().getMbrLvl().equals("005-01")) {
+			hrVO.getMbrVO().setMbrLvl("001-02");
+		}else if(hrVO.getMbrVO().getMbrLvl().equals("005-02")) {
+			hrVO.getMbrVO().setMbrLvl("001-03");
+		}
 		boolean isSuccess = hrService.updateHrAprByHrId(hrVO);
 		
 		if (isSuccess) {

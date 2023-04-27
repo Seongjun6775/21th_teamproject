@@ -76,7 +76,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<h3>채용 지원 상세조회 페이지(회원)</h3>
 			

@@ -1,9 +1,6 @@
 package com.ktds.fr.evnt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,18 +10,17 @@ import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.evnt.service.EvntService;
 import com.ktds.fr.evnt.vo.EvntVO;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
-
 @RestController
 public class RestEvntController {
 
 	@Autowired
 	private EvntService evntService;
+	
 
 	// 이벤트 생성
 	@PostMapping("/api/evnt/create")
 	public ApiResponseVO createNewEvnt(EvntVO evntVO, MultipartFile uploadFile) throws Exception {
-
+		
 		// 실행여부 확인
 		System.out.println("/api/evnt/create 호출 확인!!!");
 		System.out.println("evntVO.getEvntId() : " + evntVO.getEvntId());
@@ -47,6 +43,7 @@ public class RestEvntController {
 		} else {
 			return new ApiResponseVO(ApiStatus.FAIL, "이벤트를 등록할 수 없습니다.", "500", "");
 		}
+		
 	}
 
 	// 이벤트 수정

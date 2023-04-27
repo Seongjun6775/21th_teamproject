@@ -23,4 +23,9 @@ public interface OdrLstService {
 	
 	
 
+	/**
+	 * 매장용
+	 */
+	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO);
+
 }
