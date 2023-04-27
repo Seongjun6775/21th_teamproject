@@ -37,6 +37,7 @@ public class OdrLstController {
 		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
 			List<OdrLstVO> allOdrLst = odrLstService.readAllOdrLst(odrLstVO);
 			model.addAttribute("allOdrLst", allOdrLst);
+			model.addAttribute("odrLstVO", odrLstVO);
 			model.addAttribute("mbrVO", mbrVO);
 			return "odrlst/mngrodrlst";
 		}

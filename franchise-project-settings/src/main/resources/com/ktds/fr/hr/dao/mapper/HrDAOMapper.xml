@@ -4,6 +4,18 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Hr">
 	
+	<resultMap id="hrMap"
+				type="com.ktds.fr.hr.vo.HrVO"
+				autoMapping="true">
+		<id property="hrId" column="HR_ID" />
+		<association property="mbrVO"
+					  javaType="com.ktds.fr.mbr.vo.MbrVO" >
+			<id property="mbrId" column="MBR_ID" />
+		</association>
+	</resultMap>
+	
+	
+	
 	<select id="readAllHr"
 			parameterType="com.ktds.fr.hr.vo.HrVO"
 			resultType="com.ktds.fr.hr.vo.HrVO">
@@ -79,12 +91,12 @@
 		 , SYSDATE
 		 , NULL
 		 , NULL
-		 , '접수'
+		 , '002-01'
 		 , #{orgnFlNm}
 		 , #{uuidFlNm}
 		 , #{flSize}
 		 , #{flExt}
-		 , 'N'
+		 , 'Y'
 		 , 'N'
 		 , #{ntcYn}
 		 , #{hrLvl})
@@ -119,7 +131,7 @@
 	
 	<select id="readOneHrByHrId"
 			parameterType="string"
-			resultType="com.ktds.fr.hr.vo.HrVO">
+			resultMap="hrMap">
 		SELECT H.HR_ID
 		     , H.MBR_ID
 		     , H.HR_TTL
@@ -137,7 +149,10 @@
 		     , H.DEL_YN
 		     , H.NTC_YN
 		     , H.HR_LVL
+		     , M.STR_ID
 		  FROM HR H
+		 INNER JOIN MBR M
+		    ON H.MBR_ID = M.MBR_ID
 		  LEFT JOIN CMMN_CD C
 		    ON H.HR_LVL = C.CD_ID
 		 WHERE H.HR_ID = #{_parameter}
@@ -168,7 +183,7 @@
 	<update id="updateHrStatByHrId"
 			parameterType="string">
 		UPDATE HR
-		   SET HR_STAT = '심사중'
+		   SET HR_STAT = '002-02'
 		 WHERE HR_ID = #{_parameter}
 	</update>
 	
@@ -177,7 +192,7 @@
 		UPDATE HR
 		   SET HR_APR_YN = #{hrAprYn}
 		     , HR_APR_DT = SYSDATE
-		     , HR_STAT = '심사완료'
+		     , HR_STAT = '002-03'
 		 WHERE HR_ID = #{hrId}
 	</update>
 	
@@ -187,11 +202,41 @@
 		SELECT COUNT(1)
 		  FROM HR
 		 WHERE MBR_ID = #{_parameter}
-		   AND HR_STAT IN ('접수', '심사중')
+		   AND HR_STAT IN ('002-01', '002-01')
 		   AND DEL_YN = 'N'
 	</select>
-	
-	
-
+	<!-- 직원조회용 -->
+	<select id="readOneHrByMbrId"
+			parameterType="string"
+			resultType="com.ktds.fr.hr.vo.HrVO">
+		SELECT HR_ID
+		     , HR_APR_DT
+		     , HR_STAT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		  FROM (SELECT HR_ID
+				     , HR_APR_DT
+				     , HR_STAT
+				     , ORGN_FL_NM
+				     , UUID_FL_NM
+				     , FL_SIZE
+				     , FL_EXT
+				  FROM HR 
+				 WHERE MBR_ID = #{_parameter}
+				 ORDER BY HR_APR_DT DESC)
+		 WHERE ROWNUM=1
+	</select>	
+	<!-- 직원 해임용 -->
+	<update id="deleteAllHrByMbrId"
+			parameterType="arrayList">
+		UPDATE HR
+		   SET DEL_YN = 'Y'
+		 WHERE MBR_ID IN
+		 <foreach collection="list" item="mbrId" separator=", " open="(" close=")">
+			 #{mbrId}
+		 </foreach> 
+	</update>
 
 </mapper>

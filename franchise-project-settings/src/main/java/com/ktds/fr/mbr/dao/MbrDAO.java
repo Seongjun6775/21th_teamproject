@@ -51,4 +51,6 @@ public interface MbrDAO {
 	public int deleteAllMbrAdminByMbrId(List<String> mbrIdList);
 	//중간관리자용 매장직원 조회
 	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO);
+	//관리자 개인정보 조회
+	public MbrVO readOneCrewByMbrId(String mbrId);
 }

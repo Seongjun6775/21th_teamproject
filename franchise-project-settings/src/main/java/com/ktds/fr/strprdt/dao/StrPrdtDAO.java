@@ -13,6 +13,8 @@ public interface StrPrdtDAO {
 	
 	// 매장의 물품 조회 - 손님용
 	public List<StrPrdtVO> readAllCustomerByStr(StrPrdtVO strPrdtVO);
+	// 매장의 물품 상세 조회 - 손님용
+	public StrPrdtVO readOneCustomerByStr(String strPrdtId);
 	
 	// 매장별 누락물품 조회
 	public List<PrdtVO> missingList(String strId);

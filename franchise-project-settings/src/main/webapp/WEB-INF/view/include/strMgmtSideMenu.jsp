@@ -5,16 +5,23 @@
 <div class="side-menu inline bg-black">
 	<ul class="menu-list">
 		<li class="menu-item active-item">
-			<a href="${context}/mbr/list">회원목록 조회</a>
+			<c:choose>
+				<c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+					<a href="${context}/str/list">전국매장 조회</a>
+				</c:when>
+				<c:otherwise>
+					<a href="${context}/str/list">매장 조회</a>
+				</c:otherwise>
+			</c:choose>
 		</li>
 		<li class="menu-item">
-			<a href="${context}/mbr/admin/list">권한/소속 변경</a>
+			
 		</li>
 		<li class="menu-item">
-			<a href="#">채용관리</a>
+			<!-- <a href="#">채용관리</a> -->
 		</li>
-		<%-- <li class="menu-item">
-			<a href="${context}/str/crew/list"></a>
-		</li> --%>
+		<li class="menu-item">
+			
+		</li>
 	</ul>
 </div>

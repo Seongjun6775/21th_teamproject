@@ -15,6 +15,7 @@ import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @RestController
 public class RestOdrDtlController {
@@ -60,6 +61,24 @@ public class RestOdrDtlController {
 		}
 		odrDtlVO.setOdrDtlId(odrDtlId);
 		boolean isSuccess = odrDtlService.updateOneOdrDtlByOdrDtlId(odrDtlVO);
+		
+		if (isSuccess) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		return new ApiResponseVO(ApiStatus.FAIL);
+		
+	}
+	
+	@PostMapping("/api/odrdtl/create/{strPrdtId}")
+	public ApiResponseVO createNewOdrDtl(@SessionAttribute("__MBR__") MbrVO mbrVO
+										, @PathVariable String strPrdtId, OdrDtlVO odrDtlVO) {
+		StrPrdtVO strPrdt = odrDtlService.readOneCustomerByStr(strPrdtId);
+		
+		odrDtlVO.setMbrId(mbrVO.getMbrId());
+		odrDtlVO.setOdrDtlStrId(strPrdt.getStrId());
+		odrDtlVO.setOdrDtlPrdtId(strPrdt.getPrdtId());
+		
+		boolean isSuccess = odrDtlService.createNewOdrDtl(odrDtlVO);
 		
 		if (isSuccess) {
 			return new ApiResponseVO(ApiStatus.OK);

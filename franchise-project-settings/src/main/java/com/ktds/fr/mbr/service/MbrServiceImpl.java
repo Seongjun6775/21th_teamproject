@@ -16,6 +16,8 @@ import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.SHA256Util;
+import com.ktds.fr.hr.dao.HrDAO;
+import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.lgnhist.dao.LgnHistDAO;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.dao.MbrDAO;
@@ -40,6 +42,9 @@ public class MbrServiceImpl implements MbrService {
 	
 	@Autowired
 	private StrDAO strDAO;
+	
+	@Autowired
+	private HrDAO hrDAO;
 
 	@Override	//로그인
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO) {
@@ -272,11 +277,22 @@ public class MbrServiceImpl implements MbrService {
 		List<String> strIdList = strDAO.readAllStrByMbrId(mbrIdList);
 		if(strIdList == null) {
 			//없으면 MBR테이블의 str_id->null && MBR테이블의 mbrLvl -> default로
-			return mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			//채용 페이지에 이력서 delYn=Y으로 바꾸기
+			boolean delResult = mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			if(!delResult) {
+				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
+			}
+			hrDAO.deleteAllHrByMbrId(mbrIdList);
+			return delResult;
 		}else {
 			//있으면 해당 mbrId -> null
 			strDAO.deleteAllManagerByStrId(strIdList);
-			return mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			boolean delResult = mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			if(!delResult) {
+				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
+			}
+			hrDAO.deleteAllHrByMbrId(mbrIdList);
+			return delResult;
 		}
 	}
 	
@@ -286,6 +302,20 @@ public class MbrServiceImpl implements MbrService {
 			throw new ApiException(ApiStatus.FAIL, "권한이 없습니다.");
 		}
 		return mbrDAO.readAllCrewMbrByStrId(mbrVO);
+	}
+	
+	@Override
+	public MbrVO readOneCrewByMbrId(String mbrId) {
+		if(mbrId == null || mbrId.length() == 0) {
+			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+		}
+		MbrVO mbrVO = mbrDAO.readOneCrewByMbrId(mbrId);
+		if(mbrVO==null) {
+			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+		}
+		HrVO readHrVO = hrDAO.readOneHrByMbrId(mbrId);
+		mbrVO.setHrVO(readHrVO);
+		return mbrVO;
 	}
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {

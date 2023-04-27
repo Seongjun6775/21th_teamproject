@@ -62,6 +62,19 @@ public class HrDAOImpl extends SqlSessionDaoSupport implements HrDAO {
 	public int checkCreateYn(String mbrId) {
 		return getSqlSession().selectOne("Hr.checkCreateYn", mbrId);
 	}
-	
+	/**
+	 * 직원 조회용
+	 */
+	@Override
+	public HrVO readOneHrByMbrId(String mbrId) {
+		return getSqlSession().selectOne("Hr.readOneHrByMbrId", mbrId);
+	}
+	/**
+	 * 직원 해임용
+	 */
+	@Override
+	public int deleteAllHrByMbrId(List<String> mbrIdList) {
+		return getSqlSession().update("Hr.deleteAllHrByMbrId", mbrIdList);
+	}
 
 }

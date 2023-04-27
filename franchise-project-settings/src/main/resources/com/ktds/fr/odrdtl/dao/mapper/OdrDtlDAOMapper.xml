@@ -39,7 +39,7 @@
 		, MBR_ID)
 		VALUES
 		 ('OD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_DTL_PK.NEXTVAL, 5, '0')
-		, NULL
+		, #{odrLstId}
 		, #{odrDtlPrdtId}
 		, #{odrDtlPrdtCnt}
 		, #{odrDtlStrId}

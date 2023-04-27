@@ -96,7 +96,7 @@ public class MbrController {
 	@GetMapping("/mbr/detail/{mbrId}")
 	public String doCrewDetail(@PathVariable String mbrId, @SessionAttribute("__MBR__")MbrVO mbrVO, Model model) {
 		
-		MbrVO mbr = mbrService.readOneMbrByMbrId(mbrId);
+		MbrVO mbr = mbrService.readOneCrewByMbrId(mbrId);
 		model.addAttribute("mbr" ,mbr);
 		return "mbr/mbr_admindetail";
 	}

@@ -17,6 +17,16 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
+	
+	@Override
+	public int checkRemainOdrLst(String mbrId) {
+		return getSqlSession().selectOne("OdrLst.checkRemainOdrLst", mbrId);
+	}
+	
+	@Override
+	public OdrLstVO getOdrLstId(String mbrId) {
+		return getSqlSession().selectOne("OdrLst.getOdrLstId", mbrId);
+	}
 
 	@Override
 	public int createNewOdrLst(OdrLstVO odrLstVO) {

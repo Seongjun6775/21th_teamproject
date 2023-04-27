@@ -10,15 +10,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/strMgmtSideMenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			
-			
 			<!-- 조회영역 -->
 			<div class="grid">
 				<div class="detail-header">
@@ -61,17 +60,17 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" readonly value="${mbr.strVO.strNm}"/>
 							</div>
 						</div>
 					</div>
 					<div class="content-block">
 						<div class="content-subject">
-							<h1>등급</h1>
+							<h1>직급</h1>
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" value="${mbr.cmmnCdVO.cdNm}"/>
 							</div>
 						</div>
 					</div>
@@ -81,7 +80,15 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" style="width:200px;" value="${empty mbr.hrVO.orgnFlNm ? '파일이 없습니다.' : mbr.hrVO.orgnFlNm}"/>
+								<c:choose>
+									<c:when test ="${empty mbr.hrVO.hrId}">
+										<a href="javascript:alert('파일이 없습니다.')"><i class='bx bx-file'></i></a>
+									</c:when>
+									<c:otherwise>
+										<a href="${context}/hr/hrfile/${mbr.hrVO.hrId}"><i class='bx bx-file'></i></a>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 					</div>
@@ -91,7 +98,7 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" readonly value="${mbr.mbrRcntLgnDt}"/>
 							</div>
 						</div>
 					</div>
@@ -101,7 +108,7 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" readonly value="${mbr.mbrLgnBlckYn}"/>
 							</div>
 						</div>
 					</div>
@@ -111,7 +118,7 @@
 						</div>
 						<div class="content-items">
 							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
+								<input type="text" readonly value="${mbr.mbrRgstrDt}"/>
 							</div>
 						</div>
 					</div>
