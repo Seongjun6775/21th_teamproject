@@ -164,21 +164,33 @@
 					<td><button type="submit" id="btn-cancle" class="btn-primary"
 							style="width: 100%;">목록으로</button></td>
 					<td></td>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-update" class="btn-primary"
 							style="width: 100%;">수정</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-updateDelete"
 							class="btn-primary" style="width: 100%;">삭제</button></td>
+					</c:if>
 				</tr>
 
 				<tr>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-evntStr" class="btn-primary"
 							style="width: 100%;">참여매장목록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
 					<td><button type="submit" id="btn-evntPrdt" class="btn-primary"
 							style="width: 100%;">이벤트상품목록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-02'}">
 					<td><button type="submit" id="btn-createEvntStr" class="btn-primary"
 							style="width: 100%;">참여매장등록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-createEvntPrdt" class="btn-primary"
 							style="width: 100%;">이벤트상품등록</button></td>
+					</c:if>
 				</tr>
 			</table>
 		</div>
@@ -186,24 +198,24 @@
 		</div>
 	</div>
 	
-<%-- 	<script type="text/javascript">
+ 	<%-- <script type="text/javascript">
 	const btn1 = document.getElementById("btn-evntStr");
 	const btn2 = document.getElementById("btn-createEvntStr");
 	
 	var mbrLvl = "<%=mbrVO.getMbrLvl()%>";
 	alert("mbrLv1 : " + mbrLvl);
-	if (mbrLvl == "ADMIN"){
+	if (mbrLvl == "001-01"){
 		btn1.style.visibility = "visible";
 	} else {
 		btn1.style.visibility = "hidden";
 	}
-	if (mbrLvl == "MANAGER"){
+	if (mbrLvl == "001-02"){
 		btn2.style.visibility = "visible";
 	} else {
 		btn2.style.visibility = "hidden";
-	}
+	} 
 	
-	</script> --%>
+	</script>  --%>
 	
 	
 </body>

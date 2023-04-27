@@ -61,7 +61,15 @@ public class RestEvntPrdtController {
 	public ApiResponseVO doDeleteOurEvnt(@RequestParam List<String> evntPrdtIdList,
 			@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		boolean isDelete = evntPrdtService.deleteEvntPrdtListByEvntId(evntPrdtIdList, mbrVO);
-
+		
+		
+		System.out.println("evntPrdtIdList : " + evntPrdtIdList);
+		
+		for (int i = 0 ; i < evntPrdtIdList.size() ; i ++ ) {
+			System.out.println("이벤트상품리스트 : " + evntPrdtIdList.get(i));
+		}
+		
+		
 		if (isDelete) {
 			return new ApiResponseVO(ApiStatus.OK);
 		} else {

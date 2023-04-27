@@ -19,6 +19,7 @@ import com.ktds.fr.evnt.dao.EvntDAO;
 import com.ktds.fr.evnt.vo.EvntVO;
 import com.ktds.fr.evntstr.dao.EvntStrDAO;
 import com.ktds.fr.evntstr.vo.EvntStrVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.service.PrdtServiceImpl;
 import com.ktds.fr.str.dao.StrDAO;
 import com.ktds.fr.str.vo.StrVO;
@@ -42,8 +43,9 @@ public class EvntServiceImpl implements EvntService {
 
 	private String profilePath;
 
-	// 1. 이벤트 등록 ▶▶상위관리자
+	
 	@Override
+	// 1. 이벤트 등록 ▶▶최상위관리자 001-01
 	public boolean createNewEvnt(EvntVO evntVO, MultipartFile uploadFile) {
 
 		if (uploadFile != null && !uploadFile.isEmpty()) {
@@ -93,21 +95,20 @@ public class EvntServiceImpl implements EvntService {
 		
 	}
 
-	// 2. 이벤트 전체목록 조회 ▶▶상위관리자
 	@Override
+	// 2. 이벤트 전체목록 조회 ▶▶최상위관리자 ▷▷중간관리자 001-01, 001-02
 	public List<EvntVO> readAllEvnt(EvntVO evntVO) {
 		return evntDAO.readAllEvnt(evntVO);
 	}
 
-	// 3. 이벤트 조회(상세조회 + 참여 여부 확인) ▶중간관리자
+	
 	@Override
+	// 3. 이벤트 상세조회 (detail page)  ▶▶최상위관리자 ▷▷중간관리자 001-01, 001-02
 	public EvntVO readOneEvnt(String evntId) {
 		return evntDAO.readOneEvnt(evntId);
 	}
 
-	// 4. 이벤트 결정 전,후 내용 조회 ▷상위관리자,중간관리자
-
-	// 5. 이벤트 내용 수정 ▶▶상위관리자
+	// 4. 이벤트 등록 내용 수정 ▶▶최상위관리자 001-01
 	@Override
 	public boolean updateEvnt(EvntVO evntVO, MultipartFile uploadFile) {
 
@@ -183,27 +184,27 @@ public class EvntServiceImpl implements EvntService {
 
 	}
 
-	// 6. 이벤트 수정(이벤트 참여 여부 선택 후 수정) ▶중간관리자
-
-	// 7. 이벤트 삭제 ▶▶상위관리자
 	@Override
+	// 5. 이벤트 삭제 ▶▶최상위관리자 001-01
 	public boolean updateDeleteEvnt(String evntId) {
 		return evntDAO.updateDeleteEvnt(evntId) > 0;
 	}
 	
 
-	// 8. 이용자용 페이지
 	@Override
+	// 6. 이용자 페이지(첫화면 -> 현재진행중인 이벤트) ★☆소비자 001-04
 	public List<EvntVO> readAllOngoingEvnt(EvntVO evntVO) {
 		return evntDAO.readAllOngoingEvnt(evntVO);
 	}
 
 	@Override
+	// 7. 이용자 페이지(지난이벤트) ★☆소비자 001-04
 	public List<EvntVO> readAllPastEvnt(EvntVO evntVO) {
 		return evntDAO.readAllPastEvnt(evntVO);
 	}
 
 	@Override
+	// 8. 이용자 페이지(예정 이벤트) ★☆소비자 001-04
 	public List<EvntVO> readAllPlanEvnt(EvntVO evntVO) {
 		return evntDAO.readAllPlanEvnt(evntVO);
 	}
