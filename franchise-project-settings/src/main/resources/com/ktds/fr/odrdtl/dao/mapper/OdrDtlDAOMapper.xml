@@ -9,18 +9,19 @@
 				autoMapping="true">
 		<id property="odrDtlId" column="ODR_DTL_ID" />
 		<association property="strVO"
-		              javaType="com.ktds.fr.str.vo.StrVO" >
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
 			<id property="strId" column="STR_ID" />
-			<result property="strNm" column="STR_NM" />
-			<result property="strCallNum" column="STR_CALL_NUM" />
 		</association>
 		<association property="prdtVO"
-		              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
+		              javaType="com.ktds.fr.prdt.vo.PrdtVO"
+		              autoMapping="true">
 			<id property="prdtId" column="PRDT_ID" />
-			<result property="prdtNm" column="PRDT_NM" />
-			<result property="prdtPrc" column="PRDT_PRC" />
-			<result property="prdtCntnt" column="PRDT_CNTNT" />
-			<result property="orgnFlNm" column="ORGN_FL_NM" />
+			<association property="evntPrdtVO"
+						  javaType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
+			              autoMapping="true">
+				<id property="evntPrdtId" column="EVNT_PRDT_ID" />
+			</association>
 		</association>
 	</resultMap>
 	
@@ -66,11 +67,15 @@
 			 , P.PRDT_PRC 
 			 , S.STR_NM
 			 , S.STR_CALL_NUM 
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
 		  FROM ODR_DTL OD
 		 INNER JOIN PRDT P
 		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
 		 INNER JOIN STR S
-		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
 		 WHERE ODR_LST_ID = #{odrLstId}
 		   AND OD.MBR_ID = #{mbrId}
 		   AND OD.DEL_YN = 'N'
@@ -96,11 +101,15 @@
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
 			 , P.ORGN_FL_NM
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
 		  FROM ODR_DTL OD
 		 INNER JOIN STR S
 		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
 		 INNER JOIN PRDT P
-		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
 		 WHERE OD.ODR_DTL_ID = #{_parameter}
 		   AND OD.DEL_YN = 'N'
 	</select>

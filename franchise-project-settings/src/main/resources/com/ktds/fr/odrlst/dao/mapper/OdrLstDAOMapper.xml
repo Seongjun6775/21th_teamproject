@@ -9,18 +9,19 @@
 				autoMapping="true">
 		<id property="odrLstId" column="ODR_LST_ID" />
 		<association property="strVO"
-		              javaType="com.ktds.fr.str.vo.StrVO" >
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
 			<id property="strId" column="STR_ID" />
-			<result property="strNm" column="STR_NM" />
 		</association>
 	</resultMap>
 	
 	<select id="checkRemainOdrLst"
-			parameterType="string"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultType="_int">
 		SELECT COUNT(1)
 		  FROM ODR_LST
-		 WHERE MBR_ID = #{_parameter}
+		 WHERE MBR_ID = #{mbrId}
+		   AND STR_ID = #{odrDtlStrId}
 		   AND ODR_LST_ODR_PRCS = '003-01'
 	</select>
 	

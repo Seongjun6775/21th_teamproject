@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -41,8 +42,16 @@
 			if (num != now) {
 				count.val(num);
 				
-				var price = num * ${odrDtl.prdtVO.prdtPrc};
-				$(".total-price").val(price);
+				var event = "${odrDtl.prdtVO.evntPrdtVO.evntId}";
+				var price = 0;
+				if (event =! null) {
+					price = ${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc}
+				}
+				else {
+					price = ${odrDtl.prdtVO.prdtPrc};
+				}
+				var totalPrice = num * price;
+				$(".total-price").val(totalPrice);
 			}
 		});
 		
@@ -110,9 +119,24 @@
 					<div class="col text-grid">
 						<div style="text-align: left; font-size: 20px;">상품명 : 
 							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtNm}</span>
+							<c:if test="${not empty odrDtl.prdtVO.evntPrdtVO.evntId}">
+								<span>이벤트중!!</span>
+							</c:if>
 						</div>
 						<div style="text-align: left; font-size: 20px;">개당 가격 : 
-							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtPrc}</span>원
+							<c:choose>
+								<c:when test="${not empty odrDtl.prdtVO.evntPrdtVO.evntId}">
+									<span style="text-align: left; font-size: 30px; font-weight: bold;">
+										<del><fmt:formatNumber>${odrDtl.prdtVO.prdtPrc}</fmt:formatNumber></del>
+										<fmt:formatNumber>${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>
+									</span>원
+								</c:when>
+								<c:otherwise>
+									<span style="text-align: left; font-size: 30px; font-weight: bold;">
+										<fmt:formatNumber>${odrDtl.prdtVO.prdtPrc}</fmt:formatNumber>
+									</span>원
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div class="col updown" style="text-align: left; font-size: 20px; padding: 0px;">수량 :
 								<button class="minus">-</button>
@@ -120,7 +144,14 @@
 								<button class="plus">+</button>
 						</div>
 						<div class="col price" style="text-align: left; font-size: 20px; padding: 0px;">합계 : 
-							<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * odrDtl.prdtVO.prdtPrc}" readonly>
+							<c:choose>
+								<c:when test="${not empty odrDtl.prdtVO.evntPrdtVO.evntId}">
+									<input type="text" class="total-price" value="${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc * odrDtl.odrDtlPrdtCnt}" readonly>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="total-price" value="${odrDtl.prdtVO.prdtPrc * odrDtl.odrDtlPrdtCnt}" readonly>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</div>

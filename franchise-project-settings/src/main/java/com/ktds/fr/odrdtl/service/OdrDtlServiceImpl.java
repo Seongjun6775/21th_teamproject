@@ -27,8 +27,8 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	@Override
 	public boolean createNewOdrDtl(OdrDtlVO odrDtlVO) {
 		
-		// 이전에 주문이 완료되지 않은 주문서가 존재하는지 확인합니다.
-		int remainList = odrLstDAO.checkRemainOdrLst(odrDtlVO.getMbrId());
+		// 현재 주문을 하고 있는 매장에서, 이전에 주문이 완료되지 않은 주문서가 존재하는지 확인합니다.
+		int remainList = odrLstDAO.checkRemainOdrLst(odrDtlVO);
 		
 		boolean createResult = false;
 		
@@ -39,16 +39,6 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 			// 받아온 주문서 ID를 odrDtlVO 안에 세팅합니다.
 			odrDtlVO.setOdrLstId(OdrLstId.getOdrLstId());
 			
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
-			System.out.println(odrDtlVO.getOdrLstId());
 			// 주문서 ID가 포함된 odrDtlVO로 새 주문상세를 생성합니다.
 			createResult = odrDtlDAO.createNewOdrDtl(odrDtlVO) > 0;
 		}

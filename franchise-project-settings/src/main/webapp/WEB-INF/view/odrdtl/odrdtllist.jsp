@@ -118,8 +118,22 @@
 										<td><img src=""></td>
 										<td>${odr.prdtVO.prdtNm}</td>
 										<td>${odr.odrDtlPrdtCnt}</td>
-										<td>${odr.prdtVO.prdtPrc}</td>
-										<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
+										<c:choose>
+											<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+												<td><del style="font-size: 12px; color: #333;">${odr.prdtVO.prdtPrc}</del>  <span>${odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
+											</c:when>
+											<c:otherwise>
+												<td>${odr.prdtVO.prdtPrc}</td>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+												<td><del>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span>${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
+											</c:when>
+											<c:otherwise>
+												<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
+											</c:otherwise>
+										</c:choose>
 										<td onclick="event.cancelBubble=true"><button type="button" class="btn btn-danger btn-sm delete_btn"
 													 value="${odr.odrDtlId}">삭제</button></td>
 									</tr>
@@ -133,7 +147,9 @@
 					</tbody>
 				</table>
 				<div>
-					<div>합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
+					<div>
+						합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원
+					</div>
 					<div><button type="button" class="btn btn-success">결제하기</button></div>
 				</div>
 			</div>
