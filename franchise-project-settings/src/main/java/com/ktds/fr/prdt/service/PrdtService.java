@@ -9,6 +9,7 @@ import com.ktds.fr.prdt.vo.PrdtVO;
 public interface PrdtService {
 
 	public List<PrdtVO> readAll(PrdtVO prdtVO);
+	public List<PrdtVO> readAllNoPagenation(PrdtVO prdtVO);
 	public PrdtVO readOne(String prdtId);
 	public List<PrdtVO> readAllCustomer(PrdtVO prdtVO);
 	

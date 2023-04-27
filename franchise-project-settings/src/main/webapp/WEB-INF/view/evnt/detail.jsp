@@ -96,7 +96,7 @@
 		
 		//'이벤트상품등록' 버튼 클릭 시 팝업창으로 뜸
 		$("#btn-createEvntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/prdtList2", "resPopup", "width=1500, height=800, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntPrdt/prdtList2/${evntVO.evntId}" ,  "resPopup", "width=1500, height=800, scrollbars=yes, resizable=yes"); 
 		       pop.focus();	
 		});
 	})
@@ -112,8 +112,7 @@
 		<div>
 			<table border=1 style="width: 600px;">
 				<tr>
-					<td colspan="4"><h1 style="text-align: center;">이벤트 상세
-							페이지</h1></td>
+					<td colspan="4"><h1 style="text-align: center;">이벤트 상세페이지</h1></td>
 				</tr>
 				<tr>
 					<td style="width:150px;">이벤트 ID</td>

@@ -68,7 +68,10 @@ public class RestEvntPrdtController {
 			return new ApiResponseVO(ApiStatus.FAIL);
 		}
 	}
-
+	
+	
+	
+	// 이벤트 상품 등록 2
 	@PostMapping("/api/evntPrdt/createCheckedEvntPrdtList")
 	public ApiResponseVO doCreateEvntPrdtList(@RequestParam List<String> evntPrdtList, @RequestParam List<String> evntPrdtPriceList,
 			@SessionAttribute("__MBR__") MbrVO mbrVO) {
@@ -79,7 +82,6 @@ public class RestEvntPrdtController {
 			EvntPrdtVO evntPrdtVO = new EvntPrdtVO();
 			evntPrdtVO.setEvntPrdtId(evntPrdtList.get(i));
 			evntPrdtVO.setEvntPrdtChngPrc(Integer.parseInt(evntPrdtPriceList.get(i)));
-			//내일할거
 			//evntPrdtVO.setEvntId();	
 			
 			listEvntPrdt.add(evntPrdtVO);					
@@ -91,7 +93,7 @@ public class RestEvntPrdtController {
 			System.out.println("변경 가격 : " + evntPrdtPriceList.get(i));
 		}
 		
-//밑에 끝에다가 아이디리스트 넣어주고 서비스/디에이오 변경 디에오에서 insert 치기	
+//
 //		boolean isSuccess = evntPrdtService.createEvntPrdtListByEvntId(listEvntPrdt, mbrVO);
 //
 //		if (isSuccess) {

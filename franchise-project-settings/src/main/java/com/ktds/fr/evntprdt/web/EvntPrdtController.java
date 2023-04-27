@@ -56,16 +56,17 @@ public class EvntPrdtController {
 		return "/evntPrdt/prdtList";
 	}
 	
-	@RequestMapping("/evntPrdt/prdtList2")
-	public String viewPrdtListSecondPage(Model model, PrdtVO prdtVO) {
+	@GetMapping("/evntPrdt/prdtList2/{evntId}")
+	public String viewPrdtListSecondPage(Model model, PrdtVO prdtVO, @PathVariable String evntId) {
 		
 		prdtVO.setUseYn("Y");
-		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
+		List<PrdtVO> prdtList = prdtService.readAllNoPagenation(prdtVO);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("prdtList", prdtList);
 		model.addAttribute("srtList", srtList);
 		model.addAttribute("prdtVO", prdtVO);
+		model.addAttribute("evntId", evntId);
 		return "/evntPrdt/prdtList2";
 	}
 }
