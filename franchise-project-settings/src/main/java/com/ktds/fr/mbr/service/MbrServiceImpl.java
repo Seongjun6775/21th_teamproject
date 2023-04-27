@@ -277,11 +277,22 @@ public class MbrServiceImpl implements MbrService {
 		List<String> strIdList = strDAO.readAllStrByMbrId(mbrIdList);
 		if(strIdList == null) {
 			//없으면 MBR테이블의 str_id->null && MBR테이블의 mbrLvl -> default로
-			return mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			//채용 페이지에 이력서 delYn=Y으로 바꾸기
+			boolean delResult = mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			if(!delResult) {
+				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
+			}
+			hrDAO.deleteAllHrByMbrId(mbrIdList);
+			return delResult;
 		}else {
 			//있으면 해당 mbrId -> null
 			strDAO.deleteAllManagerByStrId(strIdList);
-			return mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			boolean delResult = mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			if(!delResult) {
+				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
+			}
+			hrDAO.deleteAllHrByMbrId(mbrIdList);
+			return delResult;
 		}
 	}
 	

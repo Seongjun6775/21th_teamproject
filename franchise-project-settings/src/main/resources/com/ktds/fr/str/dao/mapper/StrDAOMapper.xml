@@ -279,8 +279,10 @@
 			 , S.DEL_YN
 		  FROM STR S
 		 WHERE S.DEL_YN = 'N'
+		<if test='mbrVO != null and mbrVO !=""'>
 		   AND S.USE_YN = 'N'
 		   AND S.MBR_ID IS NULL
+		</if>   
 		<if test='strNm != null and strNm != ""'>
 		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
 		</if>

@@ -29,7 +29,7 @@ public class StrController {
 	@Autowired
 	private LctCdService lctCdService;
 	
-	@GetMapping("/str/list")
+	@GetMapping("/user/str/list")
 	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, String strId, Model model, StrVO strVO
 									, @RequestParam(required = false, defaultValue = "") String searchIdx
 									, @RequestParam(required = false, defaultValue = "")String keyword ,CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
@@ -63,12 +63,12 @@ public class StrController {
 	    }
 	}
 	
-	@GetMapping("/str/create")
+	@GetMapping("/user/str/create")
 	public String viewStrCreatePage() {
 		return "str/create";
 	}
 	
-	@GetMapping("/str/strdetailmst/{strId}")
+	@GetMapping("/user/str/strdetailmst/{strId}")
 	public String viewStrDetailMstPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model, CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
 		StrVO strVO = strService.readOneStrByMaster(strId);
 		List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
@@ -80,7 +80,7 @@ public class StrController {
 		return "str/strdetailmst";
 		
 	}
-	@GetMapping("/str/strdetailmgn/{strId}")
+	@GetMapping("/user/str/strdetailmgn/{strId}")
 	public String viewStrDetailMgnPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model, CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
 		if(!mbrVO.getStrId().equals(strId)) {
 			throw new IllegalRequestException();
@@ -99,7 +99,7 @@ public class StrController {
 	/**
 	 * 회원 기능과 연동
 	 */
-	@GetMapping("/str/search")
+	@GetMapping("/user/str/search")
 	public String viewStrSearchPage(StrVO strVO, Model model) {
 		model.addAttribute("strNm", strVO.getStrNm());
 		model.addAttribute("strAddr", strVO.getStrAddr());

@@ -122,7 +122,16 @@
 		});
 		$("#search-str-btn").click(function(event){
 			event.preventDefault();
-			str=window.open("${context}/str/search","매장검색", "width=500, height=500");
+			var prevMbrLvl = $("#prev-mbrLvl-hidden").val();
+			var mbrLvl = $("#select-mbrLvl").val();
+			if(prevMbrLvl.length == 0){
+				alert("회원을 선택하세요");
+				return;
+			}
+			if(mbrLvl.length == 0){
+				mbrLvl = prevMbrLvl;
+			}
+			str=window.open("${context}/str/search/"+mbrLvl,"매장검색", "width=500, height=500");
 		});
 		$("#fire-btn").click(function(event){
 			var confirmFire = confirm("선택된 관리자의 권한을 해지하시겠습니까?");

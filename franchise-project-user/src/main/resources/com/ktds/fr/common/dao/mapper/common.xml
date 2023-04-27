@@ -17,6 +17,7 @@
 	<sql id="pageFooter">
 						) R) B
 		 WHERE RNUM BETWEEN (#{pageNo} * #{viewCnt}) + 1 AND (#{pageNo} * #{viewCnt}) + #{viewCnt}
+		 ORDER BY RNUM ASC
 	</sql>
 
 </mapper>

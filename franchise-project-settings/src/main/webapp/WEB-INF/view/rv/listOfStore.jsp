@@ -52,18 +52,15 @@
 				$("#search_btn").click();
 			}
 		});
-		$("#new_btn").click(function() {
-			alert("로그인이 필요합니다.")
-			location.href = "${context}/user/join";
-		});
+			
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});		 
 		$(".rvRow td").not(".mbrId").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
-			location.href="${context}/user/rv/detail/" + rvid;
-		})
-	});
+			location.href="${context}/rv/detail/" + rvid;
+		});
+	});	
 		function movePage(pageNo){
 			//전송.
 			//입력 값:
@@ -74,7 +71,7 @@
 			queryString += "&type="+selec + "&search=" + id;
 			
 			//URL요청
-			location.href="${context}/user/rv/list" + queryString;
+			location.href="${context}/rv/list/store" + queryString;
 			
 		}
 </script>
@@ -136,16 +133,13 @@
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<td colspan="8" class="no-item">
+							<td colspan="7" class="no-item">
 								등록된 리뷰가 없습니다.
 							</td>
 						</c:otherwise>
 					</c:choose>			
 				</tbody>
-			</table>	
-			<div class="align-right">				
-				<button id="new_btn" class="btn-primary">등록</button>
-			</div>			
+			</table>				
 			<div class="pagenate">
 				<ul>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
