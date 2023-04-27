@@ -53,7 +53,7 @@
 
 	<mvc:interceptors>
 			<mvc:interceptor>
-				<mvc:mapping path="/user/join"/>
+				<mvc:mapping path="/join"/>
 				<bean class="com.ktds.fr.common.interceptors.BlockPageInterceptor"/>
 			</mvc:interceptor>
 		</mvc:interceptors>
