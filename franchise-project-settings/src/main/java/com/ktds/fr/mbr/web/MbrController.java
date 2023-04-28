@@ -19,6 +19,7 @@ import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.common.util.SessionManager;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -84,7 +85,7 @@ public class MbrController {
 	}
 	@GetMapping("/logout")
 	public String doLogout(@SessionAttribute("__MBR__")MbrVO mbrVO, HttpSession session) {
-		session.invalidate();
+		SessionManager.getInstance().destroySession(mbrVO.getMbrId());
 		LgnHistVO lgnHistVO = new LgnHistVO();
 		lgnHistVO.setLgnHistActn("logout");
 		lgnHistVO.setMbrId(mbrVO.getMbrId());

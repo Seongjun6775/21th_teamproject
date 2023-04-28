@@ -84,7 +84,7 @@
 			form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
 			form.append("<input type='hidden' name='mbrVO.mbrLvl' value='${hr.hrLvl}'>");
 			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
-			form.append("<input type='hidden' name='hrAprYn' value='N'>");
+			form.append("<input type='hidden' name='hrAprYn' value='Y'>");
 			$.post("${context}/api/hr/updateapr",  form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 채용 처리 되었습니다.");
@@ -110,8 +110,7 @@
 			if (!confirm("정말 미채용하시겠습니까?")) {
 				return;
 			}
-			/*  */
-			$.post("${context}/api/hr/updateapr", {hrId: "${hr.hrId}", hrAprYn : "N", mbrId: "${hr.mbrId}"}, function(response) {
+			$.post("${context}/api/hr/updateapr", {hrId: "${hr.hrId}", hrAprYn : "N"}, function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 미채용 처리 되었습니다.");
 					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
