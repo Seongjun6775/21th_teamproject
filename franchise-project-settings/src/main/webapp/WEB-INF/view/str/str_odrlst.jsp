@@ -46,7 +46,7 @@ $().ready(function() {
 	
 	
 	$("#btn-complete02").click(function() {
-		var checkLen = $(".check-id02x:checked").length;
+		var checkLen = $(".check-idx02:checked").length;
 		if (checkLen == 0) {
 			alert("선택된 항목이 없습니다.");
 			return;
@@ -55,23 +55,76 @@ $().ready(function() {
 			return;
 		}
 		
-		var form = $("<form></form>")
 		
-		$(".check-idx:checked").each(function() {
-			console.log($(this).val());
-			form.append("<input type='hiedden' name='odrLstList' value='" + $(this).val() + "'>");
+		var odrLstIdList = [];
+		$(".check-idx02:checked").each(function() {
+		    odrLstIdList.push($(this).val());
+		});
+		console.log(odrLstIdList);
+		var odrLstVO = {
+				"mdfyr" : "${mbrVO.mbrId}",
+				"odrLstOdrPrcs" : "003-03",
+				"odrLstIdList" : odrLstIdList
+		};
+		
+		// Ajax 요청
+		$.ajax({
+		    type: "POST",
+		    url: "${context}/api/odrLst/updateCheckAll",
+		    data: JSON.stringify(odrLstVO),
+            contentType: "application/json",
+		    success: function(response) {
+		        if (response.status == "200 OK") {
+		            location.reload(); //새로고침
+		        }
+		        else {
+					alert(response.errorCode + " / " + response.message);
+				}
+		    }
 		});
 		
-		$.post("${context}/api/prdt/updateAll", form.serialize(), function(response) {
-			if (response.status == "200 OK") {
-				location.reload(); //새로고침
-			}
-			else {
-				alert(response.errorCode + " / " + response.message);
-			}
-		});
+		
 	})
 	
+	$("#btn-cancle02").click(function() {
+		var checkLen = $(".check-idx02:checked").length;
+		if (checkLen == 0) {
+			alert("선택된 항목이 없습니다.");
+			return;
+		}
+		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
+			return;
+		}
+		
+		
+		var odrLstIdList = [];
+		$(".check-idx02:checked").each(function() {
+			console.log($(this).val());
+		    odrLstIdList.push($(this).val());
+		});
+		console.log(odrLstIdList);
+		var odrLstVO = {
+				"mdfyr" : "${mbrVO.mbrId}",
+				"odrLstOdrPrcs" : "003-03",
+				"odrLstIdList" : odrLstIdList
+		};
+		
+		// Ajax 요청
+		$.ajax({
+		    type: "POST",
+		    url: "${context}/api/odrLst/updateCheckAll",
+		    data: JSON.stringify(odrLstVO),
+            contentType: "application/json",
+		    success: function(response) {
+		        if (response.status == "200 OK") {
+		            location.reload(); //새로고침
+		        }
+		        else {
+					alert(response.errorCode + " / " + response.message);
+				}
+		    }
+		});
+	})
 	
 	
 });
@@ -142,7 +195,7 @@ function movePage(pageNo) {
 														<td>${ordLst.odrLstId}</td>							
 														<td>${ordLst.mbrId}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.odrLstRgstr}</td>							
+														<td>${ordLst.mdfyr}</td>							
 														<td>${ordLst.mdfyDt}</td>							
 													</tr>
 												</c:if>
@@ -193,7 +246,7 @@ function movePage(pageNo) {
 														<td>${ordLst.odrLstId}</td>							
 														<td>${ordLst.mbrId}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.odrLstRgstr}</td>							
+														<td>${ordLst.mdfyr}</td>							
 														<td>${ordLst.mdfyDt}</td>							
 													</tr>
 												</c:if>
@@ -244,7 +297,7 @@ function movePage(pageNo) {
 												<td>${ordLst.odrLstId}</td>							
 												<td>${ordLst.mbrId}</td>							
 												<td>${ordLst.odrLstRgstDt}</td>							
-												<td>${ordLst.odrLstRgstr}</td>							
+												<td>${ordLst.mdfyr}</td>							
 												<td>${ordLst.mdfyDt}</td>							
 											</tr>
 										</c:forEach>

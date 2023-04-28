@@ -46,7 +46,7 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut expression="execution(* com.ktdsuniversity..service.*ServiceImpl.*(..))" id="myPointCut"/>
+		<aop:pointcut expression="execution(* com.ktds..service.*ServiceImpl.*(..))" id="myPointCut"/>
 		<aop:advisor advice-ref="myAdvice" pointcut-ref="myPointCut"/>
 	</aop:config>
 

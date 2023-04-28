@@ -54,7 +54,7 @@ public class OdrLstVO extends AbstractVO{
 	/**
 	 * 상태변경 할 주문서 목록
 	 */
-	private List<OdrLstVO> odrLstList;
+	private List<String> odrLstIdList;
 	/**
 	 * 주문서 안의 물품들 정보
 	 */
@@ -148,12 +148,12 @@ public class OdrLstVO extends AbstractVO{
 		this.strVO = strVO;
 	}
 
-	public List<OdrLstVO> getOdrLstList() {
-		return odrLstList;
+	public List<String> getOdrLstIdList() {
+		return odrLstIdList;
 	}
 
-	public void setOdrlstList(List<OdrLstVO> odrLstList) {
-		this.odrLstList = odrLstList;
+	public void setOdrlstIdList(List<String> odrLstIdList) {
+		this.odrLstIdList = odrLstIdList;
 	}
 
 	public List<OdrDtlVO> getOdrDtlList() {

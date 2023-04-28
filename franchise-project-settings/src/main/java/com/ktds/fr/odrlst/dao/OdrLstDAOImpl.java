@@ -75,6 +75,12 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO) {
 		return getSqlSession().selectList("OdrLst.readAllOdrLstForStr", odrLstVO);
 	}
+
+	@Override
+	public int updateCheckAll(OdrLstVO odrLstVO) {
+		return getSqlSession().update("OdrLst.updateCheckAll", odrLstVO);
+	}
+
 	
 	
 }

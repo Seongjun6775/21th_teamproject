@@ -160,6 +160,7 @@ public class StrController {
 		List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
 		
 		
+		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("strVO", strVO);
 		model.addAttribute("ordLstList", ordLstList);
 		model.addAttribute("ordLstCompleteList", ordLstCompleteList);

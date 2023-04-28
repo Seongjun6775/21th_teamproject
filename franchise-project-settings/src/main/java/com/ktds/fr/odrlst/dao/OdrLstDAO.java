@@ -31,6 +31,6 @@ public interface OdrLstDAO {
 	 * 매장용
 	 */
 	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO);
-	
+	public int updateCheckAll(OdrLstVO odrLstVO);
 	
 }

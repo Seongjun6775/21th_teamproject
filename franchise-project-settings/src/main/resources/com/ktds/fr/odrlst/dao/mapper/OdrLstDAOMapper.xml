@@ -189,7 +189,18 @@
 		</choose>
 	</select>
 	
-	
+	<update id="updateCheckAll"
+			parameterType="arrayList">
+		UPDATE ODR_LST 
+		   SET ODR_LST_ODR_PRCS = #{odrLstOdrPrcs} 
+		     , MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr} 
+		 WHERE ODR_LST_ID IN 
+		<foreach item="odrId" collection="odrLstIdList"
+		    open="(" separator=", " close=")">
+		  #{odrId} 
+		</foreach>
+	</update>
 	
 	
 	

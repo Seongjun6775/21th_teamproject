@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -70,6 +71,20 @@ public class RestOdrLstController {
 		}
 		
 		boolean isSuccess = odrLstService.deleteOneOdrLstByOdrLstId(odrLstId);
+		
+		if (isSuccess) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		return new ApiResponseVO(ApiStatus.FAIL);
+		
+	}
+	
+	// 중,하 관리자의 주문서 상태변경 시 사용
+	@PostMapping("/api/odrLst/updateCheckAll")
+	public ApiResponseVO updateCheckAll(@RequestBody OdrLstVO ordLstVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		
+		boolean isSuccess = odrLstService.updateCheckAll(ordLstVO);
 		
 		if (isSuccess) {
 			return new ApiResponseVO(ApiStatus.OK);
