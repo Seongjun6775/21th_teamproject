@@ -256,7 +256,8 @@ img {
     	
     }
 }
-/*Grid*/
+/* /*Grid*/
+/* 
 .content > .path{
 	padding: 15px;
 	background-color: #ffff80;
@@ -302,10 +303,10 @@ img {
 	margin-top: 10px;
 }
 .content .grid-detail:before {
-	/* content: "상세정보"; */
+	content: "상세정보";
 	font-size: 13pt;
 	font-weight: bold;
-}
+} */
 /*Search*/
 .search-group{
 	display: flex;
@@ -364,7 +365,7 @@ img {
 	margin-right: 10px;
 }
 /*pagenation*/
-.pagenate{
+/* .pagenate{
 	display: flex;
 	margin-top: 10px;
 	justify-content: center;
@@ -387,7 +388,7 @@ img {
 }
 .pagenate ul li a.on{
 	font-weight: bold;
-}
+} */
 
 /*check*/
 .checkGroup{
