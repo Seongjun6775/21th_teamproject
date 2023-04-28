@@ -35,13 +35,18 @@ public class OdrDtlController {
 		// 접근한 계정이 주문서를 작성한 회원 본인일 경우, 회원이 주문한 물품들의 정보를 보여줍니다.
 		if (mbrVO.getMbrLvl().equals("001-04")) {
 			
+			// 접근한 주문서의 모든 물품 목록을 가져옵니다.
 			odrDtlVO.setMbrId(mbrVO.getMbrId());
 			odrDtlVO.setOdrLstId(odrLstId);
 			List<OdrDtlVO> odrDtlList = odrDtlService.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
 			
+			// 주문서의 주문 상태 역시 함께 가져옵니다. (결제 여부 확인 시에 사용합니다.)
+			OdrLstVO odrPrcs = odrDtlService.getOdrPrcs(odrLstId);
+			
 			model.addAttribute("odrDtlList", odrDtlList);
 			model.addAttribute("odrLstId", odrLstId);
 			model.addAttribute("odrDtlVO", odrDtlVO);
+			model.addAttribute("odrPrcs", odrPrcs);
 			model.addAttribute("mbrVO", mbrVO);
 			
 			return "odrdtl/odrdtllist";
@@ -55,10 +60,15 @@ public class OdrDtlController {
 		
 		// 해당 주문 상세에 대한 정보를 받아옵니다.
 		OdrDtlVO odrDtl = odrDtlService.readOneOdrDtlByOdrDtlId(odrDtlId);
+		
+		// 해당 주문이 포함된 주문서의 주문 상태도 가져옵니다.
+		OdrLstVO odrPrcs = odrDtlService.getOdrPrcs(odrDtl.getOdrLstId());
+		
 		// 접근한 계정이 해당 주문 상세의 작성자가 맞는지 확인합니다.
 		if (mbrVO.getMbrLvl().equals("001-04") && odrDtl.getMbrId().equals(mbrVO.getMbrId())) {
 			model.addAttribute("odrDtl", odrDtl);
 			model.addAttribute("mbrVO", mbrVO);
+			model.addAttribute("odrPrcs", odrPrcs);
 			
 			return "odrdtl/odrdtl";
 		}

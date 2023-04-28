@@ -75,6 +75,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	}
 	
 	@Override
+	public OdrLstVO getOdrPrcs(String odrLstId) {
+		return odrLstDAO.getOdrPrcs(odrLstId);
+	}
+	
+	@Override
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId) {
 		return odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlId);
 	}
@@ -98,6 +103,13 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId) {
 		return odrDtlDAO.deleteOdrDtlBySelectedDtlId(odrDtlId) > 0;
 	}
+	
+	@Override
+	public boolean deleteOneOdrLstByOdrLstId(String odrLstId) {
+		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstId) > 0;
+	}
+	
+	
 	
 	
 	

@@ -18,6 +18,12 @@ public interface OdrLstDAO {
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO);
 	
 	public OdrLstVO isThisMyOdrLst(String odrLstId);
+	/**
+	 * 주문서 ID를 기준으로 현재 주문 상태를 받아옵니다.(OdrDtlController에서 사용합니다.)
+	 * @param odrLstId 주문서 ID
+	 * @return odrLstOdrPrcs(주문 처리 상태)
+	 */
+	public OdrLstVO getOdrPrcs(String odrLstId);
 	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);
 	
