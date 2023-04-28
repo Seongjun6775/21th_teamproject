@@ -18,7 +18,7 @@ public class OdrPrcsHistDAOImpl extends SqlSessionDaoSupport implements OdrPrcsH
 	
 	@Override
 	public int create(OdrPrcsHistVO odrPrcsHistVO) {
-		return getSqlSession().insert("OrdPrcsHist.create", odrPrcsHistVO);
+		return getSqlSession().insert("OdrPrcsHist.create", odrPrcsHistVO);
 	}
 
 }

@@ -12,11 +12,20 @@
 		     , ODR_PRCS_HIST_RDR_PRCS 
 		     , MDFYR 
 		     , MDFY_DT) 
-		VALUES('OP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_PRCS_HIST_PK.NEXTVAL, 5, '0') 
-		     , #{odrLstId} 
-		     , #{odrPrcsHistRdrPrcs} 
-		     , #{mdfyr} 
-		     , SYSDATE ) 
+		SELECT 'OP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_PRCS_HIST_PK.NEXTVAL, 5, '0') 
+		     , ODR_LST_ID 
+		     , #{odrPrcsHistRdrPrcs}
+		     , #{mdfyr}
+		     , SYSDATE 
+	      FROM (
+	     <foreach collection="odrLstIdList" 
+		    		item="odrLstId" 
+			        separator=" UNION ALL ">
+	        SELECT #{odrLstId} ODR_LST_ID 
+	          FROM DUAL
+	    </foreach>
+				)
+		     
 	</insert>
 
 </mapper>

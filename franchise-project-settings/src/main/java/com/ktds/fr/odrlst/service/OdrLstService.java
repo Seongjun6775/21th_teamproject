@@ -28,5 +28,6 @@ public interface OdrLstService {
 	 */
 	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO);
 	public boolean updateCheckAll(OdrLstVO odrLstVO);
+	public List<OdrLstVO> completeOdrForStr(OdrLstVO odrLstVO);
 	
 }

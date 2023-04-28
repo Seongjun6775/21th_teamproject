@@ -32,5 +32,6 @@ public interface OdrLstDAO {
 	 */
 	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO);
 	public int updateCheckAll(OdrLstVO odrLstVO);
+	public List<OdrLstVO> completeOdrForStr(OdrLstVO odrLstVO);
 	
 }

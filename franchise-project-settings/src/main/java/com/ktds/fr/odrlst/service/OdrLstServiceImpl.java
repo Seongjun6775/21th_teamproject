@@ -86,4 +86,9 @@ public class OdrLstServiceImpl implements OdrLstService {
 		return isSuccess;
 	}
 
+	@Override
+	public List<OdrLstVO> completeOdrForStr(OdrLstVO odrLstVO) {
+		return odrLstDAO.completeOdrForStr(odrLstVO);
+	}
+
 }

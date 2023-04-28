@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${strVO.strNm} - 주문하기</title>
+<title>${strVO.strNm} - 주문 전체보기</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
@@ -232,161 +232,43 @@ function movePage(pageNo) {
 			<br>
 			
 			<div class="flex full">
-				<div class="half-left">
-					<div class="half-top div-table">
-						<div class="topline">
-							<div class="inline-block">주문접수</div>
-							<div class="inline-block">
-								<button id="btn-complete02" 
-										class="btn-primary btn-create" 
-										style="vertical-align: top;">주문처리</button>
-										
-								<button id="btn-cancle02" 
-										class="btn-primary btn-delete" 
-										style="vertical-align: top;">주문취소</button>
-							</div>
-						</div>
-						
-						<div class="overflow">
-							<table>
-								<thead>
-									<tr>
-										<th><input type="checkbox" id="all-check02"/></th>
-										<th>주문서ID</th>
-										<th>주문자</th>
-										<th>주문날짜</th>
-										<th>처리자</th>
-										<th>처리날짜</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${not empty ordLstList}">
-											<c:forEach items="${ordLstList}"
-														var="ordLst">
-												<c:if test="${ordLst.odrLstOdrPrcs eq '003-02'}">
-													<tr>
-														<td class="align-center">
-															<input type="checkbox" class="check-idx02" value="${ordLst.odrLstId}" />
-														</td>
-														<td>${ordLst.odrLstId}</td>							
-														<td>${ordLst.mbrId}</td>							
-														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.mdfyr}</td>							
-														<td>${ordLst.mdfyDt}</td>							
-													</tr>
-												</c:if>
-											</c:forEach>
-										</c:when>
-									</c:choose>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					
-					<div class="half-bottom div-table">
-						<div class="topline">
-							<div class="inline-block">주문처리</div>
-							<div class="inline-block">
-								<button id="btn-complete03" 
-										class="btn-primary btn-create" 
-										style="vertical-align: top;">처리완료</button>
-										
-								<button id="btn-cancle03" 
-										class="btn-primary btn-delete" 
-										style="vertical-align: top;">주문취소</button>
-							</div>
-						</div>
-						
-						<div class="overflow">
-							<table>
-								<thead>
-									<tr>
-										<th><input type="checkbox" id="all-check03"/></th>
-										<th>주문서ID</th>
-										<th>주문자</th>
-										<th>주문날짜</th>
-										<th>처리자</th>
-										<th>처리날짜</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${not empty ordLstList}">
-											<c:forEach items="${ordLstList}"
-														var="ordLst">
-												<c:if test="${ordLst.odrLstOdrPrcs eq '003-03'}">
-													<tr>
-														<td class="align-center">
-															<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
-														</td>
-														<td>${ordLst.odrLstId}</td>							
-														<td>${ordLst.mbrId}</td>							
-														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.mdfyr}</td>							
-														<td>${ordLst.mdfyDt}</td>							
-													</tr>
-												</c:if>
-											</c:forEach>
-										</c:when>
-									</c:choose>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			
-				<div class="half-right div-table">
-					<div class="topline">
-						<div class="inline-block">처리완료</div>
-					</div>
-					
-					<div class="overflow">
-						<table>
-							<thead>
-								<tr>
-									<th>주문서ID</th>
-									<th>주문자</th>
-									<th>주문날짜</th>
-									<th>처리자</th>
-									<th>처리날짜</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:choose>
-									<c:when test="${not empty ordLstCompleteList}">
-										<c:forEach items="${ordLstCompleteList}"
-													var="ordLst">
-											<tr>
-												<td>${ordLst.odrLstId}</td>							
-												<td>${ordLst.mbrId}</td>							
-												<td>${ordLst.odrLstRgstDt}</td>							
-												<td>${ordLst.mdfyr}</td>							
-												<td>${ordLst.mdfyDt}</td>							
-											</tr>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-							</tbody>
-						</table>
-					</div>
+				<div class="overflow">
+					<table>
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="all-check03"/></th>
+								<th>처리상태</th>
+								<th>주문서ID</th>
+								<th>주문자</th>
+								<th>주문날짜</th>
+								<th>처리자</th>
+								<th>처리날짜</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${not empty ordLstList}">
+									<c:forEach items="${ordLstList}"
+												var="ordLst">
+										<tr>
+											<td class="align-center">
+												<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
+											</td>
+											<td>${ordLst.odrLstOdrPrcs}</td>							
+											<td>${ordLst.odrLstId}</td>							
+											<td>${ordLst.mbrId}</td>							
+											<td>${ordLst.odrLstRgstDt}</td>							
+											<td>${ordLst.mdfyr}</td>							
+											<td>${ordLst.mdfyDt}</td>							
+										</tr>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</tbody>
+					</table>
 				</div>
 			</div>
 					
-	
 	
 	
 			<jsp:include page="../include/footer.jsp"></jsp:include>
