@@ -32,6 +32,8 @@
         <div class="collapse" id="dashboard-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li class="rounded"><a href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장관리</a></li>
+            <li class="rounded"><a href="${context}/str/odrlst" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문관리</a></li>
+            <li class="rounded"><a href="${context}/str/completeOdr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">처리주문조회</a></li>
             <li class="rounded"><a href="${context}/prdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴관리</a></li>
             <li class="rounded"><a href="${context}/evnt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">이벤트관리</a></li>
             <li class="rounded"><a href="${context}/rv/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">리뷰관리</a></li>
