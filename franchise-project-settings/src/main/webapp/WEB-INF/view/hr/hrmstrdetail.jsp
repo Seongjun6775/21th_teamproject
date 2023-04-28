@@ -135,7 +135,7 @@
 	        </div>
       	</div>
 			
-		<div class="bg-white rounded shadow-sm" style=" padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+		<div class="bg-white rounded shadow-sm" style="width: 50%; padding: 23px 18px 23px 18px; overflow: auto;  margin:20px; display:inline-block">
 			<div style="padding:10px;">
 				<span class="fs-5 fw-bold">${hr.hrTtl}</span>
 				<div class="hr_detail_header">(${hr.hrId})</div>
@@ -145,7 +145,7 @@
 			
 			<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
 				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
-				<div class="hr_detail_header">최종 수정일 : ${hr.hrMdfyDt}</div>
+				<%-- <div class="hr_detail_header">최종 수정일 : ${hr.hrMdfyDt}</div> --%>
 				<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
 				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
 			</div>
@@ -163,32 +163,67 @@
 				
 				<div style="padding: 10px;">
 					<div class="fw-semibold" style="margin-bottom: 100px; height:250px; overflow: auto;">${hr.hrCntnt}</div>
-					
-					<div>
-						
-						
-						<div>
-						<div class="hr_detail_header">지원 직군 : ${hr.cdNm}</div>
-						<div class="hr_detail_header">승인 여부 : ${hr.hrAprYn}</div>
-						<c:choose>
-							<c:when test="${hr.hrStat eq '002-01'}"><div>지원 상태 : 접수</div></c:when>
-							<c:when test="${hr.hrStat eq '002-02'}"><div>지원 상태 : 심사중</div></c:when>
-							<c:when test="${hr.hrStat eq '002-03'}"><div>지원 상태 : 심사완료</div></c:when>
-							<c:otherwise></c:otherwise>
-						</c:choose>
-						<div class="hr_detail_header">승인 여부 변경 일자 : ${hr.hrAprDt}</div>
-					</div>
-					</div>
-			
-					
 				</div>
-				</div>
-				<div style="margin: 0 0 10px 20px;">
+				<div class="bg-white rounded shadow-sm" style="height:250px; width: 500px; padding: 23px 18px 23px 18px; overflow: auto;  margin:20px; display:inline-block">
+				<div style="margin-top: 10px">
+					<div style="padding:10px; ">
+						<div style="padding: 10px;">
+							<div>
+							<div class="container text-center margin-bottom: 20px">
+							  <div class="row">
+							    <div class="col border border-secondary">
+							      지원 직군
+							    </div>
+							    <div class="col border border-secondary">
+							      ${hr.cdNm}
+							    </div>
+							  </div>
+							  <div class="row">
+							    <div class="col border border-secondary">
+							      지원 상태
+							    </div>
+							    <div class="col border border-secondary">
+								    <c:choose>
+										<c:when test="${hr.hrStat eq '002-01'}"><div>접수</div></c:when>
+										<c:when test="${hr.hrStat eq '002-02'}"><div>심사중</div></c:when>
+										<c:when test="${hr.hrStat eq '002-03'}"><div>심사완료</div></c:when>
+										<c:otherwise></c:otherwise>
+									</c:choose>
+							    </div>
+							  </div>
+							  <div class="row">
+							    <div class="col border border-secondary">
+							      승인여부
+							    </div>
+							    <div class="col border border-secondary">
+							      ${hr.hrAprYn}
+							    </div>
+							  </div>
+							  <div class="row">
+							    <div class="col border border-secondary">
+							      승인 여부 변경 일자
+							    </div>
+							    <div class="col border border-secondary">
+							      ${hr.hrAprDt}
+							    </div>
+							  </div>
+							</div>
+							
+							</div> 
+						</div>
+						</div>
+					</div>
+					
+				</div>	
+					
+			</div>
+			<div style="margin: 0 0 10px 20px; float: right;">
 					<button id="hrApr_Y_btn" class="btn btn-success">채용</button>
 					<button id="hrApr_N_btn" class="btn btn-danger">미채용</button>
-				</div>
 			</div>
-			<jsp:include page="../include/footer.jsp" />
+			</div>
 		</div>
+
+
 <jsp:include page="../include/closeBody.jsp" />
 </html>
