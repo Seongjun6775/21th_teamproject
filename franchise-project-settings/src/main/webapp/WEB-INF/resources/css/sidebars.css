@@ -64,7 +64,7 @@ main {
 }
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
-  background-color: var(--bs-tertiary-bg);
+  background-color: #fff0 !important;
 }
 
 .scrollarea {
@@ -142,25 +142,25 @@ main {
         z-index: 1500;
       }
 
-      .btn-toggle:hover{
-        background-color: var(--bs-tertiary-color) !important;
+        .btn-toggle:hover{
+        background-color: #fff0 !important;
       }
 
       .btn-toggle:focus{
-        background-color: var(--bs-tertiary-color) !important;
+        background-color: #fff0 !important;
       }
 
       .collapse > ul > li:hover{
-        background-color: var(--bs-tertiary-color) !important;
+        background-color: #fff0 !important;
       }
       .collapse > ul > li:focus{
-        background-color: var(--bs-tertiary-color) !important;
+        background-color: #fff0 !important;
       }
       .collapse > ul > li > a:hover {
-        background-color: #fff0 !important;
+        background-color: var(--bs-tertiary-color) !important;
       }
       .collapse > ul > li > a:focus {
-        background-color: #fff0 !important;
+        background-color: var(--bs-tertiary-color) !important;
       }
       
       .pagenate{
@@ -174,4 +174,5 @@ main {
       }
       .collapsing{
         margin-left: 10px;
-      } 
+        background-color: #fff0 !important;
+      }
