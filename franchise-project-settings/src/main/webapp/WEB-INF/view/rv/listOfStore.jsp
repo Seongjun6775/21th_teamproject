@@ -91,8 +91,7 @@
 					</div>			
 					<div class="search-row-group">
 						<div class="search-group">
-							<select id="search_option" name="searchOption">					
-								<option value="strNm">매장명</option>					
+							<select id="search_option" name="searchOption">										
 								<option value="mbrId">회원ID</option>									
 							</select>
 							<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
