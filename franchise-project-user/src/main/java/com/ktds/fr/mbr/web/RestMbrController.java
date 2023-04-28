@@ -21,6 +21,7 @@ import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.service.MailSendService;
+import com.ktds.fr.common.util.SessionManager;
 import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
 
@@ -37,7 +38,7 @@ public class RestMbrController {
 	private MailSendService mailService;
 
 	//회원 로그인
-	@PostMapping("/api/mbr/login")
+	@PostMapping("/mbr/login")
 	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {
 		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
@@ -53,6 +54,7 @@ public class RestMbrController {
 		}else {
 			mbr.setMbrRcntLgnIp(request.getRemoteAddr());
 			session.setAttribute("__MBR__", mbr);
+			SessionManager.getInstance().addSession(mbr.getMbrId(), session);
 		}
 		return new ApiResponseVO(ApiStatus.OK, "/");
 	}
