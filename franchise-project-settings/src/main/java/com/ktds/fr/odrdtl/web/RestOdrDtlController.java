@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -15,6 +14,7 @@ import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @RestController
@@ -23,18 +23,28 @@ public class RestOdrDtlController {
 	@Autowired
 	private OdrDtlService odrDtlService;
 	
-	@PostMapping("/api/odrdtl/delete")
-	public ApiResponseVO deleteOdrDtlBySelectedDtlId(@RequestParam List<String> odrDtlId) {
+	@PostMapping("/api/odrdtl/delete/{odrLstId}")
+	public ApiResponseVO deleteAllOdrDtlByOdrLstId(@PathVariable String odrLstId,
+												   @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
-		boolean isSuccess = odrDtlService.deleteOdrDtlBySelectedDtlId(odrDtlId);
+		// 삭제 요청이 들어온 주문서를 생성한 계정의 ID를 받아옵니다.
+		OdrLstVO mbrId = odrDtlService.isThisMyOdrLst(odrLstId);
+		// 주문서를 생성한 사람과 삭제를 요청한 사람이 같은 사람인지 확인합니다.
+		if (!mbrId.getMbrId().equals(mbrVO.getMbrId())) {
+			// 만약 다르다면, 요청을 거부합니다.
+			throw new ApiException("400", "권한이 없습니다.");
+		}
+		
+		boolean isSuccess = odrDtlService.deleteAllOdrDtlByOdrLstId(odrLstId);
 		
 		if (isSuccess) {
+			odrDtlService.deleteOneOdrLstByOdrLstId(odrLstId);
 			return new ApiResponseVO(ApiStatus.OK);
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
 	
-	@PostMapping("/api/odrdtl/delete/{odrDtlId}")
+	@PostMapping("/api/odrdtl/deleteone/{odrDtlId}")
 	public ApiResponseVO deleteOneOdrDtlByOdrDtlId(@SessionAttribute("__MBR__") MbrVO mbrVO
 												, @PathVariable String odrDtlId) {
 		

@@ -65,9 +65,19 @@ public interface OdrDtlService {
 	public boolean deleteOneOdrDtlByOdrDtlId(String odrDtlId);
 	
 	/**
+	 * 주문서 ID를 기준으로 주문서 내의 모든 상품들을 삭제합니다.
+	 * @param odrLstId 주문서 ID
+	 * @return 삭제 여부
+	 */
+	public boolean deleteAllOdrDtlByOdrLstId(String odrLstId);
+	
+	/**
 	 * 주문 상세 ID를 기준으로 선택한 주문들을 삭제합니다.
 	 * @param odrDtlId 주문 상세 ID
 	 * @return 삭제 여부
+	 * 
+	 * 전체 삭제 기능이 생긴 관계로, 지금은 사용하지 않는 기능입니다.
+	 * 
 	 */
 	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId);
 	

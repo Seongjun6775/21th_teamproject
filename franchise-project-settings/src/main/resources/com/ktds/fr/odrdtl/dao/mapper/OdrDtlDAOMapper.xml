@@ -128,6 +128,14 @@
 		 WHERE ODR_DTL_ID = #{odrDtlId}
 	</update>
 	
+	<update id="deleteAllOdrDtlByOdrLstId"
+			parameterType="string">
+		UPDATE ODR_DTL
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_LST_ID = #{_parameter}
+	</update>
+	
+	
 	<update id="deleteOdrDtlBySelectedDtlId"
 			parameterType="arraylist">
 		UPDATE ODR_DTL
