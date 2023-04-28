@@ -81,10 +81,12 @@ public class RestHrController {
 			throw new ApiException("500", "권한이 없습니다.");
 		}
 		// 최고관리자가 맞다면, 채용 여부를 수정하고 결과를 받아옵니다.
-		if(hrVO.getMbrVO().getMbrLvl().equals("005-01")) {
-			hrVO.getMbrVO().setMbrLvl("001-02");
-		}else if(hrVO.getMbrVO().getMbrLvl().equals("005-02")) {
-			hrVO.getMbrVO().setMbrLvl("001-03");
+		if(hrVO.getHrAprYn().equals("Y")) {
+			if(hrVO.getMbrVO().getMbrLvl().equals("005-01")) {
+				hrVO.getMbrVO().setMbrLvl("001-02");
+			}else if(hrVO.getMbrVO().getMbrLvl().equals("005-02")) {
+				hrVO.getMbrVO().setMbrLvl("001-03");
+			}
 		}
 		boolean isSuccess = hrService.updateHrAprByHrId(hrVO);
 		
