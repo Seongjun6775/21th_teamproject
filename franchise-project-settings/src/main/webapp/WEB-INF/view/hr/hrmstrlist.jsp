@@ -38,7 +38,7 @@
 			$("#layer_popup").hide();
 		});
 		
-		$(".btn").click(function() {
+		$("#create-btn").click(function() {
 			location.href="${context}/hr/hrcreate"
 		});
 		
@@ -88,12 +88,7 @@
 </script>
 
 </head>
-<body class="bg-dark bg-opacity-10">
-<jsp:include page="../include/logo.jsp" />
-<main class="d-flex flex-nowrap ">
-	<jsp:include page="../include/sidemenu.jsp" />		
-	<div style="margin:0px 0px 0px 250px; width: 100%;">
-		<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
 			<span class="fs-5 fw-bold">master 채용 페이지 테스트</span>
 	    </div>
@@ -231,12 +226,11 @@
 					</nav>
 				</div>
 					<div style="position: absolute;right: 0;top: 0;">
-            			<button type="button" class="btn btn-secondary">작성</button>
+            			<button id="create-btn" type="button" class="btn btn-secondary">작성</button>
 	          		</div>
 			</div>
-			</div>
-	</div>
-	</main>
+		</div>
+			
 		<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
@@ -246,6 +240,6 @@
 				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
 			</div>
 		</div>
-	</div>
-</body>
+		</div>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
