@@ -164,13 +164,14 @@
 					<table>
 						<thead>
 							<tr>
-								<th style="width: 50px"><input type="checkbox" id="all-check" /></th>
+								<!--<th style="width: 50px"></th>-->
+								<!-- <input type="checkbox" id="all-check"/> -->
 								<th style="width: 200px">이벤트 ID</th>
 								<th style="width: 300px">이벤트 제목</th>
 								<th style="width: 400px">이벤트 내용</th>
 								<th style="width: 200px">시작일</th>
 								<th style="width: 200px">종료일</th>
-<!-- 								<th style="width: 100px">사진</th> -->
+<!-- 							<th style="width: 100px">사진</th> -->
 								<th style="width: 80px">사용유무</th>
 
 							</tr>
@@ -180,9 +181,9 @@
 								<c:when test="${not empty evntList}">
 									<c:forEach items="${evntList}" var="evnt">
 										<tr>
+										    <!-- <td class="firstcell" style="text-align:center;"> --> 
+											<!-- <input type="checkbox" class="check-idx" value="${evnt.evntId}" /></td> -->
 
-											<td class="firstcell" style="text-align:center;"><input type="checkbox"
-												class="check-idx" value="${evnt.evntId}" /></td>
 											<td style="text-align:center;">${evnt.evntId}</td>
 											<td style="text-align:center;"><a href="${context}/evnt/detail/${evnt.evntId}">${evnt.evntTtl}</a></td>
 											<td style="text-align:center;">${evnt.evntCntnt}</td>
@@ -196,7 +197,7 @@
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="7">등록된 이벤트가 없습니다.</td>
+										<td colspan="6">등록된 이벤트가 없습니다.</td>
 									</tr>
 								</c:otherwise>
 							</c:choose>
@@ -246,7 +247,7 @@
 					</c:if>
 				</div>
 				<div>
-					<button id="btn-checkEvnts" class="btn-primary">체크 이벤트..</button>
+	 			<%-- 	<button id="btn-checkEvnts" class="btn-primary">체크 이벤트..</button>--%>
 				</div>
 				<div>
 					<button id="btn-ongoingList" class="btn-primary">이용자 페이지로 이동</button>

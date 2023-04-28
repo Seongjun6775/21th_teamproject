@@ -50,20 +50,14 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 										+ pageNum;
 							}
 						});
-				//현재진행중 이벤트 확인          
-				$("#btn-ongoingEvntList").click(function() {
+				//종료 이벤트 확인          
+				$("#btn-pastEvnt").click(function() {
 					location.href = "${context}/evnt/pastEvntList";
 				});
-				//과거 이벤트 확인
-				$("#btn-pastEvntList").click(function() {
-					location.href = "${context}/evnt/pastEvntList";
-				});
-				//진행예정중인 이벤트 확인
-				$("#btn-planEvntList").click(function() {
+				//미래 이벤트 확인
+				$("#btn-planEvnt").click(function() {
 					location.href = "${context}/evnt/planEvntList";
 				});
-				
-				//사진 검색 
 				$("#picture").click(function() {
 					var data = $(this).data();
 					location.href = "${context}/evnt/detail/" + data.evntid;
@@ -73,6 +67,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 		location.href = "${context}/evnt/list?pageNo=" + (pageNum);
 	}
 </script>
+
 <script>
 
 $(document).ready(function(){
@@ -91,18 +86,6 @@ $(document).ready(function(){
 
 </script>
 
-<script>
- $(function(){
-    $("div").slice(0, 1).show(); // 초기갯수
-    $("#more").click(function(e){ // 클릭시 more
-        e.preventDefault();
-        $("div:hidden").slice(0, 1).show(); // 클릭시 more 갯수 지저정
-        if($("div:hidden").length == 0){ // 컨텐츠 남아있는지 확인
-            alert("게시물의 끝입니다."); // 컨텐츠 없을시 alert 창 띄우기 
-        }
-    });
-});
-</script>
 
 </head>
 <body>
@@ -120,66 +103,59 @@ $(document).ready(function(){
 				  </p>
 				<div>총 ${evntList.size() > 0 ? evntList.get(0).totalCount : 0}건</div>
 			</div>
+			<div class="content">
 			
-			<!-- 여기부터 -->
 			<div class="container">
 
 	<ul class="tabs">
-		<li class="tab-link current" data-tab="tab-1"><a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a></li>
-		<li class="tab-link" data-tab="tab-2"><a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a></li>
+		<li class="tab-link " data-tab="tab-1"><a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a></li>
+		<li class="tab-link current" data-tab="tab-2"><a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a></li>
 		<li class="tab-link" data-tab="tab-3"><a href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a></li>
 	</ul>
 
-	<div id="tab-1" class="tab-content current">
+	<div id="tab-1" class="tab-content ">
 	</div>
-	<div id="tab-2" class="tab-content">
+	<div id="tab-2" class="tab-content current">
 	</div>
-	<div id="tab-3" class="tab-content">`
+	<div id="tab-3" class="tab-content">
 	</div>
 
-</div>
-<div>
-</div>
-			<!-- 여기까지 -->
-<!-- 			<div class="buttons"> -->
-<!-- 			<button type="button" id="btn-ongoingEvntList" class="btn-primary" style="width:100%;">진행중인 이벤트</button> -->
-<!-- 			<button type="button" id="btn-pastEvntList" class="btn-primary" style="width:100%;">종료된 이벤트</button> -->
-<!-- 			<button type="button" id="btn-planEvntList" class="btn-primary" style="width:100%;">진행예정 이벤트</button> -->
+</div>			
 			
-<!-- 			</div> -->
-			<div class="content">
-				<div class="search-group">
-					<div>
-						<form action="${context}/evnt/list" method="post">
+			
+<!-- 				<div class="search-group"> -->
+<!-- 					<div> -->
+<%-- 						<form action="${context}/evnt/list" method="post"> --%>
 <!-- 							<nav class="nav-tabs"> -->
 <!-- 							<ul> -->
-<!-- 								<li class="ongoingt"> -->
-<%-- 									<a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a> --%>
+<!-- 								<li class="ongoing"> -->
+<%-- 									<a href="${context}/evnt/ongoingList">진행중인 이벤트</a> --%>
 <!-- 								</li> -->
 <!-- 								<li> -->
-<%-- 								 	<a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a> --%>
+<%-- 								 	<a href="${context}/evnt/pastEvntList">종료된 이벤트</a> --%>
 <!-- 								</li> -->
 <!-- 								<li> -->
-<%-- 									<a href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a> --%>
-<!-- 								</li>			 -->
+<%-- 									<a href="${context}/evnt/planEvntList">진행예정 이벤트</a> --%>
+<!-- 								</li> -->
+							
 <!-- 								</ul>						 -->
 <!-- 							</nav> -->
-						<!-- 페이지 네이션을 위한 Hidden 데이터 -->
-							<input id="viewCnt" name="viewCnt" value="${viewCnt}"
-								type="hidden" /> <input id="pageCnt" name="pageCnt"
-								value="${pageCnt}" type="hidden" /> <input id="pageNo"
-								name="pageNo" value="${pageNo}" type="hidden" /> <input
-								id="totalCount" name="totalCount" value="${totalCount}"
-								type="hidden" /> <input id="lastPage" name="lastPage"
-								value="${lastPage}" type="hidden" /> <input id="lastGroup"
-								name="lastGroup" value="${lastGroup}" type="hidden" />
+<!-- 						페이지 네이션을 위한 Hidden 데이터 -->
+<%-- 							<input id="viewCnt" name="viewCnt" value="${viewCnt}" --%>
+<!-- 								type="hidden" /> <input id="pageCnt" name="pageCnt" -->
+<%-- 								value="${pageCnt}" type="hidden" /> <input id="pageNo" --%>
+<%-- 								name="pageNo" value="${pageNo}" type="hidden" /> <input --%>
+<%-- 								id="totalCount" name="totalCount" value="${totalCount}" --%>
+<!-- 								type="hidden" /> <input id="lastPage" name="lastPage" -->
+<%-- 								value="${lastPage}" type="hidden" /> <input id="lastGroup" --%>
+<%-- 								name="lastGroup" value="${lastGroup}" type="hidden" /> --%>
 
-						</form>
-					</div>
+<!-- 						</form> -->
+<!-- 					</div> -->
 				
 
-					<!--             </form> -->
-				</div>
+<!-- 					            </form> -->
+<!-- 				</div> -->
 				<div class="grid" style="clear:both:">
 					<c:choose>
 						<c:when test="${not empty evntList}">
@@ -225,13 +201,9 @@ $(document).ready(function(){
 							</tr>
 						</c:otherwise>
 					</c:choose>
-				</div>		
-				
-					<div class="button">
-					
-				<div></div>
-				<button class="more" id="more" type="button" onclick="paging.view();">더보기</button>
-				</div>	
+
+
+				</div>
 
 <!-- 				<div class="pagenate"> -->
 <!-- 					<ul> -->
@@ -286,8 +258,8 @@ $(document).ready(function(){
 			</div>
 			 --%>
 
-			</div>			
-			
+
+			</div>
 <%-- 			<jsp:include page="../include/footer.jsp" /> --%>
 <!-- 		</div> -->
 	</div>
