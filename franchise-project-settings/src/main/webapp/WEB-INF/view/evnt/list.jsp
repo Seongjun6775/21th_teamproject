@@ -30,11 +30,9 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 						$(".check-idx").change(function() {
 											var count = $(".check-idx").length;
 											var checkCount = $(".check-idx:checked").length;
-
 											$("#all-check").prop("checked",
 													count == checkCount);
 										});
-
 						//이벤트 리스트 조회(검색)
 						$("#btn-init").click(function() {
 							document.getElementById("evntTtl").value = "";
@@ -43,18 +41,15 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 							document.getElementById("evntEndDt").value = "";
 							document.getElementById("useYn").value = "ALL";
 						});
-
 						//이벤트 등록(생성)          
 						$("#btn-create").click(function() {
 							location.href = "${context}/evnt/create";
 						});
-
 						// 이전 페이지        
 						$("#btn-prevPage").click(function() {
 											// 			alert("totalCount : " + Number(document.getElementById("totalCount").value) 
 											// 					+ ", lastPage : " + Number(document.getElementById("lastPage").value)
 											// 					+ ", lastGroup : " + Number(document.getElementById("lastGroup").value));
-
 											const pageNum = Number(document
 													.getElementById("pageNo").value) - 1;
 											if (pageNum < 0) {
@@ -65,7 +60,6 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 														+ pageNum;
 											}
 										});
-
 						// 다음 페이지
 						$("#btn-nextPage").click(function() {
 											const pageNum = Number(document.getElementById("pageNo").value) + 1;
@@ -77,22 +71,18 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 														+ pageNum;
 											}
 										});
-
 						//'우리매장 참여이벤트' 버튼 클릭 시 팝업창으로 리스트 뜸
 						$("#btn-ourStrEvnt").click(function() {
 											var pop = window.open("${context}/evntStr/ourList","resPopup","width=1200, height=600, scrollbars=yes, resizable=yes");
 											pop.focus();
 										});
-
 						// 체크 버튼 클릭 시 체크된 리스트 뜸
 						$("#btn-checkEvnts").click(function() {
 											var checkLen = $(".check-idx:checked").length;
-
 											if (checkLen == 0) {
 												alert("체크한 대상이 없습니다.");
 												return;
 											}
-
 											var form = $("<form></form>");
 											$(".check-idx:checked").each(function() {
 															console.log($(this).val());
@@ -106,7 +96,6 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 						$("#btn-ongoingList").click(function() {
 							location.href = "${context}/evnt/ongoingList";
 						});
-
 					});
 	
 	function movePage(pageNum) {
@@ -119,7 +108,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp"></jsp:include>
 		<div>
-			<jsp:include page="../include/sidemenu.jsp"></jsp:include>
+			<jsp:include page="../include/evntSidemenu.jsp"></jsp:include>
 			<jsp:include page="../include/content.jsp"></jsp:include>
 			<div>
 				<h1>이벤트 리스트 목록 조회</h1>
@@ -158,18 +147,18 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 							</table>
 
 							<!-- 페이지 네이션을 위한 Hidden 데이터 -->
-							<input id="viewCnt" name="viewCnt" value="${viewCnt}" type="hidden" />
-						   <input id="pageCnt" name="pageCnt" value="${pageCnt}" type="hidden" /> 
-						   <input id="pageNo" name="pageNo" value="${pageNo}" type="hidden" /> 
-						   <input id="totalCount" name="totalCount" value="${totalCount}" type="hidden" /> 
-						   <input id="lastPage" name="lastPage" value="${lastPage}" type="hidden" /> 
-						   <input id="lastGroup" name="lastGroup" value="${lastGroup}" type="hidden" />
+<%-- 							<input id="viewCnt" name="viewCnt" value="${viewCnt}" type="hidden" /> --%>
+<%-- 						   <input id="pageCnt" name="pageCnt" value="${pageCnt}" type="hidden" />  --%>
+<%-- 						   <input id="pageNo" name="pageNo" value="${pageNo}" type="hidden" />  --%>
+<%-- 						   <input id="totalCount" name="totalCount" value="${totalCount}" type="hidden" />  --%>
+<%-- 						   <input id="lastPage" name="lastPage" value="${lastPage}" type="hidden" />  --%>
+<%-- 						   <input id="lastGroup" name="lastGroup" value="${lastGroup}" type="hidden" /> --%>
 
 						</form>
 					</div>
 					<button id="btn-init" class="btn-primary">초기화</button>
 
-					<button id="btn-create" class="btn-primary">등록</button>
+					<button id="btn-create" class="btn-primary" style="display:none;">등록</button>
 
 					<!--             </form> -->
 				</div>
@@ -177,13 +166,13 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 					<table>
 						<thead>
 							<tr>
-								<th><input type="checkbox" id="all-check" /></th>
-								<th style="width: 100px">이벤트 ID</th>
-								<th style="width: 200px">이벤트 제목</th>
-								<th style="width: 200px">이벤트 내용</th>
+								<th style="width: 50px"><input type="checkbox" id="all-check" /></th>
+								<th style="width: 200px">이벤트 ID</th>
+								<th style="width: 300px">이벤트 제목</th>
+								<th style="width: 400px">이벤트 내용</th>
 								<th style="width: 200px">시작일</th>
 								<th style="width: 200px">종료일</th>
-								<th style="width: 100px">사진</th>
+<!-- 								<th style="width: 100px">사진</th> -->
 								<th style="width: 80px">사용유무</th>
 
 							</tr>
@@ -193,21 +182,23 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 								<c:when test="${not empty evntList}">
 									<c:forEach items="${evntList}" var="evnt">
 										<tr>
-											<td class="firstcell"><input type="checkbox"
-												class="check-idx" value="${evnt.evntId}" style="width:20px;"/></td>
-											<td>${evnt.evntId}</td>
-											<td><a href="${context}/evnt/detail/${evnt.evntId}">${evnt.evntTtl}</a></td>
-											<td>${evnt.evntCntnt}</td>
-											<td>${evnt.evntStrtDt}</td>
-											<td>${evnt.evntEndDt}</td>
-											<td>${evnt.orgnFlNm}</td>
-											<td>${evnt.useYn}</td>
+
+											<td class="firstcell" style="text-align:center;"><input type="checkbox"
+												class="check-idx" value="${evnt.evntId}" /></td>
+											<td style="text-align:center;">${evnt.evntId}</td>
+											<td style="text-align:center;"><a href="${context}/evnt/detail/${evnt.evntId}">${evnt.evntTtl}</a></td>
+											<td style="text-align:center;">${evnt.evntCntnt}</td>
+											<td style="text-align:center;">${evnt.evntStrtDt}</td>
+											<td style="text-align:center;">${evnt.evntEndDt}</td>
+<%-- 											<td>${evnt.orgnFlNm}</td> --%>
+											<td style="text-align:center;">${evnt.useYn}</td>
+
 										</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="8">등록된 이벤트가 없습니다.</td>
+										<td colspan="7">등록된 이벤트가 없습니다.</td>
 									</tr>
 								</c:otherwise>
 							</c:choose>
@@ -217,45 +208,29 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 
 				<div class="pagenate">
 					<ul>
-						<c:set
-							value="${evntList.size() > 0 ? evntList.get(0).lastPage : 0}"
-							var="lastPage"></c:set>
-						<c:set
-							value="${evntList.size() > 0 ? evntList.get(0).lastGroup : 0}"
-							var="lastGroup"></c:set>
-
-						<fmt:parseNumber var="nowGroup"
-							value="${Math.floor(evntVO.pageNo / pageCnt)}" integerOnly="true" />
-						<c:set value="${nowGroup * pageCnt}" var="groupStartPageNo"></c:set>
-						<c:set value="${groupStartPageNo + pageCnt}" var="groupEndPageNo"></c:set>
-						<c:set
-							value="${groupEndPageNo > lastPage ? lastPage -1 : groupEndPageNo - 1}"
-							var="groupEndPageNo"></c:set>
-						<c:set value="${groupEndPageNo < 0 ? 0 : groupEndPageNo}"
-							var="groupEndPageNo"></c:set>
-
-						<c:set value="${(nowGroup - 1) * pageCnt}"
-							var="prevGroupStartPageNo"></c:set>
-						<c:set value="${(nowGroup + 1) * pageCnt}"
-							var="nextGroupStartPageNo"></c:set>
-
-
-						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a
-								href="javascript:movePage(${prevGroupStartPageNo+pageCnt-1})">이전</a></li>
-						</c:if>
-
-						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}"
-							step="1" var="pageNo">
-							<li><a class="${pageNo eq evntVO.pageNo ? 'on' : ''}"
-								href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-						</c:forEach>
-
-						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage}-1)">끝</a></li>
-						</c:if>
+						<c:set value = "${evntList.size() > 0 ? evntList.get(0).lastPage : 0}" var="lastPage"/>
+							<c:set value = "${evntList.size() > 0 ? evntList.get(0).lastGroup : 0}" var="lastGroup"/>
+							
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(evntVO.pageNo /10)}" integerOnly="true" />
+							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
+							<c:set value ="${nowGroup*10+ 10}" var="groupEndPageNo" />
+							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo -1}" var="groupEndPageNo" />
+							
+							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
+							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+							<c:if test="${nowGroup > 0}">
+								<li><a href="javascript:movePage(0)">처음</a></li>
+								<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+								<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+							</c:if>
+							
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
+								<li><a class="${pageNo eq evntVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+							</c:forEach>
+							<c:if test="${lastGroup > nowGroup}">
+								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+							</c:if>
 					</ul>
 				</div>
 				<%-- 

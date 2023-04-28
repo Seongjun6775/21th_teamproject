@@ -2,6 +2,7 @@ package com.ktds.fr.odrlst.service;
 
 import java.util.List;
 
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 public interface OdrLstService {
@@ -14,8 +15,17 @@ public interface OdrLstService {
 	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);
 	
-	public boolean updateOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
+	public boolean updateRestMbrPyMn(MbrVO mbrVO);
+	
+	public boolean updateOdrPrcsToReadyByOdrLstId(String odrLstId);
 	
 	public boolean deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
+	
+	
+
+	/**
+	 * 매장용
+	 */
+	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO);
 
 }

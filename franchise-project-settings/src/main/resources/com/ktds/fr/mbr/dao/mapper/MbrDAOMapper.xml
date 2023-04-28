@@ -301,11 +301,11 @@
 		 ORDER BY MBR_RGSTR_DT ASC
 	</select>
 	
-	<update id="updateOneMbrLvlAndMbrStrId"
+	<update id="updateOneMbrLvlAndStrId"
 		parameterType="com.ktds.fr.mbr.vo.MbrVO">
 		UPDATE FRAN.MBR
 		   SET  MBR_LVL=#{mbrLvl}
-		  	  , STR_ID =#{strId}	 
+		  	  , STR_ID =#{strId}
 		 WHERE MBR_ID=#{mbrId}
 		   AND DEL_YN='N' 
 	</update>
@@ -379,4 +379,11 @@
 		   AND M.DEL_YN='N'
 		   AND M.USE_YN='Y'
 	</select>
+	
+	<update id="updateRestMbrPyMn"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE MBR
+		   SET MBR_PY_MN = #{mbrPyMn}
+		 WHERE MBR_ID = #{mbrId}
+	</update>
 </mapper>

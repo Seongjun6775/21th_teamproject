@@ -121,7 +121,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<h3>master 채용 페이지 테스트</h3>
 			<div>
@@ -199,14 +199,19 @@
 									    	</c:when>
 									    </c:choose>
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
-										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
-											
+										<td onclick="event.cancelBubble=true">
+											<a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
 										</td>
 										<td>${hr.cdNm}</td>
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
-										<td>${hr.hrStat}</td>
+										<c:choose>
+											<c:when test="${hr.hrStat eq '002-01'}"><td>접수</td></c:when>
+											<c:when test="${hr.hrStat eq '002-02'}"><td>심사중</td></c:when>
+											<c:when test="${hr.hrStat eq '002-03'}"><td>심사완료</td></c:when>
+											<c:otherwise><td></td></c:otherwise>
+										</c:choose>
 										<td>${hr.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>

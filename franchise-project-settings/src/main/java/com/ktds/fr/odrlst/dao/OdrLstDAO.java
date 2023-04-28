@@ -2,11 +2,12 @@ package com.ktds.fr.odrlst.dao;
 
 import java.util.List;
 
+import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 public interface OdrLstDAO {
 	
-	public int checkRemainOdrLst(String mbrId);
+	public int checkRemainOdrLst(OdrDtlVO odrDtlVO);
 	
 	public OdrLstVO getOdrLstId(String mbrId);
 	
@@ -18,8 +19,14 @@ public interface OdrLstDAO {
 	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);
 	
-	public int updateOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
+	public int updateOdrPrcsToReadyByOdrLstId(String odrLstId);
 	
 	public int deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
 
+	/**
+	 * 매장용
+	 */
+	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO);
+	
+	
 }

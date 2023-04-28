@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 @Repository
@@ -19,8 +20,8 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	}
 	
 	@Override
-	public int checkRemainOdrLst(String mbrId) {
-		return getSqlSession().selectOne("OdrLst.checkRemainOdrLst", mbrId);
+	public int checkRemainOdrLst(OdrDtlVO odrDtlVO) {
+		return getSqlSession().selectOne("OdrLst.checkRemainOdrLst", odrDtlVO);
 	}
 	
 	@Override
@@ -49,13 +50,18 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	}
 
 	@Override
-	public int updateOneOdrLstByOdrLstId(OdrLstVO odrLstVO) {
-		return getSqlSession().update("OdrLst.updateOneOdrLstByOdrLstId", odrLstVO);
+	public int updateOdrPrcsToReadyByOdrLstId(String odrLstId) {
+		return getSqlSession().update("OdrLst.updateOdrPrcsToReadyByOdrLstId", odrLstId);
 	}
 
 	@Override
 	public int deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO) {
 		return getSqlSession().update("OdrLst.deleteOneOdrLstByOdrLstId", odrLstVO);
+	}
+
+	@Override
+	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO) {
+		return getSqlSession().selectList("OdrLst.readAllOdrLstForStr", odrLstVO);
 	}
 	
 	

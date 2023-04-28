@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="java.util.Random"%> 
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%= new Random().nextInt() %>"/>
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../css/evntCommon.css">
 <meta charset="UTF-8">
 <title>이벤트 등록 페이지</title>
+<link rel="stylesheet" href="../css/evntCommon.css?p=${date}">
+<jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
 <script type="text/javascript">
@@ -68,12 +71,10 @@ $().ready(function() {
 		//location.href="${context}/evnt/list3"
 		history.pushState(null, null, '${context}/evnt/list');
 	});
-
 });
 	
 	
 	
-
 	function check(box) {
 		if (box.checked == true) {
 			box.value = "Y";
@@ -87,17 +88,19 @@ $().ready(function() {
 <body>
 
    <div class="main-layout" >
+  	 <jsp:include page="../include/header.jsp" />	
+	<div>
+		<jsp:include page="../include/evntSidemenu.jsp" />
+		<jsp:include page="../include/content.jsp" />
+		
 		<form id="form-create" enctype="multipart/form-data">
+			<input type="hidden" id="evntId"
+						style="width: 99%;" readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."value=""  />
 			<div>
 				<table border=1 style="width: 600px;">
 				<tr>
 					<td colspan="4"><h1 style="text-align: center;">이벤트 등록
 							페이지</h1></td>
-				</tr>
-				<tr>
-					<td>이벤트 ID</td>
-					<td colspan="3"><input type="text" id="evntId"
-						style="width: 99%;" readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."value=""  /></td>
 				</tr>
 
 				<tr>
@@ -142,7 +145,10 @@ $().ready(function() {
 				</tr>
 			</table>
 		</div>
+	
 	</form>
+			<jsp:include page="../include/footer.jsp" />
+	</div>
 </div>
 </body>
 </html>

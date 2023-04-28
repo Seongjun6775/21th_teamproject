@@ -9,18 +9,19 @@
 				autoMapping="true">
 		<id property="odrLstId" column="ODR_LST_ID" />
 		<association property="strVO"
-		              javaType="com.ktds.fr.str.vo.StrVO" >
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
 			<id property="strId" column="STR_ID" />
-			<result property="strNm" column="STR_NM" />
 		</association>
 	</resultMap>
 	
 	<select id="checkRemainOdrLst"
-			parameterType="string"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultType="_int">
 		SELECT COUNT(1)
 		  FROM ODR_LST
-		 WHERE MBR_ID = #{_parameter}
+		 WHERE MBR_ID = #{mbrId}
+		   AND STR_ID = #{odrDtlStrId}
 		   AND ODR_LST_ODR_PRCS = '003-01'
 	</select>
 	
@@ -123,12 +124,11 @@
 		 WHERE ODR_LST_ID = #{_parameter}
 	</select>
 	
-	<update id="updateOneOdrLstByOdrLstId"
-			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
+	<update id="updateOdrPrcsToReadyByOdrLstId"
+			parameterType="string">
 		UPDATE ODR_LST
-		   SET ODR_LST_ODR_PRCS = #{odrLstOdrPrcs}
+		   SET ODR_LST_ODR_PRCS = '003-02'
 		     , MDFY_DT = SYSDATE
-		     , MDFYR = #{mdfyr}
 		 WHERE ODR_LST_ID = #{odrLstId}
 	</update>
 	
@@ -142,8 +142,33 @@
 	</update>
 	
 	
-	
-	
+	<!-- 매장용 -->
+	<select id="readAllOdrLstForStr"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ID
+		     , MBR_ID
+		     , ODR_LST_ODR_PRCS
+		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , ODR_LST_RGSTR
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , MDFYR
+		  FROM ODR_LST
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND STR_ID = #{strId}
+		   AND ODR_LST_ODR_PRCS != '003-01'
+		<choose>
+			<when test='odrLstOdrPrcs == "003-04"'>
+		   AND ODR_LST_ODR_PRCS = '003-04'
+		 ORDER BY MDFY_DT ASC
+			</when>
+			<otherwise>
+		   AND ODR_LST_ODR_PRCS != '003-04'
+		 ORDER BY ODR_LST_RGST_DT DESC
+			</otherwise>
+		</choose>
+	</select>
 	
 	
 	

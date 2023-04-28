@@ -2,6 +2,7 @@ package com.ktds.fr.evnt.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +17,12 @@ import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.evnt.dao.EvntDAO;
 import com.ktds.fr.evnt.vo.EvntVO;
+import com.ktds.fr.evntstr.dao.EvntStrDAO;
+import com.ktds.fr.evntstr.vo.EvntStrVO;
 import com.ktds.fr.prdt.service.PrdtServiceImpl;
+import com.ktds.fr.str.dao.StrDAO;
+import com.ktds.fr.str.vo.StrVO;
+
 
 @Service
 public class EvntServiceImpl implements EvntService {
@@ -26,6 +32,12 @@ public class EvntServiceImpl implements EvntService {
 	@Autowired
 	private EvntDAO evntDAO;
 
+	@Autowired
+	private EvntStrDAO evntStrDAO;
+	
+	@Autowired
+	private StrDAO strDAO;
+	
 	@Value("${upload.evnt.path:/franchise-prj/files/evnt/}")
 
 	private String profilePath;
@@ -60,7 +72,25 @@ public class EvntServiceImpl implements EvntService {
 			evntVO.setFlExt(fileExt);
 		}
 
-		return evntDAO.createNewEvnt(evntVO) > 0;
+		boolean createResult = evntDAO.createNewEvnt(evntVO) > 0;
+		if (createResult) {
+			List<StrVO> strList = strDAO.readAll();
+			
+			EvntStrVO evntStrVO = null;
+			List<EvntStrVO> evntStrList = new ArrayList<>();
+			
+			for(StrVO str : strList) {
+				evntStrVO = new EvntStrVO();
+				evntStrVO.setEvntId(evntVO.getEvntId());
+				evntStrVO.setStrId(str.getStrId());
+				evntStrList.add(evntStrVO);
+			}
+			evntStrDAO.insertAllEvntStr(evntStrList);
+		}
+		
+		return  createResult;
+		
+		
 	}
 
 	// 2. 이벤트 전체목록 조회 ▶▶상위관리자
@@ -160,6 +190,7 @@ public class EvntServiceImpl implements EvntService {
 	public boolean updateDeleteEvnt(String evntId) {
 		return evntDAO.updateDeleteEvnt(evntId) > 0;
 	}
+	
 
 	// 8. 이용자용 페이지
 	@Override

@@ -10,6 +10,7 @@ public interface PrdtService {
 
 	public List<PrdtVO> readAll(PrdtVO prdtVO);
 	public List<PrdtVO> readAllNoPagenation(PrdtVO prdtVO);
+	public List<PrdtVO> readAllCustomerNoPagenation(PrdtVO prdtVO);
 	public PrdtVO readOne(String prdtId);
 	public List<PrdtVO> readAllCustomer(PrdtVO prdtVO);
 	
@@ -18,5 +19,8 @@ public interface PrdtService {
 	public boolean updateAll(PrdtVO prdtVO);
 	public boolean deleteOne(String prdtId);
 	public boolean deleteSelectAll(List<String> prdtIdList);
+	
+	
+	public List<PrdtVO> readAllNoPagenationEvnt(PrdtVO prdtVO);
 	
 }

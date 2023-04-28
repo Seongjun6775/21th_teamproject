@@ -70,6 +70,30 @@
 			
 		});
 		
+		$("#pay_btn").click(function() {
+			
+			var pyMn = ${mbrVO.mbrPyMn};
+			var sumPrice = parseInt($("#sum").val());
+			
+			if (sumPrice > pyMn) {
+				alert("충전 잔량이 부족합니다. 먼저 금액을 충전해 주세요!");
+				return;
+			}
+			var restMn = pyMn - sumPrice;
+			alert(sumPrice);
+			alert(restMn);
+			$.post("${context}/api/odrlst/update/${odrLstId}", {"mbrPyMn": restMn}, function(response){
+				if (response.status == "200 OK") {
+					alert("주문이 접수되었습니다.");
+					location.href = "${context}/odrlst/list";
+				}
+				else {
+					alert(response.errorCode + " / " + response.message);
+				}
+			});
+		});
+		
+		
 	});
 </script>
 </head>
@@ -118,13 +142,35 @@
 										<td><img src=""></td>
 										<td>${odr.prdtVO.prdtNm}</td>
 										<td>${odr.odrDtlPrdtCnt}</td>
-										<td>${odr.prdtVO.prdtPrc}</td>
-										<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
+										<c:choose>
+											<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+												<td><del style="font-size: 12px; color: #333;">${odr.prdtVO.prdtPrc}</del>  <span>${odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
+											</c:when>
+											<c:otherwise>
+												<td>${odr.prdtVO.prdtPrc}</td>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+												<td><del>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span>${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
+											</c:when>
+											<c:otherwise>
+												<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
+											</c:otherwise>
+										</c:choose>
 										<td onclick="event.cancelBubble=true"><button type="button" class="btn btn-danger btn-sm delete_btn"
 													 value="${odr.odrDtlId}">삭제</button></td>
 									</tr>
-									<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}" />
+									<c:choose>
+										<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+											<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}" />
+										</c:when>
+										<c:otherwise>
+											<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}" />
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
+								<input type="hidden" id="sum" value='<c:out value="${sum}"/>'/>
 							</c:when>
 							<c:otherwise>
 								<td colspan="9">주문 내역이 없습니다.</td>
@@ -132,9 +178,13 @@
 						</c:choose>
 					</tbody>
 				</table>
+				
 				<div>
-					<div>합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
-					<div><button type="button" class="btn btn-success">결제하기</button></div>
+					<div>
+						<div style="display: inline-block;">합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
+						<div style="display: inline-block;">충전 잔량 : <span><c:out value="${mbrVO.mbrPyMn}" /></span>원</div>
+					</div>
+					<div><button id="pay_btn" type="button" class="btn btn-success">결제하기</button></div>
 				</div>
 			</div>
 			

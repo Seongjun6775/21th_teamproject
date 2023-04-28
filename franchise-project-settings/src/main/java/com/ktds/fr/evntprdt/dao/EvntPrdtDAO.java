@@ -3,6 +3,7 @@ package com.ktds.fr.evntprdt.dao;
 import java.util.List;
 
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.prdt.vo.PrdtVO;
 
 public interface EvntPrdtDAO {
 
@@ -21,5 +22,8 @@ public interface EvntPrdtDAO {
 	
 	// 이벤트 상품 등록 해제기능
 	public int deleteEvntPrdtListByEvntId(List<String> evntPrdtIdList);
+	
+	// 체크된 이벤트 상품 등록
+	public int createEvntPrdtListByEvntId(List<EvntPrdtVO> evntPrdtList);
 
 }

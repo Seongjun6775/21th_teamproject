@@ -275,7 +275,8 @@ public class MbrServiceImpl implements MbrService {
 		}
 		//STR 테이블에서 mbrIdList를 가지고 검색 -> 매장찾기
 		List<String> strIdList = strDAO.readAllStrByMbrId(mbrIdList);
-		if(strIdList == null) {
+		log.info("검사 하기{}",strIdList);
+		if(strIdList == null || strIdList.size()==0) {
 			//없으면 MBR테이블의 str_id->null && MBR테이블의 mbrLvl -> default로
 			//채용 페이지에 이력서 delYn=Y으로 바꾸기
 			boolean delResult = mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;

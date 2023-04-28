@@ -77,21 +77,21 @@ public class EvntController {
 
 //		model.addAttribute("evntVO", evntVO);
 
-		if (evntList.size() == 0) {
-			model.addAttribute("viewCnt", 20);
-			model.addAttribute("pageCnt", 1);
-			model.addAttribute("pageNo", 0);
-			model.addAttribute("totalCount", 0);
-			model.addAttribute("lastPage", 1);
-			model.addAttribute("lastGroup", 1);
-		} else {
-			model.addAttribute("viewCnt", evntVO.getViewCnt());
-			model.addAttribute("pageCnt", evntVO.getPageCnt());
-			model.addAttribute("pageNo", evntVO.getPageNo());
-			model.addAttribute("totalCount", evntList.get(0).getTotalCount());
-			model.addAttribute("lastPage", evntList.get(0).getLastPage());
-			model.addAttribute("lastGroup", evntList.get(0).getLastGroup());
-		}
+//		if (evntList.size() == 0) {
+//			model.addAttribute("viewCnt", 20);
+//			model.addAttribute("pageCnt", 1);
+//			model.addAttribute("pageNo", 0);
+//			model.addAttribute("totalCount", 0);
+//			model.addAttribute("lastPage", 1);
+//			model.addAttribute("lastGroup", 1);
+//		} else {
+//			model.addAttribute("viewCnt", evntVO.getViewCnt());
+//			model.addAttribute("pageCnt", evntVO.getPageCnt());
+//			model.addAttribute("pageNo", evntVO.getPageNo());
+//			model.addAttribute("totalCount", evntList.get(0).getTotalCount());
+//			model.addAttribute("lastPage", evntList.get(0).getLastPage());
+//			model.addAttribute("lastGroup", evntList.get(0).getLastGroup());
+//		}
 
 		return "/evnt/list";
 	}
