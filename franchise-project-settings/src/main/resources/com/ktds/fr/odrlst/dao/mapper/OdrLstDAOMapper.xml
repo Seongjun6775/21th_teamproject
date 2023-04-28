@@ -164,6 +164,7 @@
 			parameterType="string">
 		UPDATE ODR_LST
 		   SET ODR_LST_ODR_PRCS = '003-02'
+		     , ODR_LST_RGST_DT = SYSDATE
 		     , MDFY_DT = SYSDATE
 		 WHERE ODR_LST_ID = #{odrLstId}
 	</update>

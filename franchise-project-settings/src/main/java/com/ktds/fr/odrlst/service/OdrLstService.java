@@ -13,6 +13,10 @@ public interface OdrLstService {
 	
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO);
 	
+	public OdrLstVO getOdrPrcs(String odrLstId);
+	
+	public OdrLstVO isThisMyOdrLst(String odrLstId);
+	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);
 	
 	public boolean updateRestMbrPyMn(MbrVO mbrVO);

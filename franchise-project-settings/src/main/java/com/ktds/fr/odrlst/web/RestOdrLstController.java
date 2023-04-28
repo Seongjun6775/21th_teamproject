@@ -27,12 +27,12 @@ public class RestOdrLstController {
 	public ApiResponseVO updateOdrPrcsToReadyByOdrLstId(@PathVariable String odrLstId,
 														@SessionAttribute("__MBR__") MbrVO mbrVO,
 														MbrVO mbrPyMn) {
-		// 전달받은 주문서 ID를 기준으로 주문서의 정보를 읽어옵니다.
-		OdrLstVO check = odrLstService.readOneOdrLstByOdrLstId(odrLstId);
-		// 만약 현재 접속중인 계정이 전달받은 주문서 ID의 주인이 아닐 경우, 접근을 거부합니다.
-		if (!check.getMbrId().equals(mbrVO.getMbrId())) {
-			throw new ApiException("400","권한이 없습니다.");
-		}
+//		// 전달받은 주문서 ID를 기준으로 주문서의 정보를 읽어옵니다.
+//		OdrLstVO check = odrLstService.readOneOdrLstByOdrLstId(odrLstId);
+//		// 만약 현재 접속중인 계정이 전달받은 주문서 ID의 주인이 아닐 경우, 접근을 거부합니다.
+//		if (!check.getMbrId().equals(mbrVO.getMbrId())) {
+//			throw new ApiException("400","권한이 없습니다.");
+//		}
 		
 		mbrVO.setMbrPyMn(mbrPyMn.getMbrPyMn());
 		

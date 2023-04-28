@@ -5,12 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.odrdtl.dao.OdrDtlDAO;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.dao.OdrLstDAO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
-import com.ktds.fr.strprdt.dao.StrPrdtDAO;
-import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @Service
 public class OdrDtlServiceImpl implements OdrDtlService {
@@ -20,9 +19,6 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	
 	@Autowired
 	public OdrLstDAO odrLstDAO;
-	
-	@Autowired
-	public StrPrdtDAO strPrdtDAO;
 
 	@Override
 	public boolean createNewOdrDtl(OdrDtlVO odrDtlVO) {
@@ -70,48 +66,75 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	}
 	
 	@Override
-	public OdrLstVO isThisMyOdrLst(String odrLstId) {
-		return odrLstDAO.isThisMyOdrLst(odrLstId);
-	}
-	
-	@Override
-	public OdrLstVO getOdrPrcs(String odrLstId) {
-		return odrLstDAO.getOdrPrcs(odrLstId);
-	}
-	
-	@Override
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId) {
 		return odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlId);
 	}
 	
 	@Override
-	public StrPrdtVO readOneCustomerByStr(String strPrdtId) {
-		return strPrdtDAO.readOneCustomerByStr(strPrdtId);
-	}
-
-	@Override
 	public boolean updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO) {
+		
+		// 주문 상세를 생성한 계정 ID를 확인합니다.
+		OdrDtlVO mbrId = odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlVO.getOdrDtlId());
+		// 주문 상세를 생성한 계정 ID와 현재 접속중인 계정 ID가 같은지 확인합니다.
+		if (!mbrId.getMbrId().equals(odrDtlVO.getMbrId())) {
+			throw new ApiException("400", "권한이 없습니다.");
+		}
+		
+		// 수정 성공 여부를 RestOdrDtlController로 전달합니다.
 		return odrDtlDAO.updateOneOdrDtlByOdrDtlId(odrDtlVO) > 0;
 	}
 
 	@Override
-	public boolean deleteOneOdrDtlByOdrDtlId(String odrDtlId) {
-		return odrDtlDAO.deleteOneOdrDtlByOdrDtlId(odrDtlId) > 0;
+	public boolean deleteOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO) {
+		
+		// 주문 상세를 생성한 계정 ID를 확인합니다.
+		OdrDtlVO mbrId = odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlVO.getOdrDtlId());
+		// 주문 상세를 생성한 계정 ID와 현재 접속중인 계정 ID가 같은지 확인합니다.
+		if (!mbrId.getMbrId().equals(odrDtlVO.getMbrId())) {
+			throw new ApiException("400", "권한이 없습니다.");
+		}
+		// 삭제 성공 여부를 저장합니다.
+		boolean deleteResult = odrDtlDAO.deleteOneOdrDtlByOdrDtlId(odrDtlVO) > 0;
+		
+		// 남은 물품 갯수 확인을 위해 odrLstId를 odrDtlVO 안에 저장합니다.
+		odrDtlVO.setOdrLstId(mbrId.getOdrLstId());
+		
+		if (deleteResult) {
+			// 삭제가 성공했을 때, 주문서 내에 남은 물품 갯수를 확인합니다.
+			List<OdrDtlVO> restList = odrDtlDAO.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
+			// 만약 주문서 내에 남은 물품이 없다면, 주문서도 삭제합니다.
+			if (restList.size() == 0) {
+				odrLstDAO.deleteOneOdrLstByOdrLstId(odrDtlVO.getOdrLstId());
+			}
+		}
+		// 삭제 성공 여부를 RestOdrDtlController로 전달합니다.
+		return deleteResult;
 	}
 	
 	@Override
-	public boolean deleteAllOdrDtlByOdrLstId(String odrLstId) {
-		return odrDtlDAO.deleteAllOdrDtlByOdrLstId(odrLstId) > 0;
+	public boolean deleteAllOdrDtlByOdrLstId(OdrDtlVO odrDtlVO) {
+		
+		// 주문서를 생성한 계정 ID를 확인합니다.
+		OdrLstVO mbrId = odrLstDAO.isThisMyOdrLst(odrDtlVO.getOdrLstId());
+		// 주문서를 생성한 계정 ID와 현재 접속중인 계정 ID가 같은지 확인합니다.
+		if (!mbrId.getMbrId().equals(odrDtlVO.getMbrId())) {
+			// 만약 다르다면, 요청을 거부합니다.
+			throw new ApiException("400", "권한이 없습니다.");
+		}
+		// 삭제 성공 여부를 저장합니다.
+		boolean deleteResult = odrDtlDAO.deleteAllOdrDtlByOdrLstId(odrDtlVO) > 0;
+		
+		// 만약 전체 삭제에 성공했다면, 해당 주문서를 삭제합니다.
+		if (deleteResult) {
+			odrLstDAO.deleteOneOdrLstByOdrLstId(odrDtlVO.getOdrLstId());
+		}
+		// 삭제 성공 여부를 RestOdrDtlController로 전달합니다.
+		return deleteResult;
 	}
 	
 	@Override
 	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId) {
 		return odrDtlDAO.deleteOdrDtlBySelectedDtlId(odrDtlId) > 0;
-	}
-	
-	@Override
-	public boolean deleteOneOdrLstByOdrLstId(String odrLstId) {
-		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstId) > 0;
 	}
 
 	@Override

@@ -135,11 +135,6 @@
 			var pyMn = ${mbrVO.mbrPyMn};
 			var sumPrice = parseInt($("#sum").val());
 			
-			console.log(odrPrcs);
-			console.log(odrPrcs);
-			console.log(odrPrcs);
-			console.log(odrPrcs);
-			
 			if (odrPrcs != "003-01") {
 				if (odrPrcs == "003-05") {
 					alert("주문 취소된 주문서입니다.");

@@ -37,17 +37,17 @@ public interface OdrDtlDAO {
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문을 삭제합니다.
-	 * @param odrDtlId 주문 상세 ID
+	 * @param odrDtlVO 주문 상세 ID + 현재 접속중인 계정 ID
 	 * @return 삭제한 건수
 	 */
-	public int deleteOneOdrDtlByOdrDtlId(String odrDtlId);
+	public int deleteOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문서 ID를 기준으로 주문서 내의 모든 상품을 삭제합니다.
-	 * @param odrLstId 주문서 ID
+	 * @param odrDtlVO 주문서 ID + 현재 접속중인 계정 ID
 	 * @return 삭제한 상품 건수
 	 */
-	public int deleteAllOdrDtlByOdrLstId(String odrLstId);
+	public int deleteAllOdrDtlByOdrLstId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 선택한 주문들을 삭제합니다.

@@ -109,7 +109,7 @@
 			<div style="display: ${hr.orgnFlNm == null ? '' : 'none'};">
 				<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
 			</div>
-			<div class="hr_detail_cntnt">${hr.hrCntnt}</div>
+			<div class="hr_detail_cntnt" style="word-break: break-all;">${hr.hrCntnt}</div>
 			
 			<button id="update_btn">수정</button>
 			<button id="delete_btn">삭제</button>

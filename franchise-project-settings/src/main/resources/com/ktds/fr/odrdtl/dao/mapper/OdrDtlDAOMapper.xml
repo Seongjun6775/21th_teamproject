@@ -122,17 +122,17 @@
 	</update>
 	
 	<update id="deleteOneOdrDtlByOdrDtlId"
-			parameterType="string">
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
 		UPDATE ODR_DTL
 		   SET DEL_YN = 'Y'
 		 WHERE ODR_DTL_ID = #{odrDtlId}
 	</update>
 	
 	<update id="deleteAllOdrDtlByOdrLstId"
-			parameterType="string">
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
 		UPDATE ODR_DTL
 		   SET DEL_YN = 'Y'
-		 WHERE ODR_LST_ID = #{_parameter}
+		 WHERE ODR_LST_ID = #{odrLstId}
 	</update>
 	
 	
