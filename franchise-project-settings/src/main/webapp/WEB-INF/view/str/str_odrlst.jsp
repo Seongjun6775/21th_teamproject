@@ -11,7 +11,6 @@
 <meta charset="UTF-8">
 <title>${strVO.strNm} - 주문하기</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
@@ -218,13 +217,19 @@ function movePage(pageNo) {
 
 </script>
 </head>
-<body>
+<body class="bg-dark bg-opacity-10 ">
+<jsp:include page="../include/logo.jsp" />
+	<main class="d-flex flex-nowrap ">	
+		<jsp:include page="../include/sidemenu.jsp" />
+		<div style="margin:0px 0px 0px 250px; width: 100%;">
+			<jsp:include page="../include/header.jsp" />
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+				<span class="fs-5 fw-bold">기본페이지</span>
+		    </div>
+ 
+		    <!-- contents -->
+		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"></jsp:include>
-		<div>
-			<jsp:include page="../include/strMgmtSideMenu.jsp"></jsp:include>
-			<jsp:include page="../include/content.jsp"></jsp:include>
 
 
 			<br>매장이름임 ${strVO.strNm} (${strVO.strId})
@@ -374,11 +379,11 @@ function movePage(pageNo) {
 			</div>
 					
 	
-	
-	
-			<jsp:include page="../include/footer.jsp"></jsp:include>
+
+		    </div>
+      		<!-- /contents -->
 		</div>
-	</div>
+	</main>
 
 
 </body>

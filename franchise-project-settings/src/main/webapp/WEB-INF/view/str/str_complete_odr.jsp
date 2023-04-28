@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>${strVO.strNm} - 주문 전체보기</title>
 <jsp:include page="../include/stylescript.jsp" />
+<link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -219,7 +220,7 @@ function movePage(pageNo) {
 <body class="bg-dark bg-opacity-10 ">
 <jsp:include page="../include/logo.jsp" />
 	<main class="d-flex flex-nowrap ">	
-		<jsp:include page="../include/strMgmtSideMenu.jsp" />
+		<jsp:include page="../include/sidemenu.jsp" />
 		<div style="margin:0px 0px 0px 250px; width: 100%;">
 			<jsp:include page="../include/header.jsp" />
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
@@ -236,7 +237,7 @@ function movePage(pageNo) {
 			<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
 			<br>
 			
-			<div class="flex full">
+<!-- 			<div class="flex full"> -->
 				<div class="overflow">
 					<table>
 						<thead>
@@ -259,11 +260,11 @@ function movePage(pageNo) {
 											<td class="align-center">
 												<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
 											</td>
-											<td>${ordLst.odrLstOdrPrcs}</td>							
+											<td>${ordLst.cmmnCdVO.cdNm}</td>							
 											<td>${ordLst.odrLstId}</td>							
-											<td>${ordLst.mbrId}</td>							
+											<td>${ordLst.mbrVO.mbrNm}</td>							
 											<td>${ordLst.odrLstRgstDt}</td>							
-											<td>${ordLst.mdfyr}</td>							
+											<td>${ordLst.mdfyrMbrVO.mbrNm}</td>							
 											<td>${ordLst.mdfyDt}</td>							
 										</tr>
 									</c:forEach>
@@ -272,7 +273,7 @@ function movePage(pageNo) {
 						</tbody>
 					</table>
 				</div>
-			</div>
+<!-- 			</div> -->
 
 
 
