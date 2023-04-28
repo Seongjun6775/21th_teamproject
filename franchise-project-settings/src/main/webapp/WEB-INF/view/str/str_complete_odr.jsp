@@ -28,15 +28,63 @@ $().ready(function() {
 	
 	
 	
-	
 	$("tbody").children("tr").click(function() {
 		var Id = $(this).data().odrlstid;
 		
+		$("div[class=modal-body]").empty();
+		
 		$.post("${context}/api/odrLst/odrDtl", {odrLstId: Id}, function(data) {
 			
-		}		
+			var table = $("<table></table>");
+			var thead = $("<thead></thead>");
+			var tr = $("<tr></tr>");
+			var thList = [
+			  $("<th>주문상세ID</th>"),
+			  $("<th>주문날짜</th>"),
+			  $("<th>상품이름</th>"),
+			  $("<th>단가</th>"),
+			  $("<th>수량</th>"),
+			  $("<th>금액</th>"),
+			];
+			thList.forEach(function(th) {
+			  tr.append(th);
+			});
+			thead.append(tr);
+			table.append(thead);
+			
+			var tbody = $("<tbody></tbody>");
+			for (var i = 0; i < data.length; i++) {
+			    var odrDtlId = data[i].odrDtlId;
+			    var odrLstRgstDt = data[i].odrLstVO.odrLstRgstDt;
+			    var prdtNm = data[i].prdtVO.prdtNm;
+			    var odrDtlPrdtCnt = data[i].odrDtlPrdtCnt;
+			    var price = data[i].prdtVO.prdtPrc;
+			    if (data[i].evntVO != null) {
+				    price = data[i].evntPrdtVO.evntPrdtChngPrc;
+			    }
+			    console.log(odrDtlId);
+			    var tr = $("<tr></tr>");
+			    var tdList = [
+					  $("<td>" + odrDtlId + "</td>"),
+					  $("<td>" + odrLstRgstDt + "</td>"),
+					  $("<td>" + prdtNm + "</td>"),
+					  $("<td>" + price + "</td>"),
+					  $("<td>" + odrDtlPrdtCnt + "</td>"),
+					  $("<td>" + price * odrDtlPrdtCnt + "</td>"),
+					];
+					tdList.forEach(function(td) {
+					  tr.append(td);
+					});
+				tbody.append(tr);
+		    }
+			table.append(tbody);
+			
+			$("div[class=modal-body]").append(table);
+			
+			$("#modal").click();
+		});		
 		
-	}
+	});
 	
 	
 	
@@ -280,7 +328,7 @@ function movePage(pageNo) {
 								<c:when test="${not empty ordLstList}">
 									<c:forEach items="${ordLstList}"
 												var="ordLst">
-										<tr data-odrlstid="${odrLstId}">
+										<tr data-odrlstid="${ordLst.odrLstId}">
 											<td class="align-center">
 												<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
 											</td>
@@ -299,7 +347,7 @@ function movePage(pageNo) {
 					
 					
 					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+					<button id="modal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 					  Launch static backdrop modal
 					</button>
 					
