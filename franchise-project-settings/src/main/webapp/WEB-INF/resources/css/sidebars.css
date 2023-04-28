@@ -64,7 +64,7 @@ main {
 }
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
-  background-color: #fff0 !important;
+  background-color: #fff0 ;
 }
 
 .scrollarea {
