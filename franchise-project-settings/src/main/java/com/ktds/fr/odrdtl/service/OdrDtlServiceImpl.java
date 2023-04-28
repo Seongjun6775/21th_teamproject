@@ -35,7 +35,7 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		// 만약 '대기'상태였던 주문서가 있다면, 새로운 OdrDtl을 그 안에 추가합니다.
 		if (remainList > 0) {
 			// odrDtl 내의 mbrId로 OdrLst에 접근해, 이미 존재하는 주문서 ID를 받아옵니다.
-			OdrLstVO OdrLstId = odrLstDAO.getOdrLstId(odrDtlVO.getMbrId());
+			OdrLstVO OdrLstId = odrLstDAO.getOdrLstId(odrDtlVO);
 			// 받아온 주문서 ID를 odrDtlVO 안에 세팅합니다.
 			odrDtlVO.setOdrLstId(OdrLstId.getOdrLstId());
 			
@@ -54,7 +54,7 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 			odrLstDAO.createNewOdrLst(odrLstVO);
 			
 			// odrDtl 내의 mbrId로 OdrLst에 접근해, 방금 생성한 주문서의 ID를 받아옵니다.
-			OdrLstVO OdrLstId = odrLstDAO.getOdrLstId(odrDtlVO.getMbrId());
+			OdrLstVO OdrLstId = odrLstDAO.getOdrLstId(odrDtlVO);
 			// 받아온 주문서 ID를 odrDtlVO 안에 세팅합니다.
 			odrDtlVO.setOdrLstId(OdrLstId.getOdrLstId());
 			// 주문서 ID가 포함된 odrDtlVO로 새 주문상세를 생성합니다.
@@ -67,6 +67,16 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	@Override
 	public List<OdrDtlVO> readAllOdrDtlByOdrLstIdAndMbrId(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
+	}
+	
+	@Override
+	public OdrLstVO isThisMyOdrLst(String odrLstId) {
+		return odrLstDAO.isThisMyOdrLst(odrLstId);
+	}
+	
+	@Override
+	public OdrLstVO getOdrPrcs(String odrLstId) {
+		return odrLstDAO.getOdrPrcs(odrLstId);
 	}
 	
 	@Override
@@ -93,6 +103,18 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId) {
 		return odrDtlDAO.deleteOdrDtlBySelectedDtlId(odrDtlId) > 0;
 	}
+	
+	@Override
+	public boolean deleteOneOdrLstByOdrLstId(String odrLstId) {
+		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstId) > 0;
+	}
+
+	@Override
+	public List<OdrDtlVO> odrDtlForOdrLst(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.odrDtlForOdrLst(odrDtlVO);
+	}
+	
+	
 	
 	
 	

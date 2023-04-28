@@ -7,13 +7,18 @@ body{
 	color: #333;
 	font-size: 12pt;
 }
+a { 
+	color: #333;
+	font-size: 12pt;
+}
+
 /*Main Layout*/
 .main-layout > .header{
 	height: 90px;
 	padding: 10px;
 	position: relative;
 }
-.bg-black{
+.bg-black {
 	background-color: #555;
 }
 .main-layout > .header > .nav{

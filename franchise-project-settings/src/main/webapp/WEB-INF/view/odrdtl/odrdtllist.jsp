@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -13,6 +14,13 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		
+		var odrPrcs = "${odrPrcs.odrLstOdrPrcs}";
+		var listSize = ${odrDtlList ne null ? odrDtlList.size() : 0};
+		
+		if (listSize == 0) {
+			location.href = "${context}/odrlst/list";
+		}
 		
 		$(".odrdtl_table_grid > table > tbody > tr").not(".delete_btn").click(function() {
 			var data = $(this).data();
@@ -39,6 +47,15 @@
 				return;
 			}
 			
+			if (odrPrcs != "003-01") {
+				if (odrPrcs == "003-05") {
+					alert("주문 취소된 주문서입니다.");
+					return;
+				}
+				alert("이미 주문 접수된 주문서입니다.");
+				return;
+			}
+			
 			if (!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
@@ -55,6 +72,15 @@
 		
 		$(".delete_btn").click(function(){
 			
+			if (odrPrcs != "003-01") {
+				if (odrPrcs == "003-05") {
+					alert("주문 취소된 주문서입니다.");
+					return;
+				}
+				alert("이미 주문 접수된 주문서입니다.");
+				return;
+			}
+			
 			if (!confirm("해당 물품을 삭제하시겠습니까?")) {
 				return;
 			}
@@ -70,7 +96,56 @@
 			
 		});
 		
+		$("#pay_btn").click(function() {
+			
+			var pyMn = ${mbrVO.mbrPyMn};
+			var sumPrice = parseInt($("#sum").val());
+			
+			console.log(odrPrcs);
+			console.log(odrPrcs);
+			console.log(odrPrcs);
+			console.log(odrPrcs);
+			
+			if (odrPrcs != "003-01") {
+				if (odrPrcs == "003-05") {
+					alert("주문 취소된 주문서입니다.");
+					return;
+				}
+				alert("이미 결제 처리된 주문서입니다.");
+				return;
+			}
+			
+			if (listSize == 0) {
+				alert("주문할 물품이 없습니다.");
+				return;
+			}
+			
+			if (sumPrice > pyMn) {
+				alert("충전 잔량이 부족합니다. 먼저 금액을 충전해 주세요!");
+				return;
+			}
+			var restMn = pyMn - sumPrice;
+			$.post("${context}/api/odrlst/update/${odrLstId}", {"mbrPyMn": restMn}, function(response){
+				if (response.status == "200 OK") {
+					alert("주문이 접수되었습니다.");
+					location.href = "${context}/odrlst/list";
+				}
+				else {
+					alert(response.errorCode + " / " + response.message);
+				}
+			});
+		});
+		
+		$("#list_btn").click(function() {
+			location.href = "${context}/odrlst/list";
+		});
+		
 	});
+	
+	function movePage(pageNo) {
+		location.href = "${context}/odrdtl/list/${odrLstId}?pageNo=" + pageNo;
+	}
+	
 </script>
 </head>
 <body>
@@ -128,7 +203,7 @@
 										</c:choose>
 										<c:choose>
 											<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
-												<td><del>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span>${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
+												<td><del style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span>${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
 											</c:when>
 											<c:otherwise>
 												<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
@@ -137,8 +212,16 @@
 										<td onclick="event.cancelBubble=true"><button type="button" class="btn btn-danger btn-sm delete_btn"
 													 value="${odr.odrDtlId}">삭제</button></td>
 									</tr>
-									<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}" />
+									<c:choose>
+										<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+											<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}" />
+										</c:when>
+										<c:otherwise>
+											<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}" />
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
+								<input type="hidden" id="sum" value='<c:out value="${sum}"/>'/>
 							</c:when>
 							<c:otherwise>
 								<td colspan="9">주문 내역이 없습니다.</td>
@@ -146,14 +229,48 @@
 						</c:choose>
 					</tbody>
 				</table>
+				
 				<div>
 					<div>
-						합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원
+						<div style="display: inline-block;">합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
+						<div style="display: inline-block;">충전 잔량 : <span><c:out value="${mbrVO.mbrPyMn}" /></span>원</div>
 					</div>
-					<div><button type="button" class="btn btn-success">결제하기</button></div>
+					<div>
+						<button id="pay_btn" type="button" class="btn btn-success">결제하기</button>
+						<button id="list_btn" type="button" class="btn btn-secondary">목록</button>
+					</div>
 				</div>
 			</div>
-			
+			<div class="pagenate">
+				<ul>
+					<c:set value="${odrDtlList.size() >0 ? odrDtlList.get(0).lastPage : 0}" var="lastPage" />
+					<c:set value="${odrDtlList.size() >0 ? odrDtlList.get(0).lastGroup : 0}" var="lastGroup" />
+					
+					<fmt:parseNumber var="nowGroup" value="${Math.floor(odrDtlVO.pageNo / 10)}" integerOnly="true" />
+					<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+					
+					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+					<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+					
+					
+					<c:if test="${nowGroup > 0}">
+						<li><a href="javascript:movePage(0)">처음</a></li>
+						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+					</c:if>
+				
+					
+					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+						<li><a class="${pageNo eq odrDtlVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+					</c:forEach>
+					
+					<c:if test="${lastGroup > nowGroup}">
+						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+					</c:if>
+				</ul>
+			</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

@@ -9,7 +9,7 @@ public interface OdrLstDAO {
 	
 	public int checkRemainOdrLst(OdrDtlVO odrDtlVO);
 	
-	public OdrLstVO getOdrLstId(String mbrId);
+	public OdrLstVO getOdrLstId(OdrDtlVO odrDtlVO);
 	
 	public int createNewOdrLst(OdrLstVO odrLstVO);
 	
@@ -17,16 +17,27 @@ public interface OdrLstDAO {
 	
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO);
 	
+	public OdrLstVO isThisMyOdrLst(String odrLstId);
+	/**
+	 * 주문서 ID를 기준으로 현재 주문 상태를 받아옵니다.(OdrDtlController에서 사용합니다.)
+	 * @param odrLstId 주문서 ID
+	 * @return odrLstOdrPrcs(주문 처리 상태)
+	 */
+	public OdrLstVO getOdrPrcs(String odrLstId);
+	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);
 	
-	public int updateOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
+	public int updateOdrPrcsToReadyByOdrLstId(String odrLstId);
 	
-	public int deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO);
+	public int deleteOneOdrLstByOdrLstId(String odrLstId);
+	
+	public int deleteOdrLstBySelectedLstId(List<String> odrLstId);
 
 	/**
 	 * 매장용
 	 */
 	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO);
-	
+	public int updateCheckAll(OdrLstVO odrLstVO);
+	public List<OdrLstVO> completeOdrForStr(OdrLstVO odrLstVO);
 	
 }

@@ -202,7 +202,7 @@
 		SELECT COUNT(1)
 		  FROM HR
 		 WHERE MBR_ID = #{_parameter}
-		   AND HR_STAT IN ('002-01', '002-01')
+		   AND HR_STAT IN ('002-01', '002-02')
 		   AND DEL_YN = 'N'
 	</select>
 	<!-- 직원조회용 -->

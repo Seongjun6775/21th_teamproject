@@ -47,62 +47,33 @@ public class StrPrdtController {
 	public String strPrdtList(StrPrdtVO strPrdtVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			, Model model) {
-		// 세션>회원의 등급이 상위관리자가 아닐경우
-		if (mbrVO.getMbrLvl().equals("001-01")) {
-			PrdtVO prdtVO = new PrdtVO();
-			
-			List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
-			List<StrVO> strList = strService.readAll();
-			List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
-			List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
-			
-			model.addAttribute("strPrdtList", strPrdtList);
-			model.addAttribute("strPrdtVO", strPrdtVO);
-			model.addAttribute("strList", strList);
-			model.addAttribute("prdtList", prdtList);
-			model.addAttribute("srtList", srtList);
-			
-			return "strprdt/strprdt_list";
-			
-		} else if (mbrVO.getMbrLvl().equals("001-02")) {
-			PrdtVO prdtVO = new PrdtVO();
-			String strId = mbrVO.getStrId() != null ?  mbrVO.getStrId() : "none" ; 
-			strPrdtVO.setStrId(strId);
-			
-			List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
-			StrVO strVO = strService.readOneStrByManager(strId);
-			List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
-			List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
-			
-			model.addAttribute("strPrdtList", strPrdtList);
-			model.addAttribute("strVO", strVO);
-			model.addAttribute("strPrdtVO", strPrdtVO);
-			model.addAttribute("prdtList", prdtList);
-			model.addAttribute("srtList", srtList);
-			
-			return "strprdt/strprdt_list2";
-			
-		} else if (mbrVO.getMbrLvl().equals("001-03")) {
-			PrdtVO prdtVO = new PrdtVO();
-			String strId = mbrVO.getStrId() != null ?  mbrVO.getStrId() : "none" ; 
-			strPrdtVO.setStrId(strId);
-			
-			List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
-			StrVO strVO = strService.readOneStrByManager(strId);
-			List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
-			List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
-			
-			model.addAttribute("strPrdtList", strPrdtList);
-			model.addAttribute("strVO", strVO);
-			model.addAttribute("strPrdtVO", strPrdtVO);
-			model.addAttribute("prdtList", prdtList);
-			model.addAttribute("srtList", srtList);
-			
-			return "strprdt/strprdt_list3";
-			
-		} else {
+		// 세션>회원의 등급이 이용자일 경우
+		if (mbrVO.getMbrLvl().equals("001-04")) {
 			return "prdt/session_error";
+		} else if (!mbrVO.getMbrLvl().equals("001-01")) {
+			if (mbrVO.getStrId() == null) {
+				strPrdtVO.setStrId("-");
+			} else {
+				strPrdtVO.setStrId(mbrVO.getStrId());
+			}
 		}
+		
+		PrdtVO prdtVO = new PrdtVO();
+		
+		List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
+		List<StrVO> strList = strService.readAll();
+		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
+		
+		model.addAttribute("mbrVO", mbrVO);
+		model.addAttribute("strPrdtList", strPrdtList);
+		model.addAttribute("strPrdtVO", strPrdtVO);
+		model.addAttribute("strList", strList);
+		model.addAttribute("prdtList", prdtList);
+		model.addAttribute("srtList", srtList);
+		
+		return "strprdt/strprdt_list";
+		
 	}
 	
 	@GetMapping("/strprdt/list2")

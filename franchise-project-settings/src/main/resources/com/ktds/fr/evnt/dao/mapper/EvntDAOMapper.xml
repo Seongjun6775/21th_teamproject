@@ -83,7 +83,7 @@
 	   </select>
 
 
-	<select id="readAllOngoingEvnt"
+ <select id="readAllOngoingEvnt"
 		parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
 		<include refid="Common.pageHeader" />
@@ -110,7 +110,7 @@
 	   </select>
 	   
 	   
-	  <select id="readAllPastEvnt"
+	<select id="readAllPastEvnt"
 		parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
 		<include refid="Common.pageHeader" />		
@@ -135,9 +135,9 @@ SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
 		<include refid="Common.pageFooter" />
 	   </select>
 	   
-	   
-	    <select id="readAllPlanEvnt"
-		parameterType="com.ktds.fr.evnt.vo.EvntVO"
+	   	   
+	 <select id="readAllPlanEvnt"
+	 parameterType="com.ktds.fr.evnt.vo.EvntVO"
 		resultType="com.ktds.fr.evnt.vo.EvntVO">
 		<include refid="Common.pageHeader" />
 		

@@ -381,4 +381,11 @@
 		   AND M.DEL_YN='N'
 		   AND M.USE_YN='Y'
 	</select>
+	
+	<update id="updateRestMbrPyMn"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+		UPDATE MBR
+		   SET MBR_PY_MN = #{mbrPyMn}
+		 WHERE MBR_ID = #{mbrId}
+	</update>
 </mapper>

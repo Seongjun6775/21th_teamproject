@@ -142,20 +142,24 @@ function movePage(pageNo) {
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all-check"/></th>
-							<th>
-								<select class="selectFilter" name="selectFilter"
-										id="search-keyword-str">
-									<option value="">매장</option>
-									<c:choose>
-										<c:when test="${not empty strList}">
-											<c:forEach items="${strList}"
-														var="str">
-												<option value="${str.strId}">${str.strNm} (${str.strId})</option>
-											</c:forEach>
-										</c:when>
-									</c:choose>
-								</select>
-							</th>
+
+							<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+								<th>
+									<select class="selectFilter" name="selectFilter"
+											id="search-keyword-str">
+										<option value="">매장</option>
+										<c:choose>
+											<c:when test="${not empty strList}">
+												<c:forEach items="${strList}"
+															var="str">
+													<option value="${str.strId}">${str.strNm} (${str.strId})</option>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</select>
+								</th>
+							</c:if>
+							
 							<th>
 								<select class="selectFilter" name="selectFilter"
 									id="search-keyword-prdtSrt">
@@ -215,7 +219,11 @@ function movePage(pageNo) {
 										<td class="align-center">
 											<input type="checkbox" class="check-idx" value="${strPrdt.strPrdtId}" />
 										</td>
-										<td>${strPrdt.strVO.strNm}</td>
+										
+										<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+											<td>${strPrdt.strVO.strNm}</td>
+										</c:if>
+										
 										<td>${strPrdt.cmmnCdVO.cdNm}</td>
 										<td>${strPrdt.prdtVO.prdtNm}</td>
 										<td>${empty strPrdt.evntVO.evntId ? "N" : "Y"}</td>
@@ -242,19 +250,22 @@ function movePage(pageNo) {
 						총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건
 						<%-- 총 ${strPrdtList.size() > 0 ? strPrdtList.size() : 0}건 --%>
 					</div>
-					<div class="align-right absolute " style="right: 0px;" >
-						<button class="btn-primary" 
-								id="btn-search-reset">검색초기화</button>
-						<select class="selectFilter"
-								id="select-useYn">
-							<option value="">사용유무</option>
-							<option value="Y">Y</option>
-							<option value="N">N</option>
-						</select>
-						<button id="btn-update-all" 
-								class="btn-primary btn-delete" 
-								style="vertical-align: top;">일괄수정</button>
-					</div>
+					
+					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
+						<div class="align-right absolute " style="right: 0px;" >
+							<button class="btn-primary" 
+									id="btn-search-reset">검색초기화</button>
+							<select class="selectFilter"
+									id="select-useYn">
+								<option value="">사용유무</option>
+								<option value="Y">Y</option>
+								<option value="N">N</option>
+							</select>
+							<button id="btn-update-all" 
+									class="btn-primary btn-delete" 
+									style="vertical-align: top;">일괄수정</button>
+						</div>
+					</c:if>
 					
 					<div class="pagenate">
 						<ul>
@@ -290,9 +301,12 @@ function movePage(pageNo) {
 				<div class="align-right grid-btns">
 					<a href="${context}/prdt/list">메뉴리스트</a>
 				</div>
-				<button id="btn-missingCheck" 
-								class="btn-primary btn-delete" 
-								style="vertical-align: top;">누락체크</button>
+				
+				<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+					<button id="btn-missingCheck" 
+									class="btn-primary btn-delete" 
+									style="vertical-align: top;">누락체크</button>
+				</c:if>
 				
 			</div>
 			

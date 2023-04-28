@@ -9,9 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%
-MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
-%>
+<% MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__"); %>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="../css/evntCommon.css?p=${date}" />
 <meta charset="UTF-8">
@@ -166,13 +164,14 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 					<table>
 						<thead>
 							<tr>
-								<th style="width: 50px"><input type="checkbox" id="all-check" /></th>
+								<!--<th style="width: 50px"></th>-->
+								<!-- <input type="checkbox" id="all-check"/> -->
 								<th style="width: 200px">이벤트 ID</th>
 								<th style="width: 300px">이벤트 제목</th>
 								<th style="width: 400px">이벤트 내용</th>
 								<th style="width: 200px">시작일</th>
 								<th style="width: 200px">종료일</th>
-<!-- 								<th style="width: 100px">사진</th> -->
+<!-- 							<th style="width: 100px">사진</th> -->
 								<th style="width: 80px">사용유무</th>
 
 							</tr>
@@ -182,8 +181,9 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 								<c:when test="${not empty evntList}">
 									<c:forEach items="${evntList}" var="evnt">
 										<tr>
-											<td class="firstcell" style="text-align:center;"><input type="checkbox"
-												class="check-idx" value="${evnt.evntId}" /></td>
+										    <!-- <td class="firstcell" style="text-align:center;"> --> 
+											<!-- <input type="checkbox" class="check-idx" value="${evnt.evntId}" /></td> -->
+
 											<td style="text-align:center;">${evnt.evntId}</td>
 											<td style="text-align:center;"><a href="${context}/evnt/detail/${evnt.evntId}">${evnt.evntTtl}</a></td>
 											<td style="text-align:center;">${evnt.evntCntnt}</td>
@@ -191,12 +191,13 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 											<td style="text-align:center;">${evnt.evntEndDt}</td>
 <%-- 											<td>${evnt.orgnFlNm}</td> --%>
 											<td style="text-align:center;">${evnt.useYn}</td>
+
 										</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="7">등록된 이벤트가 없습니다.</td>
+										<td colspan="6">등록된 이벤트가 없습니다.</td>
 									</tr>
 								</c:otherwise>
 							</c:choose>
@@ -241,10 +242,12 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 			</div>
 			 --%>
 				<div>
-					<button id="btn-ourStrEvnt" class="btn-primary">우리매장 참여중인 이벤트</button>
+					<c:if test="${mbrVO.mbrLvl eq '001-02'}">
+					<button type="submit" id="btn-ourStrEvnt" class="btn-primary">우리매장 참여중인 이벤트</button>
+					</c:if>
 				</div>
 				<div>
-					<button id="btn-checkEvnts" class="btn-primary">체크 이벤트..</button>
+	 			<%-- 	<button id="btn-checkEvnts" class="btn-primary">체크 이벤트..</button>--%>
 				</div>
 				<div>
 					<button id="btn-ongoingList" class="btn-primary">이용자 페이지로 이동</button>
