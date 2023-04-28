@@ -11,7 +11,6 @@
 <meta charset="UTF-8">
 <title>${strVO.strNm} - 주문하기</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
@@ -43,10 +42,10 @@ $().ready(function() {
 		var checkCount = $(".check-idx03:checked").length;
 		$("#all-check03").prop("checked", count == checkCount);
 	});
-	
+
 	
 	$("#btn-complete02").click(function() {
-		var checkLen = $(".check-id02x:checked").length;
+		var checkLen = $(".check-idx02:checked").length;
 		if (checkLen == 0) {
 			alert("선택된 항목이 없습니다.");
 			return;
@@ -55,23 +54,153 @@ $().ready(function() {
 			return;
 		}
 		
-		var form = $("<form></form>")
 		
-		$(".check-idx:checked").each(function() {
-			console.log($(this).val());
-			form.append("<input type='hiedden' name='odrLstList' value='" + $(this).val() + "'>");
+		var odrLstIdList = [];
+		$(".check-idx02:checked").each(function() {
+		    odrLstIdList.push($(this).val());
+		});
+		console.log(odrLstIdList);
+		var odrLstVO = {
+				"mdfyr" : "${mbrVO.mbrId}",
+				"odrLstOdrPrcs" : "003-03",
+				"odrLstIdList" : odrLstIdList
+		};
+		
+		$.ajax({
+		    type: "POST",
+		    url: "${context}/api/odrLst/updateCheckAll",
+		    data: JSON.stringify(odrLstVO),
+            contentType: "application/json",
+		    success: function(response) {
+		        if (response.status == "200 OK") {
+		            location.reload(); //새로고침
+		        }
+		        else {
+					alert(response.errorCode + " / " + response.message);
+				}
+		    }
 		});
 		
-		$.post("${context}/api/prdt/updateAll", form.serialize(), function(response) {
-			if (response.status == "200 OK") {
-				location.reload(); //새로고침
-			}
-			else {
-				alert(response.errorCode + " / " + response.message);
-			}
+		
+	})
+	
+	$("#btn-cancle02").click(function() {
+		var checkLen = $(".check-idx02:checked").length;
+		if (checkLen == 0) {
+			alert("선택된 항목이 없습니다.");
+			return;
+		}
+		if (!confirm("주문취소 ? ")) {
+			return;
+		}
+		
+		
+		var odrLstIdList = [];
+		$(".check-idx02:checked").each(function() {
+			console.log($(this).val());
+		    odrLstIdList.push($(this).val());
+		});
+		console.log(odrLstIdList);
+		var odrLstVO = {
+				"mdfyr" : "${mbrVO.mbrId}",
+				"odrLstOdrPrcs" : "003-05",
+				"odrLstIdList" : odrLstIdList
+		};
+		
+		$.ajax({
+		    type: "POST",
+		    url: "${context}/api/odrLst/updateCheckAll",
+		    data: JSON.stringify(odrLstVO),
+            contentType: "application/json",
+		    success: function(response) {
+		        if (response.status == "200 OK") {
+		            location.reload(); //새로고침
+		        }
+		        else {
+					alert(response.errorCode + " / " + response.message);
+				}
+		    }
 		});
 	})
 	
+	$("#btn-complete03").click(function() {
+		var checkLen = $(".check-idx03:checked").length;
+		if (checkLen == 0) {
+			alert("선택된 항목이 없습니다.");
+			return;
+		}
+		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
+			return;
+		}
+		
+		
+		var odrLstIdList = [];
+		$(".check-idx03:checked").each(function() {
+		    odrLstIdList.push($(this).val());
+		});
+		console.log(odrLstIdList);
+		var odrLstVO = {
+				"mdfyr" : "${mbrVO.mbrId}",
+				"odrLstOdrPrcs" : "003-04",
+				"odrLstIdList" : odrLstIdList
+		};
+		
+		$.ajax({
+		    type: "POST",
+		    url: "${context}/api/odrLst/updateCheckAll",
+		    data: JSON.stringify(odrLstVO),
+            contentType: "application/json",
+		    success: function(response) {
+		        if (response.status == "200 OK") {
+		            location.reload(); //새로고침
+		        }
+		        else {
+					alert(response.errorCode + " / " + response.message);
+				}
+		    }
+		});
+		
+		
+	})
+	
+	$("#btn-cancle03").click(function() {
+		var checkLen = $(".check-idx03:checked").length;
+		if (checkLen == 0) {
+			alert("선택된 항목이 없습니다.");
+			return;
+		}
+		if (!confirm("주문취소 ? ")) {
+			return;
+		}
+		
+		
+		var odrLstIdList = [];
+		$(".check-idx03:checked").each(function() {
+			console.log($(this).val());
+		    odrLstIdList.push($(this).val());
+		});
+		console.log(odrLstIdList);
+		var odrLstVO = {
+				"mdfyr" : "${mbrVO.mbrId}",
+				"odrLstOdrPrcs" : "003-05",
+				"odrLstIdList" : odrLstIdList
+		};
+		
+		$.ajax({
+		    type: "POST",
+		    url: "${context}/api/odrLst/updateCheckAll",
+		    data: JSON.stringify(odrLstVO),
+            contentType: "application/json",
+		    success: function(response) {
+		        if (response.status == "200 OK") {
+		            location.reload(); //새로고침
+		        }
+		        else {
+					alert(response.errorCode + " / " + response.message);
+				}
+		    }
+		});
+	})
 	
 	
 });
@@ -88,13 +217,19 @@ function movePage(pageNo) {
 
 </script>
 </head>
-<body>
+<body class="bg-dark bg-opacity-10 ">
+<jsp:include page="../include/logo.jsp" />
+	<main class="d-flex flex-nowrap ">	
+		<jsp:include page="../include/sidemenu.jsp" />
+		<div style="margin:0px 0px 0px 250px; width: 100%;">
+			<jsp:include page="../include/header.jsp" />
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+				<span class="fs-5 fw-bold">기본페이지</span>
+		    </div>
+ 
+		    <!-- contents -->
+		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"></jsp:include>
-		<div>
-			<jsp:include page="../include/sidemenu.jsp"></jsp:include>
-			<jsp:include page="../include/content.jsp"></jsp:include>
 
 
 			<br>매장이름임 ${strVO.strNm} (${strVO.strId})
@@ -109,11 +244,11 @@ function movePage(pageNo) {
 							<div class="inline-block">
 								<button id="btn-complete02" 
 										class="btn-primary btn-create" 
-										style="vertical-align: top;">완료</button>
+										style="vertical-align: top;">주문처리</button>
 										
 								<button id="btn-cancle02" 
 										class="btn-primary btn-delete" 
-										style="vertical-align: top;">취소</button>
+										style="vertical-align: top;">주문취소</button>
 							</div>
 						</div>
 						
@@ -142,7 +277,7 @@ function movePage(pageNo) {
 														<td>${ordLst.odrLstId}</td>							
 														<td>${ordLst.mbrId}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.odrLstRgstr}</td>							
+														<td>${ordLst.mdfyr}</td>							
 														<td>${ordLst.mdfyDt}</td>							
 													</tr>
 												</c:if>
@@ -160,11 +295,11 @@ function movePage(pageNo) {
 							<div class="inline-block">
 								<button id="btn-complete03" 
 										class="btn-primary btn-create" 
-										style="vertical-align: top;">완료</button>
+										style="vertical-align: top;">처리완료</button>
 										
 								<button id="btn-cancle03" 
 										class="btn-primary btn-delete" 
-										style="vertical-align: top;">취소</button>
+										style="vertical-align: top;">주문취소</button>
 							</div>
 						</div>
 						
@@ -188,31 +323,18 @@ function movePage(pageNo) {
 												<c:if test="${ordLst.odrLstOdrPrcs eq '003-03'}">
 													<tr>
 														<td class="align-center">
-															<input type="checkbox" class="check-idx03" value="${prdt.prdtId}" />
+															<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
 														</td>
 														<td>${ordLst.odrLstId}</td>							
 														<td>${ordLst.mbrId}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.odrLstRgstr}</td>							
+														<td>${ordLst.mdfyr}</td>							
 														<td>${ordLst.mdfyDt}</td>							
 													</tr>
 												</c:if>
 											</c:forEach>
 										</c:when>
 									</c:choose>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
 								</tbody>
 							</table>
 						</div>
@@ -244,7 +366,7 @@ function movePage(pageNo) {
 												<td>${ordLst.odrLstId}</td>							
 												<td>${ordLst.mbrId}</td>							
 												<td>${ordLst.odrLstRgstDt}</td>							
-												<td>${ordLst.odrLstRgstr}</td>							
+												<td>${ordLst.mdfyr}</td>							
 												<td>${ordLst.mdfyDt}</td>							
 											</tr>
 										</c:forEach>
@@ -257,11 +379,11 @@ function movePage(pageNo) {
 			</div>
 					
 	
-	
-	
-			<jsp:include page="../include/footer.jsp"></jsp:include>
+
+		    </div>
+      		<!-- /contents -->
 		</div>
-	</div>
+	</main>
 
 
 </body>

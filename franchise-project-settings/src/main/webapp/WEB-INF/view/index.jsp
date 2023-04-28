@@ -11,15 +11,14 @@
 <title>Insert title here</title>
 <jsp:include page="./include/stylescript.jsp" />
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="./include/header.jsp" />
-		<div>
-			<jsp:include page="./include/sidemenu.jsp" />
-			<jsp:include page="./include/content.jsp" />
-			
-			<jsp:include page="./include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="./include/openBody.jsp" />
+			<!-- contents -->
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+				<span class="fs-5 fw-bold">기본페이지</span>
+		    </div>
+		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
+		    	<h3>기본 페이지 </h3>
+		    </div>
+      		<!-- /contents -->
+		<jsp:include page="./include/closeBody.jsp" />
 </html>

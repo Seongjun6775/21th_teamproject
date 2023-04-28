@@ -35,9 +35,7 @@ $(document).ready(function() {
 		$("#ctyTable").children("tbody").empty();
 		$("#strTable").children("tbody").empty();
 		
-		$.post("${context}/api/strprdt/list2/lct",
-			{lctId: lct},
-			function(data) {
+		$.post("${context}/api/strprdt/list2/lct", {lctId: lct}, function(data) {
 				for (var i = 0; i < data.length; i++) {
 				    var ctyId = data[i].ctyId;
 				    var ctyNm = data[i].ctyNm;
@@ -65,9 +63,7 @@ $(document).ready(function() {
 		$("#strTable").children("tbody").empty();
 		if (!ctyId)	return;
 		
-		$.post("${context}/api/strprdt/list2/cty",
-		        {ctyId: ctyId},
-		        function(data) {
+		$.post("${context}/api/strprdt/list2/cty", {ctyId: ctyId}, function(data) {
 		        	for (var i = 0; i < data.length; i++) {
 					    var strId = data[i].strId;
 					    var strNm = data[i].strNm;

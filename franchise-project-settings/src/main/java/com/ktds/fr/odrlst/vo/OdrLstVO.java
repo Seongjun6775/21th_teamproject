@@ -2,7 +2,9 @@ package com.ktds.fr.odrlst.vo;
 
 import java.util.List;
 
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.str.vo.StrVO;
 
@@ -54,11 +56,17 @@ public class OdrLstVO extends AbstractVO{
 	/**
 	 * 상태변경 할 주문서 목록
 	 */
-	private List<OdrLstVO> odrLstList;
+	private List<String> odrLstIdList;
 	/**
 	 * 주문서 안의 물품들 정보
 	 */
 	private List<OdrDtlVO> odrDtlList;
+	
+	
+	private CmmnCdVO cmmnCdVO;
+	private MbrVO mbrVO;
+	private MbrVO mdfyrMbrVO;
+	
 
 	public String getOdrLstId() {
 		return odrLstId;
@@ -148,12 +156,12 @@ public class OdrLstVO extends AbstractVO{
 		this.strVO = strVO;
 	}
 
-	public List<OdrLstVO> getOdrLstList() {
-		return odrLstList;
+	public List<String> getOdrLstIdList() {
+		return odrLstIdList;
 	}
 
-	public void setOdrlstList(List<OdrLstVO> odrLstList) {
-		this.odrLstList = odrLstList;
+	public void setOdrlstIdList(List<String> odrLstIdList) {
+		this.odrLstIdList = odrLstIdList;
 	}
 
 	public List<OdrDtlVO> getOdrDtlList() {
@@ -163,6 +171,36 @@ public class OdrLstVO extends AbstractVO{
 	public void setOdrDtlList(List<OdrDtlVO> odrDtlList) {
 		this.odrDtlList = odrDtlList;
 	}
+
 	
+	
+	
+	public CmmnCdVO getCmmnCdVO() {
+		return cmmnCdVO;
+	}
+
+	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
+		this.cmmnCdVO = cmmnCdVO;
+	}
+
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
+
+	public MbrVO getMdfyrMbrVO() {
+		return mdfyrMbrVO;
+	}
+
+	public void setMdfyrMbrVO(MbrVO mdfyrMbrVO) {
+		this.mdfyrMbrVO = mdfyrMbrVO;
+	}
+
+	public void setOdrLstIdList(List<String> odrLstIdList) {
+		this.odrLstIdList = odrLstIdList;
+	}
 	
 }

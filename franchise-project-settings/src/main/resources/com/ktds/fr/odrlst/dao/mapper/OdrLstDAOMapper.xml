@@ -13,6 +13,22 @@
 		              autoMapping="true">
 			<id property="strId" column="STR_ID" />
 		</association>
+		<association property="cmmnCdVO"
+					javaType="com.ktds.fr.cmmncd.vo.CmmnCdVO"
+					autoMapping="true">
+			<id property="cdId" column="ODR_LST_ODR_PRCS"/>
+		</association>
+		<association property="mbrVO"
+					javaType="com.ktds.fr.mbr.vo.MbrVO"
+					autoMapping="true">
+			<id property="mbrId" column="MBR_ID"/>
+		</association>
+		<association property="mdfyrMbrVO"
+					javaType="com.ktds.fr.mbr.vo.MbrVO"
+					autoMapping="true">
+			<id property="mbrId" column="MDFYR"/>
+			<result property="mbrNm" column="MDFYR_NM"/>
+		</association>
 	</resultMap>
 	
 	<select id="checkRemainOdrLst"
@@ -173,32 +189,77 @@
 	<!-- 매장용 -->
 	<select id="readAllOdrLstForStr"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
-			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
-		SELECT ODR_LST_ID
-		     , MBR_ID
-		     , ODR_LST_ODR_PRCS
-		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
-		     , ODR_LST_RGSTR
-		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		     , MDFYR
-		  FROM ODR_LST
-		 WHERE DEL_YN = 'N'
-		   AND USE_YN = 'Y'
-		   AND STR_ID = #{strId}
-		   AND ODR_LST_ODR_PRCS != '003-01'
+			resultMap="odrLstMap">
+		SELECT OL.ODR_LST_ID
+		     , OL.MBR_ID
+		     , R.MBR_NM
+		     , OL.ODR_LST_ODR_PRCS
+		     , C.CD_NM
+		     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , OL.ODR_LST_RGSTR
+		     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , OL.MDFYR
+		     , M.MBR_NM MDFYR_NM
+		  FROM ODR_LST OL
+		  LEFT OUTER JOIN MBR R
+		    ON OL.MBR_ID = R.MBR_ID
+		  LEFT OUTER JOIN MBR M
+		    ON OL.MDFYR = M.MBR_ID
+		 INNER JOIN CMMN_CD C
+		    ON OL.ODR_LST_ODR_PRCS = C.CD_ID
+		 WHERE OL.DEL_YN = 'N'
+		   AND OL.USE_YN = 'Y'
+		   AND OL.STR_ID = #{strId}
+		   AND OL.ODR_LST_ODR_PRCS != '003-01'
 		<choose>
 			<when test='odrLstOdrPrcs == "003-04"'>
-		   AND ODR_LST_ODR_PRCS = '003-04'
-		 ORDER BY MDFY_DT ASC
+		   AND OL.ODR_LST_ODR_PRCS = '003-04'
+		 ORDER BY OL.MDFY_DT ASC
 			</when>
 			<otherwise>
-		   AND ODR_LST_ODR_PRCS != '003-04'
-		 ORDER BY ODR_LST_RGST_DT DESC
+		   AND OL.ODR_LST_ODR_PRCS != '003-04'
+		 ORDER BY OL.ODR_LST_RGST_DT DESC
 			</otherwise>
 		</choose>
 	</select>
+	<select id="completeOdrForStr"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
+			resultMap="odrLstMap">
+		SELECT OL.ODR_LST_ID
+		     , OL.MBR_ID
+		     , R.MBR_NM
+		     , OL.ODR_LST_ODR_PRCS
+		     , C.CD_NM
+		     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , OL.ODR_LST_RGSTR
+		     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , OL.MDFYR
+		     , M.MBR_NM MDFYR_NM
+		  FROM ODR_LST OL
+		  LEFT OUTER JOIN MBR R
+		    ON OL.MBR_ID = R.MBR_ID
+		  LEFT OUTER JOIN MBR M
+		    ON OL.MDFYR = M.MBR_ID
+		 INNER JOIN CMMN_CD C
+		    ON OL.ODR_LST_ODR_PRCS = C.CD_ID
+		 WHERE OL.DEL_YN = 'N'
+		   AND OL.USE_YN = 'Y'
+		   AND OL.STR_ID = #{strId}
+		 ORDER BY OL.ODR_LST_RGST_DT DESC
+	</select>
 	
-	
+	<update id="updateCheckAll"
+			parameterType="arrayList">
+		UPDATE ODR_LST 
+		   SET ODR_LST_ODR_PRCS = #{odrLstOdrPrcs} 
+		     , MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr} 
+		 WHERE ODR_LST_ID IN 
+		<foreach item="odrId" collection="odrLstIdList"
+		    open="(" separator=", " close=")">
+		  #{odrId} 
+		</foreach>
+	</update>
 	
 	
 	
