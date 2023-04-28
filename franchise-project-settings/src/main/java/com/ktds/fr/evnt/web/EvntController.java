@@ -152,10 +152,6 @@ public class EvntController {
 	// 6. 이용자 페이지(첫화면 -> 현재진행중인 이벤트) ★☆소비자 001-04
 	@RequestMapping("/evnt/ongoingList")
 	public String viewEvntOngoingListPage(Model model, EvntVO evntVO, HttpServletRequest req) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		Calendar c1 = Calendar.getInstance();
-		String strToday = sdf.format(c1.getTime());
-		evntVO.setStrToday(strToday);
 
 		List<EvntVO> evntList = evntService.readAllOngoingEvnt(evntVO);
 
@@ -188,9 +184,88 @@ public class EvntController {
 			model.addAttribute("lastGroup", evntList.get(0).getLastGroup());
 		}
 
-		return "/evnt/ongoingList";
+		return "evnt/ongoingList";
 	}
 
+	
+	// 7. 이용자 페이지(지난이벤트) ★☆소비자 001-04
+	@RequestMapping("/evnt/pastEvntList")
+	public String viewEvntPastListPage(Model model, EvntVO evntVO, HttpServletRequest req) {
+
+		List<EvntVO> evntList = evntService.readAllPastEvnt(evntVO);
+
+		// 리스트 반환
+		model.addAttribute("evntList", evntList);
+
+		// 조회조건 기존 데이터로 세팅
+		model.addAttribute("evntId", evntVO.getEvntId());
+		model.addAttribute("evntTtl", evntVO.getEvntTtl());
+		model.addAttribute("evntCntnt", evntVO.getEvntCntnt());
+		model.addAttribute("evntStrtDt", evntVO.getEvntStrtDt());
+		model.addAttribute("evntEndDt", evntVO.getEvntEndDt());
+		model.addAttribute("useYn", evntVO.getUseYn());
+
+//		model.addAttribute("evntVO", evntVO);
+
+		if (evntList.size() == 0) {
+			model.addAttribute("viewCnt", 20);
+			model.addAttribute("pageCnt", 1);
+			model.addAttribute("pageNo", 0);
+			model.addAttribute("totalCount", 0);
+			model.addAttribute("lastPage", 1);
+			model.addAttribute("lastGroup", 1);
+		} else {
+			model.addAttribute("viewCnt", evntVO.getViewCnt());
+			model.addAttribute("pageCnt", evntVO.getPageCnt());
+			model.addAttribute("pageNo", evntVO.getPageNo());
+			model.addAttribute("totalCount", evntList.get(0).getTotalCount());
+			model.addAttribute("lastPage", evntList.get(0).getLastPage());
+			model.addAttribute("lastGroup", evntList.get(0).getLastGroup());
+		}
+
+		return "evnt/pastEvntList";
+	}
+	
+	
+	
+	// 8. 이용자 페이지(예정 이벤트) ★☆소비자 001-04
+	@RequestMapping("/evnt/planEvntList")
+	public String viewEvntPlanListPage(Model model, EvntVO evntVO, HttpServletRequest req) {
+
+		List<EvntVO> evntList = evntService.readAllPlanEvnt(evntVO);
+
+		// 리스트 반환
+		model.addAttribute("evntList", evntList);
+
+		// 조회조건 기존 데이터로 세팅
+		model.addAttribute("evntId", evntVO.getEvntId());
+		model.addAttribute("evntTtl", evntVO.getEvntTtl());
+		model.addAttribute("evntCntnt", evntVO.getEvntCntnt());
+		model.addAttribute("evntStrtDt", evntVO.getEvntStrtDt());
+		model.addAttribute("evntEndDt", evntVO.getEvntEndDt());
+		model.addAttribute("useYn", evntVO.getUseYn());
+
+//		model.addAttribute("evntVO", evntVO);
+
+		if (evntList.size() == 0) {
+			model.addAttribute("viewCnt", 20);
+			model.addAttribute("pageCnt", 1);
+			model.addAttribute("pageNo", 0);
+			model.addAttribute("totalCount", 0);
+			model.addAttribute("lastPage", 1);
+			model.addAttribute("lastGroup", 1);
+		} else {
+			model.addAttribute("viewCnt", evntVO.getViewCnt());
+			model.addAttribute("pageCnt", evntVO.getPageCnt());
+			model.addAttribute("pageNo", evntVO.getPageNo());
+			model.addAttribute("totalCount", evntList.get(0).getTotalCount());
+			model.addAttribute("lastPage", evntList.get(0).getLastPage());
+			model.addAttribute("lastGroup", evntList.get(0).getLastGroup());
+		}
+
+		return "evnt/planEvntList";
+	}
+	
 	// 5. 사진 다운로드
 	@GetMapping("/evnt/img/{filename}")
 	public void downloadPosterPctr(@PathVariable String filename, HttpServletRequest request,

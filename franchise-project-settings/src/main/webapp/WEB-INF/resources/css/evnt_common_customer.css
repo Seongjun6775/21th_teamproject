@@ -277,6 +277,22 @@ img.profile {
 	height: 100px;
 }
 
+.img-box {
+	overflow: hidden;
+	width: 300px;
+	height: 300px;
+}
+.img-box > img {
+    position: relative;
+    left: 50%;
+    width: auto;
+    min-width: 100%;
+    height: 100%;
+    transform: translateX(-50%);
+	object-fit: cover;
+}
+
+
 /* 등록 폼 */
 .create-group {
 	dispaly: flex;
@@ -301,7 +317,83 @@ img.profile {
 
 /* tabs */
 
+/*여기부터 */
+
+body{
+	margin-top: 100px;
+	line-height: 1.6
+}
+.container{
+	width: 500px;
+	margin: 0 auto;
+}
+
+/*
+.tab-content.current{
+	display: inherit;
+}
+*/
+
+ul.tabs{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+ul.tabs li{
+	background: none;
+	color: #222;
+	display: inline-block;
+	padding: 10px 15px;
+	cursor: pointer;
+}
+
+ul.tabs li.current{
+	background: #cdfeec;
+	color: #222;
+}
+
+.tab-content{
+	display: none;
+	background: #eefff2;
+	padding: 15px;
+}
+
+/*여기까지 */
+
+
 .nave-tabs ul li a:hover {
 	border-color: rgb(214, 241, 207);
 	color: #90f383;
 }
+
+
+/* evnt-customer */
+.evntPhoto {
+	display: inline-flex;
+	background-color: #3333;
+	width: 320px;
+	margin:10px;
+	padding: 10px;
+	flex-direction: column;
+}
+.evnt {
+	width: 180px;
+	height: 180px;
+	background-color: #e6ffff;
+}
+.name {
+	font-size: 24pt;
+	font-weight: bold;
+}
+.price {
+	font-size: 16pt;
+	text-align: right;
+}
+
+
+/* 손님용 customer */
+.headline {
+	height: 200px;
+	background-color: #0f02;
+}
+
