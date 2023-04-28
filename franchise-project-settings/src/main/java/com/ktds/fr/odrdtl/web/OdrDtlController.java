@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 @Controller
 public class OdrDtlController {
@@ -23,7 +25,14 @@ public class OdrDtlController {
 	public String viewOdrDtlListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 								, @PathVariable String odrLstId, OdrDtlVO odrDtlVO, Model model) {
 		
-		// 접근한 계정이 회원일 경우, 회원이 주문한 물품들의 정보를 보여줍니다.
+		// 주문서를 작성한 회원의 ID를 받아옵니다.
+		OdrLstVO lstMbrId = odrDtlService.isThisMyOdrLst(odrLstId);
+		
+		// 주문서에 접근한 계정이 그 주문서를 작성한 계정인지 확인합니다.
+		if (!lstMbrId.getMbrId().equals(mbrVO.getMbrId())) {
+			throw new ApiException("400", "권한이 없습니다.");
+		}
+		// 접근한 계정이 주문서를 작성한 회원 본인일 경우, 회원이 주문한 물품들의 정보를 보여줍니다.
 		if (mbrVO.getMbrLvl().equals("001-04")) {
 			
 			odrDtlVO.setMbrId(mbrVO.getMbrId());
@@ -32,6 +41,7 @@ public class OdrDtlController {
 			
 			model.addAttribute("odrDtlList", odrDtlList);
 			model.addAttribute("odrLstId", odrLstId);
+			model.addAttribute("odrDtlVO", odrDtlVO);
 			model.addAttribute("mbrVO", mbrVO);
 			
 			return "odrdtl/odrdtllist";
@@ -43,7 +53,9 @@ public class OdrDtlController {
 	public String viewOrdDtlPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 								, @PathVariable String odrDtlId, Model model) {
 		
+		// 해당 주문 상세에 대한 정보를 받아옵니다.
 		OdrDtlVO odrDtl = odrDtlService.readOneOdrDtlByOdrDtlId(odrDtlId);
+		// 접근한 계정이 해당 주문 상세의 작성자가 맞는지 확인합니다.
 		if (mbrVO.getMbrLvl().equals("001-04") && odrDtl.getMbrId().equals(mbrVO.getMbrId())) {
 			model.addAttribute("odrDtl", odrDtl);
 			model.addAttribute("mbrVO", mbrVO);

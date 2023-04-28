@@ -42,15 +42,13 @@
 			if (num != now) {
 				count.val(num);
 				
-				var event = "${odrDtl.prdtVO.evntPrdtVO.evntId}";
 				var price = 0;
-				if (event =! null || event != "") {
-					price = ${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc}
+				if ("${odrDtl.prdtVO.evntPrdtVO.evntId}" != "") {
+					price = ${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc};
 				}
 				else {
 					price = ${odrDtl.prdtVO.prdtPrc};
 				}
-				console.log("${odrDtl.prdtVO.evntPrdtVO.evntId}");
 				var totalPrice = num * price;
 				$(".total-price").val(totalPrice);
 			}

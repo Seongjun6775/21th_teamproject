@@ -17,10 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.util.DownloadUtil;
 import com.ktds.fr.evnt.service.EvntService;
 import com.ktds.fr.evnt.vo.EvntVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.web.PrdtController;
 
 @Controller
@@ -34,23 +36,24 @@ public class EvntController {
 	@Value("${upload.evnt.path:/franchise-prj/files/evnt/}")
 	private String profilePath;
 
-	// 1. 이벤트 작성 페이지
+	// 1. 이벤트 등록  ▶▶최상위관리자 001-01
 	@GetMapping("/evnt/create")
 	public String createEvntPage(Model model, EvntVO evntVO) {
 		model.addAttribute("evntVO", evntVO);
 		return "evnt/create";
 	}
 
-	// 2. 이벤트 목록 조회 페이지
+	// 2. 이벤트 전체목록 조회 ▶▶최상위관리자 ▷▷중간관리자 001-01, 001-02
 	@RequestMapping("/evnt/list")
-	public String viewEvntListPage(Model model, EvntVO evntVO, HttpServletRequest req) {
+	public String viewEvntListPage(Model model, EvntVO evntVO, HttpServletRequest req, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 
-		System.out.println("evntVO.getEvntId : " + evntVO.getEvntId());
-		System.out.println("evntVO.getEvntTtl : " + evntVO.getEvntTtl());
-		System.out.println("evntVO.getEvntCntnt : " + evntVO.getEvntCntnt());
-		System.out.println("evntVO.getEvntStrtDt : " + evntVO.getEvntStrtDt());
-		System.out.println("evntVO.getEvntEndDt : " + evntVO.getEvntEndDt());
-		System.out.println("evntVO.getUseYn : " + evntVO.getUseYn());
+//		//확인용
+//		System.out.println("evntVO.getEvntId : " + evntVO.getEvntId());
+//		System.out.println("evntVO.getEvntTtl : " + evntVO.getEvntTtl());
+//		System.out.println("evntVO.getEvntCntnt : " + evntVO.getEvntCntnt());
+//		System.out.println("evntVO.getEvntStrtDt : " + evntVO.getEvntStrtDt());
+//		System.out.println("evntVO.getEvntEndDt : " + evntVO.getEvntEndDt());
+//		System.out.println("evntVO.getUseYn : " + evntVO.getUseYn());
 
 		// 기본조건으로 20개씩 조회
 //		evntVO.setViewCnt(20);
@@ -61,11 +64,12 @@ public class EvntController {
 		System.out.println("evntVO.getViewCnt() : " + evntVO.getViewCnt());
 		System.out.println("evntVO.getPageCnt() : " + evntVO.getPageCnt());
 		System.out.println("evntVO.getPageNo() : " + evntVO.getPageNo());
-
+		
 		List<EvntVO> evntList = evntService.readAllEvnt(evntVO);
 
 		// 리스트 반환
 		model.addAttribute("evntList", evntList);
+		model.addAttribute("mbrVO", mbrVO);
 
 		// 조회조건 기존 데이터로 세팅
 		model.addAttribute("evntId", evntVO.getEvntId());
@@ -96,9 +100,9 @@ public class EvntController {
 		return "/evnt/list";
 	}
 
-	// 3. 이벤트 상세조회
+	// 3. 이벤트 상세조회 (detail page)  ▶▶최상위관리자 ▷▷중간관리자 001-01, 001-02
 	@GetMapping("/evnt/detail/{evntId}")
-	public String postEvntUpdate(Model model, @PathVariable String evntId) {
+	public String postEvntUpdate(Model model, @PathVariable String evntId, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		EvntVO evntVO = evntService.readOneEvnt(evntId);
 
 		System.out.println("/evnt/detail/{evntId} : " + evntId);
@@ -115,11 +119,12 @@ public class EvntController {
 		System.out.println("evntVO.getDelYn : " + evntVO.getDelYn());
 
 		model.addAttribute("evntVO", evntVO);
+		model.addAttribute("mbrVO", mbrVO);
 		return "evnt/detail";
 	}
 
-	// 4. 이벤트 상세조회->그대로 수정페이지로 변환
-
+	
+	// 4. 이벤트 등록 내용 수정 ▶▶최상위관리자 001-01
 	@GetMapping("/evnt/update/{evntId}")
 	public String postEvntUpdatepage(Model model, @PathVariable String evntId) {
 		EvntVO evntVO = evntService.readOneEvnt(evntId);
@@ -144,7 +149,7 @@ public class EvntController {
 
 	}
 
-	// 이벤트페이지(이용자용)
+	// 6. 이용자 페이지(첫화면 -> 현재진행중인 이벤트) ★☆소비자 001-04
 	@RequestMapping("/evnt/ongoingList")
 	public String viewEvntOngoingListPage(Model model, EvntVO evntVO, HttpServletRequest req) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -207,34 +212,4 @@ public class EvntController {
 		}
 		return Integer.parseInt((String) obj);
 	}
-	// 5. 이벤트리스트 검색기능
-	/*
-	 * public String viewSearchEvntPage(Model model, EvntVO evntVO, String search,
-	 * String keyword) { List<EvntVO> searchList = evntService.readAllEvnt(evntVO);
-	 * evntVO.setEvntTtl(search); evntVO.setEvntCntnt(search);
-	 * evntVO.setEvntStrtDt(keyword); model.addAttribute(keyword, searchList);
-	 * 
-	 * return "evnt/list/"; }
-	 */
-
-	/*
-	 * int start = pager.getPageBegin(); int end = pager.getPageEnd(); public
-	 * List<EvntVO> list = evntService.readAllEvnt(Model model, search_option,
-	 * keyword, start, end)
-	 */
-	/*
-	 * // 4. 이벤트 수정 페이지
-	 * 
-	 * @GetMapping("/evnt/update") public String updateEvntPage(Model model, EvntVO
-	 * evntVO) { model.addAttribute("evntVO", evntVO); return "evnt/update"; }
-	 */
-
-	/*
-	 * // 5. 이벤트 삭제 페이지
-	 * 
-	 * @GetMapping("/evnt/detail/{evntId}") public String updatedeleteEvntPage(Model
-	 * model, @PathVariable String evntId) { boolean deleteTF =
-	 * evntService.updateDeleteEvnt(evntId); return "redirect:/evnt/list3"; }
-	 */
-
 }

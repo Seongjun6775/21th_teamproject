@@ -19,11 +19,12 @@ public class EvntVO extends AbstractVO {
 	/* 이벤트 삭제여부 */
 	private String delYn;
 
-	/* 파일 업로드를 위함 */
+	/* 파일 업로드 */
 	private String orgnFlNm;
 	private String uuidFlNm;
 	private long flSize;
 	private String flExt;
+	
 	/* 파일 삭제 */
 	private String isDeletePctr;
 

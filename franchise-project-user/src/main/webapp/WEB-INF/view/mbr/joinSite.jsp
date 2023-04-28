@@ -34,7 +34,7 @@
 					mbrId: $("#lgn_mbrId").val(),
 					mbrPwd: $("#lgn_mbrPwd").val()
 			}
-			$.post("${context}/api/mbr/login", data, function(resp){
+			$.post("${context}/mbr/login", data, function(resp){
 				if(resp.status == "200 OK"){
 					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;

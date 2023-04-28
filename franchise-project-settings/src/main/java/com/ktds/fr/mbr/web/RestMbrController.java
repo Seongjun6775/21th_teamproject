@@ -22,6 +22,7 @@ import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.service.MailSendService;
+import com.ktds.fr.common.util.SessionManager;
 import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
 
@@ -54,6 +55,7 @@ public class RestMbrController {
 		}else {
 			mbr.setMbrRcntLgnIp(request.getRemoteAddr());
 			session.setAttribute("__MBR__", mbr);
+			SessionManager.getInstance().addSession(mbr.getMbrId(), session);
 		}
 		return new ApiResponseVO(ApiStatus.OK, "/index");
 	}
@@ -222,6 +224,11 @@ public class RestMbrController {
 		if(!delResult) {
 			throw new ApiException(ApiStatus.FAIL, "관리자 해임에 실패했습니다. 다시 시도해주세요."); 
 		}
+		
+		for (String mbrId : mbrIdList) {
+			SessionManager.getInstance().destroySession(mbrId);
+		}
+		
 		return new ApiResponseVO(ApiStatus.OK);
 	}
 	

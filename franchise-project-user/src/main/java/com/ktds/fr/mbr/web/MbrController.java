@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
+import com.ktds.fr.common.util.SessionManager;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -30,7 +31,7 @@ public class MbrController {
 	@Autowired
 	private CmmnCdService cmmnCdService;
 	
-	@GetMapping("/user/join")
+	@GetMapping("/join")
 	public String viewJoinPage() {
 		return "mbr/joinSite";
 	}
@@ -78,9 +79,9 @@ public class MbrController {
 		model.addAttribute("myMbr" ,myMbr);
 		return "mbr/mbr_info";
 	}
-	@GetMapping("/logout")
+	@GetMapping("/mbr/logout")
 	public String doLogout(@SessionAttribute("__MBR__")MbrVO mbrVO, HttpSession session) {
-		session.invalidate();
+		SessionManager.getInstance().destorySession(mbrVO.getMbrId());
 		LgnHistVO lgnHistVO = new LgnHistVO();
 		lgnHistVO.setLgnHistActn("logout");
 		lgnHistVO.setMbrId(mbrVO.getMbrId());
