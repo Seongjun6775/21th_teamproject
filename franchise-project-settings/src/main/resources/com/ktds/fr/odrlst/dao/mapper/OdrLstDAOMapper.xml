@@ -119,6 +119,14 @@
 		 WHERE ODR_LST_ID = #{_parameter}
 	</select>
 	
+	<select id="getOdrPrcs"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ODR_PRCS
+		  FROM ODR_LST
+		 WHERE ODR_LST_ID = #{_parameter}
+	</select>
+	
 	<select id="readOneOdrLstByOdrLstId"
 			parameterType="string"
 			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">

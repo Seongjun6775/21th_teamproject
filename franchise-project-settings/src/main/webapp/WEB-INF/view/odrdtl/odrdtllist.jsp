@@ -15,6 +15,13 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		var odrPrcs = "${odrPrcs.odrLstOdrPrcs}";
+		var listSize = ${odrDtlList ne null ? odrDtlList.size() : 0};
+		
+		if (listSize == 0) {
+			location.href = "${context}/odrlst/list";
+		}
+		
 		$(".odrdtl_table_grid > table > tbody > tr").not(".delete_btn").click(function() {
 			var data = $(this).data();
 			if (data.odrdtlid != null && (data.odrdtlid) != "") {
@@ -40,6 +47,15 @@
 				return;
 			}
 			
+			if (odrPrcs != "003-01") {
+				if (odrPrcs == "003-05") {
+					alert("주문 취소된 주문서입니다.");
+					return;
+				}
+				alert("이미 주문 접수된 주문서입니다.");
+				return;
+			}
+			
 			if (!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
@@ -55,6 +71,15 @@
 		});
 		
 		$(".delete_btn").click(function(){
+			
+			if (odrPrcs != "003-01") {
+				if (odrPrcs == "003-05") {
+					alert("주문 취소된 주문서입니다.");
+					return;
+				}
+				alert("이미 주문 접수된 주문서입니다.");
+				return;
+			}
 			
 			if (!confirm("해당 물품을 삭제하시겠습니까?")) {
 				return;
@@ -76,6 +101,25 @@
 			var pyMn = ${mbrVO.mbrPyMn};
 			var sumPrice = parseInt($("#sum").val());
 			
+			console.log(odrPrcs);
+			console.log(odrPrcs);
+			console.log(odrPrcs);
+			console.log(odrPrcs);
+			
+			if (odrPrcs != "003-01") {
+				if (odrPrcs == "003-05") {
+					alert("주문 취소된 주문서입니다.");
+					return;
+				}
+				alert("이미 결제 처리된 주문서입니다.");
+				return;
+			}
+			
+			if (listSize == 0) {
+				alert("주문할 물품이 없습니다.");
+				return;
+			}
+			
 			if (sumPrice > pyMn) {
 				alert("충전 잔량이 부족합니다. 먼저 금액을 충전해 주세요!");
 				return;
@@ -95,7 +139,6 @@
 		$("#list_btn").click(function() {
 			location.href = "${context}/odrlst/list";
 		});
-		
 		
 	});
 	

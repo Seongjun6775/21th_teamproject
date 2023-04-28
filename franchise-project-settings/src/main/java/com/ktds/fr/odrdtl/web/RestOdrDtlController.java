@@ -46,6 +46,11 @@ public class RestOdrDtlController {
 		boolean isSuccess = odrDtlService.deleteOneOdrDtlByOdrDtlId(odrDtlId);
 		
 		if (isSuccess) {
+			// 삭제가 성공했을 때, 남아있는 주문 상품이 없다면 주문서도 삭제합니다.
+			List<OdrDtlVO> restList = odrDtlService.readAllOdrDtlByOdrLstIdAndMbrId(check);
+			if (restList.size() == 0) {
+				odrDtlService.deleteOneOdrLstByOdrLstId(check.getOdrLstId());
+			}
 			return new ApiResponseVO(ApiStatus.OK);
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
