@@ -141,6 +141,34 @@
 	
 	
 	
+	<!-- 매장에서 보는 주문서의 디테일 / 노 페이지네이션 -->
+	<select id="odrDtlForOdrLst"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT OD.ODR_DTL_ID
+			 , OD.ODR_LST_ID
+			 , OD.ODR_DTL_PRDT_ID
+			 , OD.ODR_DTL_PRDT_CNT
+			 , OD.ODR_DTL_STR_ID
+			 , OD.USE_YN
+			 , OD.DEL_YN
+			 , OD.MBR_ID
+			 , P.PRDT_NM
+			 , P.PRDT_PRC 
+			 , S.STR_NM
+			 , S.STR_CALL_NUM 
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
+		  FROM ODR_DTL OD
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		 INNER JOIN STR S
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
+		 WHERE ODR_LST_ID = #{odrLstId}
+		   AND OD.DEL_YN = 'N'
+	</select>
 	
 	
 	

@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -15,6 +17,7 @@ import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.str.vo.StrVO;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
 @RestController
@@ -90,6 +93,14 @@ public class RestOdrDtlController {
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
 		
+	}
+	
+
+	@PostMapping("/api/odrLst/odrDtl")
+	@ResponseBody
+	public List<OdrDtlVO> readCtyStrList(@RequestBody String odrLstId) {
+		
+		return null;
 	}
 	
 
