@@ -25,8 +25,8 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	}
 	
 	@Override
-	public OdrLstVO getOdrLstId(String mbrId) {
-		return getSqlSession().selectOne("OdrLst.getOdrLstId", mbrId);
+	public OdrLstVO getOdrLstId(OdrDtlVO odrDtlVO) {
+		return getSqlSession().selectOne("OdrLst.getOdrLstId", odrDtlVO);
 	}
 
 	@Override

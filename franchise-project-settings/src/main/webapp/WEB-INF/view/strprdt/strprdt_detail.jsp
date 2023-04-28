@@ -69,6 +69,10 @@ $().ready(function() {
 		})
 	});
 	
+	$("#cancle_btn").click(function() {
+		location.href = "${context}/strprdt/${strPrdtVO.strId}"
+	})
+	
 	
 });
 
@@ -193,7 +197,7 @@ function movePage(pageNo) {
 					</div>
 				</div>
 				<button type="button" id="add_btn"class="btn btn-success">추가</button>
-				<button type="button" id="cancle_btn" class="btn btn-danger">취소</button>
+				<button type="button" id="cancle_btn" class="btn btn-secondary">목록</button>
 			</div>
 	
 		<br>정보확인용
