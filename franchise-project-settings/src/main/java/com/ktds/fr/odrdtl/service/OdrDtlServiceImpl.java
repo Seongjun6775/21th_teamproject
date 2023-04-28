@@ -110,8 +110,8 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	}
 
 	@Override
-	public List<OdrDtlVO> odrDtlForOdrLst(OdrDtlVO odrDtlVO) {
-		return odrDtlDAO.odrDtlForOdrLst(odrDtlVO);
+	public List<OdrDtlVO> odrDtlForOdrLst(String odrDtlId) {
+		return odrDtlDAO.odrDtlForOdrLst(odrDtlId);
 	}
 	
 	
