@@ -43,6 +43,12 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO) {
 		return getSqlSession().selectList("OdrLst.readAllMyOdrLst", odrLstVO);
 	}
+	
+	@Override
+	public OdrLstVO getOdrPrcs(String odrLstId) {
+		return getSqlSession().selectOne("OdrLst.getOdrPrcs", odrLstId);
+	}
+	
 	/**
 	 * 주문서 ID를 기준으로 그 주문서를 생성한 회원의 ID를 받아옵니다.
 	 */

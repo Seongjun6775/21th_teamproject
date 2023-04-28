@@ -61,6 +61,8 @@
   		  FROM ODR_LST
  		 WHERE SYSDATE - MDFY_DT <![CDATA[<=]]> 7 
  		   AND ODR_LST_ID = #{odrLstId}
+ 		   AND ODR_LST_ODR_PRCS = '003-04'
+ 		   AND DEL_YN = 'N'
 	</select>
 
 
