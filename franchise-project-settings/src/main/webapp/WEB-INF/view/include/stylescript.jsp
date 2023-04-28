@@ -6,11 +6,15 @@
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 
 
-<link rel="stylesheet" href="${context}/bs/assets/dist/css/bootstrap.min.css?p=${date}"/>
-<link rel="stylesheet" href="${context}/css/common.css?p=${date}" />
-<link rel="stylesheet" href="${context}/css/mbr_common.css?p=${date}" />
-<link rel="stylesheet" href="${context}/css/sidebars.css?p=${date}" />
 
-<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>	
 <script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
 <script type="text/javascript" src="${context}/js/ValueUtil.js"></script>
+
+ <link rel="stylesheet" href="${context}/css/mbr_common.css?p=${date}" />
+
+<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/sidebars.css?p=${date}" />
+<script type="text/javascript" src="${context}/js/bootstrap.bundle.min.js"></script>
+

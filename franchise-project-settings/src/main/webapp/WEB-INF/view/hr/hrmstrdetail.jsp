@@ -121,12 +121,15 @@
 	});
 </script>
 </head>
-<body>
-	<div class="main-layout">
+<body class="bg-dark bg-opacity-10 ">
+<jsp:include page="../include/logo.jsp" />
+<main class="d-flex flex-nowrap ">
+<jsp:include page="../include/sidemenu.jsp" />
+	<div style="margin:0px 0px 0px 250px; width: 100%;">  
 		<jsp:include page="../include/header.jsp" />
+		
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
 			<h3>채용 지원 상세조회 페이지(최고관리자)</h3>
 			
 			<div>
@@ -164,6 +167,8 @@
 			
 			<jsp:include page="../include/footer.jsp" />
 		</div>
+		</div>
 	</div>
+	</main>
 </body>
 </html>
