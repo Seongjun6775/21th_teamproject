@@ -9,7 +9,7 @@ public interface OdrLstDAO {
 	
 	public int checkRemainOdrLst(OdrDtlVO odrDtlVO);
 	
-	public OdrLstVO getOdrLstId(String mbrId);
+	public OdrLstVO getOdrLstId(OdrDtlVO odrDtlVO);
 	
 	public int createNewOdrLst(OdrLstVO odrLstVO);
 	
