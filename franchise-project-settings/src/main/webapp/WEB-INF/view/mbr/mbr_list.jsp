@@ -56,20 +56,32 @@
 		location.href="${context}/mbr/list?" + queryString;
 	}
 </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/openBody.jsp" />
+			<!-- contents -->
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+				<span class="fs-5 fw-bold">기본페이지</span>
+		    </div>
+		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
+		    	
+		    	
+		    	<div class="main-layout">
+<%-- 		<jsp:include page="../include/header.jsp" /> --%>
 		<div>
-			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
+			<%-- <jsp:include page="../include/mbrMgmtSidemenu.jsp" /> --%>
+			<%-- <jsp:include page="../include/content.jsp" /> --%>
 				<div class="path">회원관리 > 회원 목록</div>
 				<!-- 검색영역 -->
-				<div class="search-row-group">
-					<div class="search-group">
-						<label for="search-keyword-mbrNm" >이름</label>
-						<input type="text" id="search-keyword-mbrNm" class="search-input" value="${mbrVO.mbrNm}"/>
-						<select id="mbrLvl" name="mbrLvl">
+				
+				
+				<!-- searchbar -->
+				<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
+				  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
+				  <i class="bi bi-search"></i>
+				  <!-- <label for="search-keyword-mbrNm" >이름</label> -->
+						<input type="text" id="search-keyword-mbrNm" class="form-control me-2" placeholder="이름 입력" value="${mbrVO.mbrNm}"/>
+						<select id="mbrLvl" name="mbrLvl" class="form-select">
 							<option value="">멤버등급</option>
 							<c:choose>
 									<c:when test="${not empty srtList}">
@@ -79,7 +91,7 @@
 									</c:when>
 								</c:choose>
 						</select>
-						<select id="search-keyword-delYn" name="delYn">
+						<select id="search-keyword-delYn" name="delYn" class="form-select">
 								<option value="">탈퇴유무</option>
 								<option value="Y" ${MbrVO.delYn eq 'Y' ? 'selected' : ''}>Y</option>
 								<option value="N" ${MbrVO.delYn eq 'N' ? 'selected' : ''}>N</option>
@@ -87,11 +99,18 @@
 						<%-- <label for="search-keyword-delYn" >탈퇴여부</label>
 						<input type="checkbox" id="search-keyword-delYn" class="search-input" style="flex-grow: 0.1;" value="${mbrVO.delYn eq 'Y' ? 'Y' : 'N'}"/> --%>
 						<label for="search-keyword-startdt" >조회기간</label>
-						<input type="date" id="search-keyword-startdt" class="search-input" value="${mbrVO.startDt}"/>
-						<input type="date" id="search-keyword-enddt" class="search-input" value="${mbrVO.endDt}"/>
+						<input type="date" id="search-keyword-startdt" class="form-control" value="${mbrVO.startDt}"/>
+						<input type="date" id="search-keyword-enddt" class="form-control" value="${mbrVO.endDt}"/>
 						
-						<button class="btn-search" id="search-btn">검색</button>
-						<button class="btn-search-clear" id="search-clear-btn">초기화</button>
+						<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+						<!-- <button class="btn-search" id="search-btn">검색</button>
+						<button class="btn-search-clear" id="search-clear-btn">초기화</button> -->
+				</div>
+				<!-- /searchbar -->	
+				
+				<div class="search-row-group">
+					<div class="search-group">
+						
 					</div>
 				</div>	
 				<!-- 조회영역 -->
@@ -193,8 +212,16 @@
 						</div>
 					
 				</div>
-			<jsp:include page="../include/footer.jsp" />
+			<%-- <jsp:include page="../include/footer.jsp" /> --%>
 		</div>
 	</div>
+		    	
+		    	
+		    	
+		    </div>
+      		<!-- /contents -->
+<jsp:include page="../include/closeBody.jsp" />
+<body>
+	
 </body>
 </html>
