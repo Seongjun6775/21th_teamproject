@@ -19,7 +19,7 @@ public class RestRvController {
 	private RvService rvService;
 		
 	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
-	@PostMapping("/api/rv/create")
+	@PostMapping("mbr/api/rv/create")
 	public ApiResponseVO doCreateNewRv(RvVO rvVO
 			, MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO mbr) {
 
