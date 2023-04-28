@@ -348,7 +348,9 @@
 		 WHERE M.STR_ID=#{strId}
 		   AND M.DEL_YN='N'
 		   AND M.USE_YN='Y'
+		  <if test='mbrLvl == "001-02"'>
 		   AND M.MBR_ID != #{mbrId}
+		  </if>
 	</select>
 	<!-- TODO 채용 수정일(채용일)을 가져와 채용일로 보여주기 -->
 	<select id="readOneCrewByMbrId"

@@ -121,6 +121,18 @@
 			});
 		});
 		
+		$("#fileDown").click(function(){
+			$.get("${context}/hr/hrfile/${hr.hrId}", function(resp){
+				if(resp.status == "200 OK"){
+					location.reload();
+				}
+				else{
+					alert(resp.message);
+					location.reload();
+				}
+			});
+		});
+		
 	});
 </script>
 </head>
@@ -151,7 +163,7 @@
 				<div class="hr_detail_header">승인 여부 변경 일자 : ${hr.hrAprDt}</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? 'none' : ''};">
-				<div class="hr_detail_header">첨부파일 : <a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm}</a></div>
+				<div class="hr_detail_header">첨부파일 : <a id="fileDown" href="#">${hr.orgnFlNm}</a></div>
 				<div class="hr_detail_header">${hr.flSize/1024}</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? '' : 'none'};">
