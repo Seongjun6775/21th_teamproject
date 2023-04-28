@@ -108,6 +108,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public boolean deleteOneOdrLstByOdrLstId(String odrLstId) {
 		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstId) > 0;
 	}
+
+	@Override
+	public List<OdrDtlVO> odrDtlForOdrLst(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.odrDtlForOdrLst(odrDtlVO);
+	}
 	
 	
 	
