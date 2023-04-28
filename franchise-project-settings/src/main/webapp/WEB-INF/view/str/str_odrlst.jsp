@@ -330,19 +330,6 @@ function movePage(pageNo) {
 											</c:forEach>
 										</c:when>
 									</c:choose>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
-									<tr><td>aaa</td></tr>
 								</tbody>
 							</table>
 						</div>

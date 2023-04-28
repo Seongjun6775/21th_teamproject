@@ -2,7 +2,9 @@ package com.ktds.fr.odrlst.vo;
 
 import java.util.List;
 
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.str.vo.StrVO;
 
@@ -59,6 +61,12 @@ public class OdrLstVO extends AbstractVO{
 	 * 주문서 안의 물품들 정보
 	 */
 	private List<OdrDtlVO> odrDtlList;
+	
+	
+	private CmmnCdVO cmmnCdVO;
+	private MbrVO mbrVO;
+	private MbrVO mdfyrMbrVO;
+	
 
 	public String getOdrLstId() {
 		return odrLstId;
@@ -163,6 +171,36 @@ public class OdrLstVO extends AbstractVO{
 	public void setOdrDtlList(List<OdrDtlVO> odrDtlList) {
 		this.odrDtlList = odrDtlList;
 	}
+
 	
+	
+	
+	public CmmnCdVO getCmmnCdVO() {
+		return cmmnCdVO;
+	}
+
+	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
+		this.cmmnCdVO = cmmnCdVO;
+	}
+
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
+
+	public MbrVO getMdfyrMbrVO() {
+		return mdfyrMbrVO;
+	}
+
+	public void setMdfyrMbrVO(MbrVO mdfyrMbrVO) {
+		this.mdfyrMbrVO = mdfyrMbrVO;
+	}
+
+	public void setOdrLstIdList(List<String> odrLstIdList) {
+		this.odrLstIdList = odrLstIdList;
+	}
 	
 }

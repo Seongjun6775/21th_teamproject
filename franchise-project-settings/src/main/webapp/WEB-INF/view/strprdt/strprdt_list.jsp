@@ -142,20 +142,24 @@ function movePage(pageNo) {
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all-check"/></th>
-							<th>
-								<select class="selectFilter" name="selectFilter"
-										id="search-keyword-str">
-									<option value="">매장</option>
-									<c:choose>
-										<c:when test="${not empty strList}">
-											<c:forEach items="${strList}"
-														var="str">
-												<option value="${str.strId}">${str.strNm} (${str.strId})</option>
-											</c:forEach>
-										</c:when>
-									</c:choose>
-								</select>
-							</th>
+
+							<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+								<th>
+									<select class="selectFilter" name="selectFilter"
+											id="search-keyword-str">
+										<option value="">매장</option>
+										<c:choose>
+											<c:when test="${not empty strList}">
+												<c:forEach items="${strList}"
+															var="str">
+													<option value="${str.strId}">${str.strNm} (${str.strId})</option>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</select>
+								</th>
+							</c:if>
+							
 							<th>
 								<select class="selectFilter" name="selectFilter"
 									id="search-keyword-prdtSrt">
@@ -215,7 +219,11 @@ function movePage(pageNo) {
 										<td class="align-center">
 											<input type="checkbox" class="check-idx" value="${strPrdt.strPrdtId}" />
 										</td>
-										<td>${strPrdt.strVO.strNm}</td>
+										
+										<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+											<td>${strPrdt.strVO.strNm}</td>
+										</c:if>
+										
 										<td>${strPrdt.cmmnCdVO.cdNm}</td>
 										<td>${strPrdt.prdtVO.prdtNm}</td>
 										<td>${empty strPrdt.evntVO.evntId ? "N" : "Y"}</td>
