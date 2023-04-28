@@ -13,7 +13,7 @@
     </a>
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
-        <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+        <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
           회원
         </button>
         <div class="collapse " id="home-collapse">
