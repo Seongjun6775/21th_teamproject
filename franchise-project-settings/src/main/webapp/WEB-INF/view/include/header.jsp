@@ -29,11 +29,11 @@ $().ready(function() {
             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small">
-            <li><a class="dropdown-item" href="#">털보아저씨</a></li>
+            <li><a class="dropdown-item" href="#">${sessionScope.__MBR__.mbrNm}</a></li>
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+            <li><a class="dropdown-item" href="${context}/logout">Sign out</a></li>
           </ul>
         </div>
       </div>
