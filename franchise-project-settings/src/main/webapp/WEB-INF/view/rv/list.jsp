@@ -123,89 +123,87 @@
 </script>
 </head>
 <body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/rvMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<div class="path">리뷰 > 리뷰목록</div>
-			
-			
-			<div class="container">
-			    <header class="d-flex justify-content-center py-3">
-			      <ul class="nav nav-pills">
-			        <li class="nav-item"><h3>리뷰 목록</h3></li>
-			      </ul>
-			    </header>
+<div class="main-layout">
+	<jsp:include page="../include/header.jsp" />
+	<div>
+		<jsp:include page="../include/rvMgmtSidemenu.jsp" />
+		<jsp:include page="../include/content.jsp" />
+		
+		<div class="path">리뷰 > 리뷰목록</div>
+			<div>			
+				<div style="display: block; padding: 20px;">
+					<div class="list-title">
+						<h3 class="list-title" style="font-weight: bold;">리뷰 게시판</h3>
+					</div>
+					<div class="search-row-group">
+						<div class="search-group">
+							<select id="search_option" name="searchOption">					
+								<option value="strNm">매장명</option>					
+								<option value="mbrId">회원ID</option>									
+							</select>
+							<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
+							<button id="search_btn" class="btn-search">검색</button>				
+						</div>
+					</div>
+		<div>총 ${rvList[0].totalCount}건</div>
+		<div class="grid">
+				
+		<table>
+			<thead>
+				<tr>
+					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+					<th style="width: 20px"><input type="checkbox" id="all_check" /></th>
+					</c:if>
+					<th style="width: 100px">주문서ID</th>
+					<th style="width: 40px">매장명</th>
+					<th style="width: 400px">제목</th>
+					<th style="width: 100px">회원ID</th>						
+					<th style="width: 40px">좋아요/싫어요</th>
+					<th style="width: 100px">등록일</th>
+					<th style="width: 100px">수정일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${not empty rvList}">
+						<c:forEach items="${rvList}"
+								   var="rv">
+							<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;">
+								<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+								<td class="firstcell">
+									<input type="checkbox" 
+										   class="check-idx" 
+										   value="${rv.rvId}" style="width:13px;"/>
+								</td>
+								</c:if>
+								<td>${rv.odrLstId}</td>
+								<td>${rv.strVO.strNm}</td>
+								<td>${rv.rvTtl}</td>
+								<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
+								<td>${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}</td>					
+								<td>${rv.rvRgstDt}</td>					
+								<td>${rv.mdfyDt}</td>									
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<td colspan="8" class="no-item">
+							등록된 리뷰가 없습니다.
+						</td>
+					</c:otherwise>
+				</c:choose>			
+			</tbody>
+		</table>	
+		<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+			<div class="align-right mt-10">
+				<button id="delete_all_btn" class="btn-delete">삭제</button>
 			</div>
-			<div class="search-row-group">
-				<div class="search-group">
-					<select id="search_option" name="searchOption">					
-						<option value="strNm">매장명</option>					
-						<option value="mbrId">회원ID</option>									
-					</select>
-					<input type="text" name="searchWrap" class="enterkey" placeholder="검색어를 입력하세요">						
-					<button id="search_btn" class="btn-search">검색</button>				
-				</div>
+		</c:if>
+		<c:if test="${mbrVO.mbrLvl eq '001-04'}">
+			<div class="align-right">				
+				<button id="new_btn" class="btn-primary">등록</button>
 			</div>
-			<div>총 ${rvList[0].totalCount}건</div>
-			
-			<table>
-				<thead>
-					<tr>
-						<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-						<th><input type="checkbox" id="all_check" /></th>
-						</c:if>
-						<th>주문서ID</th>
-						<th>매장명</th>
-						<th>제목</th>
-						<th>회원ID</th>						
-						<th>좋아요/싫어요</th>
-						<th>등록일</th>
-						<th>수정일</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:choose>
-						<c:when test="${not empty rvList}">
-							<c:forEach items="${rvList}"
-									   var="rv">
-								<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;">
-									<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-									<td class="firstcell">
-										<input type="checkbox" 
-											   class="check-idx" 
-											   value="${rv.rvId}"/>
-									</td>
-									</c:if>
-									<td>${rv.odrLstId}</td>
-									<td>${rv.strVO.strNm}</td>
-									<td>${rv.rvTtl}</td>
-									<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
-									<td>${rv.rvLkDslk}</td>					
-									<td>${rv.rvRgstDt}</td>					
-									<td>${rv.mdfyDt}</td>									
-								</tr>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<td colspan="8" class="no-item">
-								등록된 리뷰가 없습니다.
-							</td>
-						</c:otherwise>
-					</c:choose>			
-				</tbody>
-			</table>	
-			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-				<div class="align-right mt-10">
-					<button id="delete_all_btn" class="btn-delete">삭제</button>
-				</div>
-			</c:if>
-			<c:if test="${mbrVO.mbrLvl eq '001-04'}">
-				<div class="align-right">				
-					<button id="new_btn" class="btn-primary">등록</button>
-				</div>
-			</c:if>						
+		</c:if>						
 			<div class="pagenate">
 				<ul>
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
@@ -241,12 +239,14 @@
 						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
 					</c:if>
 				</ul>
-			</div>				
-						
-			<jsp:include page="../include/footer.jsp" />
-		</div>
+			</div>
+		</div>	
+				</div>			
+			</div>			
+		<jsp:include page="../include/footer.jsp" />
 	</div>
-	
+</div>
+
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
@@ -256,7 +256,6 @@
 				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
 			</div>
 		</div>
-	</div>
-	
+	</div>	
 </body>
 </html>

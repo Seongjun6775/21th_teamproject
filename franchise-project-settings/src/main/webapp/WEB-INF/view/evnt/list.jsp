@@ -180,6 +180,7 @@
 								<c:when test="${not empty evntList}">
 									<c:forEach items="${evntList}" var="evnt">
 										<tr>
+
 											<td class="firstcell" style="text-align:center;"><input type="checkbox"
 												class="check-idx" value="${evnt.evntId}" /></td>
 											<td style="text-align:center;">${evnt.evntId}</td>
@@ -189,6 +190,7 @@
 											<td style="text-align:center;">${evnt.evntEndDt}</td>
 <%-- 											<td>${evnt.orgnFlNm}</td> --%>
 											<td style="text-align:center;">${evnt.useYn}</td>
+
 										</tr>
 									</c:forEach>
 								</c:when>
