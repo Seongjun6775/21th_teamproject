@@ -46,7 +46,10 @@ public class PrdtController {
 			, Model model) {
 		// 세션>회원의 등급이 상위관리자가 아닐경우
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
-			return "prdt/session_error";
+			if (mbrVO.getMbrLvl().equals("001-04")) {
+				return "prdt/session_error";
+			}
+			return "redirect:/strprdt/list";
 		}
 		
 		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);

@@ -242,19 +242,22 @@ function movePage(pageNo) {
 						총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건
 						<%-- 총 ${strPrdtList.size() > 0 ? strPrdtList.size() : 0}건 --%>
 					</div>
-					<div class="align-right absolute " style="right: 0px;" >
-						<button class="btn-primary" 
-								id="btn-search-reset">검색초기화</button>
-						<select class="selectFilter"
-								id="select-useYn">
-							<option value="">사용유무</option>
-							<option value="Y">Y</option>
-							<option value="N">N</option>
-						</select>
-						<button id="btn-update-all" 
-								class="btn-primary btn-delete" 
-								style="vertical-align: top;">일괄수정</button>
-					</div>
+					
+					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
+						<div class="align-right absolute " style="right: 0px;" >
+							<button class="btn-primary" 
+									id="btn-search-reset">검색초기화</button>
+							<select class="selectFilter"
+									id="select-useYn">
+								<option value="">사용유무</option>
+								<option value="Y">Y</option>
+								<option value="N">N</option>
+							</select>
+							<button id="btn-update-all" 
+									class="btn-primary btn-delete" 
+									style="vertical-align: top;">일괄수정</button>
+						</div>
+					</c:if>
 					
 					<div class="pagenate">
 						<ul>
@@ -290,9 +293,12 @@ function movePage(pageNo) {
 				<div class="align-right grid-btns">
 					<a href="${context}/prdt/list">메뉴리스트</a>
 				</div>
-				<button id="btn-missingCheck" 
-								class="btn-primary btn-delete" 
-								style="vertical-align: top;">누락체크</button>
+				
+				<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+					<button id="btn-missingCheck" 
+									class="btn-primary btn-delete" 
+									style="vertical-align: top;">누락체크</button>
+				</c:if>
 				
 			</div>
 			

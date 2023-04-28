@@ -302,36 +302,36 @@ $().ready(function() {
 	 */	
 	 
 	 $("#btn-update-all").click(function() {
-			var checkLen = $(".check-idx:checked").length;
-			if (checkLen == 0) {
-				alert("선택된 항목이 없습니다.");
-				return;
+		var checkLen = $(".check-idx:checked").length;
+		if (checkLen == 0) {
+			alert("선택된 항목이 없습니다.");
+			return;
+		}
+		if ($("select-useYn").val() == "") {
+			alert("사용유무가 선택되지 않았습니다.");
+		}
+		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
+			return;
+		}
+		
+		var form = $("<form></form>")
+		
+		$(".check-idx:checked").each(function() {
+			console.log($(this).val());
+			form.append("<input type='hiedden' name='prdtIdList' value='" + $(this).val() + "'>");
+		});
+			form.append("<input type='hiedden' name='useYn' value='" + $("#select-useYn").val() + "'>");
+		
+		$.post("${context}/api/prdt/updateAll", form.serialize(), function(response) {
+			if (response.status == "200 OK") {
+				location.reload(); //새로고침
 			}
-			if ($("select-useYn").val() == "") {
-				alert("사용유무가 선택되지 않았습니다.");
+			else {
+				alert(response.errorCode + " / " + response.message);
 			}
-			if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check-idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hiedden' name='prdtIdList' value='" + $(this).val() + "'>");
-			});
-				form.append("<input type='hiedden' name='useYn' value='" + $("#select-useYn").val() + "'>");
-			
-			$.post("${context}/api/prdt/updateAll", form.serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload(); //새로고침
-				}
-				else {
-					alert(response.errorCode + " / " + response.message);
-				}
-			});
-		})
-	
+		});
+	})
+
 	
 	
 	

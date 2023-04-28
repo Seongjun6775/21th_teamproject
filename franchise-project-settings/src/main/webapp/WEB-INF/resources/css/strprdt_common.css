@@ -39,21 +39,24 @@ body {
 .half-left , .half-right {
 	width: 50%;
 	display: inline-block;
-	margin: 5px;
 	
 }
 .half-top , .half-bottom {
 	height: 50%;
+    display: flex;
+    flex-direction: column;
 }
 .half-bottom {
-	margin-top: 5px;
+	
 }
 .full {
 	height: calc(100vh - 200px);
 	background-color: #ffff8011;
 	
 }
-
+.div-table {
+	margin: 5px;
+}
 
 
 /* display */
@@ -188,6 +191,11 @@ body {
 	opacity: 50%;
 }
 
+
+
+
+
+
 .on {
 	background-color: #FFEFD5;
 }
@@ -271,10 +279,18 @@ th, td {
 
 
 
+.topline {
+	display: flex;
+	justify-content: space-between;
+	padding: 5px 0;
+}
+
+
+
 /* overflow */
 .overflow {
 	overflow: auto;
-	height: 150px;
+/* 	height: 150px; */
 	background-color: #0080ff11;
 }
 
