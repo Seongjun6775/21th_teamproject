@@ -226,13 +226,11 @@ public class RestMbrController {
 		if(!delResult) {
 			throw new ApiException(ApiStatus.FAIL, "관리자 해임에 실패했습니다. 다시 시도해주세요."); 
 		}
-		List<String> mbrIdList = new ArrayList<>();
+
 		for (MbrVO mbrVO : mbrVOList) {
-			mbrIdList.add(mbrVO.getMbrId());
-		}
-		
-		for (String mbrId : mbrIdList) {
-			SessionManager.getInstance().destroySession(mbrId);
+			if(SessionManager.getInstance().checkSession(mbrVO.getMbrId())) {
+				SessionManager.getInstance().destroySession(mbrVO.getMbrId());
+			}
 		}
 		
 		return new ApiResponseVO(ApiStatus.OK);

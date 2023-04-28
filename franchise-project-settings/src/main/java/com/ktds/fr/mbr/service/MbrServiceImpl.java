@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.catalina.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
@@ -24,7 +20,6 @@ import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.dao.MbrDAO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.dao.StrDAO;
-import com.ktds.fr.str.vo.StrVO;
 
 @Service
 public class MbrServiceImpl implements MbrService {
@@ -283,6 +278,11 @@ public class MbrServiceImpl implements MbrService {
 		}
 		//STR 테이블에서 mbrIdList를 가지고 검색 -> 매장찾기
 		List<String> strIdList = strDAO.readAllStrByMbrId(mbrIdList);
+		for (MbrVO mbr : mbrVOList) {
+			mbr.setOriginMbrLvl(mbr.getMbrLvl());
+			mbr.setOriginStrId(mbr.getStrId());
+			mbr.setMdfyr(mbrVO.getMbrNm());
+		}
 		if(strIdList == null || strIdList.size()==0) {
 			//없으면 MBR테이블의 str_id->null && MBR테이블의 mbrLvl -> default로
 			//채용 페이지에 이력서 delYn=Y으로 바꾸기
@@ -291,9 +291,10 @@ public class MbrServiceImpl implements MbrService {
 				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
 			}
 			for (MbrVO mbr : mbrVOList) {
-				mbr.setOriginMbrLvl(mbr.getMbrLvl());
-				mbr.setStrId(mbr.getStrId());
+				mbr.setMbrLvl("001-04");
+				mbr.setStrId("");
 			}
+			chSrlDAO.createAllChHist(mbrVOList);
 			hrDAO.deleteAllHrByMbrId(mbrIdList);
 			return delResult;
 		}else {
@@ -303,6 +304,11 @@ public class MbrServiceImpl implements MbrService {
 			if(!delResult) {
 				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
 			}
+			for (MbrVO mbr : mbrVOList) {
+				mbr.setMbrLvl("001-04");
+				mbr.setStrId("");
+			}
+			chSrlDAO.createAllChHist(mbrVOList);
 			hrDAO.deleteAllHrByMbrId(mbrIdList);
 			return delResult;
 		}
