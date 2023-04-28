@@ -140,27 +140,38 @@
 				alert("권한을 해지할 관리자를 선택하세요.");
 				return;
 			}
-			var form = $("<form></form>")
+			var mbrVOList=[];
 			$(".check-idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='mbrIdList' value='"+$(this).val() + "'>'")
+				var mbrId = $(this).val();
+				var mbrLvl = $(this).closest("tr").data("mbrlvl");
+				var strId = $(this).closest("tr").data("strid");
+				var mbrVO={
+						"mbrId": mbrId,
+						"mbrLvl": mbrLvl,
+						"strId": strId
+				};
+				mbrVOList.push(mbrVO);
 			});
 			if(confirmFire){
-				/* var fireAdmin = $(this).closest("tr").data(); */
-				
-				$.post("${context}/api/mbr/admin/fire", form.serialize(),function(resp){
-					if(resp.status == "200 OK"){
-						alert("관리자가 해임되었습니다.");
-						location.reload();
-					}else{
-						alert(resp.message);
-					}
+				$.ajax({
+				    type: "POST",
+				    url: "${context}/api/mbr/admin/fire",
+				    data: JSON.stringify(mbrVOList),
+				    contentType: "application/json",
+				    success: function(resp) {
+				    	if(resp.status == "200 OK"){
+							alert("관리자가 해임되었습니다.");
+							location.reload();
+						}else{
+							alert(resp.message);
+						}
+				    }
 				});
 			}
 		});
 		
 	});
-	
+
 	function movePage(pageNo){
 		var mbrLvl = $("#mbrLvl option:selected").val();
 		var mbrNm = $("#search-keyword-mbrNm").val();

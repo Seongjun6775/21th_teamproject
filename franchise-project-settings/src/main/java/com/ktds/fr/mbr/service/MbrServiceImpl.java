@@ -1,5 +1,6 @@
 package com.ktds.fr.mbr.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -269,19 +270,29 @@ public class MbrServiceImpl implements MbrService {
 		return false;
 	}
 	@Override
-	public boolean deleteAllMbrAdminByMbrId(MbrVO mbrVO, List<String>mbrIdList) {
+	public boolean deleteAllMbrAdminByMbrId(MbrVO mbrVO, List<MbrVO> mbrVOList) {
 		if( !mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl() == null || mbrVO.getMbrLvl().length()==0) {
+			throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요.");
+		}
+		List<String> mbrIdList = new ArrayList<>();
+		for (MbrVO mbr : mbrVOList) {
+			mbrIdList.add(mbr.getMbrId());
+		}
+		if(mbrIdList == null || mbrIdList.size()==0) {
 			throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요.");
 		}
 		//STR 테이블에서 mbrIdList를 가지고 검색 -> 매장찾기
 		List<String> strIdList = strDAO.readAllStrByMbrId(mbrIdList);
-		log.info("검사 하기{}",strIdList);
 		if(strIdList == null || strIdList.size()==0) {
 			//없으면 MBR테이블의 str_id->null && MBR테이블의 mbrLvl -> default로
 			//채용 페이지에 이력서 delYn=Y으로 바꾸기
 			boolean delResult = mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
 			if(!delResult) {
 				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
+			}
+			for (MbrVO mbr : mbrVOList) {
+				mbr.setOriginMbrLvl(mbr.getMbrLvl());
+				mbr.setStrId(mbr.getStrId());
 			}
 			hrDAO.deleteAllHrByMbrId(mbrIdList);
 			return delResult;
