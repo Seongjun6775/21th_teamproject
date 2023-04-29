@@ -20,5 +20,5 @@
 		    	<h3>기본 페이지 </h3>
 		    </div>
       		<!-- /contents -->
-		<jsp:include page="./include/closeBody.jsp" />
+<jsp:include page="./include/closeBody.jsp" />
 </html>

@@ -94,16 +94,12 @@ public class RestStrPrdtController {
 	}
 	
 	@PostMapping("/api/strprdt/list2/lct")
-	@ResponseBody
-	public List<CtyCdVO> readLctCtyList(@RequestBody String lctId) {
-		lctId = lctId.replaceAll("lctId=", "");
+	public List<CtyCdVO> readLctCtyList(@RequestParam String lctId) {
 		List<CtyCdVO> ctyList = ctyService.read(lctId);
 		return ctyList;
 	}
 	@PostMapping("/api/strprdt/list2/cty")
-	@ResponseBody
-	public List<StrVO> readCtyStrList(@RequestBody String ctyId) {
-		ctyId = ctyId.replaceAll("ctyId=", "");
+	public List<StrVO> readCtyStrList(@RequestParam String ctyId) {
 		List<StrVO> ctyList = strService.readAllUseY(ctyId);
 		return ctyList;
 	}

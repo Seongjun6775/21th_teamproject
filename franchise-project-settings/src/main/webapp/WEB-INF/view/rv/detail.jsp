@@ -89,7 +89,7 @@
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvLkDslk">좋아요/싫어요</label>
-							<input type="text" id="rvLkDslk" name="rvLkDslk" disabled value="${rvDetail.rvLkDslk}">
+							<input type="text" id="rvLkDslk" name="rvLkDslk" disabled value="${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}">
 						</div>
 						<div class="detail-group-inline" style= "display: inline-flex;">
 							<label for="rvRgstDt">등록일</label>

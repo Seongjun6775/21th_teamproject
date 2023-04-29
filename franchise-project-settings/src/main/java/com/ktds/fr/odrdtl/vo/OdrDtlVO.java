@@ -1,6 +1,9 @@
 package com.ktds.fr.odrdtl.vo;
 
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.evnt.vo.EvntVO;
+import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.vo.StrVO;
 
@@ -50,6 +53,13 @@ public class OdrDtlVO extends AbstractVO{
 	 * 주문한 매장의 정보
 	 */
 	private StrVO strVO;
+	/**
+	 * 주문 상품의 이벤트 정보
+	 */
+	private EvntVO evntVO;
+	private EvntPrdtVO evntPrdtVO;
+	
+	private OdrLstVO odrLstVO;
 
 	public String getOdrDtlId() {
 		return odrDtlId;
@@ -131,12 +141,36 @@ public class OdrDtlVO extends AbstractVO{
 		this.strVO = strVO;
 	}
 
+	public EvntVO getEvntVO() {
+		return evntVO;
+	}
+
+	public void setEvntVO(EvntVO evntVO) {
+		this.evntVO = evntVO;
+	}
+
+	public EvntPrdtVO getEvntPrdtVO() {
+		return evntPrdtVO;
+	}
+
+	public void setEvntPrdtVO(EvntPrdtVO evntPrdtVO) {
+		this.evntPrdtVO = evntPrdtVO;
+	}
+	
 	public int getOdrDtlPrc() {
 		return odrDtlPrc;
 	}
 
 	public void setOdrDtlPrc(int odrDtlPrc) {
 		this.odrDtlPrc = odrDtlPrc;
+	}
+
+	public OdrLstVO getOdrLstVO() {
+		return odrLstVO;
+	}
+
+	public void setOdrLstVO(OdrLstVO odrLstVO) {
+		this.odrLstVO = odrLstVO;
 	}
 	
 

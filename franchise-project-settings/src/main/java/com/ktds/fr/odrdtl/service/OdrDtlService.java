@@ -64,7 +64,7 @@ public interface OdrDtlService {
 	/**
 	 * 매장에서 보는 주문서의 디테일 / 노 페이지네이션
 	 */
-	public List<OdrDtlVO> odrDtlForOdrLst(OdrDtlVO odrDtlVO);
+	public List<OdrDtlVO> odrDtlForOdrLst(String odrDtlId);
 	
 }
 

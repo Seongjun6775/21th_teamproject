@@ -54,8 +54,8 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 	}
 
 	@Override
-	public List<OdrDtlVO> odrDtlForOdrLst(OdrDtlVO odrDtlVO) {
-		return getSqlSession().selectList("OdrDtl.odrDtlForOdrLst", odrDtlVO);
+	public List<OdrDtlVO> odrDtlForOdrLst(String odrDtlId) {
+		return getSqlSession().selectList("OdrDtl.odrDtlForOdrLst", odrDtlId);
 	}
 	
 }

@@ -92,12 +92,15 @@ public class RestOdrDtlController {
 		
 	}
 	
-
+	
+	
+	// 매장에서 보는 주문서의 디테일 / 노 페이지네이션
 	@PostMapping("/api/odrLst/odrDtl")
 	@ResponseBody
-	public List<OdrDtlVO> readCtyStrList(@RequestBody String odrLstId) {
-		
-		return null;
+	public List<OdrDtlVO> readCtyStrList(@RequestParam String odrLstId) {
+		List<OdrDtlVO> odrDtlList = odrDtlService.odrDtlForOdrLst(odrLstId);
+		System.out.println(odrLstId + " / " + odrDtlList.size());
+		return odrDtlList;
 	}
 	
 
