@@ -11,18 +11,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
 		$("#delete_btn").click(function(){
-		
+			
 			if(confirm("정말 삭제하시겠습니까?")) {
+				var form = $("<form></form>")
+				var myMbrId = "${rvDetail.mbrId}";
+				var myMbrLvl = "${sessionScope.__MBR__.mbrLvl}";
+				var mbrId = "${sessionScope.__MBR__.mbrId}";
+				if (myMbrLvl == "001-04" && myMbrId != mbrId) {
+					alert("자신의 리뷰만 삭제 가능합니다.");
+					return;		
+				}
 				$.post("${context}/api/rv/delete/${rvDetail.rvId}", function(response){
 					if(response.status == "200 OK"){
 						location.href = "${context}/rv/list" + response.redirectURL;
 						alert("리뷰가 삭제되었습니다.")
-					}else{
+					}
+					else {
 						alert(response.errorCode + "권한이 없습니다." + response.message);
 					}
 				})
@@ -36,14 +46,11 @@
 	<div class="main-layout">
 	<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/rvMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			
 			<div class="path"> 리뷰 > 리뷰목록 > 리뷰상세</div>	
-			
-				<h1>상세 리뷰</h1>	
-					
-								
+													
 				<div>
 					<form id="detail_form" method="post">
 						<div class="detail-group-inline">
@@ -71,33 +78,36 @@
 						<div class="detail-group-inline">
 							<label for="rvCntnt">내용</label>
 							<div id="rvCntnt" 
-								   style="display: grid; 
-								   		  margin: 3px; 
-								   		  width: 700px; 
-								   		  height: 400px; 
-								   		  resize: none; 
-								   		  border: none; 
-								   		  background-color: #3331; 
-								   		  white-space: pre-wrap;">${rvDetail.rvCntnt}</div>
+								 style="display: grid; 
+								   		margin: 3px; 
+								   		width: 700px; 
+								   		height: 400px; 
+								   		resize: none; 
+								   		border: none; 
+								   		background-color: #3331; 
+								   		white-space: pre-wrap;">${rvDetail.rvCntnt}</div>
 						</div>
 						<div class="detail-group-inline">
 							<label for="rvLkDslk">좋아요/싫어요</label>
-							<input type="text" id="rvLkDslk" name="rvLkDslk" disabled value="${rvDetail.rvLkDslk}">
+							<input type="text" id="rvLkDslk" name="rvLkDslk" disabled value="${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}">
 						</div>
-						<div class="detail-group-inline">
+						<div class="detail-group-inline" style= "display: inline-flex;">
 							<label for="rvRgstDt">등록일</label>
-							<input type="text" id="rvRgstDt" name="rvRgstDt" disabled value="${rvDetail.rvRgstDt}">
+							<input type="text" id="rvRgstDt" name="rvRgstDt"								    
+								   disabled value="${rvDetail.rvRgstDt}">
 						</div>
-						<div class="detail-group-inline">
+						<div class="detail-group-inline" style= "display: inline-flex;">
 							<label for="mdfyDt">수정일</label>
-							<input type="text" id="mdfyDt" name="mdfyDt" disabled value="${rvDetail.mdfyDt}">
+							<input type="text" id="mdfyDt" name="mdfyDt"								   
+								   disabled value="${rvDetail.mdfyDt}">
 						</div>
 					</form>
 				</div>
-			<div class="align-right">
-				<button id="delete_btn" class="btn-delete">삭제</button>
-			</div>
-				
+			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+				<div class="align-right">
+					<button id="delete_btn" class="btn-delete">삭제</button>
+				</div>
+			</c:if>	
 		</div> 
 	</div>
 	<jsp:include page="../include/footer.jsp" />

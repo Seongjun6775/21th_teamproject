@@ -135,7 +135,7 @@
 									    data-rcvrid="${nt.rcvrId}"
 									    data-ntsndrdt="${nt.ntSndrDt}"
 									    data-ntrddt="${nt.ntRdDt}">
-										<td><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
+										<td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
 										<td><a href="${context}/nt/ntdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 										<td>${nt.sndrId}</td>
 										<td>${nt.rcvrId}</td>

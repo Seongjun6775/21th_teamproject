@@ -19,4 +19,9 @@ public class CtyCdServiceImpl implements CtyCdService {
 		return ctyCdDAO.readCategory(ctyCdVO);
 	}
 
+	@Override
+	public List<CtyCdVO> read(String lctId) {
+		return ctyCdDAO.read(lctId);
+	}
+
 }

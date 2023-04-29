@@ -137,7 +137,7 @@ $().ready(function() {
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp"/>
 		<div>
-			<jsp:include page="../include/sidemenu.jsp"/>
+			<jsp:include page="../include/strMgmtSideMenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
 
 			<div class="path"> 매장 관리 > 상세 조회</div>
@@ -157,33 +157,37 @@ $().ready(function() {
 						<input type="text" id="strNm" name="strNm" maxlength="1000" readonly value="${strVO.strNm}" style="background-color:orange"/>
 					</div>	
 					<div class="input-group inline">
-						<label for="strLctn" style="width:60px">지역</label>
+						<label for="strLctn" style="width:180px">지역</label>
 						<select id="strLctn" name="strLctn" disabled style="background-color:orange">
-							<option value="">지역</option>
+							<option value="">지역명</option>
 							<c:choose>
-									<c:when test="${not empty lctList}">
-										<c:forEach items="${lctList}"
-													var="lct"> 
-											<option value="${lct.lctId}" ${lct.lctId eq strVO.strLctn ? 'selected' : ''}>${lct.lctNm} </option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-							</select>
-							<label for="strCty" style="width:60px">도시</label>
-							<select id="strCty" name="strCty" disabled style="background-color:orange">
-								<option value="" >도시명</option>
-								<c:choose>
-									<c:when test="${not empty ctyList}" >
-										<c:forEach items="${ctyList}"
-													var="cty" >
-											<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
+								<c:when test="${not empty lctList}">
+									<c:forEach items="${lctList}"
+												var="lct"> 
+										<option value="${lct.lctId}" ${lct.lctId eq strVO.strLctn ? 'selected' : ''}>${lct.lctNm} </option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
 						</select>
-						<label for="strAddr" style="width:60px">매장주소</label>
+						<label for="strCty" style="width:180px">도시</label>
+						<select id="strCty" name="strCty" disabled style="background-color:orange">
+							<option value="" >도시명</option>
+							<c:choose>
+								<c:when test="${not empty ctyList}" >
+									<c:forEach items="${ctyList}"
+												var="cty" >
+										<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
+					</div>
+					
+					<div class="input-group inline">
+						<label for="strAddr" style="width:180px;">매장주소</label>
 						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 					</div>
+					
 				    <div class="input-group inline">
 				        <label for="strCallNum" style="width:180px">전화번호</label>
 				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
@@ -223,6 +227,69 @@ $().ready(function() {
 					</div>
 				</form>
 			</div>
+			<!-- 관리자 리스트 -->
+			<div class="grid-count align-right">총 ${mbrList.size()}명</div>
+					<table>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>이름</th>
+								<th>이메일</th>
+								<th>매장명</th>
+								<th>회원등급</th>
+								<th>가입일</th>
+								<th>최근 로그인 날짜</th>
+								<th>최근 로그인 IP</th>
+								<th>로그인 제한</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${not empty mbrList}">
+									<c:forEach items="${mbrList}" var="mbr" varStatus="index">
+										<tr data-mbrId="${mbr.mbrId}" 
+											data-mbrNm="${mbr.mbrNm }" 
+											data-strId="${mbr.strId }" 
+											data-mbrEml="${mbr.mbrEml }" 
+											data-mbrLvl="${mbr.mbrLvl }" 
+											data-mbrLvlNm ="${mbr.cmmnCdVO.cdNm}"
+											data-mbrRgstrDt="${mbr.mbrRgstrDt }" 
+											data-useYn="${mbr.useYn}" 
+											data-mbrRcntLgnDt="${mbr.mbrRcntLgnDt }" 
+											data-mbrRcntLgnIp="${mbr.mbrRcntLgnIp}" 
+											data-mbrLgnFlCnt="${mbr.mbrLgnFlCnt }" 
+											data-mbrLgnBlckYn="${mbr.mbrLgnBlckYn}" 
+											data-mbrLstLgnFlDt="${mbr.mbrLstLgnFlDt }" 
+											data-mbrPwdChngDt="${mbr.mbrPwdChngDt }" 
+											data-mbrLeavDt="${mbr.mbrLeavDt}"
+											data-delYn="${mbr.delYn}"
+											>
+
+											<td>${mbr.mbrId}</td>
+											<td>
+												<a href="${context}/mbr/detail/${mbr.mbrId}">${mbr.mbrNm}</a>
+											</td>
+											<td>${mbr.mbrEml}</td>
+											<td>${mbr.strVO.strNm}</td>
+											<td>${mbr.cmmnCdVO.cdNm}</td>
+											<td>${mbr.mbrRgstrDt}</td>
+											<td>${mbr.mbrRcntLgnDt}</td>
+											<td>${mbr.mbrRcntLgnIp}</td>
+											<td>${mbr.mbrLgnBlckYn}</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="10" class="no-items">등록된 관리자가 없습니다.</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+			
+			
 		</div>
 			<div class="align-right">
 				<button id="save_btn" class="btn-primary">수정</button>

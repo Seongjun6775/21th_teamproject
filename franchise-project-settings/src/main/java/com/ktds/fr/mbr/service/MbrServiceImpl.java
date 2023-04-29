@@ -16,6 +16,8 @@ import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.SHA256Util;
+import com.ktds.fr.hr.dao.HrDAO;
+import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.lgnhist.dao.LgnHistDAO;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.dao.MbrDAO;
@@ -40,6 +42,9 @@ public class MbrServiceImpl implements MbrService {
 	
 	@Autowired
 	private StrDAO strDAO;
+	
+	@Autowired
+	private HrDAO hrDAO;
 
 	@Override	//로그인
 	public MbrVO readOneMbrByMbrIdAndMbrPwd(MbrVO mbrVO) {
@@ -191,7 +196,11 @@ public class MbrServiceImpl implements MbrService {
 	}
 	@Override
 	public MbrVO readOneMbrByMbrId(String mbrId) {
-		return mbrDAO.readOneMbrByMbrId(mbrId);
+		MbrVO mbrVO = mbrDAO.readOneMbrByMbrId(mbrId);
+		if(mbrVO==null) {
+			throw new ApiException(ApiStatus.FAIL, "조회에 실패했습니다.");
+		}
+		return mbrVO;
 	}
 	@Override
 	public boolean updateOneMbrPwd(MbrVO mbrVO) {
@@ -260,30 +269,54 @@ public class MbrServiceImpl implements MbrService {
 		return false;
 	}
 	@Override
-	public boolean deleteOneMbrAdminByMbrId(MbrVO mbrVO) {
-		if(mbrVO.getMbrLvl().equals("001-02")) {
-			int readResult = strDAO.readOneStrByMbrId(mbrVO.getMbrId());
-			if(readResult > 0) {
-				boolean delResult = strDAO.deleteOneManagerByMbrId(mbrVO.getMbrId()) > 0;
-				if(delResult) {
-					mbrVO.setStrId(null);
-					int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
-					chSrlDAO.createOneChHist(mbrVO);
-					return deleteResult > 0;
-				}
-			}else {
-				mbrVO.setStrId(null);
-				int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
-				chSrlDAO.createOneChHist(mbrVO);
-				return deleteResult > 0;
-			}
-		}else if(mbrVO.getMbrLvl().equals("001-03")) {
-			mbrVO.setStrId(null);
-			int deleteResult = mbrDAO.deleteOneMbrAdminByMbrId(mbrVO);
-			chSrlDAO.createOneChHist(mbrVO);
-			return deleteResult > 0;
+	public boolean deleteAllMbrAdminByMbrId(MbrVO mbrVO, List<String>mbrIdList) {
+		if( !mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl() == null || mbrVO.getMbrLvl().length()==0) {
+			throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요.");
 		}
-		return false;
+		//STR 테이블에서 mbrIdList를 가지고 검색 -> 매장찾기
+		List<String> strIdList = strDAO.readAllStrByMbrId(mbrIdList);
+		log.info("검사 하기{}",strIdList);
+		if(strIdList == null || strIdList.size()==0) {
+			//없으면 MBR테이블의 str_id->null && MBR테이블의 mbrLvl -> default로
+			//채용 페이지에 이력서 delYn=Y으로 바꾸기
+			boolean delResult = mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			if(!delResult) {
+				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
+			}
+			hrDAO.deleteAllHrByMbrId(mbrIdList);
+			return delResult;
+		}else {
+			//있으면 해당 mbrId -> null
+			strDAO.deleteAllManagerByStrId(strIdList);
+			boolean delResult = mbrDAO.deleteAllMbrAdminByMbrId(mbrIdList) > 0;
+			if(!delResult) {
+				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
+			}
+			hrDAO.deleteAllHrByMbrId(mbrIdList);
+			return delResult;
+		}
+	}
+	
+	@Override
+	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO) {
+		if(mbrVO.getMbrLvl().equals("001-03") || mbrVO.getMbrLvl().equals("001-04")) {
+			throw new ApiException(ApiStatus.FAIL, "권한이 없습니다.");
+		}
+		return mbrDAO.readAllCrewMbrByStrId(mbrVO);
+	}
+	
+	@Override
+	public MbrVO readOneCrewByMbrId(String mbrId) {
+		if(mbrId == null || mbrId.length() == 0) {
+			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+		}
+		MbrVO mbrVO = mbrDAO.readOneCrewByMbrId(mbrId);
+		if(mbrVO==null) {
+			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+		}
+		HrVO readHrVO = hrDAO.readOneHrByMbrId(mbrId);
+		mbrVO.setHrVO(readHrVO);
+		return mbrVO;
 	}
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {

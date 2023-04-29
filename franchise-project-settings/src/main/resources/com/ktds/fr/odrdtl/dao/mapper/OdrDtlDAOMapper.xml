@@ -8,17 +8,20 @@
 				type="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 				autoMapping="true">
 		<id property="odrDtlId" column="ODR_DTL_ID" />
-		<association property="prdtVO"
-		              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
-			<id property="prdtId" column="PRDT_ID" />
-			<result property="prdtNm" column="PRDT_NM" />
-			<result property="prdtPrc" column="PRDT_PRC" />
-		</association>
 		<association property="strVO"
-		              javaType="com.ktds.fr.str.vo.StrVO" >
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
 			<id property="strId" column="STR_ID" />
-			<result property="strNm" column="STR_NM" />
-			<result property="strCallNum" column="STR_CALL_NUM" />
+		</association>
+		<association property="prdtVO"
+		              javaType="com.ktds.fr.prdt.vo.PrdtVO"
+		              autoMapping="true">
+			<id property="prdtId" column="PRDT_ID" />
+			<association property="evntPrdtVO"
+						  javaType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
+			              autoMapping="true">
+				<id property="evntPrdtId" column="EVNT_PRDT_ID" />
+			</association>
 		</association>
 	</resultMap>
 	
@@ -37,7 +40,7 @@
 		, MBR_ID)
 		VALUES
 		 ('OD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_DTL_PK.NEXTVAL, 5, '0')
-		, NULL
+		, #{odrLstId}
 		, #{odrDtlPrdtId}
 		, #{odrDtlPrdtCnt}
 		, #{odrDtlStrId}
@@ -47,6 +50,99 @@
 	</insert>
 	
 	<select id="readAllOdrDtlByOdrLstIdAndMbrId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		<include refid="Common.pageHeader" />
+		SELECT OD.ODR_DTL_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY OD.ODR_DTL_ID DESC) RNUM
+			 , OD.ODR_DTL_ID
+			 , OD.ODR_LST_ID
+			 , OD.ODR_DTL_PRDT_ID
+			 , OD.ODR_DTL_PRDT_CNT
+			 , OD.ODR_DTL_STR_ID
+			 , OD.USE_YN
+			 , OD.DEL_YN
+			 , OD.MBR_ID
+			 , P.PRDT_NM
+			 , P.PRDT_PRC 
+			 , S.STR_NM
+			 , S.STR_CALL_NUM 
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
+		  FROM ODR_DTL OD
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		 INNER JOIN STR S
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
+		 WHERE ODR_LST_ID = #{odrLstId}
+		   AND OD.MBR_ID = #{mbrId}
+		   AND OD.DEL_YN = 'N'
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	
+	<select id="readOneOdrDtlByOdrDtlId"
+			parameterType="string"
+			resultMap="odrDtlMap">
+		SELECT OD.ODR_DTL_ID
+			 , OD.ODR_LST_ID
+			 , OD.ODR_DTL_PRDT_ID
+			 , OD.ODR_DTL_PRDT_CNT
+			 , OD.ODR_DTL_STR_ID
+			 , OD.DEL_YN
+			 , OD.MBR_ID
+			 , S.STR_ID 
+			 , S.STR_NM 
+			 , S.STR_CALL_NUM 
+			 , P.PRDT_ID 
+			 , P.PRDT_NM
+			 , P.PRDT_PRC
+			 , P.PRDT_CNTNT
+			 , P.ORGN_FL_NM
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
+		  FROM ODR_DTL OD
+		 INNER JOIN STR S
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
+		 WHERE OD.ODR_DTL_ID = #{_parameter}
+		   AND OD.DEL_YN = 'N'
+	</select>
+	
+	<update id="updateOneOdrDtlByOdrDtlId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
+		UPDATE ODR_DTL
+		   SET ODR_DTL_PRDT_CNT = #{odrDtlPrdtCnt}
+		 WHERE ODR_DTL_ID = #{odrDtlId}
+	</update>
+	
+	<update id="deleteOneOdrDtlByOdrDtlId"
+			parameterType="string">
+		UPDATE ODR_DTL
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_DTL_ID = #{odrDtlId}
+	</update>
+	
+	<update id="deleteOdrDtlBySelectedDtlId"
+			parameterType="arraylist">
+		UPDATE ODR_DTL
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_DTL_ID IN
+		<foreach collection="list" item="odrDtlId" open="(" close=")" separator=", ">
+			#{odrDtlId}
+		</foreach>
+	</update>
+	
+	
+	
+	
+	<!-- 매장에서 보는 주문서의 디테일 / 노 페이지네이션 -->
+	<select id="odrDtlForOdrLst"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultMap="odrDtlMap">
 		SELECT OD.ODR_DTL_ID
@@ -61,52 +157,18 @@
 			 , P.PRDT_PRC 
 			 , S.STR_NM
 			 , S.STR_CALL_NUM 
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
 		  FROM ODR_DTL OD
 		 INNER JOIN PRDT P
 		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
 		 INNER JOIN STR S
-		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
 		 WHERE ODR_LST_ID = #{odrLstId}
-		   AND OD.MBR_ID = #{mbrId}
 		   AND OD.DEL_YN = 'N'
 	</select>
-	
-	
-	<select id="readOneOdrDtlByOdrDtlId"
-			parameterType="string"
-			resultType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
-		SELECT ODR_DTL_ID
-			 , ODR_LST_ID
-			 , ODR_DTL_PRDT_ID
-			 , ODR_DTL_PRDT_CNT
-			 , ODR_DTL_STR_ID
-			 , USE_YN
-			 , DEL_YN
-			 , MBR_ID
-		  FROM ODR_DTL
-		 WHERE ODR_DTL_ID = #{_parameter}
-		   AND DEL_YN = 'N'
-	</select>
-	
-	<update id="updateOneOdrDtlByOdrDtlId"
-			parameterType="string">
-		UPDATE ODR_DTL
-		   SET ODR_DTL_PRDT_CNT = #{odrDtlPrdtCnt}
-		 WHERE ODR_DTL_ID = #{odrDtlId}
-	</update>
-	
-	<update id="deleteOneOdrDtlByOdrDtlId"
-			parameterType="string">
-		UPDATE ODR_DTL
-		   SET DEL_YN = 'Y'
-		 WHERE ODR_DTL_ID = #{odrDtlId}
-	</update>
-	
-	
-	
-	
-	
-	
 	
 	
 	

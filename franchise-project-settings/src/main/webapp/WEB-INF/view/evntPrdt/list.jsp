@@ -97,8 +97,8 @@
 							<th style="width: 200px">상품 이름</th>
 							<th style="width: 200px">상품 가격</th>
 							<th style="width: 200px">변경 후 가격</th>
-							<th style="width: 80px">사용유무</th>
-							<th style="width: 80px">삭제여부</th>
+<!-- 							<th style="width: 80px">사용유무</th> -->
+<!-- 							<th style="width: 80px">삭제여부</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -112,16 +112,16 @@
 										<td>${evntPrdt.evntId}</td>
 										<td>${evntPrdt.prdtId}</td>
 										<td>${evntPrdt.prdtNm}</td>
-										<td>${evntPrdt.prdtPrc}</td>
-										<td>${evntPrdt.evntPrdtChngPrc}</td>
-										<td>${evntPrdt.useYn}</td>
-										<td>${evntPrdt.delYn}</td>
+										<td><fmt:formatNumber>${evntPrdt.prdtPrc}</fmt:formatNumber>원</td>
+										<td><fmt:formatNumber>${evntPrdt.evntPrdtChngPrc}</fmt:formatNumber>원</td>
+<%-- 										<td>${evntPrdt.useYn}</td> --%>
+<%-- 										<td>${evntPrdt.delYn}</td> --%>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="8">등록된 이벤트 대상 품목 정보가 없습니다.</td>
+									<td colspan="6">등록된 이벤트 대상 품목 정보가 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>
@@ -156,7 +156,7 @@
 			</div>
 			<button id="btn-close" class="btn-primary">닫기</button>
 			<button id="btn-revomeEvntPrdt" class="btn-primary">상품 삭제</button>
-			<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button>
+			<%--<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button>--%>
 
 		</div>
 	</div>

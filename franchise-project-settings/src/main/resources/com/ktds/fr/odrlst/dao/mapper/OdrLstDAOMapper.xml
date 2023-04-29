@@ -8,25 +8,50 @@
 				type="com.ktds.fr.odrlst.vo.OdrLstVO"
 				autoMapping="true">
 		<id property="odrLstId" column="ODR_LST_ID" />
-		<collection property="odrDtlList"
-		             ofType="com.ktds.fr.odrdtl.vo.OdrDtlVO" >
-			<id property="odrDtlId" column="ODR_DTL_ID" />
-			<association property="prdtVO"
-			              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
-				<id property="prdtId" column="PRDT_ID" />
-				<result property="prdtNm" column="PRDT_NM" />
-				<result property="prdtPrc" column="PRDT_PRC" />
-			</association>
-			<association property="strVO"
-			              javaType="com.ktds.fr.str.vo.StrVO" >
-				<id property="strId" column="STR_ID" />
-				<result property="strNm" column="STR_NM" />
-				<result property="strCallNum" column="STR_CALL_NUM" />
-			</association>
-		</collection>
+		<association property="strVO"
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
+			<id property="strId" column="STR_ID" />
+		</association>
+		<association property="cmmnCdVO"
+					javaType="com.ktds.fr.cmmncd.vo.CmmnCdVO"
+					autoMapping="true">
+			<id property="cdId" column="ODR_LST_ODR_PRCS"/>
+		</association>
+		<association property="mbrVO"
+					javaType="com.ktds.fr.mbr.vo.MbrVO"
+					autoMapping="true">
+			<id property="mbrId" column="MBR_ID"/>
+		</association>
+		<association property="mdfyrMbrVO"
+					javaType="com.ktds.fr.mbr.vo.MbrVO"
+					autoMapping="true">
+			<id property="mbrId" column="MDFYR"/>
+			<result property="mbrNm" column="MDFYR_NM"/>
+		</association>
 	</resultMap>
 	
+	<select id="checkRemainOdrLst"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM ODR_LST
+		 WHERE MBR_ID = #{mbrId}
+		   AND STR_ID = #{odrDtlStrId}
+		   AND ODR_LST_ODR_PRCS = '003-01'
+		   AND DEL_YN = 'N'
+	</select>
 	
+	<select id="getOdrLstId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ID 
+		  FROM ODR_LST
+		 WHERE MBR_ID = #{mbrId}
+		   AND STR_ID = #{odrDtlStrId}
+		   AND ODR_LST_ODR_PRCS = '003-01'
+		   AND DEL_YN = 'N'
+	</select>
 	
 	<insert id="createNewOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
@@ -44,7 +69,7 @@
 		VALUES
 		 ('OL-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_LST_PK.NEXTVAL, 5, '0')
 		, #{mbrId}
-		, #{odrLstOdrPrcs}
+		, '003-01'
 		, SYSDATE
 		, #{odrLstRgstr}
 		, SYSDATE
@@ -56,44 +81,66 @@
 	
 	<select id="readAllOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
-			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+			resultMap="odrLstMap">
 		<include refid="Common.pageHeader" />
-		SELECT ODR_LST_ID PK_COL
-		     , DENSE_RANK() OVER(ORDER BY ODR_LST_ID DESC) RNUM
-		     , ODR_LST_ID
-		     , MBR_ID
-		     , ODR_LST_ODR_PRCS
-		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
-		     , ODR_LST_RGSTR
-		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		     , MDFYR
-		     , USE_YN
-		     , DEL_YN
-		     , STR_ID
-		  FROM ODR_LST
+		SELECT ROWNUM RNUM
+		     , ROWNUM PK_COL
+		     , E.*
+		  FROM (SELECT OL.ODR_LST_ID
+				     , OL.MBR_ID
+				     , OL.ODR_LST_ODR_PRCS
+				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+				     , OL.ODR_LST_RGSTR
+				     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+				     , OL.MDFYR
+				     , OL.STR_ID
+				     , S.STR_NM
+				  FROM ODR_LST OL
+				 INNER JOIN STR S
+				    ON OL.STR_ID = S.STR_ID
+				 ORDER BY ODR_LST_RGST_DT DESC) E
 		<include refid="Common.pageFooter" />
 	</select>
 	
-	
-
-	
 	<select id="readAllMyOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
-			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+			resultMap="odrLstMap">
 		<include refid="Common.pageHeader" />
-		SELECT ODR_LST_ID PK_COL
-		     , DENSE_RANK() OVER(ORDER BY ODR_LST_ID DESC) RNUM
-		     , ODR_LST_ID
-		     , MBR_ID
-		     , ODR_LST_ODR_PRCS
-		     , TO_CHAR(ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
-		     , ODR_LST_RGSTR
-		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		     , MDFYR
-		     , STR_ID
-		  FROM ODR_LST
-		 WHERE MBR_ID = #{mbrId}
+		SELECT ROWNUM RNUM
+		     , ROWNUM PK_COL
+		     , E.*
+		  FROM (SELECT OL.ODR_LST_ID
+				     , OL.MBR_ID
+				     , OL.ODR_LST_ODR_PRCS
+				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+				     , OL.ODR_LST_RGSTR
+				     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+				     , OL.MDFYR
+				     , OL.STR_ID
+				     , S.STR_NM
+				  FROM ODR_LST OL
+				 INNER JOIN STR S
+				    ON OL.STR_ID = S.STR_ID
+				 WHERE OL.MBR_ID = #{mbrId}
+				   AND OL.DEL_YN = 'N'
+				 ORDER BY ODR_LST_RGST_DT DESC) E
 		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="isThisMyOdrLst"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT MBR_ID
+		  FROM ODR_LST
+		 WHERE ODR_LST_ID = #{_parameter}
+	</select>
+	
+	<select id="getOdrPrcs"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ODR_PRCS
+		  FROM ODR_LST
+		 WHERE ODR_LST_ID = #{_parameter}
 	</select>
 	
 	<select id="readOneOdrLstByOdrLstId"
@@ -113,29 +160,106 @@
 		 WHERE ODR_LST_ID = #{_parameter}
 	</select>
 	
-	<update id="updateOneOdrLstByOdrLstId"
-			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
+	<update id="updateOdrPrcsToReadyByOdrLstId"
+			parameterType="string">
 		UPDATE ODR_LST
-		   SET ODR_LST_ODR_PRCS = #{odrLstOdrPrcs}
+		   SET ODR_LST_ODR_PRCS = '003-02'
 		     , MDFY_DT = SYSDATE
-		     , MDFYR = #{mdfyr}
 		 WHERE ODR_LST_ID = #{odrLstId}
 	</update>
 	
 	<update id="deleteOneOdrLstByOdrLstId"
-			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
+			parameterType="string">
 		UPDATE ODR_LST
 		   SET DEL_YN = 'Y'
-		     , MDFY_DT = SYSDATE
-		     , MDFYR = #{mdfyr}
 		 WHERE ODR_LST_ID = #{odrLstId}
 	</update>
 	
+	<update id="deleteOdrLstBySelectedLstId"
+			parameterType="arraylist">
+		UPDATE ODR_LST
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_LST_ID IN
+		<foreach collection="list" item="odrLstId" open="(" close=")" separator=", ">
+			#{odrLstId}
+		</foreach>
+	</update>
 	
 	
+	<!-- 매장용 -->
+	<select id="readAllOdrLstForStr"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
+			resultMap="odrLstMap">
+		SELECT OL.ODR_LST_ID
+		     , OL.MBR_ID
+		     , R.MBR_NM
+		     , OL.ODR_LST_ODR_PRCS
+		     , C.CD_NM
+		     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , OL.ODR_LST_RGSTR
+		     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , OL.MDFYR
+		     , M.MBR_NM MDFYR_NM
+		  FROM ODR_LST OL
+		  LEFT OUTER JOIN MBR R
+		    ON OL.MBR_ID = R.MBR_ID
+		  LEFT OUTER JOIN MBR M
+		    ON OL.MDFYR = M.MBR_ID
+		 INNER JOIN CMMN_CD C
+		    ON OL.ODR_LST_ODR_PRCS = C.CD_ID
+		 WHERE OL.DEL_YN = 'N'
+		   AND OL.USE_YN = 'Y'
+		   AND OL.STR_ID = #{strId}
+		   AND OL.ODR_LST_ODR_PRCS != '003-01'
+		<choose>
+			<when test='odrLstOdrPrcs == "003-04"'>
+		   AND OL.ODR_LST_ODR_PRCS = '003-04'
+		 ORDER BY OL.MDFY_DT ASC
+			</when>
+			<otherwise>
+		   AND OL.ODR_LST_ODR_PRCS != '003-04'
+		 ORDER BY OL.ODR_LST_RGST_DT DESC
+			</otherwise>
+		</choose>
+	</select>
+	<select id="completeOdrForStr"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
+			resultMap="odrLstMap">
+		SELECT OL.ODR_LST_ID
+		     , OL.MBR_ID
+		     , R.MBR_NM
+		     , OL.ODR_LST_ODR_PRCS
+		     , C.CD_NM
+		     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+		     , OL.ODR_LST_RGSTR
+		     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , OL.MDFYR
+		     , M.MBR_NM MDFYR_NM
+		  FROM ODR_LST OL
+		  LEFT OUTER JOIN MBR R
+		    ON OL.MBR_ID = R.MBR_ID
+		  LEFT OUTER JOIN MBR M
+		    ON OL.MDFYR = M.MBR_ID
+		 INNER JOIN CMMN_CD C
+		    ON OL.ODR_LST_ODR_PRCS = C.CD_ID
+		 WHERE OL.DEL_YN = 'N'
+		   AND OL.USE_YN = 'Y'
+		   AND OL.STR_ID = #{strId}
+		 ORDER BY OL.ODR_LST_RGST_DT DESC
+	</select>
 	
-	
-	
+	<update id="updateCheckAll"
+			parameterType="arrayList">
+		UPDATE ODR_LST 
+		   SET ODR_LST_ODR_PRCS = #{odrLstOdrPrcs} 
+		     , MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr} 
+		 WHERE ODR_LST_ID IN 
+		<foreach item="odrId" collection="odrLstIdList"
+		    open="(" separator=", " close=")">
+		  #{odrId} 
+		</foreach>
+	</update>
 	
 	
 	

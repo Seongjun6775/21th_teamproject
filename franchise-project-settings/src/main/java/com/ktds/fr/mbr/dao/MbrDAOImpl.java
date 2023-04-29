@@ -101,10 +101,23 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	}
 	@Override
 	public int updateOneMbrLvlAndStrId(MbrVO mbrVO) {
-		return getSqlSession().update("Mbr.updateOneMbrLvlAndMbrStrId", mbrVO);
+		return getSqlSession().update("Mbr.updateOneMbrLvlAndStrId", mbrVO);
 	}
 	@Override
-	public int deleteOneMbrAdminByMbrId(MbrVO mbrVO) {
-		return getSqlSession().update("Mbr.deleteOneMbrAdminByMbrId", mbrVO);
+	public int deleteAllMbrAdminByMbrId(List<String> mbrIdList) {
+		return getSqlSession().update("Mbr.deleteAllMbrAdminByMbrId", mbrIdList);
+	}
+	@Override
+	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO) {
+		return getSqlSession().selectList("Mbr.readAllCrewMbrByStrId", mbrVO);
+	}
+	@Override
+	public MbrVO readOneCrewByMbrId(String mbrId) {
+		return getSqlSession().selectOne("Mbr.readOneCrewByMbrId", mbrId);
+	}
+	
+	@Override
+	public int updateRestMbrPyMn(MbrVO mbrVO) {
+		return getSqlSession().update("Mbr.updateRestMbrPyMn", mbrVO);
 	}
 }

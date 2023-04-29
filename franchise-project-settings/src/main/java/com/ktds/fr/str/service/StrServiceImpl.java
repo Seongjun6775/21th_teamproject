@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.prdt.dao.PrdtDAO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.dao.StrDAO;
@@ -105,10 +106,24 @@ public class StrServiceImpl implements StrService {
 	}
 
 	@Override
+	public List<CtyCdVO> readCategory(String lctId) {
+		return strDAO.readCategory(lctId);
+	}
+	/**
+	 * 매장별 상품등록시 사용 ... 사용유무에 관계없이 목록가져옴
+	 */
+	@Override
 	public List<StrVO> readAll() {
 		return strDAO.readAll();
 	}
-
+	
+	/**
+	 *  손님이 매장 조회할 때 사용 ... 사용유무 Y
+	 */
+	@Override
+	public List<StrVO> readAllUseY(String ctyId) {
+		return strDAO.readAllUseY(ctyId);
+	}
 
 }
 

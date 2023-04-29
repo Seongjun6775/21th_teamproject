@@ -46,7 +46,10 @@ public class PrdtController {
 			, Model model) {
 		// 세션>회원의 등급이 상위관리자가 아닐경우
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
-			return "prdt/session_error";
+			if (mbrVO.getMbrLvl().equals("001-04")) {
+				return "prdt/session_error";
+			}
+			return "redirect:/strprdt/list";
 		}
 		
 		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
@@ -64,7 +67,7 @@ public class PrdtController {
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			, Model model) {
 		// 손님용 페이지 (등급상관없이 전체조회가능)
-		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
+		List<PrdtVO> prdtList = prdtService.readAllCustomerNoPagenation(prdtVO);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("prdtList", prdtList);

@@ -2,6 +2,7 @@ package com.ktds.fr.str.service;
 
 import java.util.List;
 
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.str.vo.StrVO;
 
 public interface StrService {
@@ -33,6 +34,8 @@ public List<StrVO>readAllStrMaster(StrVO strVO);
 	 */
 	public List<StrVO>readAllStrNoPagenate(StrVO strVO);
 	
+	public List<CtyCdVO> readCategory(String lctId);
 	public List<StrVO>readAll();
+	public List<StrVO>readAllUseY(String ctyId);
 	
 }

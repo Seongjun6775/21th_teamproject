@@ -10,7 +10,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${context}/css/hr_mstr.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -20,9 +19,11 @@
 			$("#layer_popup").css({
 				"top": event.pageY,
 				"left": event.pageX,
-				"backgroundColor": "#FFF" 
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
 			}).show();
-			
 			url = "${context}/nt/ntcreate/" + mbrId
 		});
 		
@@ -37,7 +38,7 @@
 			$("#layer_popup").hide();
 		});
 		
-		$(".create_btn").click(function() {
+		$("#create-btn").click(function() {
 			location.href="${context}/hr/hrcreate"
 		});
 		
@@ -47,44 +48,13 @@
 				location.href="${context}/hr/hrmstrdetail/" + data.hrid;
 			}
 		});
-		
-		/* 일괄 다운로드 기능 추가 예정이 사라져서 주석 처리 해 두었습니다.
-		
-		$("#all_check").change(function() {
-			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
-		$("#check_download_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			
-			if (checkLen == 0) {
-				alert("선택한 글이 없습니다.");
-				return;
-			}
-			
-			$(".check_idx:checked").each(function() {
-				location.href= "${context}/hr/hrfile/" + $(this).val();
-				
-			});
-			
-		}); */
-		
 		$("#search_btn").click(function() {
 			movePage(0);
 		});
-		
 		$("#hrLvl, #hrStat, #delYn").change(function() {
 			movePage(0);
 		});
-		
 	});
-	
 	function movePage(pageNo) {
 		
 		var searchIdx = $("#search_idx").val();
@@ -116,64 +86,64 @@
 	}
 	
 </script>
+
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<h3>master 채용 페이지 테스트</h3>
-			<div>
+<jsp:include page="../include/openBody.jsp" />
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+			<span class="fs-5 fw-bold">master 채용 페이지 테스트</span>
+	    </div>
+		<!-- searchbar -->
+		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
+		  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
+		  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin: 15px;">
+		    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+		  </svg>
+		  <input class="form-control " style="margin-right: 10px; width: 30%;" type="date" id="startDt" name="startDt" value="${hrVO.startDt}">
+		  <input class="form-control" style="margin-right: 40px; width: 30%;" type="date" id="endDt" name="endDt" value="${hrVO.endDt}">
+		    <select id="search_idx" class="form-select" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
+				<option value="">검색 조건</option>
+				<option value="hrTtl" ${searchIdx eq "hrTtl" ? 'selected' : '' }>제목</option>
+				<option value="mbrId" ${searchIdx eq "mbrId" ? 'selected' : '' }>지원자</option>
+		    </select>
+		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
+		    <button id="search_btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+		</div>
+		<!-- /searchbar -->	
+		    
+		<!-- contents -->
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: 600px;">
 				<div>총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
-				<!-- <button id="check_download_btn">전체 다운로드</button> -->
-				<div>
-					<label for="startDt">검색 시작일</label>
-					<input type="date" id="startDt" name="startDt" value="${hrVO.startDt}" />
-					<label for="endDt">검색 종료일</label>
-					<input type="date" id="endDt" name="endDt" value="${hrVO.endDt}" />
-					<select id="search_idx">
-						<option value="">검색 조건</option>
-						<option value="hrTtl" ${searchIdx eq "hrTtl" ? 'selected' : '' }>제목</option>
-						<option value="mbrId" ${searchIdx eq "mbrId" ? 'selected' : '' }>지원자</option>
-					</select>
-				<input type="text" id="search-keyword" value="${keyword}"/>
-				<button id="search_btn">검색</button>
-				</div>
-			</div>
-			<div class="hr_table_grid">
-				<table>
+				<table class="table caption-top">
 					<thead>
 						<tr>
-							<!-- <th><input type="checkbox" id="all_check"/></th> -->
-							<th>지원자 ID</th>
-							<th>
-								<select id="hrLvl">
+							<th scope="col">지원자 ID</th>
+							<th scope="col" >
+								<select id="hrLvl" class="form-select" aria-label="Default select example">
 									<option value="">지원 직군</option>
 									<option value="005-01" ${hrVO.hrLvl eq "005-01" ? 'selected' : '' }>점주</option>
 									<option value="005-02" ${hrVO.hrLvl eq "005-02" ? 'selected' : '' }>사원</option>
 								</select>
 							</th>
-							<th>제목</th>
-							<th>등록일</th>
-							<th>승인 여부</th>
-							<th>
-								<select id="hrStat">
+							<th scope="col">제목</th>
+							<th scope="col">등록일</th>
+							<th scope="col">승인 여부</th>
+							<th scope="col">
+								<select id="hrStat" class="form-select" aria-label="Default select example">
 									<option value="">채용 상태</option>
-									<option value="접수" ${hrVO.hrStat eq "접수" ? 'selected' : '' }>접수</option>
-									<option value="심사중" ${hrVO.hrStat eq "심사중" ? 'selected' : '' }>심사중</option>
-									<option value="심사완료" ${hrVO.hrStat eq "심사완료" ? 'selected' : '' }>심사완료</option>
+									<option value="002-01" ${hrVO.hrStat eq "002-01" ? 'selected' : '' }>접수</option>
+									<option value="002-02" ${hrVO.hrStat eq "002-02" ? 'selected' : '' }>심사중</option>
+									<option value="002-03" ${hrVO.hrStat eq "002-03" ? 'selected' : '' }>심사완료</option>
 								</select>
 							</th>
-							<th>
-								<select id="delYn">
+							<th scope="col">
+								<select id="delYn" class="form-select" aria-label="Default select example">
 									<option value="">삭제 여부</option>
 									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제됨</option>
 									<option value="N" ${hrVO.delYn eq "N" ? 'selected' : '' }>삭제되지 않음</option>
 								</select>
 							</th>
 						</tr>
-					</thead>
+					</thead> 
 					<tbody>
 						<c:choose>
 							<c:when test="${not empty hrList}">
@@ -199,14 +169,19 @@
 									    	</c:when>
 									    </c:choose>
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
-										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
-											
+										<td onclick="event.cancelBubble=true">
+											<a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
 										</td>
 										<td>${hr.cdNm}</td>
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
-										<td>${hr.hrStat}</td>
+										<c:choose>
+											<c:when test="${hr.hrStat eq '002-01'}"><td>접수</td></c:when>
+											<c:when test="${hr.hrStat eq '002-02'}"><td>심사중</td></c:when>
+											<c:when test="${hr.hrStat eq '002-03'}"><td>심사완료</td></c:when>
+											<c:otherwise><td></td></c:otherwise>
+										</c:choose>
 										<td>${hr.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>
@@ -217,47 +192,46 @@
 						</c:choose>
 					</tbody>
 				</table>
+							<div style="position: relative;">
+				<div class="pagenate">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination" style="text-align: center;">
+							<c:set value="${hrList.size() >0 ? hrList.get(0).lastPage : 0}" var="lastPage" />
+							<c:set value="${hrList.size() >0 ? hrList.get(0).lastGroup : 0}" var="lastGroup" />
+							
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
+							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+							
+							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+							
+							
+							<c:if test="${nowGroup > 0}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+							</c:if>
+						
+							
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+								<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+							</c:forEach>
+							
+							<c:if test="${lastGroup > nowGroup}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+							</c:if>
+						</ul>
+					</nav>
+				</div>
+					<div style="position: absolute;right: 0;top: 0;">
+            			<button id="create-btn" type="button" class="btn btn-secondary">작성</button>
+	          		</div>
 			</div>
-			<div class="pagenate">
-				<ul>
-					<c:set value="${hrList.size() >0 ? hrList.get(0).lastPage : 0}" var="lastPage" />
-					<c:set value="${hrList.size() >0 ? hrList.get(0).lastGroup : 0}" var="lastGroup" />
-					
-					<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
-					<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-					
-					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-					<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-					
-					
-					<c:if test="${nowGroup > 0}">
-						<li><a href="javascript:movePage(0)">처음</a></li>
-						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-					</c:if>
-				
-					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-						<li><a class="${pageNo eq hrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-					</c:forEach>
-					
-					<c:if test="${lastGroup > nowGroup}">
-						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-					</c:if>
-				</ul>
-			</div>
-			<div>
-				<button class="create_btn">작성</button>
-			</div>
-			<jsp:include page="../include/footer.jsp" />
 		</div>
-	</div>
-	
-	
-	
-	<div class="layer_popup" id="layer_popup" style="display: none;">
+			
+		<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
 				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
@@ -266,6 +240,6 @@
 				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
 			</div>
 		</div>
-	</div>
-</body>
+		</div>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

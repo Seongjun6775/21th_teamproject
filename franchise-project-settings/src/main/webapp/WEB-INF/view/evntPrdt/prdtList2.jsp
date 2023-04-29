@@ -131,14 +131,16 @@
 				
 				$(".check-idx:checked").each(function() {
 					var chgPrice = $(this).closest("tr").find("input[type=text]").val();
-					// var evntId
+					chgPrice = chgPrice.replaceAll(",","");
+//    				var evntId = $(this).();
 					console.log(chgPrice);
 // 					console.log($(this).val());
- 					form.append("<input type='hiedden' name='evntPrdtList' value='" + $(this).val() + "'>");
- 					form.append("<input type='hiedden' name='evntPrdtPriceList' value='" + chgPrice + "'>");
+ 					form.append("<input type='hiedden' name='prdtId' value='" + $(this).val() + "'>");
+ 					form.append("<input type='hiedden' name='evntPrdtChngPrc' value='" + chgPrice + "'>");
 //					console.log(document.getElementById("search-keyword-changePrice"));
 //					console.log(document.getElementById("search-keyword-changePrice").value);
 				});
+ 					form.append("<input type='hiedden' name='evntId' value='${evntId}'>");
 							
 				$.post("${context}/api/evntPrdt/createCheckedEvntPrdtList", form.serialize(), function(response) {
 					if (response.status == "200 OK") {
@@ -157,7 +159,7 @@
 		var queryString = "prdtSrt=" + srt;
 		queryString += "&prdtPageNo=" + pageNo;
 
-		location.href = "${context}/evntPrdt/prdtList2?" + queryString; // URL 요청
+		location.href = "${context}/evntPrdt/prdtList2/${evntId}?" + queryString; // URL 요청
 	}
 	
 	 function inputNumberFormat(obj) {
@@ -180,7 +182,7 @@
 	<div class="main-layout">
 		<div>
 			<h1>이벤트상품 리스트 목록 조회</h1>
-			<div>총 ${evntList.size() > 0 ? evntList.get(0).totalCount : 0}건</div>
+			<div>총 ${prdtList.size()}건</div>
 			<div>
 				이벤트 ID : <input type="text" id="evntPrdtId" style="width: 300px;"
 					readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."
@@ -207,8 +209,8 @@
 							</select></th>
 							<th style="width: 200px; text-align: center;">상품 가격</th>
 							<th style="width: 200px; text-align: center;">변경 가격</th>
-							<th style="width: 80px; text-align: center;">사용유무</th>
-							<th style="width: 80px; text-align: center;">삭제여부</th>
+<!-- 							<th style="width: 80px; text-align: center;">사용유무</th> -->
+<!-- 							<th style="width: 80px; text-align: center;">삭제여부</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -224,8 +226,8 @@
 										<td style="text-align: center;"><input type="text" 
 											id="search-keyword-changePrice" placeholder="변경할 가격 입력"
 											onkeyup="inputNumberFormat(this)" value=""></td>
-										<td style="text-align: center;">${prdt.useYn}</td>
-										<td style="text-align: center;">${prdt.delYn}</td>
+<%-- 										<td style="text-align: center;">${prdt.useYn}</td> --%>
+<%-- 										<td style="text-align: center;">${prdt.delYn}</td> --%>
 
 									</tr>
 								</c:forEach>
@@ -238,48 +240,6 @@
 						</c:choose>
 					</tbody>
 				</table>
-
-
-
-
-
-
-				<div class="pagenate">
-					<ul>
-						<c:set
-							value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}"
-							var="lastPage" />
-						<c:set
-							value="${prdtList.size() > 0 ? prdtList.get(0).lastGroup : 0}"
-							var="lastGroup" />
-
-						<fmt:parseNumber var="nowGroup"
-							value="${Math.floor(prdtVO.pageNo /10)}" integerOnly="true" />
-						<c:set value="${nowGroup*10}" var="groupStartPageNo" />
-						<c:set value="${nowGroup*10+ 10}" var="groupEndPageNo" />
-						<c:set
-							value="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo -1}"
-							var="groupEndPageNo" />
-
-						<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-						</c:if>
-
-						<c:forEach begin="${groupStartPageNo}"
-							end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1"
-							var="pageNo">
-							<li><a class="${pageNo eq prdtVO.pageNo ? 'on' : ''}"
-								href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-						</c:forEach>
-						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-						</c:if>
-					</ul>
-				</div>
 			</div>
 			<button id="btn-create-evntPrdt" class="btn-primary">일괄 등록</button>
 			<button id="btn-close" class="btn-primary">닫기</button>

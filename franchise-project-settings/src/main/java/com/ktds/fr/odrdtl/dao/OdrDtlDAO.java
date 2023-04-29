@@ -3,6 +3,7 @@ package com.ktds.fr.odrdtl.dao;
 import java.util.List;
 
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 public interface OdrDtlDAO {
 	
@@ -32,7 +33,7 @@ public interface OdrDtlDAO {
 	 * @param odrDtlId 주문 상세 ID
 	 * @return 수정한 건수
 	 */
-	public int updateOneOdrDtlByOdrDtlId(String odrDtlId);
+	public int updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문을 삭제합니다.
@@ -40,5 +41,19 @@ public interface OdrDtlDAO {
 	 * @return 삭제한 건수
 	 */
 	public int deleteOneOdrDtlByOdrDtlId(String odrDtlId);
+	
+	/**
+	 * 주문 상세 ID를 기준으로 선택한 주문들을 삭제합니다.
+	 * @param odrDtlId 주문 상세 ID
+	 * @return 삭제한 건수
+	 */
+	public int deleteOdrDtlBySelectedDtlId(List<String> odrDtlId);
+
+	
+	
+	/**
+	 * 매장에서 보는 주문서의 디테일 / 노 페이지네이션
+	 */
+	public List<OdrDtlVO> odrDtlForOdrLst(OdrDtlVO odrDtlVO);
 
 }

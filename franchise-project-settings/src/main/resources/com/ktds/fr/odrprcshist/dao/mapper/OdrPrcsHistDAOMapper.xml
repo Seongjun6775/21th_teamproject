@@ -4,6 +4,28 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OdrPrcsHist">
 
-
+	<insert id="create"
+			parameterType="com.ktds.fr.odrprcshist.vo.OdrPrcsHistVO">
+		INSERT INTO ODR_PRCS_HIST 
+		      (ODR_PRCS_HIST_ID 
+		     , ODR_LST_ID 
+		     , ODR_PRCS_HIST_RDR_PRCS 
+		     , MDFYR 
+		     , MDFY_DT) 
+		SELECT 'OP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_PRCS_HIST_PK.NEXTVAL, 5, '0') 
+		     , ODR_LST_ID 
+		     , #{odrPrcsHistRdrPrcs}
+		     , #{mdfyr}
+		     , SYSDATE 
+	      FROM (
+	     <foreach collection="odrLstIdList" 
+		    		item="odrLstId" 
+			        separator=" UNION ALL ">
+	        SELECT #{odrLstId} ODR_LST_ID 
+	          FROM DUAL
+	    </foreach>
+				)
+		     
+	</insert>
 
 </mapper>

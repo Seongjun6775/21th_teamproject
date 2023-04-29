@@ -11,10 +11,38 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="../include/stylescript.jsp"/>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
+		
+		var url;
+		$(".open-layer").click(function(event) {
+
+			var mbrId = $(this).text();  
+			$("#layer_popup").css({
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			
+			url = "${context}/nt/ntcreate/" + mbrId
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url) {
+				location.href = url;
+			}
+		});
+		
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
 		
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked",$(this).prop("checked"));
@@ -153,7 +181,8 @@
 													${hlpDsk.hlpDskTtl}  
 												</a>
 											</td>
-											<td style="width: 180px;">${hlpDsk.mbrVO.mbrNm}</td>
+											<td style="width: 180px;">${hlpDsk.mbrVO.mbrNm}
+											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);">${hlpDsk.mbrId}</a>)</span></td>
 											<td style="width: 200px;">${hlpDsk.hlpDskWrtDt}</td>
 										</tr>
 									</c:forEach>
@@ -202,5 +231,19 @@
 		<jsp:include page="../include/footer.jsp" />
 	</div>
 </div>
+
+<div class="layer_popup" id="layer_popup" style="display: none;">
+	<div class="popup_box">
+		<div class="popup_content">
+			<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+		</div>
+		<div>
+			<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+		</div>
+	</div>
+</div>
+
+
+
 </body>
 </html>

@@ -46,7 +46,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<h3>채용 지원 작성 페이지 테스트</h3>
 			<form id="hr_form" enctype="multipart/form-data">

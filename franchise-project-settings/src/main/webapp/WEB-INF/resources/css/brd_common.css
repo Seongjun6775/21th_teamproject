@@ -2,14 +2,14 @@
 body{
 	margin: 0px;
 	padding:0px;
-	font-size: 12px !important;
+/* 	font-size: 12px !important;
     line-height: 1.4em;
     font-family: 'Noto Sans KR', sans-serif;
 	font-weight
 	: 500;
     letter-spacing: -0.2px;
     word-break: keep-all;
-    font-family: 's-core-dream', sans-serif;	
+    font-family: 's-core-dream', sans-serif;	 */
 }
 
 *, ::before, ::after {
@@ -48,7 +48,47 @@ body{
 	margin: 0px;
 	color: #eee;
 	text-decoration: none;
+	position: relative;
 }
+
+.main-layout > .header > .nav > .nav-item > .sub-item{
+	position: absolute;
+	top: 40px;
+	left: 0px;
+	margin: 0px;
+	padding: 0px;
+	width: 500px;
+	text-align: left;
+	display: none;
+}
+
+
+
+.header li.nav-item ul.sub-item {
+	position: absolute;
+	top: 40px;
+	left: 0px;
+	margin: 0px;
+	padding: 0px;
+	display: none; 
+	width: 500px;
+	text-align: left;
+}
+
+.header li.nav-item ul.on {
+	display: inline-block; 
+}
+
+.header li.nav-item ul.sub-item li.nav-item {
+	margin: 0px;
+	padding: 0px;
+	display: inline-block;
+	font-size: 16pt;
+}
+
+
+
+
 .main-layout > .header > .nav > .active{
 	font-weight: bold;
 	color: #ddd;

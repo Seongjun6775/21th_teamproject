@@ -13,20 +13,13 @@
 MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 %>
 <jsp:include page="../include/stylescript.jsp" />
-<link rel="stylesheet" href="../css/evntCommon.css?p=${date}">
+<link rel="stylesheet" href="../css/evnt_common_customer.css?p=${date}">
 <meta charset="UTF-8">
 <title>이벤트 목록 조회</title>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(
 			function() {
-				//이벤트 리스트 조회(검색)
-				$("#btn-init").click(function() {
-					document.getElementById("evntTtl").value = "";
-					document.getElementById("evntCntnt").value = "";
-					document.getElementById("evntStrtDt").value = "";
-					document.getElementById("evntEndDt").value = "";
-				});
 				// 이전 페이지        
 				$("#btn-prevPage").click(
 						function() {
@@ -57,14 +50,20 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 										+ pageNum;
 							}
 						});
-				//종료 이벤트 확인          
-				$("#btn-pastEvnt").click(function() {
+				//현재진행중 이벤트 확인          
+				$("#btn-ongoingEvntList").click(function() {
 					location.href = "${context}/evnt/pastEvntList";
 				});
-				//미래 이벤트 확인
-				$("#btn-planEvnt").click(function() {
+				//과거 이벤트 확인
+				$("#btn-pastEvntList").click(function() {
+					location.href = "${context}/evnt/pastEvntList";
+				});
+				//진행예정중인 이벤트 확인
+				$("#btn-planEvntList").click(function() {
 					location.href = "${context}/evnt/planEvntList";
 				});
+				
+				//사진 검색 
 				$("#picture").click(function() {
 					var data = $(this).data();
 					location.href = "${context}/evnt/detail/" + data.evntid;
@@ -74,54 +73,98 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 		location.href = "${context}/evnt/list?pageNo=" + (pageNum);
 	}
 </script>
+<script>
+
+$(document).ready(function(){
+	
+	$('ul.tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})	
+
+})
+
+</script>
+
+<script>
+ $(function(){
+    $("div").slice(0, 1).show(); // 초기갯수
+    $("#more").click(function(e){ // 클릭시 more
+        e.preventDefault();
+        $("div:hidden").slice(0, 1).show(); // 클릭시 more 갯수 지저정
+        if($("div:hidden").length == 0){ // 컨텐츠 남아있는지 확인
+            alert("게시물의 끝입니다."); // 컨텐츠 없을시 alert 창 띄우기 
+        }
+    });
+});
+</script>
+
 </head>
 <body>
 	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/evntSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
+<%-- 		<jsp:include page="../include/header.jsp" /> --%>
+<!-- 		<div> -->
+<%-- 			<jsp:include page="../include/evntSidemenu.jsp" /> --%>
+<%-- 			<jsp:include page="../include/content.jsp" /> --%>
 			<div>
-				<h1>이벤트 리스트 목록 조회</h1>
+				<h1>이벤트 조회</h1>		
+				  <p>
+				  붕어빵 프렌차이즈의
+				  <br>
+				  다양한 이벤트를 만나보세요!
+				  </p>
 				<div>총 ${evntList.size() > 0 ? evntList.get(0).totalCount : 0}건</div>
 			</div>
+			
+			<!-- 여기부터 -->
+			<div class="container">
+
+	<ul class="tabs">
+		<li class="tab-link current" data-tab="tab-1"><a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a></li>
+		<li class="tab-link" data-tab="tab-2"><a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a></li>
+		<li class="tab-link" data-tab="tab-3"><a href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a></li>
+	</ul>
+
+	<div id="tab-1" class="tab-content current">
+	</div>
+	<div id="tab-2" class="tab-content">
+	</div>
+	<div id="tab-3" class="tab-content">`
+	</div>
+
+</div>
+<div>
+</div>
+			<!-- 여기까지 -->
+<!-- 			<div class="buttons"> -->
+<!-- 			<button type="button" id="btn-ongoingEvntList" class="btn-primary" style="width:100%;">진행중인 이벤트</button> -->
+<!-- 			<button type="button" id="btn-pastEvntList" class="btn-primary" style="width:100%;">종료된 이벤트</button> -->
+<!-- 			<button type="button" id="btn-planEvntList" class="btn-primary" style="width:100%;">진행예정 이벤트</button> -->
+			
+<!-- 			</div> -->
 			<div class="content">
 				<div class="search-group">
 					<div>
 						<form action="${context}/evnt/list" method="post">
-							<table style="width: 100%;">
-								<tr>
-									<td>이벤트 제목</td>
-									<td><input id="evntTtl" type="text" name="evntTtl"
-										value="${evntTtl}" style="width: 90%;" /></td>
-									<td>이벤트 내용</td>
-									<td><input id="evntCntnt" type="text" name="evntCntnt"
-										value="${evntCntnt}" style="width: 90%;" /></td>
-
-								</tr>
-								<tr>
-									<td>이벤트 시작일자</td>
-									<td><input id="evntStrtDt" type="date" name="evntStrtDt"
-										value="${evntStrtDt}" style="width: 90%;" /></td>
-									<td>이벤트 종료일자</td>
-									<td><input id="evntEndDt" type="date" name="evntEndDt"
-										value="${evntEndDt}" style="width: 90%;" /></td>
-
-									<td colspan="2"><button type="submit" class="btn-search"
-											id="search-btn">검색</button></td>
-								</tr>
-							</table>
-
-							<div>
-								<button id="btn-pastEvnt" class="btn-primary">종료 이벤트</button>
-							</div>
-							<br>
-							<div>
-								<button id="btn-planEvnt" class="btn-primary">예정된 이벤트</button>
-							</div>
-
-
-							<!-- 페이지 네이션을 위한 Hidden 데이터 -->
+<!-- 							<nav class="nav-tabs"> -->
+<!-- 							<ul> -->
+<!-- 								<li class="ongoingt"> -->
+<%-- 									<a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a> --%>
+<!-- 								</li> -->
+<!-- 								<li> -->
+<%-- 								 	<a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a> --%>
+<!-- 								</li> -->
+<!-- 								<li> -->
+<%-- 									<a href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a> --%>
+<!-- 								</li>			 -->
+<!-- 								</ul>						 -->
+<!-- 							</nav> -->
+						<!-- 페이지 네이션을 위한 Hidden 데이터 -->
 							<input id="viewCnt" name="viewCnt" value="${viewCnt}"
 								type="hidden" /> <input id="pageCnt" name="pageCnt"
 								value="${pageCnt}" type="hidden" /> <input id="pageNo"
@@ -133,17 +176,15 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 
 						</form>
 					</div>
-					<button id="btn-init" class="btn-primary">초기화</button>
-
-					<button id="btn-create" class="btn-primary">등록</button>
+				
 
 					<!--             </form> -->
 				</div>
-				<div class="grid">
+				<div class="grid" style="clear:both:">
 					<c:choose>
 						<c:when test="${not empty evntList}">
 							<c:forEach items="${evntList}" var="evnt">
-								<div class="evnt" id="${evnt.evntId}">
+								<div class="evnt" id="${evnt.evntId}" style="width:500px; height:250px; border:1px soild red; float:left; margin-right:10px;">
 									<div class="img-box">
 										<c:choose>
 											<c:when test="${empty evnt.uuidFlNm}">
@@ -152,7 +193,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 											</c:when>
 											<c:otherwise>
 												<a href="${context}/evnt/detail/${evnt.evntId}" > 
-												<img src="${context}/evnt/img/${evnt.uuidFlNm}/">
+												<img src="${context}/evnt/img/${evnt.uuidFlNm}/" style="width:200px; height:150px;">
 												</a>
 											</c:otherwise>
 										</c:choose>
@@ -184,53 +225,57 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 							</tr>
 						</c:otherwise>
 					</c:choose>
+				</div>		
+				
+					<div class="button">
+					
+				<div></div>
+				<button class="more" id="more" type="button" onclick="paging.view();">더보기</button>
+				</div>	
+
+<!-- 				<div class="pagenate"> -->
+<!-- 					<ul> -->
+<%-- 						<c:set --%>
+<%-- 							value="${evntList.size() > 0 ? evntList.get(0).lastPage : 0}" --%>
+<%-- 							var="lastPage"></c:set> --%>
+<%-- 						<c:set --%>
+<%-- 							value="${evntList.size() > 0 ? evntList.get(0).lastGroup : 0}" --%>
+<%-- 							var="lastGroup"></c:set> --%>
+
+<%-- 						<fmt:parseNumber var="nowGroup" --%>
+<%-- 							value="${Math.floor(evntVO.pageNo / pageCnt)}" integerOnly="true" /> --%>
+<%-- 						<c:set value="${nowGroup * pageCnt}" var="groupStartPageNo"></c:set> --%>
+<%-- 						<c:set value="${groupStartPageNo + pageCnt}" var="groupEndPageNo"></c:set> --%>
+<%-- 						<c:set --%>
+<%-- 							value="${groupEndPageNo > lastPage ? lastPage -1 : groupEndPageNo - 1}" --%>
+<%-- 							var="groupEndPageNo"></c:set> --%>
+<%-- 						<c:set value="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" --%>
+<%-- 							var="groupEndPageNo"></c:set> --%>
+
+<%-- 						<c:set value="${(nowGroup - 1) * pageCnt}" --%>
+<%-- 							var="prevGroupStartPageNo"></c:set> --%>
+<%-- 						<c:set value="${(nowGroup + 1) * pageCnt}" --%>
+<%-- 							var="nextGroupStartPageNo"></c:set> --%>
 
 
-				</div>
+<%-- 						<c:if test="${nowGroup > 0}"> --%>
+<!-- 							<li><a href="javascript:movePage(0)">처음</a></li> -->
+<!-- 							<li><a -->
+<%-- 								href="javascript:movePage(${prevGroupStartPageNo+pageCnt-1})">이전</a></li> --%>
+<%-- 						</c:if> --%>
 
-				<div class="pagenate">
-					<ul>
-						<c:set
-							value="${evntList.size() > 0 ? evntList.get(0).lastPage : 0}"
-							var="lastPage"></c:set>
-						<c:set
-							value="${evntList.size() > 0 ? evntList.get(0).lastGroup : 0}"
-							var="lastGroup"></c:set>
+<%-- 						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" --%>
+<%-- 							step="1" var="pageNo"> --%>
+<%-- 							<li><a class="${pageNo eq evntVO.pageNo ? 'on' : ''}" --%>
+<%-- 								href="javascript:movePage(${pageNo})">${pageNo+1}</a></li> --%>
+<%-- 						</c:forEach> --%>
 
-						<fmt:parseNumber var="nowGroup"
-							value="${Math.floor(evntVO.pageNo / pageCnt)}" integerOnly="true" />
-						<c:set value="${nowGroup * pageCnt}" var="groupStartPageNo"></c:set>
-						<c:set value="${groupStartPageNo + pageCnt}" var="groupEndPageNo"></c:set>
-						<c:set
-							value="${groupEndPageNo > lastPage ? lastPage -1 : groupEndPageNo - 1}"
-							var="groupEndPageNo"></c:set>
-						<c:set value="${groupEndPageNo < 0 ? 0 : groupEndPageNo}"
-							var="groupEndPageNo"></c:set>
-
-						<c:set value="${(nowGroup - 1) * pageCnt}"
-							var="prevGroupStartPageNo"></c:set>
-						<c:set value="${(nowGroup + 1) * pageCnt}"
-							var="nextGroupStartPageNo"></c:set>
-
-
-						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a
-								href="javascript:movePage(${prevGroupStartPageNo+pageCnt-1})">이전</a></li>
-						</c:if>
-
-						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}"
-							step="1" var="pageNo">
-							<li><a class="${pageNo eq evntVO.pageNo ? 'on' : ''}"
-								href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-						</c:forEach>
-
-						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage}-1)">끝</a></li>
-						</c:if>
-					</ul>
-				</div>
+<%-- 						<c:if test="${lastGroup > nowGroup}"> --%>
+<%-- 							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li> --%>
+<%-- 							<li><a href="javascript:movePage(${lastPage}-1)">끝</a></li> --%>
+<%-- 						</c:if> --%>
+<!-- 					</ul> -->
+<!-- 				</div> -->
 				<%-- 
 			<div class="pagenation" style="text-align:center">
 				<button id="btn-prevPage" class="btn-primary">[이전페이지]</button>
@@ -241,10 +286,10 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 			</div>
 			 --%>
 
-
-			</div>
-			<jsp:include page="../include/footer.jsp" />
-		</div>
+			</div>			
+			
+<%-- 			<jsp:include page="../include/footer.jsp" /> --%>
+<!-- 		</div> -->
 	</div>
 </body>
 </html>
