@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>${strVO.strNm} - 주문 전체보기</title>
 <jsp:include page="../include/stylescript.jsp" />
-<link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
+<%-- <link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" /> --%>
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -28,19 +28,30 @@ $().ready(function() {
 	
 	
 	
-	$("tbody").children("tr").click(function() {
-		var Id = $(this).data().odrlstid;
+	$("tbody").children("tr").click(function(event) {
+		if ($(event.target).is('td:first-child')) {
+			return;
+		}
+		if ($(event.target).is('input[type="checkbox"]')) {
+		    event.stopPropagation();
+		    return;
+		  }
 		
-		$("div[class=modal-body]").empty();
+		var Id = $(this).data().odrlstid;
+		$("#staticBackdropLabel").html(Id + " : 주문서 상세");
+// 		$("#staticBackdropLabel").empty();
+// 		$("#staticBackdropLabel").empty();
+		
+// 		$("div[class=modal-body]").empty();
 		
 		$.post("${context}/api/odrLst/odrDtl", {odrLstId: Id}, function(data) {
 			
 			var table = $("<table></table>");
 			var thead = $("<thead></thead>");
+			table.addClass("table table-striped");
 			var tr = $("<tr></tr>");
 			var thList = [
 			  $("<th>주문상세ID</th>"),
-			  $("<th>주문날짜</th>"),
 			  $("<th>상품이름</th>"),
 			  $("<th>단가</th>"),
 			  $("<th>수량</th>"),
@@ -53,25 +64,22 @@ $().ready(function() {
 			table.append(thead);
 			
 			var tbody = $("<tbody></tbody>");
+			var pay = 0;
 			for (var i = 0; i < data.length; i++) {
 			    var odrDtlId = data[i].odrDtlId;
-			    var odrLstRgstDt = data[i].odrLstVO.odrLstRgstDt;
 			    var prdtNm = data[i].prdtVO.prdtNm;
 			    var odrDtlPrdtCnt = data[i].odrDtlPrdtCnt;
-			    var price = data[i].prdtVO.prdtPrc;
-			    if (data[i].evntVO != null) {
-				    price = data[i].evntPrdtVO.evntPrdtChngPrc;
-			    }
-			    console.log(odrDtlId);
+			    var odrDtlPrc = data[i].odrDtlPrc;
 			    var tr = $("<tr></tr>");
 			    var tdList = [
 					  $("<td>" + odrDtlId + "</td>"),
-					  $("<td>" + odrLstRgstDt + "</td>"),
 					  $("<td>" + prdtNm + "</td>"),
-					  $("<td>" + price + "</td>"),
-					  $("<td>" + odrDtlPrdtCnt + "</td>"),
-					  $("<td>" + price * odrDtlPrdtCnt + "</td>"),
+					  $("<td>" + odrDtlPrc.toLocaleString() + "</td>"),
+					  $("<td>" + odrDtlPrdtCnt.toLocaleString() + "</td>"),
+					  $("<td>" + (odrDtlPrc * odrDtlPrdtCnt).toLocaleString() + "</td>"),
 					];
+			    pay = pay + (odrDtlPrc * odrDtlPrdtCnt);
+			    
 					tdList.forEach(function(td) {
 					  tr.append(td);
 					});
@@ -79,7 +87,13 @@ $().ready(function() {
 		    }
 			table.append(tbody);
 			
-			$("div[class=modal-body]").append(table);
+			$("div[class=modal-body]").html(table);
+			var div = $("<div> 총 금액 : "+pay.toLocaleString() +"원</div>")
+			div.css({
+				"text-align":"right",
+				"font-weight":"bold",
+			});
+			table.after(div);
 			
 			$("#modal").click();
 		});		
@@ -90,186 +104,20 @@ $().ready(function() {
 	
 	
 	
-	$("#all-check02").change(function(){
-		$(".check-idx02").prop("checked",$(this).prop("checked"));
-		var checkLen = $(".check-idx02:checked").length;
+	$("#all-check").change(function(){
+		$(".check-idx00").prop("checked",$(this).prop("checked"));
+		var checkLen = $(".check-idx00:checked").length;
 		//chkCount(checkLen);
 	})
-	$(".check-idx02").change(function(){
-		var count = $(".check-idx02").length;
-		var checkCount = $(".check-idx02:checked").length;
-		$("#all-check02").prop("checked", count == checkCount);
-	});
-	
-	$("#all-check03").change(function(){
-		$(".check-idx03").prop("checked",$(this).prop("checked"));
-		var checkLen = $(".check-idx03:checked").length;
-		//chkCount(checkLen);
-	})
-	$(".check-idx03").change(function(){
-		var count = $(".check-idx03").length;
-		var checkCount = $(".check-idx03:checked").length;
-		$("#all-check03").prop("checked", count == checkCount);
+	$(".check-idx00").change(function(){
+		var count = $(".check-idx00").length;
+		var checkCount = $(".check-idx00:checked").length;
+		$("#all-check").prop("checked", count == checkCount);
 	});
 
 	
-	$("#btn-complete02").click(function() {
-		var checkLen = $(".check-idx02:checked").length;
-		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
-			return;
-		}
-		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
-			return;
-		}
-		
-		
-		var odrLstIdList = [];
-		$(".check-idx02:checked").each(function() {
-		    odrLstIdList.push($(this).val());
-		});
-		console.log(odrLstIdList);
-		var odrLstVO = {
-				"mdfyr" : "${mbrVO.mbrId}",
-				"odrLstOdrPrcs" : "003-03",
-				"odrLstIdList" : odrLstIdList
-		};
-		
-		$.ajax({
-		    type: "POST",
-		    url: "${context}/api/odrLst/updateCheckAll",
-		    data: JSON.stringify(odrLstVO),
-            contentType: "application/json",
-		    success: function(response) {
-		        if (response.status == "200 OK") {
-		            location.reload(); //새로고침
-		        }
-		        else {
-					alert(response.errorCode + " / " + response.message);
-				}
-		    }
-		});
-		
-		
-	})
 	
-	$("#btn-cancle02").click(function() {
-		var checkLen = $(".check-idx02:checked").length;
-		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
-			return;
-		}
-		if (!confirm("주문취소 ? ")) {
-			return;
-		}
-		
-		
-		var odrLstIdList = [];
-		$(".check-idx02:checked").each(function() {
-			console.log($(this).val());
-		    odrLstIdList.push($(this).val());
-		});
-		console.log(odrLstIdList);
-		var odrLstVO = {
-				"mdfyr" : "${mbrVO.mbrId}",
-				"odrLstOdrPrcs" : "003-05",
-				"odrLstIdList" : odrLstIdList
-		};
-		
-		$.ajax({
-		    type: "POST",
-		    url: "${context}/api/odrLst/updateCheckAll",
-		    data: JSON.stringify(odrLstVO),
-            contentType: "application/json",
-		    success: function(response) {
-		        if (response.status == "200 OK") {
-		            location.reload(); //새로고침
-		        }
-		        else {
-					alert(response.errorCode + " / " + response.message);
-				}
-		    }
-		});
-	})
 	
-	$("#btn-complete03").click(function() {
-		var checkLen = $(".check-idx03:checked").length;
-		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
-			return;
-		}
-		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
-			return;
-		}
-		
-		
-		var odrLstIdList = [];
-		$(".check-idx03:checked").each(function() {
-		    odrLstIdList.push($(this).val());
-		});
-		console.log(odrLstIdList);
-		var odrLstVO = {
-				"mdfyr" : "${mbrVO.mbrId}",
-				"odrLstOdrPrcs" : "003-04",
-				"odrLstIdList" : odrLstIdList
-		};
-		
-		$.ajax({
-		    type: "POST",
-		    url: "${context}/api/odrLst/updateCheckAll",
-		    data: JSON.stringify(odrLstVO),
-            contentType: "application/json",
-		    success: function(response) {
-		        if (response.status == "200 OK") {
-		            location.reload(); //새로고침
-		        }
-		        else {
-					alert(response.errorCode + " / " + response.message);
-				}
-		    }
-		});
-		
-		
-	})
-	
-	$("#btn-cancle03").click(function() {
-		var checkLen = $(".check-idx03:checked").length;
-		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
-			return;
-		}
-		if (!confirm("주문취소 ? ")) {
-			return;
-		}
-		
-		
-		var odrLstIdList = [];
-		$(".check-idx03:checked").each(function() {
-			console.log($(this).val());
-		    odrLstIdList.push($(this).val());
-		});
-		console.log(odrLstIdList);
-		var odrLstVO = {
-				"mdfyr" : "${mbrVO.mbrId}",
-				"odrLstOdrPrcs" : "003-05",
-				"odrLstIdList" : odrLstIdList
-		};
-		
-		$.ajax({
-		    type: "POST",
-		    url: "${context}/api/odrLst/updateCheckAll",
-		    data: JSON.stringify(odrLstVO),
-            contentType: "application/json",
-		    success: function(response) {
-		        if (response.status == "200 OK") {
-		            location.reload(); //새로고침
-		        }
-		        else {
-					alert(response.errorCode + " / " + response.message);
-				}
-		    }
-		});
-	})
 	
 	
 });
@@ -311,10 +159,10 @@ function movePage(pageNo) {
 			
 <!-- 			<div class="flex full"> -->
 				<div class="overflow">
-					<table>
+					<table class="table table-striped table-sm table-hover">
 						<thead>
 							<tr>
-								<th><input type="checkbox" id="all-check03"/></th>
+								<th><input type="checkbox" id="all-check"/></th>
 								<th>처리상태</th>
 								<th>주문서ID</th>
 								<th>주문자</th>
@@ -323,14 +171,14 @@ function movePage(pageNo) {
 								<th>처리날짜</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="table-group-divider">
 							<c:choose>
 								<c:when test="${not empty ordLstList}">
 									<c:forEach items="${ordLstList}"
 												var="ordLst">
 										<tr data-odrlstid="${ordLst.odrLstId}">
 											<td class="align-center">
-												<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
+												<input type="checkbox" class="check-idx00" value="${ordLst.odrLstId}" />
 											</td>
 											<td>${ordLst.cmmnCdVO.cdNm}</td>							
 											<td>${ordLst.odrLstId}</td>							
@@ -347,21 +195,20 @@ function movePage(pageNo) {
 					
 					
 					<!-- Button trigger modal -->
-					<button id="modal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+					<button id="modal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="display: none">
 					  Launch static backdrop modal
 					</button>
-					
 					<!-- Modal -->
 					<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-scrollable">
-							<div class="modal-content" style="max-height: 70%; position: relative; top: 50%; transform: translateY(-50%);">
+							<div class="modal-content" style="width:960px; max-height: 70%; position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
 								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+									<h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 									<div class="modal-body">
 									
-									
+										<div id="pay"></div>
 									</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
