@@ -111,7 +111,7 @@
 		<!-- /searchbar -->	
 		    
 		<!-- contents -->
-		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: 600px;">
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
 				<div>총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
 				<table class="table caption-top">
 					<thead>

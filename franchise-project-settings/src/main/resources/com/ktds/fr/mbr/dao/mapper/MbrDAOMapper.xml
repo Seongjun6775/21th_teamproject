@@ -153,7 +153,7 @@
 		   AND CD.CD_ID = #{mbrLvl}
 		  </if>
 		  <if test='mbrNm != null and mbrNm !=""'>
-		   AND M.MBR_NM '%' || #{mbrNm} || '%'
+		   AND M.MBR_NM LIKE '%' || #{mbrNm} || '%'
 		  </if>
 		  <if test='delYn != null and delYn !=""'>
 		   AND M.DEL_YN = #{delYn}

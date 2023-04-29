@@ -30,6 +30,9 @@
 			$("#search-keyword-startdt").val("");
 			$("#search-keyword-enddt").val("");
 		});
+		$("#mbrLvl, #search-keyword-delYn").change(function(){
+			movePage(0);
+		});
 	});
 	
 	function movePage(pageNo){
@@ -61,80 +64,59 @@
 <jsp:include page="../include/openBody.jsp" />
 			<!-- contents -->
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-				<span class="fs-5 fw-bold">기본페이지</span>
+				<span class="fs-5 fw-bold">회원관리 > 회원목록</span>
 		    </div>
-		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
-		    	
-		    	
-		    	<div class="main-layout">
-<%-- 		<jsp:include page="../include/header.jsp" /> --%>
-		<div>
-			<%-- <jsp:include page="../include/mbrMgmtSidemenu.jsp" /> --%>
-			<%-- <jsp:include page="../include/content.jsp" /> --%>
-				<div class="path">회원관리 > 회원 목록</div>
 				<!-- 검색영역 -->
-				
-				
 				<!-- searchbar -->
 				<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
 				  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
 				  <i class="bi bi-search"></i>
 				  <!-- <label for="search-keyword-mbrNm" >이름</label> -->
 						<input type="text" id="search-keyword-mbrNm" class="form-control me-2" placeholder="이름 입력" value="${mbrVO.mbrNm}"/>
-						<select id="mbrLvl" name="mbrLvl" class="form-select">
-							<option value="">멤버등급</option>
-							<c:choose>
-									<c:when test="${not empty srtList}">
-										<c:forEach items="${srtList}" var="srt">
-											<option value="${srt.cdId}">${srt.cdNm}</option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-						</select>
-						<select id="search-keyword-delYn" name="delYn" class="form-select">
-								<option value="">탈퇴유무</option>
-								<option value="Y" ${MbrVO.delYn eq 'Y' ? 'selected' : ''}>Y</option>
-								<option value="N" ${MbrVO.delYn eq 'N' ? 'selected' : ''}>N</option>
-						</select>
-						<%-- <label for="search-keyword-delYn" >탈퇴여부</label>
-						<input type="checkbox" id="search-keyword-delYn" class="search-input" style="flex-grow: 0.1;" value="${mbrVO.delYn eq 'Y' ? 'Y' : 'N'}"/> --%>
-						<label for="search-keyword-startdt" >조회기간</label>
+						
 						<input type="date" id="search-keyword-startdt" class="form-control" value="${mbrVO.startDt}"/>
 						<input type="date" id="search-keyword-enddt" class="form-control" value="${mbrVO.endDt}"/>
 						
 						<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
-						<!-- <button class="btn-search" id="search-btn">검색</button>
-						<button class="btn-search-clear" id="search-clear-btn">초기화</button> -->
 				</div>
-				<!-- /searchbar -->	
-				
-				<div class="search-row-group">
-					<div class="search-group">
-						
-					</div>
-				</div>	
 				<!-- 조회영역 -->
-				<div class="grid">
-					<div class="grid-count align-right">총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
-					<table>
+				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
+					<div>총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
+					<table class="table caption-top" style="text-align: center;">
 						<thead>
 							<tr>
-								<th>순번</th>
-								<th>ID</th>
-								<th>이름</th>
-								<th>이메일</th>
-								<th>회원등급</th>
-								<th>가입일</th>
-								<th>최근 로그인 날짜</th>
-								<th>최근 로그인 IP</th>
-								<th>로그인 제한</th>
-								<th>탈퇴</th>
+								<th scope="col">ID</th>
+								<th scope="col">이름</th>
+								<th scope="col">이메일</th>
+								<th scope="col">
+									<select id="mbrLvl" name="mbrLvl" class="form-select" aria-label="Default select example">
+										<option value="">멤버등급</option>
+										<c:choose>
+												<c:when test="${not empty srtList}">
+													<c:forEach items="${srtList}" var="srt">
+														<option value="${srt.cdId}">${srt.cdNm}</option>
+													</c:forEach>
+												</c:when>
+											</c:choose>
+									</select>
+								</th>
+								<th scope="col">가입일</th>
+								<th scope="col">최근 로그인 날짜</th>
+								<th scope="col">최근 로그인 IP</th>
+								<th scope="col">로그인 제한</th>
+								<th scope="col">
+									<select id="search-keyword-delYn" name="delYn" class="form-select" aria-label="Default select example">
+											<option value="">탈퇴유무</option>
+											<option value="Y" ${MbrVO.delYn eq 'Y' ? 'selected' : ''}>Y</option>
+											<option value="N" ${MbrVO.delYn eq 'N' ? 'selected' : ''}>N</option>
+									</select>
+								</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:choose>
 								<c:when test="${not empty mbrList}">
-									<c:forEach items="${mbrList}" var="mbr" varStatus="index">
+									<c:forEach items="${mbrList}" var="mbr">
 										<tr data-mbrId="${mbr.mbrId}" 
 											data-mbrNm="${mbr.mbrNm }" 
 											data-mbrEml="${mbr.mbrEml }" 
@@ -150,7 +132,6 @@
 											data-mbrLeavDt="${mbr.mbrLeavDt}"
 											data-delYn="${mbr.delYn}"
 											>
-											<td>${index.index+1}</td>
 											<td>${mbr.mbrId}</td>
 											<td>${mbr.mbrNm}</td>
 											<td>${mbr.mbrEml}</td>
@@ -165,7 +146,7 @@
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="10" class="no-items">등록된 관리자가 없습니다.</td>
+										<td colspan="9" class="no-items">등록된 관리자가 없습니다.</td>
 									</tr>
 								</c:otherwise>
 							</c:choose>
@@ -173,7 +154,8 @@
 					</table>
 					
 						<div class="pagenate">
-							<ul>
+							<nav aria-label="Page navigation example">
+							<ul class="pagination" style="text-align: center;">
 								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastPage : 0}" var="lastPage"/>
 								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastGroup : 0}" var="lastGroup"/>
 								
@@ -182,43 +164,30 @@
 								<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
 								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
 								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1 }" var="groupEndPageNo"/>
-								<%-- <c:set value="${groupEndPageNo > lastPage ? (lastPage-1 < 0 ? lastPage : lastPage -1 ) : groupEndPageNo - 1}" var="groupEndPageNo"/> --%>
 								
 								<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
 								<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
-								 
-								<%-- lastPage: ${lastPage }
-								lastGroup: ${lastGroup }
-								nowGroup: ${nowGroup }
-								groupStartPageNo:${groupStartPageNo }
-								groupEndPageNo:${groupEndPageNo}
-								prevGroupStartPageNo: ${prevGroupStartPageNo }
-								nextGroupStartPageNo: ${nextGroupStartPageNo } --%>
-								
+
 								<c:if test="${nowGroup > 0}">
-									<li><a href="javascript:movePage(0)">처음</a></li>
-									<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
 								</c:if>
 								
 								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-									<li><a class="${pageNo eq mbrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+									<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq mbrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 								</c:forEach>
 								
 								<c:if test="${lastGroup >nowGroup}">
-									<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-									<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
 								</c:if>
 							</ul>
+							</nav>
 						</div>
 					
 				</div>
 			<%-- <jsp:include page="../include/footer.jsp" /> --%>
-		</div>
-	</div>
 		    	
-		    	
-		    	
-		    </div>
       		<!-- /contents -->
 <jsp:include page="../include/closeBody.jsp" />
 <body>
