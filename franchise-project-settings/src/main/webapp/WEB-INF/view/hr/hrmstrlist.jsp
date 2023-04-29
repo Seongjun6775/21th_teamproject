@@ -172,7 +172,7 @@
 										<td onclick="event.cancelBubble=true">
 											<a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
 										</td>
-										<td>${hr.cdNm}</td>
+										<td>${hr.cdNm}</td> 
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
