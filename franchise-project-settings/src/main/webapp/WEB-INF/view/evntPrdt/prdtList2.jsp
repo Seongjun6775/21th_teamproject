@@ -144,6 +144,7 @@
 							
 				$.post("${context}/api/evntPrdt/createCheckedEvntPrdtList", form.serialize(), function(response) {
 					if (response.status == "200 OK") {
+						alert(response.message);
 						location.reload(); //새로고침
 					}
 					else {

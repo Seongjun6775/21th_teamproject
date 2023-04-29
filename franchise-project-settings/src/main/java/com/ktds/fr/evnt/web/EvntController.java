@@ -265,7 +265,29 @@ public class EvntController {
 
 		return "evnt/planEvntList";
 	}
-	
+
+	// 이벤트 조회 ▶▶ 이벤트 상세 (detail page)
+	@GetMapping("/evnt/detail_customer/{evntId}")
+	public String readEvntCustomer(Model model, @PathVariable String evntId, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		EvntVO evntVO = evntService.readOneEvnt(evntId);
+
+		System.out.println("/evnt/detail_customer/{evntId} : " + evntId);
+		System.out.println("evntVO.getEvntId : " + evntVO.getEvntId());
+		System.out.println("evntVO.getEvntTtl : " + evntVO.getEvntTtl());
+		System.out.println("evntVO.getEvntCntnt : " + evntVO.getEvntCntnt());
+		System.out.println("evntVO.getEvntStrtDt : " + evntVO.getEvntStrtDt());
+		System.out.println("evntVO.getEvntEndDt : " + evntVO.getEvntEndDt());
+		System.out.println("evntVO.getOrgnFlNm : " + evntVO.getOrgnFlNm());
+		System.out.println("evntVO.getUuidFlNm : " + evntVO.getUuidFlNm());
+		System.out.println("evntVO.getFlSize : " + evntVO.getFlSize());
+		System.out.println("evntVO.getFlExt : " + evntVO.getFlExt());
+		System.out.println("evntVO.getUseYn : " + evntVO.getUseYn());
+		System.out.println("evntVO.getDelYn : " + evntVO.getDelYn());
+
+		model.addAttribute("evntVO", evntVO);
+		model.addAttribute("mbrVO", mbrVO);
+		return "evnt/detail_customer";
+	}
 	// 5. 사진 다운로드
 	@GetMapping("/evnt/img/{filename}")
 	public void downloadPosterPctr(@PathVariable String filename, HttpServletRequest request,

@@ -26,23 +26,8 @@ public class RestEvntPrdtController {
 	@PostMapping("/api/evntPrdt/create")
 	public ApiResponseVO createNewEvntPrdt(EvntPrdtVO evntPrdtVO) throws Exception {
 
-		// 실행여부 확인 System.out.println("/api/evntPrdt/create 호출 확인!!!");
-
-		/*
-		 * System.out.println("evntVO.getEvntId() : " + evntPrdtVO.getEvntId());
-		 * System.out.println("evntVO.getEvntTtl() : " + evntPrdtVO.getPrdtId());
-		 * System.out.println("evntVO.getEvntCntnt() : " +
-		 * evntPrdtVO.getEvntPrdtChngPrc());
-		 */
-
-		// boolean isSuccess = 저거를 불러오는 코드 == 0;
-
 		System.out.println(evntPrdtVO.getPrdtId());
 		System.out.println(evntPrdtVO.getEvntId());
-
-//		evntPrdtVO.setPrdtId(null);
-//		evntPrdtVO.setEvntStrtDt(null);
-//		evntPrdtVO.setEvntEndDt(null);
 
 		boolean isSuccess = evntPrdtService.chkEvntPrdt(evntPrdtVO).size() == 0;
 
@@ -61,78 +46,66 @@ public class RestEvntPrdtController {
 	public ApiResponseVO doDeleteOurEvnt(@RequestParam List<String> evntPrdtIdList,
 			@SessionAttribute("__MBR__") MbrVO mbrVO) {
 		boolean isDelete = evntPrdtService.deleteEvntPrdtListByEvntId(evntPrdtIdList, mbrVO);
-		
-		
+
 		System.out.println("evntPrdtIdList : " + evntPrdtIdList);
-		
-		for (int i = 0 ; i < evntPrdtIdList.size() ; i ++ ) {
+
+		for (int i = 0; i < evntPrdtIdList.size(); i++) {
 			System.out.println("이벤트상품리스트 : " + evntPrdtIdList.get(i));
 		}
-		
-		
+
 		if (isDelete) {
 			return new ApiResponseVO(ApiStatus.OK);
 		} else {
 			return new ApiResponseVO(ApiStatus.FAIL);
 		}
 	}
-	
-	
-	
+
 	// 이벤트 상품 등록 2
 	@PostMapping("/api/evntPrdt/createCheckedEvntPrdtList")
-	public ApiResponseVO doCreateEvntPrdtList(@RequestParam List<String> prdtId, 
-			@RequestParam List<String> evntPrdtChngPrc,
-			@RequestParam String evntId,
+	public ApiResponseVO doCreateEvntPrdtList(@RequestParam List<String> prdtId,
+			@RequestParam List<String> evntPrdtChngPrc, @RequestParam String evntId,
 			@SessionAttribute("__MBR__") MbrVO mbrVO) {
-		
+
 		List<EvntPrdtVO> listEvntPrdt = new ArrayList<>();
 		EvntPrdtVO evntPrdtVO;
-		
+		String failPrdt = "";
+
 		System.out.println(prdtId.size() + "//" + evntPrdtChngPrc.size());
-		
-		for (int i=0 ; i<prdtId.size() ; i++) {
+
+		for (int i = 0; i < prdtId.size(); i++) {
 			evntPrdtVO = new EvntPrdtVO();
 			evntPrdtVO.setEvntId(evntId);
 			evntPrdtVO.setPrdtId(prdtId.get(i));
-			System.out.println(evntId + "/aaaaaaa/" + prdtId.get(i) );
+			System.out.println(evntId + "/aaaaaaa/" + prdtId.get(i));
 			if (evntPrdtService.chkEvntPrdt(evntPrdtVO).size() != 0) {
 				System.out.println("continue");
+				failPrdt += evntPrdtVO.getPrdtId() + "\n";
 				continue;
+
 			}
-			
-			int price = Integer.parseInt(evntPrdtChngPrc.get(i).replaceAll("," ,  ""));
+
+			int price = Integer.parseInt(evntPrdtChngPrc.get(i).replaceAll(",", ""));
 			evntPrdtVO.setEvntPrdtChngPrc(price);
 			listEvntPrdt.add(evntPrdtVO);
 		}
-			System.out.println(listEvntPrdt.size() + "배열크기가 몇이냐");
-			if (listEvntPrdt.size() == 0) {
-				return new ApiResponseVO(ApiStatus.FAIL);
-			}
-			
-		
-//		for(int i = 0 ; i < evntPrdtList.size() ; i ++) {
-//			EvntPrdtVO evntPrdtVO = new EvntPrdtVO();
-//			evntPrdtVO.setEvntPrdtId(evntPrdtList.get(i));
-//			evntPrdtVO.setEvntPrdtChngPrc(Integer.parseInt(evntPrdtPriceList.get(i)));
-//			//evntPrdtVO.setEvntId();	
-			
-//			listEvntPrdt.add(evntPrdtVO);					
-//		}
-//				
-//		
-//		for (int i = 0 ; i < evntPrdtList.size() ; i ++ ) {
-//			System.out.println("상품리스트 : " + evntPrdtList.get(i));
-//			System.out.println("변경 가격 : " + evntPrdtPriceList.get(i));
-//		}
-		
-//
-	boolean isSuccess = evntPrdtService.createEvntPrdtListByEvntId(listEvntPrdt, mbrVO);
-//
+		System.out.println(listEvntPrdt.size() + "배열크기가 몇이냐");
+		if (listEvntPrdt.size() == 0) {
+			return new ApiResponseVO(ApiStatus.FAIL, failPrdt + "는 이벤트 진행중인 상품입니다.", "500", "");
+		}
+
+		boolean isSuccess = evntPrdtService.createEvntPrdtListByEvntId(listEvntPrdt, mbrVO);
 		if (isSuccess) {
- 		return new ApiResponseVO(ApiStatus.OK, "요청량:" + prdtId.size() + " / 작업량:" + listEvntPrdt.size(), "");
+			if ("".equals(failPrdt)) {
+				return new ApiResponseVO(ApiStatus.OK, prdtId.size() + "건 중 " + listEvntPrdt.size() + "건 수행되었습니다.", "");
+
+			} else {
+				return new ApiResponseVO(ApiStatus.OK,
+						prdtId.size() + "건 중 " + listEvntPrdt.size() + "건 수행되었습니다. \n" + failPrdt + "는 이벤트 진행중인 상품입니다.",
+						"");
+			}
 		} else {
-			return new ApiResponseVO(ApiStatus.FAIL);		}
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
 	}
 
 	// -----------------공통적용 소스----------------------------
