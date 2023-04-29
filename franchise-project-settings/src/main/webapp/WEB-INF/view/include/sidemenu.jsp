@@ -14,13 +14,13 @@
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
         <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-          회원
+          회원관리
         </button>
         <div class="collapse " id="home-collapse">
           <ul class="text-light btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li class="rounded"><a href="${context}/mbr/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">회원관리</a></li>
-            <li class="rounded"><a href="${context}/nt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">쪽지관리</a></li>
-            <li class="rounded"><a href="${context}/odrlst/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문목록</a></li>
+            <li class="rounded"><a href="${context}/mbr/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">회원조회</a></li>
+            <li class="rounded"><a href="${context}/mbr/admin/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">관리자조회</a></li>
+            <li class="rounded"><a href="${context}/hr/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">채용관리</a></li>
           </ul>
         </div>
       </li>

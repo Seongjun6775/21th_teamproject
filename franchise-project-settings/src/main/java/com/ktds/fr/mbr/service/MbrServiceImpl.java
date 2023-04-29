@@ -245,12 +245,16 @@ public class MbrServiceImpl implements MbrService {
 	public boolean updateOneMbrLvlAndStrId(MbrVO mbrVO) {
 		//등급만 변경할 경우
 		if(mbrVO.getStrId() == null || mbrVO.getStrId().length() == 0) {
+			log.info("여기 오긴하니?1");
 			boolean updateLvlResult = this.updateMbrLvl(mbrVO);
+			log.info("찍어보자{}",updateLvlResult);
 			if(updateLvlResult) {
+				log.info("여기 오긴하니?2");
 				chSrlDAO.createOneChHist(mbrVO);
 				return updateLvlResult;
 			}
-			throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+			log.info("여기 오긴하니?3");
+			throw new ApiException(ApiStatus.FAIL, "권한/소속1 변경에 실패했습니다. 다시 시도해 주세요.");
 		}
 		//TODO 주석 지우기
 		//소속만 변경할 경우
@@ -325,11 +329,11 @@ public class MbrServiceImpl implements MbrService {
 	@Override
 	public MbrVO readOneCrewByMbrId(String mbrId) {
 		if(mbrId == null || mbrId.length() == 0) {
-			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+			throw new ApiException(ApiStatus.FAIL, "관리자2 조회에 실패하였습니다.");
 		}
 		MbrVO mbrVO = mbrDAO.readOneCrewByMbrId(mbrId);
 		if(mbrVO==null) {
-			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+			throw new ApiException(ApiStatus.FAIL, "관리자3 조회에 실패하였습니다.");
 		}
 		HrVO readHrVO = hrDAO.readOneHrByMbrId(mbrId);
 		mbrVO.setHrVO(readHrVO);
@@ -338,22 +342,23 @@ public class MbrServiceImpl implements MbrService {
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {
 		if(mbrVO.getMbrLvl().equals("001-02")) {
+			log.info("여기 오긴하니?");
 			int updateResult = mbrDAO.updateOneMbrLvlAndStrId(mbrVO);
 			if(updateResult > 0) {
 				return updateResult > 0;
 			}
 			else {
-				throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+				throw new ApiException(ApiStatus.FAIL, "권한/소속4 변경에 실패했습니다. 다시 시도해 주세요.");
 			}
 		}
 		else if(mbrVO.getMbrLvl().equals("001-03")) {
 			int updateResult = mbrDAO.updateOneMbrLvlAndStrId(mbrVO);
 			if(updateResult > 0) {
-				int delResult = strDAO.deleteOneManagerByMbrId(mbrVO.getMbrId());
-				return (updateResult > 0) && (delResult > 0);
+				strDAO.deleteOneManagerByMbrId(mbrVO.getMbrId());
+				return updateResult > 0;
 			}
 			else {
-				throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+				throw new ApiException(ApiStatus.FAIL, "권한/소속5 변경에 실패했습니다. 다시 시도해 주세요.");
 			}
 		}
 		return false;
@@ -369,7 +374,7 @@ public class MbrServiceImpl implements MbrService {
 					chSrlDAO.createOneChHist(mbrVO);
 					return updateMbrResult;
 				}else {
-					throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+					throw new ApiException(ApiStatus.FAIL, "권한/소속6 변경에 실패했습니다. 다시 시도해 주세요.");
 				}
 			}
 			else {
@@ -379,7 +384,7 @@ public class MbrServiceImpl implements MbrService {
 					chSrlDAO.createOneChHist(mbrVO);
 					return updateMbrResult;
 				}else {
-					throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+					throw new ApiException(ApiStatus.FAIL, "권한/소속7 변경에 실패했습니다. 다시 시도해 주세요.");
 				}
 			}
 		}else if(mbrVO.getMbrLvl().equals("001-03")) {
@@ -388,7 +393,7 @@ public class MbrServiceImpl implements MbrService {
 				chSrlDAO.createOneChHist(mbrVO);
 				return updateMbrResult;
 			}else {
-				throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+				throw new ApiException(ApiStatus.FAIL, "권한/소속8 변경에 실패했습니다. 다시 시도해 주세요.");
 			}
 		}
 		return false;

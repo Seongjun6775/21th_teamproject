@@ -3,6 +3,7 @@
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -64,31 +65,31 @@
 <jsp:include page="../include/openBody.jsp" />
 			<!-- contents -->
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-				<span class="fs-5 fw-bold">회원관리 > 회원목록</span>
+				<span class="fs-5 fw-bold">회원 > 회원목록</span>
 		    </div>
 				<!-- 검색영역 -->
 				<!-- searchbar -->
 				<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
 				  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
-				  <i class="bi bi-search"></i>
+				  <i class="bi bi-search" style="margin: 15px;"></i>
 				  <!-- <label for="search-keyword-mbrNm" >이름</label> -->
-						<input type="text" id="search-keyword-mbrNm" class="form-control me-2" placeholder="이름 입력" value="${mbrVO.mbrNm}"/>
 						
-						<input type="date" id="search-keyword-startdt" class="form-control" value="${mbrVO.startDt}"/>
-						<input type="date" id="search-keyword-enddt" class="form-control" value="${mbrVO.endDt}"/>
+						<input type="date" style ="margin-right: 10px;"id="search-keyword-startdt" class="form-control" value="${mbrVO.startDt}"/>
+						<input type="date" style ="margin-right: 10px;" id="search-keyword-enddt" class="form-control" value="${mbrVO.endDt}"/>
+						<input type="text" id="search-keyword-mbrNm" class="form-control me-2" placeholder="이름 검색" value="${mbrVO.mbrNm}"/>
 						
 						<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
 				</div>
 				<!-- 조회영역 -->
-				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
+				<div class="admin_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
 					<div>총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
-					<table class="table caption-top" style="text-align: center;">
-						<thead>
+					<table class="table caption-top table-hover" style="text-align: center;">
+						<thead class="table-secondary">
 							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">이름</th>
-								<th scope="col">이메일</th>
-								<th scope="col">
+								<th scope="col" class="col-1">ID</th>
+								<th scope="col" class="col-1">이름</th>
+								<th scope="col" class="col-1">이메일</th>
+								<th scope="col" class="col-1">
 									<select id="mbrLvl" name="mbrLvl" class="form-select" aria-label="Default select example">
 										<option value="">멤버등급</option>
 										<c:choose>
@@ -100,11 +101,11 @@
 											</c:choose>
 									</select>
 								</th>
-								<th scope="col">가입일</th>
-								<th scope="col">최근 로그인 날짜</th>
-								<th scope="col">최근 로그인 IP</th>
-								<th scope="col">로그인 제한</th>
-								<th scope="col">
+								<th scope="col" class="col-1">가입일</th>
+								<th scope="col" class="col-1">최근 로그인</th>
+								<th scope="col" class="col-1">최근 로그인 IP</th>
+								<th scope="col" class="col-1">로그인 제한</th>
+								<th scope="col" class="col-1">
 									<select id="search-keyword-delYn" name="delYn" class="form-select" aria-label="Default select example">
 											<option value="">탈퇴유무</option>
 											<option value="Y" ${MbrVO.delYn eq 'Y' ? 'selected' : ''}>Y</option>
@@ -132,7 +133,7 @@
 											data-mbrLeavDt="${mbr.mbrLeavDt}"
 											data-delYn="${mbr.delYn}"
 											>
-											<td>${mbr.mbrId}</td>
+											<td>${fn:substring(mbr.mbrId, 0, fn:length(mbr.mbrId)-3)}***</td>
 											<td>${mbr.mbrNm}</td>
 											<td>${mbr.mbrEml}</td>
 											<td>${mbr.mbrLvl}</td>
@@ -152,42 +153,38 @@
 							</c:choose>
 						</tbody>
 					</table>
-					
 						<div class="pagenate">
 							<nav aria-label="Page navigation example">
-							<ul class="pagination" style="text-align: center;">
-								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastPage : 0}" var="lastPage"/>
-								<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastGroup : 0}" var="lastGroup"/>
-								
-								<!-- Math.floor(mbrVO.pageNo / 10) -->
-								<fmt:parseNumber var="nowGroup" value="${Math.floor(mbrVO.pageNo / 10)}" integerOnly = "true"/>
-								<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
-								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
-								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1 }" var="groupEndPageNo"/>
-								
-								<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
-								<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
-
-								<c:if test="${nowGroup > 0}">
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-								</c:if>
-								
-								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-									<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq mbrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-								</c:forEach>
-								
-								<c:if test="${lastGroup >nowGroup}">
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
-								</c:if>
-							</ul>
+								<ul class="pagination" style="text-align: center;">
+									<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastPage : 0}" var="lastPage"/>
+									<c:set value = "${mbrList.size() > 0 ? mbrList.get(0).lastGroup : 0}" var="lastGroup"/>
+									
+									<!-- Math.floor(mbrVO.pageNo / 10) -->
+									<fmt:parseNumber var="nowGroup" value="${Math.floor(mbrVO.pageNo / 10)}" integerOnly = "true"/>
+									<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
+									<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
+									<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1 }" var="groupEndPageNo"/>
+									
+									<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
+									<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
+	
+									<c:if test="${nowGroup > 0}">
+										<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+										<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+									</c:if>
+									
+									<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+										<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq mbrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+									</c:forEach>
+									
+									<c:if test="${lastGroup >nowGroup}">
+										<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+										<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+									</c:if>
+								</ul>
 							</nav>
 						</div>
-					
 				</div>
-			<%-- <jsp:include page="../include/footer.jsp" /> --%>
-		    	
       		<!-- /contents -->
 <jsp:include page="../include/closeBody.jsp" />
 <body>
