@@ -42,7 +42,7 @@ public class OdrDtlVO extends AbstractVO{
 	 */
 	private String mbrId;
 	/**
-	 * 주문한 상품의 가격
+	 * 주문시 단가
 	 */
 	private int odrDtlPrc;
 	/**
@@ -124,6 +124,14 @@ public class OdrDtlVO extends AbstractVO{
 	public void setMbrId(String mbrId) {
 		this.mbrId = mbrId;
 	}
+	
+	public int getOdrDtlPrc() {
+		return odrDtlPrc;
+	}
+
+	public void setOdrDtlPrc(int odrDtlPrc) {
+		this.odrDtlPrc = odrDtlPrc;
+	}
 
 	public PrdtVO getPrdtVO() {
 		return prdtVO;
@@ -157,14 +165,6 @@ public class OdrDtlVO extends AbstractVO{
 		this.evntPrdtVO = evntPrdtVO;
 	}
 	
-	public int getOdrDtlPrc() {
-		return odrDtlPrc;
-	}
-
-	public void setOdrDtlPrc(int odrDtlPrc) {
-		this.odrDtlPrc = odrDtlPrc;
-	}
-
 	public OdrLstVO getOdrLstVO() {
 		return odrLstVO;
 	}

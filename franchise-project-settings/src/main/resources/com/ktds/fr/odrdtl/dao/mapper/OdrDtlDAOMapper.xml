@@ -220,6 +220,7 @@
 			 , OL.ODR_LST_RGST_DT
 			 , OD.ODR_DTL_PRDT_ID
 			 , P.PRDT_NM
+			 , OD.ODR_DTL_PRC
 			 , OD.ODR_DTL_PRDT_CNT
 			 , OD.ODR_DTL_STR_ID
 			 , OD.MBR_ID
