@@ -92,8 +92,8 @@
 		     , EVNT_ID
 		     , EVNT_TTL
 		     , EVNT_CNTNT
-		     , EVNT_STRT_DT
-		     , EVNT_END_DT
+		     , TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') AS EVNT_STRT_DT
+		     , TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') AS EVNT_END_DT
 		     , ORGN_FL_NM
 		     , UUID_FL_NM
 		     , FL_SIZE
@@ -119,8 +119,8 @@ SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
 		     , EVNT_ID
 		     , EVNT_TTL
 		     , EVNT_CNTNT
-		     , EVNT_STRT_DT
-		     , EVNT_END_DT
+		     , TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') AS EVNT_STRT_DT
+		     , TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') AS EVNT_END_DT
 		     , ORGN_FL_NM
 		     , UUID_FL_NM
 		     , FL_SIZE
@@ -146,8 +146,8 @@ SELECT DENSE_RANK() OVER(ORDER BY EVNT_ID DESC) RNUM
 		     , EVNT_ID
 		     , EVNT_TTL
 		     , EVNT_CNTNT
-		     , EVNT_STRT_DT
-		     , EVNT_END_DT
+		     , TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') AS EVNT_STRT_DT
+		     , TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') AS EVNT_END_DT
 		     , ORGN_FL_NM
 		     , UUID_FL_NM
 		     , FL_SIZE

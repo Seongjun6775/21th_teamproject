@@ -108,19 +108,22 @@ body {
 }
 
 /* Main Layouts */
-
-
 .main-layout>div>.content {
 	position: fixed;
 	top: 90px;
 	bottom: 0px;
-	left: 150px;
+	left: 0px;
 	right: 0px;
 	overflow: auto;
 	padding: 10px;
 }
 
 /* Grid */
+.content {
+	width: 1100px;
+	margin: 0 auto;
+}
+
 .content>.path {
 	padding: 15px;
 	background-color: #ffff80;
@@ -214,8 +217,7 @@ body {
 }
 
 .grow-1 {
-	
-	flex-grow : 1;
+	flex-grow: 1;
 }
 
 .search-row-group {
@@ -268,7 +270,7 @@ body {
 
 /* Profile*/
 input[type=file] {
-		
+	
 }
 
 img.profile {
@@ -279,19 +281,57 @@ img.profile {
 
 .img-box {
 	overflow: hidden;
-	width: 300px;
-	height: 300px;
+	width: 500px;
+	height: 500px;
+	background-color: #00f3;
 }
-.img-box > img {
-    position: relative;
-    left: 50%;
-    width: auto;
-    min-width: 100%;
-    height: 100%;
-    transform: translateX(-50%);
+
+.img-box>img {
+	position: relative;
+	left: 50%;
+	width: 500px;
+	min-width: 500px;
+	height: 400px;
+	transform: translateX(-50%);
 	object-fit: cover;
 }
 
+.evntImgBox {
+	display: inline-flex;
+	background-color: #F8B500;
+	width: 520px;
+	margin: 10px;
+	padding: 10px;
+	flex-direction: column;
+}
+
+.evntPhoto {
+	height: 100px;
+}
+
+.evntPhoto>.evntTtl {
+	font-size: 25pt;
+	font-weight: bold;
+	text-align: center;
+	color: #000;
+	background-color: #FED969;
+	height: 60px;
+	vertical-align: middle;
+	line-height: 60px;
+	display: block;
+}
+
+.evntPhoto>.evntDate {
+	font-size: 15pt;
+	font-weight: bold;
+	text-align: center;
+	color: #FFF;
+	background-color: #BD8957;
+	height: 40px;
+	vertical-align: middle;
+	line-height: 40px;
+	display: block;
+}
 
 /* 등록 폼 */
 .create-group {
@@ -318,12 +358,12 @@ img.profile {
 /* tabs */
 
 /*여기부터 */
-
-body{
+body {
 	margin-top: 100px;
 	line-height: 1.6
 }
-.container{
+
+.container {
 	width: 500px;
 	margin: 0 auto;
 }
@@ -333,63 +373,62 @@ body{
 	display: inherit;
 }
 */
-
-ul.tabs{
+ul.tabs {
 	margin: 0px;
 	padding: 0px;
 	list-style: none;
 }
-ul.tabs li{
-	background: none;
+
+ul.tabs li {
+	background: #F8ECE0;
 	color: #222;
 	display: inline-block;
 	padding: 10px 15px;
 	cursor: pointer;
 }
 
-ul.tabs li.current{
-	background: #cdfeec;
+ul.tabs li.current {
+	background: #FDD86B;
 	color: #222;
 }
 
-.tab-content{
+.tab-content {
 	display: none;
 	background: #eefff2;
 	padding: 15px;
 }
 
 /*여기까지 */
-
-
 .nave-tabs ul li a:hover {
 	border-color: rgb(214, 241, 207);
 	color: #90f383;
 }
 
-
 /* evnt-customer */
 .evntPhoto {
-	display: inline-flex;
+	/* 	display: inline-flex; */
 	background-color: #3333;
-	width: 320px;
-	margin:10px;
-	padding: 10px;
-	flex-direction: column;
+	/* 	width: 320px; */
+	/* 	margin:10px; */
+	/* 	padding: 10px; */
+	/* 	flex-direction: column; */
 }
+
 .evnt {
 	width: 180px;
 	height: 180px;
 	background-color: #e6ffff;
 }
+
 .name {
 	font-size: 24pt;
 	font-weight: bold;
 }
+
 .price {
 	font-size: 16pt;
 	text-align: right;
 }
-
 
 /* 손님용 customer */
 .headline {
@@ -397,3 +436,24 @@ ul.tabs li.current{
 	background-color: #0f02;
 }
 
+.head-title {
+	width: 100%;
+	text-align: center;
+	text-size: 50pt;
+	font-weight: bold;
+	background-color: #F5F6CE;
+}
+
+.head-content {
+	width: 100%;
+	text-align: center;
+	text-size: 40pt;
+	font-weight: bold;
+}
+
+.head-count {
+	width: 100%;
+	text-align: center;
+	text-size: 30pt;
+	font-weight: bold;
+}
