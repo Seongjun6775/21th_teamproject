@@ -1,16 +1,13 @@
 package com.ktds.fr.mbr.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.catalina.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
@@ -23,7 +20,6 @@ import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.dao.MbrDAO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.str.dao.StrDAO;
-import com.ktds.fr.str.vo.StrVO;
 
 @Service
 public class MbrServiceImpl implements MbrService {
@@ -249,12 +245,16 @@ public class MbrServiceImpl implements MbrService {
 	public boolean updateOneMbrLvlAndStrId(MbrVO mbrVO) {
 		//등급만 변경할 경우
 		if(mbrVO.getStrId() == null || mbrVO.getStrId().length() == 0) {
+			log.info("여기 오긴하니?1");
 			boolean updateLvlResult = this.updateMbrLvl(mbrVO);
+			log.info("찍어보자{}",updateLvlResult);
 			if(updateLvlResult) {
+				log.info("여기 오긴하니?2");
 				chSrlDAO.createOneChHist(mbrVO);
 				return updateLvlResult;
 			}
-			throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+			log.info("여기 오긴하니?3");
+			throw new ApiException(ApiStatus.FAIL, "권한/소속1 변경에 실패했습니다. 다시 시도해 주세요.");
 		}
 		//TODO 주석 지우기
 		//소속만 변경할 경우
@@ -269,13 +269,24 @@ public class MbrServiceImpl implements MbrService {
 		return false;
 	}
 	@Override
-	public boolean deleteAllMbrAdminByMbrId(MbrVO mbrVO, List<String>mbrIdList) {
+	public boolean deleteAllMbrAdminByMbrId(MbrVO mbrVO, List<MbrVO> mbrVOList) {
 		if( !mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl() == null || mbrVO.getMbrLvl().length()==0) {
+			throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요.");
+		}
+		List<String> mbrIdList = new ArrayList<>();
+		for (MbrVO mbr : mbrVOList) {
+			mbrIdList.add(mbr.getMbrId());
+		}
+		if(mbrIdList == null || mbrIdList.size()==0) {
 			throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요.");
 		}
 		//STR 테이블에서 mbrIdList를 가지고 검색 -> 매장찾기
 		List<String> strIdList = strDAO.readAllStrByMbrId(mbrIdList);
-		log.info("검사 하기{}",strIdList);
+		for (MbrVO mbr : mbrVOList) {
+			mbr.setOriginMbrLvl(mbr.getMbrLvl());
+			mbr.setOriginStrId(mbr.getStrId());
+			mbr.setMdfyr(mbrVO.getMbrNm());
+		}
 		if(strIdList == null || strIdList.size()==0) {
 			//없으면 MBR테이블의 str_id->null && MBR테이블의 mbrLvl -> default로
 			//채용 페이지에 이력서 delYn=Y으로 바꾸기
@@ -283,6 +294,11 @@ public class MbrServiceImpl implements MbrService {
 			if(!delResult) {
 				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
 			}
+			for (MbrVO mbr : mbrVOList) {
+				mbr.setMbrLvl("001-04");
+				mbr.setStrId("");
+			}
+			chSrlDAO.createAllChHist(mbrVOList);
 			hrDAO.deleteAllHrByMbrId(mbrIdList);
 			return delResult;
 		}else {
@@ -292,6 +308,11 @@ public class MbrServiceImpl implements MbrService {
 			if(!delResult) {
 				throw new ApiException(ApiStatus.FAIL, "해임에 실패했습니다. 다시 시도 해주세요");
 			}
+			for (MbrVO mbr : mbrVOList) {
+				mbr.setMbrLvl("001-04");
+				mbr.setStrId("");
+			}
+			chSrlDAO.createAllChHist(mbrVOList);
 			hrDAO.deleteAllHrByMbrId(mbrIdList);
 			return delResult;
 		}
@@ -308,11 +329,11 @@ public class MbrServiceImpl implements MbrService {
 	@Override
 	public MbrVO readOneCrewByMbrId(String mbrId) {
 		if(mbrId == null || mbrId.length() == 0) {
-			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+			throw new ApiException(ApiStatus.FAIL, "관리자2 조회에 실패하였습니다.");
 		}
 		MbrVO mbrVO = mbrDAO.readOneCrewByMbrId(mbrId);
 		if(mbrVO==null) {
-			throw new ApiException(ApiStatus.FAIL, "관리자 조회에 실패하였습니다.");
+			throw new ApiException(ApiStatus.FAIL, "관리자3 조회에 실패하였습니다.");
 		}
 		HrVO readHrVO = hrDAO.readOneHrByMbrId(mbrId);
 		mbrVO.setHrVO(readHrVO);
@@ -321,22 +342,23 @@ public class MbrServiceImpl implements MbrService {
 	
 	public boolean updateMbrLvl(MbrVO mbrVO) {
 		if(mbrVO.getMbrLvl().equals("001-02")) {
+			log.info("여기 오긴하니?");
 			int updateResult = mbrDAO.updateOneMbrLvlAndStrId(mbrVO);
 			if(updateResult > 0) {
 				return updateResult > 0;
 			}
 			else {
-				throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+				throw new ApiException(ApiStatus.FAIL, "권한/소속4 변경에 실패했습니다. 다시 시도해 주세요.");
 			}
 		}
 		else if(mbrVO.getMbrLvl().equals("001-03")) {
 			int updateResult = mbrDAO.updateOneMbrLvlAndStrId(mbrVO);
 			if(updateResult > 0) {
-				int delResult = strDAO.deleteOneManagerByMbrId(mbrVO.getMbrId());
-				return (updateResult > 0) && (delResult > 0);
+				strDAO.deleteOneManagerByMbrId(mbrVO.getMbrId());
+				return updateResult > 0;
 			}
 			else {
-				throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+				throw new ApiException(ApiStatus.FAIL, "권한/소속5 변경에 실패했습니다. 다시 시도해 주세요.");
 			}
 		}
 		return false;
@@ -352,7 +374,7 @@ public class MbrServiceImpl implements MbrService {
 					chSrlDAO.createOneChHist(mbrVO);
 					return updateMbrResult;
 				}else {
-					throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+					throw new ApiException(ApiStatus.FAIL, "권한/소속6 변경에 실패했습니다. 다시 시도해 주세요.");
 				}
 			}
 			else {
@@ -362,7 +384,7 @@ public class MbrServiceImpl implements MbrService {
 					chSrlDAO.createOneChHist(mbrVO);
 					return updateMbrResult;
 				}else {
-					throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+					throw new ApiException(ApiStatus.FAIL, "권한/소속7 변경에 실패했습니다. 다시 시도해 주세요.");
 				}
 			}
 		}else if(mbrVO.getMbrLvl().equals("001-03")) {
@@ -371,7 +393,7 @@ public class MbrServiceImpl implements MbrService {
 				chSrlDAO.createOneChHist(mbrVO);
 				return updateMbrResult;
 			}else {
-				throw new ApiException(ApiStatus.FAIL, "권한/소속 변경에 실패했습니다. 다시 시도해 주세요.");
+				throw new ApiException(ApiStatus.FAIL, "권한/소속8 변경에 실패했습니다. 다시 시도해 주세요.");
 			}
 		}
 		return false;

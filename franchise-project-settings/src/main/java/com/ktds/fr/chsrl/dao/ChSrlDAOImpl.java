@@ -1,5 +1,7 @@
 package com.ktds.fr.chsrl.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +21,10 @@ public class ChSrlDAOImpl extends SqlSessionDaoSupport implements ChSrlDAO {
 	@Override
 	public int createOneChHist(MbrVO mbrVO) {
 		return getSqlSession().insert("ChSrl.createOneChHist", mbrVO);
+	}
+	
+	@Override
+	public int createAllChHist(List<MbrVO> mbrVOList) {
+		return getSqlSession().insert("ChSrl.createAllChHist", mbrVOList);
 	}
 }

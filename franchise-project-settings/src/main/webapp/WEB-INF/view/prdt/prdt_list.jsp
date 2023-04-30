@@ -10,13 +10,9 @@
 <head>
 <meta charset="UTF-8">
 <title>메뉴 관리</title>
-<%-- <jsp:include page="../include/stylescript.jsp"></jsp:include> --%>
+<jsp:include page="../include/stylescript.jsp"></jsp:include>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
-<script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
-
-<script type="text/javascript" src="${context}/js/ValueUtil.js"></script>
-<link rel="stylesheet" href="${context}/css/common.css?p=${date}" />
-<link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -89,7 +85,7 @@ $().ready(function() {
 	
 	
 	
-	$(".grid > table > tbody > tr").click(function() {
+	$("tbody").children("tr").click(function() {
 		
 		$(this).closest("tbody").find(".on").removeClass("on");
 		$(this).addClass("on");
@@ -162,13 +158,13 @@ $().ready(function() {
 	
 	
 	$("#all-check").change(function(){
-		$(".check-idx").prop("checked",$(this).prop("checked"));
-		var checkLen = $(".check-idx:checked").length;
+		$(".check-idx0").prop("checked",$(this).prop("checked"));
+		var checkLen = $(".check-idx0:checked").length;
 		//chkCount(checkLen);
 	})
-	$(".check-idx").change(function(){
-		var count = $(".check-idx").length;
-		var checkCount = $(".check-idx:checked").length;
+	$(".check-idx0").change(function(){
+		var count = $(".check-idx0").length;
+		var checkCount = $(".check-idx0:checked").length;
 		$("#all-check").prop("checked", count == checkCount);
 	});
 	
@@ -267,7 +263,7 @@ $().ready(function() {
 	});
 	
 	$("#btn-delete-all").click(function() {
-		var checkLen = $(".check-idx:checked").length;
+		var checkLen = $(".check-idx0:checked").length;
 		if (checkLen == 0) {
 			alert("선택된 항목이 없습니다.");
 			return;
@@ -278,7 +274,7 @@ $().ready(function() {
 		
 		var form = $("<form></form>")
 		
-		$(".check-idx:checked").each(function() {
+		$(".check-idx0:checked").each(function() {
 			console.log($(this).val());
 			form.append("<input type='hiedden' name='prdtId' value='" + $(this).val() + "'>");
 		});
@@ -296,13 +292,13 @@ $().ready(function() {
 	/* 
 	// 체크박스가 되었다면 일괄삭제버튼 나타내기
 	$("input:checkbox").click(function() {
-		var checkLen = $(".check-idx:checked").length;
+		var checkLen = $(".check-idx0:checked").length;
 		chkCount(checkLen);
 	});
 	 */	
 	 
 	 $("#btn-update-all").click(function() {
-		var checkLen = $(".check-idx:checked").length;
+		var checkLen = $(".check-idx0:checked").length;
 		if (checkLen == 0) {
 			alert("선택된 항목이 없습니다.");
 			return;
@@ -316,7 +312,7 @@ $().ready(function() {
 		
 		var form = $("<form></form>")
 		
-		$(".check-idx:checked").each(function() {
+		$(".check-idx0:checked").each(function() {
 			console.log($(this).val());
 			form.append("<input type='hiedden' name='prdtIdList' value='" + $(this).val() + "'>");
 		});
@@ -373,6 +369,45 @@ $().ready(function() {
 	
 	
 	
+	var url;
+	$(".open-layer").click(function(event) {
+		var mbrId = $(this).attr('val');
+		$("#layer_popup").css({
+		    "padding": "5px",
+			"top": event.pageY,
+			"left": event.pageX,
+			"backgroundColor": "#FFF",
+			"position": "absolute",
+			"border": "solid 1px #222",
+			"z-index": "10px"
+		}).show();
+		if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+			url = "cannot"
+		} else {
+			url = "${context}/nt/ntcreate/" + mbrId
+		}
+	});
+	$(".send-memo-btn").click(function() {
+		if (url !== "cannot") {
+			location.href = url;
+		} else {
+			alert("본인에게 쪽지를 보낼 수 없습니다.");
+		}
+	});
+	$('body').on('click', function(event) {
+		if (!$(event.target).closest('#layer_popup').length) {
+			$('#layer_popup').hide();
+		}
+	});
+	$(".close-memo-btn").click(function() {
+		url = undefined;
+		$("#layer_popup").hide();
+	});
+	
+	
+	
+	
+	
 })
 
 function chkCount(checkLen) {
@@ -406,316 +441,395 @@ function movePage(pageNo) {
 </script>
 </head>
 <body>
-
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"></jsp:include>
-		<div>
-			<jsp:include page="../include/sidemenu.jsp"></jsp:include>
-			<jsp:include page="../include/content.jsp"></jsp:include>
-			
-			
-			<div class="grid">
-				<div class="space-between mb-10">
-				<div class="title" style="font-size:26px; font-weight: bold">메뉴 관리</div>
-				<div class="top-bar">
-					<button class="btn-primary" 
-								id="btn-search-reset">검색초기화</button>
-					<label>메뉴 이름 검색</label>
-					<input type="text" class="selectFilter" 
-										id="search-keyword-prdtNm" 
-										placeholder="검색어 입력 후 Enter"
-										onkeyup="chkChar(this)" 
-										value="${prdtVO.prdtNm}">	
-					<button id="btn-search" class="btn-primary">검색</button>
-				</div>
-					
+	
+	<jsp:include page="../include/openBody.jsp" />
+		
+		<!-- contents -->
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+			<span class="fs-5 fw-bold">메뉴 > 메뉴 관리</span>
+		</div>
+		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
+		
+			<div class="space-between mb-10">
+			<div class="top-bar">
+				<button id="btn-search-reset"
+						class="btn btn-primary" >검색초기화</button>
+				<label>메뉴 이름 검색</label>
+				<input type="text" class="selectFilter" 
+									id="search-keyword-prdtNm" 
+									placeholder="검색어 입력 후 Enter"
+									onkeyup="chkChar(this)" 
+									value="${prdtVO.prdtNm}">	
+				<button id="btn-search" class="btn btn-primary">검색</button>
+			</div>
 				
-					
-				</div>
-				<table id="dataTable"
-						class="mb-10">
-					<thead>
-						<tr>
-							<th class="th-checkbox"><input type="checkbox" id="all-check"/></th>
-							<th class="width140">ID</th>
-							<th class="width0">
-							<select class="select-align-center" name="selectFilter"
-									id="search-keyword-prdtSrt">
-								<option value="">분류</option>
-								<c:choose>
-									<c:when test="${not empty srtList}">
-										<c:forEach items="${srtList}"
-													var="srt">
-											<option value="${srt.cdId}">${srt.cdNm}</option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-							</select>
-							</th>
-							<th class="min-width300">메뉴 이름</th>
-							<th class="width140">가격</th>
-							<th class="width0 ">
-								<select class="select-align-center" name="selectFilter"
-										id="search-keyword-evntYn">
-									<option value="">이벤트유무</option>
-									<option value="Y">Y</option>
-									<option value="N">N</option>
-								</select>
-							</th>
-							<th class="width140">이벤트가격</th>
-							<th class="width120">등록자</th>
-							<th class="width120">등록일</th>
-							<th class="width120">수정자</th>
-							<th class="width120">수정일</th>
-							<th class="width0 ">
-								<select class="select-align-center" name="selectFilter"
-										id="search-keyword-useYn">
-									<option value="">사용유무</option>
-									<option value="Y">Y</option>
-									<option value="N">N</option>
-								</select>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:choose>
-							<c:when test="${not empty prdtList}">
-								<c:forEach items="${prdtList}"
-											var="prdt"
-											varStatus="index">
-									<tr data-prdtid="${prdt.prdtId}" 
-										data-prdtnm="${prdt.prdtNm}" 
-										data-prdtprc="${prdt.prdtPrc}" 
-										data-prdtcntnt="${prdt.prdtCntnt}" 
-										data-prdtsrt="${prdt.prdtSrt}" 
-										data-orgnflnm="${prdt.orgnFlNm}" 
-										data-uuidflnm="${prdt.uuidFlNm}" 
-										data-flsize="${prdt.flSize}" 
-										data-flext="${prdt.flExt}" 
-										data-prdtsrtnm="${prdt.cmmnCdVO.cdNm}" 
-										data-prdtrgstr="${prdt.prdtRgstr}" 
-										data-prdtrgstdt="${prdt.prdtRgstDt}" 
-										data-evntid="${prdt.evntVO.evntId}" 
-										data-evntttl="${prdt.evntVO.evntTtl}" 
-										data-evntstrtdt="${prdt.evntVO.evntStrtDt}" 
-										data-evntenddt="${prdt.evntVO.evntEndDt}" 
-										data-evntPrdtChngPrc="${prdt.evntPrdtVO.evntPrdtChngPrc}" 
-										data-mdfyr="${prdt.mdfyr}" 
-										data-mdfydt="${prdt.mdfyDt}"
-										data-useyn="${prdt.useYn}"
-										data-prdtrgstrnm="${prdt.prdtRgstrMbrVO.mbrNm}"
-										data-mdfyrnm="${prdt.mdfyrMbrVO.mbrNm}"> 
-										<td class="align-center">
-											<input type="checkbox" class="check-idx" value="${prdt.prdtId}" />
-										</td>
-										<td class="td-id">${prdt.prdtId}</td>
-										<td >${prdt.cmmnCdVO.cdNm}</td>
-										<td>
-											<c:choose>
-												<c:when test="${empty prdt.uuidFlNm}"><i class='bx bx-camera-off' ></i>
-												</c:when>
-											</c:choose>
-											${prdt.prdtNm}
-										</td>
-										<td class="money">
-											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
-										</td>
-										<td>
-											${empty prdt.evntVO.evntId ? "N" : "Y"}
-										</td>
-										<td class="money">
-											<c:choose>
-												<c:when test="${empty prdt.evntVO.evntId}">
-													-
-												</c:when>
-												<c:otherwise>
-													<fmt:formatNumber>${prdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>원
-												</c:otherwise>
-											</c:choose>
-										</td>
-										<td>${prdt.prdtRgstrMbrVO.mbrNm}</td>
-										<td>
-											<fmt:parseDate value="${prdt.prdtRgstDt}" pattern="yyyy-MM-dd" var="prdtRgstDt"/>
-											<fmt:formatDate value="${prdtRgstDt}" pattern="yyyy.MM.dd"/>
-										</td>
-										<td>${prdt.mdfyrMbrVO.mbrNm}</td>
-										<td>
-											<fmt:parseDate value="${prdt.mdfyDt}" pattern="yyyy-MM-dd" var="mdftyDt"/>
-											<fmt:formatDate value="${mdftyDt}" pattern="yyyy.MM.dd"/>
-										</td>
-										<td>${prdt.useYn}</td>
-									</tr>
-								</c:forEach>	
-							</c:when>
-							<c:otherwise>
-								<tr id="notFound">
-									<td colspan="12" class="no-items">
-										등록된 항목이 없습니다.
-									</td>
-								</tr>
-							</c:otherwise>
-						</c:choose>
-					</tbody>
-				</table>
+			
 				
-				<div class="relative">
-					<div class="align-left absolute fontsize14">
-						<!-- 페이지네이션용  -->
-						총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
-						<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
-					</div>
-					<div class="align-right absolute " style="right: 0px;" >
-						<select class="selectFilter"
-								id="select-useYn">
-							<option value="">사용유무</option>
-							<option value="Y">Y</option>
-							<option value="N">N</option>
+			</div>
+			<table id="dataTable"
+					class="table table-sm table-hover  align-center"
+					style="table-layout: fixed">
+				<thead>
+					<tr>
+						<th class="th-checkbox align-center"><input type="checkbox" id="all-check"/></th>
+						<th class="width180">ID</th>
+						<th class="width100">
+						<select class="select-align-center" name="selectFilter"
+								id="search-keyword-prdtSrt">
+							<option value="">분류</option>
+							<c:choose>
+								<c:when test="${not empty srtList}">
+									<c:forEach items="${srtList}"
+												var="srt">
+										<option value="${srt.cdId}">${srt.cdNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
 						</select>
-						<button id="btn-update-all" 
-								class="btn-primary btn-delete" 
-								style="vertical-align: top;">일괄수정</button>
-								
-						<button id="btn-delete-all" 
-								class="btn-primary btn-delete" 
-								style="vertical-align: top;">일괄삭제</button>
-					</div>
-					<div class="pagenate">
-						<ul>
-							<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}" var="lastPage"></c:set>
-							<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastGroup : 0}" var="lastGroup"></c:set>
-							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(prdtVO.prdtPageNo / prdtVO.prdtPageCnt)}" integerOnly="true" />
-							<c:set value="${nowGroup * prdtVO.prdtPageCnt}" var="groupStartPageNo"></c:set>
-							<c:set value="${groupStartPageNo + prdtVO.prdtPageCnt}" var="groupEndPageNo"></c:set>
-							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1}" var="groupEndPageNo"></c:set>
-							
-							<c:set value="${(nowGroup - 1) * prdtVO.prdtPageCnt}" var="prevGroupStartPageNo"></c:set>
-							<c:set value="${(nowGroup + 1) * prdtVO.prdtPageCnt}" var="nextGroupStartPageNo"></c:set>
-							
-							 
-							<c:if test="${nowGroup > 0}">
-								<li><a href="javascript:movePage(0)">처음</a></li>
-								<li><a href="javascript:movePage(${prevGroupStartPageNo+prdtVO.prdtPageCnt-1})">이전</a></li>
-							</c:if>
-							
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1"	var="prdtPageNo">
-								<li><a class="${prdtPageNo eq prdtVO.prdtPageNo ? 'on' : ''}"  href="javascript:movePage(${prdtPageNo})">${prdtPageNo+1}</a></li>
-							</c:forEach>
-							
-							<c:if test="${lastGroup > nowGroup}">
-								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-							</c:if>
-						</ul>
-					</div>
-					
-				</div>
+						</th>
+						<th class="width300">메뉴 이름</th>
+						<th class="width100">가격</th>
+						<th class="width100 ">
+							<select class="select-align-center" name="selectFilter"
+									id="search-keyword-evntYn">
+								<option value="">이벤트유무</option>
+								<option value="Y">Y</option>
+								<option value="N">N</option>
+							</select>
+						</th>
+						<th class="width100">변경가격</th>
+						<th class="width120">등록자</th>
+						<th class="width120">등록일</th>
+						<th class="width120">수정자</th>
+						<th class="width120">수정일</th>
+						<th class="width100">
+							<select class="select-align-center" name="selectFilter"
+									id="search-keyword-useYn">
+								<option value="">사용유무</option>
+								<option value="Y">Y</option>
+								<option value="N">N</option>
+							</select>
+						</th>
+					</tr>
+				</thead>
+				<tbody class="table-group-divider">
+					<c:choose>
+						<c:when test="${not empty prdtList}">
+							<c:forEach items="${prdtList}"
+										var="prdt"
+										varStatus="index">
+								<tr data-prdtid="${prdt.prdtId}" 
+									data-prdtnm="${prdt.prdtNm}" 
+									data-prdtprc="${prdt.prdtPrc}" 
+									data-prdtcntnt="${prdt.prdtCntnt}" 
+									data-prdtsrt="${prdt.prdtSrt}" 
+									data-orgnflnm="${prdt.orgnFlNm}" 
+									data-uuidflnm="${prdt.uuidFlNm}" 
+									data-flsize="${prdt.flSize}" 
+									data-flext="${prdt.flExt}" 
+									data-prdtsrtnm="${prdt.cmmnCdVO.cdNm}" 
+									data-prdtrgstr="${prdt.prdtRgstr}" 
+									data-prdtrgstdt="${prdt.prdtRgstDt}" 
+									data-evntid="${prdt.evntVO.evntId}" 
+									data-evntttl="${prdt.evntVO.evntTtl}" 
+									data-evntstrtdt="${prdt.evntVO.evntStrtDt}" 
+									data-evntenddt="${prdt.evntVO.evntEndDt}" 
+									data-evntPrdtChngPrc="${prdt.evntPrdtVO.evntPrdtChngPrc}" 
+									data-mdfyr="${prdt.mdfyr}" 
+									data-mdfydt="${prdt.mdfyDt}"
+									data-useyn="${prdt.useYn}"
+									data-prdtrgstrnm="${prdt.prdtRgstrMbrVO.mbrNm}"
+									data-mdfyrnm="${prdt.mdfyrMbrVO.mbrNm}"> 
+									<td class="align-center">
+										<input type="checkbox" class="check-idx0" value="${prdt.prdtId}" />
+									</td>
+									<td class="ellipsis">${prdt.prdtId}</td>
+									<td>${prdt.cmmnCdVO.cdNm}</td>
+									<td class="ellipsis">
+										<c:choose>
+											<c:when test="${empty prdt.uuidFlNm}"><i class='bx bx-camera-off' ></i>
+											</c:when>
+										</c:choose>
+										${prdt.prdtNm}
+									</td>
+									<td class="money">
+										<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
+									</td>
+									<td>
+										${empty prdt.evntVO.evntId ? "N" : "Y"}
+									</td>
+									<td class="money">
+										<c:choose>
+											<c:when test="${empty prdt.evntVO.evntId}">
+												-
+											</c:when>
+											<c:otherwise>
+												<fmt:formatNumber>${prdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>원
+											</c:otherwise>
+										</c:choose>
+									</td>
+									<td class="ellipsis"
+										onclick="event.cancelBubble=true">
+										<a class="open-layer" href="javascript:void(0);" 
+											val="${prdt.prdtRgstrMbrVO.mbrId}">
+											${prdt.prdtRgstrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.prdtRgstrMbrVO.mbrNm}</a>
+									</td>
+									<td>
+										<fmt:parseDate value="${prdt.prdtRgstDt}" pattern="yyyy-MM-dd" var="prdtRgstDt"/>
+										<fmt:formatDate value="${prdtRgstDt}" pattern="yyyy.MM.dd"/>
+									</td>
+									<td class="ellipsis"
+										onclick="event.cancelBubble=true">
+										<a class="open-layer" href="javascript:void(0);" 
+												="${prdt.mdfyrMbrVO.mbrId}">
+											${prdt.mdfyrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.mdfyrMbrVO.mbrNm}</a>
+									</td>
+									<td>
+										<fmt:parseDate value="${prdt.mdfyDt}" pattern="yyyy-MM-dd" var="mdftyDt"/>
+										<fmt:formatDate value="${mdftyDt}" pattern="yyyy.MM.dd"/>
+									</td>
+									<td>${prdt.useYn}</td>
+								</tr>
+							</c:forEach>	
+						</c:when>
+						<c:otherwise>
+							<tr id="notFound">
+								<td colspan="12" class="no-items">
+									등록된 항목이 없습니다.
+								</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+				</tbody>
+			</table>
 			
-				<div class="grid-detail">
-					<form id="form-detail">
-						<!-- 
-						isModify == true -> 수정(update)
-						isModify == false -> 등록(insert)
-						 -->
-						<input type="hidden" id="isModify" value="false" />
+			<div class="relative">
+				<div class="align-left absolute fontsize14">
+					<!-- 페이지네이션용  -->
+					총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
+					<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
+				</div>
+				<div class="align-right absolute " style="right: 0px;" >
+					<select class="selectFilter"
+							id="select-useYn">
+						<option value="">사용유무</option>
+						<option value="Y">Y</option>
+						<option value="N">N</option>
+					</select>
+					<button id="btn-update-all" 
+							class="btn btn-success" 
+							style="vertical-align: top;">일괄수정</button>
+							
+					<button id="btn-delete-all" 
+							class="btn btn-danger" 
+							style="vertical-align: top;">일괄삭제</button>
+				</div>
+				<div class="pagenate">
+					<ul>
+						<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}" var="lastPage"></c:set>
+						<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastGroup : 0}" var="lastGroup"></c:set>
 						
-						<div class="grid-left mr-10">
-							<div class="input-group relative">
-								<div>
-									<label for="prdtFile">사진</label>
-									<button id="del-img" style="position: absolute; right:10px; bottom:10px;">X</button>
-									<input type="file" id="prdtFile"  name="prdtFile" value=""/>
-								</div>
-								<div class="img-box">
-									<img src="${context}/img/default_photo.jpg" id="prdtImg" class="img">
-								</div>
-								
-								<input type="hidden" id="isDeleteImg" name="isDeleteImg" value="N">
-							</div>	
-						</div>
-						<div class="grid-right">
-							<div class="input-group inline">
-								<label for="prdtId">ID</label>
-								<input type="text" id="prdtId" class="readonly" name="prdtId" readonly placeholder="ID는 자동생성됩니다" value=""/>
-							</div>
-							<div class="input-group inline">
-								<label for="prdtSrt">분류</label>
-								<select id="prdtSrt" name="prdtSrt">
-									<option value="">선택</option>
-									<c:choose>
-									<c:when test="${not empty srtList}">
-										<c:forEach items="${srtList}"
-													var="srt">
-											<option value="${srt.cdId}">${srt.cdNm}</option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-								</select>
-							</div>
-							<div class="input-group inline">
-								<label for="prdtNm">이름</label>
-								<input type="text" id="prdtNm"  name="prdtNm"  
-										maxlength="20"  onkeyup="chkChar(this)" value=""/>
-							</div>
-							<div class="input-group inline">
-								<label for="prdtPrc">가격</label>
-								<input type="number" id="prdtPrc"  name="prdtPrc" 
-										min="0" max="9999999" maxlength="7" 
-										oninput="maxLengthCheck(this)" value="0"/>
-							</div>
-							<div class="input-group inline">
-								<label for="useYn">사용여부</label>
-								<input type="checkbox" id="useYn" name="useYn" value="Y"/>
-							</div>
-							<div class="input-group inline">
-								<label for="prdtRgstr" >등록자</label>
-								<input type="text" id="prdtRgstr" disabled value=""/>
-							</div>
-							<div class="input-group inline">
-								<label for="prdtRgstDt" >등록일</label>
-								<input type="text" id="prdtRgstDt" disabled value=""/>
-							</div>
-							<div class="input-group inline">
-								<label for="mdfyr">수정자</label>
-								<input type="text" id="mdfyr" disabled value=""/>
-							</div>
-							<div class="input-group inline">
-								<label for="mdfyDt">수정일</label>
-								<input type="text" id="mdfyDt" disabled value=""/>
-							</div>
-							<div class="input-group">
-								<label for="prdtCntnt">내용</label>
-								<textarea class="textarea" id="prdtCntnt" maxlength="1000" placeholder="내용은 1,000자 까지 작성 가능합니다" ></textarea>
-							</div>
-						</div>
+						<fmt:parseNumber var="nowGroup" value="${Math.floor(prdtVO.prdtPageNo / prdtVO.prdtPageCnt)}" integerOnly="true" />
+						<c:set value="${nowGroup * prdtVO.prdtPageCnt}" var="groupStartPageNo"></c:set>
+						<c:set value="${groupStartPageNo + prdtVO.prdtPageCnt}" var="groupEndPageNo"></c:set>
+						<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1}" var="groupEndPageNo"></c:set>
 						
+						<c:set value="${(nowGroup - 1) * prdtVO.prdtPageCnt}" var="prevGroupStartPageNo"></c:set>
+						<c:set value="${(nowGroup + 1) * prdtVO.prdtPageCnt}" var="nextGroupStartPageNo"></c:set>
 						
+						 
+						<c:if test="${nowGroup > 0}">
+							<li><a href="javascript:movePage(0)">처음</a></li>
+							<li><a href="javascript:movePage(${prevGroupStartPageNo+prdtVO.prdtPageCnt-1})">이전</a></li>
+						</c:if>
 						
+						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1"	var="prdtPageNo">
+							<li><a class="${prdtPageNo eq prdtVO.prdtPageNo ? 'on' : ''}"  href="javascript:movePage(${prdtPageNo})">${prdtPageNo+1}</a></li>
+						</c:forEach>
 						
-					</form>
+						<c:if test="${lastGroup > nowGroup}">
+							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+						</c:if>
+					</ul>
+				</div>
+				
+			</div>
+
+
+	    </div>
+		<div class="bg-white rounded shadow-sm flex-column" 
+    	 	style="height: 100%; margin: 20px;">
+
+	
+			<div class="grid-detail ">
+			
+				<form id="form-detail" class="flex-row default-padding">
+					<!-- 
+					isModify == true -> 수정(update)
+					isModify == false -> 등록(insert)
+					 -->
+					<input type="hidden" id="isModify" value="false" />
 					
-					<div>
-						<div>적용중인 이벤트</div>
-						<div id="evntaa">
-							<div class="show-group inline none">
-								<input type="text" id="evntId" disabled style="display: none;" value=""/>
+					<div class="grid-left">
+						<div class="img-box">
+							<img src="${context}/img/default_photo.jpg" id="prdtImg" class="img">
+						</div>
+						<label for="prdtFile" class="form-control flex"
+								style="align-items: center; justify-content: space-between;">
+							상품 이미지
+							<button id="del-img" class="btn btn-light">
+								<i class='bx bx-x'></i>
+							</button>
+						</label>
+						
+						<input type="file" id="prdtFile"  name="prdtFile" value=""/>
+						
+						<input type="hidden" id="isDeleteImg" name="isDeleteImg" value="N">
+					</div>
+					
+					
+					
+					<div class="grid-right flex-column" style="width: calc(100% - 300px);">
+						<div class="flex">
+							<div class="half-left">
+								<div class="input-group">
+									<label for="prdtId" class="col-form-label">ID</label>
+									<div>
+										<input type="text" id="prdtId" name="prdtId" 
+												class="form-control readonly"
+												readonly placeholder="ID는 자동생성됩니다" value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="prdtNm" class="col-form-label">이름</label>
+									<div>
+										<input type="text" id="prdtNm"  name="prdtNm"
+												class="form-control"
+												maxlength="20" placeholder="최대 20글자" 
+												onkeyup="chkChar(this)" value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="useYn" class="col-form-label label">사용여부</label>
+									<div class="div-input-center">
+										<input type="checkbox" id="useYn" name="useYn" value="Y"/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="prdtRgstr" class="col-form-label">등록자</label>
+									<div>
+										<input type="text" id="prdtRgstr" 
+												class="form-control"
+												disabled value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="prdtRgstDt" class="col-form-label">등록일</label>
+									<div>
+										<input type="text" id="prdtRgstDt" 
+												class="form-control"
+												disabled value=""/>
+									</div>
+								</div>
 							</div>
-							<div class="show-group inline">
-								<label for="evntTtl">이벤트명</label>
-								<input type="text" id="evntTtl" disabled value=""/>
+							<div class="half-right">
+								<div class="input-group">
+									<label for="prdtSrt" class="col-form-label">분류</label>
+									<div class="">
+										<select id="prdtSrt" name="prdtSrt" class="form-select">
+											<option value="">선택</option>
+											<c:choose>
+											<c:when test="${not empty srtList}">
+												<c:forEach items="${srtList}"
+															var="srt">
+													<option value="${srt.cdId}">${srt.cdNm}</option>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+										</select>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="prdtPrc" class="col-form-label">가격</label>
+									<div>
+										<input type="number" id="prdtPrc"  name="prdtPrc" 
+												class="form-control"
+												min="0" max="9999999" maxlength="7" placeholder="최대 9,999,999" 
+												oninput="maxLengthCheck(this)" value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="spare" class="col-form-label"></label>
+									<div>
+										<input type="text" id="spare" name="spare" 
+												class="form-control"
+												readonly oninput="maxLengthCheck(this)" value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="mdfyr" class="col-form-label">수정자</label>
+									<div>
+										<input type="text" id="mdfyr" 
+												class="form-control"
+												disabled value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="mdfyDt" class="col-form-label">수정일</label>
+									<div>
+										<input type="text" id="mdfyDt" 
+												class="form-control"
+												disabled value=""/>
+									</div>
+								</div>
 							</div>
-							<div class="show-group inline">
-								<label for="evntPrdtChngPrc">변경가격</label>
-								<input type="text" id="evntPrdtChngPrc" disabled value=""/>
-							</div>
-							<div class="show-group inline">
-								<label for="evntDt">기간</label>
-								<input type="text" id="evntDt" disabled value=""/>
+						</div>
+						
+						<div class="input-group" style="flex: 1;">
+							<label for="prdtCntnt" class="col-form-label">내용</label>
+							<div>
+								<textarea id="prdtCntnt" style="margin-top: 0.5rem; height: 100%"
+										class="form-control "
+										maxlength="1000" placeholder="내용은 1,000자 까지 작성 가능합니다" ></textarea>
 							</div>
 						</div>
 					</div>
 					
+				</form>
+			</div>
+			
+			
+			<div bottom>
+				<div>
+					<div>적용중인 이벤트</div>
+					<div id="evntaa">
+						<div class="show-group inline none">
+							<input type="text" id="evntId" disabled style="display: none;" value=""/>
+						</div>
+						<div class="show-group inline">
+							<label for="evntTtl" class="form-control">이벤트명</label>
+							<input type="text" id="evntTtl" 
+									class="form-control"
+									disabled value=""/>
+						</div>
+						<div class="show-group inline">
+							<label for="evntPrdtChngPrc" class="form-control">변경가격</label>
+							<input type="text" id="evntPrdtChngPrc" 
+									class="form-control"
+									disabled value=""/>
+						</div>
+						<div class="show-group inline">
+							<label for="evntDt" class="form-control">기간</label>
+							<input type="text" id="evntDt" 
+									class="form-control"
+									disabled value=""/>
+						</div>
+					</div>
 				</div>
+					
+	
+			
 				<div class="align-right grid-btns">
 					<a href="${context}/strprdt/list">매장x메뉴  </a>
 					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a>
@@ -723,12 +837,33 @@ function movePage(pageNo) {
 					<button id="btn-save" class="btn-primary">저장</button>
 					<button id="btn-delete" class="btn-primary btn-delete">삭제</button>
 				</div>
-				
 			</div>
+		
+		</div>
+	
+		
 			
-			<jsp:include page="../include/footer.jsp"></jsp:include>
+		
+		<!-- /contents -->
+		
+	<jsp:include page="../include/closeBody.jsp" />
+
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-mail-send' ></i>
+				쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-x'></i>
+				닫기</a>
+			</div>
 		</div>
 	</div>
-	
+
+
 </body>
 </html>

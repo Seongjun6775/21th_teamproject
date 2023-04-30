@@ -11,6 +11,23 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<script type="text/javascript">
+	$().ready(function(){
+		$("#fileDown").click(function(){
+			$.get("${context}/hr/hrfile/${mbr.hrVO.hrId}", function(resp){
+				if(resp.status == "200 OK"){
+					location.reload();
+				}
+				else{
+					alert(resp.message);
+					location.reload();
+				}
+			});
+		});
+	});
+</script>
+
 </head>
 <body>
 	<div class="main-layout">
@@ -86,7 +103,7 @@
 										<a href="javascript:alert('파일이 없습니다.')"><i class='bx bx-file'></i></a>
 									</c:when>
 									<c:otherwise>
-										<a href="${context}/hr/hrfile/${mbr.hrVO.hrId}"><i class='bx bx-file'></i></a>
+										<a href="#" id="fileDown"><i class='bx bx-file'></i></a>
 									</c:otherwise>
 								</c:choose>
 							</div>
