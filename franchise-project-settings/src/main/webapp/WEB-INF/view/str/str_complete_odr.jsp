@@ -64,6 +64,7 @@ $().ready(function() {
 			table.append(thead);
 			
 			var tbody = $("<tbody></tbody>");
+			tbody.addClass("table-group-divider");
 			var pay = 0;
 			for (var i = 0; i < data.length; i++) {
 			    var odrDtlId = data[i].odrDtlId;

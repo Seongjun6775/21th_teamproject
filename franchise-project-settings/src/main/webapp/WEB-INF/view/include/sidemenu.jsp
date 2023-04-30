@@ -25,6 +25,21 @@
         </div>
       </li>
       <li class="border-top my-3"></li>
+      
+      <c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+	      <li class="mb-1">
+	        <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#prdt-collapse" aria-expanded="false">
+	          메뉴
+	        </button>
+	        <div class="collapse " id="prdt-collapse">
+	          <ul class="text-light btn-toggle-nav list-unstyled fw-normal pb-1 small">
+	            <li class="rounded"><a href="${context}/prdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴관리</a></li>
+	            <li class="rounded"><a href="${context}/strprdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장별 메뉴관리</a></li>
+	          </ul>
+	        </div>
+	      </li>
+      </c:if>
+      
       <li class="mb-1">
         <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
           매장
