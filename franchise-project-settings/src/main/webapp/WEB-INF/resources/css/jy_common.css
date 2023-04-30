@@ -41,6 +41,7 @@ body {
 .flex-row {
     display: flex;
     flex-direction: row;
+    align-items: stretch
 }
 
 
@@ -154,11 +155,11 @@ input[type=file] {
 .input-group input {
 /* 	width: calc(100% - var(--label-width)); */
 }
-.input-group textarea {
-	margin: 10px;
-	flex-grow: 1;
-	height: 50px;
-}
+/* .input-group textarea { */
+/* 	margin: 10px; */
+/* 	flex-grow: 1; */
+/* 	height: 50px; */
+/* } */
 .input-group > div {
 	width: calc(100% - var(--label-width));
 }
