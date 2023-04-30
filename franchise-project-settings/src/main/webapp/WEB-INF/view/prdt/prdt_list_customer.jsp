@@ -11,7 +11,10 @@
 <meta charset="UTF-8">
 <title>메뉴 관리</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="${context}/css/prdt_common_customer.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -21,6 +24,9 @@ $().ready(function() {
 	
 	$('a[href="#"]').click(function(ignore) {
 		ignore.preventDefault();
+	});
+	$('div[class="prdt1"]').click(function() {
+		location.href = "${context}/prdt/list2/"+$(this).data("prdtid");
 	});
 
 	
@@ -74,33 +80,32 @@ function movePage(pageNo) {
 	</div>
 	
 	
-	<div id="menu">
+	<div id="menu" class="flex-column">
 		<div id="menuCategory" class="flex">
-				<a href="#" value="" class="menu">
-					전체메뉴
-				</a>
-				<c:choose>
-					<c:when test="${not empty srtList}">
-						<c:forEach items="${srtList}"
-									var="srt">
-							<a href="#"  class="menu"
-								value="${srt.cdId}" >
-								${srt.cdNm}
-							</a>
-						</c:forEach>
-					</c:when>
-				</c:choose>
+			<a href="#" value="" class="menu">
+				전체메뉴
+			</a>
+			<c:choose>
+				<c:when test="${not empty srtList}">
+					<c:forEach items="${srtList}"
+								var="srt">
+						<a href="#"  class="menu"
+							value="${srt.cdId}" >
+							${srt.cdNm}
+						</a>
+					</c:forEach>
+				</c:when>
+			</c:choose>
 		</div>
 		
 	
-		<div id="itemList">
+		<div id="itemList" class="flow-wrap">
 			<c:choose>
 				<c:when test="${not empty prdtList}">
 					<c:forEach items="${prdtList}"
 								var="prdt">
-						<a href="${context}/prdt/list2/${prdt.prdtId}">
-							<div class="prdt1" id="${prdt.prdtId}"
-								data-prdtid="${prdt.prdtId}">
+						<div class="itemList" data-prdtid="${prdt.prdtId}">
+							<div class="card shadow" style="padding: 24px; border-radius: 24px;">
 								<div class="img-box">
 									<c:choose>
 										<c:when test="${empty prdt.uuidFlNm}">
@@ -112,17 +117,18 @@ function movePage(pageNo) {
 									</c:choose>	
 								</div>
 								<div class="prdt3">
-									<div class="name">${prdt.prdtNm}
+									<div class="discount">
 										<c:choose>
 											<c:when test="${not empty prdt.evntVO.evntId}">
-												<span>할인중!!</span>
+												<span>이벤트 진행중 <i class='bx bxs-discount bx-tada bx-rotate-180' ></i></span>
 											</c:when>
 										</c:choose>
 									</div>
+									<div class="name ellipsis">${prdt.prdtNm}</div>
 									<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
 								</div>
 							</div>
-						</a>
+						</div>
 					</c:forEach>
 				</c:when>
 			</c:choose>

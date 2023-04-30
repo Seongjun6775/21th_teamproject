@@ -43,6 +43,11 @@ body {
     flex-direction: row;
     align-items: stretch
 }
+.flow-wrap {
+	display: flex;
+    flex-flow: wrap;
+}
+
 
 
 
@@ -125,7 +130,7 @@ input[type=file] {
 }
 .img-box {
 	overflow: hidden;
-	width: 300px;
+	width: 100%;
 	height: 300px;
 }
 .img-box > img {
@@ -137,8 +142,22 @@ input[type=file] {
     transform: translateX(-50%);
 	object-fit: cover;
 	border-radius: var(--bs-border-radius);
+	
+	transition: transform 0.3s ease-out;
+}
+.img-box {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
 }
 
+.img-box:hover img {
+	transform: scale(1.2) translateX(-40%);;
+}
+
+.iimg-box img {
+  display: block;
+}
 
 
 
@@ -253,6 +272,134 @@ input[type="number"]::-webkit-inner-spin-button {
 	align-self: center;
     text-align-last: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/* 손님용 customer */
+.content-setting{
+	width: 1440px;
+	margin: 0 auto;	
+}
+.headline {
+	height: 200px;
+	background-color: #0f02;
+}
+.headline li:hover, .itemList {
+	cursor: pointer;
+}
+#menu {
+/* 	background-color: #F002; */
+	width: 1440px;
+	margin: 0 auto;
+}
+#menuCategory {
+/* 	background-color: #0F02; */
+	height: 100px;
+	position: relative;
+}
+#menuCategory::before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 5px;
+	background: #00000035;
+}
+
+
+#menuCategory  > a {
+	padding: 0;
+	display: flex;
+	position: relative;	
+	list-style-type: none;
+    justify-content: space-evenly;
+    width: 0px;
+    flex-grow: 1;
+	align-items: center;
+/* 	font-size: 22px; */
+/* 	color: #808080; */
+}
+.menu{
+	font-size: 22px;
+}
+#menuCategory  > a:not(.on):hover::before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	height: 5px;
+	width: 100%;
+	background: #808080;
+}
+#menuCategory  > a:not(.on):hover {
+	font-size: 26px;
+}
+.on {
+	font-weight: bold;
+	color: #333;
+	font-size: 26px;
+}
+.on::before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	height: 5px;
+	width: 100%;
+	background: #ffcc00;
+}
+
+#itemList div{
+	
+}
+
+/* prdt-customer */
+.itemList {
+	display: inline-flex;
+/* 	background-color: #3333; */
+	width: 25%;
+	padding: 32px 16px 0 16px;
+	flex-direction: column;
+}
+.name {
+	font-size: 24pt;
+	font-weight: bold;
+}
+.price {
+	font-size: 16pt;
+	text-align: right;
+}
+.discount {
+	height: 32px;
+    display: flex;
+    align-items: flex-end;
+}
+
+
+
+
+
+
+
+
+
+/* -webkit- */
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+
+
+
 
 
 
