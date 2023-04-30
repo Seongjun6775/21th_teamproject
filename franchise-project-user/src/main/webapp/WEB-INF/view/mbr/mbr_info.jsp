@@ -31,7 +31,7 @@
 				alert("변경된 부분이 없습니다.");
 				return;
 			}
-			$.post("${context}/api/mbr/update", $("#info_form").serialize(), function(resp){
+			$.post("${context}/mbr/update", $("#info_form").serialize(), function(resp){
 				if(resp.status =="200 OK"){
 					location.href="${context}"+resp.redirectURL;
 				}
@@ -45,7 +45,7 @@
 		});
 		$("#signout_mbr_btn").click(function(event){
 			if(confirm("회원탈퇴를 진행하시겠습니까?")){
-				$.get("${context}/api/mbr/signout", function(resp){
+				$.get("${context}/mbr/signout", function(resp){
 					if(resp.status == "200 OK"){
 						alert("정상적으로 탈퇴되었습니다.");
 						location.href="${context}"+resp.redirectURL;
