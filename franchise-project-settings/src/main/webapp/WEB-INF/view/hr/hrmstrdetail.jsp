@@ -153,7 +153,6 @@
 				<span class="fs-5 fw-bold">${hr.hrTtl}</span>
 				<div class="hr_detail_header">(${hr.hrId})</div>
 			</div>
-			
 			<div style="margin-top: 10px">
 			
 			<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
@@ -162,39 +161,6 @@
 				<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
 				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
 			</div>
-			<div>
-				<div class="hr_detail_header">제목 : ${hr.hrTtl}</div>
-				<div class="hr_detail_header">지원 직군 : ${hr.cdNm}</div>
-				<div class="hr_detail_header">지원 상태 : ${hr.hrStat eq '002-01' ? '접수' : hr.hrStat eq '002-02' ? '심사중' : hr.hrStat eq '002-03' ? '심사완료': '오류'}</div>
-			</div>
-			<div>
-				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
-				<div class="hr_detail_header">최종 수정일 : ${hr.hrMdfyDt}</div>
-			</div>
-			<div>
-				<div class="hr_detail_header">승인 여부 : ${hr.hrAprYn}</div>
-				<div class="hr_detail_header">승인 여부 변경 일자 : ${hr.hrAprDt}</div>
-			</div>
-			<div style="display: ${hr.orgnFlNm == null ? 'none' : ''};">
-				<div class="hr_detail_header">첨부파일 : <a id="fileDown" href="#">${hr.orgnFlNm}</a></div>
-				<div class="hr_detail_header">${hr.flSize/1024}</div>
-			</div>
-			<div style="display: ${hr.orgnFlNm == null ? '' : 'none'};">
-				<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
-			</div>
-			<div class="hr_detail_cntnt">${hr.hrCntnt}</div>
-			
-			<div style="padding:10px; ">
-				<div class="bg-warning rounded bg-opacity-25 padding: 10px; margin: 10px;"> 
-					<div style="display: ${hr.orgnFlNm == null ? '' : 'none'}; ">
-						<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
-					</div>
-					<div style="display: ${hr.orgnFlNm == null ? 'none' : ''}; margin-bottom: 20px; padding: 10px;">
-						<div class="hr_detail_header">첨부파일 : <a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm}</a></div>
-						<div class="hr_detail_header" style="float: right;"> ${hr.flSize/1024}KB</div>
-					</div>
-				</div>
-				
 				<div style="padding:10px; ">
 					<div class="bg-warning rounded bg-opacity-25 padding: 10px; margin: 10px;"> 
 						<div style="display: ${hr.orgnFlNm == null ? '' : 'none'}; ">
