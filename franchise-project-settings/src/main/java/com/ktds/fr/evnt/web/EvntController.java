@@ -47,6 +47,11 @@ public class EvntController {
 	@RequestMapping("/evnt/list")
 	public String viewEvntListPage(Model model, EvntVO evntVO, HttpServletRequest req, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 
+		
+		 if(!mbrVO.getMbrLvl().equals("001-01") && !mbrVO.getMbrLvl().equals("001-02") ) { 
+			 
+			 return "errors/evnt_customer_error"; }
+		 
 //		//확인용
 //		System.out.println("evntVO.getEvntId : " + evntVO.getEvntId());
 //		System.out.println("evntVO.getEvntTtl : " + evntVO.getEvntTtl());

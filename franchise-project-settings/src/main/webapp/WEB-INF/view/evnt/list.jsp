@@ -186,7 +186,7 @@
 
 											<td style="text-align:center;">${evnt.evntId}</td>
 											<td style="text-align:center;"><a href="${context}/evnt/detail/${evnt.evntId}">${evnt.evntTtl}</a></td>
-											<td style="text-align:center;">${evnt.evntCntnt}</td>
+											<td style="text-align:center;"><a href="${context}/evnt/detail/${evnt.evntId}">"${evnt.evntCntnt}</a></td>
 											<td style="text-align:center;">${evnt.evntStrtDt}</td>
 											<td style="text-align:center;">${evnt.evntEndDt}</td>
 <%-- 											<td>${evnt.orgnFlNm}</td> --%>
