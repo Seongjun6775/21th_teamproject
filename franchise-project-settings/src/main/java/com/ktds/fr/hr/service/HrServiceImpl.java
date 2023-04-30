@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.ObjectUtils;
@@ -27,6 +28,9 @@ public class HrServiceImpl implements HrService {
 	
 	@Autowired
 	private MbrDAO mbrDAO;
+	
+	@Autowired
+	private ChSrlDAO chSrlDAO;
 	
 	// 채용 지원서 작성 시 업로드된 파일이 저장될 경로입니다.
 	@Value("${upload.hr.path:/franchise-prj/files/hr/}")
@@ -258,6 +262,8 @@ public class HrServiceImpl implements HrService {
 			throw new ApiException(ApiStatus.FAIL, "오류가 발생하여 실패했습니다.");
 		}
 		mbrDAO.updateOneMbrLvlAndStrId(hrVO.getMbrVO());
+		hrVO.getMbrVO().setOriginMbrLvl("001-04");
+		chSrlDAO.createOneChHist(hrVO.getMbrVO());
 		return updateResult;
 	}
 	

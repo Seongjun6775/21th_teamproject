@@ -35,12 +35,22 @@ public class SessionManager {
 		sessionMap.put(mbrId, session);
 	}
 	
+	public boolean checkSession(String mbrId) {
+		if(sessionMap.get(mbrId) != null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public void removeSession(String mbrId) {
 		sessionMap.remove(mbrId);
 	}
 	
 	public void destroySession(String mbrId) {
+		System.out.println("여기니1");
 		sessionMap.get(mbrId).invalidate();
+		System.out.println("여기니2");
 		removeSession(mbrId);
 	}
 	
