@@ -9,9 +9,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${strVO.strNm} - 주문하기</title>
+<title>${strVO.strNm eq null ? '정보없음' : strVO.strNm } - 주문관리</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="${context}/css/strodr_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -280,144 +280,46 @@ function movePage(pageNo) {
 
 </script>
 </head>
-<body class="bg-dark bg-opacity-10 ">
-<jsp:include page="../include/logo.jsp" />
-	<main class="d-flex flex-nowrap ">	
-		<jsp:include page="../include/sidemenu.jsp" />
-		<div style="margin:0px 0px 0px 250px; width: 100%; 
-					display: flex; height: 100vh; flex-direction: column;">
-		
-			<div class="header">
-				<jsp:include page="../include/header.jsp" />
-				<div class="bg-white rounded shadow-sm  " style="padding: 23px 18px 23px 18px; margin: 20px;">
-					<span class="fs-5 fw-bold">기본페이지</span>
-			    </div>
-	 
+
+	<jsp:include page="../include/openBody.jsp" />
 	
-				<br>매장이름임 ${strVO.strNm} (${strVO.strId})
-				<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
-				<br>
-			</div>
-			
-		    <!-- contents -->
-		    <div class="bg-white rounded shadow-sm" 
-		    	 style="height: 100%; margin: 20px;">
+		<div class="header">
+			<div class="bg-white rounded shadow-sm  " style="padding: 23px 18px 23px 18px; margin: 20px;">
+				<span class="fs-5 fw-bold">주문관리</span>
+		    </div>
+ 
+
+			<br>매장이름임 ${strVO.strNm} (${strVO.strId})
+			<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
+			<br>
+		</div>
+		
+	    <!-- contents -->
+	    <div class="bg-white rounded shadow-sm" 
+	    	 style="height: 100%; margin: 20px;">
 
 
-			<div class="flex full">
-				<div class="half-left">
-					<div class="half-top div-table">
-						<div class="topline">
-							<div class="inline-block">주문접수</div>
-							<div class="inline-block">
-								<button id="btn-complete02" 
-										class="btn-primary btn-create" 
-										style="vertical-align: top;">주문처리</button>
-										
-								<button id="btn-cancle02" 
-										class="btn-primary btn-delete" 
-										style="vertical-align: top;">주문취소</button>
-							</div>
-						</div>
-						
-						<div class="overflow">
-							<table class="table table-striped table-sm table-hover">
-								<thead>
-									<tr>
-										<th><input type="checkbox" id="all-check02"/></th>
-										<th>주문서ID</th>
-										<th>주문자</th>
-										<th>주문날짜</th>
-										<th>처리자</th>
-										<th>처리날짜</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${not empty ordLstList}">
-											<c:forEach items="${ordLstList}"
-														var="ordLst">
-												<c:if test="${ordLst.odrLstOdrPrcs eq '003-02'}">
-													<tr data-odrlstid="${ordLst.odrLstId}">
-														<td class="align-center">
-															<input type="checkbox" class="check-idx02" value="${ordLst.odrLstId}" />
-														</td>
-														<td>${ordLst.odrLstId}</td>							
-														<td>${ordLst.mbrId}</td>							
-														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.mdfyr}</td>							
-														<td>${ordLst.mdfyDt}</td>							
-													</tr>
-												</c:if>
-											</c:forEach>
-										</c:when>
-									</c:choose>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					
-					<div class="half-bottom div-table">
-						<div class="topline">
-							<div class="inline-block">주문처리</div>
-							<div class="inline-block">
-								<button id="btn-complete03" 
-										class="btn-primary btn-create" 
-										style="vertical-align: top;">처리완료</button>
-										
-								<button id="btn-cancle03" 
-										class="btn-primary btn-delete" 
-										style="vertical-align: top;">주문취소</button>
-							</div>
-						</div>
-						
-						<div class="overflow">
-							<table class="table table-striped table-sm table-hover">
-								<thead>
-									<tr>
-										<th><input type="checkbox" id="all-check03"/></th>
-										<th>주문서ID</th>
-										<th>주문자</th>
-										<th>주문날짜</th>
-										<th>처리자</th>
-										<th>처리날짜</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${not empty ordLstList}">
-											<c:forEach items="${ordLstList}"
-														var="ordLst">
-												<c:if test="${ordLst.odrLstOdrPrcs eq '003-03'}">
-													<tr data-odrlstid="${ordLst.odrLstId}">
-														<td class="align-center">
-															<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
-														</td>
-														<td>${ordLst.odrLstId}</td>							
-														<td>${ordLst.mbrId}</td>							
-														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.mdfyr}</td>							
-														<td>${ordLst.mdfyDt}</td>							
-													</tr>
-												</c:if>
-											</c:forEach>
-										</c:when>
-									</c:choose>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			
-				<div class="half-right div-table">
+		<div class="flex full">
+			<div class="half-left">
+				<div class="half-top flex-column default-padding">
 					<div class="topline">
-						<div class="inline-block">처리완료</div>
+						<div class="inline-block">주문접수</div>
+						<div class="inline-block">
+							<button id="btn-complete02" 
+									class="btn-primary btn-create" 
+									style="vertical-align: top;">주문처리</button>
+									
+							<button id="btn-cancle02" 
+									class="btn-primary btn-delete" 
+									style="vertical-align: top;">주문취소</button>
+						</div>
 					</div>
 					
 					<div class="overflow">
 						<table class="table table-striped table-sm table-hover">
 							<thead>
 								<tr>
+									<th><input type="checkbox" id="all-check02"/></th>
 									<th>주문서ID</th>
 									<th>주문자</th>
 									<th>주문날짜</th>
@@ -425,18 +327,74 @@ function movePage(pageNo) {
 									<th>처리날짜</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody class="table-group-divider">
 								<c:choose>
-									<c:when test="${not empty ordLstCompleteList}">
-										<c:forEach items="${ordLstCompleteList}"
+									<c:when test="${not empty ordLstList}">
+										<c:forEach items="${ordLstList}"
 													var="ordLst">
-											<tr data-odrlstid="${ordLst.odrLstId}">
-												<td>${ordLst.odrLstId}</td>							
-												<td>${ordLst.mbrId}</td>							
-												<td>${ordLst.odrLstRgstDt}</td>							
-												<td>${ordLst.mdfyr}</td>							
-												<td>${ordLst.mdfyDt}</td>							
-											</tr>
+											<c:if test="${ordLst.odrLstOdrPrcs eq '003-02'}">
+												<tr data-odrlstid="${ordLst.odrLstId}">
+													<td class="align-center">
+														<input type="checkbox" class="check-idx02" value="${ordLst.odrLstId}" />
+													</td>
+													<td>${ordLst.odrLstId}</td>							
+													<td>${ordLst.mbrId}</td>							
+													<td>${ordLst.odrLstRgstDt}</td>							
+													<td>${ordLst.mdfyr}</td>							
+													<td>${ordLst.mdfyDt}</td>							
+												</tr>
+											</c:if>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+				<div class="half-bottom flex-column default-padding">
+					<div class="topline">
+						<div class="inline-block">주문처리</div>
+						<div class="inline-block">
+							<button id="btn-complete03" 
+									class="btn-primary btn-create" 
+									style="vertical-align: top;">처리완료</button>
+									
+							<button id="btn-cancle03" 
+									class="btn-primary btn-delete" 
+									style="vertical-align: top;">주문취소</button>
+						</div>
+					</div>
+					
+					<div class="overflow">
+						<table class="table table-striped table-sm table-hover">
+							<thead>
+								<tr>
+									<th><input type="checkbox" id="all-check03"/></th>
+									<th>주문서ID</th>
+									<th>주문자</th>
+									<th>주문날짜</th>
+									<th>처리자</th>
+									<th>처리날짜</th>
+								</tr>
+							</thead>
+							<tbody class="table-group-divider">
+								<c:choose>
+									<c:when test="${not empty ordLstList}">
+										<c:forEach items="${ordLstList}"
+													var="ordLst">
+											<c:if test="${ordLst.odrLstOdrPrcs eq '003-03'}">
+												<tr data-odrlstid="${ordLst.odrLstId}">
+													<td class="align-center">
+														<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
+													</td>
+													<td>${ordLst.odrLstId}</td>							
+													<td>${ordLst.mbrId}</td>							
+													<td>${ordLst.odrLstRgstDt}</td>							
+													<td>${ordLst.mdfyr}</td>							
+													<td>${ordLst.mdfyDt}</td>							
+												</tr>
+											</c:if>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -445,42 +403,78 @@ function movePage(pageNo) {
 					</div>
 				</div>
 			</div>
-					
-	
-	
-	
-			<!-- Button trigger modal -->
-			<button id="modal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="display: none">
-			  Launch static backdrop modal
-			</button>
-			<!-- Modal -->
-			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-scrollable">
-					<div class="modal-content" style="width:960px; max-height: 70%; position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		
+			<div class="half-right default-padding">
+				<div class="topline">
+					<div class="inline-block">처리완료</div>
+				</div>
+				
+				<div class="overflow">
+					<table class="table table-striped table-sm table-hover">
+						<thead>
+							<tr>
+								<th>주문서ID</th>
+								<th>주문자</th>
+								<th>주문날짜</th>
+								<th>처리자</th>
+								<th>처리날짜</th>
+							</tr>
+						</thead>
+						<tbody class="table-group-divider">
+							<c:choose>
+								<c:when test="${not empty ordLstCompleteList}">
+									<c:forEach items="${ordLstCompleteList}"
+												var="ordLst">
+										<tr data-odrlstid="${ordLst.odrLstId}">
+											<td>${ordLst.odrLstId}</td>							
+											<td>${ordLst.mbrId}</td>							
+											<td>${ordLst.odrLstRgstDt}</td>							
+											<td>${ordLst.mdfyr}</td>							
+											<td>${ordLst.mdfyDt}</td>							
+										</tr>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+				
+
+
+
+		<!-- Button trigger modal -->
+		<button id="modal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="display: none">
+		  Launch static backdrop modal
+		</button>
+		<!-- Modal -->
+		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable">
+				<div class="modal-content" style="width:960px; max-height: 70%; position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+						<div class="modal-body">
+						
+						
 						</div>
-							<div class="modal-body">
-							
-							
-							</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Understood</button>
-						</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Understood</button>
 					</div>
 				</div>
 			</div>
-	
-	
-	
-
-		    </div>
-      		<!-- /contents -->
 		</div>
-	</main>
 
 
+
+
+	    </div>
+     		<!-- /contents -->
+
+	<jsp:include page="../include/closeBody.jsp" />
+	
 </body>
 </html>
