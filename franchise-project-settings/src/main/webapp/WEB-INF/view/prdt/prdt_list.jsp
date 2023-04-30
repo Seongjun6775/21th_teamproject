@@ -690,7 +690,7 @@ function movePage(pageNo) {
 					
 					
 					
-					<div class="grid-right" style="width: calc(100% - 300px);">
+					<div class="grid-right flex-column" style="width: calc(100% - 300px);">
 						<div class="flex">
 							<div class="half-left">
 								<div class="input-group">
@@ -737,7 +737,7 @@ function movePage(pageNo) {
 								<div class="input-group">
 									<label for="prdtSrt" class="col-form-label">분류</label>
 									<div class="">
-										<select id="prdtSrt" name="prdtSrt" class="form-control">
+										<select id="prdtSrt" name="prdtSrt" class="form-select">
 											<option value="">선택</option>
 											<c:choose>
 											<c:when test="${not empty srtList}">
@@ -786,11 +786,13 @@ function movePage(pageNo) {
 							</div>
 						</div>
 						
-						<div class="input-group">
+						<div class="input-group" style="flex: 1;">
 							<label for="prdtCntnt" class="col-form-label">내용</label>
-							<textarea class="textarea" id="prdtCntnt" 
-									class="form-control"
-									maxlength="1000" placeholder="내용은 1,000자 까지 작성 가능합니다" ></textarea>
+							<div>
+								<textarea id="prdtCntnt" style="margin-top: 0.5rem; height: 100%"
+										class="form-control "
+										maxlength="1000" placeholder="내용은 1,000자 까지 작성 가능합니다" ></textarea>
+							</div>
 						</div>
 					</div>
 					
