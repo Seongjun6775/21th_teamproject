@@ -89,9 +89,8 @@
 
 </head>
 <jsp:include page="../include/openBody.jsp" />
-		<div class="fs-6" style="margin: 0 20px">회원 > 채용</div>
-		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-			<span class="fs-5 fw-bold">master 채용 페이지 테스트</span>
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">회원 > 채용관리</span>
 	    </div>
 		<!-- searchbar -->
 		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
@@ -119,7 +118,7 @@
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 							<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;">지원자 ID</th>
-							<th scope="col" >
+							<th scope="col" style="padding: 20px 20px 8px 20px;" >
 								<select id="hrLvl" class="form-select" aria-label="Default select example">
 									<option value="">지원 직군</option>
 									<option value="005-01" ${hrVO.hrLvl eq "005-01" ? 'selected' : '' }>점주</option>
