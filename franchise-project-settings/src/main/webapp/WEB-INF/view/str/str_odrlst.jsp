@@ -301,7 +301,7 @@ function movePage(pageNo) {
 
 		<div class="flex full">
 			<div class="half-left">
-				<div class="half-top div-table">
+				<div class="half-top flex-column default-padding">
 					<div class="topline">
 						<div class="inline-block">주문접수</div>
 						<div class="inline-block">
@@ -352,7 +352,7 @@ function movePage(pageNo) {
 					</div>
 				</div>
 				
-				<div class="half-bottom div-table">
+				<div class="half-bottom flex-column default-padding">
 					<div class="topline">
 						<div class="inline-block">주문처리</div>
 						<div class="inline-block">
@@ -404,7 +404,7 @@ function movePage(pageNo) {
 				</div>
 			</div>
 		
-			<div class="half-right div-table">
+			<div class="half-right default-padding">
 				<div class="topline">
 					<div class="inline-block">처리완료</div>
 				</div>

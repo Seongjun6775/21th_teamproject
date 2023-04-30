@@ -446,7 +446,7 @@ function movePage(pageNo) {
 		
 		<!-- contents -->
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-			<span class="fs-5 fw-bold">메뉴 관리</span>
+			<span class="fs-5 fw-bold">메뉴 > 메뉴 관리</span>
 		</div>
 		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 		
@@ -487,7 +487,7 @@ function movePage(pageNo) {
 							</c:choose>
 						</select>
 						</th>
-						<th class="min-width300">메뉴 이름</th>
+						<th class="width300">메뉴 이름</th>
 						<th class="width100">가격</th>
 						<th class="width100 ">
 							<select class="select-align-center" name="selectFilter"
@@ -581,7 +581,7 @@ function movePage(pageNo) {
 									<td class="ellipsis"
 										onclick="event.cancelBubble=true">
 										<a class="open-layer" href="javascript:void(0);" 
-											val="${prdt.mdfyrMbrVO.mbrId}">
+												="${prdt.mdfyrMbrVO.mbrId}">
 											${prdt.mdfyrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.mdfyrMbrVO.mbrNm}</a>
 									</td>
 									<td>
@@ -655,90 +655,150 @@ function movePage(pageNo) {
 				</div>
 				
 			</div>
-		
-			<div class="grid-detail">
-				<form id="form-detail">
+
+
+	    </div>
+		<div class="bg-white rounded shadow-sm flex-column" 
+    	 	style="height: 100%; margin: 20px;">
+
+	
+			<div class="grid-detail ">
+			
+				<form id="form-detail" class="flex-row default-padding">
 					<!-- 
 					isModify == true -> 수정(update)
 					isModify == false -> 등록(insert)
 					 -->
 					<input type="hidden" id="isModify" value="false" />
 					
-					<div class="grid-left mr-10">
-						<div class="input-group relative">
-							<div>
-								<label for="prdtFile">사진</label>
-								<button id="del-img" style="position: absolute; right:10px; bottom:10px;">X</button>
-								<input type="file" id="prdtFile"  name="prdtFile" value=""/>
-							</div>
-							<div class="img-box">
-								<img src="${context}/img/default_photo.jpg" id="prdtImg" class="img">
-							</div>
-							
-							<input type="hidden" id="isDeleteImg" name="isDeleteImg" value="N">
-						</div>	
+					<div class="grid-left">
+						<div class="img-box">
+							<img src="${context}/img/default_photo.jpg" id="prdtImg" class="img">
+						</div>
+						<label for="prdtFile" class="form-control flex"
+								style="align-items: center; justify-content: space-between;">
+							상품 이미지
+							<button id="del-img" class="btn btn-light">
+								<i class='bx bx-x'></i>
+							</button>
+						</label>
+						
+						<input type="file" id="prdtFile"  name="prdtFile" value=""/>
+						
+						<input type="hidden" id="isDeleteImg" name="isDeleteImg" value="N">
 					</div>
-					<div class="grid-right">
-						<div class="input-group inline">
-							<label for="prdtId">ID</label>
-							<input type="text" id="prdtId" class="readonly" name="prdtId" readonly placeholder="ID는 자동생성됩니다" value=""/>
+					
+					
+					
+					<div class="grid-right" style="width: calc(100% - 300px);">
+						<div class="flex">
+							<div class="half-left">
+								<div class="input-group">
+									<label for="prdtId" class="col-form-label">ID</label>
+									<div>
+										<input type="text" id="prdtId" name="prdtId" 
+												class="form-control readonly"
+												readonly placeholder="ID는 자동생성됩니다" value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="prdtNm" class="col-form-label">이름</label>
+									<div>
+										<input type="text" id="prdtNm"  name="prdtNm"
+												class="form-control"
+												maxlength="20" placeholder="최대 20글자" 
+												onkeyup="chkChar(this)" value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="useYn" class="col-form-label label">사용여부</label>
+									<div class="div-input-center">
+										<input type="checkbox" id="useYn" name="useYn" value="Y"/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="prdtRgstr" class="col-form-label">등록자</label>
+									<div>
+										<input type="text" id="prdtRgstr" 
+												class="form-control"
+												disabled value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="prdtRgstDt" class="col-form-label">등록일</label>
+									<div>
+										<input type="text" id="prdtRgstDt" 
+												class="form-control"
+												disabled value=""/>
+									</div>
+								</div>
+							</div>
+							<div class="half-right">
+								<div class="input-group">
+									<label for="prdtSrt" class="col-form-label">분류</label>
+									<div class="">
+										<select id="prdtSrt" name="prdtSrt" class="form-control">
+											<option value="">선택</option>
+											<c:choose>
+											<c:when test="${not empty srtList}">
+												<c:forEach items="${srtList}"
+															var="srt">
+													<option value="${srt.cdId}">${srt.cdNm}</option>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+										</select>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="prdtPrc" class="col-form-label">가격</label>
+									<div>
+										<input type="number" id="prdtPrc"  name="prdtPrc" 
+												class="form-control"
+												min="0" max="9999999" maxlength="7" placeholder="최대 9,999,999" 
+												oninput="maxLengthCheck(this)" value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="spare" class="col-form-label"></label>
+									<div>
+										<input type="text" id="spare" name="spare" 
+												class="form-control"
+												readonly oninput="maxLengthCheck(this)" value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="mdfyr" class="col-form-label">수정자</label>
+									<div>
+										<input type="text" id="mdfyr" 
+												class="form-control"
+												disabled value=""/>
+									</div>
+								</div>
+								<div class="input-group">
+									<label for="mdfyDt" class="col-form-label">수정일</label>
+									<div>
+										<input type="text" id="mdfyDt" 
+												class="form-control"
+												disabled value=""/>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="input-group inline">
-							<label for="prdtSrt">분류</label>
-							<select id="prdtSrt" name="prdtSrt">
-								<option value="">선택</option>
-								<c:choose>
-								<c:when test="${not empty srtList}">
-									<c:forEach items="${srtList}"
-												var="srt">
-										<option value="${srt.cdId}">${srt.cdNm}</option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-							</select>
-						</div>
-						<div class="input-group inline">
-							<label for="prdtNm">이름</label>
-							<input type="text" id="prdtNm"  name="prdtNm"  
-									maxlength="20"  onkeyup="chkChar(this)" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prdtPrc">가격</label>
-							<input type="number" id="prdtPrc"  name="prdtPrc" 
-									min="0" max="9999999" maxlength="7" 
-									oninput="maxLengthCheck(this)" value="0"/>
-						</div>
-						<div class="input-group inline">
-							<label for="useYn">사용여부</label>
-							<input type="checkbox" id="useYn" name="useYn" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="prdtRgstr" >등록자</label>
-							<input type="text" id="prdtRgstr" disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prdtRgstDt" >등록일</label>
-							<input type="text" id="prdtRgstDt" disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyr">수정자</label>
-							<input type="text" id="mdfyr" disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyDt">수정일</label>
-							<input type="text" id="mdfyDt" disabled value=""/>
-						</div>
+						
 						<div class="input-group">
-							<label for="prdtCntnt">내용</label>
-							<textarea class="textarea" id="prdtCntnt" maxlength="1000" placeholder="내용은 1,000자 까지 작성 가능합니다" ></textarea>
+							<label for="prdtCntnt" class="col-form-label">내용</label>
+							<textarea class="textarea" id="prdtCntnt" 
+									class="form-control"
+									maxlength="1000" placeholder="내용은 1,000자 까지 작성 가능합니다" ></textarea>
 						</div>
 					</div>
-					
-					
-					
 					
 				</form>
-				
+			</div>
+			
+			
+			<div bottom>
 				<div>
 					<div>적용중인 이벤트</div>
 					<div id="evntaa">
@@ -746,50 +806,62 @@ function movePage(pageNo) {
 							<input type="text" id="evntId" disabled style="display: none;" value=""/>
 						</div>
 						<div class="show-group inline">
-							<label for="evntTtl">이벤트명</label>
-							<input type="text" id="evntTtl" disabled value=""/>
+							<label for="evntTtl" class="form-control">이벤트명</label>
+							<input type="text" id="evntTtl" 
+									class="form-control"
+									disabled value=""/>
 						</div>
 						<div class="show-group inline">
-							<label for="evntPrdtChngPrc">변경가격</label>
-							<input type="text" id="evntPrdtChngPrc" disabled value=""/>
+							<label for="evntPrdtChngPrc" class="form-control">변경가격</label>
+							<input type="text" id="evntPrdtChngPrc" 
+									class="form-control"
+									disabled value=""/>
 						</div>
 						<div class="show-group inline">
-							<label for="evntDt">기간</label>
-							<input type="text" id="evntDt" disabled value=""/>
+							<label for="evntDt" class="form-control">기간</label>
+							<input type="text" id="evntDt" 
+									class="form-control"
+									disabled value=""/>
 						</div>
 					</div>
 				</div>
-				
-			</div>
-			<div class="align-right grid-btns">
-				<a href="${context}/strprdt/list">매장x메뉴  </a>
-				<a href="${context}/prdt/list2">손님용 ㄱㄱ</a>
-				<button id="btn-new" class="btn-primary">신규</button>
-				<button id="btn-save" class="btn-primary">저장</button>
-				<button id="btn-delete" class="btn-primary btn-delete">삭제</button>
-			</div>
+					
+	
 			
-			
-			<div class="layer_popup" id="layer_popup" style="display: none;">
-				<div class="popup_box">
-					<div class="popup_content">
-						<a class="send-memo-btn" href="javascript:void(0);">
-						<i class='bx bx-mail-send' ></i>
-						쪽지 보내기</a>
-					</div>
-					<div>
-						<a class="close-memo-btn" href="javascript:void(0);">
-						<i class='bx bx-x'></i>
-						닫기</a>
-					</div>
+				<div class="align-right grid-btns">
+					<a href="${context}/strprdt/list">매장x메뉴  </a>
+					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a>
+					<button id="btn-new" class="btn-primary">신규</button>
+					<button id="btn-save" class="btn-primary">저장</button>
+					<button id="btn-delete" class="btn-primary btn-delete">삭제</button>
 				</div>
 			</div>
-			
-			
+		
 		</div>
+	
+		
+			
+		
 		<!-- /contents -->
 		
 	<jsp:include page="../include/closeBody.jsp" />
+
+	
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-mail-send' ></i>
+				쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-x'></i>
+				닫기</a>
+			</div>
+		</div>
+	</div>
+
 
 </body>
 </html>
