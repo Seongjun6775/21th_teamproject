@@ -89,6 +89,7 @@
 
 </head>
 <jsp:include page="../include/openBody.jsp" />
+		<div class="fs-6" style="margin: 0 20px">회원 > 채용</div>
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
 			<span class="fs-5 fw-bold">master 채용 페이지 테스트</span>
 	    </div>
@@ -111,12 +112,13 @@
 		<!-- /searchbar -->	
 		    
 		<!-- contents -->
-		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: 600px;">
-				<div>총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
-				<table class="table caption-top">
-					<thead>
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+				
+				<div style="margin: 13px;">총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
+				<table class="table caption-top table-hover" style="text-align: center;">
+					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
-							<th scope="col">지원자 ID</th>
+							<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;">지원자 ID</th>
 							<th scope="col" >
 								<select id="hrLvl" class="form-select" aria-label="Default select example">
 									<option value="">지원 직군</option>
@@ -124,10 +126,10 @@
 									<option value="005-02" ${hrVO.hrLvl eq "005-02" ? 'selected' : '' }>사원</option>
 								</select>
 							</th>
-							<th scope="col">제목</th>
-							<th scope="col">등록일</th>
-							<th scope="col">승인 여부</th>
-							<th scope="col">
+							<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">승인 여부</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">
 								<select id="hrStat" class="form-select" aria-label="Default select example">
 									<option value="">채용 상태</option>
 									<option value="002-01" ${hrVO.hrStat eq "002-01" ? 'selected' : '' }>접수</option>
@@ -135,7 +137,7 @@
 									<option value="002-03" ${hrVO.hrStat eq "002-03" ? 'selected' : '' }>심사완료</option>
 								</select>
 							</th>
-							<th scope="col">
+							<th scope="col" style="border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;" >
 								<select id="delYn" class="form-select" aria-label="Default select example">
 									<option value="">삭제 여부</option>
 									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제됨</option>
@@ -192,43 +194,43 @@
 						</c:choose>
 					</tbody>
 				</table>
-							<div style="position: relative;">
-				<div class="pagenate">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination" style="text-align: center;">
-							<c:set value="${hrList.size() >0 ? hrList.get(0).lastPage : 0}" var="lastPage" />
-							<c:set value="${hrList.size() >0 ? hrList.get(0).lastGroup : 0}" var="lastGroup" />
+				<div style="position: relative;">
+					<div class="pagenate">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination" style="text-align: center;">
+								<c:set value="${hrList.size() >0 ? hrList.get(0).lastPage : 0}" var="lastPage" />
+								<c:set value="${hrList.size() >0 ? hrList.get(0).lastGroup : 0}" var="lastGroup" />
+								
+								<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
+								<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+								
+								<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+								<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+								
+								
+								<c:if test="${nowGroup > 0}">
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+								</c:if>
 							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
-							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-							
-							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-							
-							
-							<c:if test="${nowGroup > 0}">
-								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
-								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-							</c:if>
-						
-							
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-								<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-							</c:forEach>
-							
-							<c:if test="${lastGroup > nowGroup}">
-								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
-							</c:if>
-						</ul>
-					</nav>
-				</div>
+								
+								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+									<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+								</c:forEach>
+								
+								<c:if test="${lastGroup > nowGroup}">
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+								</c:if>
+							</ul>
+						</nav>
+					</div>
 					<div style="position: absolute;right: 0;top: 0;">
-            			<button id="create-btn" type="button" class="btn btn-secondary">작성</button>
+	           			<button id="create-btn" type="button" class="btn btn-secondary">작성</button>
 	          		</div>
-			</div>
+				</div>
 		</div>
 			
 		<div class="layer_popup" id="layer_popup" style="display: none;">

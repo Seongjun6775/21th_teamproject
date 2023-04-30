@@ -125,6 +125,7 @@
 </script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
+		<div class="fs-6" style="margin: 0 20px">회원 > 채용</div>
 		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 	        <span class="fs-5 fw-bold">master 채용 디테일 테스트 / 채용 지원 상세조회 페이지(최고관리자)</span>
 	        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
@@ -135,7 +136,7 @@
 	        </div>
       	</div>
 			
-		<div class="bg-white rounded shadow-sm" style="width: 50%; padding: 23px 18px 23px 18px; overflow: auto;  margin:20px; display:inline-block">
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
 			<div style="padding:10px;">
 				<span class="fs-5 fw-bold">${hr.hrTtl}</span>
 				<div class="hr_detail_header">(${hr.hrId})</div>
@@ -143,87 +144,66 @@
 			
 			<div style="margin-top: 10px">
 			
-			<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
-				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
-				<%-- <div class="hr_detail_header">최종 수정일 : ${hr.hrMdfyDt}</div> --%>
-				<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
-				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
-			</div>
-			
-			<div style="padding:10px; ">
-				<div class="bg-warning rounded bg-opacity-25 padding: 10px; margin: 10px;"> 
-					<div style="display: ${hr.orgnFlNm == null ? '' : 'none'}; ">
-						<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
-					</div>
-					<div style="display: ${hr.orgnFlNm == null ? 'none' : ''}; margin-bottom: 20px; padding: 10px;">
-						<div class="hr_detail_header">첨부파일 : <a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm}</a></div>
-						<div class="hr_detail_header" style="float: right;"> ${hr.flSize/1024}KB</div>
-					</div>
+				<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
+					<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
+					<%-- <div class="hr_detail_header">최종 수정일 : ${hr.hrMdfyDt}</div> --%>
+					<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
+					<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
 				</div>
 				
-				<div style="padding: 10px;">
-					<div class="fw-semibold" style="margin-bottom: 100px; height:250px; overflow: auto;">${hr.hrCntnt}</div>
-				</div>
-				<div class="bg-white rounded shadow-sm" style="height:250px; width: 500px; padding: 23px 18px 23px 18px; overflow: auto;  margin:20px; display:inline-block">
-				<div style="margin-top: 10px">
-					<div style="padding:10px; ">
-						<div style="padding: 10px;">
-							<div>
-							<div class="container text-center margin-bottom: 20px">
-							  <div class="row">
-							    <div class="col border border-secondary">
-							      지원 직군
-							    </div>
-							    <div class="col border border-secondary">
-							      ${hr.cdNm}
-							    </div>
-							  </div>
-							  <div class="row">
-							    <div class="col border border-secondary">
-							      지원 상태
-							    </div>
-							    <div class="col border border-secondary">
-								    <c:choose>
-										<c:when test="${hr.hrStat eq '002-01'}"><div>접수</div></c:when>
-										<c:when test="${hr.hrStat eq '002-02'}"><div>심사중</div></c:when>
-										<c:when test="${hr.hrStat eq '002-03'}"><div>심사완료</div></c:when>
-										<c:otherwise></c:otherwise>
-									</c:choose>
-							    </div>
-							  </div>
-							  <div class="row">
-							    <div class="col border border-secondary">
-							      승인여부
-							    </div>
-							    <div class="col border border-secondary">
-							      ${hr.hrAprYn}
-							    </div>
-							  </div>
-							  <div class="row">
-							    <div class="col border border-secondary">
-							      승인 여부 변경 일자
-							    </div>
-							    <div class="col border border-secondary">
-							      ${hr.hrAprDt}
-							    </div>
-							  </div>
-							</div>
-							
-							</div> 
+				<div style="padding:10px; ">
+					<div class="bg-warning rounded bg-opacity-25 padding: 10px; margin: 10px;"> 
+						<div style="display: ${hr.orgnFlNm == null ? '' : 'none'}; ">
+							<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
 						</div>
+						<div style="display: ${hr.orgnFlNm == null ? 'none' : ''}; margin-bottom: 20px; padding: 10px;">
+							<div class="hr_detail_header">첨부파일 : <a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm}</a></div>
+							<div class="hr_detail_header" style="float: right;"> ${hr.flSize/1024}KB</div>
 						</div>
 					</div>
 					
-				</div>	
-					
-			</div>
-			<div style="margin: 0 0 10px 20px; float: right;">
-					<button id="hrApr_Y_btn" class="btn btn-success">채용</button>
-					<button id="hrApr_N_btn" class="btn btn-danger">미채용</button>
-			</div>
+					<div style="padding: 10px;">
+						<div class="fw-semibold" style="margin-bottom: 100px; height:220px; overflow: auto;">${hr.hrCntnt}</div>
+					</div>
+					<div style="display: flex;align-content: center;flex-wrap: wrap; flex-direction: column;">
+					<div class="card p-3">
+					<ul class="list-group mb-3" style="width: 300px;">
+				         <li class="list-group-item d-flex justify-content-between lh-sm">
+				           <div>
+				             <h6 class="my-0">지원 상태</h6>
+				           </div>
+				           <strong>
+				            <c:choose>
+							<c:when test="${hr.hrStat eq '002-01'}"><div>접수</div></c:when>
+							<c:when test="${hr.hrStat eq '002-02'}"><div>심사중</div></c:when>
+							<c:when test="${hr.hrStat eq '002-03'}"><div>심사완료</div></c:when>
+							<c:otherwise></c:otherwise>
+							</c:choose>
+				           </strong>
+				         </li>
+				         <li class="list-group-item d-flex justify-content-between bg-light">
+				           <div>
+				             <h6 class="my-0">지원직군</h6>
+				           </div>
+				           <strong> ${hr.cdNm}</strong>
+				         </li>
+				
+				         <li class="list-group-item d-flex justify-content-between lh-sm">
+				           <div>
+				             <h6 class="my-0">승인 여부 변경일자</h6>
+				             <small class="text-muted">${hr.hrAprDt}</small>
+				           </div>
+				           <strong class="text-muted">${hr.hrAprYn}</strong>
+				         </li> 
+			         </ul>
+			         <div style="margin: 0 0 10px 160px;">
+							<button id="hrApr_Y_btn" class="btn btn-success">채용</button>
+							<button id="hrApr_N_btn" class="btn btn-danger">미채용</button>
+					 </div>	
+			         </div>
+			       </div>
+				</div>
 			</div>
 		</div>
-
-
 <jsp:include page="../include/closeBody.jsp" />
 </html>
