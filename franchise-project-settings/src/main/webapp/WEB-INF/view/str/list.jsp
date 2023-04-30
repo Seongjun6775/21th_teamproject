@@ -11,10 +11,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
-<link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
 <script type="text/javascript">
 	$().ready(function() {
-		$(".grid > table > tbody > tr").click(function(){
+		$(".table_grid > table > tbody > tr").click(function(){
 			$("#isModify").val("true"); //수정모드
 			var data = $(this).data();
 			$("#strId").val(data.strid);
@@ -170,51 +171,35 @@
 		}
 		</script>
 </head>
-
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/strMgmtSideMenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-		
-			<div class="path"> 매장 관리
-				<div class="search-group" >	
-					<div class=" col-sm-3 col-xs-4">
-						<select id="search-select" class="input-text" style="width: 97%;" >
-							<option value="strNm"${searchIdx eq 'strNm' ?  'selected': ''}>매장명</option>
-							<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>점주ID</option>
-						</select> 
-					</div>  
-						<input name="keyword" type="text" class="input-text" placeholder="검색어를 입력해주세요" id="search-keyword"  style="width: 95%; height: 25px;" value="${keyword}" >
-						<button class="btn-search" id="search-btn" style="width: 42px;">검색</button>
-				</div>
-				
-				<!-- <div class="search-group">
-					<label for="search-keyword">매장명</label>
-					<input type="text" id="search-keyword" class="search-input" value="" />
-					<button class="btn-search" id="search-btn">검색</button>
-					<label for="search-keyword">관리자ID 조회</label>
-					<input type="text" id="search-keyword-mbrId" class="search-input" value=""/>
-					<button class="btn-search" id="search-btn">검색</button>
-				</div> -->
-			</div>
-				
-			<h1>매장 전체 조회</h1>
-			
-			<div class="grid">
-				
-					<div class="grid-count align-right">
-					 	총${strList.size() > 0 ? strList.get(0).totalCount : 0}건
-					</div>
-				
-			<table>
-				<thead>
+<jsp:include page="../include/openBody.jsp" />
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">매장 > 매장조회</span>
+	    </div>
+	    
+	    <!-- searchbar -->
+		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
+		  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
+		  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin: 15px;">
+		    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+		  </svg>	
+		    <select id="search-select" class="form-select input-text" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
+				<option value="">검색 조건</option>
+				<option value="strNm"${searchIdx eq 'strNm' ?  'selected': ''}>매장명</option>
+				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>점주ID</option>
+		    </select>
+		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
+		    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+		</div>
+		<!-- /searchbar -->	
+		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+		<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
+			<table class="table caption-top table-hover" style="text-align: center;">
+				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 					<tr>
-						<th><input type="checkbox" id="all_check" /></th>
-						<th>매장명</th>
-						<th>
-							<select class="selectFilter" name="selectFilter"
+						<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
+						<th scope="col" style="width:250px; padding: 20px 20px 8px 20px;">매장명</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
+							<select class="form-select" name="selectFilter" 
 										id="search-keyword-strLctn">
 								<option value="">지역명</option>
 								<c:choose>
@@ -227,8 +212,8 @@
 								</c:choose>
 							</select>
 						</th>
-						<th>
-							<select class="selectFilter" name="selectFilter"
+						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
+							<select class="form-select" name="selectFilter"
 										id="search-keyword-strCty">
 								<option value="">도시명</option>
 								<c:choose>
@@ -241,10 +226,10 @@
 								</c:choose>
 							</select>
 						</th>
-						<th>매장주소</th>
-						<th>전화번호</th>
-						<th>점주ID</th>
-						<th>상세조회</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">매장주소</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">전화번호</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">점주ID</th>
+						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
 						<th>사용여부</th> -->
@@ -310,132 +295,130 @@
 				</tbody>
 			</table>
 			<div class="pagenate">
-				<ul>
-					<c:set value="${strList.size() > 0 ? strList.get(0).lastPage : 0}" var="lastPage"/>
-					<c:set value="${strList.size() > 0 ? strList.get(0).lastGroup : 0}" var="lastGroup"/>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination" style="text-align: center;">
+						<c:set value="${strList.size() > 0 ? strList.get(0).lastPage : 0}" var="lastPage"/>
+						<c:set value="${strList.size() > 0 ? strList.get(0).lastGroup : 0}" var="lastGroup"/>
+						
+						<fmt:parseNumber var="nowGroup" value="${Math.floor(strVO.pageNo / 10)}" integerOnly="true"/>
+						<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
+						<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
+						<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
 					
-					<fmt:parseNumber var="nowGroup" value="${Math.floor(strVO.pageNo / 10)}" integerOnly="true"/>
-					<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
-					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
-					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
-				
+						
+						<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo"/>
+						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo"/>
 					
-					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo"/>
-					<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo"/>
-				
-					<c:if test="${nowGroup > 0}">
-						<li><a href="javascript:movePage(0)">처음</a></li>
-						<li><a href="javascript:movePage(${prevGroupStartpageNo})">이전</a></li>
-					</c:if>
+						<c:if test="${nowGroup > 0}">
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartpageNo})">이전</a></li>
+						</c:if>
+						
+						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+							<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq strVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+						</c:forEach>
 					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-						<li><a class="${pageNo eq strVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-					</c:forEach>
-				
-					<c:if test=" ${lastGroup > nowGroup}">
-						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-					</c:if>
-				</ul>
+						<c:if test=" ${lastGroup > nowGroup}">
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+						</c:if>
+					</ul>
+				</nav>
 			</div>
-			<div class="grid-strdetailmst" style="margin-top: 10px;">
-				<form id="strdetailmst_form">
+		</div>
+		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 1613px; margin:20px; height: auto;">
+				<div class="grid-detail">
+				<h5 style="padding:10px">매장 정보</h5>
+				<form id="strdetailmst_form" class="needs-validation">
 					<input type="hidden" id="isModify" value="false" />
-					<div class="input-group inline">
-						<label for="strId" style="width:180px">매장 ID</label>
-						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<label for="strNm" style="width:180px">매장명</label>
-						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}"/>
-					</div>
-					<div class="input-group inline">
-						<label for="strLctn" style="width:60px">지역</label>
-						<select class="selectFilter" name="strLctn" id="strLctn">
-							<option value="">지역명</option>
-							<c:choose>
-								<c:when test="${not empty lctList}">
-									<c:forEach items="${lctList}" var="lct">
-										<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</select>
-						<label for="strCty" style="width:60px">도시</label>
-						<select class="selectFilter" name="strCty" id="strCty">
-							<option value="">도시명</option>
-							<c:choose>
-								<c:when test="${not empty ctyList}">
-									<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
-										<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</select>
-					</div>
-
-					<div class="input-group inline">
-						<label for="strAddr" style="width:60px">매장주소</label>
-						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
-					</div>
-				    <div class="input-group inline">
-				        <label for="strCallNum" style="width:180px;">전화번호</label>
-				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
-				    </div>	
-				
-					<div class="input-group inline">
-						<label for="mbrId" style="width:180px">점주ID</label>
-						<%-- <select id="mbrId" name="mbrId">
-							<option value="">점주ID명</option>
-							<c:choose>
-								<c:when test="${not empty mbrList}">
-									<c:forEach items="${mbrList}"
-												var="mbr" >
-										<option value="${mbr.mbrId}">${mbr.mbrId}</option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</select> --%>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
-					</div>
-					<div class="input-group inline">
-						<label for="strOpnTm" style="width:180px">오픈시간</label>
-						<input type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
-					</div>
-					<div class="input-group inline">
-						<label for="strClsTm" style="width:180px">종료시간</label>
-						<input type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
-					</div>
-					<div class="input-group inline">
-						<label for="strRgstr" style="width:180px">등록자</label>
-						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<label for="strRgstDt" style="width:180px">등록일</label>
-						<input type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<label for="mdfyr" style="width:180px">수정자</label>
-						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${mbrVO.mbrId}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<label for="mdfyDt" style="width:180px">수정일</label>
-						<input type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<label for="useYn" style="width:180px">사용여부</label>
-						<input type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
+					<div class="row g-3 " style="display: inline-block; width: 50%;">
+						<div class="input-group col-12">
+							<span class="input-group-text">매장 ID</span>
+							<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  />
+						</div>
+						
+						<div class="input-group inline">
+							<span class="input-group-text">매장명</span>
+							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">지역명</span>
+							<select class="form-select" name="strLctn" id="strLctn">
+								<option value="">지역명</option>
+								<c:choose>
+									<c:when test="${not empty lctList}">
+										<c:forEach items="${lctList}" var="lct">
+											<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">도시명</span>
+							<select class="form-select" name="strCty" id="strCty">
+								<option value="">도시명</option>
+								<c:choose>
+									<c:when test="${not empty ctyList}">
+										<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
+											<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</div>
+		
+						<div class="input-group inline" >
+							<span class="input-group-text">매장주소</span>
+							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
+						</div>
+					    <div class="input-group inline">
+					        <span class="input-group-text">전화번호</span>
+					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
+					    </div>	
+					
+						<div class="input-group inline">
+							<span class="input-group-text">점주ID</span>
+							<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
+						</div>
+						</div>
+						
+						<div class="row g-3 half-right" style="display: inline-block; width: 30%; margin-left: 30px;">
+						<div class="input-group inline">
+							<span class="input-group-text">오픈시간</span>
+							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">종료시간</span>
+							<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">등록자</span>
+							<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  />
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">등록일</span>
+							<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">수정자</span>
+							<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${mbrVO.mbrId}" />
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">수정일</span>
+							<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
+						</div>
+						<div class="inline">
+							<label class="form-check-label">사용여부</label>
+							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
+						</div>
+						<div style="float:right; display: flex; flex-direction: row-reverse;">
+							<button id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
+							<button id="save_btn" class="btn btn-outline-success">등록</button>
+						</div>
 					</div>
 				</form>
 			</div>
 		</div>
-			<div class="align-right">
-				<button id="new_btn" class="btn-primary">신규</button>
-				<button id="save_btn" class="btn-primary">등록</button>
-				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
-			</div>
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

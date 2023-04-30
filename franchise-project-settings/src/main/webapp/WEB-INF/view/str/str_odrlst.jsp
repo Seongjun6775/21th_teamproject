@@ -285,13 +285,14 @@ function movePage(pageNo) {
 	
 		<div class="header">
 			<div class="bg-white rounded shadow-sm  " style="padding: 23px 18px 23px 18px; margin: 20px;">
-				<span class="fs-5 fw-bold">주문관리</span>
+				<span class="fs-5 fw-bold">매장 > 주문관리</span>
 		    </div>
  
-
-			<br>매장이름임 ${strVO.strNm} (${strVO.strId})
-			<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
-			<br>
+			<div style="margin-left: 30px;">
+				<br>매장이름임 ${strVO.strNm} (${strVO.strId})
+				<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
+				<br>
+			</div>
 		</div>
 		
 	    <!-- contents -->
@@ -301,7 +302,7 @@ function movePage(pageNo) {
 
 		<div class="flex full">
 			<div class="half-left">
-				<div class="half-top flex-column default-padding">
+				<div class="half-top flex-column default-padding" style="overflow: auto;">
 					<div class="topline">
 						<div class="inline-block">주문접수</div>
 						<div class="inline-block">
@@ -352,7 +353,7 @@ function movePage(pageNo) {
 					</div>
 				</div>
 				
-				<div class="half-bottom flex-column default-padding">
+				<div class="half-bottom flex-column default-padding"  style="overflow: auto;">
 					<div class="topline">
 						<div class="inline-block">주문처리</div>
 						<div class="inline-block">
@@ -404,7 +405,7 @@ function movePage(pageNo) {
 				</div>
 			</div>
 		
-			<div class="half-right default-padding">
+			<div class="half-right default-padding"  style="overflow: auto;">
 				<div class="topline">
 					<div class="inline-block">처리완료</div>
 				</div>

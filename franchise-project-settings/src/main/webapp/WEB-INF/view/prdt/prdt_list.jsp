@@ -625,7 +625,7 @@ function movePage(pageNo) {
 							style="vertical-align: top;">일괄삭제</button>
 				</div>
 				<div class="pagenate">
-					<ul>
+					<ul class="pagination" style="text-align: center;">
 						<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastPage : 0}" var="lastPage"></c:set>
 						<c:set value="${prdtList.size() > 0 ? prdtList.get(0).lastGroup : 0}" var="lastGroup"></c:set>
 						
@@ -639,17 +639,17 @@ function movePage(pageNo) {
 						
 						 
 						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a href="javascript:movePage(${prevGroupStartPageNo+prdtVO.prdtPageCnt-1})">이전</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo+prdtVO.prdtPageCnt-1})">이전</a></li>
 						</c:if>
 						
 						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1"	var="prdtPageNo">
-							<li><a class="${prdtPageNo eq prdtVO.prdtPageNo ? 'on' : ''}"  href="javascript:movePage(${prdtPageNo})">${prdtPageNo+1}</a></li>
+							<li class="page-item"><a class="page-link text-secondary" class="${prdtPageNo eq prdtVO.prdtPageNo ? 'on' : ''}"  href="javascript:movePage(${prdtPageNo})">${prdtPageNo+1}</a></li>
 						</c:forEach>
 						
 						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
 						</c:if>
 					</ul>
 				</div>

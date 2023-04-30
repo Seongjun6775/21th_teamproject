@@ -82,11 +82,11 @@
 				</div>
 				<!-- 조회영역 -->
 				<div class="admin_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
-					<div>총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
+					<div style="margin: 13px;">총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
 					<table class="table caption-top table-hover" style="text-align: center;">
-						<thead class="table-secondary">
+						<thead class="table-secondary " style="border-bottom: 2px solid #adb5bd;" >
 							<tr>
-								<th scope="col" class="col-1">ID</th>
+								<th scope="col" class="col-1"  style="border-radius: 6px 0 0 0;">ID</th>
 								<th scope="col" class="col-1">이름</th>
 								<th scope="col" class="col-1">이메일</th>
 								<th scope="col" class="col-1">
@@ -105,7 +105,7 @@
 								<th scope="col" class="col-1">최근 로그인</th>
 								<th scope="col" class="col-1">최근 로그인 IP</th>
 								<th scope="col" class="col-1">로그인 제한</th>
-								<th scope="col" class="col-1">
+								<th scope="col" class="col-1"  style="border-radius:0 6px 0 0;"> 
 									<select id="search-keyword-delYn" name="delYn" class="form-select" aria-label="Default select example">
 											<option value="">탈퇴유무</option>
 											<option value="Y" ${MbrVO.delYn eq 'Y' ? 'selected' : ''}>Y</option>
