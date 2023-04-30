@@ -1,6 +1,6 @@
 package com.ktds.fr.mbr.web;
 
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -216,17 +217,20 @@ public class RestMbrController {
 	}
 	//권한 해임
 	@PostMapping("/api/mbr/admin/fire")
-	public ApiResponseVO doFireAdmin(@SessionAttribute("__MBR__")MbrVO mbrVO,@RequestParam List<String> mbrIdList) {
-		if(mbrIdList == null || mbrIdList.size()==0) {
+	public ApiResponseVO doFireAdmin(@SessionAttribute("__MBR__")MbrVO mbr,@RequestBody List<MbrVO> mbrVOList) {
+		
+		if(mbrVOList == null || mbrVOList.size()==0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "해임하려는 직원을 다시 확인해 주세요.");
 		}
-		boolean delResult = mbrService.deleteAllMbrAdminByMbrId(mbrVO, mbrIdList);
+		boolean delResult = mbrService.deleteAllMbrAdminByMbrId(mbr, mbrVOList);
 		if(!delResult) {
 			throw new ApiException(ApiStatus.FAIL, "관리자 해임에 실패했습니다. 다시 시도해주세요."); 
 		}
-		
-		for (String mbrId : mbrIdList) {
-			SessionManager.getInstance().destroySession(mbrId);
+
+		for (MbrVO mbrVO : mbrVOList) {
+			if(SessionManager.getInstance().checkSession(mbrVO.getMbrId())) {
+				SessionManager.getInstance().destroySession(mbrVO.getMbrId());
+			}
 		}
 		
 		return new ApiResponseVO(ApiStatus.OK);

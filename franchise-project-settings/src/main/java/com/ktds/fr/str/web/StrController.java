@@ -89,6 +89,9 @@ public class StrController {
 		StrVO strVO = strService.readOneStrByMaster(strId);
 		List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
 	    List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
+	    mbrVO.setStrId(strId);
+	    List<MbrVO> mbrList = mbrService.readAllCrewMbrByStrId(mbrVO);
+	    model.addAttribute("mbrList",mbrList);
         model.addAttribute("ctyList", ctyList);
         model.addAttribute("lctList", lctList);
 		model.addAttribute("strVO", strVO);

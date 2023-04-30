@@ -349,7 +349,7 @@
 	<update id="deleteOneManagerByMbrId"
 			parameterType="string">
 			UPDATE STR
-			   SET MBR_ID = NULL 
+			   SET MBR_ID = '' 
 			 WHERE MBR_ID = #{_parameter}
 	</update>
 	<!-- 회원 기능과 연동 -->

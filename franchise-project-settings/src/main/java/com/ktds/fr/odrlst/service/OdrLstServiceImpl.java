@@ -38,6 +38,16 @@ public class OdrLstServiceImpl implements OdrLstService {
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO) {
 		return odrLstDAO.readAllMyOdrLst(odrLstVO);
 	}
+	
+	@Override
+	public OdrLstVO getOdrPrcs(String odrLstId) {
+		return odrLstDAO.getOdrPrcs(odrLstId);
+	}
+	
+	@Override
+	public OdrLstVO isThisMyOdrLst(String odrLstId) {
+		return odrLstDAO.isThisMyOdrLst(odrLstId);
+	}
 
 	@Override
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId) {
@@ -51,6 +61,9 @@ public class OdrLstServiceImpl implements OdrLstService {
 	
 	@Override
 	public boolean updateOdrPrcsToReadyByOdrLstId(String odrLstId) {
+		
+		
+		
 		return odrLstDAO.updateOdrPrcsToReadyByOdrLstId(odrLstId) > 0;
 	}
 	

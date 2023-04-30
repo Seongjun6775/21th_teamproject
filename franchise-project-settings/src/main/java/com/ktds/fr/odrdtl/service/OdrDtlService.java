@@ -23,32 +23,11 @@ public interface OdrDtlService {
 	public List<OdrDtlVO> readAllOdrDtlByOdrLstIdAndMbrId(OdrDtlVO odrDtlVO);
 	
 	/**
-	 * 주문서 ID를 기준으로 그 주문서를 생성한 회원의 ID를 받아옵니다.
-	 * @param odrLstId 주문서 ID
-	 * @return 회원 ID
-	 */
-	public OdrLstVO isThisMyOdrLst(String odrLstId);
-	
-	/**
-	 * 주문서 ID를 기준으로 현재 주문 상태를 받아옵니다.(OdrDtlController에서 사용합니다.)
-	 * @param odrLstId 주문서 ID
-	 * @return odrLstOdrPrcs(주문 처리 상태)
-	 */
-	public OdrLstVO getOdrPrcs(String odrLstId);
-	
-	/**
 	 * 주문 상세 ID를 기준으로 그 주문에 대해 상세 조회합니다.
 	 * @param odrDtlId 주문 상세 ID
 	 * @return 주문한 상품의 상세 정보
 	 */
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId);
-	
-	/**
-	 * OdrDtl을 생성하기 위해 주문한 물품의 물품 + 매장 정보를 가져옵니다.
-	 * @param strPrdtId 매장 + 물품 ID
-	 * @return 주문한 물품의 상세 정보
-	 */
-	public StrPrdtVO readOneCustomerByStr(String strPrdtId);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문의 정보를 수정합니다.
@@ -59,31 +38,33 @@ public interface OdrDtlService {
 	
 	/**
 	 * 주문 상세 ID를 기준으로 그 주문을 삭제합니다.
-	 * @param odrDtlId 주문 상세 ID
+	 * @param odrDtlVO 주문 상세 ID + 현재 접속한 계정 ID
 	 * @return 삭제 여부
 	 */
-	public boolean deleteOneOdrDtlByOdrDtlId(String odrDtlId);
+	public boolean deleteOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO);
+	
+	/**
+	 * 주문서 ID를 기준으로 주문서 내의 모든 상품들을 삭제합니다.
+	 * @param odrDtlVO 주문서 ID + 현재 접속한 계정 ID
+	 * @return 삭제 여부
+	 */
+	public boolean deleteAllOdrDtlByOdrLstId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 주문 상세 ID를 기준으로 선택한 주문들을 삭제합니다.
 	 * @param odrDtlId 주문 상세 ID
 	 * @return 삭제 여부
+	 * 
+	 * 전체 삭제 기능이 생긴 관계로, 지금은 사용하지 않는 기능입니다.
+	 * 
 	 */
 	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId);
-	
-	/**
-	 * 주문서 ID를 기준으로 그 주문서를 삭제합니다. (RestOdrDtlController 에서 사용합니다.)
-	 * @param odrLstId 주문서 ID
-	 * @return 삭제 여부
-	 */
-	public boolean deleteOneOdrLstByOdrLstId(String odrLstId);
-
 	
 	
 	/**
 	 * 매장에서 보는 주문서의 디테일 / 노 페이지네이션
 	 */
-	public List<OdrDtlVO> odrDtlForOdrLst(OdrDtlVO odrDtlVO);
+	public List<OdrDtlVO> odrDtlForOdrLst(String odrDtlId);
 	
 }
 

@@ -88,17 +88,17 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 		<div class="container">
 
 			<ul class="tabs">
-				<li class="tab-link current" data-tab="tab-1"><a
+				<li class="tab-link" data-tab="tab-1"><a
 					href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a></li>
 				<li class="tab-link" data-tab="tab-2"><a
 					href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a></li>
-				<li class="tab-link" data-tab="tab-3"><a
+				<li class="tab-link current" data-tab="tab-3"><a
 					href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a></li>
 			</ul>
 
-			<div id="tab-1" class="tab-content current"></div>
+			<div id="tab-1" class="tab-content"></div>
 			<div id="tab-2" class="tab-content"></div>
-			<div id="tab-3" class="tab-content"></div>
+			<div id="tab-3" class="tab-content current"></div>
 
 		</div>
 

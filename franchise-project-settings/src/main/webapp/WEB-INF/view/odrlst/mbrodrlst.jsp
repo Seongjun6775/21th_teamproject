@@ -22,6 +22,16 @@
 			}
 		});
 		
+	/*
+	
+	
+	
+	
+		일괄 삭제 기능입니다. 현재 사용되지 않습니다.
+	
+	
+	
+	
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
@@ -53,6 +63,7 @@
 			location.reload();
 			
 		});
+	*/
 		
 		$(".delete_btn").click(function(){
 			
@@ -87,12 +98,12 @@
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<div>총 ${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}건</div>
-			<button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button>
+			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
 			<div class="odrlst_table_grid">
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th><input type="checkbox" id="all_check"/></th>
+							<!-- <th><input type="checkbox" id="all_check"/></th> -->
 							<th>주문 번호</th>
 							<th>주문 일자</th>
 							<th>주문 매장</th>
@@ -113,7 +124,7 @@
 										data-mdfyr="${odrLst.mdfyr}"
 										data-useyn="${odrLst.useYn}"
 										data-delyn="${odrLst.delYn}">
-										<td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${odrLst.odrLstId}" /></td>
+										<!-- <td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${odrLst.odrLstId}" /></td> -->
 										<td>${odrLst.odrLstId}</td>
 										<td>${odrLst.odrLstRgstDt}</td>
 										<td>${odrLst.strVO.strNm}</td>
@@ -130,7 +141,7 @@
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<td colspan="6">주문 내역이 없습니다.</td>
+								<td colspan="5">주문 내역이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>

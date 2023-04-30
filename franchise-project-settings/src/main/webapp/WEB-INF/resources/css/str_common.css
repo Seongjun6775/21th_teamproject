@@ -1,11 +1,11 @@
 @charset "UTF-8";
-table{
+/* table{
 	border: solid 1px #333;
-	
-}
-table th, td {
+	 
+} */
+/* table th, td {
 	border: solid 1px #333;
-}
+} */
 .grid{
 	border: solid 1px #333;
 }
