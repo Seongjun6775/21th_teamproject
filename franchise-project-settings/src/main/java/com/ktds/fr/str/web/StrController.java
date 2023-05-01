@@ -74,14 +74,20 @@ public class StrController {
 	        
 	    } else if (mbrVO.getMbrLvl().equals("001-02")) {
 	    	return "redirect:/str/strdetailmgn/" + mbrVO.getStrId();
-	    } else {
-	        return "redirect:/index";
+	    	
+	    } else{
+	    	return "redirect:/str/customer";
 	    }
 	}
 	
 	@GetMapping("/str/create")
 	public String viewStrCreatePage() {
 		return "str/create";
+	}
+	
+	@GetMapping("/str/customer")
+	public String viewCustomerMapPage() {
+		return "str/customer";
 	}
 	
 	@GetMapping("/str/strdetailmst/{strId}")
@@ -154,22 +160,28 @@ public class StrController {
 	@GetMapping("/str/odrlst")
 	public String viewOdrLstForStr(Model model
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
-		OdrLstVO odrLstVO = new OdrLstVO();
-		odrLstVO.setStrId(mbrVO.getStrId());
-		
-		List<OdrLstVO> ordLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
-		odrLstVO.setOdrLstOdrPrcs("003-04");
-		List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
-		
-		
-		model.addAttribute("mbrVO", mbrVO);
-		model.addAttribute("strVO", strVO);
-		model.addAttribute("ordLstList", ordLstList);
-		model.addAttribute("ordLstCompleteList", ordLstCompleteList);
-		
-		return "str/str_odrlst";
-	}
+		if (mbrVO.getMbrLvl().equals("001-03")) {
+	    	return "redirect:/index" + mbrVO.getStrId();
+	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
+	    		return "redirect:/index" + mbrVO.getStrId();
+	    	} else {
+				StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
+				OdrLstVO odrLstVO = new OdrLstVO();
+				odrLstVO.setStrId(mbrVO.getStrId());
+				
+				List<OdrLstVO> ordLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
+				odrLstVO.setOdrLstOdrPrcs("003-04");
+				List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
+				
+				
+				model.addAttribute("mbrVO", mbrVO);
+				model.addAttribute("strVO", strVO);
+				model.addAttribute("ordLstList", ordLstList);
+				model.addAttribute("ordLstCompleteList", ordLstCompleteList);
+				
+				return "str/str_odrlst";
+	    	}
+		}
 	
 	/**
 	 * 전체 주문서 조회 (+취소 포함) 
@@ -177,6 +189,11 @@ public class StrController {
 	@GetMapping("/str/completeOdr")
 	public String viewcompleteOdrForStr(Model model
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-03")) {
+	    	return "redirect:/index" + mbrVO.getStrId();
+	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
+	    		return "redirect:/index" + mbrVO.getStrId();
+	    	} else {
 		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
 		OdrLstVO odrLstVO = new OdrLstVO();
 		odrLstVO.setStrId(mbrVO.getStrId());
@@ -189,6 +206,7 @@ public class StrController {
 		model.addAttribute("ordLstList", ordLstList);
 		
 		return "str/str_complete_odr";
+	    }
 	}
 	
 	

@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function sample4_execDaumPostcode() {
@@ -232,6 +233,7 @@
 		}
 		</script>
 </head>
+
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 			<span class="fs-5 fw-bold">매장 > 매장조회</span>
@@ -390,7 +392,7 @@
 		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 1613px; margin:20px; height: auto;">
 				<div class="grid-detail">
 				<h5 style="padding:10px">매장 정보</h5>
-				<form id="strdetailmst_form" class="needs-validation">
+				<form id="strdetailmst_form" class="needs-validation" style="width: 50%;">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="row g-3 " style="display: inline-block; width: 50%;">
 						<div class="input-group col-12">
@@ -428,10 +430,21 @@
 								</c:choose>
 							</select>
 						</div>
-		
+						
 						<div class="input-group inline" >
 							<span class="input-group-text">매장주소</span>
 							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
+						</div>
+						<div class="input-group inline" >
+							<input type="text" id="sample4_postcode" placeholder="우편번호">
+							<input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기"><br>
+							<input type="text" id="sample4_sido" placeholder="지역">
+							<input type="text" id="sample4_sigungu" placeholder="도시">
+							<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
+							<input type="text" id="sample4_jibunAddress" placeholder="지번주소">
+							<span id="guide" style="color:#999;display:none"></span>
+							<input type="text" id="sample4_detailAddress" placeholder="상세주소">
+							<input type="text" id="sample4_extraAddress" placeholder="참고항목">
 						</div>
 					    <div class="input-group inline">
 					        <span class="input-group-text">전화번호</span>
