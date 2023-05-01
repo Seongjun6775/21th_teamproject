@@ -15,10 +15,6 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
-		$("#list_btn").click(function() {
-			location.href="${context}/hr/list";
-		});
-		
 		$("#cancel_btn").click(function() {
 			if (!confirm("작성을 취소하시겠습니까?")) {
 				return;
@@ -48,29 +44,22 @@
 </script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
-			<h3>채용 지원 작성 페이지 테스트</h3>
-					<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin: 20px;">
 	        <span class="fs-5 fw-bold"> 회원 > 채용 > 채용 지원</span>
-	        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
-			  <button id="list_btn" class="btn btn-secondary" >목록</button>
-	        </div>
       		</div>
 			
-			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin:20px;">
 				<form id="hr_form" enctype="multipart/form-data">
+					<h3>채용 지원 작성 페이지 테스트</h3>
+					<div style="width:70%">
 					<div>
 						<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
 					</div>
-					<div>
-						<label for="mbrId">작성자</label>
-						<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
-					</div>
-					
-					<div class="input-group">
-						<label for="prdtNm" class="col-form-label">작성자</label>
+					<div class="input-group" style="display: flex; flex-direction: row-reverse;">
 						<div>
-							<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}"  class="form-control" readonly />
+							<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" class="form-control" readonly />
 						</div>
+						<label class="col-form-label" style="margin-right: 20px;">작성자</label>
 					</div>
 					<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
 						<select id="hrLvl">
@@ -79,30 +68,31 @@
 							<option value="005-02">직원</option>
 						</select>
 					</div>
-
-		
 					<div>
-						<label for="hrTtl">제목</label>
-						<input type="text" id="hrTtl" name="hrTtl" />
+						<label for="hrTtl" class="col-form-label">제목</label>
+						<div>
+							<input type="text" id="hrTtl" class="form-control" name="hrTtl" />
+						</div>
 						
 					</div>
-					<div>
-						<label for="hrFile">파일 첨부</label>
-						<input type="file" id="hrFile" name="hrFile" />
+					<div style="margin: 20px 0 20px; display: flex; flex-direction: row-reverse;">
+						<input type="file" id="hrFile" name="hrFile" class="form-control" style="width: 90%;"/>
+						<label for="hrFile" style="margin: 10px;">파일첨부</label>
 					</div>
-					<div class="input-group" style="flex: 1;">
-						<label for="hrCntnt" class="col-form-label">본문</label>
-						<div>
-							<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem; height:100px; resize: none;"
-									 placeholder="4000자 까지 입력하실 수 있습니다" class="form-control"></textarea>
-						</div>
+					<label for="hrCntnt" class="col-form-label">본문</label>
+					<div class="input-group">
+						<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
+								 placeholder="4000자 까지 입력하실 수 있습니다" class="form-control"></textarea>
 					</div>
-				</form>
-				
-				<div>
-					<button id="save_btn">작성</button>
-					<button id="cancel_btn">취소</button>
+					<div style="float: right; margin: 20px 0 20px 20px">
+						<button id="save_btn" class="btn btn-success">작성</button>
+						<button id="cancel_btn" class="btn btn-secondary">취소</button>
+					</div>
 				</div>
+				</form>
+					
+				
+			
 			</div>
 			
 <jsp:include page="../include/closeBody.jsp" />

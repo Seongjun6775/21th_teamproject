@@ -33,25 +33,18 @@
 
 </script>
 </head>
-<body>
-<div class="main-layout">	
-	<jsp:include page="../include/header.jsp" />	
-	<div>
-		<jsp:include page="../include/sidemenu.jsp" />
-		<jsp:include page="../include/content.jsp" />
+<jsp:include page="../include/openBody.jsp" />
 		<div>
 			<div style="display: block; padding: 20px;">
-				<div class="list-title">
-					<h3 class="list-title">고객센터</h3>
-				</div> 
-				
-			    <div class="qna_box row" >	 
-					<a href="${context}/hlpdsk/write" class="qna-btn" style="text-decoration: none; width:70%;"> 문의/건의 </a>
-				</div>		
-				<div class= "grid">
-				
-					<table>
-						<thead>
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+				<span class="fs-5 fw-bold">고객센터</span>
+	    	</div>
+				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+					<div class="qna_box row" >	 
+						<a href="${context}/hlpdsk/write" class="qna-btn" style="text-decoration: none; width:70%;"> 문의/건의 </a>
+					</div>
+					<table class="table caption-top table-hover" style="text-align: center;">
+						<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 							<tr>
 								<th>글번호</th>
 								<th>문의/건의</th>	
@@ -97,7 +90,7 @@
 					</table>
 				
 					 <div class="pagenate">
-						<ul>
+						<ul class="pagination" style="text-align: center;">
 							<c:set value = "${myHlpDskList.size() > 0 ? myHlpDskList.get(0).lastPage : 0}" var="lastPage"/>
 							<c:set value = "${myHlpDskList.size() > 0 ? myHlpDskList.get(0).lastGroup : 0}" var="lastGroup"/>
 							
@@ -109,16 +102,16 @@
 							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
 							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
 							<c:if test="${nowGroup > 0}">
-								<li><a href="javascript:movePage(0)">처음</a></li>
-								<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
 							</c:if>
 							
 							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
-								<li><a class="${pageNo eq hlpDskVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+								<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq hlpDskVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 							</c:forEach>
 							<c:if test="${lastGroup > nowGroup}">
-								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
 							</c:if>
 						</ul>
 					</div>			

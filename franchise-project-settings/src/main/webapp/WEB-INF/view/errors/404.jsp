@@ -20,19 +20,13 @@ $().ready(function() {
 });
 	</script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"/>
-		<div>
-			<jsp:include page="../include/sidemenu.jsp"/>
-			<jsp:include page="../include/content.jsp"/>
-
-			<div class="path"> 매장 관리 > 상세 조회 > 조회 오류</div>
-			<h1>중간관리자는 다른 매장을 볼 수 없습니다!</h1>
-			<div class="align-right">
-			<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+				 매장 관리 > 상세 조회 > 조회 오류
 			</div>
-		</div>
-	</div>
-</body>
+			<div class="align-right">
+				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
+			</div>
+			<h1 style="margin:20px">중간관리자는 다른 매장을 볼 수 없습니다!</h1>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
