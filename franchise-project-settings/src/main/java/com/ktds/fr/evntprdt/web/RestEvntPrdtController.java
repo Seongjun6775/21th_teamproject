@@ -65,7 +65,7 @@ public class RestEvntPrdtController {
 	public ApiResponseVO doCreateEvntPrdtList(@RequestParam List<String> prdtId,
 			@RequestParam List<String> evntPrdtChngPrc, @RequestParam String evntId,
 			@SessionAttribute("__MBR__") MbrVO mbrVO) {
-
+			
 		List<EvntPrdtVO> listEvntPrdt = new ArrayList<>();
 		EvntPrdtVO evntPrdtVO;
 		String failPrdt = "";
@@ -83,9 +83,15 @@ public class RestEvntPrdtController {
 				continue;
 
 			}
-
-			int price = Integer.parseInt(evntPrdtChngPrc.get(i).replaceAll(",", ""));
+			
+			
+			
+			
+			
+			int price = Integer.parseInt(evntPrdtChngPrc.get(i).replaceAll(",", ""));		
 			evntPrdtVO.setEvntPrdtChngPrc(price);
+			
+			
 			listEvntPrdt.add(evntPrdtVO);
 		}
 		System.out.println(listEvntPrdt.size() + "배열크기가 몇이냐");

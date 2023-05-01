@@ -78,8 +78,8 @@
 		
 		//'목록으로'버튼 누르면 뒤로 돌아가기
 		$("#btn-cancle").click(function() {
-			//location.href="${context}/evnt/list3"
-			history.go(-1);
+			location.href="${context}/evnt/list"
+			//history.go(-1);
 		});
 		
 		//'참여매장목록' 버튼 클릭 시 팝업창으로 리스트 뜸
