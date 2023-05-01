@@ -131,7 +131,7 @@ function movePage(pageNo) {
 			<span class="fs-5 fw-bold">메뉴 > 매장별 메뉴관리</span>
 	</div>
 	<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-		<div style="margin: 13px;">총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건</div>
+<%-- 		<div style="margin: 13px;">총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건</div> --%>
 		<table class="table caption-top table-hover" style="text-align: center;">
 			<thead class="table-secondary">
 				<tr>
@@ -296,9 +296,9 @@ function movePage(pageNo) {
 			</div>
 		</div>
 		
-		<div class="align-right grid-btns">
-			<a href="${context}/prdt/list"><button class="btn btn-secondary">메뉴리스트</button></a>
-		</div>
+<!-- 		<div class="align-right grid-btns"> -->
+<%-- 			<a href="${context}/prdt/list"><button class="btn btn-secondary">메뉴리스트</button></a> --%>
+<!-- 		</div> -->
 		
 		<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 			<button id="btn-missingCheck"class="btn-primary btn-delete" style="vertical-align: top;">누락체크</button>
