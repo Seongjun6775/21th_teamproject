@@ -296,7 +296,7 @@ a[role=button]:focus {
 								var="prdt">
 						<div class="itemList" data-prdtid="${prdt.prdtId}">
 							<div class="prdt card shadow" style="padding: 24px; border-radius: 24px;">
-								<div class="img-box">
+								<div class="img-box" style="width: 100%">
 									<c:choose>
 										<c:when test="${empty prdt.uuidFlNm}">
 											<img src="${context}/img/default_photo.jpg">
