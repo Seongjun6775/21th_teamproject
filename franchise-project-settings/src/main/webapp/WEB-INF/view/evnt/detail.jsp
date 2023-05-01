@@ -102,14 +102,11 @@
 	})
 </script>
 </head>
-<body>
-
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/evntSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-		<div>
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">이벤트 > 상세페이지</span>
+	</div>
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<table border=1 style="width: 600px;">
 				<tr>
 					<td colspan="4"><h1 style="text-align: center;">이벤트 상세페이지</h1></td>
@@ -194,10 +191,7 @@
 				</tr>
 			</table>
 		</div>
-		<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-	
+<jsp:include page="../include/closeBody.jsp" />
  	<%-- <script type="text/javascript">
 	const btn1 = document.getElementById("btn-evntStr");
 	const btn2 = document.getElementById("btn-createEvntStr");
@@ -218,5 +212,5 @@
 	</script>  --%>
 	
 	
-</body>
+
 </html>

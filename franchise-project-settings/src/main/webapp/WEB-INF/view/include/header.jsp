@@ -20,7 +20,7 @@ $().ready(function() {
 }); 
 </script>
 <!-- header -->
-  <header class="p-3 mb-3">
+  <header class="p-3 mb-1">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" style=" height: 30px; padding:10px 30px 0px 0px; margin: 0px;">
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         </ul>

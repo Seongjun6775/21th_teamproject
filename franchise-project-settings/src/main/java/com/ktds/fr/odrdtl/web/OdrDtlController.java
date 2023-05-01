@@ -13,6 +13,7 @@ import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.odrlst.service.OdrLstService;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 @Controller
@@ -21,12 +22,15 @@ public class OdrDtlController {
 	@Autowired
 	public OdrDtlService odrDtlService;
 	
+	@Autowired
+	public OdrLstService odrLstService;
+	
 	@GetMapping("/odrdtl/list/{odrLstId}")
 	public String viewOdrDtlListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 								, @PathVariable String odrLstId, OdrDtlVO odrDtlVO, Model model) {
 		
 		// 주문서를 작성한 회원의 ID를 받아옵니다.
-		OdrLstVO lstMbrId = odrDtlService.isThisMyOdrLst(odrLstId);
+		OdrLstVO lstMbrId = odrLstService.isThisMyOdrLst(odrLstId);
 		
 		// 주문서에 접근한 계정이 그 주문서를 작성한 계정인지 확인합니다.
 		if (!lstMbrId.getMbrId().equals(mbrVO.getMbrId())) {
@@ -41,7 +45,7 @@ public class OdrDtlController {
 			List<OdrDtlVO> odrDtlList = odrDtlService.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
 			
 			// 주문서의 주문 상태 역시 함께 가져옵니다. (결제 여부 확인 시에 사용합니다.)
-			OdrLstVO odrPrcs = odrDtlService.getOdrPrcs(odrLstId);
+			OdrLstVO odrPrcs = odrLstService.getOdrPrcs(odrLstId);
 			
 			model.addAttribute("odrDtlList", odrDtlList);
 			model.addAttribute("odrLstId", odrLstId);
@@ -62,7 +66,7 @@ public class OdrDtlController {
 		OdrDtlVO odrDtl = odrDtlService.readOneOdrDtlByOdrDtlId(odrDtlId);
 		
 		// 해당 주문이 포함된 주문서의 주문 상태도 가져옵니다.
-		OdrLstVO odrPrcs = odrDtlService.getOdrPrcs(odrDtl.getOdrLstId());
+		OdrLstVO odrPrcs = odrLstService.getOdrPrcs(odrDtl.getOdrLstId());
 		
 		// 접근한 계정이 해당 주문 상세의 작성자가 맞는지 확인합니다.
 		if (mbrVO.getMbrLvl().equals("001-04") && odrDtl.getMbrId().equals(mbrVO.getMbrId())) {

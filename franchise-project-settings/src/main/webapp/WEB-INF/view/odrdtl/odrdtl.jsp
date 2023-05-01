@@ -82,7 +82,15 @@
 				return;
 			}
 			
-			$.post("${context}/api/odrdtl/update/${odrDtl.odrDtlId}", {"odrDtlPrdtCnt": cnt}, function(response) {
+			var odrDtlPrc = 0;
+			if ("${odrDtl.prdtVO.evntPrdtVO.evntId}" == "") {
+				odrDtlPrc = ${odrDtl.prdtVO.prdtPrc};
+			}
+			else {
+				odrDtlPrc = ${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc};
+			}
+			
+			$.post("${context}/api/odrdtl/update/${odrDtl.odrDtlId}", {"odrDtlPrdtCnt": cnt, "odrDtlPrc": odrDtlPrc}, function(response) {
 				if (response.status == "200 OK") {
 					location.href = "${context}/odrdtl/list/${odrDtl.odrLstId}";
 				}

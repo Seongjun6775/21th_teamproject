@@ -523,3 +523,10 @@ h1{
 	border-radius: 4px;
 	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
+.admin_table_grid tr:hover{
+	cursor: pointer;
+}
+.btn-bold{
+	border: solid 2px; 
+	font-weight: 800;
+}

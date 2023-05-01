@@ -85,70 +85,64 @@ $().ready(function() {
 </script>
 
 </head>
-<body>
-
-   <div class="main-layout" >
-  	 <jsp:include page="../include/header.jsp" />	
-	<div>
-		<jsp:include page="../include/evntSidemenu.jsp" />
-		<jsp:include page="../include/content.jsp" />
-		
-		<form id="form-create" enctype="multipart/form-data">
-			<input type="hidden" id="evntId"
-						style="width: 99%;" readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."value=""  />
-			<div>
-				<table border=1 style="width: 600px;">
-				<tr>
-					<td colspan="4"><h1 style="text-align: center;">이벤트 등록
-							페이지</h1></td>
-				</tr>
-
-				<tr>
-					<td>이벤트 제목</td>
-					<td colspan="3"><input type="text" id="evntTtl"
-						style="width: 99%;" value="" /></td>
-				</tr>
-
-				<tr>
-					<td>이벤트 내용</td>
-					<td colspan="3"><input type="text" id="evntCntnt"
-						style="width: 99%; height: 99px" value="" /></td>
-				</tr>
-
-				<tr>
-					<td>이벤트 시작일</td>
-					<td><input type="date" id="evntStrtDt" value="" /></td>
-					<td>이벤트 종료일</td>
-					<td><input type="date" id="evntEndDt" value="" /></td>
-				</tr>
-				<tr>
-					<td>이벤트 사진</td>
-					<td colspan="3">
-					<input type="file" name="orgnFlNm" id="orgnFlNm"
-						   style="width: 200px;" value="" accept="image/png, image/jpeg"/>					
-				    <!-- <input type="submit" value="사진 업로드"></td>		 -->		
-				</tr>
-				<tr>
-					<td>사용 여부</td>
-					<td><input type="checkbox" id="useYn" onClick="check(this)" value=""/></td>
-					<td>삭제 여부</td>
-					<td><input type="checkbox" id="delYn" onClick="check(this)" value="" /></td>
-				</tr>
-				<tr>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td></td>
-					<td><button type="button" id="btn-create" class="btn-primary" style="width:100%;">등록</button></td>
-					<td><button id="btn-cancle" class="btn-primary" style="width:100%;">돌아가기</button></td>
-				</tr>
-			</table>
-		</div>
+<jsp:include page="../include/openBody.jsp" />
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">이벤트 > 이벤트 등록</span>
+	    </div>
+	    <div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+			<form id="form-create" enctype="multipart/form-data">
+				<input type="hidden" id="evntId"
+							style="width: 99%;" readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."value=""  />
+				<div>
+					<table border=1 style="width: 600px;">
+					<tr>
+						<td colspan="4"><h1 style="text-align: center;">이벤트 등록
+								페이지</h1></td>
+					</tr>
 	
-	</form>
-			<jsp:include page="../include/footer.jsp" />
+					<tr>
+						<td>이벤트 제목</td>
+						<td colspan="3"><input type="text" id="evntTtl"
+							style="width: 99%;" value="" /></td>
+					</tr>
+	
+					<tr>
+						<td>이벤트 내용</td>
+						<td colspan="3"><input type="text" id="evntCntnt"
+							style="width: 99%; height: 99px" value="" /></td>
+					</tr>
+	
+					<tr>
+						<td>이벤트 시작일</td>
+						<td><input type="date" id="evntStrtDt" value="" /></td>
+						<td>이벤트 종료일</td>
+						<td><input type="date" id="evntEndDt" value="" /></td>
+					</tr>
+					<tr>
+						<td>이벤트 사진</td>
+						<td colspan="3">
+						<input type="file" name="orgnFlNm" id="orgnFlNm"
+							   style="width: 200px;" value="" accept="image/png, image/jpeg"/>					
+					    <!-- <input type="submit" value="사진 업로드"></td>		 -->		
+					</tr>
+					<tr>
+						<td>사용 여부</td>
+						<td><input type="checkbox" id="useYn" onClick="check(this)" value=""/></td>
+						<td>삭제 여부</td>
+						<td><input type="checkbox" id="delYn" onClick="check(this)" value="" /></td>
+					</tr>
+					<tr>
+					</tr>
+					
+					<tr>
+						<td></td>
+						<td></td>
+						<td><button type="button" id="btn-create" class="btn-primary" style="width:100%;">등록</button></td>
+						<td><button id="btn-cancle" class="btn-primary" style="width:100%;">돌아가기</button></td>
+					</tr>
+				</table>
+			</div>
+		</form>
 	</div>
-</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

@@ -28,6 +28,19 @@
 				location.href="${context}/odrdtl/" + data.odrdtlid;
 			}
 		});
+	/*
+	
+	
+	
+	
+	
+	
+		선택 삭제 기능입니다. 현재 사용하지 않는 상태입니다.
+	
+		
+		
+		
+		
 		
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
@@ -69,7 +82,7 @@
 			location.reload();
 			
 		});
-		
+ */		
 		$(".delete_btn").click(function(){
 			
 			if (odrPrcs != "003-01") {
@@ -85,26 +98,42 @@
 				return;
 			}
 			var odrDtlId = $(this).val();
-			$.post("${context}/api/odrdtl/delete/" + odrDtlId, function(response) {
+			$.post("${context}/api/odrdtl/deleteone/" + odrDtlId, function(response) {
 				if (response.status == "200 OK") {
 					location.href = "${context}/odrdtl/list/${odrLstId}"
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
 				}
-			})
+			});
 			
 		});
+ 
+ 		$("#delete_all_btn").click(function() {
+ 			if (odrPrcs != "003-01" && odrPrcs != "003-05") {
+ 				alert("이미 주문 처리된 주문서입니다.");
+ 				return;
+ 			}
+ 			
+ 			if (!confirm("주문서에서 모든 상품들을 삭제하시겠습니까?")) {
+ 				return;
+ 			}
+ 			
+ 			$.post("${context}/api/odrdtl/delete/${odrLstId}", function(response) {
+ 				if (response.status == "200 OK") {
+					location.href = "${context}/odrdtl/list/${odrLstId}"
+				}
+				else {
+					alert(response.errorCode + " / " + response.message);
+				}
+ 			});
+ 			
+ 		});
 		
 		$("#pay_btn").click(function() {
 			
 			var pyMn = ${mbrVO.mbrPyMn};
 			var sumPrice = parseInt($("#sum").val());
-			
-			console.log(odrPrcs);
-			console.log(odrPrcs);
-			console.log(odrPrcs);
-			console.log(odrPrcs);
 			
 			if (odrPrcs != "003-01") {
 				if (odrPrcs == "003-05") {
@@ -157,13 +186,12 @@
 			
 			<h2>구매 예정 물품 조회 페이지</h2>
 			<div>총 ${odrDtlList.size() > 0 ? odrDtlList.get(0).totalCount : 0}건</div>
-			<button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button>
-			
+			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
 			<div class="odrdtl_table_grid">
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th><input type="checkbox" id="all_check"/></th>
+							<!-- <th><input type="checkbox" id="all_check"/></th> -->
 							<th>사진</th>
 							<th>상품명</th>
 							<th>수량</th>
@@ -189,7 +217,7 @@
 										data-prdtprc="${odr.prdtVO.prdtPrc}"
 										data-strnm="${odr.strVO.strNm}"
 										data-strcallnum="${odr.strVO.strCallNum}">
-										<td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${odr.odrDtlId}" /></td>
+										<!-- <td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${odr.odrDtlId}" /></td> -->
 										<td><img src=""></td>
 										<td>${odr.prdtVO.prdtNm}</td>
 										<td>${odr.odrDtlPrdtCnt}</td>
@@ -224,20 +252,23 @@
 								<input type="hidden" id="sum" value='<c:out value="${sum}"/>'/>
 							</c:when>
 							<c:otherwise>
-								<td colspan="9">주문 내역이 없습니다.</td>
+								<td colspan="8">주문 내역이 없습니다.</td>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
 				</table>
 				
 				<div>
-					<div>
-						<div style="display: inline-block;">합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
-						<div style="display: inline-block;">충전 잔량 : <span><c:out value="${mbrVO.mbrPyMn}" /></span>원</div>
-					</div>
-					<div>
-						<button id="pay_btn" type="button" class="btn btn-success">결제하기</button>
-						<button id="list_btn" type="button" class="btn btn-secondary">목록</button>
+					<div style="position: relative;'">
+						<div style="position: absolute; right: 10px; top:0px;">
+							<div style="display: inline-block;">합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
+							<div style="display: inline-block;">충전 잔량 : <span><c:out value="${mbrVO.mbrPyMn}" /></span>원</div>
+						</div>
+						<div style="position: absolute; right: 10px; top: 30px;">
+							<button id="pay_btn" type="button" class="btn btn-success">결제하기</button>
+							<button id="list_btn" type="button" class="btn btn-secondary">목록</button>
+							<button id="delete_all_btn" type="button" class="btn btn-danger">전체 삭제</button>
+						</div>
 					</div>
 				</div>
 			</div>
