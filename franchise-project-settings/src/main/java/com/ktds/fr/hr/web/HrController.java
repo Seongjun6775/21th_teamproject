@@ -1,12 +1,8 @@
 package com.ktds.fr.hr.web;
 
-import java.io.File;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -16,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.ktds.fr.common.api.exceptions.ApiException;
-import com.ktds.fr.common.util.DownloadUtil;
 import com.ktds.fr.hr.service.HrService;
 import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -111,7 +105,7 @@ public class HrController {
 			
 			return "hr/hrlist";
 		}
-		return "redirect:/hr/list";
+		return "redirect:/index";
 	}
 	
 	/**

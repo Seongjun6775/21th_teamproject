@@ -19,7 +19,7 @@
 			if (!confirm("작성을 취소하시겠습니까?")) {
 				return;
 			}
-			location.href="${context}/hr/list";
+			location.href = "${context}/hr/list";
 		});
 		
 		$("#save_btn").click(function() {
