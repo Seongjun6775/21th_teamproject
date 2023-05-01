@@ -26,6 +26,36 @@
 	}); 
 </script>
 <style>
+* {padding:0;margin:0;}
+body {background:#fff;}
+header {width:100%;background:#f5f5f5;position:relative;z-index:10;}
+.header-list {width:1200px;margin:0 auto;font-size:0;padding:15px 0;}
+.header-list > li {font-size:12px;display:inline-block;vertical-align:middle;}
+.header-list > li:nth-child(1) {font-size:20px;width:200px;}
+.header-list > li:nth-child(2) {width:calc(100% - 250px);}
+.header-list > li:nth-child(3) {width:50px;}
+.header-list > li > div {width:auto;}
+
+.menu-ul {font-size:0;}
+.menu-ul > li {font-size:12px;display:inline-block;vertical-align:middle;}
+.menu-ul > li > a {display:block;width:auto;padding:15px;}
+
+input[id="menuicon"] {display:none;}
+input[id="menuicon"] + label {display:block;position:relative;width:100%;height:40px;cursor:pointer;}
+input[id="menuicon"] + label span {display:block;position:absolute;width:100%;height:3px;border-radius:30px;background:#666;transition:all .35s;}
+input[id="menuicon"] + label span:nth-child(1) {top:10%;}
+input[id="menuicon"] + label span:nth-child(2) {top:50%;transform:translateY(-50%);} /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
+input[id="menuicon"] + label span:nth-child(3) {bottom:10%;}
+input[id="menuicon"]:checked + label {z-index:2;}
+input[id="menuicon"]:checked + label span:nth-child(1) {top:50%;transform:translateY(-50%) rotate(45deg);}
+input[id="menuicon"]:checked + label span:nth-child(2) {opacity:0;}
+input[id="menuicon"]:checked + label span:nth-child(3) {bottom:50%;transform:translateY(50%) rotate(-45deg);}
+div[class="sidebar"] {width:100%;height:0px;background:#aaa;position:fixed;top:76px;left:0;z-index:1;transition:all .35s;overflow:hidden;}
+input[id="menuicon"]:checked + label + div {height:300px;}
+
+.sitemap-ul {font-size:0;width:1200px;margin:15px auto;text-align:center;}
+.sitemap-ul > li {font-size:12px;display:inline-block;vertical-align:top;width:20%;}
+
 .nav-scroller .nav {
   display: flex;
   flex-wrap: nowrap;
@@ -149,7 +179,7 @@ text-decoration: none;
               <li><a class="dropdown-item" href="#">리뷰관리</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdo	wn">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
               매장
             </a>
@@ -168,11 +198,8 @@ text-decoration: none;
               <li><a class="dropdown-item" href="#">관리자게시판</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">댓글관리</a></li>
-            </ul>
-            
+            </ul>      
           </li>
-
-
           <li class="nav-item"  >
             <a class="nav-link disabled" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">채용</a>
           </li>
