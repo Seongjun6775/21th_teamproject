@@ -92,9 +92,8 @@
 </script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
-			<h3>회원 쪽지 상세조회 페이지</h3>
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-				<span class="fs-5 fw-bold">회원 > 쪽지 상세조회</span>
+				<span class="fs-5 fw-bold">쪽지 > 쪽지함</span>
 	    	</div>
 			<!-- searchbar -->
 			<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
