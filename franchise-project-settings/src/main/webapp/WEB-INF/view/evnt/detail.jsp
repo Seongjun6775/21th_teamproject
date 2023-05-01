@@ -90,7 +90,7 @@
 		
 		//'이벤트상품목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=1300, height=800, scrollbars=yes, resizable=yes"); 
 		       pop.focus();	
 		});
 		
