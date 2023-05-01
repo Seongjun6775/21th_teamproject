@@ -20,18 +20,12 @@ $().ready(function() {
 });
 	</script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"/>
-		<div>
-			<jsp:include page="../include/sidemenu.jsp"/>
-			<jsp:include page="../include/content.jsp"/>
-
-			<h1>해당 페이지는 관리자 페이지입니다.</h1>
-			<div class="align-right">
-			<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
+<jsp:include page="../include/openBody.jsp" />
+			
+			
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 			</div>
-		</div>
-	</div>
-</body>
+			<h1 style="margin:20px;">해당 페이지는 관리자 페이지입니다.</h1>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

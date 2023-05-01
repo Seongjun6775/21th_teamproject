@@ -413,8 +413,9 @@
 							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
 						</div>
 						<div style="float:right; display: flex; flex-direction: row-reverse;">
+							
+							<button id="save_btn" class="btn btn-outline-success" >등록</button>
 							<button id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
-							<button id="save_btn" class="btn btn-outline-success">등록</button>
 						</div>
 					</div>
 				</form>
