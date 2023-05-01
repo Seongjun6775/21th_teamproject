@@ -126,11 +126,8 @@
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 			<span class="fs-5 fw-bold">리뷰 > 리뷰목록</span>
-	    </div>
-		<div>			
-			<div class="list-title">
-				<h3 class="list-title" style="font-weight: bold; margin-left: 20px;">리뷰 게시판</h3>
-			</div>	
+	    </div>		
+		
 		<!-- searchbar -->
 		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
 		  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
@@ -148,7 +145,7 @@
 		<!-- /searchbar -->	
 
 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-			<div style="margin: 13px;">총 ${rvList[0].totalCount}건</div>	
+			<div style="margin: 13px; display:inline-block">총 ${rvList[0].totalCount}건</div>	
 		<table class="table caption-top table-hover" style="text-align: center;">
 			<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 				<tr>
@@ -233,13 +230,11 @@
 				</ul>
 			</div>
 			<div style="position: absolute;right: 0;top: 0;">	
-				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-danger" 
-						style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
-						일괄삭제</button>
-				</c:if>
 				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
 					<button id="new_btn" class="btn btn-success">등록</button>
+				</c:if>
+				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+					<button id="delete_all_btn" class="btn btn-danger">삭제</button>
 				</c:if>
 			</div>
 		</div>	
