@@ -90,7 +90,7 @@
 				<table>
 					<thead>
 						<tr>
-						   <th><input type="checkbox" id="all-check" /></th>
+						   <th style="width: 50px; text-align: center;"><input type="checkbox" id="all-check" /></th>
 							<th style="width: 100px">이벤트 상품 ID</th>
 							<th style="width: 200px">이벤트 ID</th>
 							<th style="width: 200px">상품 ID</th>
