@@ -38,7 +38,7 @@ public class RestMbrController {
 	private MailSendService mailService;
 
 	//회원 로그인
-	@PostMapping("/mbr/login")
+	@PostMapping("/login")
 	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {
 		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
@@ -59,7 +59,7 @@ public class RestMbrController {
 		return new ApiResponseVO(ApiStatus.OK, "/");
 	}
 	//회원의 회원가입
-	@PostMapping("/api/mbr/regist")
+	@PostMapping("/regist")
 	public ApiResponseVO doMbrRegist(MbrVO mbrVO) {
 		if( mbrVO.getMbrId()==null || mbrVO.getMbrId().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디는 필수값 입니다.");
@@ -82,7 +82,7 @@ public class RestMbrController {
 		}
 	}
 	//회원 정보 수정
-	@PostMapping("/api/mbr/update")
+	@PostMapping("/mbr/update")
 	public ApiResponseVO doUpdateOneMbr(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO mbr) {
 		boolean updateResult = mbrService.updateOneMbr(mbrVO);
 		if(!updateResult) {
@@ -93,7 +93,7 @@ public class RestMbrController {
 		return new ApiResponseVO(ApiStatus.OK,"/mbr/info");
 	}
 	//회원 아이디 체크
-	@GetMapping("/api/mbr/check/{mbrId}")
+	@GetMapping("/check/{mbrId}")
 	public ApiResponseVO doCheckMbrId(@PathVariable String mbrId) {
 		if( mbrId ==null || mbrId.length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디는 필수값 입니다.");
@@ -106,7 +106,7 @@ public class RestMbrController {
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
 	//회원 비밀번호 체크
-	@PostMapping("/api/mbr/pwd/check")
+	@PostMapping("/mbr/pwd/check")
 	public ApiResponseVO doCheckMbrPwd(@SessionAttribute("__MBR__") MbrVO mbrVO, @RequestParam String mbrPwd) {
 		if(mbrPwd == null || mbrPwd.length()==0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "비밀번호는 필수값 입니다.");
@@ -121,7 +121,7 @@ public class RestMbrController {
 		}
 	}
 	//회원 비밀번호 변경
-	@PostMapping("/api/mbr/pwd/update")
+	@PostMapping("/mbr/pwd/update")
 	public ApiResponseVO doChangeMbrPwd(@SessionAttribute("__MBR__")MbrVO mbrVO,
 										@RequestParam String mbrPwd,
 										@RequestParam String newMbrPwd) {
@@ -146,7 +146,7 @@ public class RestMbrController {
 		return new ApiResponseVO(ApiStatus.OK,"/logout");
 	}
 	//회원탈퇴
-	@GetMapping("/api/mbr/signout")
+	@GetMapping("/mbr/signout")
 	public ApiResponseVO doSignout(@SessionAttribute("__MBR__")MbrVO mbrVO) {
 		boolean deleteResult = mbrService.deleteOneMbr(mbrVO.getMbrId());
 		if(!deleteResult) {
@@ -156,7 +156,7 @@ public class RestMbrController {
 		}
 	}
 	//인증 메일 보내기
-	@PostMapping("/api/mbr/emailSend")
+	@PostMapping("/emailSend")
 	public ApiResponseVO doCheckAuthNum(@RequestParam String email) {
 		if(email == null || email.length() == 0) {
 			return new ApiResponseVO(ApiStatus.FAIL, "메일 주소를 확인해 주세요.");
@@ -165,7 +165,7 @@ public class RestMbrController {
 		return new ApiResponseVO(ApiStatus.OK, authNumber, "");
 	}
 	//ID/PW 찾기
-	@PostMapping("/api/mbr/find")
+	@PostMapping("/find")
 	public ApiResponseVO doFindMbrId(@RequestParam String email,
 									   @RequestParam String type,
 									   @RequestParam(required = false) String mbrId) {
@@ -200,7 +200,7 @@ public class RestMbrController {
 		}
 		return new ApiResponseVO(ApiStatus.FAIL,"계정 찾기에 실패했습니다.");
 	}
-	//권한및 소속 변경
+	//권한및 소속 변경 -> 빼기
 	@PostMapping("/api/mbr/update/admin")
 	public ApiResponseVO doUpdateAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session){
 		if((mbrVO.getStrId() == null || mbrVO.getStrId().length() == 0) && (mbrVO.getMbrLvl() == null || mbrVO.getMbrLvl().length() == 0)) {
@@ -213,7 +213,7 @@ public class RestMbrController {
 		}
 		return new ApiResponseVO(ApiStatus.OK);
 	}
-	//권한 해임
+	//권한 해임 -> 빼기
 	@GetMapping("/api/mbr/admin/fire")
 	public ApiResponseVO doFireAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session) {
 		log.info("넘겨지니? {}",mbrVO.getMbrId());

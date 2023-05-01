@@ -31,7 +31,7 @@
 				alert("비밀번호를 확인해 주세요.");
 				return;
 			}
-			$.post("${context}/api/mbr/pwd/check", $("#pwdCheck_form").serialize(), function(resp){
+			$.post("${context}/pwd/check", $("#pwdCheck_form").serialize(), function(resp){
 				if(resp.status == "200 OK"){
 					location.href="${context}"+resp.redirectURL;
 				}
