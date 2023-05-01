@@ -9,15 +9,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="../include/stylescript.jsp" />
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		$(".create_btn").click(function() {
+		$("#create_btn").click(function() {
 			location.href="${context}/hr/hrcreate"
 		});
 		
-		$(".hr_table_grid > table > tbody > tr").click(function() {
+		$("#hr_table_grid > table > tbody > tr").click(function() {
 			var data = $(this).data();
 			if (data.hrid != null && (data.hrid) != "") {
 				location.href="${context}/hr/hrdetail/" + data.hrid;
@@ -27,35 +27,20 @@
 	});
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			
-			<div class="container">
-			    <header class="d-flex justify-content-center py-3">
-			      <ul class="nav nav-pills">
-			        <li class="nav-item"><h3>회원 채용 페이지 테스트</h3></li>
-			      </ul>
-			    </header>
-			</div>
-			
-			
-			
-			<div>
-				<div>총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
-			</div>
-			<div class="hr_table_grid">
-				<table class="table">
-				  <thead>
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+				<span class="fs-5 fw-bold">회원 채용 페이지 테스트</span>
+		    </div>
+			<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+				<div style="margin: 13px;">총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
+				<table class="table caption-top table-hover" style="text-align: center;">
+				  <thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 				    <tr>
-				      <th>채용 번호</th>
-					  <th>작성자 ID</th>
-					  <th>제목</th>
-					  <th>등록일</th>
-					  <th>채용 상태</th>
+				      <th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;">채용 번호</th>
+					  <th scope="col" style="padding: 20px 20px 8px 20px;">작성자 ID</th>
+					  <th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
+					  <th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
+					  <th scope="col" style="border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">채용 상태</th>
 				    </tr>
 				  </thead>
 				  <tbody>
@@ -89,28 +74,10 @@
 					</c:choose>
 				  </tbody>
 				</table>
+				<div style="float: right;">
+					<button id="create_btn" class="btn btn-success">작성</button>
+				</div>
 			</div>
-			<!-- 
-			<div>
-				<table>
-					<thead>
-						
-					</thead>
-					<tbody>
-						
-					</tbody>
-				</table>
-			</div> -->
-			<div>
-				<button class="create_btn">작성</button>
-			</div>
-			<footer class="footer mt-auto py-3 bg-light">
-			  <div class="container">
-			    <span class="text-muted">이건 Footer입니다~</span>
-			  </div>
-			</footer>
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+		
+<jsp:include page="../include/closeBody.jsp" />
 </html>
