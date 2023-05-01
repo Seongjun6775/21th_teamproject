@@ -47,6 +47,10 @@ body {
 	display: flex;
     flex-flow: wrap;
 }
+.flow-column {
+	display: flex;
+    flex-flow: column;
+}
 .white-space-nowrap {
     display: flex;
     white-space: nowrap;
@@ -323,6 +327,7 @@ input[type="number"]::-webkit-inner-spin-button {
 /* 	background-color: #F002; */
 	width: 1440px;
 	margin: 0 auto;
+	margin-bottom: 144px;
 }
 #menuCategory {
 /* 	background-color: #0F02; */
@@ -409,6 +414,78 @@ input[type="number"]::-webkit-inner-spin-button {
     height: 100%;
     background-color: #00000065;
 }
+
+.prdt-detail {
+	align-items: center;
+}
+.prdt-detail > div[class=img-box] {
+	border-radius: 36px;
+}
+.prdt-text {
+/* 	width: 600px; */
+    margin-left: 64px;
+    justify-content: center;
+	align-items: center;
+	font-size: 26px;
+	color: #888;
+}
+.prdt-text > div {
+	text-align: center;
+}
+.prdt-text > div + div {
+	margin-top: 48px;
+}
+
+
+.prdtNm {
+    font-size: 48px;
+    font-weight: 400;
+    height: 120px;
+    overflow-wrap: break-word;
+    color: #333;
+    place-content: center;
+    align-items: center;
+}
+.prdtNm::before {
+	content: "";
+	position: absolute;
+	width: 80%;
+	height: 1px;
+	top: 0;
+	background: #ffcc00;
+}
+.prdtNm::after {
+	content: "";
+	position: absolute;
+	width: 80%;
+	height: 1px;
+	bottom: 0;
+	background: #ffcc00;
+}
+
+.prdtPrc {
+	display: flex;
+	font-size: 36px;
+}
+.delPrdtPrc {
+	font-size: 28px;
+	align-self: end;
+}
+.delPrdtPrc::after {
+	content: "\ebe6";
+	display: inline-block;
+	font-family: boxicons!important;
+}
+.prdtDtlEvnt {
+	font-size: 14px;
+    position: absolute;
+    left: 0;
+    top: -15px;
+}
+
+
+
+
 
 
 

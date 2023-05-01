@@ -52,6 +52,7 @@
 				</c:when>
 				<c:otherwise>
 					<li class="rounded"><a href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장 조회</a></li>
+					<li class="rounded"><a href="${context}/strprdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴관리</a></li>
 				</c:otherwise>
 			</c:choose>
             <li class="rounded"><a href="${context}/str/odrlst" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문관리</a></li>
