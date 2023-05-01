@@ -85,7 +85,7 @@
 			form.append("<input type='hidden' name='mbrVO.mbrLvl' value='${hr.hrLvl}'>");
 			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
 			form.append("<input type='hidden' name='hrAprYn' value='Y'>");
-			$.post("${context}/api/hr/updateapr",  form.serialize(), function(response) {
+			$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 채용 처리 되었습니다.");
 					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
@@ -110,7 +110,14 @@
 			if (!confirm("정말 미채용하시겠습니까?")) {
 				return;
 			}
-			$.post("${context}/api/hr/updateapr", {hrId: "${hr.hrId}", hrAprYn : "N"}, function(response) {
+			
+			var form = $("<form></form>");
+			form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
+			form.append("<input type='hidden' name='mbrVO.mbrLvl' value='${hr.hrLvl}'>");
+			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
+			form.append("<input type='hidden' name='hrAprYn' value='N'>");
+			
+			$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 미채용 처리 되었습니다.");
 					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
@@ -137,9 +144,8 @@
 </script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
-		<div class="fs-6" style="margin: 0 20px">회원 > 채용</div>
 		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
-	        <span class="fs-5 fw-bold">master 채용 디테일 테스트 / 채용 지원 상세조회 페이지(최고관리자)</span>
+	        <span class="fs-5 fw-bold">회원 > 채용</span>
 	        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
 	          <button id="update_btn" class="btn btn-primary" >수정</button>
 			  <button id="delete_btn" class="btn btn-danger" style="margin-right:10px">삭제</button>
@@ -158,7 +164,7 @@
 			<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
 				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
 				<%-- <div class="hr_detail_header">최종 수정일 : ${hr.hrMdfyDt}</div> --%>
-				<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
+				<div class="hr_detail_header">작성자 : ${hr.mbrVO.mbrNm}</div>
 				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
 			</div>
 				<div style="padding:10px; ">
@@ -173,7 +179,12 @@
 					</div>
 					
 					<div style="padding: 10px;">
-						<div class="fw-semibold" style="margin-bottom: 100px; height:220px; overflow: auto;">${hr.hrCntnt}</div>
+						<div>
+							<textarea class="fw-semibold" 
+									   style="margin-bottom: 100px; height:220px;
+									          overflow: auto; word-break: break-all;
+									          border: none; resize: none;">${hr.hrCntnt}</textarea>
+						</div>
 					</div>
 					<div style="display: flex;align-content: center;flex-wrap: wrap; flex-direction: column;">
 					<div class="card p-3">

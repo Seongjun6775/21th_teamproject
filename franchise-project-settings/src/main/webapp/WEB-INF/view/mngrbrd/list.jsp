@@ -116,17 +116,12 @@
 
 </script>
 </head>
-<body>
-<div class="main-layout">	
-	<jsp:include page="../include/header.jsp" />	
-	<div>
-		<jsp:include page="../include/sidemenu.jsp" />
-		<jsp:include page="../include/content.jsp" />
+<jsp:include page="../include/openBody.jsp" />
 		<div>
 			<div style="display: block; padding: 20px;">
-				<div class="list-title">
-					<h3 class="list-title"> 관리자 게시판</h3> 
-				</div> 	
+				<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+					<span class="fs-5 fw-bold"> 게시판 > 관리자게시판</span>
+			    </div>	
 				
 			    <div class="board_box row">	
 					<div class=" col-sm-3 col-xs-4"> 
@@ -269,10 +264,8 @@
 				</div> 		
 			</div>
 		</div>
-		<jsp:include page="../include/footer.jsp" />
-	</div>
-</div>
-
+		
+<jsp:include page="../include/closeBody.jsp" />
 <div class="layer_popup" id="layer_popup" style="display: none;">
 	<div class="popup_box">
 		<div class="popup_content">
@@ -283,6 +276,4 @@
 		</div>
 	</div>
 </div>
-
-</body>
 </html>

@@ -11,7 +11,10 @@
 <meta charset="UTF-8">
 <title>주문 - 매장 선택</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script type="text/javascript">
 $(document).ready(function() {
 	
@@ -86,68 +89,83 @@ $(document).ready(function() {
 })
 </script>
 </head>
-<body>
+<body class="scroll">
+
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">붕어빵 파는곳</div>
+		<div class="overlay absolute"></div>
+	</div>
 
 
-	<div class="headline relative">
-		상단 헤드라인임 //////// <a href="${context}/prdt/list">관리자 메뉴로 돌아가깅</a>
-		<br><a href="javascript:window.history.back();">뒤로가기</a>
-	</div>
-	
-	<div class="overflow lctTable inline-block">
-		<table id="lctTable"
-				class="">
-			<thead>
-				<tr>
-					<th>지역</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:choose>
-					<c:when test="${not empty lctList}">
-						<c:forEach items="${lctList}"
-									var="lct">
-							<tr data-lctid="${lct.lctId}">
-								<td><a href="#">${lct.lctNm}</a></td>
-							</tr>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<tr>
-							<td colspan="1" class="no-items">
-								조회된 항목이 없습니다.
-							</td>
-						</tr>
-					</c:otherwise>
-				</c:choose>
-			</tbody>
-		</table>
-	</div>
-	<div class="overflow ctyTable inline-block">
-		<table id="ctyTable"
-				class="">
-			<thead>
-				<tr>
-					<th>도시</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
-	<div class="overflow strTable inline-block">
-		<table id="strTable"
-				class="">
-			<thead>
-				<tr>
-					<th>매장이름일까</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
-	
+	<div id="menu" class="flex-column">
 		
+		<div id="menuTitle">주문할 매장을 선택합니다</div>
+		
+		
+		<div id="selectStr" class="flex">
+			<div class="overflow lctTable inline-block">
+				<table id="lctTable"
+						class="table">
+					<thead class="table-warning">
+						<tr>
+							<th>지역</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${not empty lctList}">
+								<c:forEach items="${lctList}"
+											var="lct">
+									<tr data-lctid="${lct.lctId}">
+										<td><a href="#">${lct.lctNm}</a></td>
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="1" class="no-items">
+										조회된 항목이 없습니다.
+									</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+			</div>
+			<div class="overflow ctyTable inline-block">
+				<table id="ctyTable"
+						class="table">
+					<thead class="table-warning">
+						<tr>
+							<th>도시</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="overflow strTable inline-block">
+				<table id="strTable"
+						class="table">
+					<thead class="table-warning">
+						<tr>
+							<th>매장이름일까</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		
+	</div>
+	
+	
+	<jsp:include page="../include/footer_user.jsp" />
+	
+	
 </body>
 </html>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.dao.MbrDAO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrlst.dao.OdrLstDAO;
@@ -41,7 +42,13 @@ public class OdrLstServiceImpl implements OdrLstService {
 	
 	@Override
 	public OdrLstVO getOdrPrcs(String odrLstId) {
-		return odrLstDAO.getOdrPrcs(odrLstId);
+		
+		OdrLstVO isExist = odrLstDAO.getOdrPrcs(odrLstId);
+		
+		if (isExist.getOdrLstOdrPrcs() == null || isExist.getOdrLstOdrPrcs().trim().length() == 0 ) {
+			throw new ApiException("404", "주문서가 존재하지 않습니다.");
+		}
+		return isExist;
 	}
 	
 	@Override

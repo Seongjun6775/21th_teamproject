@@ -139,8 +139,8 @@
 			<div class="input-group" style="flex: 1;">
 				<label for="prdtCntnt" class="col-form-label">내용</label>
 				<div>
-					<input id="prdtCntnt" style="margin-top: 0.5rem; height:100px;"
-							class="form-control" value="${rvDetail.rvCntnt}"></input>
+					<textarea id="prdtCntnt" style="margin-top: 0.5rem; height:100px; resize: none;"
+							class="form-control">${rvDetail.rvCntnt}</textarea>
 				</div>
 			</div>
 		</div>	

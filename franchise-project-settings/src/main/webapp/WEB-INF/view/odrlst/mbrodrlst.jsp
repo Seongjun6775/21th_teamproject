@@ -91,15 +91,13 @@
 	}
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+		<span class="fs-5 fw-bold">주문목록</span>
+	</div>
 			<div>총 ${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}건</div>
 			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
-			<div class="odrlst_table_grid">
+			<div class="odrlst_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -148,7 +146,7 @@
 				</table>
 			</div>
 			<div class="pagenate">
-				<ul>
+				<ul style="list-style: none;">
 					<c:set value="${myOdrLst.size() >0 ? myOdrLst.get(0).lastPage : 0}" var="lastPage" />
 					<c:set value="${myOdrLst.size() >0 ? myOdrLst.get(0).lastGroup : 0}" var="lastGroup" />
 					
@@ -178,7 +176,5 @@
 				</ul>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

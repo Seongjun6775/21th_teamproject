@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>매장별 메뉴 관리</title>
-<link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <script type="text/javascript">
 $().ready(function() {
@@ -131,16 +131,18 @@ function movePage(pageNo) {
 			<span class="fs-5 fw-bold">메뉴 > 매장별 메뉴관리</span>
 	</div>
 	<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-		<div style="margin: 13px;">총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건</div>
+<%-- 		<div style="margin: 13px;">총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건</div> --%>
 		<table class="table caption-top table-hover" style="text-align: center;">
-			<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
+			<thead class="table-secondary">
 				<tr>
-					<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all-check"/></th>
+					<th scope="col"><input type="checkbox" id="all-check"/></th>
 
 					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-						<th scope="col" style="padding: 20px 20px 8px 20px;" >
-							<select class="selectFilter" name="selectFilter"
-									id="search-keyword-str">
+						<th scope="col">
+							<select name="selectFilter"
+									id="search-keyword-str"
+									class="select-align-center" 
+									style="width:220px;">
 								<option value="">매장</option>
 								<c:choose>
 									<c:when test="${not empty strList}">
@@ -154,8 +156,8 @@ function movePage(pageNo) {
 						</th>
 					</c:if>
 					
-					<th scope="col" style="padding: 20px 20px 8px 20px;">
-						<select class="selectFilter" name="selectFilter"
+					<th scope="col">
+						<select class="select-align-center" name="selectFilter"
 							id="search-keyword-prdtSrt">
 							<option value="">분류</option>
 							<c:choose>
@@ -168,8 +170,8 @@ function movePage(pageNo) {
 							</c:choose>
 						</select>
 					</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">
-						<select class="selectFilter" name="selectFilter"
+					<th scope="col">
+						<select class="select-align-center" name="selectFilter"
 								id="search-keyword-prdt">
 							<option value="">상품</option>
 							<c:choose>
@@ -182,18 +184,18 @@ function movePage(pageNo) {
 							</c:choose>
 						</select>
 					</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">
-						<select class="selectFilter" name="selectFilter"
+					<th scope="col">
+						<select class="select-align-center" name="selectFilter"
 								id="search-keyword-evntYn">
 							<option value="">이벤트유무</option>
 							<option value="Y">Y</option>
 							<option value="N">N</option>
 						</select>
 					</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">수정자</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th>
-					<th scope="col" style="border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">
-					<select class="selectFilter" name="selectFilter"
+					<th scope="col">수정자</th>
+					<th scope="col">수정일</th>
+					<th scope="col">
+					<select class="select-align-center" name="selectFilter"
 							id="search-keyword-useYn">
 						<option value="">사용유무</option>
 						<option value="Y">Y</option>
@@ -294,9 +296,9 @@ function movePage(pageNo) {
 			</div>
 		</div>
 		
-		<div class="align-right grid-btns">
-			<a href="${context}/prdt/list"><button class="btn btn-secondary">메뉴리스트</button></a>
-		</div>
+<!-- 		<div class="align-right grid-btns"> -->
+<%-- 			<a href="${context}/prdt/list"><button class="btn btn-secondary">메뉴리스트</button></a> --%>
+<!-- 		</div> -->
 		
 		<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 			<button id="btn-missingCheck"class="btn-primary btn-delete" style="vertical-align: top;">누락체크</button>
