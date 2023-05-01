@@ -50,8 +50,10 @@
 				<form id="create_form" method="post">
 					<div class="create-group">
 						<label for="odrLstId" style="margin:5px;">주문서 ID</label> 
-						<input type="text" id="odrLstId" style="width:40%;"
-								class="form-control"name="odrLstId" />
+						<select id="odrLstId" style="width:40%;"
+								class="form-control"name="odrLstId">
+							<option value="ordLstId">${ordLstId}</option>
+						</select>
 					</div>
 					<div class="create-group">
 						<label for="rvTtl" style="margin:5px;">제목</label> <input type="text" id="rvTtl"

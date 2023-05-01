@@ -12,7 +12,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
-<%-- <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" /> --%>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 
@@ -47,7 +46,10 @@
 			$("#layer_popup").hide();
 		});
 		
-		$(".enterkey").keyup(function(event) {
+		$("input[name=searchWrap]").val("${searchRvVO.search}");
+		$("#search_option").val("${searchRvVO.type}");
+		
+		$("#search-keyword").keyup(function(event) {
 			if(event.keyCode == 13) {
 				$("#search_btn").click();
 			}
@@ -99,6 +101,7 @@
 				})
 			}
 		});	
+		
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});		 
