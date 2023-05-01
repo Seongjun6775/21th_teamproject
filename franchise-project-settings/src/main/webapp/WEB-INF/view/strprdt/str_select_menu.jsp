@@ -26,12 +26,7 @@ $().ready(function() {
 		ignore.preventDefault();
 	});
 	$('div[class="itemList"]').click(function() {
-		console.log($(this).data()+"aaaaaaaaaaaa")
-		console.log($(this).children("div").find("div.blockMenu").length)
-// 		console.log($(this).children("div").find("div[class=blockMenu]").length)
-		return;
-		if ($(this).find('div[class="blockMenu"]').length > 0) {
-			console.log("1")
+		if ($(this).children("div.blockMenu").length > 0) {
 			return;
 		}
 		location.href = "${context}/strprdt/detail/"+$(this).data("strprdtid");
