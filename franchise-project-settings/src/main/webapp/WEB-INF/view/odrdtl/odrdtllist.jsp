@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/odrdtl_odrdtllist.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -31,15 +32,7 @@
 	/*
 	
 	
-	
-	
-	
-	
 		선택 삭제 기능입니다. 현재 사용하지 않는 상태입니다.
-	
-		
-		
-		
 		
 		
 		$("#all_check").change(function() {
@@ -177,18 +170,87 @@
 	
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			
-			<h2>구매 예정 물품 조회 페이지</h2>
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+				<span class="fs-5 fw-bold">주문목록 > 주문조회</span>
+			</div>
 			<div>총 ${odrDtlList.size() > 0 ? odrDtlList.get(0).totalCount : 0}건</div>
 			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
-			<div class="odrdtl_table_grid">
-				<table class="table table-striped">
+			<div class="odrdtl_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+				<div>
+					<c:choose>
+						<c:when test="${not empty odrDtlList}">
+						<c:set var="sum" value="0" />
+							<c:forEach items="${odrDtlList}" var="odr">
+								<div class="odrdtl-card">
+									<div class="col-sm-4">
+										<div class="dtl-img">
+											<img src="${context}/prdt/img/${odr.prdtVO.uuidFlNm}">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="dtl-prdtNm">${odr.prdtVO.prdtNm}</div>
+										<div class="dtl-prdtCnt">${odr.odrDtlPrdtCnt}</div>
+										<div class="dtl-prdtPrc">
+											<c:choose>
+												<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+													<td><del style="font-size: 12px; color: #333;">${odr.prdtVO.prdtPrc}</del>  <span>${odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
+												</c:when>
+												<c:otherwise>
+													<td>${odr.prdtVO.prdtPrc}</td>
+												</c:otherwise>
+											</c:choose>
+										</div>
+										<div class="dtl-sumPrc">
+											<c:choose>
+												<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+													<td><del style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span>${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
+												</c:when>
+												<c:otherwise>
+													<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
+												</c:otherwise>
+											</c:choose>
+										</div>
+										<div>
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+											  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+											  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+											</svg>
+											<%-- <button type="button" class="btn btn-danger btn-sm delete_btn" value="${odr.odrDtlId}">삭제</button> --%>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</c:when>
+					</c:choose>
+				</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<%-- <table class="table table-striped">
 					<thead>
 						<tr>
 							<!-- <th><input type="checkbox" id="all_check"/></th> -->
@@ -215,10 +277,11 @@
 										data-mbrid="${odr.mbrId}"
 										data-prdtnm="${odr.prdtVO.prdtNm}"
 										data-prdtprc="${odr.prdtVO.prdtPrc}"
+										data-uuidflnm="${odr.prdtVO.uuidFlNm}"
 										data-strnm="${odr.strVO.strNm}"
 										data-strcallnum="${odr.strVO.strCallNum}">
 										<!-- <td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${odr.odrDtlId}" /></td> -->
-										<td><img src=""></td>
+										<td><img src="${context}/prdt/img/${odr.prdtVO.uuidFlNm}"></td>
 										<td>${odr.prdtVO.prdtNm}</td>
 										<td>${odr.odrDtlPrdtCnt}</td>
 										<c:choose>
@@ -256,7 +319,7 @@
 							</c:otherwise>
 						</c:choose>
 					</tbody>
-				</table>
+				</table> --%>
 				
 				<div>
 					<div style="position: relative;'">
@@ -273,7 +336,7 @@
 				</div>
 			</div>
 			<div class="pagenate">
-				<ul>
+				<ul style="list-style: none;">
 					<c:set value="${odrDtlList.size() >0 ? odrDtlList.get(0).lastPage : 0}" var="lastPage" />
 					<c:set value="${odrDtlList.size() >0 ? odrDtlList.get(0).lastGroup : 0}" var="lastGroup" />
 					
@@ -303,7 +366,5 @@
 				</ul>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
