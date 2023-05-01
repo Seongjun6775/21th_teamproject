@@ -304,8 +304,8 @@
 	<update id="updateOneMbrLvlAndStrId"
 		parameterType="com.ktds.fr.mbr.vo.MbrVO">
 		UPDATE FRAN.MBR
-		   SET  MBR_LVL=#{mbrLvl}
-		  	  , STR_ID =#{strId}
+		   SET MBR_LVL=#{mbrLvl}
+		  	 , STR_ID =#{strId}
 		 WHERE MBR_ID=#{mbrId}
 		   AND DEL_YN='N' 
 	</update>

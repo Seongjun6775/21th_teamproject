@@ -9,7 +9,8 @@
 				autoMapping="true">
 		<id property="hrId" column="HR_ID" />
 		<association property="mbrVO"
-					  javaType="com.ktds.fr.mbr.vo.MbrVO" >
+					  javaType="com.ktds.fr.mbr.vo.MbrVO"
+					  autoMapping="true">
 			<id property="mbrId" column="MBR_ID" />
 		</association>
 	</resultMap>
@@ -18,13 +19,14 @@
 	
 	<select id="readAllHr"
 			parameterType="com.ktds.fr.hr.vo.HrVO"
-			resultType="com.ktds.fr.hr.vo.HrVO">
+			resultMap="hrMap">
 		<include refid="Common.pageHeader" />
 		SELECT ROWNUM RNUM
 			 , ROWNUM PK_COL
 			 , E.*
 		  FROM (SELECT H.HR_ID 
 				     , H.MBR_ID
+				     , M.MBR_NM
 				     , H.HR_TTL
 				     , H.HR_RGST_DT
 				     , H.HR_MDFY_DT
@@ -37,6 +39,8 @@
 				     , H.HR_LVL
 				     , C.CD_NM
 				  FROM HR H
+				 INNER JOIN MBR M
+				    ON H.MBR_ID = M.MBR_ID
 				  LEFT JOIN CMMN_CD C
 				    ON H.HR_LVL = C.CD_ID
 				 WHERE H.HR_RGST_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
@@ -104,28 +108,31 @@
 	
 	<select id="readAllMyHr"
 			parameterType="com.ktds.fr.hr.vo.HrVO"
-			resultType="com.ktds.fr.hr.vo.HrVO">
+			resultMap="hrMap">
 		<include refid="Common.pageHeader" />
 		SELECT ROWNUM RNUM
 			 , ROWNUM PK_COL
 			 , E.*
-		  FROM (SELECT HR_ID
-					 , MBR_ID
-				     , HR_TTL
-				     , HR_RGST_DT
-				     , HR_MDFY_DT
-				     , HR_APR_YN
-					 , HR_APR_DT
-					 , HR_STAT
-					 , DEL_YN
-					 , NTC_YN
-					 , HR_LVL
-				  FROM HR
-				 WHERE DEL_YN = 'N'
-				   AND (MBR_ID = #{mbrId}
-				    OR NTC_YN = 'Y')
-			     ORDER BY NTC_YN DESC
-		 			 , HR_RGST_DT DESC) E
+		  FROM (SELECT H.HR_ID
+					 , H.MBR_ID
+					 , M.MBR_NM
+				     , H.HR_TTL
+				     , H.HR_RGST_DT
+				     , H.HR_MDFY_DT
+				     , H.HR_APR_YN
+					 , H.HR_APR_DT
+					 , H.HR_STAT
+					 , H.DEL_YN
+					 , H.NTC_YN
+					 , H.HR_LVL
+				  FROM HR H
+				 INNER JOIN MBR M
+				    ON H.MBR_ID = M.MBR_ID
+				 WHERE H.DEL_YN = 'N'
+				   AND (H.MBR_ID = #{mbrId}
+				    OR H.NTC_YN = 'Y')
+			     ORDER BY H.NTC_YN DESC
+		 			 , H.HR_RGST_DT DESC) E
 		<include refid="Common.pageFooter" />
 	</select>
 	
@@ -134,6 +141,7 @@
 			resultMap="hrMap">
 		SELECT H.HR_ID
 		     , H.MBR_ID
+		     , M.MBR_NM
 		     , H.HR_TTL
 		     , H.HR_CNTNT
 		     , H.HR_RGST_DT
