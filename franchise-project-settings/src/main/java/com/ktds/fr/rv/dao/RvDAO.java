@@ -15,9 +15,9 @@ public interface RvDAO {
 	public int createNewRvWithin7days(RvVO rvVO);
 
 	
-	// 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자
+	// 2-1.모든 매장의 리뷰 목록 조회 == 상위관리자, 이용자
 	public List<RvVO> readAllRvListForTopManager(SearchRvVO searchRvVO);
-	// 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자
+	// 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자, 이용자
 	public RvVO readOneRvVOForTopManagerByRvId(String rvId);
 	
 	// 2-3.자기 매장의 리뷰 목록 조회 == 중간관리자, 하위관리자
@@ -28,9 +28,9 @@ public interface RvDAO {
 	public RvVO readOneRvVOForMiddleManagerByOdrId(RvVO rvVO);
 	
 	// 2-5.자기가 쓴 리뷰 목록 조회 == 이용자
-	public List<RvVO> readAllRvListForMemberByRvId(RvVO rvVO);
+//	public List<RvVO> readAllRvListForMemberByRvId(RvVO rvVO);
 	// 2-6.자기가 쓴 리뷰 상세 조회 == 이용자
-	public RvVO readOneRvVOForMemberByRvId(String rvId);
+//	public RvVO readOneRvVOForMemberByRvId(String rvId);
 
 	
 	// 3-1.모든 매장의 리뷰 삭제 == 상위관리자
