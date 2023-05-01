@@ -15,7 +15,10 @@
 			</c:choose>
 		</li>
 		<li class="menu-item">
-			
+			<a href="${context}/str/odrlst">주문 관리</a>
+		</li>
+		<li class="menu-item">
+			<a href="${context}/str/completeOdr">처리 주문 조회</a>
 		</li>
 		<li class="menu-item">
 			<!-- <a href="#">채용관리</a> -->

@@ -8,19 +8,30 @@
 				type="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 				autoMapping="true">
 		<id property="odrDtlId" column="ODR_DTL_ID" />
+		<association property="odrLstVO"
+		              javaType="com.ktds.fr.odrlst.vo.OdrLstVO"
+		              autoMapping="true">
+			<id property="odrLstId" column="ODR_LST_ID" />
+		</association>
 		<association property="strVO"
-		              javaType="com.ktds.fr.str.vo.StrVO" >
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
 			<id property="strId" column="STR_ID" />
-			<result property="strNm" column="STR_NM" />
-			<result property="strCallNum" column="STR_CALL_NUM" />
 		</association>
 		<association property="prdtVO"
-		              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
+		              javaType="com.ktds.fr.prdt.vo.PrdtVO"
+		              autoMapping="true">
 			<id property="prdtId" column="PRDT_ID" />
-			<result property="prdtNm" column="PRDT_NM" />
-			<result property="prdtPrc" column="PRDT_PRC" />
-			<result property="prdtCntnt" column="PRDT_CNTNT" />
-			<result property="orgnFlNm" column="ORGN_FL_NM" />
+			<association property="evntVO"
+						  javaType="com.ktds.fr.evnt.vo.EvntVO"
+			              autoMapping="true">
+				<id property="evntId" column="EVNT_ID" />
+			</association>
+			<association property="evntPrdtVO"
+						  javaType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
+			              autoMapping="true">
+				<id property="evntPrdtId" column="EVNT_PRDT_ID" />
+			</association>
 		</association>
 	</resultMap>
 	
@@ -36,7 +47,8 @@
 		, ODR_DTL_STR_ID
 		, USE_YN
 		, DEL_YN
-		, MBR_ID)
+		, MBR_ID
+		, ODR_DTL_PRC)
 		VALUES
 		 ('OD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_DTL_PK.NEXTVAL, 5, '0')
 		, #{odrLstId}
@@ -45,7 +57,8 @@
 		, #{odrDtlStrId}
 		, 'Y'
 		, 'N'
-		, #{mbrId})
+		, #{mbrId}
+		, #{odrDtlPrc})
 	</insert>
 	
 	<select id="readAllOdrDtlByOdrLstIdAndMbrId"
@@ -66,11 +79,15 @@
 			 , P.PRDT_PRC 
 			 , S.STR_NM
 			 , S.STR_CALL_NUM 
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
 		  FROM ODR_DTL OD
 		 INNER JOIN PRDT P
 		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
 		 INNER JOIN STR S
-		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
 		 WHERE ODR_LST_ID = #{odrLstId}
 		   AND OD.MBR_ID = #{mbrId}
 		   AND OD.DEL_YN = 'N'
@@ -96,11 +113,15 @@
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
 			 , P.ORGN_FL_NM
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
 		  FROM ODR_DTL OD
 		 INNER JOIN STR S
 		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
 		 INNER JOIN PRDT P
-		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
 		 WHERE OD.ODR_DTL_ID = #{_parameter}
 		   AND OD.DEL_YN = 'N'
 	</select>
@@ -109,15 +130,24 @@
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
 		UPDATE ODR_DTL
 		   SET ODR_DTL_PRDT_CNT = #{odrDtlPrdtCnt}
+		     , ODR_DTL_PRC = #{odrDtlPrc}
 		 WHERE ODR_DTL_ID = #{odrDtlId}
 	</update>
 	
 	<update id="deleteOneOdrDtlByOdrDtlId"
-			parameterType="string">
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
 		UPDATE ODR_DTL
 		   SET DEL_YN = 'Y'
 		 WHERE ODR_DTL_ID = #{odrDtlId}
 	</update>
+	
+	<update id="deleteAllOdrDtlByOdrLstId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
+		UPDATE ODR_DTL
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_LST_ID = #{odrLstId}
+	</update>
+	
 	
 	<update id="deleteOdrDtlBySelectedDtlId"
 			parameterType="arraylist">
@@ -132,6 +162,104 @@
 	
 	
 	
+	<!-- 매장에서 보는 주문서의 디테일 / 노 페이지네이션 -->
+<!-- 	<select id="odrDtlForOdrLst" -->
+<!-- 			parameterType="string" -->
+<!-- 			resultMap="odrDtlMap"> -->
+<!-- 		SELECT OD.ODR_DTL_ID -->
+<!-- 			 , OD.ODR_LST_ID -->
+<!-- 			 , OL.ODR_LST_RGST_DT -->
+<!-- 			 , OD.ODR_DTL_PRDT_ID -->
+<!-- 			 , P.PRDT_NM -->
+<!-- 			 , OD.ODR_DTL_PRDT_CNT -->
+<!-- 			 , OD.ODR_DTL_STR_ID -->
+<!-- 			 , OD.MBR_ID -->
+<!-- 			 , P.PRDT_PRC  -->
+<!-- 			 , EP.EVNT_PRDT_CHNG_PRC -->
+<!-- 			 , EP.EVNT_ID -->
+<!-- 		  FROM (SELECT * -->
+<!-- 				  FROM ODR_DTL -->
+<!-- 				 WHERE ODR_LST_ID = #{_parameter} ) OD -->
+<!-- 		  LEFT JOIN (SELECT * -->
+<!-- 		 			   FROM ODR_LST -->
+<!-- 		 			  WHERE USE_YN = 'Y' -->
+<!-- 						AND DEL_YN = 'N' -->
+<!-- 						AND ODR_LST_ID = #{_parameter} ) OL -->
+<!-- 		 	ON OD.ODR_LST_ID = OL.ODR_LST_ID -->
+<!-- 		 INNER JOIN PRDT P -->
+<!-- 		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID -->
+<!-- 		 INNER JOIN STR S -->
+<!-- 		    ON OD.ODR_DTL_STR_ID = S.STR_ID -->
+<!-- 		  LEFT JOIN (  SELECT E.EVNT_ID -->
+<!-- 							 , E.EVNT_TTL -->
+<!-- 							 , EP.PRDT_ID  -->
+<!-- 							 , EP.EVNT_PRDT_CHNG_PRC  -->
+<!-- 						FROM ( -->
+<!-- 						SELECT * -->
+<!-- 						  FROM EVNT e  -->
+<!-- 						 WHERE USE_YN = 'Y' -->
+<!-- 						   AND DEL_YN = 'N' -->
+<!-- 						   AND EVNT_STRT_DT >= (SELECT ODR_LST_RGST_DT -->
+<!-- 									 			  FROM ODR_LST -->
+<!-- 									 			 WHERE ODR_LST_ID = #{_parameter} )  -->
+<!-- 						   AND (SELECT ODR_LST_RGST_DT -->
+<!-- 								  FROM ODR_LST -->
+<!-- 								 WHERE ODR_LST_ID = #{_parameter} ) >= EVNT_END_DT ) E -->
+<!-- 						 INNER JOIN (SELECT * -->
+<!-- 									   FROM EVNT_PRDT -->
+<!-- 									  WHERE USE_YN = 'Y' -->
+<!-- 						  				AND DEL_YN = 'N') EP  -->
+<!-- 		   					 ON E.EVNT_ID = EP.EVNT_ID  )EP -->
+<!-- 		    ON P.PRDT_ID = EP.PRDT_ID -->
+<!-- 	</select> -->
+	<select id="odrDtlForOdrLst"
+			parameterType="string"
+			resultMap="odrDtlMap">
+		SELECT OD.ODR_DTL_ID
+			 , OD.ODR_LST_ID
+			 , OL.ODR_LST_RGST_DT
+			 , OD.ODR_DTL_PRDT_ID
+			 , P.PRDT_NM
+			 , OD.ODR_DTL_PRC
+			 , OD.ODR_DTL_PRDT_CNT
+			 , OD.ODR_DTL_STR_ID
+			 , OD.MBR_ID
+			 , EP.EVNT_ID
+		  FROM (SELECT *
+				  FROM ODR_DTL
+				 WHERE ODR_LST_ID = #{_parameter} ) OD
+		  LEFT JOIN (SELECT *
+		 			   FROM ODR_LST
+		 			  WHERE USE_YN = 'Y'
+						AND DEL_YN = 'N'
+						AND ODR_LST_ID = #{_parameter} ) OL
+		 	ON OD.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		 INNER JOIN STR S
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID
+		  LEFT JOIN (  SELECT E.EVNT_ID
+							 , E.EVNT_TTL
+							 , EP.PRDT_ID 
+							 , EP.EVNT_PRDT_CHNG_PRC 
+						FROM (
+						SELECT *
+						  FROM EVNT e 
+						 WHERE USE_YN = 'Y'
+						   AND DEL_YN = 'N'
+						   AND EVNT_STRT_DT >= (SELECT ODR_LST_RGST_DT
+									 			  FROM ODR_LST
+									 			 WHERE ODR_LST_ID = #{_parameter} ) 
+						   AND (SELECT ODR_LST_RGST_DT
+								  FROM ODR_LST
+								 WHERE ODR_LST_ID = #{_parameter} ) >= EVNT_END_DT ) E
+						 INNER JOIN (SELECT *
+									   FROM EVNT_PRDT
+									  WHERE USE_YN = 'Y'
+						  				AND DEL_YN = 'N') EP 
+		   					 ON E.EVNT_ID = EP.EVNT_ID  )EP
+		    ON P.PRDT_ID = EP.PRDT_ID
+	</select>
 	
 	
 	

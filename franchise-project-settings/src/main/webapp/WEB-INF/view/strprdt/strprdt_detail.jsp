@@ -55,9 +55,16 @@ $().ready(function() {
 	
 	$("#add_btn").click(function() {
 		
+		var odrDtlPrc = 0;
 		var cnt = $(".cnt").val();
+		if ("${strPrdtVO.evntVO.evntId}" == "") {
+			odrDtlPrc = ${strPrdtVO.prdtVO.prdtPrc};
+		}
+		else {
+			odrDtlPrc = ${strPrdtVO.evntPrdtVO.evntPrdtChngPrc};
+		}
 		
-		$.post("${context}/api/odrdtl/create/${strPrdtVO.strPrdtId}", {"odrDtlPrdtCnt": cnt}, function(response) {
+		$.post("${context}/api/odrdtl/create/${strPrdtVO.strPrdtId}", {"odrDtlPrdtCnt": cnt, "odrDtlPrc": odrDtlPrc}, function(response) {
 			if (response.status == "200 OK") {
 				if(confirm("상품을 저장했습니다. 지금 결제 페이지로 이동할까요?")) {
 					location.href = "${context}/odrlst/list";
@@ -68,6 +75,10 @@ $().ready(function() {
 			}
 		})
 	});
+	
+	$("#cancle_btn").click(function() {
+		location.href = "${context}/strprdt/${strPrdtVO.strId}"
+	})
 	
 	
 });
@@ -193,7 +204,7 @@ function movePage(pageNo) {
 					</div>
 				</div>
 				<button type="button" id="add_btn"class="btn btn-success">추가</button>
-				<button type="button" id="cancle_btn" class="btn btn-danger">취소</button>
+				<button type="button" id="cancle_btn" class="btn btn-secondary">목록</button>
 			</div>
 	
 		<br>정보확인용

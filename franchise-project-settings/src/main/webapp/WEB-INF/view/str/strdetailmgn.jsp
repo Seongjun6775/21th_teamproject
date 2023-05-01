@@ -133,19 +133,12 @@ $().ready(function() {
 		}
 	</script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"/>
-		<div>
-			<jsp:include page="../include/strMgmtSideMenu.jsp"/>
-			<jsp:include page="../include/content.jsp"/>
-
-			<div class="path"> 매장 관리 > 상세 조회</div>
-			
-			<h1>매장 상세 조회</h1>
-			<div class="grid">
-			<h2>중간 관리자는 오직 매장주소, 전화번호, 오픈시간, 클로즈시간만 관리가능합니다.</h2>
-			<div class="grid-strdetailmgn">
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+					<span class="fs-5 fw-bold">매장 > 매장 상세 조회</span>
+			</div>
+			중간 관리자는 오직 매장주소, 전화번호, 오픈시간, 클로즈시간만 관리가능합니다.
+			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<form id="strdetailmgn_form">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
@@ -229,74 +222,68 @@ $().ready(function() {
 			</div>
 			<!-- 관리자 리스트 -->
 			<div class="grid-count align-right">총 ${mbrList.size()}명</div>
-					<table>
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>이름</th>
-								<th>이메일</th>
-								<th>매장명</th>
-								<th>회원등급</th>
-								<th>가입일</th>
-								<th>최근 로그인 날짜</th>
-								<th>최근 로그인 IP</th>
-								<th>로그인 제한</th>
-								
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty mbrList}">
-									<c:forEach items="${mbrList}" var="mbr" varStatus="index">
-										<tr data-mbrId="${mbr.mbrId}" 
-											data-mbrNm="${mbr.mbrNm }" 
-											data-strId="${mbr.strId }" 
-											data-mbrEml="${mbr.mbrEml }" 
-											data-mbrLvl="${mbr.mbrLvl }" 
-											data-mbrLvlNm ="${mbr.cmmnCdVO.cdNm}"
-											data-mbrRgstrDt="${mbr.mbrRgstrDt }" 
-											data-useYn="${mbr.useYn}" 
-											data-mbrRcntLgnDt="${mbr.mbrRcntLgnDt }" 
-											data-mbrRcntLgnIp="${mbr.mbrRcntLgnIp}" 
-											data-mbrLgnFlCnt="${mbr.mbrLgnFlCnt }" 
-											data-mbrLgnBlckYn="${mbr.mbrLgnBlckYn}" 
-											data-mbrLstLgnFlDt="${mbr.mbrLstLgnFlDt }" 
-											data-mbrPwdChngDt="${mbr.mbrPwdChngDt }" 
-											data-mbrLeavDt="${mbr.mbrLeavDt}"
-											data-delYn="${mbr.delYn}"
-											>
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>이름</th>
+						<th>이메일</th>
+						<th>매장명</th>
+						<th>회원등급</th>
+						<th>가입일</th>
+						<th>최근 로그인 날짜</th>
+						<th>최근 로그인 IP</th>
+						<th>로그인 제한</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<c:choose>
+						<c:when test="${not empty mbrList}">
+							<c:forEach items="${mbrList}" var="mbr" varStatus="index">
+								<tr data-mbrId="${mbr.mbrId}" 
+									data-mbrNm="${mbr.mbrNm }" 
+									data-strId="${mbr.strId }" 
+									data-mbrEml="${mbr.mbrEml }" 
+									data-mbrLvl="${mbr.mbrLvl }" 
+									data-mbrLvlNm ="${mbr.cmmnCdVO.cdNm}"
+									data-mbrRgstrDt="${mbr.mbrRgstrDt }" 
+									data-useYn="${mbr.useYn}" 
+									data-mbrRcntLgnDt="${mbr.mbrRcntLgnDt }" 
+									data-mbrRcntLgnIp="${mbr.mbrRcntLgnIp}" 
+									data-mbrLgnFlCnt="${mbr.mbrLgnFlCnt }" 
+									data-mbrLgnBlckYn="${mbr.mbrLgnBlckYn}" 
+									data-mbrLstLgnFlDt="${mbr.mbrLstLgnFlDt }" 
+									data-mbrPwdChngDt="${mbr.mbrPwdChngDt }" 
+									data-mbrLeavDt="${mbr.mbrLeavDt}"
+									data-delYn="${mbr.delYn}"
+									>
 
-											<td>${mbr.mbrId}</td>
-											<td>
-												<a href="${context}/mbr/detail/${mbr.mbrId}">${mbr.mbrNm}</a>
-											</td>
-											<td>${mbr.mbrEml}</td>
-											<td>${mbr.strVO.strNm}</td>
-											<td>${mbr.cmmnCdVO.cdNm}</td>
-											<td>${mbr.mbrRgstrDt}</td>
-											<td>${mbr.mbrRcntLgnDt}</td>
-											<td>${mbr.mbrRcntLgnIp}</td>
-											<td>${mbr.mbrLgnBlckYn}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="10" class="no-items">등록된 관리자가 없습니다.</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-			
-			
-		</div>
+									<td>${mbr.mbrId}</td>
+									<td>
+										<a href="${context}/mbr/detail/${mbr.mbrId}">${mbr.mbrNm}</a>
+									</td>
+									<td>${mbr.mbrEml}</td>
+									<td>${mbr.strVO.strNm}</td>
+									<td>${mbr.cmmnCdVO.cdNm}</td>
+									<td>${mbr.mbrRgstrDt}</td>
+									<td>${mbr.mbrRcntLgnDt}</td>
+									<td>${mbr.mbrRcntLgnIp}</td>
+									<td>${mbr.mbrLgnBlckYn}</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="10" class="no-items">등록된 관리자가 없습니다.</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+				</tbody>
+			</table>
 			<div class="align-right">
 				<button id="save_btn" class="btn-primary">매장 수정</button>
 				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 			</div>
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

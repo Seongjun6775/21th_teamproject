@@ -1,5 +1,7 @@
-package com.ktds.fr.odrprcshist.vo;		
-		
+package com.ktds.fr.odrprcshist.vo;
+
+import java.util.List;
+
 public class OdrPrcsHistVO {		
 		
 	private String odrPrcsHistId;	
@@ -7,6 +9,9 @@ public class OdrPrcsHistVO {
 	private String odrPrcsHistRdrPrcs;	
 	private String mdfyr;	
 	private String mdfyDt;	
+	
+	private List<String> odrLstIdList;
+	
 	public String getOdrPrcsHistId() {	
 		return odrPrcsHistId;
 	}	
@@ -36,6 +41,13 @@ public class OdrPrcsHistVO {
 	}	
 	public void setMdfyDt(String mdfyDt) {	
 		this.mdfyDt = mdfyDt;
+	}
+	
+	public List<String> getOdrLstIdList() {
+		return odrLstIdList;
+	}
+	public void setOdrLstIdList(List<String> odrLstIdList) {
+		this.odrLstIdList = odrLstIdList;
 	}	
 		
 }		

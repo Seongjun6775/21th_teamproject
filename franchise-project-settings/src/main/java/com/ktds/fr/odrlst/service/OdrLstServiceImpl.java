@@ -5,14 +5,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.mbr.dao.MbrDAO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrlst.dao.OdrLstDAO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
+import com.ktds.fr.odrprcshist.dao.OdrPrcsHistDAO;
+import com.ktds.fr.odrprcshist.vo.OdrPrcsHistVO;
 
 @Service
 public class OdrLstServiceImpl implements OdrLstService {
 	
 	@Autowired
 	private OdrLstDAO odrLstDAO;
+	
+	@Autowired
+	private MbrDAO mbrDAO;
+	
+	@Autowired
+	private OdrPrcsHistDAO odrPrcsHistDAO; 
 
 	@Override
 	public boolean createNewOdrLst(OdrLstVO odrLstVO) {
@@ -28,20 +38,70 @@ public class OdrLstServiceImpl implements OdrLstService {
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO) {
 		return odrLstDAO.readAllMyOdrLst(odrLstVO);
 	}
+	
+	@Override
+	public OdrLstVO getOdrPrcs(String odrLstId) {
+		return odrLstDAO.getOdrPrcs(odrLstId);
+	}
+	
+	@Override
+	public OdrLstVO isThisMyOdrLst(String odrLstId) {
+		return odrLstDAO.isThisMyOdrLst(odrLstId);
+	}
 
 	@Override
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId) {
 		return odrLstDAO.readOneOdrLstByOdrLstId(odrLstId);
 	}
-
+	
 	@Override
-	public boolean updateOneOdrLstByOdrLstId(OdrLstVO odrLstVO) {
-		return odrLstDAO.updateOneOdrLstByOdrLstId(odrLstVO) > 0;
+	public boolean updateRestMbrPyMn(MbrVO mbrVO) {
+		return mbrDAO.updateRestMbrPyMn(mbrVO) > 0;
+	}
+	
+	@Override
+	public boolean updateOdrPrcsToReadyByOdrLstId(String odrLstId) {
+		
+		
+		
+		return odrLstDAO.updateOdrPrcsToReadyByOdrLstId(odrLstId) > 0;
+	}
+	
+	@Override
+	public boolean deleteOneOdrLstByOdrLstId(String odrLstId) {
+		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstId) > 0;
+	}
+	
+	@Override
+	public boolean deleteOdrLstBySelectedLstId(List<String> odrLstId) {
+		return odrLstDAO.deleteOdrLstBySelectedLstId(odrLstId) > 0;
 	}
 
 	@Override
-	public boolean deleteOneOdrLstByOdrLstId(OdrLstVO odrLstVO) {
-		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstVO) > 0;
+	public List<OdrLstVO> readAllOdrLstForStr(OdrLstVO odrLstVO) {
+		return odrLstDAO.readAllOdrLstForStr(odrLstVO);
+	}
+
+	@Override
+	public boolean updateCheckAll(OdrLstVO odrLstVO) {
+		
+		boolean isSuccess = odrLstDAO.updateCheckAll(odrLstVO) > 0;
+		
+		if (isSuccess) {
+			OdrPrcsHistVO odrPrcsHistVO = new OdrPrcsHistVO();
+			odrPrcsHistVO.setMdfyr(odrLstVO.getMdfyr());
+			odrPrcsHistVO.setOdrPrcsHistRdrPrcs(odrLstVO.getOdrLstOdrPrcs());
+			odrPrcsHistVO.setOdrLstIdList(odrLstVO.getOdrLstIdList());
+			
+			isSuccess = odrPrcsHistDAO.create(odrPrcsHistVO) > 0;
+		}
+		
+		return isSuccess;
+	}
+
+	@Override
+	public List<OdrLstVO> completeOdrForStr(OdrLstVO odrLstVO) {
+		return odrLstDAO.completeOdrForStr(odrLstVO);
 	}
 
 }

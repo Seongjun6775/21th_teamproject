@@ -6,65 +6,38 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 $().ready(function() {
-	
-	$(".nav-item").mouseenter(function() {
-		$(this).addClass("on");
-		$(this).find(".sub-item").addClass("on");
-	}).mouseleave(function() {
-		$(this).removeClass("on");
-		$(this).find(".sub-item").removeClass("on");
+	$("li.nav-item").children("a").mouseover(function(){
+		$(this).closest(".nav").find(".nav-item.active").removeClass("active");
+		$(this).closest("li.nav-item").addClass("active");
+		$("div.header").mouseleave(function(){
+			$(this).find(".active").removeClass("active");
+		}); 
+		
+		$(".sub-item").mouseenter(function(){
+			$(this).addClass("active");
+		});
 	});
-	
 }); 
 </script>
-<div class="header bg-black">
-	<ul class="nav">
-		<li class="nav-item active">
-			<a href="${context}/mbr/list">회원관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/prdt/list">메뉴관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/str/list">매장관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/evnt/list">이벤트관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/hr/list">채용 관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/nt/list">쪽지 관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/rv/list">리뷰관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/rpl/list">댓글관리</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/mngrbrd/list">관리자게시판</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/hlpdsk/list">고객센터</a>
-		</li>
-		<li class="nav-item">
-			<a href="${context}/odrlst/list">주문목록</a>	
-		</li>
-		<li class="nav-item">
-			<a href="${context}/prdt/list2">소비자화면</a>	
-		</li>
-	</ul>
-	<!--TODO 로그아웃 주소 추가 -->
-	<div class="inline profile">
+<!-- header -->
+  <header class="p-3 mb-1">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" style=" height: 30px; padding:10px 30px 0px 0px; margin: 0px;">
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        </ul>
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+          </a> 
+          <ul class="dropdown-menu text-small">
+            <li><a class="dropdown-item" href="#">${sessionScope.__MBR__.mbrNm}</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="${context}/logout">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+  </header>
+  <!-- /header -->
 
-		<a href="${context}/mbr/pwdCheck" >
-			${sessionScope.__MBR__.mbrNm} 님
-		</a> 
-		<a href="${context}/logout">
-			(Logout)
-		</a>
-	</div>
-</div>
 

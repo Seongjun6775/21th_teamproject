@@ -17,6 +17,8 @@ import com.ktds.fr.lctcd.service.LctCdService;
 import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.odrlst.service.OdrLstService;
+import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.str.service.StrService;
 import com.ktds.fr.str.vo.StrVO;
 
@@ -31,6 +33,8 @@ public class StrController {
 	private LctCdService lctCdService;
 	@Autowired
 	private MbrService mbrService;
+	@Autowired
+	private OdrLstService odrLstService;
 	
 	@GetMapping("/str/list")
 	public String viewStrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO, MbrVO mbr2VO, String strId, Model model, StrVO strVO
@@ -85,6 +89,9 @@ public class StrController {
 		StrVO strVO = strService.readOneStrByMaster(strId);
 		List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
 	    List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
+	    mbrVO.setStrId(strId);
+	    List<MbrVO> mbrList = mbrService.readAllCrewMbrByStrId(mbrVO);
+	    model.addAttribute("mbrList",mbrList);
         model.addAttribute("ctyList", ctyList);
         model.addAttribute("lctList", lctList);
 		model.addAttribute("strVO", strVO);
@@ -138,4 +145,54 @@ public class StrController {
 	 *	return "str/str_crewlist";
 	 *}
 	 */
+	
+	
+	
+	/**
+	 * 매장에 관련된 주문서 조회
+	 */
+	@GetMapping("/str/odrlst")
+	public String viewOdrLstForStr(Model model
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
+		OdrLstVO odrLstVO = new OdrLstVO();
+		odrLstVO.setStrId(mbrVO.getStrId());
+		
+		List<OdrLstVO> ordLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
+		odrLstVO.setOdrLstOdrPrcs("003-04");
+		List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
+		
+		
+		model.addAttribute("mbrVO", mbrVO);
+		model.addAttribute("strVO", strVO);
+		model.addAttribute("ordLstList", ordLstList);
+		model.addAttribute("ordLstCompleteList", ordLstCompleteList);
+		
+		return "str/str_odrlst";
+	}
+	
+	/**
+	 * 전체 주문서 조회 (+취소 포함) 
+	 */
+	@GetMapping("/str/completeOdr")
+	public String viewcompleteOdrForStr(Model model
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
+		OdrLstVO odrLstVO = new OdrLstVO();
+		odrLstVO.setStrId(mbrVO.getStrId());
+		
+		List<OdrLstVO> ordLstList = odrLstService.completeOdrForStr(odrLstVO);
+		
+		
+		model.addAttribute("mbrVO", mbrVO);
+		model.addAttribute("strVO", strVO);
+		model.addAttribute("ordLstList", ordLstList);
+		
+		return "str/str_complete_odr";
+	}
+	
+	
+	
+	
+	
 }

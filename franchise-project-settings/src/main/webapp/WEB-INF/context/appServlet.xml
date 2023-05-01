@@ -18,6 +18,7 @@
 
 	<mvc:annotation-driven />
 	
+	<mvc:resources location="/WEB-INF/resources/bs/" mapping="/bs/**" />
 	<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**" />
 	<mvc:resources location="/WEB-INF/resources/html/" mapping="/html/**" />
@@ -46,15 +47,13 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut expression="execution(* com.ktdsuniversity..service.*ServiceImpl.*(..))" id="myPointCut"/>
+		<aop:pointcut expression="execution(* com.ktds..service.*ServiceImpl.*(..))" id="myPointCut"/>
 		<aop:advisor advice-ref="myAdvice" pointcut-ref="myPointCut"/>
 	</aop:config>
 
 
 	<mvc:interceptors>
 			<mvc:interceptor>
-				<!-- <mvc:mapping path="/login"/> -->
-				<!-- <mvc:mapping path="/regist"/> -->
 				<mvc:mapping path="/join"/>
 				<bean class="com.ktds.fr.common.interceptors.BlockPageInterceptor"/>
 			</mvc:interceptor>
@@ -62,8 +61,6 @@
 		<mvc:interceptors>
 			<mvc:interceptor>
 				<mvc:mapping path="/**"/>
-				<!-- <mvc:exclude-mapping path="/login" /> -->
-				<!-- <mvc:exclude-mapping path="/regist" /> -->
 				<mvc:exclude-mapping path="/join" />
 				<mvc:exclude-mapping path="/api/mbr/**"/>
 				<mvc:exclude-mapping path="/js/**" />

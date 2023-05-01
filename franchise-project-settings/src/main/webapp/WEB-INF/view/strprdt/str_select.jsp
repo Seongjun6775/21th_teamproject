@@ -35,15 +35,13 @@ $(document).ready(function() {
 		$("#ctyTable").children("tbody").empty();
 		$("#strTable").children("tbody").empty();
 		
-		$.post("${context}/api/strprdt/list2/lct",
-			{lctId: lct},
-			function(data) {
+		$.post("${context}/api/strprdt/list2/lct", {lctId: lct}, function(data) {
 				for (var i = 0; i < data.length; i++) {
 				    var ctyId = data[i].ctyId;
 				    var ctyNm = data[i].ctyNm;
 				    
 				    var tr = $("<tr data-ctyid='" + ctyId + "'></tr>");
-				    var td = "<td><a href='#'>" + ctyNm + "</a><td>"
+				    var td = "<td><a href='#'>" + ctyNm + "</a></td>"
 				    
 				    $("#ctyTable").children("tbody").append(tr);
 				    tr.append(td);
@@ -65,19 +63,20 @@ $(document).ready(function() {
 		$("#strTable").children("tbody").empty();
 		if (!ctyId)	return;
 		
-		$.post("${context}/api/strprdt/list2/cty",
-		        {ctyId: ctyId},
-		        function(data) {
+		$.post("${context}/api/strprdt/list2/cty", {ctyId: ctyId}, function(data) {
 		        	for (var i = 0; i < data.length; i++) {
 					    var strId = data[i].strId;
 					    var strNm = data[i].strNm;
 					    
 					    var tr = $("<tr data-strid='" + strId + "'></tr>'");
-					    var td = "<td><a href='${context}/strprdt/"+strId+"'>" + strNm + "</a><td>"
+					    var td = "<td><a href='${context}/strprdt/"+strId+"'>" + strNm + "</a></td>"
 					    
 					    $("#strTable").children("tbody").append(tr);
 					    tr.append(td);
 					    
+					    tr.click(function() {
+					    	location.href="${context}/strprdt/"+strId
+					    });
 		        }
 	        })
 	}

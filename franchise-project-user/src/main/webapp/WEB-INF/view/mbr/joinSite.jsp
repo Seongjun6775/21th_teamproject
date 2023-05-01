@@ -34,7 +34,7 @@
 					mbrId: $("#lgn_mbrId").val(),
 					mbrPwd: $("#lgn_mbrPwd").val()
 			}
-			$.post("${context}/api/mbr/login", data, function(resp){
+			$.post("${context}/login", data, function(resp){
 				if(resp.status == "200 OK"){
 					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;
@@ -68,7 +68,7 @@
 				return;
 			}
 				
-			$.get("${context}/api/mbr/check/"+mbrIdVal,function(resp){
+			$.get("${context}/check/"+mbrIdVal,function(resp){
 				if(resp.status == "200 OK"){
 					if(mbrIdVal.length >= 1 && mbrIdVal.length < idMinLength){
 						$("#ableId").hide();
@@ -220,7 +220,7 @@
 				alert("이메일 인증을 진행해 주세요.")
 				return;
 			}
-			$.post("${context}/api/mbr/regist", $("#login-up").serialize(), function(resp){
+			$.post("${context}/regist", $("#login-up").serialize(), function(resp){
 				if(resp.status == "200 OK"){
 					alert("회원가입 성공!");
 					location.href="${context}"+resp.redirectURL;
@@ -269,7 +269,7 @@
 				return;
 			}
 			var mbrEml = $("#mbrEml").val();
-			$.post("${context}/api/mbr/emailSend", {"email": mbrEml},function(resp){
+			$.post("${context}/emailSend", {"email": mbrEml},function(resp){
 				if(resp.status == "200 OK"){
 					authNumber=resp.message;
 					//버튼 누르면 시간 연장
@@ -328,7 +328,7 @@
 			if(!valueUtil.requires("#find-id-mbrEml")){
 				return;
 			}
-			$.post("${context}/api/mbr/find",{email: email, type: type}, function(resp){
+			$.post("${context}/find",{email: email, type: type}, function(resp){
 				if(resp.status=="200 OK"){
 					alert("이메일로 전송완료, 확인 해 주세요.");
 					location.href="${context}/"+resp.redirectURL;
@@ -347,7 +347,7 @@
 			if(!valueUtil.requires("#find-mbrId")){
 				return;
 			}
-			$.post("${context}/api/mbr/find",{email: email, type: type, mbrId: mbrId}, function(resp){
+			$.post("${context}/find",{email: email, type: type, mbrId: mbrId}, function(resp){
 				if(resp.status=="200 OK"){
 					alert("이메일 전송 완료, 확인 해 주세요.");
 					location.href="${context}/"+resp.redirectURL;

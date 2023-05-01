@@ -64,7 +64,7 @@
 			</div>
 			
 			<div>
-				<div class="nt_cntnt">${nt.ntCntnt}</div>
+				<div class="nt_cntnt" style="word-break: break-all;">${nt.ntCntnt}</div>
 			</div>
 			
 			<button id="del_btn">삭제</button>

@@ -18,15 +18,12 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
-
 		$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
 		
 		//수정 버튼을 누르면 수정화면으로 전환 
 		$("#btn-update").click(function() {
-
 			location.href = "${context}/evnt/update/${evntVO.evntId}"
 		});
-
 		//삭제 버튼 누르면 삭제하시겠습니까? 물어보고 삭제하기
 		
 		$("#btn-updateDelete").click(function() {
@@ -38,13 +35,10 @@
 				$.post(							
 						// 1. 호출할 주소
 						"${context}/api/evnt/delete",
-
 						// 2. 파라미터
 						{
 							evntId : $("#evntId").val(),
-
 						},
-
 						// 3. 결과 처리
 						function(response) {
 							if (response.status == "200 OK") {
@@ -66,12 +60,10 @@
 	        	$.post(
 	        			// 1. 호출할 주소
 	        			"${context}/api/evntStr/create",
-
 	        			// 2. 파라미터
 	        			{
 	        				evntId : $("#evntId").val(),
 	        			},
-
 	        			// 3. 결과 처리
 	        			function(response) {
 	        				if (response.status == "200 OK") {
@@ -92,7 +84,7 @@
 		
 		//'참여매장목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntStr").click(function() {
-			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=800, height=600, scrollbars=yes, resizable=yes"); 
 		       pop.focus();	
 		});
 		
@@ -104,24 +96,20 @@
 		
 		//'이벤트상품등록' 버튼 클릭 시 팝업창으로 뜸
 		$("#btn-createEvntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/create/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntPrdt/prdtList2/${evntVO.evntId}" ,  "resPopup", "width=1500, height=800, scrollbars=yes, resizable=yes"); 
 		       pop.focus();	
 		});
 	})
 </script>
 </head>
-<body>
-
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-		<div>
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">이벤트 > 상세페이지</span>
+	</div>
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<table border=1 style="width: 600px;">
 				<tr>
-					<td colspan="4"><h1 style="text-align: center;">이벤트 상세
-							페이지</h1></td>
+					<td colspan="4"><h1 style="text-align: center;">이벤트 상세페이지</h1></td>
 				</tr>
 				<tr>
 					<td style="width:150px;">이벤트 ID</td>
@@ -173,49 +161,56 @@
 					<td><button type="submit" id="btn-cancle" class="btn-primary"
 							style="width: 100%;">목록으로</button></td>
 					<td></td>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-update" class="btn-primary"
 							style="width: 100%;">수정</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-updateDelete"
 							class="btn-primary" style="width: 100%;">삭제</button></td>
+					</c:if>
 				</tr>
 
 				<tr>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-evntStr" class="btn-primary"
 							style="width: 100%;">참여매장목록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
 					<td><button type="submit" id="btn-evntPrdt" class="btn-primary"
 							style="width: 100%;">이벤트상품목록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-02'}">
 					<td><button type="submit" id="btn-createEvntStr" class="btn-primary"
 							style="width: 100%;">참여매장등록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-createEvntPrdt" class="btn-primary"
 							style="width: 100%;">이벤트상품등록</button></td>
+					</c:if>
 				</tr>
 			</table>
 		</div>
-		<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-	
-<%-- 	<script type="text/javascript">
+<jsp:include page="../include/closeBody.jsp" />
+ 	<%-- <script type="text/javascript">
 	const btn1 = document.getElementById("btn-evntStr");
 	const btn2 = document.getElementById("btn-createEvntStr");
 	
 	var mbrLvl = "<%=mbrVO.getMbrLvl()%>";
 	alert("mbrLv1 : " + mbrLvl);
-
-	if (mbrLvl == "ADMIN"){
+	if (mbrLvl == "001-01"){
 		btn1.style.visibility = "visible";
 	} else {
 		btn1.style.visibility = "hidden";
 	}
-
-	if (mbrLvl == "MANAGER"){
+	if (mbrLvl == "001-02"){
 		btn2.style.visibility = "visible";
 	} else {
 		btn2.style.visibility = "hidden";
-	}
+	} 
 	
-	</script> --%>
+	</script>  --%>
 	
 	
-</body>
+
 </html>

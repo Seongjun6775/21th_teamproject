@@ -69,6 +69,19 @@
 			location.href="${context}/hr/hrupdate/${hr.hrId}";
 		});
 		
+		$("#fileDown").click(function(){
+			$.get("${context}/hr/hrfile/${hr.hrId}", function(resp){
+				if(resp.status == "200 OK"){
+					location.reload();
+				}
+				else{
+					alert(resp.message);
+					location.reload();
+				}
+			});
+		
+		});
+		
 	});
 </script>
 </head>
@@ -76,7 +89,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<h3>채용 지원 상세조회 페이지(회원)</h3>
 			
@@ -87,7 +100,12 @@
 			<div>
 				<div class="hr_detail_header">제목 : ${hr.hrTtl}</div>
 				<div class="hr_detail_header">지원 직군 : ${hr.cdNm}</div>
-				<div class="hr_detail_header">지원 상태 : ${hr.hrStat}</div>
+				<c:choose>
+					<c:when test="${hr.hrStat eq '002-01'}"><div>지원 상태 : 접수</div></c:when>
+					<c:when test="${hr.hrStat eq '002-02'}"><div>지원 상태 : 심사중</div></c:when>
+					<c:when test="${hr.hrStat eq '002-03'}"><div>지원 상태 : 심사완료</div></c:when>
+					<c:otherwise></c:otherwise>
+				</c:choose>
 			</div>
 			<div>
 				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
@@ -98,13 +116,13 @@
 				<div class="hr_detail_header">승인 여부 변경 일자 : ${hr.hrAprDt}</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? 'none' : ''};">
-				<div class="hr_detail_header">첨부파일 : <a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm}</a></div>
+				<div class="hr_detail_header">첨부파일 : <a id="fileDown" href="#">${hr.orgnFlNm}</a></div>
 				<div class="hr_detail_header"><fmt:formatNumber type="number" value="${hr.flSize/1024}" maxFractionDigits="2"/> KB</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? '' : 'none'};">
 				<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
 			</div>
-			<div class="hr_detail_cntnt">${hr.hrCntnt}</div>
+			<div class="hr_detail_cntnt" style="word-break: break-all;">${hr.hrCntnt}</div>
 			
 			<button id="update_btn">수정</button>
 			<button id="delete_btn">삭제</button>

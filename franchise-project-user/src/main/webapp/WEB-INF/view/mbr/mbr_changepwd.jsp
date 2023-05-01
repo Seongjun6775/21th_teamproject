@@ -49,7 +49,7 @@
 				alert("새 비밀번호의 두 값이 다릅니다.");
 				return;
 			}
-			$.post("${context}/api/mbr/pwd/update", {mbrPwd: mbrPwd, newMbrPwd: newMbrPwd}, function(resp){
+			$.post("${context}/mbr/pwd/update", {mbrPwd: mbrPwd, newMbrPwd: newMbrPwd}, function(resp){
 				if(resp.status == "200 OK"){
 					alert("비밀번호가 변경되었습니다.");
 					location.href="${context}"+resp.redirectURL;

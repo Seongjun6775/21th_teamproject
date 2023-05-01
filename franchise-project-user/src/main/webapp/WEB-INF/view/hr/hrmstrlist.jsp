@@ -48,33 +48,6 @@
 			}
 		});
 		
-		/* 일괄 다운로드 기능 추가 예정이 사라져서 주석 처리 해 두었습니다.
-		
-		$("#all_check").change(function() {
-			$(".check_idx").not("[disabled=disabled]").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
-		$("#check_download_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			
-			if (checkLen == 0) {
-				alert("선택한 글이 없습니다.");
-				return;
-			}
-			
-			$(".check_idx:checked").each(function() {
-				location.href= "${context}/hr/hrfile/" + $(this).val();
-				
-			});
-			
-		}); */
-		
 		$("#search_btn").click(function() {
 			movePage(0);
 		});
@@ -254,9 +227,7 @@
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
-	
-	
-	
+
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">

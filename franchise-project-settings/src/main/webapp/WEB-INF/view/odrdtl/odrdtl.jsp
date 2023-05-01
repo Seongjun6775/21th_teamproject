@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -14,6 +15,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		
+		var odrPrcs = "${odrPrcs.odrLstOdrPrcs}";
+		
 		$(".updown button").click(function(e) {
 			e.preventDefault();
 			var count = $(this).closest(".updown").find(".cnt");
@@ -41,8 +45,15 @@
 			if (num != now) {
 				count.val(num);
 				
-				var price = num * ${odrDtl.prdtVO.prdtPrc};
-				$(".total-price").val(price);
+				var price = 0;
+				if ("${odrDtl.prdtVO.evntPrdtVO.evntId}" != "") {
+					price = ${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc};
+				}
+				else {
+					price = ${odrDtl.prdtVO.prdtPrc};
+				}
+				var totalPrice = num * price;
+				$(".total-price").val(totalPrice);
 			}
 		});
 		
@@ -53,6 +64,15 @@
 		$("#modify_btn").click(function() {
 			var cnt = $(".cnt").val();
 			
+			if (odrPrcs != "003-01") {
+				if (odrPrcs == "003-05") {
+					alert("주문 취소된 상품입니다.");
+					return;
+				}
+				alert("이미 주문 처리된 상품입니다.");
+				return;
+			}
+			
 			if (cnt == ${odrDtl.odrDtlPrdtCnt}) {
 				if (!confirm("수량이 변경되지 않았습니다. 이대로 수정을 완료하시겠습니까?")) {
 					return;
@@ -62,7 +82,15 @@
 				return;
 			}
 			
-			$.post("${context}/api/odrdtl/update/${odrDtl.odrDtlId}", {"odrDtlPrdtCnt": cnt}, function(response) {
+			var odrDtlPrc = 0;
+			if ("${odrDtl.prdtVO.evntPrdtVO.evntId}" == "") {
+				odrDtlPrc = ${odrDtl.prdtVO.prdtPrc};
+			}
+			else {
+				odrDtlPrc = ${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc};
+			}
+			
+			$.post("${context}/api/odrdtl/update/${odrDtl.odrDtlId}", {"odrDtlPrdtCnt": cnt, "odrDtlPrc": odrDtlPrc}, function(response) {
 				if (response.status == "200 OK") {
 					location.href = "${context}/odrdtl/list/${odrDtl.odrLstId}";
 				}
@@ -76,6 +104,15 @@
 		
 		
 		$("#delete_btn").click(function(){
+			
+			if (odrPrcs != "003-01") {
+				if (odrPrcs == "003-05") {
+					alert("주문 취소된 상품입니다.");
+					return;
+				}
+				alert("이미 주문 처리된 상품입니다.");
+				return;
+			}
 			
 			if (!confirm("해당 물품을 삭제하시겠습니까?")) {
 				return;
@@ -110,9 +147,24 @@
 					<div class="col text-grid">
 						<div style="text-align: left; font-size: 20px;">상품명 : 
 							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtNm}</span>
+							<c:if test="${not empty odrDtl.prdtVO.evntPrdtVO.evntId}">
+								<span>이벤트중!!</span>
+							</c:if>
 						</div>
 						<div style="text-align: left; font-size: 20px;">개당 가격 : 
-							<span style="text-align: left; font-size: 30px; font-weight: bold;">${odrDtl.prdtVO.prdtPrc}</span>원
+							<c:choose>
+								<c:when test="${not empty odrDtl.prdtVO.evntPrdtVO.evntId}">
+									<span style="text-align: left; font-size: 30px; font-weight: bold;">
+										<del><fmt:formatNumber>${odrDtl.prdtVO.prdtPrc}</fmt:formatNumber></del>
+										<fmt:formatNumber>${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>
+									</span>원
+								</c:when>
+								<c:otherwise>
+									<span style="text-align: left; font-size: 30px; font-weight: bold;">
+										<fmt:formatNumber>${odrDtl.prdtVO.prdtPrc}</fmt:formatNumber>
+									</span>원
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div class="col updown" style="text-align: left; font-size: 20px; padding: 0px;">수량 :
 								<button class="minus">-</button>
@@ -120,7 +172,14 @@
 								<button class="plus">+</button>
 						</div>
 						<div class="col price" style="text-align: left; font-size: 20px; padding: 0px;">합계 : 
-							<input type="text" class="total-price" value="${odrDtl.odrDtlPrdtCnt * odrDtl.prdtVO.prdtPrc}" readonly>
+							<c:choose>
+								<c:when test="${not empty odrDtl.prdtVO.evntPrdtVO.evntId}">
+									<input type="text" class="total-price" value="${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc * odrDtl.odrDtlPrdtCnt}" readonly>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="total-price" value="${odrDtl.prdtVO.prdtPrc * odrDtl.odrDtlPrdtCnt}" readonly>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</div>
