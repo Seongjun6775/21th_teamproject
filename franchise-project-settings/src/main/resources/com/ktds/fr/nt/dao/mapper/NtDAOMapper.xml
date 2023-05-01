@@ -59,8 +59,8 @@
         <if test='delYn != null and delYn != ""'>
            AND DEL_YN = #{delYn}
         </if>
-        <include refid="Common.pageFooter" />
          ORDER BY NT_SNDR_DT DESC
+        <include refid="Common.pageFooter" />
 	</select>
 	
 	<update id="updateOneNtByNtId"
