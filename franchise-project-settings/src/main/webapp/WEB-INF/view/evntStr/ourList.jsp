@@ -7,7 +7,7 @@
 <html>
 <head>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="../../css/evntCommon.css">
+<link rel="stylesheet" href="../css/evntCommon.css">
 <meta charset="UTF-8">
 <title>우리매장 이벤트리스트 목록 조회</title>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>

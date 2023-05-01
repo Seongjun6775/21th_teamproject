@@ -89,11 +89,13 @@ public class RestHrController {
 			return new ApiResponseVO(ApiStatus.FAIL, "잘못된 접근입니다.", "/hr/list");
 		}
 		// 최고관리자가 맞다면, 채용 여부를 수정하고 결과를 받아옵니다.
-		
-		if(hrVO.getMbrVO().getMbrLvl().equals("005-01")) {
+
+		if(hrVO.getHrLvl().equals("005-01")&&hrVO.getHrAprYn().equals("Y")) {
 			hrVO.getMbrVO().setMbrLvl("001-02");
-		}else if(hrVO.getMbrVO().getMbrLvl().equals("005-02")) {
+		}else if(hrVO.getHrLvl().equals("005-02")&&hrVO.getHrAprYn().equals("Y")) {
 			hrVO.getMbrVO().setMbrLvl("001-03");
+		}else {
+			hrVO.getMbrVO().setMbrLvl("001-04");
 		}
 		
 		hrVO.getMbrVO().setMdfyr(mbrVO.getMbrNm());

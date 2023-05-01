@@ -131,12 +131,19 @@
 				
 				$(".check-idx:checked").each(function() {
 					var chgPrice = $(this).closest("tr").find("input[type=text]").val();
+					var prdtPrc = $(this).closest("tr").data().prdtprc;
 					chgPrice = chgPrice.replaceAll(",","");
 //    				var evntId = $(this).();
 					console.log(chgPrice);
+					console.log(prdtPrc);
+					
+					if (chgPrice == null || chgPrice == "" || chgPrice.length == 0) {
+						chgPrice = prdtPrc;
+					}
 // 					console.log($(this).val());
  					form.append("<input type='hiedden' name='prdtId' value='" + $(this).val() + "'>");
- 					form.append("<input type='hiedden' name='evntPrdtChngPrc' value='" + chgPrice + "'>");
+ 					form.append("<input type='hiedden' name='evntPrdtChngPrc' value='" + chgPrice + "'>");	
+ 					
 //					console.log(document.getElementById("search-keyword-changePrice"));
 //					console.log(document.getElementById("search-keyword-changePrice").value);
 				});
@@ -218,7 +225,7 @@
 						<c:choose>
 							<c:when test="${not empty prdtList}">
 								<c:forEach items="${prdtList}" var="prdt">
-									<tr>
+									<tr data-prdtprc="${prdt.prdtPrc}">
 										<td class="firstcell" style="text-align: center;"><input type="checkbox"
 											class="check-idx" value="${prdt.prdtId}" /></td>
 										<td style="text-align: center;">${prdt.prdtId}</td>

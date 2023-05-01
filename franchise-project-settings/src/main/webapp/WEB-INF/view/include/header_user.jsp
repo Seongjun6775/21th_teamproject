@@ -4,11 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
-<!DOCTYPE html>
-<html>
-<head>
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
 <link rel="stylesheet2" href="${context}/css/brd_common.css?p=${date}"/>
 <script type="text/javascript" src="${context}/bs/assets/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
@@ -112,8 +109,6 @@ text-decoration: none;
  }
 </style>
 
-
-	<main>
   <nav class="navbar navbar-expand-lg  border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
     <div class="container-fluid ">
       <img src = "${context}/img/cat.jpg"  width="40"; height="32";/>
@@ -142,10 +137,25 @@ text-decoration: none;
               메뉴
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">메뉴관리</a></li>
+              <li><a class="dropdown-item" href="${context}/prdt/list2">전체보기</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">이벤트관리</a></li>
-              <li><a class="dropdown-item" href="#">리뷰관리</a></li>
+
+<%--               <c:choose> --%>
+<%-- 				<c:when test="${not empty srtList}"> --%>
+<%-- 					<c:forEach items="${srtList}" --%>
+<%-- 								var="srt"> --%>
+<%-- 						<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=${srt.cdId}"> --%>
+<%-- 							${srt.cdNm} --%>
+<!-- 						</a></li> -->
+<%-- 					</c:forEach> --%>
+<%-- 				</c:when> --%>
+<%-- 			</c:choose> --%>
+				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-01">메인메뉴</a></li>
+				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-02">사이드메뉴</a></li>
+				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-03">음료</a></li>
+
+<!--               <li><a class="dropdown-item" href="#">전체보기</a></li> -->
+<!--               <li><a class="dropdown-item" href="#">메인메뉴</a></li> -->
             </ul>
           </li>
           <li class="nav-item dropdown">

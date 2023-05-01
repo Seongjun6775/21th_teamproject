@@ -116,7 +116,7 @@
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
-							<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;">지원자 ID</th>
+							<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;">작성자</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;" >
 								<select id="hrLvl" class="form-select" aria-label="Default select example">
 									<option value="">지원 직군</option>
@@ -150,12 +150,14 @@
 								<c:forEach items="${hrList}" var="hr">
 									<tr data-hrid="${hr.hrId}"
 									    data-mbrid="${hr.mbrId}"
+									    data-mbrnm="${hr.mbrVO.mbrNm}"
 									    data-hrlvl="${hr.hrLvl}"
 									    data-hrttl="${hr.hrTtl}"
 									    data-hrrgstdt="${hr.hrRgstDt}"
 									    data-hrapryn="${hr.hrAprYn}"
 									    data-hrstat="${hr.hrStat}"
-									    data-delyn="${hr.delYn}">
+									    data-delyn="${hr.delYn}"
+									    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
 									    <c:set var="checkYn" value="" />
 									    <c:choose>
 									    	<c:when test="${hr.delYn eq 'Y'}">
@@ -170,7 +172,7 @@
 									    </c:choose>
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
 										<td onclick="event.cancelBubble=true">
-											<a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
+											<a class="open-layer" href="javascript:void(0);">${hr.mbrVO.mbrNm}</a>
 										</td>
 										<td>${hr.cdNm}</td> 
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
