@@ -105,11 +105,6 @@ public class HrServiceImpl implements HrService {
 			hrVO.setFlSize(uploadFile.getSize());
 			hrVO.setFlExt(StringUtils.getFilenameExtension(uploadFile.getOriginalFilename()));
 			
-			// hrVO에 저장된 파일이 정해진 파일 형식이 아닐 경우, 업로드를 취소합니다.
-			if (!hrVO.getFlExt().equals("hwp") || !hrVO.getFlExt().equals("doc") || !hrVO.getFlExt().equals("docx")) {
-				throw new ApiException("500", "지정된 파일 형식이 아닙니다.");
-			}
-			
 			// 파일 이름을 암호화하기 위해 임시 생성하는 파일입니다.
 			String uuidFileName = UUID.randomUUID().toString();
 			File hrFile = new File(dir, uuidFileName);
@@ -261,11 +256,6 @@ public class HrServiceImpl implements HrService {
 	 */
 	@Override
 	public boolean updateHrAprByHrId(HrVO hrVO) {
-		// 미채용 클릭 시 에러가 나서 추가했습니다.
-		// hrAprYn값이 'N'이라면, 그 채용 지원의 상태만 '미채용'으로 변경시키고 끝이 납니다.
-		if (hrVO.getHrAprYn().equals("N")) {
-			return hrDAO.updateHrAprByHrId(hrVO) > 0;
-		}
 		
 		boolean updateResult = hrDAO.updateHrAprByHrId(hrVO) > 0;
 		if(!updateResult) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.hr.service.HrService;
 import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -105,7 +106,7 @@ public class HrController {
 			
 			return "hr/hrlist";
 		}
-		return "redirect:/index";
+		return "redirect:/hr/list";
 	}
 	
 	/**
@@ -123,7 +124,7 @@ public class HrController {
 		// 최고 관리자가 아닐 경우, 이미 접수되거나 심사중인 글이 있다면 글 작성이 불가능합니다.
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
 			if (!check) {
-				return "hr/500";
+				throw new ApiException("500", "이미 진행중인 지원 정보가 있습니다.");
 			}
 		}
 		
@@ -172,10 +173,10 @@ public class HrController {
 		
 		HrVO hr = hrService.readOneHrByHrId(hrId);
 		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !hr.getNtcYn().equals("Y")) {
-			return "hr/400";
+			throw new ApiException("500", "권한이 없어 접근할 수 없습니다!");
 		}
 		else if (hr.getDelYn().equals("Y") && !mbrVO.getMbrLvl().equals("001-01")) {
-			return "hr/400";
+			throw new ApiException("500", "권한이 없어 접근할 수 없습니다!");
 		}
 		else {
 			model.addAttribute("hr", hr);
@@ -206,9 +207,9 @@ public class HrController {
 				model.addAttribute("mbrVO", mbrVO);
 				return "hr/hrupdate";
 			}
-			return "hr/400";
+			return "redirect:/hr/list";
 		}
-		return "hr/400";
+		return "redirect:/hr/list";
 	}
 	
 
