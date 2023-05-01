@@ -10,12 +10,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />	
 <jsp:include page="../include/stylescript.jsp"/>
-<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
-		
+		$("#list_btn").click(function() {
+			location.href="${context}/hlpdsk/list";
+		});
 		$("#new_btn").click(function(){	
 			$.post("${context}/api/hlpdsk/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
@@ -38,59 +40,44 @@
 	});
 </script>
 </head>
-<body>	
-	<div class="main-layout">
-	<jsp:include page="../include/header.jsp" />
-		<div>
-		<jsp:include page="../include/sidemenu.jsp" />
-		<jsp:include page="../include/content.jsp" />
-			<div>
-			<!-- 상세화면 헤더 -->
-				<div class="header-option-bar">
-					<div class="header-option-right">
-						<div class="article-action">						
-							<a href="${context}/hlpdsk/list" class="btn-m" style="text-decoration: none;">목록</a> 
-						</div>
-					</div>
-				</div>
-			</div>
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+		        <span class="fs-5 fw-bold">고객센터 > 문의/건의</span>
+		        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
+				  <button id="list_btn" class="btn btn-secondary" >목록</button>
+		        </div>
+	      	</div>
 			<!-- //상세화면 헤더 -->
-			<div>
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
 				<div class="list-title "> 작성 </div>
 				<div>
 					<form id="create_form" >
-						<div class="header-option-right">
-							<div class=" col-sm-3 col-xs-4"> 
-								<label for="hlpDskSbjct">글 분류</label>
-								<select id="hlpDskSbjct" name="hlpDskSbjct" class="input-text" style="width: 20%;">
+							<div style="display: flex;flex-direction: row-reverse;"> 
+								<select id="hlpDskSbjct" name="hlpDskSbjct" class="input-text form-select" style="width: 1	0%;">
 									<option value="">선택</option>
 									<option value="문의하기">문의하기</option>				
 									<option value="건의하기">건의하기</option>
 								</select> 
+								<span style="margin: 5px;">글 분류</span>
 							</div>
-						</div>	
-						
 						<div class="create-group"> 
 							<input type="hidden" id="mbrId" name="mbrId" value="${mbrId}" />
 						</div>	
 						 
 						<div class="create-group">
 							<label for="mngrBrdTtl" class="label">제목</label> 
-							<input type="text" id="mngrBrdTtl" name="hlpDskTtl" placeholder="제목을 입력해주세요." value="" />
+							<input type="text" id="mngrBrdTtl" name="hlpDskTtl" placeholder="제목을 입력해주세요." class="form-control"  value="" />
 						</div>
 						
 						<div class="create-group">
 							<label for="hlpDskCntnt" class="label">본문</label> 
-							<textarea  id="hlpDskCntnt" name="hlpDskCntnt" placeholder="내용을 입력해주세요." >${hlpDsk.mngrBrdCntnt}</textarea>
+							<textarea  id="hlpDskCntnt" name="hlpDskCntnt" placeholder="내용을 입력해주세요." class="form-control"  style="resize: none;" >${hlpDsk.mngrBrdCntnt}</textarea>
 						</div>
 					<div style="padding: 10px;text-align: right;"> 
-						<button id="new_btn" class="blue-btn">등록</button>
+						<button id="new_btn" class="btn btn-primary">등록</button>
 					</div> 					
 					</form>	
 				</div>
 			</div>			
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

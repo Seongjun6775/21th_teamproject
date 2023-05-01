@@ -195,16 +195,7 @@
 				</c:choose>			
 			</tbody>
 		</table>	
-		<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-			<div class="align-right mt-10">
-				<button id="delete_all_btn" class="btn btn-danger">삭제</button>
-			</div>
-		</c:if>
-		<c:if test="${mbrVO.mbrLvl eq '001-04'}">
-			<div class="align-right">				
-				<button id="new_btn" class="btn btn-success">등록</button>
-			</div>
-		</c:if>						
+		<div style="position: relative;">				
 			<div class="pagenate">
 				<ul class="pagination" style="text-align: center;">
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
@@ -240,6 +231,16 @@
 						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
 					</c:if>
 				</ul>
+			</div>
+			<div style="position: absolute;right: 0;top: 0;">	
+				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+					<button id="delete_all_btn" class="btn btn-danger" 
+						style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
+						일괄삭제</button>
+				</c:if>
+				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
+					<button id="new_btn" class="btn btn-success">등록</button>
+				</c:if>
 			</div>
 		</div>	
 						

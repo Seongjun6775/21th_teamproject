@@ -355,8 +355,8 @@ body{
 	margin-right:10px;
 }
  */
-
-/* page */
+/* 
+page
 .pagenate {
 	display: flex;
 	margin-top: 10px;
@@ -387,7 +387,7 @@ body{
 .pagenate ul li a.on{
 	font-weight: bold;
 }
-
+ */
 .mt-10 {
  margin-top: 10px;
  }
