@@ -112,6 +112,8 @@
 			}
 			
 			var form = $("<form></form>");
+			form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
+			form.append("<input type='hidden' name='mbrVO.mbrLvl' value='${hr.hrLvl}'>");
 			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
 			form.append("<input type='hidden' name='hrAprYn' value='N'>");
 			

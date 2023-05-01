@@ -113,26 +113,46 @@
 		SELECT ROWNUM RNUM
 			 , ROWNUM PK_COL
 			 , E.*
-		  FROM (SELECT H.HR_ID
-					 , H.MBR_ID
-					 , M.MBR_NM
-				     , H.HR_TTL
-				     , H.HR_RGST_DT
-				     , H.HR_MDFY_DT
-				     , H.HR_APR_YN
-					 , H.HR_APR_DT
-					 , H.HR_STAT
-					 , H.DEL_YN
-					 , H.NTC_YN
-					 , H.HR_LVL
-				  FROM HR H
-				 INNER JOIN MBR M
-				    ON H.MBR_ID = M.MBR_ID
-				 WHERE H.DEL_YN = 'N'
-				   AND (H.MBR_ID = #{mbrId}
-				    OR H.NTC_YN = 'Y')
-			     ORDER BY H.NTC_YN DESC
-		 			 , H.HR_RGST_DT DESC) E
+		  FROM (SELECT U.*
+				  FROM (SELECT H.HR_ID 
+						     , H.MBR_ID
+						     , M.MBR_NM
+						     , H.HR_TTL
+						     , H.HR_RGST_DT
+						     , H.HR_MDFY_DT
+						     , H.HR_APR_YN
+						     , H.HR_APR_DT
+						     , H.HR_STAT
+						     , H.DEL_YN
+						     , H.NTC_YN
+						     , H.HR_LVL
+						  FROM HR H
+						 INNER JOIN MBR M
+						    ON H.MBR_ID = M.MBR_ID
+						 WHERE H.NTC_YN = 'Y'
+						   AND H.DEL_YN = 'N'
+						   AND ROWNUM <![CDATA[<=]]> 3
+						 ORDER BY HR_RGST_DT DESC) U
+				 UNION ALL
+				SELECT A.*
+				  FROM (SELECT H.HR_ID
+							 , H.MBR_ID
+							 , M.MBR_NM
+						     , H.HR_TTL
+						     , H.HR_RGST_DT
+						     , H.HR_MDFY_DT
+						     , H.HR_APR_YN
+							 , H.HR_APR_DT
+							 , H.HR_STAT
+							 , H.DEL_YN
+							 , H.NTC_YN
+							 , H.HR_LVL
+						  FROM HR H
+						 INNER JOIN MBR M
+						    ON H.MBR_ID = M.MBR_ID
+						 WHERE H.DEL_YN = 'N'
+						   AND H.MBR_ID = #{mbrId}
+						 ORDER BY HR_RGST_DT DESC) A) E
 		<include refid="Common.pageFooter" />
 	</select>
 	
