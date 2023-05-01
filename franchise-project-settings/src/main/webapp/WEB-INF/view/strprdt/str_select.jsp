@@ -44,8 +44,10 @@ $(document).ready(function() {
 				    var ctyNm = data[i].ctyNm;
 				    
 				    var tr = $("<tr data-ctyid='" + ctyId + "'></tr>");
-				    var td = "<td><a href='#'>" + ctyNm + "</a></td>"
-				    
+				    var td = $("<td></td>");
+				    td.addClass("ellipsis");
+				    var a = $("<a href='#'>" + ctyNm + "</a>");
+				    td.append(a);
 				    $("#ctyTable").children("tbody").append(tr);
 				    tr.append(td);
 				    
@@ -100,17 +102,19 @@ $(document).ready(function() {
 
 
 	<div id="menu" class="flex-column">
-		
-		<div id="menuTitle">주문할 매장을 선택합니다</div>
+	
+		<div id="menuCategory" class="flex">
+			<div id="menuTitle">주문할 매장을 선택합니다</div>
+		</div>
 		
 		
 		<div id="selectStr" class="flex">
 			<div class="overflow lctTable inline-block">
 				<table id="lctTable"
-						class="table">
-					<thead class="table-warning">
+						class="table table-hover">
+					<thead class="">
 						<tr>
-							<th>지역</th>
+							<th style="border-radius: 0">지역</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -136,10 +140,10 @@ $(document).ready(function() {
 			</div>
 			<div class="overflow ctyTable inline-block">
 				<table id="ctyTable"
-						class="table">
-					<thead class="table-warning">
+						class="table table-hover">
+					<thead class="">
 						<tr>
-							<th>도시</th>
+							<th style="border-radius: 0">도시</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -148,10 +152,10 @@ $(document).ready(function() {
 			</div>
 			<div class="overflow strTable inline-block">
 				<table id="strTable"
-						class="table">
-					<thead class="table-warning">
+						class="table table-hover">
+					<thead class="">
 						<tr>
-							<th>매장이름일까</th>
+							<th style="border-radius: 0">매장이름일까</th>
 						</tr>
 					</thead>
 					<tbody>
