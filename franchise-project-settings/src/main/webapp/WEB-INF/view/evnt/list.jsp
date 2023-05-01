@@ -125,8 +125,8 @@
 									<td>
 										<select id="useYn" class="form-select" name="useYn" >
 											<option value="ALL">전체</option>
-											<option value="Y">Y</option>
-											<option value="N">N</option>
+											<option value="Y" ${useYn eq 'Y' ? 'selected' : ''}>Y</option>
+											<option value="N" ${useYn eq 'N' ? 'selected' : ''}>N</option>
 										</select>
 									</td>
 
@@ -189,7 +189,7 @@
 
 											<td style="text-align:center;">${evnt.evntId}</td>
 											<td style="text-align:center;"><a href="${context}/evnt/detail/${evnt.evntId}">${evnt.evntTtl}</a></td>
-											<td style="text-align:center;"><a href="${context}/evnt/detail/${evnt.evntId}">"${evnt.evntCntnt}</a></td>
+											<td style="text-align:center;"><a href="${context}/evnt/detail/${evnt.evntId}">${evnt.evntCntnt}</a></td>
 											<td style="text-align:center;">${evnt.evntStrtDt}</td>
 											<td style="text-align:center;">${evnt.evntEndDt}</td>
 <%-- 											<td>${evnt.orgnFlNm}</td> --%>
