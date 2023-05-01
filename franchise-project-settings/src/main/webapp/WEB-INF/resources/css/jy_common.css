@@ -73,7 +73,9 @@ body {
 .space-between {
 	justify-content: space-between;
 }
-
+.space-evenly {
+	justify-content: space-evenly;
+}
 
 .default-padding {
 	padding: 23px 18px 23px 18px; 
@@ -417,6 +419,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .prdt-detail {
 	align-items: center;
+	margin: auto;
 }
 .prdt-detail > div[class=img-box] {
 	border-radius: 36px;
@@ -429,13 +432,19 @@ input[type="number"]::-webkit-inner-spin-button {
 	font-size: 26px;
 	color: #888;
 }
-.prdt-text > div {
+.prdt-text > div > div {
 	text-align: center;
 }
-.prdt-text > div + div {
+.prdt-text > div > div + div {
 	margin-top: 48px;
 }
-
+.prdt-text > button {
+    position: absolute;
+    bottom: 0;
+    margin: 23px 0;
+    padding: 10px 20px;
+    font-size: 32px;
+}
 
 .prdtNm {
     font-size: 48px;
@@ -466,6 +475,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .prdtPrc {
 	display: flex;
 	font-size: 36px;
+    justify-content: center;
 }
 .delPrdtPrc {
 	font-size: 28px;
@@ -486,6 +496,22 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
+/* str prdt odr */
+#selectStr {
+	align-self: center;
+}
+#selectStr > div + div {
+	margin-left: 36px;
+}
+#selectStr > div > table {
+	text-align: center;
+}
+.lctTable, .ctyTable{
+	width: 200px;
+}
+.strTable {
+	width: 400px;
+} 
 
 
 

@@ -64,7 +64,7 @@ function movePage(pageNo) {
 
 </script>
 </head>
-<body>
+<body class="scroll">
 
 	<jsp:include page="../include/header_user.jsp" />
 
@@ -75,25 +75,9 @@ function movePage(pageNo) {
 	
 	
 	
-	<div id="menu" class="flex-column">
-<!-- 		<div id="menuCategory" class="flex"> -->
-<!-- 			<a href="#" value="" class="menu"> -->
-<!-- 				전체메뉴 -->
-<!-- 			</a> -->
-<%-- 			<c:choose> --%>
-<%-- 				<c:when test="${not empty srtList}"> --%>
-<%-- 					<c:forEach items="${srtList}" --%>
-<%-- 								var="srt"> --%>
-<!-- 						<a href="#"  class="menu" -->
-<%-- 							value="${srt.cdId}" > --%>
-<%-- 							${srt.cdNm} --%>
-<!-- 						</a> -->
-<%-- 					</c:forEach> --%>
-<%-- 				</c:when> --%>
-<%-- 			</c:choose> --%>
-<!-- 		</div> -->
+	<div id="menu" class="flex-column relative">
 		
-		<div class="default-padding flex prdt-detail" style="margin: 0 auto;">
+		<div class="default-padding flex prdt-detail" style="margin-top: 144px">
 		
 			<div class="img-box" style="width: 600px; height: 600px;">
 				<c:choose>
@@ -107,31 +91,32 @@ function movePage(pageNo) {
 			</div>
 			
 			<div class="prdt-text flow-column">
-				
 		<%-- 		<div>이벤트명 : <a href="${context}/evnt/detail/${prdtVO.evntVO.evntId}">${prdtVO.evntVO.evntTtl}</a></div> --%>
-				<div style="font-size: 18px;">${prdtVO.cmmnCdVO.cdNm}</div>
-				<div class="prdtNm relative flex">${prdtVO.prdtNm}</div>
-				<c:choose>
-					<c:when test="${empty prdtVO.evntVO.evntId}">
-						<div class="prdtPrc"><fmt:formatNumber>${prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></div>
-					</c:when>
-					<c:otherwise>
-						<div class="prdtPrc">
-							<div class="delPrdtPrc relative">
-								<c:choose>
-									<c:when test="${not empty prdtVO.evntVO.evntId}">
-										<div class="prdtDtlEvnt">이벤트 진행중</div>
-									</c:when>
-								</c:choose>
-								<del><fmt:formatNumber>${prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></del>
+				<div style="top: -50px; position: relative;">
+					<div style="font-size: 18px;">${prdtVO.cmmnCdVO.cdNm}</div>
+					<div class="prdtNm relative flex">${prdtVO.prdtNm}</div>
+					<c:choose>
+						<c:when test="${empty prdtVO.evntVO.evntId}">
+							<div class="prdtPrc"><fmt:formatNumber>${prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></div>
+						</c:when>
+						<c:otherwise>
+							<div class="prdtPrc">
+								<div class="delPrdtPrc relative">
+									<c:choose>
+										<c:when test="${not empty prdtVO.evntVO.evntId}">
+											<div class="prdtDtlEvnt">이벤트 진행중</div>
+										</c:when>
+									</c:choose>
+									<del><fmt:formatNumber>${prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></del>
+								</div>
+								<div><fmt:formatNumber>${prdtVO.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber><span>원</span></div>
 							</div>
-							<div><fmt:formatNumber>${prdtVO.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber><span>원</span></div>
-						</div>
-					</c:otherwise>
-				</c:choose>
-				<div>${prdtVO.prdtCntnt}</div>
-				
-				<button>주문 페이지</button>
+						</c:otherwise>
+					</c:choose>
+					<div>${prdtVO.prdtCntnt}</div>
+					
+				</div>
+				<button class="btn btn-outline-warning" onclick="location.href='${context}/strprdt/list2'">주문 페이지</button>
 			</div>
 		</div>			
 		

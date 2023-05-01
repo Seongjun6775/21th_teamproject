@@ -100,7 +100,12 @@ $().ready(function() {
 		});		
 		
 	});
-	
+
+	$('body').on('click', function(event) {
+		if (!$(event.target).closest('.modal-content').length) {
+			$('button[data-bs-dismiss=modal]').click();
+		}
+	});
 	
 	
 	

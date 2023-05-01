@@ -57,6 +57,8 @@ $().ready(function() {
 			table.append(thead);
 			
 			var tbody = $("<tbody></tbody>");
+			tbody.addClass("table-group-divider");
+			var pay = 0;
 			for (var i = 0; i < data.length; i++) {
 			    var odrDtlId = data[i].odrDtlId;
 			    var prdtNm = data[i].prdtVO.prdtNm;
@@ -70,6 +72,8 @@ $().ready(function() {
 					  $("<td>" + odrDtlPrdtCnt.toLocaleString() + "</td>"),
 					  $("<td>" + (odrDtlPrc * odrDtlPrdtCnt).toLocaleString() + "</td>"),
 					];
+			    pay = pay + (odrDtlPrc * odrDtlPrdtCnt);
+			    
 					tdList.forEach(function(td) {
 					  tr.append(td);
 					});
@@ -78,11 +82,26 @@ $().ready(function() {
 			table.append(tbody);
 			
 			$("div[class=modal-body]").html(table);
+			var div = $("<div> 총 금액 : "+pay.toLocaleString() +"원</div>")
+			div.css({
+				"text-align":"right",
+				"font-weight":"bold",
+			});
+			table.after(div);
 			
 			$("#modal").click();
 		});		
 		
 	});
+	
+	$('body').on('click', function(event) {
+		if (!$(event.target).closest('.modal-content').length) {
+			$('button[data-bs-dismiss=modal]').click();
+		}
+	});
+
+	
+	
 
 	
 	
@@ -414,6 +433,7 @@ function movePage(pageNo) {
 					<table class="table table-striped table-sm table-hover">
 						<thead>
 							<tr>
+								<th></th>
 								<th>주문서ID</th>
 								<th>주문자</th>
 								<th>주문날짜</th>
@@ -427,6 +447,7 @@ function movePage(pageNo) {
 									<c:forEach items="${ordLstCompleteList}"
 												var="ordLst">
 										<tr data-odrlstid="${ordLst.odrLstId}">
+											<td></td>
 											<td>${ordLst.odrLstId}</td>							
 											<td>${ordLst.mbrId}</td>							
 											<td>${ordLst.odrLstRgstDt}</td>							

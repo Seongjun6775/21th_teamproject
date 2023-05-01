@@ -140,16 +140,20 @@ text-decoration: none;
               <li><a class="dropdown-item" href="${context}/prdt/list2">전체보기</a></li>
               <li><hr class="dropdown-divider"></li>
 
-              <c:choose>
-				<c:when test="${not empty srtList}">
-					<c:forEach items="${srtList}"
-								var="srt">
-						<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=${srt.cdId}">
-							${srt.cdNm}
-						</a></li>
-					</c:forEach>
-				</c:when>
-			</c:choose>
+<%--               <c:choose> --%>
+<%-- 				<c:when test="${not empty srtList}"> --%>
+<%-- 					<c:forEach items="${srtList}" --%>
+<%-- 								var="srt"> --%>
+<%-- 						<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=${srt.cdId}"> --%>
+<%-- 							${srt.cdNm} --%>
+<!-- 						</a></li> -->
+<%-- 					</c:forEach> --%>
+<%-- 				</c:when> --%>
+<%-- 			</c:choose> --%>
+				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-01">메인메뉴</a></li>
+				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-02">사이드메뉴</a></li>
+				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-03">음료</a></li>
+
 <!--               <li><a class="dropdown-item" href="#">전체보기</a></li> -->
 <!--               <li><a class="dropdown-item" href="#">메인메뉴</a></li> -->
             </ul>
