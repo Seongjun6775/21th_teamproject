@@ -41,12 +41,7 @@
 	});
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
+<jsp:include page="../include/openBody.jsp" />
 			<h2>중간관리자 쪽지 상세보기 페이지</h2>
 			<div>
 				<div class="detail_header">제목 : ${nt.ntTtl}</div>
@@ -69,8 +64,5 @@
 			
 			<button id="del_btn">삭제</button>
 			<button id="list_btn">목록</button>
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

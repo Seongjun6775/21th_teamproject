@@ -114,124 +114,110 @@
 
 </script>
 </head>
-<body>
-<div class="main-layout">	
-	<jsp:include page="../include/header.jsp" />	
-	<div>
-		<jsp:include page="../include/sidemenu.jsp" />
-		<jsp:include page="../include/content.jsp" />
-		<div>
-			<div style="display: block; padding: 20px;">
-				<div class="list-title">
-					<h3 class="list-title">고객센터</h3> 
-				</div> 
-				
-			
-			
-				<div class="board_box row">	
-					<div class=" col-sm-3 col-xs-4"> 
-						<select id="search-select" class="input-text" style="width: 100%;">
-							<option value="hlpDskTtl"${searchIdx eq 'hlpDskTtl' ?  'selected': ''}>제목</option>
-							<option value="hlpDskCntnt"${searchIdx eq 'hlpDskCntnt' ?  'selected': ''}>본문</option>
-							<option value="Wrtr"${searchIdx eq 'Wrtr' ?  'selected': ''}>작성자</option>
-						</select> 
-					</div>
-					<div class=" col-sm-6 col-xs-8">
-						<input name="keyword" type="text" class="input-text" placeholder="검색어를 입력해주세요" id="search-keyword"  style="width: 100%;" value="${searchKeyword}" >
-					</div>
-					<div class=" col-sm-3 col-xs-12">
-						<a role="button" title="검색" id="search-btn" class="blue-btn" style="width:100%;">검색</a>
-					</div> 
-				</div>	
-				<div class= "grid">
-				
-					<table>
-						<thead>
-							<tr>
-								<th>글번호</th>
-								<th>문의/건의</th>	
-								<th>답변상태
-									<select class="selectFilter" name="selectFilter"
-											id="search-keyword-hlpDskPrcsYn">
-										<option value="">--</option>
-										<option value="Y">답변완료</option>
-										<option value="N">답변대기중</option>
-									</select>
-								</th>			
-								<th>제목</th>
-								<th>작성자</th>
-								<th>작성일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>			 		
-								<c:when test="${not empty hlpDskList}">
-									<c:forEach items="${hlpDskList}" var="hlpDsk" >
-										<tr data-hlpdskwrtid = "${hlpDsk.hlpDskWrtId}"
-											data-hlpdsksbjct = "${hlpDsk.hlpDskSbjct}"
-											data-hlpdskprcsyn = "${hlpDsk.hlpDskPrcsYn}"
-											data-hlpdskttl = "${hlpDsk.hlpDskTtl}"
-											data-mbrnm = "${mbrVO.mbrNm}"
-											data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
-											<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>    
-											<td style="width: 130px;">${hlpDsk.hlpDskSbjct}</td>
-											<td style="width: 130px;">${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
-											<td>
-												<a href="${context}/hlpdsk/${hlpDsk.hlpDskWrtId}" class="brdid">
-													${hlpDsk.hlpDskTtl}  
-												</a>
-											</td>
-											<td style="width: 180px;">${hlpDsk.mbrVO.mbrNm}
-											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);">${hlpDsk.mbrId}</a>)</span></td>
-											<td style="width: 200px;">${hlpDsk.hlpDskWrtDt}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="6" class="no-items">
-											등록된 글이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-				
-					 <div class="pagenate">
-						<ul>
-							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastPage : 0}" var="lastPage"/>
-							<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastGroup : 0}" var="lastGroup"/>
-							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(hlpDskVO.pageNo /10)}" integerOnly="true" />
-							<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
-							<c:set value ="${nowGroup*10+ 10}" var="groupEndPageNo" />
-							<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo-1}" var="groupEndPageNo" />
-							
-							<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
-							<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-							<c:if test="${nowGroup > 0}">
-								<li><a href="javascript:movePage(0)">처음</a></li>
-								<li><a href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
-							</c:if>
-							
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
-								<li><a class="${pageNo eq hlpDskVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-							</c:forEach>
-					
-							<c:if test="${lastGroup > nowGroup}">
-								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-							</c:if>
-						</ul>
-					</div>			
-				</div> 		
-			</div>
-		</div>
-		<jsp:include page="../include/footer.jsp" />
-	</div>
-</div>
+<jsp:include page="../include/openBody.jsp" />
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">고객센터</span>
+	    </div>
 
+		<!-- searchbar -->
+		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
+		  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
+		  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin: 15px;">
+		    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+		  </svg>
+		    <select id="search-select" class="form-select" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
+				<option value="hlpDskTtl"${searchIdx eq 'hlpDskTtl' ?  'selected': ''}>제목</option>
+				<option value="hlpDskCntnt"${searchIdx eq 'hlpDskCntnt' ?  'selected': ''}>본문</option>
+				<option value="Wrtr"${searchIdx eq 'Wrtr' ?  'selected': ''}>작성자</option>
+		    </select>
+		    <input class="form-control me-2" type="text" id="search-keyword" value="${searchKeyword}" placeholder="Search" aria-label="Search">
+		    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+		</div>
+		<!-- /searchbar -->	
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+			<div style="margin: 13px;">총 ${hlpDskList.size() > 0 ? hlpDskList.get(0).totalCount : 0}건</div>
+			<table class="table caption-top table-hover" style="text-align: center;">
+				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;"> 
+					<tr>
+						<th>글번호</th>
+						<th>문의/건의</th>	
+						<th>
+							<select class="form-select" name="selectFilter"
+									id="search-keyword-hlpDskPrcsYn">
+								<option value="">답변상태</option>
+								<option value="Y">답변완료</option>
+								<option value="N">답변대기중</option>
+							</select>
+						</th>			
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:choose>			 		
+						<c:when test="${not empty hlpDskList}">
+							<c:forEach items="${hlpDskList}" var="hlpDsk" >
+								<tr data-hlpdskwrtid = "${hlpDsk.hlpDskWrtId}"
+									data-hlpdsksbjct = "${hlpDsk.hlpDskSbjct}"
+									data-hlpdskprcsyn = "${hlpDsk.hlpDskPrcsYn}"
+									data-hlpdskttl = "${hlpDsk.hlpDskTtl}"
+									data-mbrnm = "${mbrVO.mbrNm}"
+									data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
+									<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>    
+									<td style="width: 130px;">${hlpDsk.hlpDskSbjct}</td>
+									<td style="width: 130px;">${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
+									<td>
+										<a href="${context}/hlpdsk/${hlpDsk.hlpDskWrtId}" class="brdid">
+											${hlpDsk.hlpDskTtl}  
+										</a>
+									</td>
+									<td style="width: 180px;">${hlpDsk.mbrVO.mbrNm}
+									<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);">${hlpDsk.mbrId}</a>)</span></td>
+									<td style="width: 200px;">${hlpDsk.hlpDskWrtDt}</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="6" class="no-items">
+									등록된 글이 없습니다.
+								</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+				</tbody>
+			</table>
+		
+			 <div class="pagenate">
+				<ul class="pagination" style="text-align: center;">
+					<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastPage : 0}" var="lastPage"/>
+					<c:set value = "${hlpDskList.size() > 0 ? hlpDskList.get(0).lastGroup : 0}" var="lastGroup"/>
+					
+					<fmt:parseNumber var="nowGroup" value="${Math.floor(hlpDskVO.pageNo /10)}" integerOnly="true" />
+					<c:set value ="${nowGroup*10}" var="groupStartPageNo" />
+					<c:set value ="${nowGroup*10+ 10}" var="groupEndPageNo" />
+					<c:set value ="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo-1}" var="groupEndPageNo" />
+					
+					<c:set value ="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />  
+					<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+					<c:if test="${nowGroup > 0}">
+						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
+					</c:if>
+					
+					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
+						<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq hlpDskVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+					</c:forEach>
+			
+					<c:if test="${lastGroup > nowGroup}">
+						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+					</c:if>
+				</ul>
+			</div>			
+		</div> 		
+<jsp:include page="../include/closeBody.jsp" />
 <div class="layer_popup" id="layer_popup" style="display: none;">
 	<div class="popup_box">
 		<div class="popup_content">
@@ -242,8 +228,4 @@
 		</div>
 	</div>
 </div>
-
-
-
-</body>
 </html>

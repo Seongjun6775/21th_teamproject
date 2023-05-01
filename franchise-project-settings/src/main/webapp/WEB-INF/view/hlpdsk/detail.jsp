@@ -39,7 +39,7 @@
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
-		        <span class="fs-5 fw-bold"> 고객센터</span>
+		        <span class="fs-5 fw-bold"> 고객센터 > 문의/건의</span>
 		        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
 				  <button id="list_btn" class="btn btn-secondary" >목록</button>
 		        </div>
@@ -81,7 +81,7 @@
 					<header class="detailview-header">
 					    <div class="detailview-header-area">
 					        <div class="detailview-header-left">
-					        	<div class="qna-font">답변완료</div> 
+					        	<div class="list-title">답변완료</div> 
 
 					            <!-- 추가 정보 -->
 								<div class="etc">

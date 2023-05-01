@@ -75,6 +75,7 @@
 		});
 		
 		$("#fileDown").click(function(){
+			alert("${hr.hrId}");
 			$.get("${context}/hr/hrfile/${hr.hrId}", function(resp){
 				if(resp.status == "200 OK"){
 					location.reload();
@@ -86,8 +87,11 @@
 			});
 		
 		});
-		
+	   $('a[href="#"]').click(function(ignore) {
+		      ignore.preventDefault();
+	   });
 	});
+	
 </script>
 </head>
 <body>
