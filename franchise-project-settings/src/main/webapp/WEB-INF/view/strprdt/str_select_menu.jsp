@@ -27,7 +27,7 @@ $().ready(function() {
 	});
 	$('div[class="itemList"]').click(function() {
 		if ($(this).children("div.blockMenu").length > 0) {
-			return;
+			return; 
 		}
 		location.href = "${context}/strprdt/detail/"+$(this).data("strprdtid");
 	});
