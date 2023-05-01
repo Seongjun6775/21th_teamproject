@@ -30,7 +30,19 @@ public class RvController {
 	
 	
 	// 2-1-②.리뷰 목록 조회 == 상위관리자, 이용자
-	@GetMapping("/rv/list")
+	@GetMapping("/user/rv/list")
+	public String viewRvListPage(Model model, RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO) {
+		
+		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO, searchRvVO);
+		model.addAttribute("rvList", rvList);
+		model.addAttribute("rvVO", rvVO);
+		model.addAttribute("searchRvVO", searchRvVO);
+		
+		return "rv/listForUser";
+	}
+	
+	// 2-1-②.리뷰 목록 조회 == 상위관리자, 이용자
+	@GetMapping("/mbr/rv/list")
 	public String viewRvListPage(Model model, RvVO rvVO, SearchRvVO searchRvVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
@@ -44,7 +56,7 @@ public class RvController {
 	}
 	
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자
-	@GetMapping("/rv/detail/{rvId}")
+	@GetMapping("/user/rv/detail/{rvId}")
 	public String viewRvDetailPage(Model model, @PathVariable String rvId
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			,HttpServletRequest request) {
