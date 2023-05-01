@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -25,6 +26,10 @@
 		});
 		
 	});
+	
+	function movePage(pageNo) {
+		location.href = "${context}/hr/hrlist?pageNo=" + pageNo;
+	}
 </script>
 </head>
 <body>
@@ -52,7 +57,7 @@
 				  <thead>
 				    <tr>
 				      <th>채용 번호</th>
-					  <th>작성자 ID</th>
+					  <th>작성자</th>
 					  <th>제목</th>
 					  <th>등록일</th>
 					  <th>채용 상태</th>
@@ -64,6 +69,7 @@
 							<c:forEach items="${myHrList}" var="hr">
 								<tr data-hrid="${hr.hrId}"
 								    data-mbrid="${hr.mbrId}"
+								    data-mbrnm="${hr.mbrVO.mbrNm}"
 								    data-hrttl="${hr.hrTtl}"
 								    data-hrrgstdt="${hr.hrRgstDt}"
 								    data-hrapryn="${hr.hrAprYn}"
@@ -71,7 +77,7 @@
 								    data-delyn="${hr.delYn}"
 								    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
 									<td>${hr.hrId}</td>
-									<td>${hr.mbrId}</td>
+									<td>${hr.mbrVO.mbrNm}</td>
 									<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 									<td>${hr.hrRgstDt}</td>
 									<c:choose>
@@ -90,19 +96,42 @@
 				  </tbody>
 				</table>
 			</div>
-			<!-- 
-			<div>
-				<table>
-					<thead>
+			<div style="position: relative;">
+				<div class="pagenate">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination" style="text-align: center;">
+							<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastPage : 0}" var="lastPage" />
+							<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastGroup : 0}" var="lastGroup" />
+							
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
+							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+							
+							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+							
+							
+							<c:if test="${nowGroup > 0}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+							</c:if>
 						
-					</thead>
-					<tbody>
-						
-					</tbody>
-				</table>
-			</div> -->
-			<div>
-				<button class="create_btn">작성</button>
+							
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+								<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+							</c:forEach>
+							
+							<c:if test="${lastGroup > nowGroup}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+							</c:if>
+						</ul>
+					</nav>
+				</div>
+				<div>
+					<button class="create_btn">작성</button>
+				</div>
 			</div>
 			<footer class="footer mt-auto py-3 bg-light">
 			  <div class="container">

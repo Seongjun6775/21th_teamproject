@@ -21,9 +21,7 @@
 		$("#new_btn").click(function(){	
 			$.post("${context}/api/hlpdsk/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
-					alert("!!");
 					var url= '${context}/hlpdsk/list'
-					alert(url);
 					location.replace(url);	
 				}
 				else if (response.status =="400"){
@@ -53,7 +51,7 @@
 				<div>
 					<form id="create_form" >
 							<div style="display: flex;flex-direction: row-reverse;"> 
-								<select id="hlpDskSbjct" name="hlpDskSbjct" class="input-text form-select" style="width: 1	0%;">
+								<select id="hlpDskSbjct" name="hlpDskSbjct" class="input-text form-select" style="width: 10%;">
 									<option value="">선택</option>
 									<option value="문의하기">문의하기</option>				
 									<option value="건의하기">건의하기</option>
