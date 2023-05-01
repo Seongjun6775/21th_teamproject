@@ -137,9 +137,8 @@
 </script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
-		<div class="fs-6" style="margin: 0 20px">회원 > 채용</div>
 		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
-	        <span class="fs-5 fw-bold">master 채용 디테일 테스트 / 채용 지원 상세조회 페이지(최고관리자)</span>
+	        <span class="fs-5 fw-bold">회원 > 채용</span>
 	        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
 	          <button id="update_btn" class="btn btn-primary" >수정</button>
 			  <button id="delete_btn" class="btn btn-danger" style="margin-right:10px">삭제</button>
