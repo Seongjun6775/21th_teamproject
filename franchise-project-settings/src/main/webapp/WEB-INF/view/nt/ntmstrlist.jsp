@@ -136,7 +136,7 @@
 </head>
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-			<span class="fs-5 fw-bold">쪽지 > 쪽지함	</span>
+			<span class="fs-5 fw-bold">쪽지 > 쪽지관리</span>
 	    </div>
 	    
 	    <!-- searchbar -->
