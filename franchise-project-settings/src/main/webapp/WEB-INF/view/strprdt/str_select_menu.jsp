@@ -27,7 +27,8 @@ $().ready(function() {
 	});
 	$('div[class="itemList"]').click(function() {
 		console.log($(this).data()+"aaaaaaaaaaaa")
-		console.log($(this).children().find("div[class=blockMenu]").length)
+		console.log($(this).children("div").find("div.blockMenu").length)
+// 		console.log($(this).children("div").find("div[class=blockMenu]").length)
 		return;
 		if ($(this).find('div[class="blockMenu"]').length > 0) {
 			console.log("1")
