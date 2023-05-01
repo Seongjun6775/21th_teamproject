@@ -176,7 +176,7 @@
 			</div>
 			<div>총 ${odrDtlList.size() > 0 ? odrDtlList.get(0).totalCount : 0}건</div>
 			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
-			<div class="odrdtl_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+			<%-- <div class="odrdtl_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<div>
 					<c:choose>
 						<c:when test="${not empty odrDtlList}">
@@ -216,14 +216,14 @@
 											  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
 											  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 											</svg>
-											<%-- <button type="button" class="btn btn-danger btn-sm delete_btn" value="${odr.odrDtlId}">삭제</button> --%>
+											<button type="button" class="btn btn-danger btn-sm delete_btn" value="${odr.odrDtlId}">삭제</button>
 										</div>
 									</div>
 								</div>
 							</c:forEach>
 						</c:when>
 					</c:choose>
-				</div>
+				</div> --%>
 				
 				
 				
@@ -250,7 +250,7 @@
 				
 				
 				
-				<%-- <table class="table table-striped">
+				<table class="table table-striped">
 					<thead>
 						<tr>
 							<!-- <th><input type="checkbox" id="all_check"/></th> -->
@@ -319,7 +319,7 @@
 							</c:otherwise>
 						</c:choose>
 					</tbody>
-				</table> --%>
+				</table>
 				
 				<div>
 					<div style="position: relative;'">
