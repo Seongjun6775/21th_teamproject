@@ -12,12 +12,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
-<%-- <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" /> --%>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 
 	$().ready(function() {
 		
+	
 		var url;
 		$(".open-layer").click(function(event) {
 			// event.preventDefault();
@@ -47,7 +47,10 @@
 			$("#layer_popup").hide();
 		});
 		
-		$(".enterkey").keyup(function(event) {
+		$("input[name=searchWrap]").val("${searchRvVO.search}");
+		$("#search_option").val("${searchRvVO.type}");
+		
+		$("#search-keyword").keyup(function(event) {
 			if(event.keyCode == 13) {
 				$("#search_btn").click();
 			}
@@ -195,16 +198,16 @@
 				</c:choose>			
 			</tbody>
 		</table>	
-		<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-			<div class="align-right mt-10">
-				<button id="delete_all_btn" class="btn btn-danger">삭제</button>
-			</div>
-		</c:if>
 		<c:if test="${mbrVO.mbrLvl eq '001-04'}">
-			<div class="align-right">				
+			<div class="align-right" style="display: inline-block; float: left;">				
 				<button id="new_btn" class="btn btn-success">등록</button>
 			</div>
 		</c:if>						
+		<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+			<div class="align-right mt-10" style="display: inline-block; float: right;">
+				<button id="delete_all_btn" class="btn btn-danger">삭제</button>
+			</div>
+		</c:if>
 			<div class="pagenate">
 				<ul class="pagination" style="text-align: center;">
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>

@@ -12,9 +12,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
-<link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+
 	$().ready (function() {
 		
 		$("#new_btn").click(function() {
@@ -36,21 +36,16 @@
 							alert(response.errorCode + " / " + response.message);
 						}	
 						
-					});	
-			
+					});				
 		});			
 	});		
 </script>
 </head>
 <body>
 	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
+		<jsp:include page="../include/openBody.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-
 			<div class="path">리뷰 > 리뷰관리 > 리뷰등록</div>
-
 			<h1>새 리뷰 등록</h1>
 			<div>
 				<form id="create_form" method="post">
@@ -81,11 +76,12 @@
 							<option value="F">싫어요</option>
 						</select>
 					</div>		
-				</form>
-				<div class="align-right">
-					<button id="new_btn" class="btn-primary" >등록</button>
+				<div class="align-right" style="display: inline-block;">
+					<button type="button" id="new_btn" class="btn btn-outline-primary">등록</button>
 				</div>
+				</form>
 				<jsp:include page="../include/footer.jsp" />
+				<jsp:include page="../include/closeBody.jsp" />
 			</div>
 		</div>
 	</div>
