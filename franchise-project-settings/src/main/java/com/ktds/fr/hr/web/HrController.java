@@ -131,7 +131,7 @@ public class HrController {
 		// 최고 관리자가 아닐 경우, 이미 접수되거나 심사중인 글이 있다면 글 작성이 불가능합니다.
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
 			if (!check) {
-				throw new ApiException("500", "이미 진행중인 지원 정보가 있습니다.");
+				return "hr/500create";
 			}
 		}
 		
@@ -180,12 +180,21 @@ public class HrController {
 		
 		HrVO hr = hrService.readOneHrByHrId(hrId);
 		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !hr.getNtcYn().equals("Y")) {
-			throw new ApiException("500", "권한이 없어 접근할 수 없습니다!");
+			return "hr/500cannot";
 		}
 		else if (hr.getDelYn().equals("Y") && !mbrVO.getMbrLvl().equals("001-01")) {
-			throw new ApiException("500", "권한이 없어 접근할 수 없습니다!");
+			return "hr/500cannot";
 		}
 		else {
+			
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			
 			model.addAttribute("hr", hr);
 			model.addAttribute("mbrVO", mbrVO);
 			

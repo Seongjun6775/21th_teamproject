@@ -84,15 +84,83 @@
 	
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<h3>채용 지원 상세조회 페이지(회원)</h3>
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+	        <span class="fs-5 fw-bold">채용지원 > 상세조회</span>
+	    	<div style="position: absolute;right: 0;top: 0; margin: 20px;">
+	          <button id="update_btn" class="btn btn-primary" >수정</button>
+			  <button id="delete_btn" class="btn btn-danger" style="margin-right:10px">삭제</button>
+			  <button id="list_btn" class="btn btn-secondary" >목록</button>
+	        </div>
+      	</div>
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+			<div style="padding:10px;">
+				<span class="fs-5 fw-bold">${hr.hrTtl}</span>
+				<div class="hr_detail_header">(${hr.hrId})</div>
+			</div>
+			<div style="margin-top: 10px">
 			
-			<div>
+			<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
+				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
+				<%-- <div class="hr_detail_header">최종 수정일 : ${hr.hrMdfyDt}</div> --%>
+				<div class="hr_detail_header">작성자 : ${hr.mbrVO.mbrNm}</div>
+				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
+			</div>
+				<div style="padding:10px; ">
+					<div class="bg-warning rounded bg-opacity-25 padding: 10px; margin: 10px;"> 
+						<div style="display: ${hr.orgnFlNm == null ? '' : 'none'}; ">
+							<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
+						</div>
+						<div style="display: ${hr.orgnFlNm == null ? 'none' : ''}; margin-bottom: 20px; padding: 10px;">
+							<div class="hr_detail_header" style="display: inline-block;">첨부파일 : <span style="font-weight: bold;"><a href="${context}/hr/hrfile/${hr.hrId}">${hr.orgnFlNm}</a></span></div>
+							<div class="hr_detail_header" style="display: inline-block;"> ${hr.flSize/1024}KB</div>
+						</div>
+					</div>
+					<div style="padding: 10px;">
+						<div>
+							<textarea class="fw-semibold" 
+									   style="margin-bottom: 100px; height:220px;
+									          overflow: auto; word-break: break-all;
+									          border: none; resize: none;">${hr.hrCntnt}</textarea>
+						</div>
+					</div>
+					<div style="display: flex;align-content: center;flex-wrap: wrap; flex-direction: column;">
+					<div class="card p-3">
+					<ul class="list-group mb-3" style="width: 300px;">
+				         <li class="list-group-item d-flex justify-content-between lh-sm">
+				           <div>
+				             <h6 class="my-0">지원 상태</h6>
+				           </div>
+				           <strong>
+				            <c:choose>
+							<c:when test="${hr.hrStat eq '002-01'}"><div>접수</div></c:when>
+							<c:when test="${hr.hrStat eq '002-02'}"><div>심사중</div></c:when>
+							<c:when test="${hr.hrStat eq '002-03'}"><div>심사완료</div></c:when>
+							<c:otherwise></c:otherwise>
+							</c:choose>
+				           </strong>
+				         </li>
+				         <li class="list-group-item d-flex justify-content-between bg-light">
+				           <div>
+				             <h6 class="my-0">지원직군</h6>
+				           </div>
+				           <strong> ${hr.cdNm}</strong>
+				         </li>
+				
+				         <li class="list-group-item d-flex justify-content-between lh-sm">
+				           <div>
+				             <h6 class="my-0">승인 여부 변경일자</h6>
+				             <small class="text-muted">${hr.hrAprDt}</small>
+				           </div>
+				           <strong class="text-muted">${hr.hrAprYn}</strong>
+				         </li> 
+			         </ul>
+					</div>
+			       </div>
+				</div>
+			</div>
+		</div>
+			<%-- <div>
 				<div class="hr_detail_header">글 번호 : ${hr.hrId}</div>
 				<div class="hr_detail_header">작성자 : ${hr.mbrVO.mbrNm}</div>
 			</div>
@@ -124,13 +192,7 @@
 			<div>
 				<textarea class="hr_detail_cntnt" style="word-break: break-all; width: 600px; height: 400px; resize: none;">${hr.hrCntnt}</textarea>
 			</div>
+		</div> --%>
 			
-			<button id="update_btn">수정</button>
-			<button id="delete_btn">삭제</button>
-			<button id="list_btn">목록</button>
-			
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

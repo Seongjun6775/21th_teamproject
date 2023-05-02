@@ -42,51 +42,47 @@
 	});
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<h3>채용 지원 작성 페이지 테스트</h3>
-			<form id="hr_form" enctype="multipart/form-data">
-				<div>
-					<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
-				</div>
-				<div>
-					<label for="mbrId">작성자</label>
-					<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
-				</div>
-				<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
-					<select id="hrLvl">
-						<option value=" ">직군을 선택하세요.</option>
-						<option value="005-01">점주</option>
-						<option value="005-02">직원</option>
-					</select>
-				</div>
-				<div>
-					<label for="hrTtl">제목</label>
-					<input type="text" id="hrTtl" name="hrTtl" />
-					
-				</div>
-				<div>
-					<label for="hrFile">파일 첨부</label>
-					<input type="file" id="hrFile" name="hrFile" />
-				</div>
-				<div>
-					<label for="hrCntnt">본문</label>
-					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
-					 placeholder="4000자 까지 입력하실 수 있습니다"></textarea>
-				</div>
-			</form>
-			
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+		<span class="fs-5 fw-bold">채용지원 > 지원서 작성</span>
+	</div>
+	<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+		<form id="hr_form" enctype="multipart/form-data">
 			<div>
-				<button id="save_btn">작성</button>
-				<button id="cancel_btn">취소</button>
+				<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
 			</div>
-			
-			<jsp:include page="../include/footer.jsp" />
+			<div>
+				<label for="mbrId">작성자</label>
+				<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
+			</div>
+			<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
+				<select id="hrLvl">
+					<option value=" ">직군을 선택하세요.</option>
+					<option value="005-01">점주</option>
+					<option value="005-02">직원</option>
+				</select>
+			</div>
+			<div>
+				<label for="hrTtl">제목</label>
+				<input type="text" id="hrTtl" name="hrTtl" />
+				
+			</div>
+			<div>
+				<label for="hrFile">파일 첨부</label>
+				<input type="file" id="hrFile" name="hrFile" />
+			</div>
+			<div>
+				<label for="hrCntnt">본문</label>
+				<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
+				 placeholder="4000자 까지 입력하실 수 있습니다"
+				 style="width: 600px; height: 400px; resize: none;"></textarea>
+			</div>
+		</form>
+		<div>
+			<button id="save_btn">작성</button>
+			<button id="cancel_btn">취소</button>
 		</div>
 	</div>
-</body>
+			
+<jsp:include page="../include/closeBody.jsp" />
 </html>
