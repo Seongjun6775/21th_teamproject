@@ -361,11 +361,17 @@
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+  <!-- spinner -->
+  	<div id="overlay">
+	  <div class="cv-spinner">
+	    <span class="spinner"></span>
+	  </div>
+	</div>
 
   <div class="login">
     <div class="login__content">
       <div class="login__img">
-        <img src="https://image.freepik.com/free-vector/code-typing-concept-illustration_114360-3581.jpg" alt="user login">
+        <img src="${context}/img/franchiseLogo.png" alt="user login">
       </div>
       <div class="login__forms">
 			<!--로그인 영역 -->
