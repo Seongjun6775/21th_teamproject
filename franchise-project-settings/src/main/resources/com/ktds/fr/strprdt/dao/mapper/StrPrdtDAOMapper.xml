@@ -100,7 +100,8 @@
 						  , E.EVNT_END_DT 
 					   FROM (SELECT *
 					   		   FROM EVNT_PRDT
-					   		  WHERE DEL_YN = 'N' ) EP
+					   		  WHERE DEL_YN = 'N'
+					   		    AND USE_YN = 'Y' ) EP
 					  INNER JOIN (SELECT *
 									FROM EVNT
 								   WHERE DEL_YN = 'N' ) E 
@@ -160,7 +161,7 @@
 		    ON SP.STR_ID = S.STR_ID 
 		 INNER JOIN (SELECT * 
 					   FROM PRDT
-					  WHERE DEL_YN = 'N' ) P
+					  WHERE DEL_YN = 'N') P
 		    ON SP.PRDT_ID = P.PRDT_ID
 	      LEFT OUTER JOIN MBR SM
 	        ON S.MBR_ID = SM.MBR_ID
@@ -234,7 +235,10 @@
 				 WHERE STR_ID = #{strId}) SP
 		 INNER JOIN STR S
 		    ON SP.STR_ID = S.STR_ID
-		  LEFT OUTER JOIN PRDT P 
+		 INNER JOIN (SELECT *
+  					   FROM PRDT
+  					  WHERE USE_YN = 'Y'
+  					    AND DEL_YN = 'N') P 
 		    ON SP.PRDT_ID = P.PRDT_ID 
 		  LEFT OUTER JOIN (SELECT E.EVNT_ID
 		  						, E.EVNT_TTL
