@@ -177,6 +177,7 @@
 			<div>총 ${odrDtlList.size() > 0 ? odrDtlList.get(0).totalCount : 0}건</div>
 			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
 			<div class="odrdtl_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+			<%-- <div class="odrdtl_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<div>
 					<c:choose>
 						<c:when test="${not empty odrDtlList}">
@@ -290,7 +291,8 @@
 					</ul>
 				</div>
 			</div>
-			
+
+
 				
 				
 				
@@ -316,7 +318,7 @@
 				
 				
 				
-				<%-- <table class="table table-striped">
+				<table class="table table-striped">
 					<thead>
 						<tr>
 							<!-- <th><input type="checkbox" id="all_check"/></th> -->
@@ -385,7 +387,7 @@
 							</c:otherwise>
 						</c:choose>
 					</tbody>
-				</table> --%>
+				</table>
 				
 				<%-- <div>
 					<div style="position: relative;'">
