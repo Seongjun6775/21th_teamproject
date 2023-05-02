@@ -152,33 +152,31 @@
 				}
 	</script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"/>
-		<div>
-			<jsp:include page="../include/strMgmtSideMenu.jsp"/>
-			<jsp:include page="../include/content.jsp"/>
-
-			<div class="path"> 매장 관리 > 상세 조회</div>
-			
+<jsp:include page="../include/openBody.jsp" />
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold"> 매장관리 > 상세 조회</span>
 			<h1>매장 상세 조회</h1>
-			<div class="grid">
-			
+		</div>
+		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 1613px; margin:20px; height: auto;">
+			<div class="grid-detail">
+			<h3 style="padding:10px">상세 매장 정보</h3>
 			<div class="grid-strdetailmst">
-				<form id="strdetailmst_form">
+				<form id="strdetailmst_form" class="needs-validation">
 					<input type="hidden" id="isModify" value="false" />
-					<div class="input-group inline">
-						<label for="strId" style="width:180px">매장 ID</label>
+					<div class="row g-3 " style="display: inline-block;">
+						<div class="input-group col-12">
+						<span class="input-group-text">매장 ID</span>
 						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" style="background-color:orange"/>
 					</div>
+					
 					<div class="input-group inline">
-						<label for="strNm" style="width:180px">매장명</label>
+						<span class="input-group-text">매장명</span>
 						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}"/>
 					</div>
 					
 					<div class="input-group inline">
-						<label for="strLctn" style="width:180px">지역</label>
-						<select id="strLctn" name="strLctn" >
+						<span class="input-group-text">지역명</span>
+						<select class="form-select" name="strLctn" id="strLctn">
 							<option value="">지역명</option>
 							<c:choose>
 								<c:when test="${not empty lctList}">
@@ -191,8 +189,8 @@
 						</select>
 					</div>
 					<div class="input-group inline">
-						<label for="strCty" style="width:180px">도시</label>
-						<select id="strCty" name="strCty">
+						<span class="input-group-text">도시명</span>
+						<select class="form-select" name="strCty" id="strCty">
 							<option value="">도시</option>
 							<c:choose>
 								<c:when test="${not empty ctyList}">
@@ -206,45 +204,51 @@
 					</div>
 					
 				    <div class="input-group inline">
-						<label for="strAddr" style="width:180px">매장주소</label>
+						<span class="input-group-text">매장주소</span>
 						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 					</div>
 				    <div class="input-group inline">
-				        <label for="strCallNum" style="width:180px">전화번호</label>
+				        <span class="input-group-text">전화번호</span>
 				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
 				    </div>	
 				
 					<div class="input-group inline">
-						<label for="mbrId" style="width:180px">점주ID</label>
+						<span class="input-group-text">점주ID</span>
 						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}" style="background-color:orange" placeholder="점주 ID가 없습니다."/>
 					</div>
 					<div class="input-group inline">
-						<label for="strOpnTm" style="width:180px">오픈시간</label>
+						<span class="input-group-text">오픈시간</span>
 						<input type="time" id="strOpnTm" name="strOpnTm" value="${strVO.strOpnTm}"/>
 					</div>
 					<div class="input-group inline">
-						<label for="strClsTm" style="width:180px">종료시간</label>
+						<span class="input-group-text">종료시간</span>
 						<input type="time" id="strClsTm" name="strClsTm" value="${strVO.strClsTm}"/>
 					</div>
 					<div class="input-group inline">
-						<label for="strRgstr" style="width:180px">등록자</label>
+						<span class="input-group-text">등록자</span>
 						<input type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
-						<label for="strRgstDt" style="width:180px">등록일</label>
+						<span class="input-group-text">등록일</span>
 						<input type="date" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
-						<label for="mdfyr" style="width:180px">수정자</label>
+						<span class="input-group-text">수정자</span>
 						<input type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
-						<label for="mdfyDt" style="width:180px">수정일</label>
-						<input type="date" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" style="background-color:orange"/>
+						<span class="input-group-text">수정일</span>
+						<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
 					</div>
 					<div class="input-group inline">
-						<label for="useYn" style="width:180px">사용여부</label>
-						<input type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
+						<label class="form-check-label">사용여부</label>
+						<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
+					</div>
+					<div style="float:right; display: flex; flex-direction: row-reverse;">
+							
+							<button id="save_btn" class="btn btn-outline-success" >등록</button>
+							<button id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
+						</div>
 					</div>
 				</form>
 			</div>
@@ -311,7 +315,6 @@
 						</tbody>
 					</table>
 			
-			
 		</div>
 			<div class="align-right">
 				<button id="save_btn" class="btn-primary">매장 수정</button>
@@ -319,8 +322,6 @@
 				<button id="list_btn" class="btn-list">목록</button>
 				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 			</div>
-			<jsp:include page="../include/footer.jsp" />
 		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
