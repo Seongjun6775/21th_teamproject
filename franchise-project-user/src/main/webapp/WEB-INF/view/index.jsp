@@ -179,7 +179,7 @@ text-decoration: none;
               <li><a class="dropdown-item" href="#">리뷰관리</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdo	wn">
+          <li class="nav-item dropdown">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
               매장
             </a>
