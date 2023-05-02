@@ -191,6 +191,7 @@
 									data-useyn="${odr.useYn}"
 									data-delyn="${odr.delYn}"
 									data-mbrid="${odr.mbrId}"
+									data-odrdtlprc="${odr.odrDtlPrc}"
 									data-prdtnm="${odr.prdtVO.prdtNm}"
 									data-prdtprc="${odr.prdtVO.prdtPrc}"
 									data-uuidflnm="${odr.prdtVO.uuidFlNm}"
@@ -206,21 +207,31 @@
 										<div class="dtl-prdtCnt">수량<span class="padding10-bold">${odr.odrDtlPrdtCnt}</span>개</div>
 										<div class="dtl-prdtPrc">개당 가격
 											<c:choose>
-												<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
-													<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
+												<c:when test="${odrPrcs.odrLstOdrPrcs eq '003-01'}">
+													<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+														<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
+													</c:when>
+													<c:otherwise>
+														<span class="padding10-bold">${odr.prdtVO.prdtPrc}</span>원
+													</c:otherwise>
 												</c:when>
 												<c:otherwise>
-													<span class="padding10-bold">${odr.prdtVO.prdtPrc}</span>원
+													<span style="font-weight: bold;">${odr.odrDtlPrc}</span>원
 												</c:otherwise>
 											</c:choose>
 										</div>
 										<div class="dtl-sumPrc">
 											<c:choose>
-												<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">합계
-													<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
+												<c:when test="${odrPrcs.odrLstOdrPrcs eq '003-01'}">
+													<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">합계
+														<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
+													</c:when>
+													<c:otherwise>
+														<span class="padding10-bold">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</span>원
+													</c:otherwise>
 												</c:when>
 												<c:otherwise>
-													<span class="padding10-bold">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</span>원
+													
 												</c:otherwise>
 											</c:choose>
 										</div>
@@ -290,146 +301,6 @@
 					</ul>
 				</div>
 			</div>
-			
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<%-- <table class="table table-striped">
-					<thead>
-						<tr>
-							<!-- <th><input type="checkbox" id="all_check"/></th> -->
-							<th>사진</th>
-							<th>상품명</th>
-							<th>수량</th>
-							<th>가격</th>
-							<th>총액</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:choose>
-							<c:when test="${not empty odrDtlList}">
-								<c:set var="sum" value="0" />
-								<c:forEach items="${odrDtlList}" var="odr">
-									<tr data-odrdtlid="${odr.odrDtlId}"
-										data-odrlstid="${odr.odrLstId}"
-										data-odrdtlprdtid="${odr.odrDtlPrdtId}"
-										data-odrdtlprdtcnt="${odr.odrDtlPrdtCnt}"
-										data-odrdtlstrid="${odr.odrDtlStrId}"
-										data-useyn="${odr.useYn}"
-										data-delyn="${odr.delYn}"
-										data-mbrid="${odr.mbrId}"
-										data-prdtnm="${odr.prdtVO.prdtNm}"
-										data-prdtprc="${odr.prdtVO.prdtPrc}"
-										data-uuidflnm="${odr.prdtVO.uuidFlNm}"
-										data-strnm="${odr.strVO.strNm}"
-										data-strcallnum="${odr.strVO.strCallNum}">
-										<!-- <td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${odr.odrDtlId}" /></td> -->
-										<td><img src="${context}/prdt/img/${odr.prdtVO.uuidFlNm}"></td>
-										<td>${odr.prdtVO.prdtNm}</td>
-										<td>${odr.odrDtlPrdtCnt}</td>
-										<c:choose>
-											<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
-												<td><del style="font-size: 12px; color: #333;">${odr.prdtVO.prdtPrc}</del>  <span>${odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
-											</c:when>
-											<c:otherwise>
-												<td>${odr.prdtVO.prdtPrc}</td>
-											</c:otherwise>
-										</c:choose>
-										<c:choose>
-											<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
-												<td><del style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span>${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span></td>
-											</c:when>
-											<c:otherwise>
-												<td>${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</td>
-											</c:otherwise>
-										</c:choose>
-										<td onclick="event.cancelBubble=true"><button type="button" class="btn btn-danger btn-sm delete_btn"
-													 value="${odr.odrDtlId}">삭제</button></td>
-									</tr>
-									<c:choose>
-										<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
-											<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}" />
-										</c:when>
-										<c:otherwise>
-											<c:set var="sum" value="${sum + odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}" />
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-								<input type="hidden" id="sum" value='<c:out value="${sum}"/>'/>
-							</c:when>
-							<c:otherwise>
-								<td colspan="8">주문 내역이 없습니다.</td>
-							</c:otherwise>
-						</c:choose>
-					</tbody>
-				</table> --%>
-				
-				<%-- <div>
-					<div style="position: relative;'">
-						<div style="position: absolute; right: 10px; top:0px;">
-							<div style="display: inline-block;">합계 : <span><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
-							<div style="display: inline-block;">충전 잔량 : <span><c:out value="${mbrVO.mbrPyMn}" /></span>원</div>
-						</div>
-						<div style="position: absolute; right: 10px; top: 30px;">
-							<button id="pay_btn" type="button" class="btn btn-success">결제하기</button>
-							<button id="list_btn" type="button" class="btn btn-secondary">목록</button>
-							<button id="delete_all_btn" type="button" class="btn btn-danger">전체 삭제</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="pagenate">
-				<ul style="list-style: none;">
-					<c:set value="${odrDtlList.size() >0 ? odrDtlList.get(0).lastPage : 0}" var="lastPage" />
-					<c:set value="${odrDtlList.size() >0 ? odrDtlList.get(0).lastGroup : 0}" var="lastGroup" />
-					
-					<fmt:parseNumber var="nowGroup" value="${Math.floor(odrDtlVO.pageNo / 10)}" integerOnly="true" />
-					<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-					
-					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-					<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-					
-					
-					<c:if test="${nowGroup > 0}">
-						<li><a href="javascript:movePage(0)">처음</a></li>
-						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-					</c:if>
-				
-					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-						<li><a class="${pageNo eq odrDtlVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-					</c:forEach>
-					
-					<c:if test="${lastGroup > nowGroup}">
-						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-					</c:if>
-				</ul>
-			</div> --%>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
