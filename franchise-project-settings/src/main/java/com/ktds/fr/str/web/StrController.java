@@ -172,7 +172,7 @@ public class StrController {
 	}
 	
 	/**
-	 * 전체 주문서 조회 (+취소 포함) 
+	 * 처리된 주문서 조회 (완료+취소) 
 	 */
 	@GetMapping("/str/completeOdr")
 	public String viewcompleteOdrForStr(Model model
