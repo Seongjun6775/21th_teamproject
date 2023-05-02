@@ -129,15 +129,10 @@
 		});
 		
 		$("#fileDown").click(function(){
-			$.get("${context}/hr/hrfile/${hr.hrId}", function(resp){
-				if(resp.status == "200 OK"){
-					location.reload();
-				}
-				else{
-					alert(resp.message);
-					location.reload();
-				}
-			});
+			
+			var hrId = "${hr.hrId}";
+			location.href="${context}/hr/hrfile/" + hrId;
+		
 		});
 		
 	});

@@ -77,16 +77,7 @@
 		$("#fileDown").click(function(){
 			
 			var hrId = "${hr.hrId}";
-			
-			$.get("/fran/hr/hrfile/" + hrId, function(resp){
-				if(resp.status == "200 OK"){
-					location.reload();
-				}
-				else{
-					alert(resp.message);
-					location.reload();
-				}
-			});
+			location.href="${context}/hr/hrfile/" + hrId;
 		
 		});
 	});
