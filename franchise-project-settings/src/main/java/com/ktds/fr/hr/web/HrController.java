@@ -12,13 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
-import com.ktds.fr.common.api.vo.ApiResponseVO;
-import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.DownloadUtil;
 import com.ktds.fr.hr.service.HrService;
 import com.ktds.fr.hr.vo.HrVO;
@@ -131,7 +128,7 @@ public class HrController {
 		// 최고 관리자가 아닐 경우, 이미 접수되거나 심사중인 글이 있다면 글 작성이 불가능합니다.
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
 			if (!check) {
-				return "hr/500";
+				return "hr/500create";
 			}
 		}
 		
@@ -180,12 +177,21 @@ public class HrController {
 		
 		HrVO hr = hrService.readOneHrByHrId(hrId);
 		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !hr.getNtcYn().equals("Y")) {
-			return "hr/400";
+			return "hr/500cannot";
 		}
 		else if (hr.getDelYn().equals("Y") && !mbrVO.getMbrLvl().equals("001-01")) {
-			return "hr/400";
+			return "hr/500cannot";
 		}
 		else {
+			
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			System.out.println(hr.getMbrVO().getMbrNm());
+			
 			model.addAttribute("hr", hr);
 			model.addAttribute("mbrVO", mbrVO);
 			

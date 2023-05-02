@@ -25,34 +25,21 @@ public class RestStrController {
 	private StrService strService;
 	
 	@PostMapping("/api/str/create")
-	public ApiResponseVO createNewStr(StrVO strVO, String strNm, String strAddr, String strCallNum, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-//		String strNm = strVO.getStrNm();
-//		String strAddr = strVO.getStrAddr();
-//		String strStrCallNum = strVO.getStrCallNum();
-//		
-//		if(strNm == null || strNm.trim().length() == 1) {
-//			throw new ApiArgsException("400", "매장명이 중복되었습니다.");
-//		}
-//		if(strAddr == null || strAddr.trim().length() == 1) {
-//			throw new ApiArgsException("400", "매장주소가 중복되었습니다.");
-//		}
-//		if(strStrCallNum == null || strStrCallNum.trim().length() == 1) {
-//			throw new ApiArgsException("400", "전화번호가 중복되었습니다.");
-//		}
-//		
-		boolean isExistStrNm = strService.readBlockStrNm(strNm);
+	public ApiResponseVO createNewStr(StrVO strVO, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		
+		boolean isExistStrNm = strService.readBlockStrNm(strVO.getStrNm());
 		
 		if(isExistStrNm) {
 			throw new ApiArgsException("400", "기존 매장명과 중복이 발생했습니다.");
 		}
 		
-		boolean isExistStrAddr = strService.readBlockStrAddr(strAddr);
+		boolean isExistStrAddr = strService.readBlockStrAddr(strVO.getStrAddr());
 		
 		if(isExistStrAddr) {
 			throw new ApiArgsException("400", "기존 매장주소와 중복이 발생했습니다.");
 		}
 		
-		boolean isExistStrCallNum = strService.readBlockStrCallNum(strCallNum);
+		boolean isExistStrCallNum = strService.readBlockStrCallNum(strVO.getStrCallNum());
 		
 		if(isExistStrCallNum) {
 			throw new ApiArgsException("400", "기존 전화번호와 중복이 발생했습니다.");

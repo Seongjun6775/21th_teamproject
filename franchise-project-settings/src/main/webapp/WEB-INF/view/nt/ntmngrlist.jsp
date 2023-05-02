@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${context}/css/ntcommon.css?p=${date}" />
+<%-- <link rel="stylesheet" href="${context}/css/ntcommon.css?p=${date}" /> --%>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -139,7 +139,7 @@
 						<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
 					</select>
 					<input class="form-control me-2" type="text" id="search-keyword" value="${keyword}"/>
-					<button id="search_btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">검색</button>
+					<button id="search_btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
 				</div>
 				<!-- /searchbar -->
 			</div>
@@ -181,40 +181,42 @@
 						</c:choose>
 					</tbody>
 				</table>
+			<div style="position: relative;">
+				<div class="pagenate">
+						<ul class="pagination" style="text-align: center;">
+							<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastPage : 0}" var="lastPage" />
+							<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastGroup : 0}" var="lastGroup" />
+							
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(ntVO.pageNo / 10)}" integerOnly="true" />
+							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+							
+							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+							
+							
+							<c:if test="${nowGroup > 0}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+							</c:if>
+							
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+								<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq ntVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+							</c:forEach>
+							
+							<c:if test="${lastGroup > nowGroup}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+							</c:if>
+						</ul>
+					</div>
+					<div style=" right: 0;top: 0; position: absolute;">
+						<button id="crt_btn" class="btn btn-secondary">작성</button>
+						<button id="check_del_btn" class="btn btn-danger">일괄삭제</button>
+					</div>
+				</div>
 			</div>
-			<div class="pagenate">
-					<ul class="pagination" style="text-align: center;">
-						<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastPage : 0}" var="lastPage" />
-						<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastGroup : 0}" var="lastGroup" />
-						
-						<fmt:parseNumber var="nowGroup" value="${Math.floor(ntVO.pageNo / 10)}" integerOnly="true" />
-						<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-						<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-						<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-						
-						<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-						
-						
-						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-						</c:if>
-						
-						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-							<li><a class="${pageNo eq ntVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-						</c:forEach>
-						
-						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-						</c:if>
-					</ul>
-				</div>
-				<div>
-					<button id="crt_btn">작성</button>
-					<button id="check_del_btn">일괄삭제</button>
-				</div>
 			
 			
 	<div class="layer_popup" id="layer_popup" style="display: none;">

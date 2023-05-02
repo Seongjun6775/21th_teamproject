@@ -80,17 +80,13 @@
 					</c:choose>
 				  </tbody>
 				</table>
-				<div style="float: right;">
-					<button id="create_btn" class="btn btn-success">작성</button>
-				</div>
-			</div>
-			<div style="position: relative;">
-				<div class="pagenate">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination" style="text-align: center;">
-							<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastPage : 0}" var="lastPage" />
-							<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastGroup : 0}" var="lastGroup" />
-							
+				<div style="position: relative;">
+					<div class="pagenate">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination" style="text-align: center;">
+								<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastPage : 0}" var="lastPage" />
+								<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastGroup : 0}" var="lastGroup" />
+								
 							<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
 							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
 							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
@@ -117,9 +113,7 @@
 						</ul>
 					</nav>
 				</div>
-				<div>
-					<button class="create_btn">작성</button>
-				</div>
 			</div>
+		</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

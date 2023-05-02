@@ -141,9 +141,12 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public List<OdrDtlVO> odrDtlForOdrLst(String odrDtlId) {
 		return odrDtlDAO.odrDtlForOdrLst(odrDtlId);
 	}
+
 	
 	
-	
-	
+	@Override
+	public List<OdrDtlVO> forSale(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.forSale(odrDtlVO);
+	}
 	
 }

@@ -18,45 +18,48 @@
 		
 		var odrPrcs = "${odrPrcs.odrLstOdrPrcs}";
 		
-		$(".updown button").click(function(e) {
-			e.preventDefault();
-			var count = $(this).closest(".updown").find(".cnt");
-			var now = parseInt(count.val());
-			var min = 1;
-			var max = 999;
-			var num = now;
-			
-			if($(this).hasClass("minus")){
-				var type="m";
-			} else {
-				var type="p"
-			}
-			
-			if (type == "m") {
-				if (now > min) {
-					num = now - 1;
-				}
-			} else {
-				if (now < max) {
-					num = now + 1;
-				}
-			}
-			
-			if (num != now) {
-				count.val(num);
+		if ("${odrPrcs.odrLstOdrPrcs}" == "003-01") {
+			$(".updown button").click(function(e) {
 				
-				var price = 0;
-				if ("${odrDtl.prdtVO.evntPrdtVO.evntId}" != "") {
-					price = ${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc};
+				e.preventDefault();
+				var count = $(this).closest(".updown").find(".cnt");
+				var now = parseInt(count.val());
+				var min = 1;
+				var max = 999;
+				var num = now;
+				
+				if($(this).hasClass("minus")){
+					var type="m";
+				} else {
+					var type="p"
 				}
-				else {
-					price = ${odrDtl.prdtVO.prdtPrc};
+				
+				if (type == "m") {
+					if (now > min) {
+						num = now - 1;
+					}
+				} else {
+					if (now < max) {
+						num = now + 1;
+					}
 				}
-				var totalPrice = num * price;
-				$(".total-price").val(totalPrice);
-			}
-		});
-		
+				
+				if (num != now) {
+					count.val(num);
+					
+					var price = 0;
+					if ("${odrDtl.prdtVO.evntPrdtVO.evntId}" != "") {
+						price = ${odrDtl.prdtVO.evntPrdtVO.evntPrdtChngPrc};
+					}
+					else {
+						price = ${odrDtl.prdtVO.prdtPrc};
+					}
+					var totalPrice = num * price;
+					$(".total-price").val(totalPrice);
+				}
+			});
+		}
+			
 		$("#list_btn").click(function() {
 			location.href = "${context}/odrdtl/list/${odrDtl.odrLstId}";
 		});
@@ -138,7 +141,7 @@
 			<div class="container bg-white rounded shadow-sm" style="padding: 50px; margin: 0 auto; ">
 				<div class="row content text-center">
 					<div class="col img-grid">
-						<img src="" alt="사진이 들어갈 예정입니다.">
+						<img src="${context}/prdt/img/${odrDtl.prdtVO.uuidFlNm}" alt="사진이 들어갈 예정입니다.">
 					</div>
 					<!-- 임시로 style을 넣어 두었습니다. css 작업을 하실 때 지워야 합니다. -->
 					<div class="col text-grid">
