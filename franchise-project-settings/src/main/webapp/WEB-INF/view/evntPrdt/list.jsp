@@ -80,9 +80,7 @@
 
 </head>
 <body>
-	<div style="padding: 23px 18px 23px 18px;">
-
-		
+	<div style="padding: 23px 18px 23px 18px;">	
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin-bottom:20px;" >
 	        <span class="fs-5 fw-bold"> 이벤트상품 리스트 목록 조회</span>
       	</div>

@@ -117,9 +117,6 @@
 						</ul>
 					</nav>
 				</div>
-				<div>
-					<button class="create_btn">작성</button>
-				</div>
 			</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
