@@ -208,12 +208,14 @@
 										<div class="dtl-prdtPrc">개당 가격
 											<c:choose>
 												<c:when test="${odrPrcs.odrLstOdrPrcs eq '003-01'}">
-													<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
-														<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
-													</c:when>
-													<c:otherwise>
-														<span class="padding10-bold">${odr.prdtVO.prdtPrc}</span>원
-													</c:otherwise>
+													<c:choose>
+														<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+															<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
+														</c:when>
+														<c:otherwise>
+															<span class="padding10-bold">${odr.prdtVO.prdtPrc}</span>원
+														</c:otherwise>
+													</c:choose>
 												</c:when>
 												<c:otherwise>
 													<span style="font-weight: bold;">${odr.odrDtlPrc}</span>원
@@ -223,12 +225,14 @@
 										<div class="dtl-sumPrc">합계
 											<c:choose>
 												<c:when test="${odrPrcs.odrLstOdrPrcs eq '003-01'}">
-													<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
-														<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
-													</c:when>
-													<c:otherwise>
-														<span class="padding10-bold">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</span>원
-													</c:otherwise>
+													<c:choose>																	
+														<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
+															<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
+														</c:when>
+														<c:otherwise>
+															<span class="padding10-bold">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</span>원
+														</c:otherwise>
+													</c:choose>
 												</c:when>
 												<c:otherwise>
 													<span class="padding10-bold">${odr.odrDtlPrdtCnt * odr.odrDtlPrc}</span>원
