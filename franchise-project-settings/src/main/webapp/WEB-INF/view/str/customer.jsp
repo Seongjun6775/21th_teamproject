@@ -217,12 +217,6 @@
 					</ul>
 				</nav>
 			</div>
-			<p style="margin-top: -12px">
-		<em class="link"> <a href="javascript:void(0);"
-			onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
-				혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요. </a>
-		</em>
-	</p>
 	<div id="map" style="width:500px;height:400px;"></div>
 
 	<script type="text/javascript"
@@ -242,7 +236,7 @@
 		// 주소-좌표 변환 객체를 생성합니다
 		var geocoder = new kakao.maps.services.Geocoder();
 		
-		geocoder.addressSearch('삼성동',function(result, status) {
+		geocoder.addressSearch('서울 강남구 강남대로 406 글라스타워 2층',function(result, status) {
 
 			// 정상적으로 검색이 완료됐으면 
 			if (status === kakao.maps.services.Status.OK) {
@@ -262,53 +256,33 @@
 		// 마커를 표시할 위치와 title 객체 배열입니다 
 		var positions = [
 		    {
-		        title: '상록수점', 
-		        latlng: new kakao.maps.LatLng(33.450705, 126.570677)
+		        title: '서귀포점', 
+		    	geocoder: new addressSearch('제주특별자치도 서귀포시 가가로 25',function(result, status);
+		        latlng: new kakao.maps.LatLng(result[0].y,result[0].x)
 		    },
 		    
 		    {
-		        title: '중구', 
-		        latlng: new kakao.maps.LatLng(33.450936, 126.569477)
+		        title: '서초점', 
+		    	geocoder: new addressSearch('서울 서초구 서초대로46길 3 경중빌딩 101-1호',function(result, status);
+		    	latlng: new kakao.maps.LatLng(result[0].y,result[0].x)
 		    },
 		    
 		    {
-		        title: '춘천', 
-		        latlng: new kakao.maps.LatLng(33.450879, 126.569940)
+		        title: '해운대점', 
+		        geocoder: new addressSearch('부산 해운대구 우동1로20번길 19',function(result, status);
+		        latlng: new kakao.maps.LatLng(result[0].y,result[0].x)
 		    },
 		    
 		    {
-		        title: '목포',
-		        latlng: new kakao.maps.LatLng(33.451393, 126.570738)
+		        title: '강남점	',
+		        geocoder: new addressSearch('서울 강남구 강남대로 406 글라스타워 2층',function(result, status);
+		        latlng: new kakao.maps.LatLng(result[0].y,result[0].x)
 		    },
 		    
 		    {
-		        title: '서귀포',
-		        latlng: new kakao.maps.LatLng(34.451323, 126.572138)
-		    },
-		    
-		    {
-		        title: '테헤란',
-		        latlng: new kakao.maps.LatLng(35.451593, 126.570718)
-		    },
-		    
-		    {
-		        title: '익산',
-		        latlng: new kakao.maps.LatLng(36.421393, 126.570735)
-		    },
-		    
-		    {
-		        title: '안목',
-		        latlng: new kakao.maps.LatLng(37.171393, 126.570748)
-		    },
-		    
-		    {
-		        title: '송도',
-		        latlng: new kakao.maps.LatLng(37.351322, 127.570728)
-		    },
-		    
-		    {
-		        title: '방배',
-		        latlng: new kakao.maps.LatLng(37.451193, 128.574738)
+		        title: '분당점',
+		        geocoder: new addressSearch('경기 성남시 분당구 성남대로916번길 7 서일빌딩',function(result, status);
+		        latlng: new kakao.maps.LatLng(result[0].y,result[0].x)
 		    }
 		];
 
