@@ -53,20 +53,19 @@
 				</div>
 		    </div>	
 			<div class="bg-white rounded shadow-sm" style="padding: 40px 18px 23px 35px; overflow: auto;  margin:20px;">
+				<div class="fs-3 fw-bolder" style="margin-left: 10px;">수정하기</div>
 				<form id="create_form" >
-					<div class="fs-3 fw-bolder" style="margin-left: 10px;">수정하기</div>
-					<div class="header-option-right">
-						<div class="create-group form-check-label" style="display: inline-block; margin-right: 5px;">게시여부</div>
-							<input type="checkbox" id="useYn" name="useYn" class="form-check-input" value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
-						
-						<div class="create-group form-check-label" style="display: inline-block; margin-right: 5px;">공지여부</div>
-							<input type="checkbox" id="ntcYn" name="ntcYn" class="form-check-input" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
-						
-					</div>	
-					
+						<div class="header-option-right">
+							<div class="create-group form-check-label" style="display: inline-block;">		
+								게시여부<input type="checkbox" id="useYn" name="useYn"  value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
+							</div>
+							<div class="create-group form-check-label" style="display: inline-block;">
+								공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
+							</div>
+						</div>	
 					<div class="create-group">
-						<label for="mngrBrdTtl" class="label ">제목</label> 
-						<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl} " />
+						<label for="mngrBrdTtl" class="label"  style="margin: 5px;">제목</label> 
+						<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" class="form-control" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl} " />
 					</div>
 							
 					 
@@ -74,8 +73,8 @@
 								
 					
 					<div class="create-group">
-						<label for="mngrBrdCntnt" class="label">본문</label> 
-						<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" placeholder="내용을 입력해주세요." style ="resize:none;" >${mngrBrd.mngrBrdCntnt}</textarea>
+						<label for="mngrBrdCntnt" class="label"  style="margin: 5px;">본문</label> 
+						<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" class="form-control" placeholder="내용을 입력해주세요." style ="resize:none;" >${mngrBrd.mngrBrdCntnt}</textarea>
 					</div>
 					
 

@@ -61,8 +61,8 @@
 						</div>
 						<label class="col-form-label" style="margin-right: 20px;">작성자</label>
 					</div>
-					<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
-						<select id="hrLvl">
+					<div style="margin: 20px 0 20px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
+						<select id="hrLvl" class="form-select" style="width:50%;">
 							<option value=" ">직군을 선택하세요.</option>
 							<option value="005-01">점주</option>
 							<option value="005-02">직원</option>

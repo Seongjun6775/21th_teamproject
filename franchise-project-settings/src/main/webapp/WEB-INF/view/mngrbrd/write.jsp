@@ -49,22 +49,22 @@
 				</div>
 		    </div>
 
-			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
-				<div class="list-title "> 작성 </div>
+			<div class="bg-white rounded shadow-sm" style="padding: 40px 18px 23px 35px; overflow: auto;  margin:20px;">
+				<div class="list-title "> <br> </div>
 				<div>
 					<form id="create_form" >
 						<div class="header-option-right">
-							<div class="create-group" style="display: inline-block;">		
+							<div class="create-group form-check-label" style="display: inline-block;">		
 								게시여부<input type="checkbox" id="useYn" name="useYn"  value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
 							</div>
-							<div class="create-group" style="display: inline-block;">
+							<div class="create-group form-check-label" style="display: inline-block;">
 								공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
 							</div>
 						</div>	
 						
 						<div class="create-group">
-							<label for="mngrBrdTtl" class="label">제목</label> 
-							<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl}" />
+							<label for="mngrBrdTtl" class="label" style="margin: 5px;">제목</label> 
+							<input type="text" id="mngrBrdTtl" class="form-control" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl}" />
 						</div>
 								
 						<div  class="create-group"> 
@@ -72,8 +72,8 @@
 						</div>			
 						
 						<div class="create-group">
-							<label for="mngrBrdCntnt" class="label">본문</label> 
-							<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" style="resize:none;" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
+							<label for="mngrBrdCntnt" class="label" style="margin: 5px;">본문</label> 
+							<textarea  id="mngrBrdCntnt" class="form-control" name="mngrBrdCntnt" style="resize:none;" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
 						</div>
 					</form>	
 					<div style="padding: 10px;text-align: right;"> 
