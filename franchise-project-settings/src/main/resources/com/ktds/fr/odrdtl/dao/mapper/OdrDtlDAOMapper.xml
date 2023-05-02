@@ -107,6 +107,7 @@
 			 , OD.ODR_DTL_STR_ID
 			 , OD.DEL_YN
 			 , OD.MBR_ID
+			 , OD.ODR_DTL_PRC
 			 , S.STR_ID 
 			 , S.STR_NM 
 			 , S.STR_CALL_NUM 
@@ -115,6 +116,7 @@
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
 			 , P.ORGN_FL_NM
+			 , P.UUID_FL_NM
 			 , EP.EVNT_PRDT_CHNG_PRC
 			 , EP.EVNT_ID
 		  FROM ODR_DTL OD
