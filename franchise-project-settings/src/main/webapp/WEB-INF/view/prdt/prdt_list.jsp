@@ -459,14 +459,15 @@ function movePage(pageNo) {
 			<div class="space-between mb-10">
 				<div class="top-bar">
 					<button id="btn-search-reset"
-							class="btn btn-primary" >검색초기화</button>
+							class="btn btn-outline-success btn-default" >검색 조건 초기화</button>
 					<label>메뉴 이름 검색</label>
-					<input type="text" class="selectFilter" 
+					<input type="text" class="form-control" 
+										style="width: 300px;"
 										id="search-keyword-prdtNm" 
 										placeholder="검색어 입력 후 Enter"
 										onkeyup="chkChar(this)" 
 										value="${prdtVO.prdtNm}">	
-					<button id="btn-search" class="btn btn-primary">검색</button>
+					<button id="btn-search" class="btn btn-outline-success btn-default">검색</button>
 				</div>
 			</div>
 			
@@ -624,11 +625,11 @@ function movePage(pageNo) {
 						<option value="N">N</option>
 					</select>
 					<button id="btn-update-all" 
-							class="btn btn-success" 
+							class="btn btn-outline-primary btn-default" 
 							style="vertical-align: top;">일괄수정</button>
 							
 					<button id="btn-delete-all" 
-							class="btn btn-danger" 
+							class="btn btn-outline-danger btn-default" 
 							style="vertical-align: top;">일괄삭제</button>
 				</div>
 				<div class="pagenate">

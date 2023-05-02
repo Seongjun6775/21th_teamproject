@@ -257,7 +257,12 @@
 		  									 , PRDT_ID
 		  									 , EVNT_PRDT_CHNG_PRC
 					  					  FROM EVNT_PRDT 
-					  					 WHERE DEL_YN = 'N')EP 
+					  					 WHERE DEL_YN = 'N'
+					  					   AND EVNT_ID IN (SELECT DISTINCT EVNT_ID
+															 FROM EVNT_STR
+															WHERE STR_ID = #{strId}
+															  AND USE_YN = 'Y'
+															  AND DEL_YN = 'N'))EP 
 		  					   ON E.EVNT_ID = EP.EVNT_ID ) EP
 		    ON SP.PRDT_ID = EP.PRDT_ID
 		<if test='prdtVO != null and prdtVO != ""'>
@@ -330,7 +335,16 @@
 		  									 , PRDT_ID
 		  									 , EVNT_PRDT_CHNG_PRC
 					  					  FROM EVNT_PRDT 
-					  					 WHERE DEL_YN = 'N')EP 
+					  					 WHERE DEL_YN = 'N'
+					  					   AND EVNT_ID IN (SELECT DISTINCT EVNT_ID
+													 FROM EVNT_STR
+													WHERE STR_ID = (SELECT STR_ID
+																	  FROM STR_PRDT
+																	 WHERE STR_PRDT_ID = #{_parameter}
+																	   AND USE_YN = 'Y'
+																	   AND DEL_YN = 'N')
+													  AND USE_YN = 'Y'
+													  AND DEL_YN = 'N'))EP 
 		  					   ON E.EVNT_ID = EP.EVNT_ID ) EP
 		    ON SP.PRDT_ID = EP.PRDT_ID
 	</select>
