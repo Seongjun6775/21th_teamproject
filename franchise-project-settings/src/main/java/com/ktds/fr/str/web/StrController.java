@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.exceptions.IllegalRequestException;
 import com.ktds.fr.ctycd.service.CtyCdService;
 import com.ktds.fr.ctycd.vo.CtyCdVO;
@@ -138,6 +139,7 @@ public class StrController {
 	}
 	@GetMapping("/str/strdetailmgn/{strId}")
 	public String viewStrDetailMgnPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model, CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
+		
 		if(!mbrVO.getStrId().equals(strId)) {
 			throw new IllegalRequestException();
 		}
