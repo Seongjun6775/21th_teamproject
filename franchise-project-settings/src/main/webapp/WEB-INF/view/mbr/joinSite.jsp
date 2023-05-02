@@ -365,7 +365,7 @@
   <div class="login">
     <div class="login__content">
       <div class="login__img">
-        <img src="https://image.freepik.com/free-vector/code-typing-concept-illustration_114360-3581.jpg" alt="user login">
+        <img src="${context}/img/login-bg.jpg" style="width: 600px; height: 700px; position: relative; left: -100px; top: -30px;}" alt="user login">
       </div>
       <div class="login__forms">
 			<!--로그인 영역 -->
