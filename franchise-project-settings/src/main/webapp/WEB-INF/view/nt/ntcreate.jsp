@@ -56,29 +56,35 @@
 <jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 		<span class="fs-5 fw-bold">쪽지 > 쪽지 작성</span>
-	</div>
+	</div>	
+			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<form id="nt_form">
-					<div>
+					<div class="input-group" style="display: flex; flex-direction: row-reverse;">
 						<!-- 로그인 기능 완성되면 readonly로 바꾸고 송신인 ID 받아와서 setting할 것 -->
-						<label for="sndrId">발신인</label>
-						<input type="text" id="sndrId" name="sndrId" value="${mbrVO.mbrId}" readonly/>
+						<div>
+							<input type="text" id="sndrId" name="sndrId" value="${mbrVO.mbrId}" class="form-control" readonly/>
+						</div>
+						<label for="sndrId" class="col-form-label" style="margin-right: 20px;">발신인</label>
 					</div>
-					<div>
-						<label for="rcvrId">수신인</label>
-						<input type="text" id="rcvrId" name="rcvrId" value="${rcvrId}"/>
+					<div class="input-group" style="display: flex; flex-direction: row-reverse;">
+						<div>
+							<input type="text" id="rcvrId" name="rcvrId" value="${rcvrId}" class="form-control" />
+						</div>
+						<label for="rcvrId" class="col-form-label" style="margin-right: 20px;">수신인</label>
 					</div>
 					<div>
 						<label for="ntTtl">쪽지 제목</label>
-						<input type="text" id="ntTtl" name="ntTtl" />
+						<input type="text" id="ntTtl" name="ntTtl" class="form-control"  />
 					</div>
 					<div>
 						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="4000자 까지 입력 가능합니다."
-								   style="word-break: bredk-all;"></textarea>
+								  class="form-control"  style="word-break: bredk-all; resize:none;"></textarea>
 					</div>
 				</form>
-				<div>
-					<button id="crt_btn">작성</button>
-					<button id="cancel_btn">취소</button>
+				<div style="float: right; margin:10px">
+					<button id="crt_btn" class="btn btn-secondary">작성</button>
+					<button id="cancel_btn" class="btn btn-danger">취소</button>
 				</div>
+			</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

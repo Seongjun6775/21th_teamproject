@@ -14,10 +14,10 @@
 <jsp:include page="./include/openBody.jsp" />
 			<!-- contents -->
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-				<span class="fs-5 fw-bold">기본페이지</span>
+				<span class="fs-5 fw-bold">${sessionScope.__MBR__.mbrNm}님, 안녕하세요</span>
 		    </div>
 		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
-		    	<h3>기본 페이지 </h3>
+		    	
 		    </div>
       		<!-- /contents -->
 <jsp:include page="./include/closeBody.jsp" />
