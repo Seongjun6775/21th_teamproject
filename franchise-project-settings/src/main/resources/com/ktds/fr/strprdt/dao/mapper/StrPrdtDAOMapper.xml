@@ -212,6 +212,7 @@
 		SELECT SP.STR_PRDT_ID PK_COL
 			 , SP.STR_PRDT_ID 
 			 , SP.STR_ID
+			 , S.STR_NM
 			 , SP.PRDT_ID
 			 , SP.USE_YN
 			 , P.PRDT_NM
@@ -271,6 +272,7 @@
 			resultMap="strPrdtVOMap">
 		SELECT SP.STR_PRDT_ID 
 			 , SP.STR_ID
+			 , S.STR_NM
 			 , SP.PRDT_ID
 			 , SP.USE_YN
 			 , P.PRDT_NM
