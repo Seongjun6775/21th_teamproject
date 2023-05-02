@@ -178,12 +178,12 @@
 	});
 </script>
 </head>
-<body>
-	<div class="main-layout" >
-	<jsp:include page="../include/header.jsp" />
-		<div>
-		<jsp:include page="../include/sidemenu.jsp" />
-		<jsp:include page="../include/content.jsp" />
+<jsp:include page="../include/openBody.jsp" />
+			
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+				<span class="fs-5 fw-bold">관리자게시판 > 상세페이지</span>
+		    </div>
+		    <
 			<div>
 			<!-- 상세화면 헤더 -->
 				<div class="header-option-bar">
@@ -308,8 +308,5 @@
 				    </div>
 				</article>
 			</div>	
-		</div>	
-		<jsp:include page="../include/footer.jsp" />
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
