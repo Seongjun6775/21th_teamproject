@@ -40,7 +40,6 @@
 		<div class="hr_detail_header">(${rvDetail.rvId})</div>
 	</div>
 	<div style="margin-top: 10px">
-
 		<div
 			style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
 			<div class="hr_detail_header">등록일 : ${rvDetail.rvRgstDt}</div>

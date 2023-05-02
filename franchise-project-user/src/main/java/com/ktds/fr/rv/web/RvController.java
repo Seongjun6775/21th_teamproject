@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.mbr.vo.MbrVO;
-import com.ktds.fr.odrlst.service.OdrLstService;
 import com.ktds.fr.rv.service.RvService;
 import com.ktds.fr.rv.vo.RvVO;
 import com.ktds.fr.rv.vo.SearchRvVO;
@@ -44,6 +43,7 @@ public class RvController {
 		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO, searchRvVO);
 		model.addAttribute("rvList", rvList);
 		model.addAttribute("rvVO", rvVO);
+		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("searchRvVO", searchRvVO);
 		
 		return "rv/listForUser";
@@ -55,9 +55,9 @@ public class RvController {
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		
 		List<RvVO> rvList = rvService.readAllRvList(rvVO, mbrVO, searchRvVO);
-		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("rvList", rvList);
 		model.addAttribute("rvVO", rvVO);
+		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("searchRvVO", searchRvVO);
 		
 		return "rv/list";
@@ -74,6 +74,7 @@ public class RvController {
 		
 		model.addAttribute("rvDetail", rvDetail);
 		model.addAttribute("rvVO", rvVO);
+		model.addAttribute("mbrVO", mbrVO);
 		
 		return "rv/detailForUser";
 	}
@@ -90,6 +91,7 @@ public class RvController {
 		
 		model.addAttribute("rvDetail", rvDetail);
 		model.addAttribute("rvVO", rvVO);
+		model.addAttribute("mbrVO", mbrVO);
 		
 		return "rv/detail";
 	}
