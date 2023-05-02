@@ -34,7 +34,11 @@
 					mbrId: $("#lgn_mbrId").val(),
 					mbrPwd: $("#lgn_mbrPwd").val()
 			}
+			$('#spinner-div').show();
+			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/login", data, function(resp){
+				$('#spinner-div').hide();
+				$('#spinner-div').removeClass("d-flex");
 				if(resp.status == "200 OK"){
 					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;
@@ -269,7 +273,11 @@
 				return;
 			}
 			var mbrEml = $("#mbrEml").val();
+			$('#spinner-div').show();
+			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/emailSend", {"email": mbrEml},function(resp){
+				$('#spinner-div').hide();
+				$('#spinner-div').removeClass("d-flex");
 				if(resp.status == "200 OK"){
 					authNumber=resp.message;
 					//버튼 누르면 시간 연장
@@ -328,7 +336,11 @@
 			if(!valueUtil.requires("#find-id-mbrEml")){
 				return;
 			}
+			$('#spinner-div').show();
+			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/find",{email: email, type: type}, function(resp){
+				$('#spinner-div').hide();
+				$('#spinner-div').removeClass("d-flex");
 				if(resp.status=="200 OK"){
 					alert("이메일로 전송완료, 확인 해 주세요.");
 					location.href="${context}/"+resp.redirectURL;
@@ -347,7 +359,11 @@
 			if(!valueUtil.requires("#find-mbrId")){
 				return;
 			}
+			$('#spinner-div').show();
+			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/find",{email: email, type: type, mbrId: mbrId}, function(resp){
+				$('#spinner-div').hide();
+				$('#spinner-div').removeClass("d-flex");
 				if(resp.status=="200 OK"){
 					alert("이메일 전송 완료, 확인 해 주세요.");
 					location.href="${context}/"+resp.redirectURL;
@@ -362,10 +378,10 @@
 </head>
 <body>
   <!-- spinner -->
-  	<div id="overlay">
-	  <div class="cv-spinner">
-	    <span class="spinner"></span>
+  	<div id="spinner-div" class="justify-content-center">
+	  <div class="spinner-border text-warning" role="status">
 	  </div>
+	   <span class="sr-only">Loading...</span>
 	</div>
 
   <div class="login">
@@ -473,13 +489,7 @@
             <span class="login__account login__account--account">Already have an Account?</span>
             <span class="login__signup login__signup--signup" id="sign-in">Sign In</span>
           </div>
-          
-          <!-- <div class="login__social">
-             <a href="#" class="login__social--icon"><i class='bx bxl-facebook'></i></a>
-             <a href="#" class="login__social--icon"><i class='bx bxl-twitter'></i></a>
-             <a href="#" class="login__social--icon"><i class='bx bxl-google'></i></a>
-             <a href="#" class="login__social--icon"><i class='bx bxl-github'></i></a>
-          </div> -->
+
         </form>
         
         <form class="login__find none" id="login-find">
