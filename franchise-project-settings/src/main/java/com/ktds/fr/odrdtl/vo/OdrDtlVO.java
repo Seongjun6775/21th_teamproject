@@ -1,8 +1,10 @@
 package com.ktds.fr.odrdtl.vo;
 
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.evnt.vo.EvntVO;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.vo.StrVO;
@@ -61,6 +63,20 @@ public class OdrDtlVO extends AbstractVO{
 	
 	private OdrLstVO odrLstVO;
 
+	
+	private CmmnCdVO cmmnCdVO;
+	private MbrVO mbrVO;
+	
+	/**
+	 * 통계 검색용
+	 */
+	private String oneDay;
+	private String startDt;
+	private String endDt;
+	
+	
+	
+	
 	public String getOdrDtlId() {
 		return odrDtlId;
 	}
@@ -171,6 +187,49 @@ public class OdrDtlVO extends AbstractVO{
 
 	public void setOdrLstVO(OdrLstVO odrLstVO) {
 		this.odrLstVO = odrLstVO;
+	}
+
+	
+	
+	
+	public CmmnCdVO getCmmnCdVO() {
+		return cmmnCdVO;
+	}
+
+	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
+		this.cmmnCdVO = cmmnCdVO;
+	}
+
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
+
+	public String getOneDay() {
+		return oneDay;
+	}
+
+	public void setOneDay(String oneDay) {
+		this.oneDay = oneDay;
+	}
+
+	public String getStartDt() {
+		return startDt;
+	}
+
+	public void setStartDt(String startDt) {
+		this.startDt = startDt;
+	}
+
+	public String getEndDt() {
+		return endDt;
+	}
+
+	public void setEndDt(String endDt) {
+		this.endDt = endDt;
 	}
 	
 
