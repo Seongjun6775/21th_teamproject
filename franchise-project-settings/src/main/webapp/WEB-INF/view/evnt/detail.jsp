@@ -113,10 +113,10 @@
 	</div>
 	
 	
-		<div class="card hr_table_grid bg-white rounded shadow-sm" style="margin: 20px;">
+		<div class="card hr_table_grid bg-white rounded shadow-sm" style="margin: 50px; padding:20px; border-radius:30px; display:inline-flex;">
             <div class="bd-placeholder-img card-img-top" >
-            	<div style="text-align: center;; background-color: #55595c;">
-            		<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="width:60%" />
+            	<div style="text-align: center;; background-color: #FFFFF;">
+            		<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="height:100; width:70;" />
             	</div>
             </div>
 
