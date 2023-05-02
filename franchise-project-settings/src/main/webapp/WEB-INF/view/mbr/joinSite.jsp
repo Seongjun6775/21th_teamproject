@@ -361,6 +361,12 @@
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+  <!-- spinner -->
+  	<div id="overlay">
+	  <div class="cv-spinner">
+	    <span class="spinner"></span>
+	  </div>
+	</div>
 
   <div class="login">
     <div class="login__content">
