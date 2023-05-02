@@ -404,33 +404,7 @@
 		    });
 		}
 		});
-		/* 
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
 		
-		
-		// 주소로 좌표를 검색합니다
-		geocoder.addressSearch('강원도 춘천시 지석로67',function(result, status)
-		geocoder.addressSearch('강원도 강릉시 범일로 579번길 27',function(result, status)
-		geocoder.addressSearch('서울 관악구 난곡로64길 7',function(result, status)
-		geocoder.addressSearch('경기도 안산시 상록구 석호로 36',function(result, status) {
-
-		// 정상적으로 검색이 완료됐으면 
-		if (status === kakao.maps.services.Status.OK) {
-
-			var coords = new kakao.maps.LatLng(result[0].y,
-					result[0].x);
-
- 			// 결과값으로 받은 위치를 마커로 표시합니다
-			var marker = new kakao.maps.Marker({
-				map : map,
-				position : coords
-			});
-
-			// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-			map.setCenter(coords);
-		} 
-	});*/
 </script>
 	<div style="float: right; display: flex; flex-direction: row-reverse;">
 		<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
