@@ -199,7 +199,7 @@
 						<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
 						<th scope="col" style="width:250px; padding: 20px 20px 8px 20px;">매장명</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select" name="selectFilter" 
+							<select class="form-select select-align-center" name="selectFilter" 
 										id="search-keyword-strLctn">
 								<option value="">지역명</option>
 								<c:choose>
@@ -213,7 +213,7 @@
 							</select>
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select" name="selectFilter"
+							<select class="form-select select-align-center" name="selectFilter"
 										id="search-keyword-strCty">
 								<option value="">도시명</option>
 								<c:choose>
@@ -342,7 +342,7 @@
 							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
 						</div>
 						<div class="input-group inline">
-							<span class="input-group-text">지역명</span>
+							<span class="input-group-text ">지역명</span>
 							<select class="form-select" name="strLctn" id="strLctn">
 								<option value="">지역명</option>
 								<c:choose>

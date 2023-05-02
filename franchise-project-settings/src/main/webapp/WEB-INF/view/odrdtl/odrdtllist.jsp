@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/odrdtl_odrdtllist.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -196,7 +197,7 @@
 									data-uuidflnm="${odr.prdtVO.uuidFlNm}"
 									data-strnm="${odr.strVO.strNm}"
 									data-strcallnum="${odr.strVO.strCallNum}">
-									<div class="col-sm-3">
+									<div class="col-sm-3 img-box">
 										<div class="dtl-img">
 											<img class="odrdtl-img" src="${context}/prdt/img/${odr.prdtVO.uuidFlNm}">
 										</div>

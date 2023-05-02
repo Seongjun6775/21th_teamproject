@@ -134,7 +134,7 @@
 		  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin: 15px;">
 		    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 		  </svg>
-		    <select id="search_option" name="searchOption" class="form-select" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
+		    <select id="search_option" name="searchOption" class="form-select " style="margin-right: 10px; width: 30%;" aria-label="Default select example">
 				<option value="">검색 조건</option>
 				<option value="strNm" >매장명</option>
 				<option value="mbrId" >회원ID</option>
