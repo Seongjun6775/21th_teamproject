@@ -36,6 +36,9 @@
 			$("#mdfyDt").val(data.mdfydt);
 			$("#useYn").prop("checked", data.useyn == "Y");
 		});
+		$(".strnm").click(function() {
+			
+		}
 		
 		$("#new_btn").click(function() {
 			$("#isModify").val("false"); //등록모드
