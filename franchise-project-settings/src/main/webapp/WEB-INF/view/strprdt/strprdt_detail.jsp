@@ -118,7 +118,7 @@ function movePage(pageNo) {
 	<jsp:include page="../include/header_user.jsp" />
 
 	<div class="visualArea flex relative">
-		<div class="content-setting title">${strPrdtVO.strVO.strNm}</div>
+		<div class="content-setting title">${strPrdtVO.strVO.strNm} 매장에 오신것을 환영합니다</div>
 		<div class="overlay absolute"></div>
 	</div>
 	
