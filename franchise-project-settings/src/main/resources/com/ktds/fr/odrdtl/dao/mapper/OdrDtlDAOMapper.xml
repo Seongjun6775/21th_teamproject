@@ -75,6 +75,7 @@
 			 , OD.USE_YN
 			 , OD.DEL_YN
 			 , OD.MBR_ID
+			 , OD.ODR_DTL_PRC
 			 , P.PRDT_NM
 			 , P.PRDT_PRC 
 			 , P.UUID_FL_NM
