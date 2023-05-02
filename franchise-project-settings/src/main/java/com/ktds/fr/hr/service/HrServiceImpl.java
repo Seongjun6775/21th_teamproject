@@ -84,7 +84,7 @@ public class HrServiceImpl implements HrService {
 	 */
 	@Override
 	public HrVO readOneHrByHrId(String hrId) {
-			return hrDAO.readOneHrByHrId(hrId);
+		return hrDAO.readOneHrByHrId(hrId);
 	}
 
 	/**
@@ -104,6 +104,11 @@ public class HrServiceImpl implements HrService {
 			hrVO.setOrgnFlNm(uploadFile.getOriginalFilename());
 			hrVO.setFlSize(uploadFile.getSize());
 			hrVO.setFlExt(StringUtils.getFilenameExtension(uploadFile.getOriginalFilename()));
+			
+			// hrVO에 저장된 파일이 정해진 파일 형식이 아닐 경우, 업로드를 취소합니다.
+			if (!hrVO.getFlExt().equals("hwp")) {
+				throw new ApiException("500", "지정된 파일 형식이 아닙니다.");
+			}
 			
 			// 파일 이름을 암호화하기 위해 임시 생성하는 파일입니다.
 			String uuidFileName = UUID.randomUUID().toString();
