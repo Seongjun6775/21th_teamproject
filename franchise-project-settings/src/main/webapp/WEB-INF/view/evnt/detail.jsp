@@ -122,7 +122,7 @@
 
             <div class="card-body">
             	<p class="card-text" style="float: right;">이벤트 기간: ${evntVO.evntStrtDt} ~ ${evntVO.evntEndDt}</p>
-            	<p class="card-text">${evntVO.evntTtl}</p>
+            	<p class="card-text fw-bold" >${evntVO.evntTtl}</p>
             	<p class="card-text">${evntVO.evntCntnt}</p>
 	            <div class="d-flex justify-content-between align-items-center">
 		            <div class="btn-group">
