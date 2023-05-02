@@ -187,24 +187,24 @@
 
 </head>
 <body>
-	<div class="main-layout">
-		<div>
-			<h1>이벤트상품 리스트 목록 조회</h1>
-			<div>총 ${prdtList.size()}건</div>
-			<div>
+	<div style="padding: 23px 18px 23px 18px;">
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin-bottom:20px;" >
+	        <span class="fs-5 fw-bold"> 이벤트상품 리스트 목록 조회</span>
+      	</div>
+		<div class="content">
+			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding:30px 30px 55px 30px;">
+				<div style="display: inline-block;">총 ${prdtList.size()}건</div>
+				<div style="float:right; margin-bottom:5px;">
 				이벤트 ID : <input type="text" id="evntPrdtId" style="width: 300px;"
 					readonly="readonly" placeholder="이벤트ID는 입력할 수 없습니다."
 					value="${evntId}" />
-			</div>
-		</div>
-		<div class="content">
-			<div class="grid">
-				<table>
-					<thead>
+				</div>
+				<table class="table caption-top table-hover" style="text-align: center;">
+					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 							<th style="width: 50px; text-align: center;"><input type="checkbox" id="all-check" /></th>
 							<th style="width: 200px; text-align: center;">상품 ID</th>
-							<th style="width: 200px; text-align: center;"><select class="selectFilter"
+							<th style="width: 200px; text-align: center;"><select class="selectFilter form-select"
 								name="selectFilter" id="search-keyword-prdtSrt">
 									<option value="">분류</option>
 									<c:choose>
@@ -248,11 +248,14 @@
 						</c:choose>
 					</tbody>
 				</table>
+				<div style="float: right;">
+					<button id="btn-create-evntPrdt" class="btn btn-primary" style="background-color: #8080ff;">일괄 등록</button>
+					<button id="btn-close" class="btn btn-secondary">닫기</button>
+					<!-- 			<button id="btn-revomeEvntPrdt" class="btn-primary">상품 삭제</button> -->
+					<!-- 			<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button> -->
+				</div>
 			</div>
-			<button id="btn-create-evntPrdt" class="btn-primary">일괄 등록</button>
-			<button id="btn-close" class="btn-primary">닫기</button>
-			<!-- 			<button id="btn-revomeEvntPrdt" class="btn-primary">상품 삭제</button> -->
-			<!-- 			<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button> -->
+
 
 		</div>
 	</div>

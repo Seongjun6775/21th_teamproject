@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>${strVO.strNm} - 주문 전체보기</title>
 <jsp:include page="../include/stylescript.jsp" />
-<%-- <link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" /> --%>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -38,10 +38,11 @@ $().ready(function() {
 		  }
 		
 		var Id = $(this).data().odrlstid;
-		$("#staticBackdropLabel").html(Id + " : 주문서 상세");
+		var mbrNm = $(this).data().mbrnm;
+		var odrLstRgstDt = $(this).data().odrlstrgstdt;
+		$("#staticBackdropLabel").html(Id + " / " + mbrNm + " / " + odrLstRgstDt);
 // 		$("#staticBackdropLabel").empty();
 // 		$("#staticBackdropLabel").empty();
-		
 // 		$("div[class=modal-body]").empty();
 		
 		$.post("${context}/api/odrLst/odrDtl", {odrLstId: Id}, function(data) {
@@ -102,10 +103,17 @@ $().ready(function() {
 	});
 
 	$('body').on('click', function(event) {
-		if (!$(event.target).closest('.modal-content').length) {
-			$('button[data-bs-dismiss=modal]').click();
+		if ($("#staticBackdrop").attr("class").includes("show")) {
+			if (!$(event.target).closest('.modal-content').length) {
+				$('button[data-bs-dismiss=modal]').click();
+			}
 		}
 	});
+	$('body').keydown(function(key) {
+		if (key.keyCode == 27) {
+			$('button[data-bs-dismiss=modal]').click();
+		}
+	})
 	
 	
 	
@@ -140,33 +148,41 @@ function movePage(pageNo) {
 
 </script>
 </head>
-<body class="bg-dark bg-opacity-10 ">
-<jsp:include page="../include/logo.jsp" />
-	<main class="d-flex flex-nowrap ">	
-		<jsp:include page="../include/sidemenu.jsp" />
-		<div style="margin:0px 0px 0px 250px; width: 100%;">
-			<jsp:include page="../include/header.jsp" />
+<body>
+	
+	<jsp:include page="../include/openBody.jsp" />
+			
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-				<span class="fs-5 fw-bold">기본페이지</span>
+				<span class="fs-5 fw-bold">매장 > 처리주문조회</span>
+		    </div>
+		    
+		    <div class="bg-white rounded shadow-sm  " style="padding: 23px 18px 23px 18px; margin: 0 20px;">
+				<div>
+					<span class="fs-5 fw-bold">${strVO.strNm} (${strVO.strId})</span>
+				</div>
+				<div class="flex">
+					<div class="half-left">
+						<div>매니저 : ${strVO.mbrId}</div>
+						<div>연락처 : ${strVO.strCallNum}</div>
+					</div>
+					<div class="half-right">
+						<div>주소 : ${strVO.strAddr}</div>
+						<fmt:parseDate value="${strVO.strOpnTm}" pattern="HH:mm:ss" var="strOpnTm"/>
+						<fmt:parseDate value="${strVO.strClsTm}" pattern="HH:mm:ss" var="strClsTm"/>
+						<div>영업시간 : <fmt:formatDate value="${strOpnTm}" pattern="HH:mm"/> 
+									  ~ <fmt:formatDate value="${strClsTm}" pattern="HH:mm"/></div>
+					</div>				
+				</div>
 		    </div>
 		    
 		    <!-- contents -->
 		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 
-
-
-
-
-
-
-			<br>매장이름임 ${strVO.strNm} (${strVO.strId})
-			<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
-			<br>
-			
+				완료된 주문서와 취소된 주문서 목록을 불러옵니다.
 <!-- 			<div class="flex full"> -->
 				<div class="overflow">
-					<table class="table table-striped table-sm table-hover">
-						<thead>
+					<table class="table table-striped table-sm table-hover align-center">
+						<thead class="table-secondary">
 							<tr>
 								<th><input type="checkbox" id="all-check"/></th>
 								<th>처리상태</th>
@@ -182,7 +198,9 @@ function movePage(pageNo) {
 								<c:when test="${not empty ordLstList}">
 									<c:forEach items="${ordLstList}"
 												var="ordLst">
-										<tr data-odrlstid="${ordLst.odrLstId}">
+										<tr data-odrlstid="${ordLst.odrLstId}"
+											data-mbrnm="${ordLst.mbrVO.mbrNm}"
+											data-odrlstrgstdt="${ordLst.odrLstRgstDt}">
 											<td class="align-center">
 												<input type="checkbox" class="check-idx00" value="${ordLst.odrLstId}" />
 											</td>
@@ -218,7 +236,7 @@ function movePage(pageNo) {
 									</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Understood</button>
+<!-- 									<button type="button" class="btn btn-primary">Understood</button> -->
 								</div>
 							</div>
 						</div>
@@ -226,15 +244,12 @@ function movePage(pageNo) {
 					
 					
 				</div>
-<!-- 			</div> -->
-
-
 
 
 		    </div>
+		    
       		<!-- /contents -->
-		</div>
-	</main>
+	<jsp:include page="../include/closeBody.jsp" />
 	
 </body>
 </html>

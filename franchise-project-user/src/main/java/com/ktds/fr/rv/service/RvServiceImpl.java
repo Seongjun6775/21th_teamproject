@@ -24,16 +24,16 @@ public class RvServiceImpl implements RvService {
 			if (rvVO.getRvLkDslk().equals("선택")) {
 				throw new ApiException("500", "좋아요 또는 싫어요를 선택하세요.");
 			}
+			int rvCount = rvDAO.readCountRvByRvId(rvVO);
+			if (rvCount >= 1) {
+				throw new ApiException("500", "이미 리뷰를 작성하셨습니다.");
+			}
+			
 			int rvCount7 = rvDAO.createNewRvWithin7days(rvVO);
 			if (rvCount7 == 0) {
 				throw new ApiException("500", "주문서 수정일로부터 7일 이내에만 리뷰를 작성할 수 있습니다.");
 			}
 			
-			int rvCount = this.readCountRvByRvId(rvVO);
-			if (rvCount >= 1) {
-				throw new ApiException("500", "이미 리뷰를 작성하셨습니다.");
-			}
-						
 			try {
 				return rvDAO.createNewRv(rvVO) > 0;
 			}
@@ -51,12 +51,7 @@ public class RvServiceImpl implements RvService {
 	}
 
 			
-	// ▶ 진영님이 만든거: 중간관리자와 하위관리자 목록 조회(2-1) 대체
-	@Override
-	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO) {
-		return rvDAO.readAllRvListForManager(searchRvVO);
-	}
-	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
+	// 2-1-②.리뷰 목록 조회 == 상위관리자, 이용자
 	@Override
 	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO) {
 		rvVO.setMbrVO(mbrVO);
@@ -76,11 +71,11 @@ public class RvServiceImpl implements RvService {
 //			 if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03"))
 	}
 			
-	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
+	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자
 	@Override
 	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO) {
 		
-//		rvVO.setMbrId(mbrVO.getMbrId());
+		rvVO.setMbrId(mbrVO.getMbrId());
 		
 //		if (mbrVO.getMbrLvl().equals("001-01")) {
 //			return rvDAO.readOneRvVOForTopManagerByRvId(rvVO.getRvId());
@@ -91,7 +86,7 @@ public class RvServiceImpl implements RvService {
 //		else {
 //			return rvDAO.readOneRvVOForMemberByRvId(rvVO.getRvId());
 //		}
-		return rvDAO.readOneRvVOForMiddleManagerByOdrId(rvVO);
+		return rvDAO.readOneRvVOForTopManagerByRvId(null);
 	}
 
 	

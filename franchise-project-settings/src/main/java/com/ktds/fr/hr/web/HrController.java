@@ -12,13 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
-import com.ktds.fr.common.api.vo.ApiResponseVO;
-import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.DownloadUtil;
 import com.ktds.fr.hr.service.HrService;
 import com.ktds.fr.hr.vo.HrVO;
@@ -223,9 +220,9 @@ public class HrController {
 				model.addAttribute("mbrVO", mbrVO);
 				return "hr/hrupdate";
 			}
-			return "redirect:/hr/list";
+			return "hr/400";
 		}
-		return "redirect:/hr/list";
+		return "hr/400";
 	}
 	
 	/**

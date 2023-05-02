@@ -12,9 +12,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
-<link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+
 	$().ready (function() {
 		
 		$("#new_btn").click(function() {
@@ -36,23 +36,35 @@
 							alert(response.errorCode + " / " + response.message);
 						}	
 						
-					});	
-			
+					});				
 		});			
 	});		
 </script>
 </head>
-<jsp:include page="../include/openBody.jsp" />
-		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-			<span class="fs-5 fw-bold">리뷰 > 리뷰관리 > 리뷰등록</span>
-	    </div>
-			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+<body>
+	<div class="main-layout">
+		<jsp:include page="../include/openBody.jsp" />
+		<div>
+			<div class="path">리뷰 > 리뷰관리 > 리뷰등록</div>
+			<h1>새 리뷰 등록</h1>
+			<div>
 				<form id="create_form" method="post">
 					<div class="create-group">
 						<label for="odrLstId" style="margin:5px;">주문서 ID</label> 
-						<input type="text" id="odrLstId" style="width:40%;"
-								class="form-control"name="odrLstId" />
-					</div>
+						<select id="odrLstId" style="width:40%;"
+								class="form-control"name="odrLstId">
+							<c:choose>
+								<c:when test="${not empty odrLstId}">
+									<c:forEach items="${odrLstId}"
+											   var="rv">
+											<option value="${rv.odrLstId}">
+												${rv.odrLstId}
+											</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
+					</div>    
 					<div class="create-group">
 						<label for="rvTtl" style="margin:5px;">제목</label> <input type="text" id="rvTtl"
 							name="rvTtl" 
@@ -76,11 +88,14 @@
 							<option value="F">싫어요</option>
 						</select>
 					</div>		
-				</form>
-				<div class="align-right">
-					<button id="new_btn" class="btn btn-primary">등록</button>
+				<div class="align-right" style="display: inline-block;">
+					<button type="button" id="new_btn" class="btn btn-outline-primary">등록</button>
 				</div>
+				</form>
 				<jsp:include page="../include/footer.jsp" />
+				<jsp:include page="../include/closeBody.jsp" />
 			</div>
+		</div>
+	</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

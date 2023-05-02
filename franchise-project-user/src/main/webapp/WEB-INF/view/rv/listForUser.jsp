@@ -59,9 +59,10 @@
 			console.log(session);
 			if (session == "" || session.length == 0) {
 				if(confirm("로그인이 필요합니다. \n로그인 하시겠습니까?")){
-					location.href = "${context}/user/join";
+					location.href = "${context}/join";
 					return;
-				}else{
+				}
+				else {
 					return; 
 				}
 			}
@@ -197,17 +198,11 @@
 					</c:if>
 				</ul>
 			</div>
-			<div style="position: absolute;right: 0;top: 0;">	
-				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
-					<button id="new_btn" class="btn btn-success">등록</button>
-				</c:if>
-				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-danger">삭제</button>
-				</c:if>
+			<div style="position: absolute;right: 0;top: 0;">		
+				<button id="new_btn" class="btn btn-success">등록</button>
 			</div>
-		</div>	
-						
-			</div>			
+		</div>							
+		</div>			
 		<jsp:include page="../include/footer.jsp" />
 <%-- <jsp:include page="../include/closeBody.jsp" /> --%>
 	<div class="layer_popup" id="layer_popup" style="display: none;">

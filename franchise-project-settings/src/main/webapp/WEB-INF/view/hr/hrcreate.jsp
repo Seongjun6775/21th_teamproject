@@ -83,6 +83,5 @@
 			<button id="cancel_btn">취소</button>
 		</div>
 	</div>
-			
 <jsp:include page="../include/closeBody.jsp" />
 </html>

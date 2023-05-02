@@ -1,7 +1,11 @@
 package com.ktds.fr.rv.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -19,9 +23,9 @@ public class RestRvController {
 	private RvService rvService;
 		
 	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
-	@PostMapping("mbr/api/rv/create")
+	@PostMapping("/mbr/api/rv/create")
 	public ApiResponseVO doCreateNewRv(RvVO rvVO
-			, MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO mbr) {
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 
 		String rvTtl = rvVO.getRvTtl();
 		String rvCntnt = rvVO.getRvCntnt();
@@ -47,30 +51,30 @@ public class RestRvController {
 	
 	
 	// 3-1.리뷰 목록에서 리뷰 삭제 == 상위관리자, 이용자
-//	@PostMapping("/api/rv/delete")
-//	public ApiResponseVO doDeleteAllRv(@RequestParam List<String> rvIdList
-//			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-//		boolean isDelete = rvService.deleteAllRvListByRvId(rvIdList, mbrVO);
-//		
-//		if (isDelete) {
-//			return new ApiResponseVO(ApiStatus.OK);
-//		}
-//		else {
-//			return new ApiResponseVO(ApiStatus.FAIL);
-//		}
-//	}
+	@PostMapping("/mbr/api/rv/delete")
+	public ApiResponseVO doDeleteAllRv(@RequestParam List<String> rvIdList
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		boolean isDelete = rvService.deleteAllRvListByRvId(rvIdList, mbrVO);
+		
+		if (isDelete) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	}
 	
 	// 3-2.리뷰 상세에서 리뷰 삭제 == 상위관리자, 이용자
-//	@PostMapping("/api/rv/delete/{rvId}")
-//	public ApiResponseVO doDeleteOneRv(@PathVariable String rvId
-//			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-//		boolean isDelete2 = rvService.deleteOneRvVOByRvId(rvId, mbrVO);
-//		
-//		if (isDelete2) {
-//			return new ApiResponseVO(ApiStatus.OK);
-//		}
-//		else {
-//			return new ApiResponseVO(ApiStatus.FAIL);
-//		}
-//	}
+	@PostMapping("/mbr/api/rv/delete/{rvId}")
+	public ApiResponseVO doDeleteOneRv(@PathVariable String rvId
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		boolean isDelete2 = rvService.deleteOneRvVOByRvId(rvId, mbrVO);
+		
+		if (isDelete2) {
+			return new ApiResponseVO(ApiStatus.OK);
+		}
+		else {
+			return new ApiResponseVO(ApiStatus.FAIL);
+		}
+	}
 }

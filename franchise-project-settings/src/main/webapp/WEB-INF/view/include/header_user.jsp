@@ -165,7 +165,7 @@ text-decoration: none;
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">매장찾기</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">이벤트관리</a></li>
+              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
               <li><a class="dropdown-item" href="#">리뷰관리</a></li>
             </ul>
           </li>

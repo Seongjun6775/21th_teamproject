@@ -11,6 +11,8 @@ public interface OdrLstDAO {
 	
 	public OdrLstVO getOdrLstId(OdrDtlVO odrDtlVO);
 	
+	public List<OdrLstVO> getOdrLstIdForRv(String mbrId);
+	
 	public int createNewOdrLst(OdrLstVO odrLstVO);
 	
 	public List<OdrLstVO> readAllOdrLst(OdrLstVO odrLstVO);

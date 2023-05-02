@@ -13,12 +13,10 @@ public interface RvService {
 	// 1-2.이용자가 쓴 리뷰 개수 조회(리뷰 쓴 적이 없어야 리뷰 등록 가능)
 	public int readCountRvByRvId(RvVO rvVO);	
 
-	
-	// ▶ 진영님이 만든거
-	public List<RvVO> readAllRvListForManager(SearchRvVO searchRvVO);		
-	// 2-1.리뷰 목록 조회 == 상위관리자, 중하위관리자, 이용자
+			
+	// 2-1-②.리뷰 목록 조회 == 상위관리자, 이용자
 	public List<RvVO> readAllRvList(RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO);
-	// 2-2.리뷰 상세 조회 == 상위관리자, 중하위관리자, 이용자
+	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자
 	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO);
 
 	

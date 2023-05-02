@@ -100,7 +100,8 @@
 						  , E.EVNT_END_DT 
 					   FROM (SELECT *
 					   		   FROM EVNT_PRDT
-					   		  WHERE DEL_YN = 'N' ) EP
+					   		  WHERE DEL_YN = 'N'
+					   		    AND USE_YN = 'Y' ) EP
 					  INNER JOIN (SELECT *
 									FROM EVNT
 								   WHERE DEL_YN = 'N' ) E 
@@ -160,7 +161,7 @@
 		    ON SP.STR_ID = S.STR_ID 
 		 INNER JOIN (SELECT * 
 					   FROM PRDT
-					  WHERE DEL_YN = 'N' ) P
+					  WHERE DEL_YN = 'N') P
 		    ON SP.PRDT_ID = P.PRDT_ID
 	      LEFT OUTER JOIN MBR SM
 	        ON S.MBR_ID = SM.MBR_ID
@@ -212,8 +213,9 @@
 		SELECT SP.STR_PRDT_ID PK_COL
 			 , SP.STR_PRDT_ID 
 			 , SP.STR_ID
-			 , SP.PRDT_ID
+			 , S.STR_NM
 			 , SP.USE_YN
+			 , SP.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
@@ -233,7 +235,10 @@
 				 WHERE STR_ID = #{strId}) SP
 		 INNER JOIN STR S
 		    ON SP.STR_ID = S.STR_ID
-		  LEFT OUTER JOIN PRDT P 
+		 INNER JOIN (SELECT *
+  					   FROM PRDT
+  					  WHERE USE_YN = 'Y'
+  					    AND DEL_YN = 'N') P 
 		    ON SP.PRDT_ID = P.PRDT_ID 
 		  LEFT OUTER JOIN (SELECT E.EVNT_ID
 		  						, E.EVNT_TTL
@@ -256,7 +261,12 @@
 		  									 , PRDT_ID
 		  									 , EVNT_PRDT_CHNG_PRC
 					  					  FROM EVNT_PRDT 
-					  					 WHERE DEL_YN = 'N')EP 
+					  					 WHERE DEL_YN = 'N'
+					  					   AND EVNT_ID IN (SELECT DISTINCT EVNT_ID
+															 FROM EVNT_STR
+															WHERE STR_ID = #{strId}
+															  AND USE_YN = 'Y'
+															  AND DEL_YN = 'N'))EP 
 		  					   ON E.EVNT_ID = EP.EVNT_ID ) EP
 		    ON SP.PRDT_ID = EP.PRDT_ID
 		<if test='prdtVO != null and prdtVO != ""'>
@@ -269,17 +279,19 @@
 	<select id="readOneCustomerByStr"
 			parameterType="com.ktds.fr.strprdt.vo.StrPrdtVO"
 			resultMap="strPrdtVOMap">
-		SELECT SP.STR_PRDT_ID 
+		SELECT SP.STR_PRDT_ID PK_COL
+			 , SP.STR_PRDT_ID 
 			 , SP.STR_ID
-			 , SP.PRDT_ID
+			 , S.STR_NM
 			 , SP.USE_YN
+			 , SP.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
 			 , P.PRDT_SRT
 			 , P.CD_NM
 			 , P.UUID_FL_NM
-			 , EP.EVNT_ID
+ 			 , EP.EVNT_ID
 			 , EP.EVNT_TTL
 		     , EP.EVNT_STRT_DT
 		     , EP.EVNT_END_DT
@@ -327,7 +339,16 @@
 		  									 , PRDT_ID
 		  									 , EVNT_PRDT_CHNG_PRC
 					  					  FROM EVNT_PRDT 
-					  					 WHERE DEL_YN = 'N')EP 
+					  					 WHERE DEL_YN = 'N'
+					  					   AND EVNT_ID IN (SELECT DISTINCT EVNT_ID
+													 FROM EVNT_STR
+													WHERE STR_ID = (SELECT STR_ID
+																	  FROM STR_PRDT
+																	 WHERE STR_PRDT_ID = #{_parameter}
+																	   AND USE_YN = 'Y'
+																	   AND DEL_YN = 'N')
+													  AND USE_YN = 'Y'
+													  AND DEL_YN = 'N'))EP 
 		  					   ON E.EVNT_ID = EP.EVNT_ID ) EP
 		    ON SP.PRDT_ID = EP.PRDT_ID
 	</select>

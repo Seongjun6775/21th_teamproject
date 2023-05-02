@@ -20,7 +20,8 @@ import com.ktds.fr.mbr.vo.MbrVO;
 public class RestHrController {
 	
 	// 파일 다운로드 시 파일을 찾아서 받아 올 경로입니다.
-	@Value("${upload.hr.path:/franchise-prj/files/hr/}")
+	/* @Value("${upload.hr.path:/franchise-prj/files/hr/}") */
+	@Value("${upload.hr.path:/files/hr/}")
 	private String filePath;
 	
 	@Autowired
@@ -64,7 +65,7 @@ public class RestHrController {
 		
 		// 글 작성자와 현재 접속중인 사람이 다르다면, 삭제 요청을 차단합니다.
 		if (!mbrVO.getMbrId().equals(mbrCheck.getMbrId())) {
-			throw new ApiArgsException("500", "삭제 권한이 없습니다.");
+			return new ApiResponseVO(ApiStatus.FAIL, "잘못된 접근입니다.", "/hr/list");
 		}
 		// 문제가 없다면 삭제를 진행하고, 결과값을 받아옵니다.
 		boolean deleteResult = hrService.deleteOneHrByHrId(hrId);
@@ -79,9 +80,10 @@ public class RestHrController {
 	public ApiResponseVO updateHrAprByHrId(@SessionAttribute("__MBR__") MbrVO mbrVO, HrVO hrVO) {
 		// 접속중인 계정이 최고관리자가 아니라면, 채용 여부를 수정할 수 없게 방지합니다.
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
-			throw new ApiException("500", "권한이 없습니다.");
+			return new ApiResponseVO(ApiStatus.FAIL, "잘못된 접근입니다.", "/hr/list");
 		}
 		// 최고관리자가 맞다면, 채용 여부를 수정하고 결과를 받아옵니다.
+
 		if(hrVO.getHrLvl().equals("005-01")&&hrVO.getHrAprYn().equals("Y")) {
 			hrVO.getMbrVO().setMbrLvl("001-02");
 		}else if(hrVO.getHrLvl().equals("005-02")&&hrVO.getHrAprYn().equals("Y")) {
@@ -89,6 +91,7 @@ public class RestHrController {
 		}else {
 			hrVO.getMbrVO().setMbrLvl("001-04");
 		}
+		
 		hrVO.getMbrVO().setMdfyr(mbrVO.getMbrNm());
 		boolean isSuccess = hrService.updateHrAprByHrId(hrVO);
 		
@@ -108,7 +111,7 @@ public class RestHrController {
 		HrVO hr = hrService.readOneHrByHrId(hrId);
 		// 만약 접속중인 계정이 수정 요청이 발생한 글의 작성자가 아니라면, 수정 요청을 차단합니다.
 		if (!hr.getMbrId().equals(mbrVO.getMbrId())) {
-			throw new ApiException("500", "권한이 없습니다.");
+			return new ApiResponseVO(ApiStatus.FAIL, "잘못된 접근입니다.", "/hr/list");
 		}
 		
 		// 필수값의 null 체크를 진행하기 위해, 해당 값들을 받아와 저장합니다.

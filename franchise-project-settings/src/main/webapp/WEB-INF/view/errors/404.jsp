@@ -12,6 +12,7 @@
 <title>404에러입니다!</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
+	<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 	<script type="text/javascript">
 $().ready(function() {
 	$("#index_btn").click(function(){
@@ -22,11 +23,11 @@ $().ready(function() {
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
-				 매장 관리 > 상세 조회 > 조회 오류
+				 매장 관리 > 조회 오류
 			</div>
 			<div class="align-right">
 				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 			</div>
-			<h1 style="margin:20px">중간관리자는 다른 매장을 볼 수 없습니다!</h1>
+			<h1 style="margin:20px">잘못된 접근입니다!</h1>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
