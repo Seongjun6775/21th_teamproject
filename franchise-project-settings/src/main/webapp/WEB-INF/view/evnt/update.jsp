@@ -62,72 +62,65 @@ $().ready(function() {
 	}
 </script>
 </head>
-<body>
-	<div class="main-layout">
-	<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/evntSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-		<form id="form-update" enctype="multipart/form-data">
-			<div>
-				<table border=1 style="width: 600px;">
-					<tr>
-						<td colspan="4"><h1 style="text-align: center;">이벤트 수정
-								페이지</h1></td>
-					</tr>
-					<tr>
-						<td style="width:150px;">이벤트 ID</td>
-						<td colspan="3"><input type="text" id="evntId"
-							style="width: 99%;" readonly="readonly" value="${evntVO.evntId}" /></td>
-					</tr>
-
-					<tr>
-						<td>이벤트 제목</td>
-						<td colspan="3"><input type="text" id="evntTtl"
-							style="width: 99%;" value="${evntVO.evntTtl}" /></td>
-					</tr>
-
-					<tr>
-						<td>이벤트 내용</td>
-						<td colspan="3"><input type="text" id="evntCntnt"
-							style="width: 99%; height: 99px" value="${evntVO.evntCntnt}" /></td>
-					</tr>
-
-					<tr>
-						<td style="width:150px;">이벤트 시작일</td>
-						<td style="width:150px;"><input type="date" id="evntStrtDt"
-							value="${evntVO.evntStrtDt}" /></td>
-						<td style="width:150px;">이벤트 종료일</td>
-						<td style="width:150px;"><input type="date" id="evntEndDt"
-							value="${evntVO.evntEndDt}" /></td>
-					</tr>
-
-					<tr>
-						<td>이벤트 사진</td>
-						<td colspan="3"><img
-							src="${context}/evnt/img/${evntVO.uuidFlNm}"  style="width:100%;"/> <input
-							type="file" id="orgnFlNm" style="width: 99%;" accept="image/png, image/jpeg"
-							value="${evntVO.orgnFlNm eq null ? '파일이 없습니다' : evntVO.orgnFlNm}" /></td>
-					</tr>
-
-					<tr>
-						<td>사용 여부</td>
-						<td><input type="checkbox" id="useYn" name="useYn" onClick="check(this)" value="Y"/></td>
-					</tr>
-
-					<tr>
-						<td></td>
-						<td></td>
-						<td><button id="btn-update-success" type="button" class="btn-primary"
-								style="width: 100%;">완료</button></td>
-						<td><button id="btn-update-close" class="btn-primary"
-								style="width: 100%;">닫기</button></td>
-					</tr>
-				</table>
-			</div>
-		</form>
-		<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/openBody.jsp" />
+		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+	        <span class="fs-5 fw-bold">이벤트 > 상세페이지 > 수정</span>
+      	</div>
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+			<form id="form-update" enctype="multipart/form-data">
+				<div>
+					<table>
+						<tr>
+							<td style="width:150px;">이벤트 ID</td>
+							<td colspan="3"><input type="text" id="evntId"
+								style="width: 99%;" readonly="readonly" value="${evntVO.evntId}" /></td>
+						</tr>
+	
+						<tr>
+							<td>이벤트 제목</td>
+							<td colspan="3"><input type="text" id="evntTtl"
+								style="width: 99%;" value="${evntVO.evntTtl}" /></td>
+						</tr>
+	
+						<tr>
+							<td>이벤트 내용</td>
+							<td colspan="3"><input type="text" id="evntCntnt"
+								style="width: 99%; height: 99px" value="${evntVO.evntCntnt}" />	</td>
+						</tr>
+	
+						<tr>
+							<td style="width:150px;">이벤트 시작일</td>
+							<td style="width:150px;"><input type="date" id="evntStrtDt"
+								value="${evntVO.evntStrtDt}" /></td>
+							<td style="width:150px;">이벤트 종료일</td>
+							<td style="width:150px;"><input type="date" id="evntEndDt"
+								value="${evntVO.evntEndDt}" /></td>
+						</tr>
+	
+						<tr>
+							<td>이벤트 사진</td>
+							<td colspan="3"><img
+								src="${context}/evnt/img/${evntVO.uuidFlNm}"  style="width:100%;"/> <input
+								type="file" id="orgnFlNm" style="width: 99%;" accept="image/png, image/jpeg"
+								value="${evntVO.orgnFlNm eq null ? '파일이 없습니다' : evntVO.orgnFlNm}" /></td>
+						</tr>
+						<tr>
+							<td><br></td>
+							<td><br></td>
+							<td><br></td>
+							<td><br></td>
+						</tr>
+						<tr>
+							<td>사용 여부</td>
+							<td><input type="checkbox" id="useYn" name="useYn" onClick="check(this)" value="Y"/></td>
+							<td><button id="btn-update-success" type="button" class="btn-primary"
+									style="width: 100%;">완료</button></td>
+							<td><button id="btn-update-close" class="btn-primary"
+									style="width: 100%;">닫기</button></td>
+						</tr>
+					</table>
+				</div>
+			</form>
 		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

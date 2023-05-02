@@ -57,6 +57,8 @@
 			if (!confirm("소속 매장을 이벤트 참여 매장으로 하시겠습니까?\n확인(예) 또는 취소(아니오)를 선택해주세요.")) {
 	            alert("취소(아니오)를 누르셨습니다.");
 	        } else {
+	        	var evntId = $("#evntId").val()
+	        	console.log(evntId)
 	        	$.post(
 	        			// 1. 호출할 주소
 	        			"${context}/api/evntStr/create",
@@ -105,8 +107,57 @@
 <jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 			<span class="fs-5 fw-bold">이벤트 > 상세페이지</span>
+			<div style="float: right;">
+				<button type="submit" id="btn-cancle" class="btn btn-secondary">목록</button>
+			</div>
 	</div>
-		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+	
+	
+		<div class="card hr_table_grid bg-white rounded shadow-sm" style="margin: 20px;">
+            <div class="bd-placeholder-img card-img-top" >
+            	<div style="text-align: center;; background-color: #55595c;">
+            		<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="width:60%" />
+            	</div>
+            </div>
+
+            <div class="card-body">
+            	<p class="card-text" style="float: right;">이벤트 기간: ${evntVO.evntStrtDt} ~ ${evntVO.evntEndDt}</p>
+            	<p class="card-text">${evntVO.evntTtl}</p>
+            	<p class="card-text">${evntVO.evntCntnt}</p>
+	            <div class="d-flex justify-content-between align-items-center">
+		            <div class="btn-group">
+			            <c:if test="${mbrVO.mbrLvl eq '001-01'}">
+							<button type="button" id="btn-createEvntPrdt" class="btn btn-sm btn-outline-secondary">이벤트상품등록</button>
+							<button type="button" id="btn-evntStr" class="btn btn-sm btn-outline-secondary">참여매장목록</button>
+						</c:if>
+						<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
+						<button type="button" id="btn-evntPrdt" class="btn btn-sm btn-outline-secondary">이벤트상품목록</button>
+						</c:if>
+						<c:if test="${mbrVO.mbrLvl eq '001-02'}">
+							<button type="submit" id="btn-createEvntStr" class="btn btn-sm btn-outline-secondary">참여매장등록</button>
+						</c:if>
+		            </div>  
+                <div>
+                	<div class="form-check" style="display: inline-block; margin: 10px;">
+					  <input type="checkbox" id="useYn" class="form-check-input" value="${evntVO.useYn}"  onclick="return false;"/>
+					  <label class="form-check-label" for="flexCheckDefault">
+					    사용여부
+					  </label>
+					</div>
+					
+					<input type="hidden" id="evntId" value="${evntVO.evntId}"/>
+					
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+						<button type="button" id="btn-update" class="btn btn-sm btn-success">수정</button>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+						<button type="button" id="btn-updateDelete"class="btn btn-sm btn-danger" >삭제</button>
+					</c:if>
+                </div>
+              </div>
+            </div>
+          </div>
+<%-- 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<table border=1 style="width: 600px;">
 				<tr>
 					<td colspan="4"><h1 style="text-align: center;">이벤트 상세페이지</h1></td>
@@ -158,8 +209,7 @@
 				</tr>
 
 				<tr>
-					<td><button type="submit" id="btn-cancle" class="btn-primary"
-							style="width: 100%;">목록으로</button></td>
+					<td></td>
 					<td></td>
 					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 					<td><button type="submit" id="btn-update" class="btn-primary"
@@ -190,7 +240,7 @@
 					</c:if>
 				</tr>
 			</table>
-		</div>
+		</div> --%>
 <jsp:include page="../include/closeBody.jsp" />
  	<%-- <script type="text/javascript">
 	const btn1 = document.getElementById("btn-evntStr");

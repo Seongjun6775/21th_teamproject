@@ -75,7 +75,10 @@
 		});
 		
 		$("#fileDown").click(function(){
-			$.get("${context}/hr/hrfile/${hr.hrId}", function(resp){
+			
+			var hrId = "${hr.hrId}";
+			
+			$.get("/fran/hr/hrfile/" + hrId, function(resp){
 				if(resp.status == "200 OK"){
 					location.reload();
 				}
@@ -86,8 +89,8 @@
 			});
 		
 		});
-		
 	});
+	
 </script>
 </head>
 <body>
@@ -121,7 +124,7 @@
 				<div class="hr_detail_header">승인 여부 변경 일자 : ${hr.hrAprDt}</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? 'none' : ''};">
-				<div class="hr_detail_header">첨부파일 : <a id="fileDown" href="#">${hr.orgnFlNm}</a></div>
+				<div class="hr_detail_header">첨부파일 : <a id="fileDown" href="javascript:void(0);">${hr.orgnFlNm}</a></div>
 				<div class="hr_detail_header"><fmt:formatNumber type="number" value="${hr.flSize/1024}" maxFractionDigits="2"/> KB</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? '' : 'none'};">

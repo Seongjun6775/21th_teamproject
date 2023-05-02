@@ -76,7 +76,7 @@
 					location.reload();
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					alert(response.message + "\n매장 직원에게 문의하세요.");
 				}
 			})
 			

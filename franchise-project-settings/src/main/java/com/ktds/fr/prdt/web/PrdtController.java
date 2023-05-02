@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.ktds.fr.cmmncd.dao.CmmnCdDAO;
 import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.util.DownloadUtil;

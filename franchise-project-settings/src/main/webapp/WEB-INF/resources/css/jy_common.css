@@ -346,7 +346,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 
-#menuCategory  > a {
+#menuCategory  > a , #menuCategory  > div {
 	padding: 0;
 	display: flex;
 	position: relative;	
@@ -358,8 +358,11 @@ input[type="number"]::-webkit-inner-spin-button {
 /* 	font-size: 22px; */
 /* 	color: #808080; */
 }
-.menu{
+.menu {
 	font-size: 22px;
+}
+#menuTitle {
+	font-size: 26px;
 }
 #menuCategory  > a:not(.menuOn):hover::before {
 	content: "";
@@ -385,6 +388,10 @@ input[type="number"]::-webkit-inner-spin-button {
 	width: 100%;
 	background: #ffcc00;
 }
+
+
+
+
 
 #itemList div{
 	
@@ -438,10 +445,10 @@ input[type="number"]::-webkit-inner-spin-button {
 .prdt-text > div > div + div {
 	margin-top: 48px;
 }
-.prdt-text > button {
-    position: absolute;
-    bottom: 0;
-    margin: 23px 0;
+.prdt-text  button {
+/*     position: absolute; */
+/*     bottom: 0; */
+/*     margin: 23px 0; */
     padding: 10px 20px;
     font-size: 32px;
 }
@@ -499,20 +506,67 @@ input[type="number"]::-webkit-inner-spin-button {
 /* str prdt odr */
 #selectStr {
 	align-self: center;
+	margin-top: 32px;
 }
 #selectStr > div + div {
 	margin-left: 36px;
 }
-#selectStr > div > table {
+#selectStr > div > table , #selectStr > div a {
 	text-align: center;
+	font-size: 24px;
+}
+#selectStr table > thead > tr {
+    background-color: #ffcc00;
+}
+#selectStr tr:hover {
+	cursor: pointer
 }
 .lctTable, .ctyTable{
 	width: 200px;
 }
 .strTable {
 	width: 400px;
-} 
+}
+.blockMenu {
+	display: flex;
+    position: absolute;
+    width: calc(100% - 32px);
+    height: calc(100% - 32px);
+    background-color: #000a;
+    z-index: 1;
+	text-align: center;
+    border-radius: 24px;
+}
+.blockMenu > div {
+	margin: auto;
+	font-size: 26px;
+	color: white;
+}
+.updown {
+	
+}
+.updown button {
+	padding: 0;
+	width: 48px;
+	height: 48px;
+	margin: 0 4px;
+	align-self: center;
+}
+.howMany > div{
+    display: flex;
+    margin: auto;
+}
+.howMany input {
+	border: none;
+}
 
+
+
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+    margin-right: 15px;
+}
 
 
 
@@ -524,12 +578,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .scroll::-webkit-scrollbar {
   display: none;
 }
-
-
-
-
-
-
 
 
 
