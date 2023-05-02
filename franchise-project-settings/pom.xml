@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>franchise-project</groupId>
   <artifactId>franchise-project</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>war</packaging>
   <build>
     <plugins>
@@ -121,5 +121,14 @@
 		<artifactId>gson</artifactId>
 		<version>2.10.1</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+	<dependency>
+	    <groupId>jakarta.servlet</groupId>
+	    <artifactId>jakarta.servlet-api</artifactId>
+	    <version>4.0.4</version>
+	</dependency>
+		
+	
   </dependencies>
 </project>

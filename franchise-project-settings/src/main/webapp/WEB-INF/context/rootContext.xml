@@ -7,7 +7,7 @@
 
 	<!-- 각자 로컬 DB -->
 
- <!-- <context:property-placeholder location="/WEB-INF/config/dbconfig.properties"/> -->  
+ 	<!-- <context:property-placeholder location="/WEB-INF/config/dbconfig.properties"/> -->  
 	<!-- 강의장 공용DB -->
 	 <context:property-placeholder location="/WEB-INF/config/srdbconfig.properties"/>   
 

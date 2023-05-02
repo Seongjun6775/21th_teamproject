@@ -50,78 +50,45 @@
 			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin:20px;">
 				<form id="hr_form" enctype="multipart/form-data">
 					<h3>채용 지원 작성 페이지 테스트</h3>
-					<div style="width:70%">
 					<div>
-						<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
-					</div>
-					<div class="input-group" style="display: flex; flex-direction: row-reverse;">
 						<div>
-							<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" class="form-control" readonly />
+							<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
 						</div>
-						<label class="col-form-label" style="margin-right: 20px;">작성자</label>
-					</div>
-					<div style="margin: 20px 0 20px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
-						<select id="hrLvl" class="form-select" style="width:50%;">
-							<option value=" ">직군을 선택하세요.</option>
-							<option value="005-01">점주</option>
-							<option value="005-02">직원</option>
-						</select>
-					</div>
-					<div>
-						<label for="hrTtl" class="col-form-label">제목</label>
+						<div class="input-group" style="display: flex; flex-direction: row-reverse;">
+							<div>
+								<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" class="form-control" readonly />
+							</div>
+							<label class="col-form-label" style="margin-right: 20px;">작성자</label>
+						</div>
+						<div style="margin: 20px 0 20px; display: flex; flex-direction: row-reverse;">
+							<input type="file" id="hrFile" name="hrFile" class="form-control" style="width: 50%;"/>
+							<label for="hrFile" style="margin: 10px;">파일첨부</label>
+						</div>
+						<div style="margin: 20px 0 20px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
+							<select id="hrLvl" class="form-select" style="width:15%;">
+								<option value=" ">직군을 선택하세요.</option>
+								<option value="005-01">점주</option>
+								<option value="005-02">직원</option>
+							</select>
+						</div>
 						<div>
-							<input type="text" id="hrTtl" class="form-control" name="hrTtl" />
+							<label for="hrTtl" class="col-form-label">제목</label>
+							<div>
+								<input type="text" id="hrTtl" class="form-control" name="hrTtl" />
+							</div>
+							
 						</div>
-						
+						<label for="hrCntnt" class="col-form-label">본문</label>
+						<div class="input-group">
+							<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
+									 placeholder="간단하게 자기소개 부탁드립니다." class="form-control"></textarea>
+						</div>
+						<div style="float: right; margin: 20px 0 20px 20px">
+							<button id="save_btn" class="btn btn-success">작성</button>
+							<button id="cancel_btn" class="btn btn-secondary">취소</button>
+						</div>
 					</div>
-					<div style="margin: 20px 0 20px; display: flex; flex-direction: row-reverse;">
-						<input type="file" id="hrFile" name="hrFile" class="form-control" style="width: 90%;"/>
-						<label for="hrFile" style="margin: 10px;">파일첨부</label>
-					</div>
-					<label for="hrCntnt" class="col-form-label">본문</label>
-					<div class="input-group">
-						<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
-								 placeholder="4000자 까지 입력하실 수 있습니다" class="form-control"></textarea>
-					</div>
-					<div style="float: right; margin: 20px 0 20px 20px">
-						<button id="save_btn" class="btn btn-success">작성</button>
-						<button id="cancel_btn" class="btn btn-secondary">취소</button>
-					</div>
-				</div>
-				<div>
-					<label for="mbrId">작성자</label>
-					<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
-				</div>
-				<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
-					<select id="hrLvl">
-						<option value=" ">직군을 선택하세요.</option>
-						<option value="005-01">점주</option>
-						<option value="005-02">직원</option>
-					</select>
-				</div>
-				<div>
-					<label for="hrTtl">제목</label>
-					<input type="text" id="hrTtl" name="hrTtl" />
-					
-				</div>
-				<div>
-					<label for="hrFile">파일 첨부</label>
-					<input type="file" id="hrFile" name="hrFile" />
-				</div>
-				<div>
-					<label for="hrCntnt">본문</label>
-					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
-					 placeholder="4000자 까지 입력하실 수 있습니다"></textarea>
-				</div>
-			</form>
-			
-			<div>
-				<button id="save_btn">작성</button>
-				<button id="cancel_btn">취소</button>
+				</form>
 			</div>
-			
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

@@ -53,6 +53,15 @@
 		   AND DEL_YN = 'N'
 	</select>
 	
+	<select id="getOdrLstIdForRv"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ID 
+  		  FROM ODR_LST
+     	 WHERE MBR_ID = #{_parameter}
+     	   AND ODR_LST_ODR_PRCS = '003-04'
+	</select>
+	
 	<insert id="createNewOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
 		INSERT INTO ODR_LST
@@ -215,11 +224,11 @@
 		<choose>
 			<when test='odrLstOdrPrcs == "003-04"'>
 		   AND OL.ODR_LST_ODR_PRCS = '003-04'
-		 ORDER BY OL.MDFY_DT ASC
+		 ORDER BY OL.MDFY_DT DESC
 			</when>
 			<otherwise>
 		   AND OL.ODR_LST_ODR_PRCS != '003-04'
-		 ORDER BY OL.ODR_LST_RGST_DT DESC
+		 ORDER BY OL.ODR_LST_RGST_DT ASC
 			</otherwise>
 		</choose>
 	</select>
@@ -262,18 +271,4 @@
 		  #{odrId} 
 		</foreach>
 	</update>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
 </mapper>

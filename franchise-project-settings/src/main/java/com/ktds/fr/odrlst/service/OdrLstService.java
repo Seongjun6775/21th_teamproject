@@ -15,6 +15,8 @@ public interface OdrLstService {
 	
 	public OdrLstVO getOdrPrcs(String odrLstId);
 	
+	public List<OdrLstVO> getOdrLstIdForRv(String mbrId);
+	
 	public OdrLstVO isThisMyOdrLst(String odrLstId);
 	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);

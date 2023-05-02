@@ -13,6 +13,7 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
@@ -141,8 +142,8 @@
 					<tr>
 						<th>글번호</th>
 						<th>문의/건의</th>	
-						<th>
-							<select class="form-select" name="selectFilter"
+						<th style="">
+							<select class="form-select select-align-center" name="selectFilter"
 									id="search-keyword-hlpDskPrcsYn">
 								<option value="">답변상태</option>
 								<option value="Y">답변완료</option>
@@ -203,7 +204,7 @@
 					<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
 					<c:if test="${nowGroup > 0}">
 						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
-						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
+						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
 					</c:if>
 					
 					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">

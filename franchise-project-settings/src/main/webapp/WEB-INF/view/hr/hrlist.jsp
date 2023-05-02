@@ -80,46 +80,43 @@
 					</c:choose>
 				  </tbody>
 				</table>
-				<div style="float: right;">
-					<button id="create_btn" class="btn btn-success">작성</button>
-				</div>
-			</div>
-			<div style="position: relative;">
-				<div class="pagenate">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination" style="text-align: center;">
-							<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastPage : 0}" var="lastPage" />
-							<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastGroup : 0}" var="lastGroup" />
+				<div style="position: relative;">
+					<div class="pagenate">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination" style="text-align: center;">
+								<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastPage : 0}" var="lastPage" />
+								<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastGroup : 0}" var="lastGroup" />
+								
+								<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
+								<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+								
+								<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+								<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+								
+								
+								<c:if test="${nowGroup > 0}">
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+								</c:if>
 							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
-							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-							
-							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-							
-							
-							<c:if test="${nowGroup > 0}">
-								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
-								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-							</c:if>
-						
-							
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-								<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-							</c:forEach>
-							
-							<c:if test="${lastGroup > nowGroup}">
-								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
-							</c:if>
-						</ul>
-					</nav>
-				</div>
-				<div>
-					<button class="create_btn">작성</button>
-				</div>
+								
+								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+									<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+								</c:forEach>
+								
+								<c:if test="${lastGroup > nowGroup}">
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+								</c:if>
+							</ul>
+						</nav>
+					</div>
+					<div style=" right: 0;top: 0; position: absolute;">
+						<button id="create_btn" class="btn btn-success">작성</button>
+					</div>
+				</div>	
 			</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
