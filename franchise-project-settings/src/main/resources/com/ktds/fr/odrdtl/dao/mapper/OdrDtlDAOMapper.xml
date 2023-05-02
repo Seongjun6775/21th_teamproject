@@ -307,13 +307,13 @@
 		 WHERE STR_ID LIKE NVL(#{odrDtlStrId}, '%')
 		   AND MBR_ID LIKE NVL(#{mbrId}, '%')
 		   AND PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
-		<c:if test='oneDay != null and oneDay != ""'>
+		<if test='oneDay != null and oneDay != ""'>
 		   AND SUBSTR(MDFY_DT, 0, 10) = #{oneDay}
-		</c:if>
-		<c:if test='startDt != null and startDt != ""'>
+		</if>
+		<if test='startDt != null and startDt != ""'>
 		   AND SUBSTR(MDFY_DT, 0, 10) >= #{startDt}
 		   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10)
-		</c:if>
+		</if>
 	</select>
 	
 	
