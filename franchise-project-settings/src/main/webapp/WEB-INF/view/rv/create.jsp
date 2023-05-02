@@ -63,7 +63,7 @@
 								</c:when>
 							</c:choose>
 						</select>
-					</div>
+					</div>    
 					<div class="create-group">
 						<label for="rvTtl" style="margin:5px;">제목</label> <input type="text" id="rvTtl"
 							name="rvTtl" 
