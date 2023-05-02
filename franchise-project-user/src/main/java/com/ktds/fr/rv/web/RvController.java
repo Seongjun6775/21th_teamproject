@@ -23,8 +23,8 @@ public class RvController {
 	@Autowired
 	private RvService rvService;
 	
-	@Autowired
-	private OdrLstService odrLstService;
+//	@Autowired
+//	private OdrLstService odrLstService;
 	
 	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
 	@GetMapping("/rv/create")
@@ -33,12 +33,11 @@ public class RvController {
 		
 //		OdrLstVO odrLstId = odrLstService
 		
-		
 		return "rv/create";
 	}
 	
 	
-	// 2-1-①.리뷰 목록 조회 == 상위관리자, 이용자
+	// 2-1-①.리뷰 목록 조회 == 상위관리자, 이용자 (로그인 전)
 	@GetMapping("/user/rv/list")
 	public String viewRvListPage(Model model, RvVO rvVO, MbrVO mbrVO, SearchRvVO searchRvVO) {
 		
@@ -50,7 +49,7 @@ public class RvController {
 		return "rv/listForUser";
 	}
 	
-	// 2-1-②.리뷰 목록 조회 == 상위관리자, 이용자
+	// 2-1-②.리뷰 목록 조회 == 상위관리자, 이용자 (로그인 후)
 	@GetMapping("/mbr/rv/list")
 	public String viewRvListPage(Model model, RvVO rvVO, SearchRvVO searchRvVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
@@ -64,44 +63,35 @@ public class RvController {
 		return "rv/list";
 	}
 	
-	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자
+	
+	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자 (로그인 전)
 	@GetMapping("/user/rv/detail/{rvId}")
-	public String viewRvDetailPage(Model model, @PathVariable String rvId
-			, @SessionAttribute("__MBR__") MbrVO mbrVO
-			, HttpServletRequest request) {
-		
-		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			RvVO rvVO = new RvVO();
-			rvVO.setRvId(rvId);
-			RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
-			
-			if (rvDetail != null && !rvDetail.getStrVO().getStrId().equals(mbrVO.getStrId())) {
-				return "rv/error_page";
-				
-			} else if (rvDetail == null) {
-				return "rv/error_page";
-			}
-							
-			model.addAttribute("rvDetail", rvDetail);
-			model.addAttribute("mbrVO", mbrVO);
-			model.addAttribute("rvVO", rvVO);
-			
-			return "rv/detail";
-		}
+	public String viewRvDetailPageForUser(Model model, @PathVariable String rvId, MbrVO mbrVO) {
 		
 		RvVO rvVO = new RvVO();
 		rvVO.setRvId(rvId);
 		RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
 		
 		model.addAttribute("rvDetail", rvDetail);
-		model.addAttribute("mbrVO", mbrVO);
+		model.addAttribute("rvVO", rvVO);
+		
+		return "rv/detailForUser";
+	}
+	
+	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자 (로그인 후)
+	@GetMapping("/mbr/rv/detail/{rvId}")
+	public String viewRvDetailPageForMember(Model model, @PathVariable String rvId
+			, @SessionAttribute("__MBR__") MbrVO mbrVO
+			, HttpServletRequest request) {
+		
+		RvVO rvVO = new RvVO();
+		rvVO.setRvId(rvId);
+		RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
+		
+		model.addAttribute("rvDetail", rvDetail);
 		model.addAttribute("rvVO", rvVO);
 		
 		return "rv/detail";
 	}
 		
 }
-
-
-	
-
