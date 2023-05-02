@@ -282,7 +282,7 @@ $().ready(function() {
 				</tbody>
 			</table>
 			<div class="align-right">
-				<button id="save_btn" class="btn-primary">수정</button>
+				<button id="save_btn" class="btn-primary">매장 수정</button>
 				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 			</div>
 <jsp:include page="../include/closeBody.jsp" />

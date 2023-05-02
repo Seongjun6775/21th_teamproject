@@ -35,6 +35,7 @@
        AND ESTR.STR_ID = #{strId}
        </if>
 	   AND ESTR.DEL_YN = 'N'
+	   ORDER BY EVNT_STR_ID DESC
 	</select>
 	
 	

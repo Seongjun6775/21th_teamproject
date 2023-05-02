@@ -189,6 +189,8 @@
 								</c:when>
 							</c:choose>
 						</select>
+					</div>
+					<div class="input-group inline">
 						<label for="strCty" style="width:180px">도시</label>
 						<select id="strCty" name="strCty">
 							<option value="">도시</option>
@@ -214,7 +216,7 @@
 				
 					<div class="input-group inline">
 						<label for="mbrId" style="width:180px">점주ID</label>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}" />
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}" style="background-color:orange" placeholder="점주 ID가 없습니다."/>
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
@@ -312,7 +314,7 @@
 			
 		</div>
 			<div class="align-right">
-				<button id="save_btn" class="btn-primary">수정</button>
+				<button id="save_btn" class="btn-primary">매장 수정</button>
 				<button id="delete_btn" class="btn-delete">삭제</button>
 				<button id="list_btn" class="btn-list">목록</button>
 				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>

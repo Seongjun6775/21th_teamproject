@@ -74,8 +74,9 @@ public class StrController {
 	        
 	    } else if (mbrVO.getMbrLvl().equals("001-02")) {
 	    	return "redirect:/str/strdetailmgn/" + mbrVO.getStrId();
-	    } else {
-	        return "redirect:/index";
+	    	
+	    } else{
+	    	return "redirect:/str/customer";
 	    }
 	}
 	
@@ -83,6 +84,42 @@ public class StrController {
 	public String viewStrCreatePage() {
 		return "str/create";
 	}
+	
+	@GetMapping("/str/customer")
+	public String viewCustomerMapPage(@SessionAttribute("__MBR__") MbrVO mbrVO, MbrVO mbr2VO, String strId, Model model, StrVO strVO
+			, @RequestParam(required = false, defaultValue = "") String searchIdx
+			, @RequestParam(required = false, defaultValue = "")String keyword ,CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
+		
+			if (searchIdx.equals("strNm")) {
+	    		strVO.setStrNm(keyword);
+	    	}
+	    	if (searchIdx.equals("mbrId")) {
+	    		strVO.setMbrId(keyword);
+	    	}
+	    	if (strVO.getStrCty() != null && strVO.getStrCty().trim().length() != 0) {
+	    		ctyCdVO.setCtyId(strVO.getStrCty());
+	    	}
+	    	if (strVO.getStrLctn() != null && strVO.getStrLctn().trim().length() != 0) {
+	    		lctCdVO.setLctId(strVO.getStrLctn());
+	    		ctyCdVO.setLctId(strVO.getStrLctn());
+	    	}
+			
+			List<StrVO> strList = strService.readAllStrMaster(strVO);
+			List<MbrVO> mbrList = mbrService.readAllMbr(mbr2VO);
+			List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
+			List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
+			model.addAttribute("strList", strList);
+			model.addAttribute("mbrList", mbrList);
+			model.addAttribute("ctyList", ctyList);
+			model.addAttribute("lctList", lctList);
+			model.addAttribute("strVO", strVO);
+			model.addAttribute("mbrVO", mbrVO);
+			model.addAttribute("searchIdx", searchIdx);
+			model.addAttribute("keyword", keyword);
+			model.addAttribute("CtyCdVO", ctyCdVO);
+			model.addAttribute("LctCdVO", lctCdVO);
+			return "str/customer";
+		}
 	
 	@GetMapping("/str/strdetailmst/{strId}")
 	public String viewStrDetailMstPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model, CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
@@ -154,29 +191,40 @@ public class StrController {
 	@GetMapping("/str/odrlst")
 	public String viewOdrLstForStr(Model model
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
-		OdrLstVO odrLstVO = new OdrLstVO();
-		odrLstVO.setStrId(mbrVO.getStrId());
-		
-		List<OdrLstVO> ordLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
-		odrLstVO.setOdrLstOdrPrcs("003-04");
-		List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
-		
-		
-		model.addAttribute("mbrVO", mbrVO);
-		model.addAttribute("strVO", strVO);
-		model.addAttribute("ordLstList", ordLstList);
-		model.addAttribute("ordLstCompleteList", ordLstCompleteList);
-		
-		return "str/str_odrlst";
-	}
+		if (mbrVO.getMbrLvl().equals("001-03")) {
+	    	return "redirect:/index" + mbrVO.getStrId();
+	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
+	    		return "redirect:/index" + mbrVO.getStrId();
+	    	} else {
+				StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
+				OdrLstVO odrLstVO = new OdrLstVO();
+				odrLstVO.setStrId(mbrVO.getStrId());
+				
+				List<OdrLstVO> ordLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
+				odrLstVO.setOdrLstOdrPrcs("003-04");
+				List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
+				
+				
+				model.addAttribute("mbrVO", mbrVO);
+				model.addAttribute("strVO", strVO);
+				model.addAttribute("ordLstList", ordLstList);
+				model.addAttribute("ordLstCompleteList", ordLstCompleteList);
+				
+				return "str/str_odrlst";
+	    	}
+		}
 	
 	/**
-	 * 전체 주문서 조회 (+취소 포함) 
+	 * 처리된 주문서 조회 (완료+취소) 
 	 */
 	@GetMapping("/str/completeOdr")
 	public String viewcompleteOdrForStr(Model model
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-03")) {
+	    	return "redirect:/index" + mbrVO.getStrId();
+	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
+	    		return "redirect:/index" + mbrVO.getStrId();
+	    	} else {
 		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
 		OdrLstVO odrLstVO = new OdrLstVO();
 		odrLstVO.setStrId(mbrVO.getStrId());
@@ -189,6 +237,7 @@ public class StrController {
 		model.addAttribute("ordLstList", ordLstList);
 		
 		return "str/str_complete_odr";
+	    }
 	}
 	
 	

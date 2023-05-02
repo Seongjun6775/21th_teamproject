@@ -156,7 +156,7 @@ $().ready(function() {
 		var evntTtl = $("#evntTtl").val();
 		if (evntTtl != "") {
 			var evntId = $("#evntId").val();
-			window.open("${context}/evnt/detail/"+evntId, "이벤트 - "+evntTtl, "width=600, height=450");
+			window.open("${context}/evnt/detail/"+evntId, "이벤트 - "+evntTtl, "width=1280, height=960");
 		}
 	})
 	
@@ -838,8 +838,8 @@ function movePage(pageNo) {
 	
 			
 				<div class="align-right grid-btns">
-					<a href="${context}/strprdt/list">매장x메뉴  </a>
-					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a>
+<%-- 					<a href="${context}/strprdt/list">매장x메뉴  </a> --%>
+<%-- 					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a> --%>
 					<button id="btn-new" class="btn-primary">신규</button>
 					<button id="btn-save" class="btn-primary">저장</button>
 					<button id="btn-delete" class="btn-primary btn-delete">삭제</button>

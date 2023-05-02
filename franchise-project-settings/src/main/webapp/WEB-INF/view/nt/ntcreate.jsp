@@ -53,13 +53,10 @@
 
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-				<h2>쪽지 작성 페이지</h2>
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+		<span class="fs-5 fw-bold">쪽지 > 쪽지 작성</span>
+	</div>
 				<form id="nt_form">
 					<div>
 						<!-- 로그인 기능 완성되면 readonly로 바꾸고 송신인 ID 받아와서 setting할 것 -->
@@ -75,15 +72,13 @@
 						<input type="text" id="ntTtl" name="ntTtl" />
 					</div>
 					<div>
-						<label for="ntCntnt">쪽지 본문</label>
-						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="4000자 까지 입력 가능합니다."></textarea>
+						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="4000자 까지 입력 가능합니다."
+								   style="word-break: bredk-all;"></textarea>
 					</div>
 				</form>
-				
-				<button id="crt_btn">작성</button>
-				<button id="cancel_btn">취소</button>
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+				<div>
+					<button id="crt_btn">작성</button>
+					<button id="cancel_btn">취소</button>
+				</div>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

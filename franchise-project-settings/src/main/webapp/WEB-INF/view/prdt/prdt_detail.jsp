@@ -92,7 +92,7 @@ function movePage(pageNo) {
 			
 			<div class="prdt-text flow-column">
 		<%-- 		<div>이벤트명 : <a href="${context}/evnt/detail/${prdtVO.evntVO.evntId}">${prdtVO.evntVO.evntTtl}</a></div> --%>
-				<div style="top: -50px; position: relative;">
+				<div style="">
 					<div style="font-size: 18px;">${prdtVO.cmmnCdVO.cdNm}</div>
 					<div class="prdtNm relative flex">${prdtVO.prdtNm}</div>
 					<c:choose>
@@ -115,8 +115,11 @@ function movePage(pageNo) {
 					</c:choose>
 					<div>${prdtVO.prdtCntnt}</div>
 					
+					<div>
+						<button class="btn btn-outline-warning" onclick="location.href='${context}/strprdt/list2'">주문 페이지</button>
+					</div>
 				</div>
-				<button class="btn btn-outline-warning" onclick="location.href='${context}/strprdt/list2'">주문 페이지</button>
+				
 			</div>
 		</div>			
 		

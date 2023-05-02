@@ -1,13 +1,7 @@
 package com.ktds.fr.hr.web;
 
-import java.io.File;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +12,6 @@ import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
-import com.ktds.fr.common.util.DownloadUtil;
 import com.ktds.fr.hr.service.HrService;
 import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -150,44 +143,5 @@ public class RestHrController {
 		
 	}
 	
-	/**
-	 * 글에 업로드 된 파일을 다운받는 기능입니다.
-	 * @param mbrVO 현재 접속중인 계정 정보
-	 * @param hrId 다운로드 받을 파일이 있는 글 ID
-	 * @param request
-	 * @param response
-	 */
-	@GetMapping("/hr/hrfile/{hrId}")
-	public ApiResponseVO downloadHrFile(@SessionAttribute("__MBR__") MbrVO mbrVO ,
-								@PathVariable String hrId ,
-								HttpServletRequest request ,
-								HttpServletResponse response) {
-		
-		HrVO hr = hrService.readOneHrByHrId(hrId);
-		// 파일에 접근한 사람이 파일을 업로드한 본인인지, 혹은 최고관리자인지 확인합니다.
-		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !mbrVO.getMbrLvl().equals("001-01")) {
-			// 둘 모두 아니라면, 접근한 사람이 회원이 지원한 지점의 점주(중간관리자)인지 확인합니다.
-			if(!mbrVO.getMbrLvl().equals("001-02") && !hr.getMbrVO().getStrId().equals(mbrVO.getStrId())) {
-				// 위 조건을 모두 통과하지 못했다면, 접근을 거부합니다.
-				return new ApiResponseVO(ApiStatus.FAIL, "권한이 없습니다","");
-			}
-		}
-		if (hr.getOrgnFlNm() == null || hr.getOrgnFlNm().trim().length() == 0) {
-			return new ApiResponseVO(ApiStatus.MISSING_ARGS, "파일이 없습니다.","");
-		}
-		
-		String uuid = hr.getUuidFlNm();
-		String origin = hr.getOrgnFlNm();
-		File hrFile = new File(filePath, uuid);
-		if (hrFile.exists() && hrFile.isFile()) {
-			DownloadUtil dnUtil = new DownloadUtil(response, request, filePath + "/" + uuid);
-			dnUtil.download(origin);
-			return new ApiResponseVO(ApiStatus.OK);
-		}
-		else {
-			return new ApiResponseVO(ApiStatus.FAIL, "파일 다운로드에 실패했습니다.","");
-		}
-	}
 	
-
 }

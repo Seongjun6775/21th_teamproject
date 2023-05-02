@@ -71,6 +71,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 
 </head>
 <body>
+	<jsp:include page="../include/header_user.jsp" />
 	<div class="main-layout">
 		<%-- 		<jsp:include page="../include/header.jsp" /> --%>
 		<!-- 		<div> -->
@@ -154,5 +155,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 		<%-- 			<jsp:include page="../include/footer.jsp" /> --%>
 		<!-- 		</div> -->
 	</div>
+	<jsp:include page="../include/footer_user.jsp" />
+	
 </body>
 </html>
