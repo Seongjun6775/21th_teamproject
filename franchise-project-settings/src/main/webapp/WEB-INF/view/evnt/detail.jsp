@@ -57,6 +57,8 @@
 			if (!confirm("소속 매장을 이벤트 참여 매장으로 하시겠습니까?\n확인(예) 또는 취소(아니오)를 선택해주세요.")) {
 	            alert("취소(아니오)를 누르셨습니다.");
 	        } else {
+	        	var evntId = $("#evntId").val()
+	        	console.log(evntId)
 	        	$.post(
 	        			// 1. 호출할 주소
 	        			"${context}/api/evntStr/create",
@@ -131,7 +133,7 @@
 						<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
 						<button type="button" id="btn-evntPrdt" class="btn btn-sm btn-outline-secondary">이벤트상품목록</button>
 						</c:if>
-						<c:if test="${button.mbrLvl eq '001-02'}">
+						<c:if test="${mbrVO.mbrLvl eq '001-02'}">
 							<button type="submit" id="btn-createEvntStr" class="btn btn-sm btn-outline-secondary">참여매장등록</button>
 						</c:if>
 		            </div>  
@@ -142,6 +144,8 @@
 					    사용여부
 					  </label>
 					</div>
+					
+					<input type="hidden" id="evntId" value="${evntVO.evntId}"/>
 					
 					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 						<button type="button" id="btn-update" class="btn btn-sm btn-success">수정</button>
