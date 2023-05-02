@@ -67,6 +67,16 @@ public class OdrLstVO extends AbstractVO{
 	private MbrVO mbrVO;
 	private MbrVO mdfyrMbrVO;
 	
+	
+	/**
+	 * 통계 검색용
+	 */
+	private String oneDay;
+	private String startDt;
+	private String endDt;
+	
+	
+	
 
 	public String getOdrLstId() {
 		return odrLstId;

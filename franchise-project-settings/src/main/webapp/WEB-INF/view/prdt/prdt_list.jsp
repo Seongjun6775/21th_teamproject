@@ -666,13 +666,13 @@ function movePage(pageNo) {
 
 
 	    </div>
-		<div class="bg-white rounded shadow-sm flex-column" 
+		<div class="bg-white rounded shadow-sm flex-column default-padding" 
     	 	style="height: 100%; margin: 20px;">
 
 	
-			<div class="grid-detail ">
+			<div class="grid-detail">
 			
-				<form id="form-detail" class="flex-row default-padding">
+				<form id="form-detail" class="flex-row">
 					<!-- 
 					isModify == true -> 수정(update)
 					isModify == false -> 등록(insert)
@@ -807,28 +807,32 @@ function movePage(pageNo) {
 				</form>
 			</div>
 			
-			
-			<div bottom>
-				<div>
-					<div>적용중인 이벤트</div>
-					<div id="evntaa">
-						<div class="show-group inline none">
-							<input type="text" id="evntId" disabled style="display: none;" value=""/>
-						</div>
-						<div class="show-group inline">
-							<label for="evntTtl" class="form-control">이벤트명</label>
+		
+			<div style="margin: 16px 0;">
+				<div style="margin-bottom: 8px;">적용중인 이벤트</div>
+				<div id="evnt-info">
+					<div class="show-group inline none">
+						<input type="text" id="evntId" disabled style="display: none;" value=""/>
+					</div>
+					<div class="input-group">
+						<label for="evntTtl" class="col-form-label">이벤트명</label>
+						<div>
 							<input type="text" id="evntTtl" 
 									class="form-control"
 									disabled value=""/>
 						</div>
-						<div class="show-group inline">
-							<label for="evntPrdtChngPrc" class="form-control">변경가격</label>
+					</div>
+					<div class="input-group">
+						<label for="evntPrdtChngPrc" class="col-form-label">변경가격</label>
+						<div>
 							<input type="text" id="evntPrdtChngPrc" 
 									class="form-control"
 									disabled value=""/>
 						</div>
-						<div class="show-group inline">
-							<label for="evntDt" class="form-control">기간</label>
+					</div>
+					<div class="input-group">
+						<label for="evntDt" class="col-form-label">기간</label>
+						<div>
 							<input type="text" id="evntDt" 
 									class="form-control"
 									disabled value=""/>
@@ -841,9 +845,9 @@ function movePage(pageNo) {
 				<div class="align-right grid-btns">
 <%-- 					<a href="${context}/strprdt/list">매장x메뉴  </a> --%>
 <%-- 					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a> --%>
-					<button id="btn-new" class="btn-primary">신규</button>
-					<button id="btn-save" class="btn-primary">저장</button>
-					<button id="btn-delete" class="btn-primary btn-delete">삭제</button>
+					<button id="btn-new" class="btn btn-outline-success btn-default">신규</button>
+					<button id="btn-save" class="btn btn-outline-primary btn-default">저장</button>
+					<button id="btn-delete" class="btn btn-outline-danger btn-default">삭제</button>
 				</div>
 			</div>
 		
