@@ -168,9 +168,12 @@
 					alert("선택한 오픈 시간이 클로즈 시간보다 느립니다.")
 					return;	
 				}
+				
+				
 			if($("#isModify").val() == "false"){
 				$.post("${context}/api/str/create", $("#strdetailmst_form").serialize(), function(response) {
 					if(response.status == "200 OK"){
+						
 						location.reload(); // 새로고침
 					}
 					else{
@@ -433,7 +436,7 @@
 						
 						<div class="input-group inline" >
 							<span class="input-group-text">매장주소</span>
-							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
+							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${StrVO.strAddr}"/>
 						</div>
 						<div class="input-group inline" >
 							<input type="text" id="sample4_postcode" placeholder="우편번호">
@@ -487,9 +490,8 @@
 							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
 						</div>
 						<div style="float:right; display: flex; flex-direction: row-reverse;">
-							
-							<button id="save_btn" class="btn btn-outline-success" >등록</button>
-							<button id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
+							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
+							<button type="button" id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
 						</div>
 					</div>
 				</form>
