@@ -55,59 +55,25 @@
 			}
 		});
 		$("#new_btn").click(function() {
-			location.href = "${context}/rv/create";
-		});
-		$("#all_check").click(function() {
-			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
-		});
-		$("#all_check").change(function(){
-			$(".check-idx").prop("checked", $(this).prop("checked"));
-		});
-		$(".check-idx").change(function(){
-			var count = $(".check-idx").length;
-			var checkCount = $(".check-idx:checked").length;
-			
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		$("#delete_all_btn").click(function(){
-			
-			var checkLen = $(".check-idx:checked").length;
-			
-			if(checkLen == 0){
-				alert("삭제할 리뷰가 없습니다.");
-				return;
+			var session = "${mbr}";
+			console.log(session);
+			if (session == "" || session.length == 0) {
+				if(confirm("로그인이 필요합니다. \n로그인 하시겠습니까?")){
+					location.href = "${context}/join";
+					return;
+				}
+				else {
+					return; 
+				}
 			}
-			if(confirm("정말 삭제하시겠습니까?")) {
-				var form = $("<form></form>")
-				$(".check-idx:checked").each(function(){
-					var myMbrId = "${mbrVO.mbrId}";
-					var myMbrLvl = "${mbrVO.mbrLvl}";
-					var mbrId = $(this).closest("tr").find(".open-layer").text();
-					if (myMbrLvl == "001-04" && myMbrId != mbrId) {
-						alert("자신의 리뷰만 삭제 가능합니다.");
-						return;		
-					}
-					console.log($(this).val());
-					form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'");
-				});
-				$.post("${context}/api/rv/delete", form.serialize(), function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-						alert("리뷰가 삭제되었습니다.")
-					}
-					else{
-						alert(response.errorCode + "권한이 없습니다." + response.message);
-					}
-				})
-			}
-		});	
-		
+			location.href = "${context}/mbr/rv/create";
+		});
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});		 
-		$(".rvRow td").not(".firstcell, .mbrId").click(function() {
+		$(".rvRow td").not(".mbrId").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
-			location.href="${context}/rv/detail/" + rvid;
+			location.href="${context}/user/rv/detail/" + rvid;
 		})
 	});
 		function movePage(pageNo){
@@ -120,13 +86,13 @@
 			queryString += "&type="+selec + "&search=" + id;
 			
 			//URL요청
-			location.href="${context}/rv/list" + queryString;
+			location.href="${context}/user/rv/list" + queryString;
 			
 		}
 </script>
 </head>
 <body>
-<jsp:include page="../include/openBody.jsp" />
+<%-- 	<jsp:include page="../include/openBody.jsp" /> --%>
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 			<span class="fs-5 fw-bold">리뷰 > 리뷰목록</span>
 	    </div>		
@@ -232,19 +198,13 @@
 					</c:if>
 				</ul>
 			</div>
-			<div style="position: absolute;right: 0;top: 0;">	
-				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
-					<button id="new_btn" class="btn btn-success">등록</button>
-				</c:if>
-				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-danger">삭제</button>
-				</c:if>
+			<div style="position: absolute;right: 0;top: 0;">		
+				<button id="new_btn" class="btn btn-success">등록</button>
 			</div>
-		</div>	
-						
-			</div>			
+		</div>							
+		</div>			
 		<jsp:include page="../include/footer.jsp" />
-<jsp:include page="../include/closeBody.jsp" />
+<%-- <jsp:include page="../include/closeBody.jsp" /> --%>
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">

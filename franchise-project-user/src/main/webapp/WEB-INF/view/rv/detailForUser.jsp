@@ -16,13 +16,7 @@
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-	$().ready(function() {
-		
-		$("#list_btn").click(function() {
-			location.href="${context}/user/rv/list";
-		});
-	}
-	
+
 </script>
 </head>
 <%-- <jsp:include page="../include/openBody.jsp" /> --%>
@@ -30,6 +24,7 @@
 			<span class="fs-5 fw-bold"> 리뷰 > 리뷰목록 > 리뷰상세</span>
 			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
 			<div style="position: absolute; right: 0;top: 0; margin: 20px;">
+				<button id="delete_btn" class="btn btn-danger">삭제</button>
 				<button id="list_btn" class="btn btn-secondary" >목록</button>
 			</div>
 		</c:if>	

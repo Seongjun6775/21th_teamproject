@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.odrlst.service.OdrLstService;
+import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.rv.service.RvService;
 import com.ktds.fr.rv.vo.RvVO;
 import com.ktds.fr.rv.vo.SearchRvVO;
@@ -22,9 +24,18 @@ public class RvController {
 	@Autowired
 	private RvService rvService;
 	
+	@Autowired
+	private OdrLstService odrLstService;
+	
 	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
 	@GetMapping("/rv/create")
-	public String viewCreateNewRvPage() {		
+	public String viewCreateNewRvPage(Model model,
+			@SessionAttribute("__MBR__") MbrVO mbrVO) {	
+		
+		List<OdrLstVO> odrLstId = odrLstService.getOdrLstIdForRv(mbrVO.getMbrId());
+		model.addAttribute("odrLstId", odrLstId);
+		model.addAttribute("mbrVO", mbrVO);
+		
 		return "rv/create";
 	}
 	
