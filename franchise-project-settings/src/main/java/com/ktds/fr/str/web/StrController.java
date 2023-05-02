@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.exceptions.IllegalRequestException;
 import com.ktds.fr.ctycd.service.CtyCdService;
 import com.ktds.fr.ctycd.vo.CtyCdVO;
@@ -88,13 +89,13 @@ public class StrController {
 	@GetMapping("/str/customer")
 	public String viewCustomerMapPage(@SessionAttribute("__MBR__") MbrVO mbrVO, MbrVO mbr2VO, String strId, Model model, StrVO strVO
 			, @RequestParam(required = false, defaultValue = "") String searchIdx
-			, @RequestParam(required = false, defaultValue = "")String keywodr ,CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
+			, @RequestParam(required = false, defaultValue = "")String keyword ,CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
 		
 			if (searchIdx.equals("strNm")) {
-	    		strVO.setStrNm(keywodr);
+	    		strVO.setStrNm(keyword);
 	    	}
 	    	if (searchIdx.equals("mbrId")) {
-	    		strVO.setMbrId(keywodr);
+	    		strVO.setMbrId(keyword);
 	    	}
 	    	if (strVO.getStrCty() != null && strVO.getStrCty().trim().length() != 0) {
 	    		ctyCdVO.setCtyId(strVO.getStrCty());
@@ -115,7 +116,7 @@ public class StrController {
 			model.addAttribute("strVO", strVO);
 			model.addAttribute("mbrVO", mbrVO);
 			model.addAttribute("searchIdx", searchIdx);
-			model.addAttribute("keywodr", keywodr);
+			model.addAttribute("keyword", keyword);
 			model.addAttribute("CtyCdVO", ctyCdVO);
 			model.addAttribute("LctCdVO", lctCdVO);
 			return "str/customer";
@@ -138,6 +139,7 @@ public class StrController {
 	}
 	@GetMapping("/str/strdetailmgn/{strId}")
 	public String viewStrDetailMgnPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model, CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
+		
 		if(!mbrVO.getStrId().equals(strId)) {
 			throw new IllegalRequestException();
 		}
@@ -200,15 +202,14 @@ public class StrController {
 				OdrLstVO odrLstVO = new OdrLstVO();
 				odrLstVO.setStrId(mbrVO.getStrId());
 				
-				List<OdrLstVO> odrLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
+				List<OdrLstVO> ordLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
 				odrLstVO.setOdrLstOdrPrcs("003-04");
-				List<OdrLstVO> odrLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
-				
+				List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
 				
 				model.addAttribute("mbrVO", mbrVO);
 				model.addAttribute("strVO", strVO);
-				model.addAttribute("odrLstList", odrLstList);
-				model.addAttribute("odrLstCompleteList", odrLstCompleteList);
+				model.addAttribute("ordLstList", ordLstList);
+				model.addAttribute("ordLstCompleteList", ordLstCompleteList);
 				
 				return "str/str_odrlst";
 	    	}

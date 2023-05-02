@@ -152,8 +152,8 @@
 					return;	
 				}
 				var patt = new RegExp("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
-				var res = patt.test( $("#strCallNum").val());
-	
+				
+				// #strCallNum의 값이 patt에서 정의한 정규표현식에 맞는지 검사합니다. (틀릴 시 false를 반환합니다.)
 				if( !patt.test( $("#strCallNum").val()) ){
 					alert("'-'을 기입하지 않았거나, 전화번호가 일치하지 않습니다. 전화번호를 정확히 입력하여 주십시오.");
 				    return false;
@@ -169,7 +169,21 @@
 					return;	
 				}
 			if($("#isModify").val() == "false"){
-				$.post("${context}/api/str/create", $("#strdetailmst_form").serialize(), function(response) {
+				$.post("${context}/api/str/create", 
+						{"strNm" : $("#strNm").val(),
+						 "strLctn" : $("#strLctn").val(),
+						 "strCty" : $("#strCty").val(),
+						 "strAddr" : $("#strAddr").val(),
+						 "strCallNum" : $("#strCallNum").val(),
+						 "mbrId" : $("#mbrId").val(),
+						 "strOpnTm" : $("#strOpnTm").val(),
+						 "strClsTm" : $("#strClsTm").val(),
+						 "strRgstr" : $("#strRgstr").val(),
+						 "mdfyr" : $("#mdfyr").val(),
+						 "useYn" : $("#useYn").val(),
+						 "ctyCdVO.ctyNm" : $("#sample4_sigungu").val(),
+						 "lctCdVO.lctNm" : $("#sample4_sido").val(),
+					}, function(response) {
 					if(response.status == "200 OK"){
 						location.reload(); // 새로고침
 					}
@@ -488,8 +502,8 @@
 						</div>
 						<div style="float:right; display: flex; flex-direction: row-reverse;">
 							
-							<button id="save_btn" class="btn btn-outline-success" >등록</button>
-							<button id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
+							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
+							<button type="button" id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
 						</div>
 					</div>
 				</form>
