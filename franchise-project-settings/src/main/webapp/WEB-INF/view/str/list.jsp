@@ -47,6 +47,7 @@
                 document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
                 document.getElementById("sample4_sido").value = data.sido;
                 document.getElementById("sample4_sigungu").value = data.sigungu;
+                document.getElementById("strAddr").value = roadAddr;
                 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){
@@ -173,7 +174,7 @@
 						{"strNm" : $("#strNm").val(),
 						 "strLctn" : $("#strLctn").val(),
 						 "strCty" : $("#strCty").val(),
-						 "strAddr" : $("#strAddr").val(),
+						 "strAddr" : $("#strAddr").val() + ' ' + $("#sample4_detailAddress").val(),
 						 "strCallNum" : $("#strCallNum").val(),
 						 "mbrId" : $("#mbrId").val(),
 						 "strOpnTm" : $("#strOpnTm").val(),
