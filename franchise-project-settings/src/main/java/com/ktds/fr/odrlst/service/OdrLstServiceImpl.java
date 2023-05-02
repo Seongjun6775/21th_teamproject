@@ -52,6 +52,11 @@ public class OdrLstServiceImpl implements OdrLstService {
 	}
 	
 	@Override
+	public List<OdrLstVO> getOdrLstIdForRv(String mbrId) {
+		return odrLstDAO.getOdrLstIdForRv(mbrId);
+	}
+	
+	@Override
 	public OdrLstVO isThisMyOdrLst(String odrLstId) {
 		return odrLstDAO.isThisMyOdrLst(odrLstId);
 	}

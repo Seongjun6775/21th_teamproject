@@ -12,75 +12,85 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 
 </script>
 </head>
-<body>
-
-	<div class="main-layout">
-	<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/rvMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			
-			<div class="path"> 리뷰 > 리뷰목록 > 리뷰상세</div>													
+<%-- <jsp:include page="../include/openBody.jsp" /> --%>
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px; position: relative;">	
+			<span class="fs-5 fw-bold"> 리뷰 > 리뷰목록 > 리뷰상세</span>
+			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+			<div style="position: absolute; right: 0;top: 0; margin: 20px;">
+				<button id="delete_btn" class="btn btn-danger">삭제</button>
+				<button id="list_btn" class="btn btn-secondary" >목록</button>
+			</div>
+		</c:if>	
+	    </div>		   		
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:20px;">
+			<div class="flex">
+				<div class="half-left">
+					<div class="input-group">
+						<label for="prdtId" class="col-form-label">리뷰ID</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.rvId}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">회원ID</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.mbrId}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">매장명</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.strVO.strNm}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">제목</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.rvTtl}"/>
+						</div>
+					</div>
+				</div>
+				<div class="half-right">
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">주문서ID</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.odrLstId}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">등록일</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.rvRgstDt}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">수정일</label>
+						<div>
+							<input type="text" class="form-control" readonly  value="${rvDetail.mdfyDt}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">평가</label>
+						<div>
+							<input type="text" id="rvLkDslk" name="rvLkDslk" class="form-control" readonly value="${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}">
+						</div>
+					</div>
+				</div>
+			</div>						
+			<div class="input-group" style="flex: 1;">
+				<label for="prdtCntnt" class="col-form-label">내용</label>
 				<div>
-				<form id="detail_form" method="post">
-					<div class="detail-group-inline">
-						<label for="rvId">리뷰 ID</label>
-						<input type="text" id="rvId" name="rvId" disabled value="${rvDetail.rvId}">
-					</div>
-					<div class="detail-group-inline">
-						<label for="mbrId">회원 ID</label>
-						<input type="text" id="mbrId" name="mbrId" disabled value="${rvDetail.mbrId}">
-					</div>
-					<div class="detail-group-inline">
-						<label for="strNm">매장명</label>
-						<input type="text" id="strNm" name="strNm" disabled value="${rvDetail.strVO.strNm}">
-					</div>
-					<div class="detail-group-inline">
-						<label for="odrLstId">주문서 ID</label>
-						<input type="text" id="odrLstId" name="odrLstId" disabled value="${rvDetail.odrLstId}">
-					</div>
-					<div class="detail-group-inline">
-						<label for="rvTtl">제목</label>
-						<input type="text" id="rvTtl" name="rvTtl" 
-							   style="width: 665px;"
-							   disabled value="${rvDetail.rvTtl}">
-					</div>
-					<div class="detail-group-inline">
-						<label for="rvCntnt">내용</label>
-						<div id="rvCntnt" 
-							 style="display: grid; 
-							   		margin: 3px; 
-							   		width: 700px; 
-							   		height: 400px; 
-							   		resize: none; 
-							   		border: none; 
-							   		background-color: #3331; 
-							   		white-space: pre-wrap;">${rvDetail.rvCntnt}</div>
-					</div>
-					<div class="detail-group-inline">
-						<label for="rvLkDslk">좋아요/싫어요</label>
-						<input type="text" id="rvLkDslk" name="rvLkDslk" disabled value="${rvDetail.rvLkDslk}">
-					</div>
-					<div class="detail-group-inline" style= "display: inline-flex;">
-						<label for="rvRgstDt">등록일</label>
-						<input type="text" id="rvRgstDt" name="rvRgstDt"								    
-							   disabled value="${rvDetail.rvRgstDt}">
-					</div>
-					<div class="detail-group-inline" style= "display: inline-flex;">
-						<label for="mdfyDt">수정일</label>
-						<input type="text" id="mdfyDt" name="mdfyDt"								   
-							   disabled value="${rvDetail.mdfyDt}">
-					</div>
-				</form>
-			</div>				
-		</div> 
-	</div>
-	<jsp:include page="../include/footer.jsp" />
-</body>
+					<textarea id="prdtCntnt" style="margin-top: 0.5rem; height:400px; resize: none;"
+							class="form-control">${rvDetail.rvCntnt}</textarea>
+				</div>
+			</div>
+		</div>		
+<%-- <jsp:include page="../include/closeBody.jsp" /> --%>
 </html>

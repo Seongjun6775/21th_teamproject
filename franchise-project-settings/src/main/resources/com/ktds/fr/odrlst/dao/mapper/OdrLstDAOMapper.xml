@@ -53,6 +53,15 @@
 		   AND DEL_YN = 'N'
 	</select>
 	
+	<select id="getOdrLstIdForRv"
+			parameterType="string"
+			resultType="com.ktds.fr.odrlst.vo.OdrLstVO">
+		SELECT ODR_LST_ID 
+  		  FROM ODR_LST
+     	 WHERE MBR_ID = #{_parameter}
+     	   AND ODR_LST_ODR_PRCS = '003-04'
+	</select>
+	
 	<insert id="createNewOdrLst"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO">
 		INSERT INTO ODR_LST

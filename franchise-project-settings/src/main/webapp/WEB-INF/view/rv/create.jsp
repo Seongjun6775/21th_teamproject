@@ -52,7 +52,16 @@
 						<label for="odrLstId" style="margin:5px;">주문서 ID</label> 
 						<select id="odrLstId" style="width:40%;"
 								class="form-control"name="odrLstId">
-							<option value="ordLstId">${ordLstId}</option>
+							<c:choose>
+								<c:when test="${not empty odrLstId}">
+									<c:forEach items="${odrLstId}"
+											   var="rv">
+											<option value="${rv.odrLstId}">
+												${rv.odrLstId}
+											</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
 						</select>
 					</div>
 					<div class="create-group">
