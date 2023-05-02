@@ -80,7 +80,9 @@ public class OdrLstServiceImpl implements OdrLstService {
 		OdrLstVO odrPrcs = odrLstDAO.getOdrPrcs(odrLstId);
 		// 만약 주문서가 '주문 대기', '주문 취소' 상태가 아니라면, 삭제 요청을 거부합니다.
 		if (!odrPrcs.getOdrLstOdrPrcs().equals("003-01") && !odrPrcs.getOdrLstOdrPrcs().equals("003-05")) {
-			throw new ApiException("500", "주문이 이미 접수되었습니다.");
+			if (!odrPrcs.getOdrLstOdrPrcs().equals("003-04")) {
+				throw new ApiException("500", "주문이 이미 접수되었습니다.");
+			}
 		}
 		
 		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstId) > 0;

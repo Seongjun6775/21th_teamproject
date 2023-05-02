@@ -84,7 +84,7 @@ public class HrServiceImpl implements HrService {
 	 */
 	@Override
 	public HrVO readOneHrByHrId(String hrId) {
-			return hrDAO.readOneHrByHrId(hrId);
+		return hrDAO.readOneHrByHrId(hrId);
 	}
 
 	/**
