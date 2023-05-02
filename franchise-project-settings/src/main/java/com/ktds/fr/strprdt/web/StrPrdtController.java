@@ -97,6 +97,7 @@ public class StrPrdtController {
 		StrVO strVO = strService.readOneStrByMaster(strId);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
+		model.addAttribute("strPrdtVO", strPrdtVO);
 		model.addAttribute("strPrdtList", strPrdtList);
 		model.addAttribute("strVO", strVO);
 		model.addAttribute("srtList", srtList);

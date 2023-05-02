@@ -121,10 +121,15 @@ $().ready(function() {
 					    <!-- <input type="submit" value="사진 업로드"></td>		 -->		
 					</tr>
 					<tr>
+<!-- 						<td>사용 여부</td> -->
+<!-- 						<td><input type="checkbox" id="useYn" class="form-check-input" onClick="check(this)" value=""/></td> -->
+<!-- 						<td >삭제 여부</td> -->
+<!-- 						<td><input type="checkbox" id="delYn" class="form-check-input"  onClick="check(this)" value="" /></td> -->
 						<td>사용 여부</td>
-						<td><input type="checkbox" id="useYn" class="form-check-input" onClick="check(this)" value=""/></td>
-						<td >삭제 여부</td>
-						<td><input type="checkbox" id="delYn" class="form-check-input"  onClick="check(this)" value="" /></td>
+						<td><input type="checkbox" id="useYn" onClick="check(this)" value=""/></td>
+<!-- 						<td>삭제 여부</td> -->
+<!-- 						<td><input type="checkbox" id="delYn" onClick="check(this)" value="" /></td> -->
+
 					</tr>
 					<tr>
 						<td></td>

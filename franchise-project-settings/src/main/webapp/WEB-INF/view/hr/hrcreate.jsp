@@ -14,7 +14,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		
 		$("#cancel_btn").click(function() {
 			if (!confirm("작성을 취소하시겠습니까?")) {
 				return;
@@ -89,11 +88,40 @@
 						<button id="cancel_btn" class="btn btn-secondary">취소</button>
 					</div>
 				</div>
-				</form>
+				<div>
+					<label for="mbrId">작성자</label>
+					<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
+				</div>
+				<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
+					<select id="hrLvl">
+						<option value=" ">직군을 선택하세요.</option>
+						<option value="005-01">점주</option>
+						<option value="005-02">직원</option>
+					</select>
+				</div>
+				<div>
+					<label for="hrTtl">제목</label>
+					<input type="text" id="hrTtl" name="hrTtl" />
 					
-				
+				</div>
+				<div>
+					<label for="hrFile">파일 첨부</label>
+					<input type="file" id="hrFile" name="hrFile" />
+				</div>
+				<div>
+					<label for="hrCntnt">본문</label>
+					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
+					 placeholder="4000자 까지 입력하실 수 있습니다"></textarea>
+				</div>
+			</form>
 			
+			<div>
+				<button id="save_btn">작성</button>
+				<button id="cancel_btn">취소</button>
 			</div>
 			
-<jsp:include page="../include/closeBody.jsp" />
+			<jsp:include page="../include/footer.jsp" />
+		</div>
+	</div>
+</body>
 </html>

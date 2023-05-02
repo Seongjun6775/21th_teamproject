@@ -96,7 +96,7 @@
 		
 		var keyword = $("#search-keyword").val();
 
-		var searchVal = $(".search_idx").val();
+		var searchVal = $("#search_idx").val();
 		var keyword = $("#search-keyword").val();
 		var startDt = $("#startDt").val();
 		var endDt = $("#endDt").val();
@@ -121,38 +121,39 @@
 	
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<h3>중간관리자 상세조회 페이지</h3>
+<jsp:include page="../include/openBody.jsp" />
+
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">쪽지 > 쪽지관리</span>
+	    </div>
 			<div>
-				<div>총 ${myNtList.size() > 0 ? myNtList.size() : 0}건</div>
-				<div>
-					<label for="startDt">검색 시작일</label>
-					<input type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
-					<label for="endDt">검색 종료일</label>
-					<input type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
-					<select class="search_idx">
+				<!-- searchbar -->
+				<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin: 15px;">
+						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+					</svg>
+					<input class="form-control " style="margin-right: 10px; width: 30%;" type="date" id="startDt" name="startDt" value="${ntVO.startDt}" />
+					<input class="form-control" style="margin-right: 40px; width: 30%;" type="date" id="endDt" name="endDt" value="${ntVO.endDt}" />
+					<select id="search_idx"  class="form-select" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
 						<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
 						<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
 					</select>
-					<input type="text" id="search-keyword" value="${keyword}"/>
-					<button id="search_btn">검색</button>
+					<input class="form-control me-2" type="text" id="search-keyword" value="${keyword}"/>
+					<button id="search_btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">검색</button>
 				</div>
+				<!-- /searchbar -->
 			</div>
-			<div class="nt_table_grid">
-				<table>
-					<thead>
+			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+				<div>총 ${myNtList.size() > 0 ? myNtList.size() : 0}건</div>
+				<table class="table caption-top table-hover" style="text-align: center;">
+					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
-							<th><input type="checkbox" id="all_check"/></th>
-							<th>쪽지 제목</th>
-							<th>발신인</th>
-							<th>수신인</th>
-							<th>쪽지 발송 일자</th>
-							<th>쪽지 수신 여부</th>
+							<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check"/></th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">쪽지 제목</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">발신인</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">수신인</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">쪽지 발송 일자</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">쪽지 수신 여부</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -182,7 +183,7 @@
 				</table>
 			</div>
 			<div class="pagenate">
-					<ul>
+					<ul class="pagination" style="text-align: center;">
 						<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastPage : 0}" var="lastPage" />
 						<c:set value="${myNtList.size() >0 ? myNtList.get(0).lastGroup : 0}" var="lastGroup" />
 						
@@ -214,12 +215,8 @@
 					<button id="crt_btn">작성</button>
 					<button id="check_del_btn">일괄삭제</button>
 				</div>
-				<div>
-				<jsp:include page="../include/footer.jsp" />
-			</div>
-		</div>
-	</div>
-	
+			
+			
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
@@ -230,6 +227,7 @@
 			</div>
 		</div>
 	</div>
+<jsp:include page="../include/closeBody.jsp" />
 	
-</body>
+	
 </html>

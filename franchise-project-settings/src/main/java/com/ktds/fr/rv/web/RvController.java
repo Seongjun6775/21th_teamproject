@@ -54,6 +54,7 @@ public class RvController {
 		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("rvList", rvList);
 		model.addAttribute("rvVO", rvVO);
+		model.addAttribute("searchRvVO", searchRvVO);
 		
 		return "rv/list";
 	}

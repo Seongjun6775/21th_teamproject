@@ -3,6 +3,7 @@
 <%@page import="java.util.Random"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="context" value="${pageContext.request.contextPath}"></c:set>
 <c:set var="date" value="<%= new Random().nextInt() %>"></c:set>
 <!DOCTYPE html>
@@ -62,6 +63,11 @@ function fileCheck() {
 	 */
 	
 }
+
+function secId(mbrId) {
+	return mbrId.substring(0, mbrId.length - 3) + "***";
+}
+
   	
   	
 $().ready(function() {
@@ -150,7 +156,7 @@ $().ready(function() {
 		var evntTtl = $("#evntTtl").val();
 		if (evntTtl != "") {
 			var evntId = $("#evntId").val();
-			window.open("${context}/evnt/detail/"+evntId, "이벤트 - "+evntTtl, "width=600, height=450");
+			window.open("${context}/evnt/detail/"+evntId, "이벤트 - "+evntTtl, "width=1280, height=960");
 		}
 	})
 	
@@ -451,157 +457,158 @@ function movePage(pageNo) {
 		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 		
 			<div class="space-between mb-10">
-			<div class="top-bar">
-				<button id="btn-search-reset"
-						class="btn btn-primary" >검색초기화</button>
-				<label>메뉴 이름 검색</label>
-				<input type="text" class="selectFilter" 
-									id="search-keyword-prdtNm" 
-									placeholder="검색어 입력 후 Enter"
-									onkeyup="chkChar(this)" 
-									value="${prdtVO.prdtNm}">	
-				<button id="btn-search" class="btn btn-primary">검색</button>
+				<div class="top-bar">
+					<button id="btn-search-reset"
+							class="btn btn-primary" >검색초기화</button>
+					<label>메뉴 이름 검색</label>
+					<input type="text" class="selectFilter" 
+										id="search-keyword-prdtNm" 
+										placeholder="검색어 입력 후 Enter"
+										onkeyup="chkChar(this)" 
+										value="${prdtVO.prdtNm}">	
+					<button id="btn-search" class="btn btn-primary">검색</button>
+				</div>
 			</div>
-				
 			
-				
-			</div>
-			<table id="dataTable"
-					class="table table-sm table-hover  align-center"
-					style="table-layout: fixed">
-				<thead>
-					<tr>
-						<th class="th-checkbox align-center"><input type="checkbox" id="all-check"/></th>
-						<th class="width180">ID</th>
-						<th class="width100">
-						<select class="select-align-center" name="selectFilter"
-								id="search-keyword-prdtSrt">
-							<option value="">분류</option>
-							<c:choose>
-								<c:when test="${not empty srtList}">
-									<c:forEach items="${srtList}"
-												var="srt">
-										<option value="${srt.cdId}">${srt.cdNm}</option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</select>
-						</th>
-						<th class="width300">메뉴 이름</th>
-						<th class="width100">가격</th>
-						<th class="width100 ">
+			<div class="rounded">
+				<table id="dataTable"
+						class="table table-hover align-center"
+						style="table-layout: fixed">
+					<thead class="table-secondary">
+						<tr>
+							<th class="th-checkbox align-center"><input type="checkbox" id="all-check"/></th>
+							<th class="width180">ID</th>
+							<th class="width100">
 							<select class="select-align-center" name="selectFilter"
-									id="search-keyword-evntYn">
-								<option value="">이벤트유무</option>
-								<option value="Y">Y</option>
-								<option value="N">N</option>
+									id="search-keyword-prdtSrt">
+								<option value="">분류</option>
+								<c:choose>
+									<c:when test="${not empty srtList}">
+										<c:forEach items="${srtList}"
+													var="srt">
+											<option value="${srt.cdId}">${srt.cdNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
 							</select>
-						</th>
-						<th class="width100">변경가격</th>
-						<th class="width120">등록자</th>
-						<th class="width120">등록일</th>
-						<th class="width120">수정자</th>
-						<th class="width120">수정일</th>
-						<th class="width100">
-							<select class="select-align-center" name="selectFilter"
-									id="search-keyword-useYn">
-								<option value="">사용유무</option>
-								<option value="Y">Y</option>
-								<option value="N">N</option>
-							</select>
-						</th>
-					</tr>
-				</thead>
-				<tbody class="table-group-divider">
-					<c:choose>
-						<c:when test="${not empty prdtList}">
-							<c:forEach items="${prdtList}"
-										var="prdt"
-										varStatus="index">
-								<tr data-prdtid="${prdt.prdtId}" 
-									data-prdtnm="${prdt.prdtNm}" 
-									data-prdtprc="${prdt.prdtPrc}" 
-									data-prdtcntnt="${prdt.prdtCntnt}" 
-									data-prdtsrt="${prdt.prdtSrt}" 
-									data-orgnflnm="${prdt.orgnFlNm}" 
-									data-uuidflnm="${prdt.uuidFlNm}" 
-									data-flsize="${prdt.flSize}" 
-									data-flext="${prdt.flExt}" 
-									data-prdtsrtnm="${prdt.cmmnCdVO.cdNm}" 
-									data-prdtrgstr="${prdt.prdtRgstr}" 
-									data-prdtrgstdt="${prdt.prdtRgstDt}" 
-									data-evntid="${prdt.evntVO.evntId}" 
-									data-evntttl="${prdt.evntVO.evntTtl}" 
-									data-evntstrtdt="${prdt.evntVO.evntStrtDt}" 
-									data-evntenddt="${prdt.evntVO.evntEndDt}" 
-									data-evntPrdtChngPrc="${prdt.evntPrdtVO.evntPrdtChngPrc}" 
-									data-mdfyr="${prdt.mdfyr}" 
-									data-mdfydt="${prdt.mdfyDt}"
-									data-useyn="${prdt.useYn}"
-									data-prdtrgstrnm="${prdt.prdtRgstrMbrVO.mbrNm}"
-									data-mdfyrnm="${prdt.mdfyrMbrVO.mbrNm}"> 
-									<td class="align-center">
-										<input type="checkbox" class="check-idx0" value="${prdt.prdtId}" />
+							</th>
+							<th class="width300">메뉴 이름</th>
+							<th class="width100">가격</th>
+							<th class="width100 ">
+								<select class="select-align-center" name="selectFilter"
+										id="search-keyword-evntYn">
+									<option value="">이벤트유무</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</th>
+							<th class="width100">변경가격</th>
+							<th class="width120">등록자</th>
+							<th class="width120">등록일</th>
+							<th class="width120">수정자</th>
+							<th class="width120">수정일</th>
+							<th class="width100">
+								<select class="select-align-center" name="selectFilter"
+										id="search-keyword-useYn">
+									<option value="">사용유무</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<c:choose>
+							<c:when test="${not empty prdtList}">
+								<c:forEach items="${prdtList}"
+											var="prdt"
+											varStatus="index">
+									<tr data-prdtid="${prdt.prdtId}" 
+										data-prdtnm="${prdt.prdtNm}" 
+										data-prdtprc="${prdt.prdtPrc}" 
+										data-prdtcntnt="${prdt.prdtCntnt}" 
+										data-prdtsrt="${prdt.prdtSrt}" 
+										data-orgnflnm="${prdt.orgnFlNm}" 
+										data-uuidflnm="${prdt.uuidFlNm}" 
+										data-flsize="${prdt.flSize}" 
+										data-flext="${prdt.flExt}" 
+										data-prdtsrtnm="${prdt.cmmnCdVO.cdNm}" 
+										data-prdtrgstr="${prdt.prdtRgstr}" 
+										data-prdtrgstdt="${prdt.prdtRgstDt}" 
+										data-evntid="${prdt.evntVO.evntId}" 
+										data-evntttl="${prdt.evntVO.evntTtl}" 
+										data-evntstrtdt="${prdt.evntVO.evntStrtDt}" 
+										data-evntenddt="${prdt.evntVO.evntEndDt}" 
+										data-evntPrdtChngPrc="${prdt.evntPrdtVO.evntPrdtChngPrc}" 
+										data-mdfyr="${prdt.mdfyr}" 
+										data-mdfydt="${prdt.mdfyDt}"
+										data-useyn="${prdt.useYn}"
+										data-prdtrgstrnm="${prdt.prdtRgstrMbrVO.mbrNm}"
+										data-mdfyrnm="${prdt.mdfyrMbrVO.mbrNm}"> 
+										<td class="align-center">
+											<input type="checkbox" class="check-idx0" value="${prdt.prdtId}" />
+										</td>
+										<td class="ellipsis">${prdt.prdtId}</td>
+										<td>${prdt.cmmnCdVO.cdNm}</td>
+										<td class="ellipsis">
+											<c:choose>
+												<c:when test="${empty prdt.uuidFlNm}"><i class='bx bx-camera-off' ></i>
+												</c:when>
+											</c:choose>
+											${prdt.prdtNm}
+										</td>
+										<td class="money">
+											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
+										</td>
+										<td>
+											${empty prdt.evntVO.evntId ? "N" : "Y"}
+										</td>
+										<td class="money">
+											<c:choose>
+												<c:when test="${empty prdt.evntVO.evntId}">
+													-
+												</c:when>
+												<c:otherwise>
+													<fmt:formatNumber>${prdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>원
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td class="ellipsis"
+											onclick="event.cancelBubble=true">
+											<a class="open-layer" href="javascript:void(0);" 
+												val="${prdt.prdtRgstrMbrVO.mbrId}">
+												${prdt.prdtRgstrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.prdtRgstrMbrVO.mbrNm}</a>
+										</td>
+										<td>
+											<fmt:parseDate value="${prdt.prdtRgstDt}" pattern="yyyy-MM-dd" var="prdtRgstDt"/>
+											<fmt:formatDate value="${prdtRgstDt}" pattern="yyyy.MM.dd"/>
+										</td>
+										<td class="ellipsis"
+											onclick="event.cancelBubble=true">
+											<a class="open-layer" href="javascript:void(0);" 
+													="${prdt.mdfyrMbrVO.mbrId}">
+												${prdt.mdfyrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.mdfyrMbrVO.mbrNm}</a>
+										</td>
+										<td>
+											<fmt:parseDate value="${prdt.mdfyDt}" pattern="yyyy-MM-dd" var="mdftyDt"/>
+											<fmt:formatDate value="${mdftyDt}" pattern="yyyy.MM.dd"/>
+										</td>
+										<td>${prdt.useYn}</td>
+									</tr>
+								</c:forEach>	
+							</c:when>
+							<c:otherwise>
+								<tr id="notFound">
+									<td colspan="12" class="no-items">
+										등록된 항목이 없습니다.
 									</td>
-									<td class="ellipsis">${prdt.prdtId}</td>
-									<td>${prdt.cmmnCdVO.cdNm}</td>
-									<td class="ellipsis">
-										<c:choose>
-											<c:when test="${empty prdt.uuidFlNm}"><i class='bx bx-camera-off' ></i>
-											</c:when>
-										</c:choose>
-										${prdt.prdtNm}
-									</td>
-									<td class="money">
-										<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
-									</td>
-									<td>
-										${empty prdt.evntVO.evntId ? "N" : "Y"}
-									</td>
-									<td class="money">
-										<c:choose>
-											<c:when test="${empty prdt.evntVO.evntId}">
-												-
-											</c:when>
-											<c:otherwise>
-												<fmt:formatNumber>${prdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber>원
-											</c:otherwise>
-										</c:choose>
-									</td>
-									<td class="ellipsis"
-										onclick="event.cancelBubble=true">
-										<a class="open-layer" href="javascript:void(0);" 
-											val="${prdt.prdtRgstrMbrVO.mbrId}">
-											${prdt.prdtRgstrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.prdtRgstrMbrVO.mbrNm}</a>
-									</td>
-									<td>
-										<fmt:parseDate value="${prdt.prdtRgstDt}" pattern="yyyy-MM-dd" var="prdtRgstDt"/>
-										<fmt:formatDate value="${prdtRgstDt}" pattern="yyyy.MM.dd"/>
-									</td>
-									<td class="ellipsis"
-										onclick="event.cancelBubble=true">
-										<a class="open-layer" href="javascript:void(0);" 
-												="${prdt.mdfyrMbrVO.mbrId}">
-											${prdt.mdfyrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.mdfyrMbrVO.mbrNm}</a>
-									</td>
-									<td>
-										<fmt:parseDate value="${prdt.mdfyDt}" pattern="yyyy-MM-dd" var="mdftyDt"/>
-										<fmt:formatDate value="${mdftyDt}" pattern="yyyy.MM.dd"/>
-									</td>
-									<td>${prdt.useYn}</td>
 								</tr>
-							</c:forEach>	
-						</c:when>
-						<c:otherwise>
-							<tr id="notFound">
-								<td colspan="12" class="no-items">
-									등록된 항목이 없습니다.
-								</td>
-							</tr>
-						</c:otherwise>
-					</c:choose>
-				</tbody>
-			</table>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+			</div>
+			
 			
 			<div class="relative">
 				<div class="align-left absolute fontsize14">
@@ -609,9 +616,9 @@ function movePage(pageNo) {
 					총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
 					<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
 				</div>
-				<div class="align-right absolute " style="right: 0px;" >
-					<select class="selectFilter"
-							id="select-useYn">
+				<div class="align-right absolute white-space-nowrap" style="right: 0px;" >
+					<select id="select-useYn"
+							class="form-select">
 						<option value="">사용유무</option>
 						<option value="Y">Y</option>
 						<option value="N">N</option>
@@ -831,8 +838,8 @@ function movePage(pageNo) {
 	
 			
 				<div class="align-right grid-btns">
-					<a href="${context}/strprdt/list">매장x메뉴  </a>
-					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a>
+<%-- 					<a href="${context}/strprdt/list">매장x메뉴  </a> --%>
+<%-- 					<a href="${context}/prdt/list2">손님용 ㄱㄱ</a> --%>
 					<button id="btn-new" class="btn-primary">신규</button>
 					<button id="btn-save" class="btn-primary">저장</button>
 					<button id="btn-delete" class="btn-primary btn-delete">삭제</button>

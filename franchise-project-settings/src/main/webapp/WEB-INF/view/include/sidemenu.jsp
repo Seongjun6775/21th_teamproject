@@ -52,20 +52,11 @@
 				</c:when>
 				<c:otherwise>
 					<li class="rounded"><a href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장 조회</a></li>
+					<li class="rounded"><a href="${context}/strprdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴관리</a></li>
 				</c:otherwise>
 			</c:choose>
             <li class="rounded"><a href="${context}/str/odrlst" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문관리</a></li>
             <li class="rounded"><a href="${context}/str/completeOdr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">처리주문조회</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="mb-1">
-        <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-          메뉴
-        </button>
-        <div class="collapse" id="orders-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-	        <li class="rounded"><a href="${context}/prdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴관리</a></li>
           </ul>
         </div>
       </li>

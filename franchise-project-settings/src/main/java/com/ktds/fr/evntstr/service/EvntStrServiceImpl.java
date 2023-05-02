@@ -33,7 +33,7 @@ public class EvntStrServiceImpl implements EvntStrService {
 
 	@Override
 	public boolean deleteEvntStrListByEvntId(List<String> evntPrdtIdList, MbrVO mbrVO) {
-		if (mbrVO.getMbrLvl().equals("001-04")) {
+		if (mbrVO.getMbrLvl().equals("001-02")) {
 			return evntStrDAO.deleteEvntStrListByEvntId(evntPrdtIdList) > 0;
 		}
 		return false;

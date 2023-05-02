@@ -57,6 +57,8 @@
 			if (!confirm("소속 매장을 이벤트 참여 매장으로 하시겠습니까?\n확인(예) 또는 취소(아니오)를 선택해주세요.")) {
 	            alert("취소(아니오)를 누르셨습니다.");
 	        } else {
+	        	var evntId = $("#evntId").val()
+	        	console.log(evntId)
 	        	$.post(
 	        			// 1. 호출할 주소
 	        			"${context}/api/evntStr/create",
@@ -78,8 +80,8 @@
 		
 		//'목록으로'버튼 누르면 뒤로 돌아가기
 		$("#btn-cancle").click(function() {
-			//location.href="${context}/evnt/list3"
-			history.go(-1);
+			location.href="${context}/evnt/list"
+			//history.go(-1);
 		});
 		
 		//'참여매장목록' 버튼 클릭 시 팝업창으로 리스트 뜸
@@ -90,7 +92,7 @@
 		
 		//'이벤트상품목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=500, height=400, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=1300, height=800, scrollbars=yes, resizable=yes"); 
 		       pop.focus();	
 		});
 		
@@ -142,6 +144,8 @@
 					    사용여부
 					  </label>
 					</div>
+					
+					<input type="hidden" id="evntId" value="${evntVO.evntId}"/>
 					
 					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 						<button type="button" id="btn-update" class="btn btn-sm btn-success">수정</button>

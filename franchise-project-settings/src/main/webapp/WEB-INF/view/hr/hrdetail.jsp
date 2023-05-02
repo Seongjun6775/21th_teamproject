@@ -36,6 +36,11 @@
 				return;
 			}
 			
+			if (hrStat == "002-02") {
+				alert("현재 심사중인 지원입니다.");
+				return;
+			}
+			
 			if (!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
@@ -70,7 +75,10 @@
 		});
 		
 		$("#fileDown").click(function(){
-			$.get("${context}/hr/hrfile/${hr.hrId}", function(resp){
+			
+			var hrId = "${hr.hrId}";
+			
+			$.get("/fran/hr/hrfile/" + hrId, function(resp){
 				if(resp.status == "200 OK"){
 					location.reload();
 				}
@@ -81,8 +89,8 @@
 			});
 		
 		});
-		
 	});
+	
 </script>
 </head>
 <body>
@@ -95,7 +103,7 @@
 			
 			<div>
 				<div class="hr_detail_header">글 번호 : ${hr.hrId}</div>
-				<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
+				<div class="hr_detail_header">작성자 : ${hr.mbrVO.mbrNm}</div>
 			</div>
 			<div>
 				<div class="hr_detail_header">제목 : ${hr.hrTtl}</div>
@@ -116,13 +124,15 @@
 				<div class="hr_detail_header">승인 여부 변경 일자 : ${hr.hrAprDt}</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? 'none' : ''};">
-				<div class="hr_detail_header">첨부파일 : <a id="fileDown" href="#">${hr.orgnFlNm}</a></div>
+				<div class="hr_detail_header">첨부파일 : <a id="fileDown" href="javascript:void(0);">${hr.orgnFlNm}</a></div>
 				<div class="hr_detail_header"><fmt:formatNumber type="number" value="${hr.flSize/1024}" maxFractionDigits="2"/> KB</div>
 			</div>
 			<div style="display: ${hr.orgnFlNm == null ? '' : 'none'};">
 				<div class="hr_detail_header">첨부파일 : 등록된 파일이 없습니다.</div>
 			</div>
-			<div class="hr_detail_cntnt" style="word-break: break-all;">${hr.hrCntnt}</div>
+			<div>
+				<textarea class="hr_detail_cntnt" style="word-break: break-all; width: 600px; height: 400px; resize: none;">${hr.hrCntnt}</textarea>
+			</div>
 			
 			<button id="update_btn">수정</button>
 			<button id="delete_btn">삭제</button>

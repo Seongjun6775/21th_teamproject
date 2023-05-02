@@ -11,8 +11,10 @@
 <meta charset="UTF-8">
 <title>${strVO.strNm} - 주문하기</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
-<link rel="stylesheet" href="${context}/css/strprdt_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -23,9 +25,23 @@ $().ready(function() {
 	$('a[href="#"]').click(function(ignore) {
 		ignore.preventDefault();
 	});
-
+	$('div[class="itemList"]').click(function() {
+		if ($(this).children("div.blockMenu").length > 0) {
+			return; 
+		}
+		location.href = "${context}/strprdt/detail/"+$(this).data("strprdtid");
+	});
 	
-	$("li").click(function() {
+	
+	var srt = "${strPrdtVO.prdtVO.prdtSrt}"
+	$("div[id=menuCategory] a").each(function() {
+		if ($(this).attr("value") == srt) {
+			$(this).addClass("menuOn");
+		}
+	})
+	
+	
+	$("div[id=menuCategory] a").click(function() {
 		var srt = $(this).attr('value');
 		if (srt == "" || srt == null) {
 			srt = '%'
@@ -33,7 +49,6 @@ $().ready(function() {
 		var queryString = "?prdtVO.prdtSrt=" + srt;
 		location.href = "${context}/strprdt/${strVO.strId}" + queryString;
 	});
-	
 	
 	
 	
@@ -52,78 +67,95 @@ function movePage(pageNo) {
 
 </script>
 </head>
-<body>
+<body class="scroll">
 
-	<div class="headline relative">
-		상단 헤드라인임 //////// <a href="${context}/prdt/list">관리자 메뉴로 돌아가깅</a>
-		<br><a href="${context}/strprdt/list2">주문가볼까</a>
-		<div>${prdtList}</div>
-		<div>${prdtVO}</div>
-		<div>${srtList}</div>
-			<ul id="prdtSrtList" class="flex absolute" style="list-style-type: none; bottom: 0px;">
-				<li value=""><a href="#">전체메뉴</a></li>
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">붕어빵 파는곳</div>
+		<div class="overlay absolute"></div>
+	</div>
+
+
+	
+	<div id="menu" class="flex-column">
+		<div id="menuCategory" class="flex">
+			<a href="#" value="" class="menu">
+				전체메뉴
+			</a>
+			<c:choose>
+				<c:when test="${not empty srtList}">
+					<c:forEach items="${srtList}"
+								var="srt">
+						<a href="#"  class="menu"
+							value="${srt.cdId}" >
+							${srt.cdNm}
+						</a>
+					</c:forEach>
+				</c:when>
+			</c:choose>
+		</div>
+		
+	
+	
+	
+	
+<%-- 		<br>매장이름임 ${strVO.strNm} (${strVO.strId}) --%>
+<%-- 		<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm} --%>
+<%-- 		<br>리스트 조회개수 ${strPrdtList.size()} --%>
+<!-- 		<br> -->
+		
+		
+		
+		
+		<div>
+	
+			<div id="itemList" class="flow-wrap">
 				<c:choose>
-					<c:when test="${not empty srtList}">
-						<c:forEach items="${srtList}"
-									var="srt">
-							
-								<li class="ml-20" value="${srt.cdId}">
-									<a href="#">
-									${srt.cdNm}
-									</a>
-								</li>
+					<c:when test="${not empty strPrdtList}">
+						<c:forEach items="${strPrdtList}"
+									var="strPrdt">
+							<div class="itemList" style="position: relative;" data-strprdtid="${strPrdt.strPrdtId}">
+								<c:if test="${strPrdt.useYn eq 'N'}">
+									<div class="blockMenu">
+										<div>구매할 수 없습니다</div>
+									</div>
+								</c:if>
+								<div class="prdt card shadow" style="padding: 24px; border-radius: 24px;">
+									<div class="img-box" style="width: 100%;">
+										<c:choose>
+											<c:when test="${empty strPrdt.prdtVO.uuidFlNm}">
+												<img src="${context}/img/default_photo.jpg">
+											</c:when>
+											<c:otherwise>
+												<img src="${context}/prdt/img/${strPrdt.prdtVO.uuidFlNm}/">
+											</c:otherwise>
+										</c:choose>	
+									</div>
+									<div class="prdt3">
+										<div class="discount">
+											<c:choose>
+												<c:when test="${not empty strPrdt.evntVO.evntId}">
+													<span>이벤트 진행중 <i class='bx bxs-discount bx-tada bx-rotate-180' ></i></span>
+												</c:when>
+											</c:choose>
+										</div>
+										<div class="name ellipsis">${strPrdt.prdtVO.prdtNm}</div>
+										<div class="price"><fmt:formatNumber>${strPrdt.prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></div>
+									</div>
+								</div>
+							</div>
 						</c:forEach>
 					</c:when>
 				</c:choose>
-			</ul>
-	</div>
+			</div>
+		
+		</div>
 	
-	<div>
-		<br>매장이름임 ${strVO.strNm} (${strVO.strId})
-		<br>영업시간 ${strVO.strOpnTm} ~ ${strVO.strClsTm}
-		<br>리스트 조회개수 ${strPrdtList.size()}
-		<br>
-		<c:choose>
-			<c:when test="${not empty strPrdtList}">
-				<c:forEach items="${strPrdtList}"
-							var="strPrdt">
-					<a href="${context}/strprdt/detail/${strPrdt.strPrdtId}"
-						onclick="if('${strPrdt.useYn}'==='N') {return false;}">
-						<div class="prdt1" id="${strPrdt.strPrdtId}"
-							data-strPrdtid="${strPrdt.strPrdtId}">
-							<c:if test="${strPrdt.useYn eq 'N'}">
-								<div class="bg-black">
-									<div class="warning">구매할 수 없습니다</div>
-								</div>
-							</c:if>
-							<div class="img-box">
-								<c:choose>
-									<c:when test="${empty strPrdt.prdtVO.uuidFlNm}">
-										<img src="${context}/img/default_photo.jpg">
-									</c:when>
-									<c:otherwise>
-										<img src="${context}/prdt/img/${strPrdt.prdtVO.uuidFlNm}/">
-									</c:otherwise>
-								</c:choose>	
-							</div>
-							<div class="prdt3">
-								<div class="name">${strPrdt.prdtVO.prdtNm}
-									<c:choose>
-										<c:when test="${not empty strPrdt.evntVO.evntId}">
-											<span>할인중!!</span>
-										</c:when>
-									</c:choose>
-								</div>
-								<div class="price"><fmt:formatNumber>${strPrdt.prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></div>
-							</div>
-						</div>
-					</a>
-				</c:forEach>
-			</c:when>
-		</c:choose>
 	</div>
 	
 	
+	<jsp:include page="../include/footer_user.jsp" />
 
 
 </body>

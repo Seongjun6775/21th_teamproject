@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.mbr.dao.MbrDAO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrlst.dao.OdrLstDAO;
@@ -41,7 +42,13 @@ public class OdrLstServiceImpl implements OdrLstService {
 	
 	@Override
 	public OdrLstVO getOdrPrcs(String odrLstId) {
-		return odrLstDAO.getOdrPrcs(odrLstId);
+		
+		OdrLstVO isExist = odrLstDAO.getOdrPrcs(odrLstId);
+		
+		if (isExist.getOdrLstOdrPrcs() == null || isExist.getOdrLstOdrPrcs().trim().length() == 0 ) {
+			throw new ApiException("404", "주문서가 존재하지 않습니다.");
+		}
+		return isExist;
 	}
 	
 	@Override
@@ -69,6 +76,15 @@ public class OdrLstServiceImpl implements OdrLstService {
 	
 	@Override
 	public boolean deleteOneOdrLstByOdrLstId(String odrLstId) {
+		// 주문서의 현재 상태를 가져옵니다.
+		OdrLstVO odrPrcs = odrLstDAO.getOdrPrcs(odrLstId);
+		// 만약 주문서가 '주문 대기', '주문 취소' 상태가 아니라면, 삭제 요청을 거부합니다.
+		if (!odrPrcs.getOdrLstOdrPrcs().equals("003-01") && !odrPrcs.getOdrLstOdrPrcs().equals("003-05")) {
+			if (!odrPrcs.getOdrLstOdrPrcs().equals("003-04")) {
+				throw new ApiException("500", "주문이 이미 접수되었습니다.");
+			}
+		}
+		
 		return odrLstDAO.deleteOneOdrLstByOdrLstId(odrLstId) > 0;
 	}
 	
