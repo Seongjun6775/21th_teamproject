@@ -10,14 +10,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="../include/stylescript.jsp"/>
-<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />
+<jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
+		$("#list_btn").click(function() {
+			location.href="${context}/mngrbrd/list";
+		});
+		
 		$("#new_btn").click(function(){	
 			$.post("${context}/api/mngrbrd/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
+					
 					var url= '${context}/mngrbrd/list'
 						//console.log(url);
 						location.replace(url);
@@ -36,24 +41,15 @@
 	});
 </script>
 </head>
-<body>	
-	<div class="main-layout">
-	<jsp:include page="../include/header.jsp" />
-		<div>
-		<jsp:include page="../include/sidemenu.jsp" />
-		<jsp:include page="../include/content.jsp" />
-			<div>
-			<!-- 상세화면 헤더 -->
-				<div class="header-option-bar">
-					<div class="header-option-right">
-						<div class="article-action">						
-							<a href="${context}/mngrbrd/list" class="btn-m" style="text-decoration: none;">목록</a> 
-						</div>
-					</div>
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm  " style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">	
+				<span class="fs-5 fw-bold">관리자게시판 > 작성</span>
+				<div style="position: absolute;right: 0;top: 0; margin: 20px;">
+					 <button id="list_btn" class="btn btn-secondary" >목록</button>
 				</div>
-			</div>
-			<!-- //상세화면 헤더 -->
-			<div>
+		    </div>
+
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
 				<div class="list-title "> 작성 </div>
 				<div>
 					<form id="create_form" >
@@ -77,16 +73,13 @@
 						
 						<div class="create-group">
 							<label for="mngrBrdCntnt" class="label">본문</label> 
-							<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
+							<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" style="resize:none;" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
 						</div>
 					</form>	
 					<div style="padding: 10px;text-align: right;"> 
-						<button id="new_btn" class="blue-btn">등록</button>
+						<button id="new_btn" class="btn btn-primary">등록</button>
 					</div> 					
 				</div>
 			</div>			
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
