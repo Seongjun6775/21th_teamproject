@@ -131,7 +131,7 @@
 						<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
 						<button type="button" id="btn-evntPrdt" class="btn btn-sm btn-outline-secondary">이벤트상품목록</button>
 						</c:if>
-						<c:if test="${button.mbrLvl eq '001-02'}">
+						<c:if test="${mbrVO.mbrLvl eq '001-02'}">
 							<button type="submit" id="btn-createEvntStr" class="btn btn-sm btn-outline-secondary">참여매장등록</button>
 						</c:if>
 		            </div>  
