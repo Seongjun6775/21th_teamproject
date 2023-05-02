@@ -212,5 +212,34 @@ public class OdrLstVO extends AbstractVO{
 	public void setOdrLstIdList(List<String> odrLstIdList) {
 		this.odrLstIdList = odrLstIdList;
 	}
+
+	
+	
+	
+	public String getOneDay() {
+		return oneDay;
+	}
+
+	public void setOneDay(String oneDay) {
+		this.oneDay = oneDay;
+	}
+
+	public String getStartDt() {
+		return startDt;
+	}
+
+	public void setStartDt(String startDt) {
+		this.startDt = startDt;
+	}
+
+	public String getEndDt() {
+		return endDt;
+	}
+
+	public void setEndDt(String endDt) {
+		this.endDt = endDt;
+	}
+	
+	
 	
 }
