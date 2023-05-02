@@ -75,6 +75,10 @@
 			});
 		})
 		
+		$("tr").click(function(){
+			
+		});
+		
 		$("#save_btn").click(function(){
 			
 				var strNm = $("#strNm").val();
@@ -220,7 +224,7 @@
 						<c:when test="${not empty strList}">
 							<c:forEach items="${strList}"
 									var="str">
-							<tr data-strid="${str.strId}" 
+							<tr  data-strid="${str.strId}" 
 							data-strnm="${str.strNm}" 
 							data-strlctn="${str.lctCdVO.lctId}" 
 							data-strcty="${str.ctyCdVO.ctyId}" 
@@ -324,8 +328,9 @@
 		// 주소-좌표 변환 객체를 생성합니다
 		var geocoder = new kakao.maps.services.Geocoder();
 		
+		
 		// 주소로 좌표를 검색합니다
-		geocoder.addressSearch('인천',function(result, status) {
+		geocoder.addressSearch('테헤란로',function(result, status) {
 
 		// 정상적으로 검색이 완료됐으면 
 		if (status === kakao.maps.services.Status.OK) {
