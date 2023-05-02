@@ -13,9 +13,13 @@
 MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 %>
 <jsp:include page="../include/stylescript.jsp" />
-<link rel="stylesheet" href="../css/evnt_common_customer.css?p=${date}">
+<link rel="stylesheet" href="../css/evnt_common_customer2.css?p=${date}">
 <meta charset="UTF-8">
 <title>이벤트 목록 조회</title>
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
@@ -38,45 +42,24 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 			var data = $(this).data();
 			location.href = "${context}/evnt/detail/" + data.evntid;
 		})
-	});
-</script>
-<script>
-	$(document).ready(function() {
-
-		$('ul.tabs li').click(function() {
-			var tab_id = $(this).attr('data-tab');
-
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
-
-			$(this).addClass('current');
-			$("#" + tab_id).addClass('current');
-		})
-
-	})
-</script>
-
-<script>
-	$(function() {
-		$("div").slice(0, 1).show(); // 초기갯수
-		$("#more").click(function(e) { // 클릭시 more
-			e.preventDefault();
-			$("div:hidden").slice(0, 1).show(); // 클릭시 more 갯수 지저정
-			if ($("div:hidden").length == 0) { // 컨텐츠 남아있는지 확인
-				alert("게시물의 끝입니다."); // 컨텐츠 없을시 alert 창 띄우기 
+		
+		$("div[id=menuCategory] a").each(function(){
+			if($(this).attr("value") == srt){
+				$(this).addClass("menuOn");
 			}
-		});
+		})
 	});
 </script>
 
 </head>
-<body>
+<body class="scroll">
 	<jsp:include page="../include/header_user.jsp" />
-	<div class="main-layout">
-		<%-- 		<jsp:include page="../include/header.jsp" /> --%>
-		<!-- 		<div> -->
-		<%-- 			<jsp:include page="../include/evntSidemenu.jsp" /> --%>
-		<%-- 			<jsp:include page="../include/content.jsp" /> --%>
+	
+	<div class="visualArea flex relative">
+		<div class="content-setting title">이벤트</div>
+		<div class="overlay absolute"></div>
+	</div>
+
 		<div>
 			<h1 class="head-title">이벤트 조회</h1>
 			<p class="head-content">
@@ -85,50 +68,35 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 			<div class="head-count">총 ${evntList.size() > 0 ? evntList.get(0).totalCount : 0}건</div>
 		</div>
 
-		<!-- 여기부터 -->
-		<div class="container">
-
-			<ul class="tabs">
-				<li class="tab-link current" data-tab="tab-1"><a
-					href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a></li>
-				<li class="tab-link" data-tab="tab-2"><a
-					href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a></li>
-				<li class="tab-link" data-tab="tab-3"><a
-					href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a></li>
-			</ul>
-
-			<div id="tab-1" class="tab-content current"></div>
-			<div id="tab-2" class="tab-content"></div>
-			<div id="tab-3" class="tab-content"></div>
-
+		<div id="menu" class="flex-column">
+		<div id="menuCategory" class="flex">
+			<a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a>
+			<a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a>
+			<a href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a>
 		</div>
 
-		<div class="content">
-
-			<div style="clear: both;">
+		<div id="itemList" class="flow-wrap">
 				<c:choose>
 					<c:when test="${not empty evntList}">
 						<c:forEach items="${evntList}" var="evnt">
-							<div class="evntImgBox" id="${evnt.evntId}">
-								<div class="img-box">
+							<div class="itemList" id="${evnt.evntId}">
+							<div class="prdt card shadow" style="padding:24px; border-radius:24px; margin-top:144px;">
+								<div class="img-box" style="width: 600px; height: 600px;">
 									<c:choose>
 										<c:when test="${empty evnt.uuidFlNm}">
-											<img src="${context}/img/default_photo.jpg"
-												style="width: 500px; height: 400px;">
+											<img src="${context}/img/default_photo.jpg">
 										</c:when>
 										<c:otherwise>
-											<a href="${context}/evnt/detail_customer/${evnt.evntId}"> <img
-												src="${context}/evnt/img/${evnt.uuidFlNm}/"
-												style="width: 500px; height: 400px;">
-											</a>
+											<a href="${context}/evnt/detail_customer/${evnt.evntId}"> 
+											<img src="${context}/evnt/img/${evnt.uuidFlNm}/"></a>
 										</c:otherwise>
 									</c:choose>
-									<div class="evntPhoto">
-										<div class="evntTtl">${evnt.evntTtl}</div>
-										<div class="evntDate">${evnt.evntStrtDt} ~
+									<div class="prdt3">
+										<div class="name ellipsis">${evnt.evntTtl}</div>
+										<div class="price">${evnt.evntStrtDt} ~
 											${evnt.evntEndDt}</div>
+										</div>
 									</div>
-
 								</div>
 							</div>
 						</c:forEach>
@@ -140,21 +108,8 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 					</c:otherwise>
 				</c:choose>
 			</div>
-
-<!-- 			<div class="button"> -->
-
-<!-- 				<div></div> -->
-<!-- 				<button class="more" id="more" type="button" -->
-<!-- 					onclick="paging.view();">더보기</button> -->
-<!-- 			</div> -->
-
-
-
+			
 		</div>
-
-		<%-- 			<jsp:include page="../include/footer.jsp" /> --%>
-		<!-- 		</div> -->
-	</div>
 	<jsp:include page="../include/footer_user.jsp" />
 	
 </body>
