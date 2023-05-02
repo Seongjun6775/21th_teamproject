@@ -10,11 +10,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="../include/stylescript.jsp"/>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
+		$("#list_btn").click(function() {
+			location.href="${context}/mngrbrd/list";
+		});
 		
 		$(".blue-rpl-btn").click(function(){
 
@@ -179,134 +182,134 @@
 </script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
-			
-			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<div class="bg-white rounded shadow-sm  " style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">	
 				<span class="fs-5 fw-bold">관리자게시판 > 상세페이지</span>
+				<div style="position: absolute;right: 0;top: 0; margin: 20px;">
+					 <button id="list_btn" class="btn btn-secondary" >목록</button>
+				</div>
 		    </div>
-		    <
-			<div>
-			<!-- 상세화면 헤더 -->
-				<div class="header-option-bar">
-					<div class="header-option-right">
-						<div class="article-action">			
-							<c:if test="${mbr.mbrLvl eq '001-01' || mbrVO.mbrId eq mngrBrd.mngrId}">
-								<button id="delete_btn" class="red-btn">삭제</button> 
-							</c:if>		
-							<c:if test="${mbrVO.mbrId eq mngrBrd.mngrId}">	
-								<a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}"  class="btn-m" style="text-decoration: none;">수정하기</a>
-							</c:if>
-							<a href="${context}/mngrbrd/list" class="btn-m" style="text-decoration: none;">목록</a> 
-						</div>
+		    <div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+				<!-- 상세화면 헤더 -->
+	
+				<div style="text-align: right;">
+					<div class="article-action">			
+						<c:if test="${mbrVO.mbrId eq mngrBrd.mngrId}">	
+							<a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}"  class="btn btn-primary" style="text-decoration: none;">수정하기</a>
+						</c:if>
+						<c:if test="${mbr.mbrLvl eq '001-01' || mbrVO.mbrId eq mngrBrd.mngrId}">
+							<button id="delete_btn" class="btn btn-danger">삭제</button> 
+						</c:if>		
 					</div>
 				</div>
-			</div>
-			<!-- //상세화면 헤더 -->
-			<div>
-				<!-- 게시판 콘텐츠 -->		
+				
+				<!-- //상세화면 헤더 -->
 				<div>
-				<header class="detailview-header">
-				    <div class="detailview-header-area">
-				        <div class="detailview-header-left">
-				                    <p class="list-title">${mngrBrd.mngrBrdTtl}</p>
-				            <!-- 추가 정보 -->
-							<div class="etc">
-							    <div class="etc-table">
-							        <div class="etc-dt">등록일</div> 
-							        <div class="etc-data">
-							            ${mngrBrd.mngrBrdWrtDt}${mngrBrd.mngrBrdWrtDt eq mngrBrd.mdfyDt ? '':'(수정됨)'}   
-							        </div>
-							        <div class="etc-user">작성자 </div>
-							        <div class="etc-data">${mngrBrd.mbrVO.mbrNm}</div>	
-							    </div> 
-							</div>
-				        </div>	
-				    </div>
-				</header>
-				</div>
-				<article class="detailview-article">												
-				    <div style="overflow-x:auto;overflow-y:hidden;" class="contentsDiv">
-				        ${mngrBrd.mngrBrdCntnt}
-				    </div>
-				    <div class="pop-lay-col2"> 
-				        <!-- Comment -->
-			            <div>           
-				            <div>
-				            	<div class="rplBox">
-									<form id="create_form" >
-										<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />
-										
-										<input type="hidden" name="rplPrntRpl" value="" />
-										
-										<div style="margin-top: 10px; display: flex;"> 
-											<label for="rplCntnt" style="margin: 10px;">댓글쓰기</label> 
-											<textarea class="rpltextarea" placeholder="댓글을 입력하시오." name="rplCntnt" id="rplCntnt"></textarea>
-										</div>
-									</form>
-									<div class="rplbtn">	
-										<button id="new_btn" class="blue-btn" >등록</button>		
-									</div>
+					<!-- 게시판 콘텐츠 -->		
+					<div>
+					<header class="detailview-header">
+					    <div class="detailview-header-area">
+					        <div class="detailview-header-left">
+					                    <p class="list-title">${mngrBrd.mngrBrdTtl}</p>
+					            <!-- 추가 정보 -->
+								<div class="etc">
+								    <div class="etc-table">
+								        <div class="etc-dt">등록일</div> 
+								        <div class="etc-data">
+								            ${mngrBrd.mngrBrdWrtDt}${mngrBrd.mngrBrdWrtDt eq mngrBrd.mdfyDt ? '':'(수정됨)'}   
+								        </div>
+								        <div class="etc-user">작성자 </div>
+								        <div class="etc-data">${mngrBrd.mbrVO.mbrNm}</div>	
+								    </div> 
 								</div>
-									<c:choose>
-										<c:when test="${not empty mngrBrd.rplList && not empty mngrBrd.rplList.get(0).rplId}" >
-											<div class="rplBox">
-												<ul class="rpl-box">							 
-													<c:forEach items="${mngrBrd.rplList}" var="rpl" varStatus="index"> 
-														<div class="rplymember" style="border: 1px solid #e0e0e0; padding: 5px; margin-left: ${rpl.depth*50}px">
-														<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
-															<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
-															<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
-															<li class="rpl-one" style="margin-top: 10px;">${rpl.mbrVO.mbrNm}</li>
-															<li class="rpl-one">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
-															${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>								 	
-															<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''};"> ${rpl.rplCntnt } ${rpl.delYn eq 'Y' ? '[이미 삭제된 댓글입니다.]<br>' : ''}</li>
-															<div class="rplbtn">
-																<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
-																<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
-																	<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
-																</c:if>						
-																<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
-																	<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button>		
-																</c:if>	
-															</div>	
-														
-														</c:if>	
-														<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-02'}">
-															<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
-															<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
-															<li class="rpl-one" style="margin-top: 10px;">${rpl.mbrVO.mbrNm}</li>
-															<li class="rpl-one">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
-															${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>								 	
-															<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''};">${rpl.delYn eq 'Y' ? '이미 삭제된 댓글입니다. ' : rpl.rplCntnt}</li>
-															<div class="rplbtn">
-																<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
-																<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
-																	<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
-																</c:if>						
-																<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
-																	<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button>		
-																</c:if>	
+					        </div>	
+					    </div>
+					</header>
+					</div>
+					<article class="detailview-article">												
+					    <div style="overflow-x:auto;overflow-y:hidden;" class="contentsDiv">
+					        ${mngrBrd.mngrBrdCntnt}
+					    </div>
+					    <div class="pop-lay-col2"> 
+					        <!-- Comment -->
+				            <div>           
+					            <div>
+					            	<div class="rplBox">
+										<form id="create_form" >
+											<input type="hidden" id="altclId" name="altclId" value="${mngrBrd.mngrBrdId}" />
+											
+											<input type="hidden" name="rplPrntRpl" value="" />
+											
+											<div style="margin-top: 10px; display: flex;"> 
+												<label for="rplCntnt" style="margin: 10px;">댓글쓰기</label> 
+												<textarea class="rpltextarea" placeholder="댓글을 입력하시오." name="rplCntnt" id="rplCntnt"></textarea>
+											</div>
+										</form>
+										<div class="rplbtn">	
+											<button id="new_btn" class="blue-btn" >등록</button>		
+										</div>
+									</div>
+										<c:choose>
+											<c:when test="${not empty mngrBrd.rplList && not empty mngrBrd.rplList.get(0).rplId}" >
+												<div class="rplBox">
+													<ul class="rpl-box">							 
+														<c:forEach items="${mngrBrd.rplList}" var="rpl" varStatus="index"> 
+															<div class="rplymember" style="border: 1px solid #e0e0e0; padding: 5px; margin-left: ${rpl.depth*50}px">
+															<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+																<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
+																<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
+																<li class="rpl-one" style="margin-top: 10px;">${rpl.mbrVO.mbrNm}</li>
+																<li class="rpl-one">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
+																${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>								 	
+																<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''};"> ${rpl.rplCntnt } ${rpl.delYn eq 'Y' ? '[이미 삭제된 댓글입니다.]<br>' : ''}</li>
+																<div class="rplbtn">
+																	<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
+																	<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
+																		<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
+																	</c:if>						
+																	<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
+																		<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button>		
+																	</c:if>	
+																</div>	
+															
+															</c:if>	
+															<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-02'}">
+																<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
+																<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
+																<li class="rpl-one" style="margin-top: 10px;">${rpl.mbrVO.mbrNm}</li>
+																<li class="rpl-one">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
+																${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>								 	
+																<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''};">${rpl.delYn eq 'Y' ? '이미 삭제된 댓글입니다. ' : rpl.rplCntnt}</li>
+																<div class="rplbtn">
+																	<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
+																	<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
+																		<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
+																	</c:if>						
+																	<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
+																		<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button>		
+																	</c:if>	
+																</div>
+															</c:if>
 															</div>
-														</c:if>
-														</div>
-													</c:forEach>								
-												</ul>
-											</div>	
-										</c:when>
-										<c:otherwise>
-							                <table  style="margin-left:20px; ">
-							                    <tbody>
-						                    		<tr>
-						                    		 	<td>등록된 댓글이 없습니다.</td>
-						                    		</tr> 
-							                	</tbody>
-							            	</table>
-										</c:otherwise>
-									</c:choose>
-				        	</div>
-				        </div>
-				        <!-- //Comment -->
-				    </div>
-				</article>
-			</div>	
+														</c:forEach>								
+													</ul>
+												</div>	
+											</c:when>
+											<c:otherwise>
+								                <table  style="margin-left:20px; ">
+								                    <tbody>
+							                    		<tr>
+							                    		 	<td>등록된 댓글이 없습니다.</td>
+							                    		</tr> 
+								                	</tbody>
+								            	</table>
+											</c:otherwise>
+										</c:choose>
+					        	</div>
+					        </div>
+					        <!-- //Comment -->
+					    </div>
+					</article>
+				</div>	
+			</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
