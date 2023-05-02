@@ -62,7 +62,7 @@ public class StrPrdtController {
 		
 		List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
 		List<StrVO> strList = strService.readAll();
-		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);
+		List<PrdtVO> prdtList = prdtService.readAllNoPagenation(prdtVO);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("mbrVO", mbrVO);
