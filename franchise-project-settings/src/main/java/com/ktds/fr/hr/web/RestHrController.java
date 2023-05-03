@@ -39,9 +39,6 @@ public class RestHrController {
 		if (hrTtl == null || hrTtl.trim().length() == 0) {
 			throw new ApiArgsException("400", "제목이 누락되었습니다.");
 		}
-		if (hrCntnt == null || hrCntnt.trim().length() == 0) {
-			throw new ApiArgsException("400", "본문이 누락되었습니다.");
-		}
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
 			if (hrLvl == null || hrLvl.trim().length() == 0) {
 				throw new ApiArgsException("400", "지원 직군이 누락되었습니다.");
@@ -122,9 +119,6 @@ public class RestHrController {
 		// null 체크를 진행합니다.
 		if (hrTtl == null || hrTtl.trim().length() == 0) {
 			throw new ApiArgsException("400", "제목이 누락되었습니다.");
-		}
-		if (hrCntnt == null || hrCntnt.trim().length() == 0) {
-			throw new ApiArgsException("400", "본문이 누락되었습니다.");
 		}
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
 			if (hrLvl == null || hrLvl.trim().length() == 0) {

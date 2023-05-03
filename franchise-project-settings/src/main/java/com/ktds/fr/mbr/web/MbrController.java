@@ -101,5 +101,17 @@ public class MbrController {
 		model.addAttribute("mbr" ,mbr);
 		return "mbr/mbr_admindetail";
 	}
+	
+	/**
+	 * 쪽지 작성 기능과 연동됩니다.
+	 */
+	@GetMapping("/mbr/search")
+	public String viewMbrSearchPage(MbrVO mbrVO, Model model) {
+		List<MbrVO> mbrList = mbrService.readAllMbrNoPagenation(mbrVO);
+		model.addAttribute("mbrList", mbrList);
+		model.addAttribute("mbrId", mbrVO.getMbrId());
+		model.addAttribute("mbrNm", mbrVO.getMbrNm());
+		return "mbr/mbr_search";
+	}
 
 }

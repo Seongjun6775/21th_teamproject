@@ -21,7 +21,7 @@
 		$("#list_btn").click(function() {
 			location.href="${context}/user/rv/list";
 		});
-	});
+	}
 	
 </script>
 </head>

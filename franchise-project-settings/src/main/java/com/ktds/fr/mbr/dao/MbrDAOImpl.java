@@ -120,4 +120,9 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	public int updateRestMbrPyMn(MbrVO mbrVO) {
 		return getSqlSession().update("Mbr.updateRestMbrPyMn", mbrVO);
 	}
+	
+	@Override
+	public List<MbrVO> readAllMbrNoPagenation(MbrVO mbrVO) {
+		return getSqlSession().selectList("Mbr.readAllMbrNoPagenation", mbrVO);
+	}
 }
