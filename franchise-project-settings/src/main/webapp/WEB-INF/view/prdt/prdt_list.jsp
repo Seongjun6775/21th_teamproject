@@ -152,7 +152,7 @@ $().ready(function() {
 			
 		}
 	});
-	$("#evntaa").click(function() {
+	$("#evnt-info").click(function() {
 		var evntTtl = $("#evntTtl").val();
 		if (evntTtl != "") {
 			var evntId = $("#evntId").val();
