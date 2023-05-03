@@ -37,6 +37,7 @@
 				     , H.DEL_YN
 				     , H.NTC_YN
 				     , H.HR_LVL
+				     , H.HR_DDLN_DT
 				     , C.CD_NM
 				  FROM HR H
 				 INNER JOIN MBR M
@@ -66,46 +67,6 @@
 		<include refid="Common.pageFooter" />
 	</select>
 	
-	<insert id="createNewHr"
-			parameterType="com.ktds.fr.hr.vo.HrVO">
-		INSERT INTO HR
-		 (HR_ID
-		, MBR_ID
-		, HR_TTL
-		, HR_CNTNT
-		, HR_RGST_DT
-		, HR_MDFY_DT
-		, HR_APR_YN
-		, HR_APR_DT
-		, HR_STAT
-		, ORGN_FL_NM
-		, UUID_FL_NM
-		, FL_SIZE
-		, FL_EXT
-		, USE_YN
-		, DEL_YN
-		, NTC_YN
-		, HR_LVL)
-		VALUES
-		 ('HR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HR_PK.NEXTVAL, 5, '0')
-		 , #{mbrId}
-		 , #{hrTtl}
-		 , #{hrCntnt}
-		 , SYSDATE
-		 , SYSDATE
-		 , NULL
-		 , NULL
-		 , '002-01'
-		 , #{orgnFlNm}
-		 , #{uuidFlNm}
-		 , #{flSize}
-		 , #{flExt}
-		 , 'Y'
-		 , 'N'
-		 , #{ntcYn}
-		 , #{hrLvl})
-	</insert>
-	
 	<select id="readAllMyHr"
 			parameterType="com.ktds.fr.hr.vo.HrVO"
 			resultMap="hrMap">
@@ -126,11 +87,13 @@
 						     , H.DEL_YN
 						     , H.NTC_YN
 						     , H.HR_LVL
+						     , H.HR_DDLN_DT
 						  FROM HR H
 						 INNER JOIN MBR M
 						    ON H.MBR_ID = M.MBR_ID
 						 WHERE H.NTC_YN = 'Y'
 						   AND H.DEL_YN = 'N'
+						   AND H.HR_DDLN_DT > SYSDATE
 						   AND ROWNUM <![CDATA[<=]]> 3
 						 ORDER BY HR_RGST_DT DESC) U
 				 UNION ALL
@@ -147,6 +110,7 @@
 							 , H.DEL_YN
 							 , H.NTC_YN
 							 , H.HR_LVL
+							 , H.HR_DDLN_DT
 						  FROM HR H
 						 INNER JOIN MBR M
 						    ON H.MBR_ID = M.MBR_ID
@@ -155,6 +119,57 @@
 						 ORDER BY HR_RGST_DT DESC) A) E
 		<include refid="Common.pageFooter" />
 	</select>
+	
+	<select id="countNtc"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM HR
+		 WHERE NTC_YN = 'Y'
+		   AND DEL_YN = 'N'
+		   AND HR_DDLN_DT > SYSDATE
+	</select>
+	
+	<insert id="createNewHr"
+			parameterType="com.ktds.fr.hr.vo.HrVO">
+		INSERT INTO HR
+		 (HR_ID
+		, MBR_ID
+		, HR_TTL
+		, HR_CNTNT
+		, HR_RGST_DT
+		, HR_MDFY_DT
+		, HR_APR_YN
+		, HR_APR_DT
+		, HR_STAT
+		, ORGN_FL_NM
+		, UUID_FL_NM
+		, FL_SIZE
+		, FL_EXT
+		, USE_YN
+		, DEL_YN
+		, NTC_YN
+		, HR_LVL
+		, HR_DDLN_DT)
+		VALUES
+		 ('HR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HR_PK.NEXTVAL, 5, '0')
+		 , #{mbrId}
+		 , #{hrTtl}
+		 , #{hrCntnt}
+		 , SYSDATE
+		 , SYSDATE
+		 , NULL
+		 , NULL
+		 , '002-01'
+		 , #{orgnFlNm}
+		 , #{uuidFlNm}
+		 , #{flSize}
+		 , #{flExt}
+		 , 'Y'
+		 , 'N'
+		 , #{ntcYn}
+		 , #{hrLvl}
+		 , #{hrDdlnDt})
+	</insert>
 	
 	<select id="readOneHrByHrId"
 			parameterType="string"
@@ -177,6 +192,7 @@
 		     , H.DEL_YN
 		     , H.NTC_YN
 		     , H.HR_LVL
+		     , H.HR_DDLN_DT
 		     , M.STR_ID
 		     , M.MBR_NM
 		  FROM HR H
@@ -198,6 +214,7 @@
 		     , FL_SIZE = #{flSize}
 		     , FL_EXT = #{flExt}
 		     , HR_LVL = #{hrLvl}
+		     , HR_DDLN_DT = #{hrDdlnDt}
 		 WHERE HR_ID = #{hrId}
 	</update>
 	

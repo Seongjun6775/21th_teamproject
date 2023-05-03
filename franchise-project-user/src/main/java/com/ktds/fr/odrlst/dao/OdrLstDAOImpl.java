@@ -19,6 +19,11 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 	}
 
 	@Override
+	public List<OdrLstVO> getOdrLstIdForRv(String mbrId) {
+		return getSqlSession().selectList("OdrLst.getOdrLstIdForRv", mbrId);
+	}
+	
+	@Override
 	public int createNewOdrLst(OdrLstVO odrLstVO) {
 		return getSqlSession().insert("OdrLst.createNewOdrLst", odrLstVO);
 	}

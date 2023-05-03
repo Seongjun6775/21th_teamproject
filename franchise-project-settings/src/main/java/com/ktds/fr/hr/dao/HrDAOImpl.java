@@ -27,6 +27,11 @@ public class HrDAOImpl extends SqlSessionDaoSupport implements HrDAO {
 	public List<HrVO> readAllMyHr(HrVO hrVO) {
 		return getSqlSession().selectList("Hr.readAllMyHr", hrVO);
 	}
+	
+	@Override
+	public int countNtc() {
+		return getSqlSession().selectOne("Hr.countNtc");
+	}
 
 	@Override
 	public HrVO readOneHrByHrId(String hrId) {

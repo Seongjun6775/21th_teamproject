@@ -41,7 +41,7 @@
 	    	</div>
 				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 					<div class="qna_box row" >	 
-						<a href="${context}/hlpdsk/write" class="qna-btn" style="text-decoration: none; width:70%;"> 문의/건의 </a>
+						<a href="${context}/hlpdsk/write" class="qna-btn fw-bold" style="text-decoration: none; font-size: 18px; width:70%;"> 문의/건의 </a>
 					</div>
 					<table class="table caption-top table-hover" style="text-align: center;">
 						<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
