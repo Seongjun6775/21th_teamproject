@@ -556,7 +556,7 @@ function movePage(pageNo) {
 												<c:when test="${empty prdt.uuidFlNm}"><i class='bx bx-camera-off' ></i>
 												</c:when>
 											</c:choose>
-											${prdt.prdtId}
+											${prdt.prdtNm}
 										</td>
 										<td class="money">
 											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
