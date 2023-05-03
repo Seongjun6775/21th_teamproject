@@ -37,6 +37,7 @@
 				     , H.DEL_YN
 				     , H.NTC_YN
 				     , H.HR_LVL
+				     , H.HR_DDLN_DT
 				     , C.CD_NM
 				  FROM HR H
 				 INNER JOIN MBR M
@@ -86,11 +87,13 @@
 						     , H.DEL_YN
 						     , H.NTC_YN
 						     , H.HR_LVL
+						     , H.HR_DDLN_DT
 						  FROM HR H
 						 INNER JOIN MBR M
 						    ON H.MBR_ID = M.MBR_ID
 						 WHERE H.NTC_YN = 'Y'
 						   AND H.DEL_YN = 'N'
+						   AND H.HR_DDLN_DT > SYSDATE
 						   AND ROWNUM <![CDATA[<=]]> 3
 						 ORDER BY HR_RGST_DT DESC) U
 				 UNION ALL
@@ -107,6 +110,7 @@
 							 , H.DEL_YN
 							 , H.NTC_YN
 							 , H.HR_LVL
+							 , H.HR_DDLN_DT
 						  FROM HR H
 						 INNER JOIN MBR M
 						    ON H.MBR_ID = M.MBR_ID
@@ -122,7 +126,7 @@
 		  FROM HR
 		 WHERE NTC_YN = 'Y'
 		   AND DEL_YN = 'N'
-		   AND HR_RGST_DT + 21 >= SYSDATE 
+		   AND HR_DDLN_DT > SYSDATE
 	</select>
 	
 	<insert id="createNewHr"
@@ -144,7 +148,8 @@
 		, USE_YN
 		, DEL_YN
 		, NTC_YN
-		, HR_LVL)
+		, HR_LVL
+		, HR_DDLN_DT)
 		VALUES
 		 ('HR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HR_PK.NEXTVAL, 5, '0')
 		 , #{mbrId}
@@ -162,7 +167,8 @@
 		 , 'Y'
 		 , 'N'
 		 , #{ntcYn}
-		 , #{hrLvl})
+		 , #{hrLvl}
+		 , #{hrDdlnDt})
 	</insert>
 	
 	<select id="readOneHrByHrId"
@@ -186,6 +192,7 @@
 		     , H.DEL_YN
 		     , H.NTC_YN
 		     , H.HR_LVL
+		     , H.HR_DDLN_DT
 		     , M.STR_ID
 		     , M.MBR_NM
 		  FROM HR H
@@ -207,6 +214,7 @@
 		     , FL_SIZE = #{flSize}
 		     , FL_EXT = #{flExt}
 		     , HR_LVL = #{hrLvl}
+		     , HR_DDLN_DT = #{hrDdlnDt}
 		 WHERE HR_ID = #{hrId}
 	</update>
 	

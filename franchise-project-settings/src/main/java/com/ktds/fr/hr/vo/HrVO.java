@@ -78,6 +78,10 @@ public class HrVO extends AbstractVO {
 	 */
 	private String cdNm;
 	/**
+	 * 채용 마감일
+	 */
+	private String hrDdlnDt;
+	/**
 	 * 지원한 회원의 정보
 	 */
 	private MbrVO mbrVO;
@@ -190,6 +194,12 @@ public class HrVO extends AbstractVO {
 	}
 	public void setCdNm(String cdNm) {
 		this.cdNm = cdNm;
+	}
+	public String getHrDdlnDt() {
+		return hrDdlnDt;
+	}
+	public void setHrDdlnDt(String hrDdlnDt) {
+		this.hrDdlnDt = hrDdlnDt;
 	}
 	public MbrVO getMbrVO() {
 		return mbrVO;
