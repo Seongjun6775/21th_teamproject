@@ -507,14 +507,14 @@
 						</div>
 						<div class="input-group inline" >
 							<input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기"><br>
-							<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
-							<input type="text" id="sample4_postcode" placeholder="우편번호">
-							<input type="text" id="sample4_sido" placeholder="지역">
-							<input type="text" id="sample4_sigungu" placeholder="도시">
-							<input type="text" id="sample4_jibunAddress" placeholder="지번주소">
+							<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
+							<input type="hidden" id="sample4_postcode" placeholder="우편번호">
+							<input type="hidden" id="sample4_sido" placeholder="지역">
+							<input type="hidden" id="sample4_sigungu" placeholder="도시">
+							<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
 							<span id="guide" style="color:#999;display:none"></span>
-							<input type="text" id="sample4_detailAddress" placeholder="상세주소">
-							<input type="text" id="sample4_extraAddress" placeholder="참고항목">
+							<input type="hidden" id="sample4_detailAddress" placeholder="상세주소">
+							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 						</div>
 					    <div class="input-group inline">
 					        <span class="input-group-text">전화번호</span>
