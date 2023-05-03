@@ -243,7 +243,7 @@ li.dropdown > ul > li > a  {
 	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
 	              <li><hr class="dropdown-divider"></li>
 	              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
-	              <li><a class="dropdown-item" href="${context}/rv/list">리뷰관리</a></li>
+	              <li><a class="dropdown-item" href="/user/rv/list">리뷰관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav-item dropdown">
@@ -292,7 +292,7 @@ li.dropdown > ul > li > a  {
 							<ul>
 								<li><a href="#" class="fs-6 fw-bold">매장찾기 </a></li>
 								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트관리</a></li>
-								<li><a href="${context}/rv/list" class="fs-6 fw-bold">리뷰관리</a></li>
+								<li><a href="/user/rv/list" class="fs-6 fw-bold">리뷰관리</a></li>
 								<li><a href="#" class="fs-6 fw-bold">03-04</a></li>
 								<li><a href="#" class="fs-6 fw-bold">03-05</a></li>
 							</ul>
