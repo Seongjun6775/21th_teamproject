@@ -114,7 +114,7 @@ function movePage(pageNo) {
 		
 		<!-- contents -->
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-			<span class="fs-5 fw-bold">매출 관리</span>
+			<span class="fs-5 fw-bold">상품별 매출</span>
 		</div>
 
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
@@ -147,7 +147,6 @@ function movePage(pageNo) {
 		
 		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 		
-			상품별 매출 (매장구분X)
 			<div id="paymentTotal"></div>
 			
 			<table class="table table-striped table-sm table-hover align-center">
