@@ -178,12 +178,19 @@
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
-										<c:choose>
-											<c:when test="${hr.hrStat eq '002-01'}"><td>접수</td></c:when>
-											<c:when test="${hr.hrStat eq '002-02'}"><td>심사중</td></c:when>
-											<c:when test="${hr.hrStat eq '002-03'}"><td>심사완료</td></c:when>
-											<c:otherwise><td></td></c:otherwise>
-										</c:choose>
+										<td>
+											<c:choose>
+												<c:when test="${hr.ntcYn eq 'Y'}"></c:when>
+												<c:otherwise>
+													<c:choose>
+														<c:when test="${hr.hrStat eq '002-01'}">접수</c:when>
+														<c:when test="${hr.hrStat eq '002-02'}">심사중</c:when>
+														<c:when test="${hr.hrStat eq '002-03'}">심사완료</c:when>
+														<c:otherwise><td></td></c:otherwise>
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
+										</td>
 										<td>${hr.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>

@@ -80,6 +80,11 @@ public class HrServiceImpl implements HrService {
 		return hrDAO.readAllMyHr(hrVO);
 	}
 	
+	@Override
+	public boolean countNtc() {
+		return hrDAO.countNtc() > 0;
+	}
+	
 	/**
 	 *  채용 게시판에서 글 하나를 상세조회합니다.
 	 */
