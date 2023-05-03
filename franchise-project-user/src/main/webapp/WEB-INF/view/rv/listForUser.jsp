@@ -56,13 +56,13 @@
 		});
 		$("#new_btn").click(function() {
 			var session = "${mbr}";
-			console.log(session);
 			if (session == "" || session.length == 0) {
 				if(confirm("로그인이 필요합니다. \n로그인 하시겠습니까?")){
 					location.href = "${context}/join";
 					return;
 				}
 				else {
+					location.href = "${context}/mbr/rv/create";
 					return; 
 				}
 			}
