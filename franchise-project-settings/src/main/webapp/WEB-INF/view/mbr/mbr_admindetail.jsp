@@ -14,6 +14,9 @@
 
 <script type="text/javascript">
 	$().ready(function(){
+		
+		
+		
 		$("#fileDown").click(function(){
 			$.get("${context}/hr/hrfile/${mbr.hrVO.hrId}", function(resp){
 				if(resp.status == "200 OK"){

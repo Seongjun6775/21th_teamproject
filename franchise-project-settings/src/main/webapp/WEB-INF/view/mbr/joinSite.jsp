@@ -22,21 +22,12 @@
 	  }
 	var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
  	$().ready(function(){
- 		
- 		 $().ajaxStart(function() {
- 			 console.log("시작");
- 		  });
-
- 		  $().ajaxStop(function() {
- 			  console.log("끝");
- 		  });
- 		
- 		
 		var valueUtil = new ValueUtil();
 		var idMinLength = 5;
 		var pwMinLength = 8;
 		var authCode="";
 		localStorage.setItem("failCount", 0);
+		
 		
 		$("#login_btn").click(function(event){
 			var failCount = localStorage.getItem("failCount");
@@ -44,8 +35,11 @@
 					mbrId: $("#lgn_mbrId").val(),
 					mbrPwd: $("#lgn_mbrPwd").val()
 			}
-
+			$('#spinner-div').show();
+			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/login", data, function(resp){
+				$('#spinner-div').hide();
+				$('#spinner-div').removeClass("d-flex");
 				if(resp.status == "200 OK"){
 					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;
@@ -189,7 +183,7 @@
 			mbrNm = mbrNm.replace(/\s/gi, "");
 			$("#mbrNm").val(mbrNm);
 		});
-		$(".mbrEml").keyup(function(){
+		$("#mbrEml").keyup(function(){
 			var mbrEml = $(this).val();
 			mbrEml = mbrEml.replace(/\s/gi, "");
 			$(".mbrEml").val(mbrEml);
@@ -281,23 +275,39 @@
 			}
 			var mbrEml = $("#mbrEml").val();
 			$('#spinner-div').show();
-			$.post("${context}/api/mbr/emailSend", {"email": mbrEml},function(resp){
-				$('#spinner-div').hide();
-				if(resp.status == "200 OK"){
-					authNumber=resp.message;
-					//버튼 누르면 시간 연장
-					if(isRunning){
-						clearInterval(timer);
-					    display.text("");
-					    startTimer(leftSec, display);
-					  }else{
-					  	startTimer(leftSec, display);
+			
+			$.ajax({
+				  url: "${context}/api/mbr/emailSend",
+				  type: 'post',
+				  data: {"email": mbrEml},
+					  beforeSend: function() {
+						  	$("#overlay").show();
+						  },
+					  success: function(resp) {
+						  	$("#overlay").hide();
+						    if(resp.status == "200 OK"){
+						      authNumber=resp.message;
+						      //버튼 누르면 시간 연장
+						      if(isRunning){
+						        clearInterval(timer);
+						        display.text("");
+						        startTimer(leftSec, display);
+						      } else{
+						        startTimer(leftSec, display);
+						      }
+						      alert("전송되었습니다. 이메일을 확인해 주세요");
+						    } else{
+						      alert(resp.message);
+						    }
+						  },
+					  error: function(){
+						  	$("#overlay").hide();
+						    alert("에러가 발생했습니다. 다시 시도해주세요");
+						  },
+					  complete: function() {
+						  $("#overlay").hide();
 					  }
-					alert("전송되었습니다. 이메일을 확인해 주세요");
-				}else{
-					alert(resp.message);
-				}
-			});
+			  });
 		});
 		$("#auth-btn").click(function(event){
 			event.preventDefault();
@@ -342,15 +352,31 @@
 				return;
 			}
 			$('#spinner-div').show();
-			$.post("${context}/api/mbr/find",{email: email, type: type}, function(resp){
-				$('#spinner-div').hide();
-				if(resp.status=="200 OK"){
-					alert("이메일로 전송완료, 확인 해 주세요.");
-					location.href="${context}/"+resp.redirectURL;
-				}else{
-					alert(resp.message);
-				}
-			});
+			
+			$.ajax({
+				  url: "${context}/api/mbr/find",
+				  type: 'post',
+				  data: {email: email, type: type},
+					  beforeSend: function() {
+						  	$("#overlay").show();
+						  },
+					  success: function(resp) {
+						  	$("#overlay").hide();
+						    if(resp.status == "200 OK"){
+					    		alert("이메일로 전송완료, 확인 해 주세요.");
+								location.href="${context}/"+resp.redirectURL;
+						    } else{
+						      alert(resp.message);
+						    }
+						  },
+					  error: function(){
+						  	$("#overlay").hide();
+						    alert("에러가 발생했습니다. 다시 시도해주세요");
+						  },
+					  complete: function() {
+						  $("#overlay").hide();
+					  }
+			  });
 		});
 		$("#find_pw_btn").click(function(event){
 			var email = $("#find-pw-mbrEml").val();
@@ -362,16 +388,32 @@
 			if(!valueUtil.requires("#find-mbrId")){
 				return;
 			}
-			$('#spinner-div').show();
-			$.post("${context}/api/mbr/find",{email: email, type: type, mbrId: mbrId}, function(resp){
-				$('#spinner-div').hide();
-				if(resp.status=="200 OK"){
-					alert("이메일 전송 완료, 확인 해 주세요.");
-					location.href="${context}/"+resp.redirectURL;
-				}else{
-					alert(resp.message);
-				}
-			});
+			
+			$.ajax({
+				  url: "${context}/api/mbr/find",
+				  type: 'post',
+				  data: {email: email, type: type, mbrId: mbrId},
+					  beforeSend: function() {
+						  	$("#overlay").show();
+						  },
+					  success: function(resp) {
+						  	$("#overlay").hide();
+						    if(resp.status == "200 OK"){
+					    		alert("이메일로 전송완료, 확인 해 주세요.");
+								location.href="${context}/"+resp.redirectURL;
+						    } else{
+						      alert(resp.message);
+						    }
+						  },
+					  error: function(){
+						  	$("#overlay").hide();
+						    alert("에러가 발생했습니다. 다시 시도해주세요");
+						  },
+					  complete: function() {
+						  $("#overlay").hide();
+					  }
+			  });			
+		
 		});
 	});
 </script>
@@ -379,7 +421,11 @@
 </head>
 <body>
   <!-- spinner -->
-
+	<div id="overlay">
+	  <div class="cv-spinner">
+	    <span class="spinner"></span>
+	  </div>
+	</div>	
   <div class="login">
     <div class="login__content">
       <div class="login__img">
@@ -387,7 +433,7 @@
       </div>
       <div class="login__forms">
 			<!--로그인 영역 -->
-        <form class="login__register" id="login-in">
+        <form class="login__register" id="login-in" autocomplete="off">
           <h1 class="login__title">Sign In</h1>
           <div class="login__box">
             <i class='bx bx-user login__icon'></i>
@@ -409,7 +455,7 @@
         </form>
         
 			<!--회원가입 영역 -->
-        <form class="login__create none" id="login-up">
+        <form class="login__create none" id="login-up" autocomplete="off">
           <h1 class="login__title">Create Account</h1>
           <div class="login__box">
           	<div class="icon__box">
@@ -458,7 +504,7 @@
           	</div>
             <div class="content__box content__two">
             	<div class="inner__content">
-		            <input type="email" id="mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input mbrEml">
+		            <input type="email" id="mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input mbrEml" autocomplete="off">
 		            <button id="send-auth-btn" class="email__button">인증</button>
             	</div>
             </div>
@@ -488,12 +534,12 @@
 
         </form>
         
-        <form class="login__find none" id="login-find">
+        <form class="login__find none" id="login-find" autocomplete="off">
         	<h1 class="login__title">Find ID</h1>
         	
         	<div class="login__box margin-Bot-10">
             	<i class='bx bx-at login__icon'></i>
-            	<input type="email" id="find-id-mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input mbrEml">
+            	<input type="email" id="find-id-mbrEml" name="mbrEml" maxlength="100" data-field-name="이메일" required placeholder="Email" class="login__input mbrEml" autocomplete="off">
           	</div>
        		<a id="find_id_btn" class="login__button">Find-ID</a>
         	<h1 class="login__title">Find PW</h1>
