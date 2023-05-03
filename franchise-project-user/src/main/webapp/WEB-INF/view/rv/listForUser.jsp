@@ -62,7 +62,6 @@
 					return;
 				}
 				else {
-					location.href = "${context}/mbr/rv/create";
 					return; 
 				}
 			}
