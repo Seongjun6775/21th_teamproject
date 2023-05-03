@@ -173,7 +173,8 @@ input[type=file] {
  */
  
 .prdt:hover img {
-	transform: scale(1.2) translateX(-42%);;
+	transform: scale(1.2) translateX(-42%);
+	background-color: #fff;
 }
 
 

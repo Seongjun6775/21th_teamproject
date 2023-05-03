@@ -176,6 +176,13 @@ input[id="menuicon"]:checked + label + div {height: 220px;}
         cursor: pointer;
       }
       
+li.dropdown > ul > li > a  {
+    font-weight: 600;
+    font-size: 18px;
+}
+.dropdown-menu{
+	--bs-dropdown-min-width: 12rem;
+}
 </style>
 
 
