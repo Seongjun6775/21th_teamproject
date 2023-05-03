@@ -88,11 +88,11 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 									<div class="img-box" style="width: 600px; height: 600px;">
 										<c:choose>
 											<c:when test="${empty evnt.uuidFlNm}">
-												<img src="${context}/img/default_photo.jpg">
+												<img src="${context}/img/default_photo.jpg" style="width:350px; height:550px; float:right;" >
 											</c:when>
 											<c:otherwise>
 												<a href="${context}/evnt/detail_customer/${evnt.evntId}"> 
-												<img src="${context}/evnt/img/${evnt.uuidFlNm}/"></a>
+												<img src="${context}/evnt/img/${evnt.uuidFlNm}/" style="width:350px; height:550px; float:right;" ></a>
 											</c:otherwise>
 										</c:choose>
 									</div>
