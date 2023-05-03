@@ -84,8 +84,8 @@
 			var data = $(this).data();
 			$("#strId").val(data.strid);
 			$("#strNm").val(data.strnm);
-			$("#strLctn").val(data.strlctn);
-			$("#strCty").val(data.strcty);
+			changeLocation(data.strlctn, data.strcty)
+			/* $("#strCty").val(data.strcty); */
 			$("#strAddr").val(data.straddr);
 			$("#strCallNum").val(data.strcallnum);
 			$("#mbrId").val(data.mbrid + "(" + data.mbrnm + ")");
@@ -107,8 +107,8 @@
 			$("#strAddr").val("");
 			$("#strCallNum").val("");
 			$("#mbrId").val("");
-			$("#strOpnTm").val("");
-			$("#strClsTm").val("");
+			$("#strOpnTm").val("09:00:00");
+			$("#strClsTm").val("18:00:00");
 			$("#strRgstr").val("${mbrVO.mbrId}");
 			$("#strRgstDt").val("");
 			$("#mdfyr").val("${mbrVO.mbrId}");
@@ -222,13 +222,37 @@
 			$("#search-keyword-strCty").change(function(){
 				movePage(0);
 			});
+			
+			function changeLocation(strlctn, cityVal) {
+				
+				$("#strLctn").val(strlctn);
+				
+				var select = $("#strCty");
+				var strLctn = $("#strLctn").val();
+				var option;
+				select.children().remove();
+				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+					if(response.status=="200 OK"){
+						ctyChangedList = response.data;
+						for(var i=0; i<ctyChangedList.length; i++){
+							option="<option value='"+ ctyChangedList[i].ctyId +"'>"+ ctyChangedList[i].ctyNm +"</option>"
+							select.append(option);
+				        }
+						select.val(cityVal);
+					}
+					else{
+						alert("실패!");
+					}
+				})
+			}
+			
 			var ctyChangedList;
 			$("#strLctn").change(function() {
 				var select = $("#strCty");
 				var strLctn = $("#strLctn").val();
 				var option;
 				select.children().remove();
-				$.getJSON("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
 					if(response.status=="200 OK"){
 						ctyChangedList = response.data;
 						for(var i=0; i<ctyChangedList.length; i++){
@@ -337,6 +361,7 @@
 							data-strnm="${str.strNm}" 
 							data-strlctn="${str.lctCdVO.lctId}" 
 							data-strcty="${str.ctyCdVO.ctyId}" 
+							data-strctynm="${str.ctyCdVO.ctyNm}" 
 							data-straddr="${str.strAddr}" 
 							data-strcallnum="${str.strCallNum}" 
 							data-mbrid="${str.mbrId}" 
@@ -419,10 +444,10 @@
 				</nav>
 			</div>
 		</div>
-		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 1613px; margin:20px; height: auto;">
+		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 96.5%; margin:20px;">
 				<div class="grid-detail">
 				<h5 style="padding:10px">매장 정보</h5>
-				<form id="strdetailmst_form" class="needs-validation" style="width: 50%;">
+				<form id="strdetailmst_form" class="needs-validation" style="width: 80%;">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="row g-3 " style="display: inline-block; width: 50%;">
 						<div class="input-group col-12">
@@ -449,7 +474,6 @@
 						</div>
 						<div class="input-group inline">
 							<span class="input-group-text">도시명</span>
-								
 							<select class="form-select" name="strCty" id="strCty">
 								<option value="">도시명</option>
 								<c:choose>
@@ -484,11 +508,11 @@
 					
 						<div class="input-group inline">
 							<span class="input-group-text">점주ID</span>
-							<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
+							<input class="form-control readonly"  type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
 						</div>
 						</div>
 						
-						<div class="row g-3 half-right" style="display: inline-block; width: 30%; margin-left: 30px;">
+						<div class="row g-3 half-right" style="display: inline-block; width: 40%; margin-left: 30px;">
 						<div class="input-group inline">
 							<span class="input-group-text">오픈시간</span>
 							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>

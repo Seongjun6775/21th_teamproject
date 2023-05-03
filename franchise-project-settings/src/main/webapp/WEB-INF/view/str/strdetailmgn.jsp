@@ -188,7 +188,7 @@ $().ready(function() {
 				
 					<div class="input-group inline">
 						<label for="mbrId" style="width:180px">점주ID</label>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}" style="background-color:orange"/>
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}" style="background-color:orange" placeholder="점주ID가 없습니다."/>
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
