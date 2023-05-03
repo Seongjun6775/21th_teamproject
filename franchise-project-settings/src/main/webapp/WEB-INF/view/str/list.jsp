@@ -109,10 +109,10 @@
 			$("#mbrId").val("");
 			$("#strOpnTm").val("09:00:00");
 			$("#strClsTm").val("18:00:00");
-			$("#strRgstr").val("${mbrVO.mbrId}");
+			$("#strRgstr").val("${strVO.strRgstr}");
 			$("#strRgstDt").val("");
 			$("#mdfyr").val("${mbrVO.mbrId}");
-			$("#mdfyDt").val("");
+			$("#mdfyDt").val("${strVO.mdfyDt}");
 			$("#useYn").prop("checked", false);
 		});
 		
@@ -345,6 +345,20 @@
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">매장주소</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">전화번호</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">사용여부
+							<%-- <select class="form-select select-align-center" name="selectFilter" id="useYn">
+								<option value="">사용여부</option>
+								<c:choose>
+									<c:when test="${not empty strList}">
+										<c:forEach items="${strList}"
+													var="str" >
+											<option value="Y" ${strVO.useYn eq 'Y' ? 'selected' : ''}>Y</option>
+											<option value="N" ${strVO.useYn eq 'N' ? 'selected' : ''}>N</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select> --%>
+						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">점주ID</th>
 						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
 						<!-- <th>오픈시간</th>
@@ -381,6 +395,7 @@
 								<td>${str.ctyCdVO.ctyNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
+								<td>${str.useYn}</td>
 								<td>
 								  <c:choose>
 								    <c:when test="${empty str.mbrId}">

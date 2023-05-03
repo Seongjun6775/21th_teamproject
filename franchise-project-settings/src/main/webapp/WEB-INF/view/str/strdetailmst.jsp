@@ -226,7 +226,7 @@
 					</div>
 					<div class="input-group inline">
 						<span class="input-group-text">등록자</span>
-						<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
+						<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"  style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<span class="input-group-text">등록일</span>
