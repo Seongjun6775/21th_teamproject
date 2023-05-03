@@ -38,7 +38,12 @@ public class EvntController {
 
 	// 1. 이벤트 등록  ▶▶최상위관리자 001-01
 	@GetMapping("/evnt/create")
-	public String createEvntPage(Model model, EvntVO evntVO) {
+	public String createEvntPage(Model model, EvntVO evntVO, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		
+		if(!mbrVO.getMbrLvl().equals("001-01") ) { 
+			 
+			 return "errors/evnt_customer_error"; }
+		
 		model.addAttribute("evntVO", evntVO);
 		return "evnt/create";
 	}

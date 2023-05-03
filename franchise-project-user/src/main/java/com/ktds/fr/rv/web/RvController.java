@@ -26,8 +26,8 @@ public class RvController {
 //	private OdrLstService odrLstService;
 	
 	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
-	@GetMapping("/rv/create")
-	public String viewCreateNewRvPage(Model model, 
+	@GetMapping("/mbr/rv/create")
+	public String viewCreateNewRvPage(Model model,
 			@SessionAttribute("__MBR__") MbrVO mbrVO) {	
 		
 //		OdrLstVO odrLstId = odrLstService

@@ -73,6 +73,57 @@
 					<div style="padding: 10px;">
 						<div class="fw-semibold" style="margin-bottom: 100px; height:220px; overflow: auto;">${rvDetail.rvCntnt}</div>
 					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">회원ID</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.mbrId}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">매장명</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.strVO.strNm}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">제목</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.rvTtl}"/>
+						</div>
+					</div>
+				</div>
+				<div class="half-right">
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">주문서ID</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.odrLstId}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">등록일</label>
+						<div>
+							<input type="text" class="form-control" readonly value="${rvDetail.rvRgstDt}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">수정일</label>
+						<div>
+							<input type="text" class="form-control" readonly  value="${rvDetail.mdfyDt}"/>
+						</div>
+					</div>
+					<div class="input-group">
+						<label for="prdtNm" class="col-form-label">평가</label>
+						<div>
+							<input type="text" id="rvLkDslk" name="rvLkDslk" class="form-control" readonly value="${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}">
+						</div>
+					</div>
+				</div>
+			</div>						
+			<div class="input-group" style="flex: 1;">
+				<label for="prdtCntnt" class="col-form-label">내용</label>
+				<div>
+					<textarea id="prdtCntnt" style="margin-top: 0.5rem; height:400px; resize: none;"
+							class="form-control">${rvDetail.rvCntnt}</textarea>
 				</div>
 			</div>
 		</div>		

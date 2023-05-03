@@ -85,7 +85,7 @@ public class RvServiceImpl implements RvService {
 //		else {
 //			return rvDAO.readOneRvVOForMemberByRvId(rvVO.getRvId());
 //		}
-		return rvDAO.readOneRvVOForTopManagerByRvId(null);
+		return rvDAO.readOneRvVOForTopManagerByRvId(rvVO.getRvId());
 	}
 
 	

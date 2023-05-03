@@ -64,17 +64,17 @@
 						<div>
 							<input type="text" id="sndrId" name="sndrId" value="${mbrVO.mbrId}" class="form-control" readonly/>
 						</div>
-						<label for="sndrId" class="col-form-label" style="margin-right: 20px;">발신인</label>
+						<label for="sndrId" class="col-form-label" style="padding-right: 8px; border-right: solid #ffbe2e; ">발신인</label>
 					</div>
 					<div class="input-group" style="display: flex; flex-direction: row-reverse;">
 						<div>
 							<input type="text" id="rcvrId" name="rcvrId" value="${rcvrId}" class="form-control" />
 						</div>
-						<label for="rcvrId" class="col-form-label" style="margin-right: 20px;">수신인</label>
+						<label for="rcvrId" class="col-form-label" style=" padding-right: 8px; border-right: solid #ffbe2e;">수신인</label>
 					</div>
 					<div>
-						<label for="ntTtl">쪽지 제목</label>
-						<input type="text" id="ntTtl" name="ntTtl" class="form-control"  />
+						<label for="ntTtl" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">쪽지 제목</label>
+						<input type="text" id="ntTtl" name="ntTtl" class="form-control"/>
 					</div>
 					<div>
 						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="4000자 까지 입력 가능합니다."
