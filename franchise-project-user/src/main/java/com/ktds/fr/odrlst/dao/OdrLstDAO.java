@@ -6,6 +6,8 @@ import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 public interface OdrLstDAO {
 	
+	public List<OdrLstVO> getOdrLstIdForRv(String mbrId);
+	
 	public int createNewOdrLst(OdrLstVO odrLstVO);
 	
 	public List<OdrLstVO> readAllOdrLst(OdrLstVO odrLstVO);

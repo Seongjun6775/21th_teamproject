@@ -55,16 +55,6 @@
 			}
 		});
 		$("#new_btn").click(function() {
-			var session = "${mbr}";
-			console.log(session);
-			if (session == "" || session.length == 0) {
-				if(confirm("로그인이 필요합니다. \n로그인 하시겠습니까?")){
-					location.href = "${context}/user/join";
-					return;
-				}else{
-					return; 
-				}
-			}
 			location.href = "${context}/mbr/rv/create";
 		});
 		$("#search_btn").click(function(){			
@@ -72,7 +62,7 @@
 		});		 
 		$(".rvRow td").not(".mbrId").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
-			location.href="${context}/user/rv/detail/" + rvid;
+			location.href="${context}/mbr/rv/detail/" + rvid;
 		})
 	});
 		function movePage(pageNo){
@@ -205,9 +195,8 @@
 					<button id="delete_all_btn" class="btn btn-danger">삭제</button>
 				</c:if>
 			</div>
-		</div>	
-						
-			</div>			
+		</div>							
+		</div>			
 		<jsp:include page="../include/footer.jsp" />
 <%-- <jsp:include page="../include/closeBody.jsp" /> --%>
 	<div class="layer_popup" id="layer_popup" style="display: none;">
