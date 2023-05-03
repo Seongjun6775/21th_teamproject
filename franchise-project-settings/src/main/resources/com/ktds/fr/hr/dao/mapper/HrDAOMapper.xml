@@ -66,46 +66,6 @@
 		<include refid="Common.pageFooter" />
 	</select>
 	
-	<insert id="createNewHr"
-			parameterType="com.ktds.fr.hr.vo.HrVO">
-		INSERT INTO HR
-		 (HR_ID
-		, MBR_ID
-		, HR_TTL
-		, HR_CNTNT
-		, HR_RGST_DT
-		, HR_MDFY_DT
-		, HR_APR_YN
-		, HR_APR_DT
-		, HR_STAT
-		, ORGN_FL_NM
-		, UUID_FL_NM
-		, FL_SIZE
-		, FL_EXT
-		, USE_YN
-		, DEL_YN
-		, NTC_YN
-		, HR_LVL)
-		VALUES
-		 ('HR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HR_PK.NEXTVAL, 5, '0')
-		 , #{mbrId}
-		 , #{hrTtl}
-		 , #{hrCntnt}
-		 , SYSDATE
-		 , SYSDATE
-		 , NULL
-		 , NULL
-		 , '002-01'
-		 , #{orgnFlNm}
-		 , #{uuidFlNm}
-		 , #{flSize}
-		 , #{flExt}
-		 , 'Y'
-		 , 'N'
-		 , #{ntcYn}
-		 , #{hrLvl})
-	</insert>
-	
 	<select id="readAllMyHr"
 			parameterType="com.ktds.fr.hr.vo.HrVO"
 			resultMap="hrMap">
@@ -155,6 +115,55 @@
 						 ORDER BY HR_RGST_DT DESC) A) E
 		<include refid="Common.pageFooter" />
 	</select>
+	
+	<select id="countNtc"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM HR
+		 WHERE NTC_YN = 'Y'
+		   AND DEL_YN = 'N'
+		   AND HR_RGST_DT + 21 >= SYSDATE 
+	</select>
+	
+	<insert id="createNewHr"
+			parameterType="com.ktds.fr.hr.vo.HrVO">
+		INSERT INTO HR
+		 (HR_ID
+		, MBR_ID
+		, HR_TTL
+		, HR_CNTNT
+		, HR_RGST_DT
+		, HR_MDFY_DT
+		, HR_APR_YN
+		, HR_APR_DT
+		, HR_STAT
+		, ORGN_FL_NM
+		, UUID_FL_NM
+		, FL_SIZE
+		, FL_EXT
+		, USE_YN
+		, DEL_YN
+		, NTC_YN
+		, HR_LVL)
+		VALUES
+		 ('HR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HR_PK.NEXTVAL, 5, '0')
+		 , #{mbrId}
+		 , #{hrTtl}
+		 , #{hrCntnt}
+		 , SYSDATE
+		 , SYSDATE
+		 , NULL
+		 , NULL
+		 , '002-01'
+		 , #{orgnFlNm}
+		 , #{uuidFlNm}
+		 , #{flSize}
+		 , #{flExt}
+		 , 'Y'
+		 , 'N'
+		 , #{ntcYn}
+		 , #{hrLvl})
+	</insert>
 	
 	<select id="readOneHrByHrId"
 			parameterType="string"

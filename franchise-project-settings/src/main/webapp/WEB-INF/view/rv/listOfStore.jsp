@@ -86,8 +86,7 @@
 					<div class="list-title">
 						<h3 class="list-title" style="font-weight: bold;">리뷰 게시판</h3>
 					</div>	
-					
-					
+										
 					<!-- searchbar -->
 					<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
 						<!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->

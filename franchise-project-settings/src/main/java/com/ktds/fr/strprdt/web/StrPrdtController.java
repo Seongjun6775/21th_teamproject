@@ -62,7 +62,7 @@ public class StrPrdtController {
 		
 		List<StrPrdtVO> strPrdtList = strPrdtService.readAll(strPrdtVO);
 		List<StrVO> strList = strService.readAll();
-		List<PrdtVO> prdtList = prdtService.readAllNoPagenation(prdtVO);
+		List<PrdtVO> prdtList = prdtService.readAllCustomerNoPagenation(prdtVO);
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		
 		model.addAttribute("mbrVO", mbrVO);
@@ -75,7 +75,7 @@ public class StrPrdtController {
 		return "strprdt/strprdt_list";
 		
 	}
-	
+			
 	@GetMapping("/strprdt/list2")
 	public String strPrdtListCustomer(Model model
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
