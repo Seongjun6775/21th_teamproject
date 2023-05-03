@@ -430,7 +430,9 @@ function movePage(pageNo) {
 											<c:forEach items="${ordLstList}"
 														var="ordLst">
 												<c:if test="${ordLst.odrLstOdrPrcs eq '003-03'}">
-													<tr data-odrlstid="${ordLst.odrLstId}">
+													<tr data-odrlstid="${ordLst.odrLstId}"
+														data-mbrnm="${ordLst.mbrVO.mbrNm}"
+														data-odrlstrgstdt="${ordLst.odrLstRgstDt}">
 														<td class="align-center">
 															<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
 														</td>
@@ -472,7 +474,9 @@ function movePage(pageNo) {
 									<c:when test="${not empty ordLstCompleteList}">
 										<c:forEach items="${ordLstCompleteList}"
 													var="ordLst">
-											<tr data-odrlstid="${ordLst.odrLstId}">
+											<tr data-odrlstid="${ordLst.odrLstId}"
+												data-mbrnm="${ordLst.mbrVO.mbrNm}"
+												data-odrlstrgstdt="${ordLst.odrLstRgstDt}">
 												<td></td>
 												<td>${ordLst.odrLstId}</td>							
 												<td>${ordLst.mbrVO.mbrNm}</td>							
