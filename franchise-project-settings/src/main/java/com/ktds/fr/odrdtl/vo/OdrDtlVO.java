@@ -1,6 +1,5 @@
 package com.ktds.fr.odrdtl.vo;
 
-import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.evnt.vo.EvntVO;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
@@ -64,7 +63,6 @@ public class OdrDtlVO extends AbstractVO{
 	private OdrLstVO odrLstVO;
 
 	
-	private CmmnCdVO cmmnCdVO;
 	private MbrVO mbrVO;
 	
 	/**
@@ -73,6 +71,12 @@ public class OdrDtlVO extends AbstractVO{
 	private String oneDay;
 	private String startDt;
 	private String endDt;
+	
+	private String groupBy;
+	private String orderBy;
+	
+	private long sumPrc;
+	private int sumCnt;
 	
 	
 	
@@ -190,15 +194,6 @@ public class OdrDtlVO extends AbstractVO{
 	}
 
 	
-	
-	
-	public CmmnCdVO getCmmnCdVO() {
-		return cmmnCdVO;
-	}
-
-	public void setCmmnCdVO(CmmnCdVO cmmnCdVO) {
-		this.cmmnCdVO = cmmnCdVO;
-	}
 
 	public MbrVO getMbrVO() {
 		return mbrVO;
@@ -231,6 +226,40 @@ public class OdrDtlVO extends AbstractVO{
 	public void setEndDt(String endDt) {
 		this.endDt = endDt;
 	}
+
+	
+	public String getGroupBy() {
+		return groupBy;
+	}
+
+	public void setGroupBy(String groupBy) {
+		this.groupBy = groupBy;
+	}
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public long getSumPrc() {
+		return sumPrc;
+	}
+
+	public void setSumPrc(long sumPrc) {
+		this.sumPrc = sumPrc;
+	}
+
+	public int getSumCnt() {
+		return sumCnt;
+	}
+
+	public void setSumCnt(int sumCnt) {
+		this.sumCnt = sumCnt;
+	}
+
 	
 
 }

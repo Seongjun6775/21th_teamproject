@@ -10,6 +10,8 @@ public interface HrDAO {
 	
 	public List<HrVO> readAllMyHr(HrVO hrVO);
 	
+	public int countNtc();
+	
 	public HrVO readOneHrByHrId(String hrId);
 	
 	public int createNewHr(HrVO hrVO);

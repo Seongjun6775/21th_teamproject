@@ -34,7 +34,7 @@
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-				<span class="fs-5 fw-bold">회원 채용 페이지 테스트</span>
+				<span class="fs-5 fw-bold">회원 > 채용 지원</span>
 		    </div>
 			<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
 				<div style="margin: 13px;">총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
@@ -62,15 +62,22 @@
 								    data-delyn="${hr.delYn}"
 								    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
 									<td>${hr.hrId}</td>
-									<td>${hr.mbrVO.mbrNm}</td>
+									<td>${hr.mbrId}</td>
 									<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 									<td>${hr.hrRgstDt}</td>
-									<c:choose>
-											<c:when test="${hr.hrStat eq '002-01'}"><td>접수</td></c:when>
-											<c:when test="${hr.hrStat eq '002-02'}"><td>심사중</td></c:when>
-											<c:when test="${hr.hrStat eq '002-03'}"><td>심사완료</td></c:when>
-											<c:otherwise><td></td></c:otherwise>
-									</c:choose>
+									<td>
+										<c:choose>
+											<c:when test="${hr.ntcYn eq 'Y'}"></c:when>
+											<c:otherwise>
+												<c:choose>
+													<c:when test="${hr.hrStat eq '002-01'}">접수</c:when>
+													<c:when test="${hr.hrStat eq '002-02'}">심사중</c:when>
+													<c:when test="${hr.hrStat eq '002-03'}">심사완료</c:when>
+													<c:otherwise><td></td></c:otherwise>
+												</c:choose>
+											</c:otherwise>
+										</c:choose>
+									</td>
 								</tr>
 							</c:forEach>
 						</c:when>
@@ -87,36 +94,33 @@
 								<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastPage : 0}" var="lastPage" />
 								<c:set value="${myHrList.size() >0 ? myHrList.get(0).lastGroup : 0}" var="lastGroup" />
 								
-								<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
-								<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-								
-								<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-								<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-								
-								
-								<c:if test="${nowGroup > 0}">
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-								</c:if>
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
+							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
 							
-								
-								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-									<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-								</c:forEach>
-								
-								<c:if test="${lastGroup > nowGroup}">
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
-								</c:if>
-							</ul>
-						</nav>
-					</div>
-					<div style=" right: 0;top: 0; position: absolute;">
-						<button id="create_btn" class="btn btn-success">작성</button>
-					</div>
-				</div>	
+							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+							
+							
+							<c:if test="${nowGroup > 0}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+							</c:if>
+						
+							
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+								<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+							</c:forEach>
+							
+							<c:if test="${lastGroup > nowGroup}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+							</c:if>
+						</ul>
+					</nav>
+				</div>
 			</div>
+		</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

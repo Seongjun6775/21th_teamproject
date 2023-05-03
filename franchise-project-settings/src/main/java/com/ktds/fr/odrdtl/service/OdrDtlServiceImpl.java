@@ -148,5 +148,20 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public List<OdrDtlVO> forSale(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.forSale(odrDtlVO);
 	}
+
+	@Override
+	public List<OdrDtlVO> group(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.group(odrDtlVO);
+	}
+
+	@Override
+	public List<OdrDtlVO> groupPrdt(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.groupPrdt(odrDtlVO);
+	}
+	
+	@Override
+	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.groupStr(odrDtlVO);
+	}
 	
 }
