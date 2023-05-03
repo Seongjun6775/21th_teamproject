@@ -217,7 +217,7 @@
 							
 								
 								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-									<li class="page-item"><a class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+									<li class="page-item"><a class="page-link text-secondary"  class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 								</c:forEach>
 								
 								<c:if test="${lastGroup > nowGroup}">

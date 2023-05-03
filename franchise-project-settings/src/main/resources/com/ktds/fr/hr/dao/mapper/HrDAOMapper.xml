@@ -9,9 +9,9 @@
 				autoMapping="true">
 		<id property="hrId" column="HR_ID" />
 		<association property="mbrVO"
-					  javaType="com.ktds.fr.mbr.vo.MbrVO"
-					  autoMapping="true">
+					  javaType="com.ktds.fr.mbr.vo.MbrVO">
 			<id property="mbrId" column="MBR_ID" />
+			<result property="mbrNm" column="MBR_NM" />
 		</association>
 	</resultMap>
 	
@@ -178,6 +178,7 @@
 		     , H.NTC_YN
 		     , H.HR_LVL
 		     , M.STR_ID
+		     , M.MBR_NM
 		  FROM HR H
 		 INNER JOIN MBR M
 		    ON H.MBR_ID = M.MBR_ID

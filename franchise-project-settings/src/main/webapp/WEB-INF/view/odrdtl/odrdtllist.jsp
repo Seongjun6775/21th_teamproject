@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/odrdtl_odrdtllist.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -197,7 +198,7 @@
 									data-uuidflnm="${odr.prdtVO.uuidFlNm}"
 									data-strnm="${odr.strVO.strNm}"
 									data-strcallnum="${odr.strVO.strCallNum}">
-									<div class="col-sm-3">
+									<div class="col-sm-3 img-box">
 										<div class="dtl-img">
 											<img class="odrdtl-img" src="${context}/prdt/img/${odr.prdtVO.uuidFlNm}">
 										</div>
@@ -225,7 +226,7 @@
 										<div class="dtl-sumPrc">합계
 											<c:choose>
 												<c:when test="${odrPrcs.odrLstOdrPrcs eq '003-01'}">
-													<c:choose>																	
+													<c:choose>
 														<c:when test="${not empty odr.prdtVO.evntPrdtVO.evntId}">
 															<del class="evntPrdtPrc" style="font-size: 12px; color: #333;">${odr.odrDtlPrdtCnt * odr.prdtVO.prdtPrc}</del>  <span style="font-weight: bold;">${odr.odrDtlPrdtCnt * odr.prdtVO.evntPrdtVO.evntPrdtChngPrc}</span>원
 														</c:when>
@@ -262,7 +263,7 @@
 					<div style="position: relative;">
 						<div style="position: absolute; right: 10px; top:0px;">
 							<div style="display: inline-block; margin-right: 10px;">합계 : <span class="padding10-bold"><c:out value="${sum > 0 ? sum : 0}" /></span>원</div>
-							<div style="display: inline-block;">충전 잔량 : <span class="padding10-bold"><c:out value="${mbrVO.mbrPyMn}" /></span>원</div>
+							<div style="display: inline-block;">충전 잔량 : <span class="padding10-bold">${mbrVO.mbrPyMn}</span>원</div>
 						</div>
 						<div style="position: absolute; right: 10px; top: 30px;">
 							<c:if test="${odrPrcs.odrLstOdrPrcs eq '003-04'}">

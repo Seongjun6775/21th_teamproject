@@ -195,21 +195,21 @@ function movePage(pageNo) {
 						</thead>
 						<tbody class="table-group-divider">
 							<c:choose>
-								<c:when test="${not empty ordLstList}">
-									<c:forEach items="${ordLstList}"
-												var="ordLst">
-										<tr data-odrlstid="${ordLst.odrLstId}"
-											data-mbrnm="${ordLst.mbrVO.mbrNm}"
-											data-odrlstrgstdt="${ordLst.odrLstRgstDt}">
+								<c:when test="${not empty odrLstList}">
+									<c:forEach items="${odrLstList}"
+												var="odrLst">
+										<tr data-odrlstid="${odrLst.odrLstId}"
+											data-mbrnm="${odrLst.mbrVO.mbrNm}"
+											data-odrlstrgstdt="${odrLst.odrLstRgstDt}">
 											<td class="align-center">
-												<input type="checkbox" class="check-idx00" value="${ordLst.odrLstId}" />
+												<input type="checkbox" class="check-idx00" value="${odrLst.odrLstId}" />
 											</td>
-											<td>${ordLst.cmmnCdVO.cdNm}</td>							
-											<td>${ordLst.odrLstId}</td>							
-											<td>${ordLst.mbrVO.mbrNm}</td>							
-											<td>${ordLst.odrLstRgstDt}</td>							
-											<td>${ordLst.mdfyrMbrVO.mbrNm}</td>							
-											<td>${ordLst.mdfyDt}</td>							
+											<td>${odrLst.cmmnCdVO.cdNm}</td>							
+											<td>${odrLst.odrLstId}</td>							
+											<td>${odrLst.mbrVO.mbrNm}</td>							
+											<td>${odrLst.odrLstRgstDt}</td>							
+											<td>${odrLst.mdfyrMbrVO.mbrNm}</td>							
+											<td>${odrLst.mdfyDt}</td>							
 										</tr>
 									</c:forEach>
 								</c:when>

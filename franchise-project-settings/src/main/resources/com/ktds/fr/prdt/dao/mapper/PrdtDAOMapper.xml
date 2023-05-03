@@ -41,8 +41,9 @@
 			parameterType="com.ktds.fr.prdt.vo.PrdtVO"
 			resultMap="prdtVOMap">
 		<include refid="PrdtCommon.pageHeader"></include>
-		SELECT P.PRDT_ID PK_COL
-			 , DENSE_RANK() OVER(ORDER BY P.PRDT_ID DESC) RNUM
+		SELECT P.*
+			 , ROWNUM RNUM
+		FROM (SELECT P.PRDT_ID PK_COL
 			 , P.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
@@ -106,7 +107,7 @@
 			</if>
 		   NULL
 		</if>
-		ORDER BY P.PRDT_NM ASC
+		ORDER BY P.PRDT_NM ASC) P
 		<include refid="PrdtCommon.pageFooter"></include>
 	</select>
 	
@@ -222,6 +223,7 @@
 					    AND E.EVNT_END_DT >= SYSDATE) EP 
     		ON P.PRDT_ID = EP.PRDT_ID 
 		 WHERE P.DEL_YN = 'N'
+		   AND P.USE_YN = 'Y'
 		<if test='prdtSrt != null and prdtSrt != ""'>
 		   AND P.PRDT_SRT = #{prdtSrt} 
 		</if>
