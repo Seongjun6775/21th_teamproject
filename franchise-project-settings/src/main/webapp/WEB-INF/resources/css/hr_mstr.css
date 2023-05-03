@@ -54,3 +54,7 @@ textarea {
 	z-index: 10px;
 }
 
+textarea:focus {
+	outline: none;
+}
+

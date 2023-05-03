@@ -57,7 +57,7 @@
 			</c:choose>
             <li class="rounded"><a href="${context}/str/odrlst" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문관리</a></li>
             <li class="rounded"><a href="${context}/str/completeOdr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">처리주문조회</a></li>
-              <li class="rounded"><a href="${context}/revenue" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매출관리</a></li>
+              <li class="rounded"><a href="${context}/payment" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매출관리</a></li>
           </ul>
         </div>
       </li>

@@ -8,6 +8,8 @@
 				type="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 				autoMapping="true">
 		<id property="odrDtlId" column="ODR_DTL_ID" />
+		<result property="sumCnt" column="SUM_CNT" />
+    	<result property="sumPrc" column="SUM_PRC" jdbcType="BIGINT" />
 		<association property="odrLstVO"
 		              javaType="com.ktds.fr.odrlst.vo.OdrLstVO"
 		              autoMapping="true">
@@ -22,6 +24,11 @@
 		              javaType="com.ktds.fr.prdt.vo.PrdtVO"
 		              autoMapping="true">
 			<id property="prdtId" column="PRDT_ID" />
+			<association property="cmmnCdVO"
+						  javaType="com.ktds.fr.cmmncd.vo.CmmnCdVO"
+			              autoMapping="true">
+				<id property="cdId" column="CD_ID" />
+			</association>
 			<association property="evntVO"
 						  javaType="com.ktds.fr.evnt.vo.EvntVO"
 			              autoMapping="true">
@@ -267,6 +274,8 @@
 	
 	
 	
+	
+	
 	<!-- 매출관련 조회용 -->
 	<select id="forSale"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
@@ -282,6 +291,7 @@
 				     , OD.MBR_ID
 				     , R.MBR_NM
 				     , OL.ODR_LST_ODR_PRCS
+				     , C.CD_ID
 				     , C.CD_NM
 				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
 				     , OL.ODR_LST_RGSTR
@@ -304,9 +314,8 @@
 				 WHERE OL.DEL_YN = 'N'
 				   AND OL.USE_YN = 'Y'
 				   AND OL.ODR_LST_ODR_PRCS = '003-04' )
-		 WHERE STR_ID LIKE NVL(#{odrDtlStrId}, '%')
-		   AND MBR_ID LIKE NVL(#{mbrId}, '%')
-		   AND PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+		 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+		   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
 		<if test='oneDay != null and oneDay != ""'>
 		   AND SUBSTR(MDFY_DT, 0, 10) = #{oneDay}
 		</if>
@@ -314,9 +323,91 @@
 		   AND SUBSTR(MDFY_DT, 0, 10) >= #{startDt}
 		   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10)
 		</if>
+<!-- 		 GROUP BY #{groupBy} -->
+<!-- 		 ORDER BY #{orderBy} DESC -->
 	</select>
 	
 	
+	<select id="groupPrdt"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT *
+		  FROM (SELECT ODR_DTL_PRDT_ID
+		  			 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC 
+					 , SUM(ODR_DTL_PRDT_CNT) SUM_CNT
+				  FROM (SELECT OL.ODR_LST_ID
+							 , OD.ODR_DTL_STR_ID 
+							 , OD.ODR_DTL_PRDT_ID
+							 , OD.ODR_DTL_PRDT_CNT 
+							 , OD.ODR_DTL_PRC 
+						     , OD.MBR_ID
+						     , OL.ODR_LST_ODR_PRCS
+						     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+						     , OL.ODR_LST_RGSTR
+						     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+						     , OL.MDFYR
+						  FROM ODR_DTL OD
+				  		  LEFT OUTER JOIN ODR_LST OL
+							ON OD.ODR_LST_ID = OL.ODR_LST_ID
+						  LEFT OUTER JOIN STR S
+						    ON OD.ODR_DTL_STR_ID = S.STR_ID
+						 WHERE OL.DEL_YN = 'N'
+						   AND OL.USE_YN = 'Y'
+						   AND OL.ODR_LST_ODR_PRCS = '003-04'
+						   AND S.USE_YN = 'Y' )
+				 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+				   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+				<if test='oneDay != null and oneDay != ""'>
+				   AND SUBSTR(MDFY_DT, 0, 10) = #{oneDay}
+				</if>
+				<if test='startDt != null and startDt != ""'>
+				   AND SUBSTR(MDFY_DT, 0, 10) >= #{startDt}
+				   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10)
+				</if>
+				GROUP BY ODR_DTL_PRDT_ID) OD
+		INNER JOIN PRDT P
+		   ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		INNER JOIN CMMN_CD C
+		   ON P.PRDT_SRT = C.CD_ID
+	   ORDER BY SUM_PRC DESC 
+	</select>
+	
+	
+	
+	<select id="groupStr"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT #{groupBy}, SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC)
+			 , A.*
+		  FROM (SELECT OL.ODR_LST_ID
+					 , OD.ODR_DTL_STR_ID 
+					 , OD.ODR_DTL_PRDT_ID	
+					 , OD.ODR_DTL_PRDT_CNT 
+					 , OD.ODR_DTL_PRC 
+				     , OD.MBR_ID
+				     , OL.ODR_LST_ODR_PRCS
+				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+				     , OL.ODR_LST_RGSTR
+				     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+				     , OL.MDFYR
+				  FROM ODR_DTL OD
+		  		  LEFT OUTER JOIN ODR_LST OL
+					ON OD.ODR_LST_ID = OL.ODR_LST_ID
+				 WHERE OL.DEL_YN = 'N'
+				   AND OL.USE_YN = 'Y'
+				   AND OL.ODR_LST_ODR_PRCS = '003-04' )
+		 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+		   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+		<if test='oneDay != null and oneDay != ""'>
+		   AND SUBSTR(MDFY_DT, 0, 10) = #{oneDay}
+		</if>
+		<if test='startDt != null and startDt != ""'>
+		   AND SUBSTR(MDFY_DT, 0, 10) >= #{startDt}
+		   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10) OD
+		</if>
+		 GROUP BY #{groupBy}
+		 ORDER BY SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) NVL(#{orderBy}, DESC) 
+	</select>
 	
 	
 	

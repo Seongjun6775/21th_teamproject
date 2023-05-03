@@ -17,6 +17,3 @@
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/sidebars.css?p=${date}" />
 <script type="text/javascript" src="${context}/js/bootstrap.bundle.min.js"></script>
-
-<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>

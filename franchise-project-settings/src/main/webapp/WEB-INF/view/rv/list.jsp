@@ -17,7 +17,6 @@
 
 	$().ready(function() {
 		
-	
 		var url;
 		$(".open-layer").click(function(event) {
 			// event.preventDefault();
@@ -196,6 +195,7 @@
 				</c:choose>			
 			</tbody>
 		</table>	
+		<div style="position: relative;">
 			<div class="pagenate">
 				<ul class="pagination" style="text-align: center;">
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
@@ -232,16 +232,16 @@
 					</c:if>
 				</ul>
 			</div>
-				<div style="position: absolute;right: 0;top: 0;">   
-		            <c:if test="${mbrVO.mbrLvl eq '001-04'}">      
-		               <button id="new_btn" class="btn btn-success">등록</button>
-		            </c:if>
-		            <c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-		               <button id="delete_all_btn" class="btn btn-danger">삭제</button>
-		            </c:if>
-		         </div>
-		</div>				
-		<jsp:include page="../include/footer.jsp" />
+			<div style="position: absolute;right: 0;top: 0;">	
+				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
+					<button id="new_btn" class="btn btn-success">등록</button>
+				</c:if>
+				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+					<button id="delete_all_btn" class="btn btn-danger">삭제</button>
+				</c:if>
+			</div>
+		</div>	
+	</div>
 <jsp:include page="../include/closeBody.jsp" />
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">

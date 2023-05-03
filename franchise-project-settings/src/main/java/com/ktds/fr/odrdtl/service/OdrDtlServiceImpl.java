@@ -1,5 +1,6 @@
 package com.ktds.fr.odrdtl.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,6 +148,48 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	@Override
 	public List<OdrDtlVO> forSale(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.forSale(odrDtlVO);
+	}
+
+	@Override
+	public List<OdrDtlVO> group(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.group(odrDtlVO);
+	}
+
+	@Override
+	public List<OdrDtlVO> groupPrdt(OdrDtlVO odrDtlVO) {
+		if(odrDtlVO.getStartDt() == null || odrDtlVO.getStartDt().length()==0) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, -1);
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH)+1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			
+			String startDt = year+ "-" + strMonth + "-" + strDay;
+			odrDtlVO.setStartDt(startDt);
+		}
+		if(odrDtlVO.getEndDt() == null || odrDtlVO.getEndDt().length() == 0) {
+			Calendar cal = Calendar.getInstance();
+			
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			
+			String endDt = year + "-" + strMonth + "-" + strDay;
+			odrDtlVO.setEndDt(endDt);
+			
+		}
+		return odrDtlDAO.groupPrdt(odrDtlVO);
+	}
+	
+	@Override
+	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.groupStr(odrDtlVO);
 	}
 	
 }

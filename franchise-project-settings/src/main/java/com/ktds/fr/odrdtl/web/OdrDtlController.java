@@ -15,6 +15,8 @@ import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.service.OdrLstService;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
+import com.ktds.fr.str.service.StrService;
+import com.ktds.fr.str.vo.StrVO;
 
 @Controller
 public class OdrDtlController {
@@ -24,6 +26,9 @@ public class OdrDtlController {
 	
 	@Autowired
 	public OdrLstService odrLstService;
+
+	@Autowired
+	public StrService strService;
 	
 	@GetMapping("/odrdtl/list/{odrLstId}")
 	public String viewOdrDtlListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
@@ -81,17 +86,32 @@ public class OdrDtlController {
 	
 	
 	
-	@GetMapping("/revenue")
+	@GetMapping("/payment")
 	public String forSale(Model model, OdrDtlVO odrDtlVO) {
 		
 		
 		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
 		
+		//상품별
+		odrDtlVO.setOrderBy("DESC");
+		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
 		
 		
+		List<StrVO> strList = strService.readAll();
+		
+		
+		//매장별
+//		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
+		
+		
+		
+		model.addAttribute("odrDtlVO", odrDtlVO);
+		model.addAttribute("strList", strList);
 		model.addAttribute("odrDtlList", odrDtlList);
+		model.addAttribute("groupPrdt", groupPrdt);
+//		model.addAttribute("strGroup", groupStr);
 		
-		return "odrdtl/revenue";
+		return "odrdtl/payment";
 	}
 
 }

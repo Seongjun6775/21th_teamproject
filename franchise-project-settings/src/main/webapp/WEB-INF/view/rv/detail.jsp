@@ -119,7 +119,7 @@
 							class="form-control">${rvDetail.rvCntnt}</textarea>
 				</div>
 			</div>
-		</div>		
+		</div>				
 
 <jsp:include page="../include/closeBody.jsp" />
 </html>

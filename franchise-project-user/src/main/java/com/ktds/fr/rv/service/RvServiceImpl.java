@@ -73,10 +73,11 @@ public class RvServiceImpl implements RvService {
 			
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자
 	@Override
-	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO) {		
-		rvVO.setMbrId(mbrVO.getMbrId());
+		public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO) {
 		
-//		if (mbrVO.getMbrLvl().equals("001-01")) {
+		rvVO.setMbrId(mbrVO.getMbrId());		
+				
+		//	if (mbrVO.getMbrLvl().equals("001-01")) {
 //			return rvDAO.readOneRvVOForTopManagerByRvId(rvVO.getRvId());
 //		}
 //		else if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
@@ -85,7 +86,7 @@ public class RvServiceImpl implements RvService {
 //		else {
 //			return rvDAO.readOneRvVOForMemberByRvId(rvVO.getRvId());
 //		}
-		return rvDAO.readOneRvVOForTopManagerByRvId(null);
+		return rvDAO.readOneRvVOForTopManagerByRvId(rvVO.getRvId());
 	}
 
 	

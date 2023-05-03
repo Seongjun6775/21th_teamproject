@@ -41,16 +41,15 @@
 	});		
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/openBody.jsp" />
-		<div>
-			<div class="path">리뷰 > 리뷰관리 > 리뷰등록</div>
-			<h1>새 리뷰 등록</h1>
-			<div>
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin: 20px;">
+	        	<span class="fs-5 fw-bold">리뷰 > 리뷰관리 > 리뷰등록</span>
+      		</div>
+			<div class="bg-white rounded shadow-sm" style="padding: 30px 50px; margin:20px; width:60%;">
+				<h2 class="fw-bold" style="margin: 20px; display: flex; flex-direction: row-reverse;">구매후기</h2>				
 				<form id="create_form" method="post">
 					<div class="create-group">
-						<label for="odrLstId" style="margin:5px;">주문서 ID</label> 
+						<label for="odrLstId" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">주문서 ID</label> 
 						<select id="odrLstId" style="width:40%;"
 								class="form-control"name="odrLstId">
 							<c:choose>
@@ -64,38 +63,40 @@
 								</c:when>
 							</c:choose>
 						</select>
-					</div>
+					</div>    
 					<div class="create-group">
-						<label for="rvTtl" style="margin:5px;">제목</label> <input type="text" id="rvTtl"
+						<label for="rvTtl" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label> <input type="text" id="rvTtl"
 							name="rvTtl" 
-							style="width:40%; margin:5px;"
-							maxlength="50" class="form-control"
+							style="margin:5px; width: 100%;"
+							class="form-control" maxlength="50"
 							placeholder="제목을 입력하세요(50자 제한)" />
 					</div>
 					<div class="create-group">
-						<label for="rvCntnt" style="margin:5px;">내용</label> <textarea id="rvCntnt"
+						<label for="rvCntnt" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">내용</label> 
+						<textarea id="rvCntnt"
 							name="rvCntnt" 
-							style="display: grid; margin: 5px; width: 700px; height: 400px; resize: none;"
+							style="display: grid; margin: 5px; height: 400px; resize: none;"
 							maxlength="1000" class="form-control"
 							placeholder="내용을 입력하세요(1000자 제한)" ></textarea>
 					</div>
 					<div class="create-group">
-						<label for="rvLkDslk" style="margin:5px;">좋아요/싫어요</label> <select id="rvLkDslk"
+						<label for="rvLkDslk" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">좋아요/싫어요</label>
+						<select id="rvLkDslk"
 							style="margin: 5px; width:20%" class="form-select" 
 							name="rvLkDslk">
 							<option>선택</option>
 							<option value="T">좋아요</option>
 							<option value="F">싫어요</option>
 						</select>
-					</div>
+						<div class="align-right">
+							<button type="button" id="new_btn" class="btn btn-outline-primary">등록</button>
+						</div>
+					</div>		
+			
 				</form>
-				<div class="align-right">
-					<button id="new_btn" class="btn btn-primary">등록</button>
-				</div>
-				<jsp:include page="../include/footer.jsp" />
-				<jsp:include page="../include/closeBody.jsp" />
 			</div>
 		</div>
 	</div>
+</body>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

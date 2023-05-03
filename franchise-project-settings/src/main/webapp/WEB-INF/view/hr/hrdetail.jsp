@@ -86,7 +86,7 @@
 </head>
 <jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
-	        <span class="fs-5 fw-bold">채용지원 > 상세조회</span>
+	        <span class="fs-5 fw-bold">회원 > 채용 지원 > 상세 조회</span>
 	    	<div style="position: absolute;right: 0;top: 0; margin: 20px;">
 	          <button id="update_btn" class="btn btn-primary" >수정</button>
 			  <button id="delete_btn" class="btn btn-danger" style="margin-right:10px">삭제</button>
@@ -102,8 +102,10 @@
 			
 			<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
 				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
-				<%-- <div class="hr_detail_header">최종 수정일 : ${hr.hrMdfyDt}</div> --%>
-				<div class="hr_detail_header">작성자 : ${hr.mbrVO.mbrNm}</div>
+				<c:if test="${hr.ntcYn eq 'Y'}">
+					<div class="hr_detail_header">마감일 : ${hr.hrDdlnDt}</div>
+				</c:if>
+				<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
 				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
 			</div>
 				<div style="padding:10px; ">
@@ -121,7 +123,7 @@
 							<textarea class="fw-semibold" 
 									   style="margin-bottom: 100px; width: 600px; height:400px;
 									          overflow: auto; word-break: break-all;
-									          border: none; resize: none;">${hr.hrCntnt}</textarea>
+									          border: none; resize: none;" readonly>${hr.hrCntnt}</textarea>
 						</div>
 					</div>
 				<div style="display: ${hr.ntcYn eq 'Y' ? 'none' : ''};">

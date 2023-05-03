@@ -64,7 +64,7 @@
 							</div>
 						</div>	
 					<div class="create-group">
-						<label for="mngrBrdTtl" class="label"  style="margin: 5px;">제목</label> 
+						<label for="mngrBrdTtl" class="label"  style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label> 
 						<input type="text" id="mngrBrdTtl" name="mngrBrdTtl" class="form-control" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl} " />
 					</div>
 							
@@ -73,7 +73,7 @@
 								
 					
 					<div class="create-group">
-						<label for="mngrBrdCntnt" class="label"  style="margin: 5px;">본문</label> 
+						<label for="mngrBrdCntnt" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e; height: 47px;">본문</label> 
 						<textarea  id="mngrBrdCntnt" name="mngrBrdCntnt" class="form-control" placeholder="내용을 입력해주세요." style ="resize:none;" >${mngrBrd.mngrBrdCntnt}</textarea>
 					</div>
 					
