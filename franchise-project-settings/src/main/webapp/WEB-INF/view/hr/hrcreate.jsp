@@ -49,7 +49,7 @@
 			
 			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin:20px;">
 				<form id="hr_form" enctype="multipart/form-data">
-					<h3>채용 지원 작성 페이지 테스트</h3>
+					<h2 class="fw-bold" style="margin: 20px;">채용 지원 작성</h2>	 
 					<div>
 						<div>
 							<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
@@ -58,11 +58,11 @@
 							<div>
 								<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" class="form-control" readonly />
 							</div>
-							<label class="col-form-label" style="margin-right: 20px;">작성자</label>
+							<label class="col-form-label" style=" padding-right: 8px; border-right: solid #ffbe2e;">작성자</label>
 						</div>
 						<div style="margin: 20px 0 20px; display: flex; flex-direction: row-reverse;">
 							<input type="file" id="hrFile" name="hrFile" class="form-control" style="width: 50%;"/>
-							<label for="hrFile" style="margin: 10px;">파일첨부</label>
+							<label for="hrFile" class="col-form-label" style=" padding-right: 8px; border-right: solid #ffbe2e;">파일첨부</label>
 						</div>
 						<div style="margin: 20px 0 20px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
 							<select id="hrLvl" class="form-select" style="width:15%;">
@@ -72,13 +72,13 @@
 							</select>
 						</div>
 						<div>
-							<label for="hrTtl" class="col-form-label">제목</label>
+							<label for="hrTtl" class="col-form-label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label>
 							<div>
 								<input type="text" id="hrTtl" class="form-control" name="hrTtl" />
 							</div>
 							
 						</div>
-						<label for="hrCntnt" class="col-form-label">본문</label>
+						<label for="hrCntnt" class="col-form-label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">본문</label>
 						<div class="input-group">
 							<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
 									 placeholder="간단하게 자기소개 부탁드립니다." class="form-control"></textarea>

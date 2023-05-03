@@ -50,7 +50,7 @@
 		    </div>
 
 			<div class="bg-white rounded shadow-sm" style="padding: 40px 18px 23px 35px; overflow: auto;  margin:20px;">
-				<div class="list-title "> <br> </div>
+				<h2 class="fw-bold" style="margin: 20px;">작성</h2>
 				<div>
 					<form id="create_form" >
 						<div class="header-option-right">
@@ -63,7 +63,7 @@
 						</div>	
 						
 						<div class="create-group">
-							<label for="mngrBrdTtl" class="label" style="margin: 5px;">제목</label> 
+							<label for="mngrBrdTtl" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label> 
 							<input type="text" id="mngrBrdTtl" class="form-control" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl}" />
 						</div>
 								
@@ -72,7 +72,7 @@
 						</div>			
 						
 						<div class="create-group">
-							<label for="mngrBrdCntnt" class="label" style="margin: 5px;">본문</label> 
+							<label for="mngrBrdCntnt" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e; height: 47px;">본문</label> 
 							<textarea  id="mngrBrdCntnt" class="form-control" name="mngrBrdCntnt" style="resize:none;" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
 						</div>
 					</form>	
