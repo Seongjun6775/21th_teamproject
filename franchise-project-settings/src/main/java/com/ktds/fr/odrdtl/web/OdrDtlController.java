@@ -78,5 +78,20 @@ public class OdrDtlController {
 		}
 		return "redirect:/index";
 	}
+	
+	
+	
+	@GetMapping("/revenue")
+	public String forSale(Model model, OdrDtlVO odrDtlVO) {
+		
+		
+		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
+		
+		
+		
+		model.addAttribute("odrDtlList", odrDtlList);
+		
+		return "odrdtl/revenue";
+	}
 
 }
