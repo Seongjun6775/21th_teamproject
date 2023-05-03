@@ -238,7 +238,9 @@
 			 , EP.EVNT_ID
 		  FROM (SELECT *
 				  FROM ODR_DTL
-				 WHERE ODR_LST_ID = #{_parameter} ) OD
+				 WHERE ODR_LST_ID = #{_parameter}
+				   AND DEL_YN = 'N'
+				   AND USE_YN = 'Y' ) OD
 		  LEFT JOIN (SELECT *
 		 			   FROM ODR_LST
 		 			  WHERE USE_YN = 'Y'
