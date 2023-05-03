@@ -304,13 +304,13 @@ li.dropdown > ul > li > a  {
 								<li><a href="#" class="fs-6 fw-bold">고객센터</a></li>
 							</ul>
 						</li>
-						<li><a href="#" class="fs-4 fw-bold">채용</a>
+						<li><a href="#" class="fs-4 fw-bold">기타</a>
 							<ul>
 								<li><a href="#" class="fs-6 fw-bold">01-01</a></li>
 								<li><a href="#" class="fs-6 fw-bold">01-02</a></li>
 								<li><a href="#" class="fs-6 fw-bold">01-03</a></li>
 								<li><a href="#" class="fs-6 fw-bold">01-04</a></li>
-								<li><a href="#" class="fs-6 fw-bold">01-05</a></li>
+								<li><a href="${context}/index"  class="fs-6 fw-bold">돌아가기</a></li>
 							</ul>
 						</li>
 					</ul>
