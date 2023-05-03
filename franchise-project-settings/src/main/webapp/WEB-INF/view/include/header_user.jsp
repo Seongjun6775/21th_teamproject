@@ -293,8 +293,6 @@ li.dropdown > ul > li > a  {
 								<li><a href="#" class="fs-6 fw-bold">매장찾기 </a></li>
 								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트관리</a></li>
 								<li><a href="/user/rv/list" class="fs-6 fw-bold">리뷰관리</a></li>
-								<li><a href="#" class="fs-6 fw-bold">03-04</a></li>
-								<li><a href="#" class="fs-6 fw-bold">03-05</a></li>
 							</ul>
 						</li>
 						<li><a href="#" class="fs-4 fw-bold">게시판</a>
@@ -306,10 +304,6 @@ li.dropdown > ul > li > a  {
 						</li>
 						<li><a href="#" class="fs-4 fw-bold">기타</a>
 							<ul>
-								<li><a href="#" class="fs-6 fw-bold">01-01</a></li>
-								<li><a href="#" class="fs-6 fw-bold">01-02</a></li>
-								<li><a href="#" class="fs-6 fw-bold">01-03</a></li>
-								<li><a href="#" class="fs-6 fw-bold">01-04</a></li>
 								<li><a href="${context}/index"  class="fs-6 fw-bold">돌아가기</a></li>
 							</ul>
 						</li>

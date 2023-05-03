@@ -178,38 +178,38 @@ function movePage(pageNo) {
 			</table>
 			
 			
-			매장별 매출
-			<table class="table table-striped table-sm table-hover align-center">
-				<thead class="table-secondary">
-					<tr>
-						<th>매장ID</th>
-						<th>상품분류</th>
-						<th>상품ID</th>
-						<th>수량</th>
-						<th>단가</th>
-						<th>구매자</th>
-						<th>날짜</th>
-					</tr>
-				</thead>
-				<tbody class="table-group-divider">
-					<c:choose>
-						<c:when test="${not empty odrDtlList}">
-							<c:forEach items="${odrDtlList}"
-										var="odrDtl">
-								<tr >
-									<td>${odrDtl.odrDtlStrId}</td>							
-									<td>${odrDtl.prdtVO.cmmnCdVO.cdId}</td>							
-									<td>${odrDtl.odrDtlPrdtId}</td>							
-									<td>${odrDtl.odrDtlPrdtCnt}</td>							
-									<td>${odrDtl.odrDtlPrc}</td>							
-									<td>${odrDtl.mbrId}</td>							
-									<td>${odrDtl.odrLstVO.mdfyDt}</td>							
-								</tr>
-							</c:forEach>
-						</c:when>
-					</c:choose>
-				</tbody>
-			</table>
+<!-- 			매장별 매출 -->
+<!-- 			<table class="table table-striped table-sm table-hover align-center"> -->
+<!-- 				<thead class="table-secondary"> -->
+<!-- 					<tr> -->
+<!-- 						<th>매장ID</th> -->
+<!-- 						<th>상품분류</th> -->
+<!-- 						<th>상품ID</th> -->
+<!-- 						<th>수량</th> -->
+<!-- 						<th>단가</th> -->
+<!-- 						<th>구매자</th> -->
+<!-- 						<th>날짜</th> -->
+<!-- 					</tr> -->
+<!-- 				</thead> -->
+<!-- 				<tbody class="table-group-divider"> -->
+<%-- 					<c:choose> --%>
+<%-- 						<c:when test="${not empty odrDtlList}"> --%>
+<%-- 							<c:forEach items="${odrDtlList}" --%>
+<%-- 										var="odrDtl"> --%>
+<!-- 								<tr > -->
+<%-- 									<td>${odrDtl.odrDtlStrId}</td>							 --%>
+<%-- 									<td>${odrDtl.prdtVO.cmmnCdVO.cdId}</td>							 --%>
+<%-- 									<td>${odrDtl.odrDtlPrdtId}</td>							 --%>
+<%-- 									<td>${odrDtl.odrDtlPrdtCnt}</td>							 --%>
+<%-- 									<td>${odrDtl.odrDtlPrc}</td>							 --%>
+<%-- 									<td>${odrDtl.mbrId}</td>							 --%>
+<%-- 									<td>${odrDtl.odrLstVO.mdfyDt}</td>							 --%>
+<!-- 								</tr> -->
+<%-- 							</c:forEach> --%>
+<%-- 						</c:when> --%>
+<%-- 					</c:choose> --%>
+<!-- 				</tbody> -->
+<!-- 			</table> -->
 			
 			
 			
