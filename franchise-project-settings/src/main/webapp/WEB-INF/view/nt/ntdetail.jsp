@@ -43,7 +43,7 @@
 </head>
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
-	        <span class="fs-5 fw-bold">쪽지 > 쪽지함 > 쪽지 상세조회</span>
+	        <span class="fs-5 fw-bold">쪽지 > 쪽지 관리 > 쪽지 상세조회</span>
 	        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
 	           <button id="del_btn" class="btn btn-danger" style="margin-right:10px">삭제</button>
 			  <button id="list_btn" class="btn btn-secondary" >목록</button>

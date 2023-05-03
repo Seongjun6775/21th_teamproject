@@ -53,4 +53,7 @@ public interface MbrService {
 	public List<MbrVO> readAllCrewMbrByStrId(MbrVO mbrVO);
 	//관리자 개인정보 조회
 	public MbrVO readOneCrewByMbrId(String mbrId);
+	
+	//모든 회원 조회(쪽지 작성)
+	public List<MbrVO> readAllMbrNoPagenation(MbrVO mbrVO);
 }
