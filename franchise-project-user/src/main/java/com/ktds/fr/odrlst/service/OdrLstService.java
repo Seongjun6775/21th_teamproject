@@ -12,6 +12,8 @@ public interface OdrLstService {
 	
 	public List<OdrLstVO> readAllMyOdrLst(OdrLstVO odrLstVO);
 	
+	public List<OdrLstVO> getOdrLstIdForRv(String mbrId);
+	
 	public OdrLstVO readOneOdrLstByOdrLstId(String odrLstId);
 	
 	public boolean updateOneOdrLstByOdrLstId(OdrLstVO odrLstVO);

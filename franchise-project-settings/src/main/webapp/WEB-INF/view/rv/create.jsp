@@ -93,5 +93,8 @@
 			
 				</form>
 			</div>
+		</div>
+	</div>
+</body>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
