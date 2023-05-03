@@ -197,14 +197,6 @@ public class HrController {
 		}
 		else {
 			
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			
 			model.addAttribute("hr", hr);
 			model.addAttribute("mbrVO", mbrVO);
 			
