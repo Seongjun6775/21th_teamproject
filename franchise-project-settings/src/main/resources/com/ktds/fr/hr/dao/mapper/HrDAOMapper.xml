@@ -194,7 +194,7 @@
 		     , H.HR_LVL
 		     , H.HR_DDLN_DT
 		     , M.STR_ID
-		     , M.MBR_NM
+		     , M.MBR_LVL
 		  FROM HR H
 		 INNER JOIN MBR M
 		    ON H.MBR_ID = M.MBR_ID

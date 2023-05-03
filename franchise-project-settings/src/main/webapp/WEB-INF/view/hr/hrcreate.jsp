@@ -79,7 +79,7 @@
 							
 						</div>
 						<label for="hrCntnt" class="col-form-label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">본문</label>
-						<div class="input-group">
+						<div class="input-group" style="display: ${hr.mbrVO.mbrLvl eq '001-01' ? '' : 'none'};">
 							<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
 									 placeholder="간단하게 자기소개 부탁드립니다." class="form-control"></textarea>
 						</div>
@@ -89,42 +89,10 @@
 						</div>
 					</div>
 				</form>
-			</div>
 			<div>
-				<label for="mbrId">작성자</label>
-				<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
+				<button id="save_btn">작성</button>
+				<button id="cancel_btn">취소</button>
 			</div>
-			<div style="display:  ${mbrVO.mbrLvl == '001-01' ? '' : 'none' }">
-				<label for="hrDdlnDt">채용 마감일</label>
-				<input type="date" id="hrDdlnDt" name="hrDdlnDt" value=""/>
-			</div>
-			<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
-				<select id="hrLvl">
-					<option value=" ">직군을 선택하세요.</option>
-					<option value="005-01">점주</option>
-					<option value="005-02">직원</option>
-				</select>
-			</div>
-			<div>
-				<label for="hrTtl">제목</label>
-				<input type="text" id="hrTtl" name="hrTtl" />
-				
-			</div>
-			<div>
-				<label for="hrFile">파일 첨부</label>
-				<input type="file" id="hrFile" name="hrFile" />
-			</div>
-			<div style="display:  ${mbrVO.mbrLvl == '001-01' ? '' : 'none' }">
-				<label for="hrCntnt">본문</label>
-				<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
-				 placeholder="4000자 까지 입력하실 수 있습니다"
-				 style="width: 600px; height: 400px; resize: none;"></textarea>
-			</div>
-		</form>
-		<div>
-			<button id="save_btn">작성</button>
-			<button id="cancel_btn">취소</button>
 		</div>
-	</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
