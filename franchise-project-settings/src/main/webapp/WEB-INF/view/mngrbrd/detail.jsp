@@ -226,9 +226,9 @@
 					</header>
 					</div>
 					<article class="detailview-article">												
-					    <div style="overflow-x:auto;overflow-y:hidden;" class="contentsDiv">
-					        ${mngrBrd.mngrBrdCntnt}
-					    </div>
+					    <textarea style="width: 100%; overflow-x: auto; overflow-y: hidden; border: none; resize:none;" 
+					    		class="contentsDiv"
+					    		disabled>${mngrBrd.mngrBrdCntnt}</textarea>
 					    <div class="pop-lay-col2"> 
 					        <!-- Comment -->
 				            <div>           
@@ -279,8 +279,7 @@
 																${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>								 	
 																<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''};">${rpl.delYn eq 'Y' ? '이미 삭제된 댓글입니다. ' : rpl.rplCntnt}</li>
 																<div class="rplbtn">
-																	<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
-																	${rpl.delYn}
+																	<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button> 
 																	<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
 																		<button value="${rpl.rplId}" class="blue-rpl-btn">${rpl.delYn}</button>
 																	</c:if>						
