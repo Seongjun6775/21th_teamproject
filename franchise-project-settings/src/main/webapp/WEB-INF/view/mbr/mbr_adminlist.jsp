@@ -135,7 +135,7 @@
 			if(mbrLvl.length == 0){
 				mbrLvl = prevMbrLvl;
 			}
-			str=window.open("${context}/str/search/"+mbrLvl,"매장검색", "width=700, height=500");
+			str=window.open("${context}/str/search/"+mbrLvl,"매장검색", "width=670, height=680");
 		});
 		$("#fire-btn").click(function(event){
 			var confirmFire = confirm("선택된 관리자의 권한을 해지하시겠습니까?");

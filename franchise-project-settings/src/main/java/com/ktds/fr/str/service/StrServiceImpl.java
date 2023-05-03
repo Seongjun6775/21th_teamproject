@@ -6,7 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.ctycd.dao.CtyCdDAO;
 import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.lctcd.dao.LctCdDAO;
+import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.prdt.dao.PrdtDAO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.dao.StrDAO;
@@ -19,6 +22,12 @@ public class StrServiceImpl implements StrService {
 
 	@Autowired
 	private StrDAO strDAO;
+	
+	@Autowired
+	private LctCdDAO lctCdDAO;
+	
+	@Autowired
+	private CtyCdDAO ctyCdDAO;
 	
 	@Autowired
 	private StrPrdtDAO strPrdtDAO;
@@ -43,7 +52,22 @@ public class StrServiceImpl implements StrService {
 
 	@Override
 	public boolean createOneStr(StrVO strVO) {
+		
 		boolean isSuccess = strDAO.createOneStr(strVO) > 0;
+		//시 ,도 멤버 작성
+		if (isSuccess) {
+	        CtyCdVO ctyCdVO = strVO.getCtyCdVO();
+	        LctCdVO lctCdVO = strVO.getLctCdVO();
+
+	        // 시, 도시 정보가 존재하지 않으면 생성
+	        if (ctyCdDAO.read(ctyCdVO.getCtyId()) == null) {
+	        	strDAO.createOneStr(strVO);
+	        }
+
+	        if (lctCdDAO.read() == null) {
+	        	strDAO.createOneStr(strVO);
+	        }
+	    }
 		// 매장이 생성되었을 때, 생성된 매장에 현재 등록되어 있는 모든 상품을 등록
 		if (isSuccess) {
 			

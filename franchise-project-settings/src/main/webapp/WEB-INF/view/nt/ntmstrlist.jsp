@@ -246,9 +246,6 @@
 			<button id="crt_btn">작성</button>
 			<button id="check_del_btn">일괄삭제</button>
 		</div>
-		<div>
-			<jsp:include page="../include/footer.jsp" />
-		</div>
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">

@@ -56,7 +56,7 @@
 				<button id="list_btn" class="btn btn-secondary" >목록</button>
 			</div>
 		</c:if>	
-	    </div>		   		
+	    </div>		
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:20px;">
 			<div class="flex">
 				<div class="half-left">
@@ -120,5 +120,6 @@
 				</div>
 			</div>
 		</div>		
+
 <jsp:include page="../include/closeBody.jsp" />
 </html>

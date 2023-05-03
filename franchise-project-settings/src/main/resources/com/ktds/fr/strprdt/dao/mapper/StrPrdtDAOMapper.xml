@@ -212,8 +212,9 @@
 		SELECT SP.STR_PRDT_ID PK_COL
 			 , SP.STR_PRDT_ID 
 			 , SP.STR_ID
-			 , SP.PRDT_ID
+			 , S.STR_NM
 			 , SP.USE_YN
+			 , SP.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
@@ -269,17 +270,19 @@
 	<select id="readOneCustomerByStr"
 			parameterType="com.ktds.fr.strprdt.vo.StrPrdtVO"
 			resultMap="strPrdtVOMap">
-		SELECT SP.STR_PRDT_ID 
+		SELECT SP.STR_PRDT_ID PK_COL
+			 , SP.STR_PRDT_ID 
 			 , SP.STR_ID
-			 , SP.PRDT_ID
+			 , S.STR_NM
 			 , SP.USE_YN
+			 , SP.PRDT_ID
 			 , P.PRDT_NM
 			 , P.PRDT_PRC
 			 , P.PRDT_CNTNT
 			 , P.PRDT_SRT
 			 , P.CD_NM
 			 , P.UUID_FL_NM
-			 , EP.EVNT_ID
+ 			 , EP.EVNT_ID
 			 , EP.EVNT_TTL
 		     , EP.EVNT_STRT_DT
 		     , EP.EVNT_END_DT

@@ -131,14 +131,11 @@
 	});
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			
-			<div class="container">
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+		<span class="fs-5 fw-bold">주문목록 > 주문조회 > 상품 상세조회</span>
+	</div>
+			<div class="container bg-white rounded shadow-sm" style="padding: 50px; margin: 0 auto; ">
 				<div class="row content text-center">
 					<div class="col img-grid">
 						<img src="" alt="사진이 들어갈 예정입니다.">
@@ -187,10 +184,5 @@
 				<button type="button" id="list_btn" class="btn btn-secondary">목록</button>
 				<button type="button" id="delete_btn" class="btn btn-danger">삭제</button>
 			</div>
-			
-			
-			<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

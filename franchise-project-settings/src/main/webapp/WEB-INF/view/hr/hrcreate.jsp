@@ -42,16 +42,51 @@
 	});
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<h3>채용 지원 작성 페이지 테스트</h3>
-			<form id="hr_form" enctype="multipart/form-data">
-				<div>
-					<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin: 20px;">
+	        <span class="fs-5 fw-bold"> 회원 > 채용 > 채용 지원</span>
+      		</div>
+			
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin:20px;">
+				<form id="hr_form" enctype="multipart/form-data">
+					<h3>채용 지원 작성 페이지 테스트</h3>
+					<div style="width:70%">
+					<div>
+						<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
+					</div>
+					<div class="input-group" style="display: flex; flex-direction: row-reverse;">
+						<div>
+							<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" class="form-control" readonly />
+						</div>
+						<label class="col-form-label" style="margin-right: 20px;">작성자</label>
+					</div>
+					<div style="margin: 20px 0 20px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
+						<select id="hrLvl" class="form-select" style="width:50%;">
+							<option value=" ">직군을 선택하세요.</option>
+							<option value="005-01">점주</option>
+							<option value="005-02">직원</option>
+						</select>
+					</div>
+					<div>
+						<label for="hrTtl" class="col-form-label">제목</label>
+						<div>
+							<input type="text" id="hrTtl" class="form-control" name="hrTtl" />
+						</div>
+						
+					</div>
+					<div style="margin: 20px 0 20px; display: flex; flex-direction: row-reverse;">
+						<input type="file" id="hrFile" name="hrFile" class="form-control" style="width: 90%;"/>
+						<label for="hrFile" style="margin: 10px;">파일첨부</label>
+					</div>
+					<label for="hrCntnt" class="col-form-label">본문</label>
+					<div class="input-group">
+						<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
+								 placeholder="4000자 까지 입력하실 수 있습니다" class="form-control"></textarea>
+					</div>
+					<div style="float: right; margin: 20px 0 20px 20px">
+						<button id="save_btn" class="btn btn-success">작성</button>
+						<button id="cancel_btn" class="btn btn-secondary">취소</button>
+					</div>
 				</div>
 				<div>
 					<label for="mbrId">작성자</label>
