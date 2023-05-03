@@ -162,6 +162,8 @@ $().ready(function() {
 								</c:when>
 							</c:choose>
 						</select>
+						</div>	
+						<div class="input-group inline">	
 						<label for="strCty" style="width:180px">도시</label>
 						<select id="strCty" name="strCty" disabled style="background-color:orange">
 							<option value="" >도시명</option>
