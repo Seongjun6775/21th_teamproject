@@ -22,6 +22,16 @@
 	  }
 	var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
  	$().ready(function(){
+ 		
+ 		 $().ajaxStart(function() {
+ 			 console.log("시작");
+ 		  });
+
+ 		  $().ajaxStop(function() {
+ 			  console.log("끝");
+ 		  });
+ 		
+ 		
 		var valueUtil = new ValueUtil();
 		var idMinLength = 5;
 		var pwMinLength = 8;
@@ -34,11 +44,8 @@
 					mbrId: $("#lgn_mbrId").val(),
 					mbrPwd: $("#lgn_mbrPwd").val()
 			}
-			$('#spinner-div').show();
-			$('#spinner-div').addClass("d-flex");
+
 			$.post("${context}/api/mbr/login", data, function(resp){
-				$('#spinner-div').hide();
-				$('#spinner-div').removeClass("d-flex");
 				if(resp.status == "200 OK"){
 					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;
@@ -274,10 +281,8 @@
 			}
 			var mbrEml = $("#mbrEml").val();
 			$('#spinner-div').show();
-			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/emailSend", {"email": mbrEml},function(resp){
 				$('#spinner-div').hide();
-				$('#spinner-div').removeClass("d-flex");
 				if(resp.status == "200 OK"){
 					authNumber=resp.message;
 					//버튼 누르면 시간 연장
@@ -337,10 +342,8 @@
 				return;
 			}
 			$('#spinner-div').show();
-			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/find",{email: email, type: type}, function(resp){
 				$('#spinner-div').hide();
-				$('#spinner-div').removeClass("d-flex");
 				if(resp.status=="200 OK"){
 					alert("이메일로 전송완료, 확인 해 주세요.");
 					location.href="${context}/"+resp.redirectURL;
@@ -360,10 +363,8 @@
 				return;
 			}
 			$('#spinner-div').show();
-			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/find",{email: email, type: type, mbrId: mbrId}, function(resp){
 				$('#spinner-div').hide();
-				$('#spinner-div').removeClass("d-flex");
 				if(resp.status=="200 OK"){
 					alert("이메일 전송 완료, 확인 해 주세요.");
 					location.href="${context}/"+resp.redirectURL;
@@ -378,11 +379,6 @@
 </head>
 <body>
   <!-- spinner -->
-  	<div id="spinner-div" class="justify-content-center">
-	  <div class="spinner-border text-warning" role="status">
-	  </div>
-	   <span class="sr-only">Loading...</span>
-	</div>
 
   <div class="login">
     <div class="login__content">
