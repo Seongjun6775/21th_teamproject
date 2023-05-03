@@ -17,4 +17,3 @@
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/sidebars.css?p=${date}" />
 <script type="text/javascript" src="${context}/js/bootstrap.bundle.min.js"></script>
-

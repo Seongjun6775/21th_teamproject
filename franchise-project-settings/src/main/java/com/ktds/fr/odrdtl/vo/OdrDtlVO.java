@@ -3,6 +3,7 @@ package com.ktds.fr.odrdtl.vo;
 import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.evnt.vo.EvntVO;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.vo.StrVO;
@@ -61,6 +62,25 @@ public class OdrDtlVO extends AbstractVO{
 	
 	private OdrLstVO odrLstVO;
 
+	
+	private MbrVO mbrVO;
+	
+	/**
+	 * 통계 검색용
+	 */
+	private String oneDay;
+	private String startDt;
+	private String endDt;
+	
+	private String groupBy;
+	private String orderBy;
+	
+	private long sumPrc;
+	private int sumCnt;
+	
+	
+	
+	
 	public String getOdrDtlId() {
 		return odrDtlId;
 	}
@@ -172,6 +192,74 @@ public class OdrDtlVO extends AbstractVO{
 	public void setOdrLstVO(OdrLstVO odrLstVO) {
 		this.odrLstVO = odrLstVO;
 	}
+
+	
+
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
+
+	public String getOneDay() {
+		return oneDay;
+	}
+
+	public void setOneDay(String oneDay) {
+		this.oneDay = oneDay;
+	}
+
+	public String getStartDt() {
+		return startDt;
+	}
+
+	public void setStartDt(String startDt) {
+		this.startDt = startDt;
+	}
+
+	public String getEndDt() {
+		return endDt;
+	}
+
+	public void setEndDt(String endDt) {
+		this.endDt = endDt;
+	}
+
+	
+	public String getGroupBy() {
+		return groupBy;
+	}
+
+	public void setGroupBy(String groupBy) {
+		this.groupBy = groupBy;
+	}
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public long getSumPrc() {
+		return sumPrc;
+	}
+
+	public void setSumPrc(long sumPrc) {
+		this.sumPrc = sumPrc;
+	}
+
+	public int getSumCnt() {
+		return sumCnt;
+	}
+
+	public void setSumCnt(int sumCnt) {
+		this.sumCnt = sumCnt;
+	}
+
 	
 
 }

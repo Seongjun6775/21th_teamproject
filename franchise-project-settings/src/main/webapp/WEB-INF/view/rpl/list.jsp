@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/> 
 <%-- <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/> --%>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />	
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {	
@@ -122,7 +123,7 @@
 								<th scope="col" style="padding: 20px 20px 8px 20px;">작성일</th>
 								<th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th>
 								<th scope="col" style="border-radius: 0 6px 0 0; width: 160px; padding: 20px 20px 8px 20px;" >
-									<select class="form-select" name="selectFilter"
+									<select class="form-select select-align-center" name="selectFilter"
 											id="search-keyword-delYn">
 										<option value="">삭제여부</option>
 										<option value="Y">Y</option>

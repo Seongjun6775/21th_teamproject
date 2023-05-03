@@ -78,5 +78,29 @@ public class OdrDtlController {
 		}
 		return "redirect:/index";
 	}
+	
+	
+	
+	@GetMapping("/payment")
+	public String forSale(Model model, OdrDtlVO odrDtlVO) {
+		
+		
+		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
+		
+		//상품별
+		odrDtlVO.setOrderBy("DESC");
+		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
+		//매장별
+//		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
+		
+		
+		
+		model.addAttribute("odrDtlVO", odrDtlVO);
+		model.addAttribute("odrDtlList", odrDtlList);
+		model.addAttribute("groupPrdt", groupPrdt);
+//		model.addAttribute("strGroup", groupStr);
+		
+		return "odrdtl/payment";
+	}
 
 }

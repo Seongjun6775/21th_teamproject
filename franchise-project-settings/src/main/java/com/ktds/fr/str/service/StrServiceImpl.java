@@ -59,14 +59,6 @@ public class StrServiceImpl implements StrService {
 	        CtyCdVO ctyCdVO = strVO.getCtyCdVO();
 	        LctCdVO lctCdVO = strVO.getLctCdVO();
 
-	        System.out.println(strVO.getStrId());
-	        System.out.println("-------------------------");
-	        System.out.println(ctyCdVO.getCtyId());
-	        System.out.println(lctCdVO.getLctId());
-	        System.out.println("-------------------------");
-	        System.out.println(ctyCdVO.getCtyNm());
-	        System.out.println(lctCdVO.getLctNm());
-
 	        // 시, 도시 정보가 존재하지 않으면 생성
 	        if (ctyCdDAO.read(ctyCdVO.getCtyId()) == null) {
 	        	strDAO.createOneStr(strVO);

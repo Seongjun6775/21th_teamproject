@@ -30,8 +30,8 @@ $().ready(function() {
           </a> 
           <ul class="dropdown-menu text-small">
             <li><a class="dropdown-item" href="#">${sessionScope.__MBR__.mbrNm}</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+           <!--  <li><a class="dropdown-item" href="#">Settings</a></li> -->
+            <li><a class="dropdown-item" href="${context}/mbr/pwdCheck">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="${context}/logout">Sign out</a></li>
           </ul>

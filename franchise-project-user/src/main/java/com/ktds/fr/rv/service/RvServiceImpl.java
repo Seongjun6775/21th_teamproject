@@ -73,8 +73,7 @@ public class RvServiceImpl implements RvService {
 			
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자
 	@Override
-	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO) {
-		
+	public RvVO readOneRvVO(RvVO rvVO, MbrVO mbrVO) {		
 		rvVO.setMbrId(mbrVO.getMbrId());
 		
 //		if (mbrVO.getMbrLvl().equals("001-01")) {
