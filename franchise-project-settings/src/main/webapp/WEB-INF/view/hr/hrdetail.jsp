@@ -119,11 +119,12 @@
 					<div style="padding: 10px;">
 						<div>
 							<textarea class="fw-semibold" 
-									   style="margin-bottom: 100px; height:220px;
+									   style="margin-bottom: 100px; width: 600px; height:400px;
 									          overflow: auto; word-break: break-all;
 									          border: none; resize: none;">${hr.hrCntnt}</textarea>
 						</div>
 					</div>
+				<div style="display: ${hr.ntcYn eq 'Y' ? 'none' : ''};">
 					<div style="display: flex;align-content: center;flex-wrap: wrap; flex-direction: column;">
 					<div class="card p-3">
 					<ul class="list-group mb-3" style="width: 300px;">
@@ -157,6 +158,7 @@
 			         </ul>
 					</div>
 			       </div>
+			    </div>
 				</div>
 			</div>
 		</div>

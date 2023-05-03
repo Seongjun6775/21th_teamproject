@@ -190,42 +190,44 @@
 									          border: none; resize: none;">${hr.hrCntnt}</textarea>
 						</div>
 					</div>
-					<div style="display: flex;align-content: center;flex-wrap: wrap; flex-direction: column;">
-					<div class="card p-3">
-					<ul class="list-group mb-3" style="width: 300px;">
-				         <li class="list-group-item d-flex justify-content-between lh-sm">
-				           <div>
-				             <h6 class="my-0">지원 상태</h6>
-				           </div>
-				           <strong>
-				            <c:choose>
-							<c:when test="${hr.hrStat eq '002-01'}"><div>접수</div></c:when>
-							<c:when test="${hr.hrStat eq '002-02'}"><div>심사중</div></c:when>
-							<c:when test="${hr.hrStat eq '002-03'}"><div>심사완료</div></c:when>
-							<c:otherwise></c:otherwise>
-							</c:choose>
-				           </strong>
-				         </li>
-				         <li class="list-group-item d-flex justify-content-between bg-light">
-				           <div>
-				             <h6 class="my-0">지원직군</h6>
-				           </div>
-				           <strong> ${hr.cdNm}</strong>
-				         </li>
-				
-				         <li class="list-group-item d-flex justify-content-between lh-sm">
-				           <div>
-				             <h6 class="my-0">승인 여부 변경일자</h6>
-				             <small class="text-muted">${hr.hrAprDt}</small>
-				           </div>
-				           <strong class="text-muted">${hr.hrAprYn}</strong>
-				         </li> 
-			         </ul>
-			         <div style="margin: 0 0 10px 160px;">
-							<button id="hrApr_Y_btn" class="btn btn-success">채용</button>
-							<button id="hrApr_N_btn" class="btn btn-danger">미채용</button>
-					 </div>	
-			         </div>
+					<div  style="display: ${hr.ntcYn eq 'Y' ? 'none' : ''};">
+						<div style="display: flex;align-content: center;flex-wrap: wrap; flex-direction: column;">
+						<div class="card p-3">
+						<ul class="list-group mb-3" style="width: 300px;">
+					         <li class="list-group-item d-flex justify-content-between lh-sm">
+					           <div>
+					             <h6 class="my-0">지원 상태</h6>
+					           </div>
+					           <strong>
+					            <c:choose>
+								<c:when test="${hr.hrStat eq '002-01'}"><div>접수</div></c:when>
+								<c:when test="${hr.hrStat eq '002-02'}"><div>심사중</div></c:when>
+								<c:when test="${hr.hrStat eq '002-03'}"><div>심사완료</div></c:when>
+								<c:otherwise></c:otherwise>
+								</c:choose>
+					           </strong>
+					         </li>
+					         <li class="list-group-item d-flex justify-content-between bg-light">
+					           <div>
+					             <h6 class="my-0">지원직군</h6>
+					           </div>
+					           <strong> ${hr.cdNm}</strong>
+					         </li>
+					
+					         <li class="list-group-item d-flex justify-content-between lh-sm">
+					           <div>
+					             <h6 class="my-0">승인 여부 변경일자</h6>
+					             <small class="text-muted">${hr.hrAprDt}</small>
+					           </div>
+					           <strong class="text-muted">${hr.hrAprYn}</strong>
+					         </li> 
+				         </ul>
+				         <div style="margin: 0 0 10px 160px;">
+								<button id="hrApr_Y_btn" class="btn btn-success">채용</button>
+								<button id="hrApr_N_btn" class="btn btn-danger">미채용</button>
+						 </div>	
+				         </div>
+				       </div>
 			       </div>
 				</div>
 			</div>
