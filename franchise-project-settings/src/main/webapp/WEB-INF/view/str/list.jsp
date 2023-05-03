@@ -453,17 +453,17 @@
 							<span class="input-group-text">매장주소</span>
 							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${StrVO.strAddr}"/>
 						</div>
-						<!-- <div class="input-group inline" >
-							<input type="text" id="sample4_postcode" placeholder="우편번호">
+						<div class="input-group inline" >
 							<input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기"><br>
+							<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
+							<input type="text" id="sample4_postcode" placeholder="우편번호">
 							<input type="text" id="sample4_sido" placeholder="지역">
 							<input type="text" id="sample4_sigungu" placeholder="도시">
-							<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
 							<input type="text" id="sample4_jibunAddress" placeholder="지번주소">
 							<span id="guide" style="color:#999;display:none"></span>
 							<input type="text" id="sample4_detailAddress" placeholder="상세주소">
 							<input type="text" id="sample4_extraAddress" placeholder="참고항목">
-						</div> -->
+						</div>
 					    <div class="input-group inline">
 					        <span class="input-group-text">전화번호</span>
 					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
