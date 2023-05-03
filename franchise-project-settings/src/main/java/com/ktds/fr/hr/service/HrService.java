@@ -12,6 +12,8 @@ public interface HrService {
 	
 	public List<HrVO> readAllMyHr(HrVO hrVO);
 	
+	public boolean countNtc();
+	
 	public HrVO readOneHrByHrId(String hrId);
 	
 	public boolean createNewHr(HrVO hrVO, MultipartFile uploadFile);

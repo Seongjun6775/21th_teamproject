@@ -100,7 +100,15 @@ public class HrController {
 	@GetMapping("/hr/hrlist")
 	public String viewMyHrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 								  , Model model, HrVO hrVO) {
+		// 최고관리자가 아닌 회원들이 볼 수 있는 페이지입니다.
 		if ((mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03") || mbrVO.getMbrLvl().equals("001-04"))) {
+			
+			// 현재 진행중인 채용 공고가 있는지를 확인합니다.
+			boolean isNtcExist = hrService.countNtc();
+			// 만약 현재 진행중인 채용 공고가 없다면, 채용 공고가 없음을 알려주는 페이지로 이동시킵니다.
+			if (!isNtcExist) {
+				return "hr/nohrlist";
+			}
 			
 			hrVO.setMbrId(mbrVO.getMbrId());
 			
@@ -111,6 +119,11 @@ public class HrController {
 			return "hr/hrlist";
 		}
 		return "redirect:/hr/list";
+	}
+	
+	@GetMapping("/hr/nohrlist")
+	public String viewNoHrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO) {
+		return "hr/nohrlist";
 	}
 	
 	/**
@@ -184,14 +197,6 @@ public class HrController {
 		}
 		else {
 			
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			System.out.println(hr.getMbrVO().getMbrNm());
-			
 			model.addAttribute("hr", hr);
 			model.addAttribute("mbrVO", mbrVO);
 			
@@ -237,14 +242,18 @@ public class HrController {
 								@PathVariable String hrId ,
 								HttpServletRequest request ,
 								HttpServletResponse response) {
-		
+		// 해당 파일에 접근하기 위해, 해당 파일이 업로드된 게시글의 정보를 받아옵니다.
 		HrVO hr = hrService.readOneHrByHrId(hrId);
-		// 파일에 접근한 사람이 파일을 업로드한 본인인지, 혹은 최고관리자인지 확인합니다.
-		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !mbrVO.getMbrLvl().equals("001-01")) {
-			// 둘 모두 아니라면, 접근한 사람이 회원이 지원한 지점의 점주(중간관리자)인지 확인합니다.
-			if(!mbrVO.getMbrLvl().equals("001-02") && !hr.getMbrVO().getStrId().equals(mbrVO.getStrId())) {
-				// 위 조건을 모두 통과하지 못했다면, 접근을 거부합니다.
-				throw new ApiException("404", "잘못된 접근입니다.");
+		
+		// 만약 해당 파일이 최고관리자가 올린 공지 게시글이 아니라면, 다음을 검사합니다.
+		if (hr.getNtcYn().equals("N")) {
+			// 파일에 접근한 사람이 파일을 업로드한 본인인지, 혹은 최고관리자인지 확인합니다.
+			if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !mbrVO.getMbrLvl().equals("001-01")) {
+				// 둘 모두 아니라면, 접근한 사람이 회원이 지원한 지점의 점주(중간관리자)인지 확인합니다.
+				if(!mbrVO.getMbrLvl().equals("001-02") && !hr.getMbrVO().getStrId().equals(mbrVO.getStrId())) {
+					// 위 조건을 모두 통과하지 못했다면, 접근을 거부합니다.
+					throw new ApiException("404", "잘못된 접근입니다.");
+				}
 			}
 		}
 		if (hr.getOrgnFlNm() == null || hr.getOrgnFlNm().trim().length() == 0) {

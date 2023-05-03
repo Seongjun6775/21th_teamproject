@@ -22,6 +22,22 @@
 	}); 
 </script>
 <style>
+
+a {
+    text-decoration: none;
+    color: #000000a6;
+}
+ul{
+   list-style:none;
+   padding-left:0px;
+   color: #000000a6;
+}
+   
+li{
+   list-style:none;
+   padding-left:0px;
+   color: #000000a6; 
+}
 .nav-scroller .nav {
   display: flex;
   flex-wrap: nowrap;
@@ -32,6 +48,8 @@
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 }
+
+
 
 .btn-bd-primary {
   --bd-violet-bg: #712cf9;
@@ -52,9 +70,21 @@
 .bd-mode-toggle {
   z-index: 1500;
 }
-
+.dropdown-menu {
+	--bs-dropdown-link-active-color: #ffbe2e;
+    --bs-dropdown-link-active-bg: #0000;
+}
 .nav-item .nav-link:hover{
-  border-bottom: solid #dd4848 1px;
+  border-bottom: solid #ffbe2e 1px;
+  background-color:#0000!important;
+  color: #ffbe2e
+}
+
+.collapse > ul > li > a:focus {
+background-color:#0000!important;
+}
+ul.dropdown-menu > li:focus{
+	background-color:#0000!important;
 }
 .roundbox {
   border-radius: 15px;
@@ -107,95 +137,188 @@ font-size: 18px;
 color: #aaa;
 text-decoration: none;
  }
+ /* 스르륵 */
+ 
+ * {padding:0;margin:0;}
+body {background:#fff;}
+header {width:100%;background:#f5f5f5;position:relative;z-index:10;}
+.header-list {width:1200px;margin:0 auto;font-size:0;padding:15px 0;}
+.header-list > li {font-size:20px;display:inline-block;vertical-align:middle;}
+.header-list > li:nth-child(1) {font-size:20px;width:200px;}
+.header-list > li:nth-child(2) {width:calc(100% - 250px);}
+.header-list > li:nth-child(3) {width:50px;}
+.header-list > li > div {width:auto;}
+
+.menu-ul {font-size:0;}
+.menu-ul > li {font-size:20px;display:inline-block;vertical-align:middle;}
+.menu-ul > li > a {display:block;width:auto;padding:15px;}
+
+input[id="menuicon"] {display:none;}
+input[id="menuicon"] + label {display:block;position:relative;width:100%;height:40px;cursor:pointer;}
+input[id="menuicon"] + label span {display:block;position:absolute;width:100%;height:3px;border-radius:30px;background:#666;transition:all .35s;}
+input[id="menuicon"] + label span:nth-child(1) {top:10%;}
+input[id="menuicon"] + label span:nth-child(2) {top:50%;transform:translateY(-50%);} /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
+input[id="menuicon"] + label span:nth-child(3) {bottom:10%;}
+input[id="menuicon"]:checked + label {z-index:2;}
+input[id="menuicon"]:checked + label span:nth-child(1) {top:50%;transform:translateY(-50%) rotate(45deg);}
+input[id="menuicon"]:checked + label span:nth-child(2) {opacity:0;}
+input[id="menuicon"]:checked + label span:nth-child(3) {bottom:50%;transform:translateY(50%) rotate(-45deg);}
+div[class="sidebar"] {width:100%;height:0px;background:#ffffff;position:fixed;top:130px;left:0;z-index:1;transition:all .35s;overflow:hidden;}
+input[id="menuicon"]:checked + label + div {height: 220px;}
+
+.sitemap-ul {font-size:0;width:1200px;margin:15px auto;text-align:center;}
+.sitemap-ul > li {font-size:20px;display:inline-block;vertical-align:top;width:20%;}
+      input.img-button {
+        background: url( "${context}/img/cat.jpg" ) no-repeat;
+        border: none;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+      }
+      
+li.dropdown > ul > li > a  {
+    font-weight: 600;
+    font-size: 18px;
+}
+.dropdown-menu{
+	--bs-dropdown-min-width: 12rem;
+}
 </style>
+
 
   <nav class="navbar navbar-expand-lg  border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
     <div class="container-fluid ">
-      <img src = "${context}/img/cat.jpg"  width="40"; height="32";/>
-      <a class="navbar-brand" href="#" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프렌차이즈</a>
+      <img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/>
+      <a class="navbar-brand" href="#" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">쁑어빵	</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent" >
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550; padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-              회원
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">회원</a></li>
-              <li><a class="dropdown-item" href="#">회원관리</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">주문관리</a></li>
-              <li><a class="dropdown-item" href="#">채용관리</a></li>
-              <li><a class="dropdown-item" href="#">쪽지관리</a></li>
-              
-            </ul>
-          </li> 
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-              메뉴
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="${context}/prdt/list2">전체보기</a></li>
-              <li><hr class="dropdown-divider"></li>
-
-<%--               <c:choose> --%>
-<%-- 				<c:when test="${not empty srtList}"> --%>
-<%-- 					<c:forEach items="${srtList}" --%>
-<%-- 								var="srt"> --%>
-<%-- 						<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=${srt.cdId}"> --%>
-<%-- 							${srt.cdNm} --%>
-<!-- 						</a></li> -->
-<%-- 					</c:forEach> --%>
-<%-- 				</c:when> --%>
-<%-- 			</c:choose> --%>
-				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-01">메인메뉴</a></li>
-				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-02">사이드메뉴</a></li>
-				<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-03">음료</a></li>
-
-<!--               <li><a class="dropdown-item" href="#">전체보기</a></li> -->
-<!--               <li><a class="dropdown-item" href="#">메인메뉴</a></li> -->
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-              매장
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">매장찾기</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
-              <li><a class="dropdown-item" href="#">리뷰관리</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-              게시판
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">관리자게시판</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">댓글관리</a></li>
-            </ul>
-            
-          </li>
-
-
-          <li class="nav-item"  >
-            <a class="nav-link disabled" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">채용</a>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-3" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <div style="padding: 5px;">
-          <button type="button" class="btn btn-primary position-relative">
-            Profile
-              <span class="visually-hidden">New alerts</span>
-          </button>
+	        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	          <li class="nav-item dropdown">
+	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550; padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+	              회원
+	            </a>  
+	            <ul class="dropdown-menu">
+	              <li><a class="dropdown-item" href="#">회원</a></li>
+	              <li><hr class="dropdown-divider"></li>
+	              <li><a class="dropdown-item" href="#">회원관리</a></li>
+	              <li><a class="dropdown-item" href="#">주문관리</a></li>
+	              <li><a class="dropdown-item" href="#">채용관리</a></li>
+	              <li><a class="dropdown-item" href="#">쪽지관리</a></li>
+	              
+	            </ul>
+	          </li> 
+	          <li class="nav-item dropdown">
+	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+	              메뉴
+	            </a>
+	            <ul class="dropdown-menu">
+	              <li><a class="dropdown-item" href="${context}/prdt/list2">전체보기</a></li>
+	              <li><hr class="dropdown-divider"></li>
+	
+	<%--               <c:choose> --%>
+	<%-- 				<c:when test="${not empty srtList}"> --%>
+	<%-- 					<c:forEach items="${srtList}" --%>
+	<%-- 								var="srt"> --%>
+	<%-- 						<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=${srt.cdId}"> --%>
+	<%-- 							${srt.cdNm} --%>
+	<!-- 						</a></li> -->
+	<%-- 					</c:forEach> --%>
+	<%-- 				</c:when> --%>
+	<%-- 			</c:choose> --%>
+					<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-01">메인메뉴</a></li>
+					<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-02">사이드메뉴</a></li>
+					<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-03">음료</a></li>
+	
+	<!--               <li><a class="dropdown-item" href="#">전체보기</a></li> -->
+	<!--               <li><a class="dropdown-item" href="#">메인메뉴</a></li> -->
+	            </ul>
+	          </li>
+	          <li class="nav-item dropdown">
+	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+	              매장
+	            </a>
+	            <ul class="dropdown-menu">
+	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
+	              <li><hr class="dropdown-divider"></li>
+	              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
+	              <li><a class="dropdown-item" href="${context}/rv/list">리뷰관리</a></li>
+	            </ul>
+	          </li>
+	          <li class="nav-item dropdown">
+	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+	              게시판
+	            </a>
+	            <ul class="dropdown-menu">
+	              <li><a class="dropdown-item" href="#">관리자게시판</a></li>
+	              <li><hr class="dropdown-divider"></li>
+	              <li><a class="dropdown-item" href="#">댓글관리</a></li>
+	            </ul>
+	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link disabled" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">채용</a>
+	          </li>
+	          <li class="nav-item">
+	           	<a class="nav-link disabled" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px;"></a>
+	           	
+	          </li>
+	        </ul>
+	        <div style=" width: 40px;">
+				<input type="checkbox" id="menuicon">
+				<label for="menuicon">
+					<span></span>
+					<span></span>
+					<span></span>
+				</label>
+				<div class="sidebar">
+					<ul class="sitemap-ul">
+						<li><a href="#" class="fs-4 fw-bold">회원 </a>
+							<ul>
+								<li><a href="#" class="fs-6 fw-bold">회원관리 </a></li>
+								<li><a href="#" class="fs-6 fw-bold">주문관리</a></li>
+								<li><a href="#" class="fs-6 fw-bold">채용관리 </a></li>
+								<li><a href="#" class="fs-6 fw-bold">쪽지관리</a></li>
+							</ul>
+						</li>
+						<li><a href="${context}/prdt/list2" class="fs-4 fw-bold">메뉴</a>
+							<ul>
+								<li><a href="${context}/prdt/list2?prdtSrt=004-01" class="fs-6 fw-bold">메인메뉴</a></li>
+								<li><a href="${context}/prdt/list2?prdtSrt=004-02" class="fs-6 fw-bold">사이드메뉴</a></li>
+								<li><a href="${context}/prdt/list2?prdtSrt=004-03" class="fs-6 fw-bold">음료</a></li>
+							</ul>
+						</li>
+						<li><a href="#" class="fs-4 fw-bold">매장</a>
+							<ul>
+								<li><a href="#" class="fs-6 fw-bold">매장찾기 </a></li>
+								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트관리</a></li>
+								<li><a href="${context}/rv/list" class="fs-6 fw-bold">리뷰관리</a></li>
+								<li><a href="#" class="fs-6 fw-bold">03-04</a></li>
+								<li><a href="#" class="fs-6 fw-bold">03-05</a></li>
+							</ul>
+						</li>
+						<li><a href="#" class="fs-4 fw-bold">게시판</a>
+							<ul>
+								<li><a href="#" class="fs-6 fw-bold">관리자게시판</a></li>
+								<li><a href="#" class="fs-6 fw-bold">댓글관리</a></li>
+								<li><a href="#" class="fs-6 fw-bold">고객센터</a></li>
+							</ul>
+						</li>
+						<li><a href="#" class="fs-4 fw-bold">채용</a>
+							<ul>
+								<li><a href="#" class="fs-6 fw-bold">01-01</a></li>
+								<li><a href="#" class="fs-6 fw-bold">01-02</a></li>
+								<li><a href="#" class="fs-6 fw-bold">01-03</a></li>
+								<li><a href="#" class="fs-6 fw-bold">01-04</a></li>
+								<li><a href="#" class="fs-6 fw-bold">01-05</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>			
+			</div>
+	        <div style="padding: 5px; margin:20px;">
+	            <a href="${context}/logout"><button type="button" class="btm_image" id="img_btn"><img  src="${context}/img/logout.png" width="50"; height="50"></button></a>
+	        </div>
         </div>
-      </div>
     </div>
   </nav>

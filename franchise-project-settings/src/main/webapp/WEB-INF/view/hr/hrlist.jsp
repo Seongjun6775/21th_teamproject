@@ -34,7 +34,7 @@
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-				<span class="fs-5 fw-bold">회원 채용 페이지 테스트</span>
+				<span class="fs-5 fw-bold">회원 > 채용 지원</span>
 		    </div>
 			<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
 				<div style="margin: 13px;">총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
@@ -62,15 +62,22 @@
 								    data-delyn="${hr.delYn}"
 								    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
 									<td>${hr.hrId}</td>
-									<td>${hr.mbrVO.mbrNm}</td>
+									<td>${hr.mbrId}</td>
 									<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 									<td>${hr.hrRgstDt}</td>
-									<c:choose>
-											<c:when test="${hr.hrStat eq '002-01'}"><td>접수</td></c:when>
-											<c:when test="${hr.hrStat eq '002-02'}"><td>심사중</td></c:when>
-											<c:when test="${hr.hrStat eq '002-03'}"><td>심사완료</td></c:when>
-											<c:otherwise><td></td></c:otherwise>
-									</c:choose>
+									<td>
+										<c:choose>
+											<c:when test="${hr.ntcYn eq 'Y'}"></c:when>
+											<c:otherwise>
+												<c:choose>
+													<c:when test="${hr.hrStat eq '002-01'}">접수</c:when>
+													<c:when test="${hr.hrStat eq '002-02'}">심사중</c:when>
+													<c:when test="${hr.hrStat eq '002-03'}">심사완료</c:when>
+													<c:otherwise><td></td></c:otherwise>
+												</c:choose>
+											</c:otherwise>
+										</c:choose>
+									</td>
 								</tr>
 							</c:forEach>
 						</c:when>

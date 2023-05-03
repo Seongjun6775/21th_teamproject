@@ -90,7 +90,7 @@
 </head>
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-			<span class="fs-5 fw-bold">회원 > 채용관리</span>
+			<span class="fs-5 fw-bold">회원 > 채용 관리</span>
 	    </div>
 		<!-- searchbar -->
 		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
@@ -103,7 +103,7 @@
 		    <select id="search_idx" class="form-select" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
 				<option value="">검색 조건</option>
 				<option value="hrTtl" ${searchIdx eq "hrTtl" ? 'selected' : '' }>제목</option>
-				<option value="mbrId" ${searchIdx eq "mbrId" ? 'selected' : '' }>지원자</option>
+				<option value="mbrId" ${searchIdx eq "mbrId" ? 'selected' : '' }>작성자 ID</option>
 		    </select>
 		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
 		    <button id="search_btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
@@ -172,18 +172,25 @@
 									    </c:choose>
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
 										<td onclick="event.cancelBubble=true">
-											<a class="open-layer" href="javascript:void(0);">${hr.mbrVO.mbrNm}</a>
+											<a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
 										</td>
 										<td>${hr.cdNm}</td> 
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
-										<c:choose>
-											<c:when test="${hr.hrStat eq '002-01'}"><td>접수</td></c:when>
-											<c:when test="${hr.hrStat eq '002-02'}"><td>심사중</td></c:when>
-											<c:when test="${hr.hrStat eq '002-03'}"><td>심사완료</td></c:when>
-											<c:otherwise><td></td></c:otherwise>
-										</c:choose>
+										<td>
+											<c:choose>
+												<c:when test="${hr.ntcYn eq 'Y'}"></c:when>
+												<c:otherwise>
+													<c:choose>
+														<c:when test="${hr.hrStat eq '002-01'}">접수</c:when>
+														<c:when test="${hr.hrStat eq '002-02'}">심사중</c:when>
+														<c:when test="${hr.hrStat eq '002-03'}">심사완료</c:when>
+														<c:otherwise><td></td></c:otherwise>
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
+										</td>
 										<td>${hr.delYn eq 'Y' ? '삭제됨' : ''}</td>
 									</tr>
 								</c:forEach>
