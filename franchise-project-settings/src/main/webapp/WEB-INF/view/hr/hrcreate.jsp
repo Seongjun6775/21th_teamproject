@@ -55,6 +55,10 @@
 				<label for="mbrId">작성자</label>
 				<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
 			</div>
+			<div style="display:  ${mbrVO.mbrLvl == '001-01' ? '' : 'none' }">
+				<label for="hrDdlnDt">채용 마감일</label>
+				<input type="date" id="hrDdlnDt" name="hrDdlnDt" value=""/>
+			</div>
 			<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
 				<select id="hrLvl">
 					<option value=" ">직군을 선택하세요.</option>
@@ -71,7 +75,7 @@
 				<label for="hrFile">파일 첨부</label>
 				<input type="file" id="hrFile" name="hrFile" />
 			</div>
-			<div>
+			<div style="display:  ${mbrVO.mbrLvl == '001-01' ? '' : 'none' }">
 				<label for="hrCntnt">본문</label>
 				<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
 				 placeholder="4000자 까지 입력하실 수 있습니다"

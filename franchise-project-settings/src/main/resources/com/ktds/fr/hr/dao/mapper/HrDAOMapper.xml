@@ -214,7 +214,7 @@
 		     , FL_SIZE = #{flSize}
 		     , FL_EXT = #{flExt}
 		     , HR_LVL = #{hrLvl}
-		     , HR_DDLN_DT = #{hrDdlnDt}
+		     , HR_DDLN_DT = TO_DATE(#{hrDdlnDt},'YYYY-MM-DD HH24:MI:SS')
 		 WHERE HR_ID = #{hrId}
 	</update>
 	

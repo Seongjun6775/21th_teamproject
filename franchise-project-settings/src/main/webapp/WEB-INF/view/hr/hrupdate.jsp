@@ -16,6 +16,7 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		document.getElementById("hrDdlnDt").value = ("${hr.hrDdlnDt}").substring(0,10);
 		
 		$("#cancel_btn").click(function() {
 			if (!confirm("수정을 취소하시겠습니까?")) {
@@ -25,6 +26,9 @@
 		});
 		
 		$("#save_btn").click(function() {
+			
+			var hrDdlnDt = document.getElementById("hrDdlnDt").value;
+
 			if (!confirm("수정을 완료하시겠습니까?")) {
 				return;
 			}
@@ -70,6 +74,10 @@
 				<div>
 					<label for="mbrId">작성자</label>
 					<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
+				</div>
+				<div style="display:  ${mbrVO.mbrLvl == '001-01' ? '' : 'none' }">
+					<label for="hrDdlnDt">채용 마감일</label>
+					<input type="date" id="hrDdlnDt" name="hrDdlnDt" />
 				</div>
 				<div>
 					<select id="hrLvl" style="display: ${mbrVO.mbrLvl eq '001-01' ? 'none' : ''};">
