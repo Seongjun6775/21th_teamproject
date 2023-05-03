@@ -58,13 +58,11 @@
 	
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/mbrMgmtSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<h3>채용 지원 수정 페이지 테스트</h3>
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+		<span class="fs-5 fw-bold">회원 > 채용 지원 > 수정</span>
+	</div>
+	<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
 			<form id="hr_form" enctype="multipart/form-data">
 				<div>
 					<input type="hidden" id="ntcYn" value="${hr.ntcYn}">
@@ -93,8 +91,9 @@
 		            </div>
 			     </div>
 				<div>
-					<label for="hrCntnt">본문</label>
-					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000" >${hr.hrCntnt}</textarea>
+					<label for="hrCntnt"></label>
+					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
+							   style="width: 600px; height: 400px; resize: none;">${hr.hrCntnt}</textarea>
 				</div>
 			</form>
 			
@@ -102,9 +101,6 @@
 				<button id="save_btn">수정</button>
 				<button id="cancel_btn">취소</button>
 			</div>
-			
-			<jsp:include page="../include/footer.jsp" />
-		</div>
 	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
