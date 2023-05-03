@@ -107,7 +107,7 @@
 			</if>
 		   NULL
 		</if>
-		ORDER BY P.PRDT_NM ASC) P
+		ORDER BY P.USE_YN DESC, P.PRDT_NM ASC) P
 		<include refid="PrdtCommon.pageFooter"></include>
 	</select>
 	
