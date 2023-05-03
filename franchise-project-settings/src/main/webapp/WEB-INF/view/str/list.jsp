@@ -222,12 +222,24 @@
 			$("#search-keyword-strCty").change(function(){
 				movePage(0);
 			});
-			
+			var ctyChangedList;
 			$("#strLctn").change(function() {
-				
+				var select = $("#strCty");
 				var strLctn = $("#strLctn").val();
-				
-				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){})
+				var option;
+				select.children().remove();
+				$.getJSON("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+					if(response.status=="200 OK"){
+						ctyChangedList = response.data;
+						for(var i=0; i<ctyChangedList.length; i++){
+							option="<option value='"+ ctyChangedList[i].ctyId +"'>"+ ctyChangedList[i].ctyNm +"</option>"
+							select.append(option);
+				        }
+					}
+					else{
+						alert("실패!");
+					}
+				})
 			});
 			
 		});
@@ -437,10 +449,11 @@
 						</div>
 						<div class="input-group inline">
 							<span class="input-group-text">도시명</span>
+								
 							<select class="form-select" name="strCty" id="strCty">
 								<option value="">도시명</option>
 								<c:choose>
-									<c:when test="${not empty ctyList}">
+									<c:when test="${not empty ctyChangedList}">
 										<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
 											<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
 										</c:forEach>

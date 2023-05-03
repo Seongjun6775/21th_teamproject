@@ -294,11 +294,9 @@
 	
 	<select id="readCategory"
 			parameterType="string"
-			resultMap="strVOMap">
+			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
 		SELECT C.CTY_ID
-			 , C.CTY_NM
-			 , C.LCT_ID
-			 , L.LCT_NM 
+	 		 , C.CTY_NM
 		  FROM CTY_CD C
 		  JOIN LCT_CD L
 		  	ON C.LCT_ID = L.LCT_ID
