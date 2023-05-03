@@ -196,6 +196,8 @@
 				</c:choose>			
 			</tbody>
 		</table>	
+		
+		<div style="position: relative">	
 			<div class="pagenate">
 				<ul class="pagination" style="text-align: center;">
 					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
@@ -240,8 +242,8 @@
 		               <button id="delete_all_btn" class="btn btn-danger">삭제</button>
 		            </c:if>
 		         </div>
-		</div>				
-		<jsp:include page="../include/footer.jsp" />
+		</div>
+	</div>				
 <jsp:include page="../include/closeBody.jsp" />
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">

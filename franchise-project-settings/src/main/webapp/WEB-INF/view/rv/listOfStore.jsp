@@ -12,6 +12,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<%-- <link rel="stylesheet" href="${context}/css/rv_common.css?p=${date}" /> --%>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 
@@ -86,7 +87,8 @@
 					<div class="list-title">
 						<h3 class="list-title" style="font-weight: bold;">리뷰 게시판</h3>
 					</div>	
-										
+					
+					
 					<!-- searchbar -->
 					<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
 						<!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
@@ -94,7 +96,7 @@
 							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 						</svg>
 						<select id="search_option"  name="searchOption" class="form-select" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
-							<option value="">검색 조건</option>
+							<option value="" >검색 조건</option>
 							<option value="mbrId" >회원ID</option>
 						</select>
 						<input class="form-control me-2 enterkey" type="text"  name="searchWrap"  id="search-keyword" placeholder="Search" aria-label="Search" value="${searchKeyword}">

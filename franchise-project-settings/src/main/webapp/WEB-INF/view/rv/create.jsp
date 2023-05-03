@@ -64,7 +64,7 @@
 								</c:when>
 							</c:choose>
 						</select>
-					</div>
+					</div>    
 					<div class="create-group">
 						<label for="rvTtl" style="margin:5px;">제목</label> <input type="text" id="rvTtl"
 							name="rvTtl" 
@@ -87,12 +87,11 @@
 							<option value="T">좋아요</option>
 							<option value="F">싫어요</option>
 						</select>
-					</div>
-				</form>
-				<div class="align-right">
-					<button id="new_btn" class="btn btn-primary">등록</button>
+					</div>		
+				<div class="align-right" style="display: inline-block;">
+					<button type="button" id="new_btn" class="btn btn-outline-primary">등록</button>
 				</div>
-				<jsp:include page="../include/footer.jsp" />
+				</form>
 				<jsp:include page="../include/closeBody.jsp" />
 			</div>
 		</div>
