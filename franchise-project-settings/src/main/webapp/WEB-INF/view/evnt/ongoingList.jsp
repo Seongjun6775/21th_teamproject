@@ -43,11 +43,13 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 			location.href = "${context}/evnt/detail/" + data.evntid;
 		})
 		
+		var srt = "${evnt.evntId}"
 		$("div[id=menuCategory] a").each(function(){
 			if($(this).attr("value") == srt){
 				$(this).addClass("menuOn");
 			}
 		})
+		
 	});
 </script>
 
@@ -61,7 +63,9 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 	</div>
 
 		<div>
+		<br>
 			<h1 class="head-title">이벤트 조회</h1>
+		<br>
 			<p class="head-content">
 				붕어빵 프렌차이즈의 <br> 다양한 이벤트를 만나보세요!
 			</p>
@@ -69,7 +73,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 		</div>
 
 		<div id="menu" class="flex-column">
-		<div id="menuCategory" class="flex">
+		<div id="menuCategory" class="flex" >
 			<a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a>
 			<a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a>
 			<a href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a>
@@ -80,22 +84,22 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 					<c:when test="${not empty evntList}">
 						<c:forEach items="${evntList}" var="evnt">
 							<div class="itemList" id="${evnt.evntId}">
-							<div class="prdt card shadow" style="padding:24px; border-radius:24px; margin-top:144px;">
-								<div class="img-box" style="width: 600px; height: 600px;">
-									<c:choose>
-										<c:when test="${empty evnt.uuidFlNm}">
-											<img src="${context}/img/default_photo.jpg">
-										</c:when>
-										<c:otherwise>
-											<a href="${context}/evnt/detail_customer/${evnt.evntId}"> 
-											<img src="${context}/evnt/img/${evnt.uuidFlNm}/"></a>
-										</c:otherwise>
-									</c:choose>
+								<div class="prdt card shadow" style="padding:24px; border-radius:24px; margin-top:144px;">
+									<div class="img-box" style="width: 600px; height: 600px;">
+										<c:choose>
+											<c:when test="${empty evnt.uuidFlNm}">
+												<img src="${context}/img/default_photo.jpg">
+											</c:when>
+											<c:otherwise>
+												<a href="${context}/evnt/detail_customer/${evnt.evntId}"> 
+												<img src="${context}/evnt/img/${evnt.uuidFlNm}/"></a>
+											</c:otherwise>
+										</c:choose>
+									</div>
 									<div class="prdt3">
 										<div class="name ellipsis">${evnt.evntTtl}</div>
 										<div class="price">${evnt.evntStrtDt} ~
 											${evnt.evntEndDt}</div>
-										</div>
 									</div>
 								</div>
 							</div>
