@@ -53,6 +53,13 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 	});
 </script>
 
+<style>
+.prdt:hover img {
+	transform: scale(1.2);
+}
+
+</style>
+
 </head>
 <body class="scroll">
 	<jsp:include page="../include/header_user.jsp" />
@@ -88,11 +95,11 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 									<div class="img-box" style="width: 600px; height: 600px;">
 										<c:choose>
 											<c:when test="${empty evnt.uuidFlNm}">
-												<img src="${context}/img/default_photo.jpg" style="width:350px; height:550px; float:right;" >
+												<img src="${context}/img/default_photo.jpg" style="width:600px; height:600px;" >
 											</c:when>
 											<c:otherwise>
 												<a href="${context}/evnt/detail_customer/${evnt.evntId}"> 
-												<img src="${context}/evnt/img/${evnt.uuidFlNm}/" style="width:350px; height:550px; float:right;" ></a>
+												<img src="${context}/evnt/img/${evnt.uuidFlNm}/" style="width:600px; height:600px;" ></a>
 											</c:otherwise>
 										</c:choose>
 									</div>
