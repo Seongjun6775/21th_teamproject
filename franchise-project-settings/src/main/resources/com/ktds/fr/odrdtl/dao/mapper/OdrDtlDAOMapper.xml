@@ -349,9 +349,12 @@
 						  FROM ODR_DTL OD
 				  		  LEFT OUTER JOIN ODR_LST OL
 							ON OD.ODR_LST_ID = OL.ODR_LST_ID
+						  LEFT OUTER JOIN STR S
+						    ON OD.ODR_DTL_STR_ID = S.STR_ID
 						 WHERE OL.DEL_YN = 'N'
 						   AND OL.USE_YN = 'Y'
-						   AND OL.ODR_LST_ODR_PRCS = '003-04' )
+						   AND OL.ODR_LST_ODR_PRCS = '003-04'
+						   AND S.USE_YN = 'Y' )
 				 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
 				   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
 				<if test='oneDay != null and oneDay != ""'>
@@ -361,13 +364,12 @@
 				   AND SUBSTR(MDFY_DT, 0, 10) >= #{startDt}
 				   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10)
 				</if>
-				GROUP BY ODR_DTL_PRDT_ID
-				ORDER BY SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) DESC ) OD
+				GROUP BY ODR_DTL_PRDT_ID) OD
 		INNER JOIN PRDT P
 		   ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
 		INNER JOIN CMMN_CD C
 		   ON P.PRDT_SRT = C.CD_ID
-		 
+	   ORDER BY SUM_PRC DESC 
 	</select>
 	
 	
