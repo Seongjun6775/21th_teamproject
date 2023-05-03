@@ -57,4 +57,6 @@ public interface MbrDAO {
 	
 	//결제 후 페이머니 잔량 업데이트
 	public int updateRestMbrPyMn(MbrVO mbrVO);
+	//모든 회원 조회(쪽지 작성)
+	public List<MbrVO> readAllMbrNoPagenation(MbrVO mbrVO);
 }

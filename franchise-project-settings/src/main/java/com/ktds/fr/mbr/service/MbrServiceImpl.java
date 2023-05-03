@@ -398,4 +398,9 @@ public class MbrServiceImpl implements MbrService {
 		}
 		return false;
 	}
+	
+	@Override
+	public List<MbrVO> readAllMbrNoPagenation(MbrVO mbrVO) {
+		return mbrDAO.readAllMbrNoPagenation(mbrVO);
+	}
 }

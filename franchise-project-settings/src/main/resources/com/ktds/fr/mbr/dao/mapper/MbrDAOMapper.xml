@@ -388,4 +388,21 @@
 		   SET MBR_PY_MN = #{mbrPyMn}
 		 WHERE MBR_ID = #{mbrId}
 	</update>
+	
+	<select id="readAllMbrNoPagenation"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+		SELECT MBR_ID 
+			 , MBR_NM 
+			 , MBR_LVL 
+		  FROM MBR
+		 WHERE 1=1
+		<if test='mbrId != null and mbrId !=""'>
+		   AND MBR_ID LIKE '%' || #{mbrId} || '%'
+		</if>
+		<if test='mbrNm != null and mbrNm !=""'>
+		   AND MBR_NM LIKE '%' || #{mbrNm} || '%'
+		</if>
+	</select>
+	
 </mapper>
