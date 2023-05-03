@@ -119,7 +119,7 @@
 						</div>
 					</div>
 					<div style="padding: 10px;">
-						<div>
+						<div style="display: ${hr.ntcYn eq 'Y' ? 'none' : ''};">
 							<textarea class="fw-semibold" 
 									   style="margin-bottom: 100px; width: 600px; height:400px;
 									          overflow: auto; word-break: break-all;

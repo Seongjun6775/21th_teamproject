@@ -14,7 +14,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		$("#create_btn").click(function() {
+		$("#create-btn").click(function() {
 			location.href="${context}/hr/hrcreate"
 		});
 		
@@ -121,6 +121,9 @@
 					</nav>
 				</div>
 			</div>
+			<div>
+       			<button id="create-btn" type="button" class="btn btn-secondary">작성</button>
+       		</div>
 		</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
