@@ -57,10 +57,54 @@
 		$("#new_btn").click(function() {
 			location.href = "${context}/mbr/rv/create";
 		});
+		$("#all_check").click(function() {
+			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
+		});
+		$("#all_check").change(function(){
+			$(".check-idx").prop("checked", $(this).prop("checked"));
+		});
+		$(".check-idx").change(function(){
+			var count = $(".check-idx").length;
+			var checkCount = $(".check-idx:checked").length;
+			
+			$("#all_check").prop("checked", count == checkCount);
+		});
+		$("#delete_all_btn").click(function(){
+			
+			var checkLen = $(".check-idx:checked").length;
+			
+			if(checkLen == 0){
+				alert("삭제할 리뷰가 없습니다.");
+				return;
+			}
+			if(confirm("정말 삭제하시겠습니까?")) {
+				var form = $("<form></form>")
+				$(".check-idx:checked").each(function(){
+					var myMbrId = "${mbrVO.mbrId}";
+					var myMbrLvl = "${mbrVO.mbrLvl}";
+					var mbrId = $(this).closest("tr").find(".open-layer").text();
+					if (myMbrLvl == "001-04" && myMbrId != mbrId) {
+						alert("자신의 리뷰만 삭제 가능합니다.");
+						return;		
+					}
+					console.log($(this).val());
+					form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'");
+				});
+				$.post("${context}/mbr/api/rv/delete", form.serialize(), function(response){
+					if(response.status == "200 OK"){
+						location.reload(); //새로고침
+						alert("리뷰가 삭제되었습니다.")
+					}
+					else{
+						alert(response.errorCode + "권한이 없습니다." + response.message);
+					}
+				})
+			}
+		});	
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});		 
-		$(".rvRow td").not(".mbrId").click(function() {
+		$(".rvRow td").not(".firstcell, .mbrId").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
 			location.href="${context}/mbr/rv/detail/" + rvid;
 		})
@@ -75,7 +119,7 @@
 			queryString += "&type="+selec + "&search=" + id;
 			
 			//URL요청
-			location.href="${context}/user/rv/list" + queryString;
+			location.href="${context}/mbr/rv/list" + queryString;
 			
 		}
 </script>

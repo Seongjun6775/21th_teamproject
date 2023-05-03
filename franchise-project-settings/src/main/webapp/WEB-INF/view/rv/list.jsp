@@ -17,7 +17,6 @@
 
 	$().ready(function() {
 		
-	
 		var url;
 		$(".open-layer").click(function(event) {
 			// event.preventDefault();

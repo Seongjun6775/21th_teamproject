@@ -20,6 +20,7 @@
 	}
 	
 	$().ready(function(){
+		
 		$(".admin_table_grid > table > tbody > tr").click(function(){
 			var data = $(this).data();
 			$("#mbrId").val(data.mbrid);

@@ -76,7 +76,6 @@
 							<div>
 								<input type="text" id="hrTtl" class="form-control" name="hrTtl" />
 							</div>
-							
 						</div>
 						<label for="hrCntnt" class="col-form-label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">본문</label>
 						<div class="input-group" style="display: ${hr.mbrVO.mbrLvl eq '001-01' ? '' : 'none'};">
