@@ -72,6 +72,11 @@
 				return;
 			}
 			
+			if (delYn == "Y") {
+				alert("이미 삭제된 글은 채용 처리할 수 없습니다.");
+				return;
+			}
+			
 			if (aprYn != null && aprYn != "") {
 				alert("이미 채용/미채용이 완료된 건입니다.")
 				return;
@@ -102,6 +107,11 @@
 				return;
 			}
 			
+			if (delYn == "Y") {
+				alert("이미 삭제된 글은 미채용 처리할 수 없습니다.");
+				return;
+			}
+			
 			if (aprYn != null && aprYn != "") {
 				alert("이미 채용/미채용이 완료된 건입니다.")
 				return;
@@ -129,15 +139,10 @@
 		});
 		
 		$("#fileDown").click(function(){
-			$.get("${context}/hr/hrfile/${hr.hrId}", function(resp){
-				if(resp.status == "200 OK"){
-					location.reload();
-				}
-				else{
-					alert(resp.message);
-					location.reload();
-				}
-			});
+			
+			var hrId = "${hr.hrId}";
+			location.href="${context}/hr/hrfile/" + hrId;
+		
 		});
 		
 	});
@@ -146,10 +151,9 @@
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 	        <span class="fs-5 fw-bold">회원 > 채용</span>
-	        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
+	    	<div style="position: absolute;right: 0;top: 0; margin: 20px;">
 	          <button id="update_btn" class="btn btn-primary" >수정</button>
 			  <button id="delete_btn" class="btn btn-danger" style="margin-right:10px">삭제</button>
-			  
 			  <button id="list_btn" class="btn btn-secondary" >목록</button>
 	        </div>
       	</div>

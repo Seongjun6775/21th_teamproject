@@ -20,6 +20,7 @@
 	      alert("아이디에 특수문자를 입력할 수 없습니다. 다시 입력해주세요");
 	    }
 	  }
+
 	var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
  	$().ready(function(){
 		var valueUtil = new ValueUtil();
@@ -365,7 +366,8 @@
   <div class="login">
     <div class="login__content">
       <div class="login__img">
-        <img src="https://image.freepik.com/free-vector/code-typing-concept-illustration_114360-3581.jpg" alt="user login">
+        <!-- <img src="https://image.freepik.com/free-vector/code-typing-concept-illustration_114360-3581.jpg" alt="user login"> -->
+        <img src="${context}/resources/img/붕어빵메인.jpg" alt="user login">
       </div>
       <div class="login__forms">
 			<!--로그인 영역 -->

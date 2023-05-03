@@ -66,4 +66,12 @@ public interface OdrDtlDAO {
 	 */
 	public List<OdrDtlVO> odrDtlForOdrLst(String odrDtlId);
 
+	
+	
+	/**
+	 * 매출관련 조회용 
+	 */
+	public List<OdrDtlVO> forSale(OdrDtlVO odrDtlVO);
+
+	
 }

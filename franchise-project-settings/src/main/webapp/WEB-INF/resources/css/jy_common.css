@@ -22,6 +22,15 @@ body {
 }
 
 
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+
+
+
+
 /* display */
 .flex {
 	display: flex;
@@ -287,8 +296,17 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 
+.top-bar {
+	display: flex;	
+	align-items: center;
+}
+.top-bar * + * {
+	margin-left: 8px;
+}
 
-
+#evnt-info input {
+	width: 300px;
+}
 
 
 
@@ -562,11 +580,6 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
-.btn-default {
-	border: solid 2px;
-    font-weight: 800;
-    margin-right: 15px;
-}
 
 
 

@@ -47,6 +47,7 @@
                 document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
                 document.getElementById("sample4_sido").value = data.sido;
                 document.getElementById("sample4_sigungu").value = data.sigungu;
+                document.getElementById("strAddr").value = roadAddr;
                 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
                 if(roadAddr !== ''){
@@ -152,8 +153,8 @@
 					return;	
 				}
 				var patt = new RegExp("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
-				var res = patt.test( $("#strCallNum").val());
-	
+				
+				// #strCallNum의 값이 patt에서 정의한 정규표현식에 맞는지 검사합니다. (틀릴 시 false를 반환합니다.)
 				if( !patt.test( $("#strCallNum").val()) ){
 					alert("'-'을 기입하지 않았거나, 전화번호가 일치하지 않습니다. 전화번호를 정확히 입력하여 주십시오.");
 				    return false;
@@ -169,7 +170,21 @@
 					return;	
 				}
 			if($("#isModify").val() == "false"){
-				$.post("${context}/api/str/create", $("#strdetailmst_form").serialize(), function(response) {
+				$.post("${context}/api/str/create", 
+						{"strNm" : $("#strNm").val(),
+						 "strLctn" : $("#strLctn").val(),
+						 "strCty" : $("#strCty").val(),
+						 "strAddr" : $("#strAddr").val() + ' ' + $("#sample4_detailAddress").val(),
+						 "strCallNum" : $("#strCallNum").val(),
+						 "mbrId" : $("#mbrId").val(),
+						 "strOpnTm" : $("#strOpnTm").val(),
+						 "strClsTm" : $("#strClsTm").val(),
+						 "strRgstr" : $("#strRgstr").val(),
+						 "mdfyr" : $("#mdfyr").val(),
+						 "useYn" : $("#useYn").val(),
+						 "ctyCdVO.ctyNm" : $("#sample4_sigungu").val(),
+						 "lctCdVO.lctNm" : $("#sample4_sido").val(),
+					}, function(response) {
 					if(response.status == "200 OK"){
 						location.reload(); // 새로고침
 					}
@@ -262,7 +277,7 @@
 						<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
 						<th scope="col" style="width:250px; padding: 20px 20px 8px 20px;">매장명</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select" name="selectFilter" 
+							<select class="form-select select-align-center" name="selectFilter" 
 										id="search-keyword-strLctn">
 								<option value="">지역명</option>
 								<c:choose>
@@ -276,7 +291,7 @@
 							</select>
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select" name="selectFilter"
+							<select class="form-select select-align-center" name="selectFilter"
 										id="search-keyword-strCty">
 								<option value="">도시명</option>
 								<c:choose>
@@ -405,7 +420,7 @@
 							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
 						</div>
 						<div class="input-group inline">
-							<span class="input-group-text">지역명</span>
+							<span class="input-group-text ">지역명</span>
 							<select class="form-select" name="strLctn" id="strLctn">
 								<option value="">지역명</option>
 								<c:choose>
@@ -488,8 +503,8 @@
 						</div>
 						<div style="float:right; display: flex; flex-direction: row-reverse;">
 							
-							<button id="save_btn" class="btn btn-outline-success" >등록</button>
-							<button id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
+							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
+							<button type="button" id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
 						</div>
 					</div>
 				</form>
