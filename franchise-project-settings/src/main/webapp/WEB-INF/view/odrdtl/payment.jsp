@@ -36,13 +36,17 @@ $().ready(function() {
 	
 	
 	groupPrdt();
-	startEnd();
 	
 	$("#btn-search").click(function() {
 		groupPrdt();
-		startEnd();
 	})
 	
+	$(document).on('click', '#paymentPrdt tr', function() {
+		console.log($(this).data());
+	});
+	$("#paymentPrdt").closest("table").find("tr").click(function() {
+		console.log($(this).data());
+	});
 	
 	
 	
@@ -77,27 +81,26 @@ function groupPrdt() {
 		    var prdtNm = data[i].prdtVO.prdtNm;
 		    var sumCnt = data[i].sumCnt;
 		    var sumPrc = data[i].sumPrc;
-		    var tr = $("<tr></tr>");
+		    var tr = $("<tr data-odrdtlprdtid="+data[i].prdtVO.prdtId+"></tr>");
 		    var tdList = [
 				  $("<td>" + cdNm + "</td>"),
 				  $("<td>" + prdtNm + "</td>"),
 				  $("<td>" + sumCnt.toLocaleString() + "</td>"),
 				  $("<td class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>"),
 				];
-		    pay = pay + sumPrc;
+		    pay += sumPrc;
 			tr.append(tdList);
 			$("#paymentStr").append(tr);
 	    }
 		
-		var div = $("<div> 총 금액 : "+pay.toLocaleString() +"원</div>")
-		div.css({
-			"text-align":"right",
-			"font-weight":"bold",
-		});
+		var div = $("<div>총 금액 : "+pay.toLocaleString() +"원</div>")
 		$("#paymentTotal").html(div);
+		
+		startEnd(pay);
 	}})
 }
-function startEnd() {
+
+function startEnd(pay) {
 	
 	var odrDtlVO = {
 		odrDtlStrId : $("#search-keyword-str").val(),
@@ -113,10 +116,15 @@ function startEnd() {
 		  data: JSON.stringify(odrDtlVO),
 		  success: function(data) {
 		
+		var dayCnt = 0;
 		$("#startEnd").empty();
 		for (var i = 0; i < data.length; i++) {
 		    var oneDay = data[i].oneDay;
 		    var sumPrc = data[i].sumPrc;
+		    if(sumPrc > 0) {
+		    	dayCnt++;
+		    }
+		    
 		    var tr = $("<tr></tr>");
 		    var tdList = [
 				  $("<td>" + oneDay + "</td>"),
@@ -125,6 +133,10 @@ function startEnd() {
 			tr.append(tdList);
 			$("#startEnd").append(tr);
 	    }
+		var div = $("<div>운영일 수 : "+dayCnt +"일</div>")
+		$("#dayCnt").html(div);
+		div = $("<div>일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원</div>")
+		$("#paymentAvg").html(div);
 		
 	}})
 }
@@ -184,29 +196,31 @@ function movePage(pageNo) {
 		
 		
 		<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; margin: 20px;">
-			<div class="inline-flex">
-				
+			<div class="flex paymentTop">
 				<div id="paymentTotal"></div>
+				<div id="dayCnt"></div>
+				<div id="paymentAvg"></div>
 			</div>
 		</div>
 		
 		
 		
 		<div class="inline-flex">
-			<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; width: 70%; max-height: 640px; margin: 20px;">
-				
-				<table class="table table-striped table-sm table-hover align-center">
-					<thead class="table-secondary">
-						<tr>
-							<th style="width:15%">상품분류</th>
-							<th>상품이름</th>
-							<th style="width:15%">판매수량</th>
-							<th style="width:15%">판매총액</th>
-						</tr>
-					</thead>
-					<tbody id="paymentStr" class="table-group-divider">
-					</tbody>
-				</table>
+			<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; width: 70%; max-height: 640px; margin: 20px;">
+				<div class="overflow">
+					<table class="table table-striped table-sm table-hover align-center">
+						<thead class="table-secondary">
+							<tr>
+								<th style="width:20%">상품분류</th>
+								<th>상품이름</th>
+								<th style="width:15%">판매수량</th>
+								<th style="width:15%">판매총액</th>
+							</tr>
+						</thead>
+						<tbody id="paymentStr" class="table-group-divider">
+						</tbody>
+					</table>
+				</div>
 			</div>
 			
 			<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px;">
