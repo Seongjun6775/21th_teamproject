@@ -143,7 +143,7 @@
 				<option value="mbrId" >회원ID</option>
 		    </select>
 		    <input class="form-control me-2" type="text" name="searchWrap" id="search-keyword" placeholder="Search" aria-label="Search">
-		    <button id="search_btn" class="btn btn-outline-success enterkey" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+		    <button id="search_btn" class="btn btn-outline-success enterkey" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
 		</div>
 		<!-- /searchbar -->	
 

@@ -20,10 +20,15 @@ $().ready(function() {
 }); 
 </script>
 <!-- header -->
-  <header class="p-3 mb-1">
+  <header class="p-3 mb-4">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" style=" height: 30px; padding:10px 30px 0px 0px; margin: 0px;">
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         </ul>
+        <div style="margin-right:10px;">
+        	<div class="fw-bold fs-5">${sessionScope.__MBR__.mbrNm}님 </div> 
+        	<small style="float: right;">${sessionScope.__MBR__.mbrLvl eq '001-01' ? '본사' : '가맹점주'} </small> 
+        </div>
+        
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">

@@ -311,7 +311,7 @@ li.dropdown > ul > li > a  {
 				</div>			
 			</div>
 	        <div style="padding: 5px; margin:20px;">
-	            <a href="${context}/logout"><button type="button" class="btm_image" id="img_btn"><img  src="${context}/img/logout.png" width="50"; height="50"></button></a>
+	            <a href="${context}/logout"><button type="button" class="btm_image" id="img_btn" style="background-color: #fff;"><img  src="${context}/img/logout.png" width="50"; height="50"></button></a>
 	        </div>
         </div>
     </div>
