@@ -183,18 +183,25 @@ function movePage(pageNo) {
 		
 		
 		
+		<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; margin: 20px;">
+			<div class="inline-flex">
+				
+				<div id="paymentTotal"></div>
+			</div>
+		</div>
+		
+		
+		
 		<div class="inline-flex">
 			<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; width: 70%; max-height: 640px; margin: 20px;">
-			
-				<div id="paymentTotal"></div>
 				
 				<table class="table table-striped table-sm table-hover align-center">
 					<thead class="table-secondary">
 						<tr>
-							<th>상품분류</th>
+							<th style="width:15%">상품분류</th>
 							<th>상품이름</th>
-							<th class="width100">판매수량</th>
-							<th class="width100">판매총액</th>
+							<th style="width:15%">판매수량</th>
+							<th style="width:15%">판매총액</th>
 						</tr>
 					</thead>
 					<tbody id="paymentStr" class="table-group-divider">
@@ -202,13 +209,13 @@ function movePage(pageNo) {
 				</table>
 			</div>
 			
-			<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px; overflow: auto;">
+			<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px;">
 				<div class="overflow">
 					<table class="table table-striped table-sm table-hover align-center">
 						<thead class="table-secondary">
 							<tr>
-								<th class="width80">Date</th>
-								<th class="">판매총액</th>
+								<th style="width:50%">Date</th>
+								<th>판매총액</th>
 							</tr>
 						</thead>
 						<tbody id="startEnd" class="table-group-divider">
@@ -218,7 +225,8 @@ function movePage(pageNo) {
 			</div>
 			
 		</div>
-		
+
+
 		<!-- /contents -->
 		
 	<jsp:include page="../include/closeBody.jsp" />
