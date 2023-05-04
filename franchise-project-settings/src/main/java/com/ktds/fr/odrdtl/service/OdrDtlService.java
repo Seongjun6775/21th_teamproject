@@ -76,7 +76,8 @@ public interface OdrDtlService {
 	public List<OdrDtlVO> groupPrdt(OdrDtlVO odrDtlVO);
 	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO);
 
-	
+	public List<OdrDtlVO> startEnd(OdrDtlVO odrDtlVO);
+	public List<OdrDtlVO> oneMonth(OdrDtlVO odrDtlVO);
 	
 }
 

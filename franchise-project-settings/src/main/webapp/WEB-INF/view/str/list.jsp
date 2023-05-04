@@ -287,6 +287,16 @@
 		location.href = "${context}/str/list?" + queryString;
 		}
 		</script>
+		
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+</style>
 </head>
 
 <jsp:include page="../include/openBody.jsp" />
@@ -316,8 +326,8 @@
 					<tr>
 						<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
 						<th scope="col" style="width:250px; padding: 20px 20px 8px 20px;">매장명</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select select-align-center" name="selectFilter" 
+						<th scope="col" style="width: 150px">
+							<select class="select-align-center" name="selectFilter" 
 										id="search-keyword-strLctn">
 								<option value="">지역명</option>
 								<c:choose>
@@ -330,8 +340,8 @@
 								</c:choose>
 							</select>
 						</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select select-align-center" name="selectFilter"
+						<th scope="col" style="width: 150px">
+							<select class="select-align-center" name="selectFilter"
 										id="search-keyword-strCty">
 								<option value="">도시명</option>
 								<c:choose>
@@ -347,7 +357,9 @@
 						<th scope="col" style="padding: 20px 20px 8px 20px;">매장주소</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">전화번호</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">가맹점주ID</th>
-						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
+						<th scope="col" style=" width:240px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
+						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;"> </th>
+						
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
 						<th>사용여부</th> -->

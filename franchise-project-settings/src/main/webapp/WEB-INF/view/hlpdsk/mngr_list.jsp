@@ -143,7 +143,7 @@
 						<th>글번호</th>
 						<th>문의/건의</th>	
 						<th style="">
-							<select class="form-select select-align-center" name="selectFilter"
+							<select class="select-align-center" name="selectFilter"
 									id="search-keyword-hlpDskPrcsYn">
 								<option value="">답변상태</option>
 								<option value="Y">답변완료</option>
