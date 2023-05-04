@@ -106,13 +106,13 @@
 						<option value="mngrBrdTtl"${searchIdx eq 'mngrBrdTtl' ?  'selected': ''}>게시글</option>
 					</select>
 					<input class="form-control me-2" type="text" id="search-keyword" value="${rplVO.rplCntnt}" placeholder="Search" aria-label="Search">
-					<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+					<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
 				</div>
 				<!-- /searchbar -->	
 	
 				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 					<div style="margin: 13px;">총 ${rplList.size() > 0 ? rplList.get(0).totalCount : 0}건</div>
-					<table class="table caption-top table-hover" style="text-align: center;">
+					<table class="table caption-top table-hover" style="text-align: center;table-layout: fixed; ">
 						<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 							<tr>		
 								<th scope="col" style="border-radius:6px 0  0 0; padding: 20px 20px 8px 20px;"><input type = "checkbox" id ="all_check"/></th>
@@ -121,7 +121,7 @@
 								<th scope="col" style="padding: 20px 20px 8px 20px;">댓글내용</th> 
 								<th scope="col" style="padding: 20px 20px 8px 20px;">작성자</th>
 								<th scope="col" style="padding: 20px 20px 8px 20px;">작성일</th>
-								<th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th>
+								<th scope="col" style="padding: 20px 20px 8px 20px; ">수정일</th>
 								<th scope="col" style="border-radius: 0 6px 0 0; width: 160px; padding: 20px 20px 8px 20px;" >
 									<select class="form-select select-align-center" name="selectFilter"
 											id="search-keyword-delYn">
@@ -148,15 +148,15 @@
 												<input type ="checkbox" class="check_idx" value="${rpl.rplId}">
 											</td>
 											<td style="width: 160px;">${rpl.rplId} </td>
-											<td style="width: 200px;"> 
+											<td class="ellipsis" style="width: 200px; "> 
 												<a href="${context}/mngrbrd/${rpl.altclId}" class="brdid">
 												${rpl.mngrbrdVO.mngrBrdTtl}</a>
 											</td>
-											<td>${rpl.rplCntnt} </td>
+											<td class="ellipsis">${rpl.rplCntnt} </td>
 											<td style="width: 110px;">${rpl.mbrVO.mbrNm} </td>
 											<td style="width: 180px;">${rpl.rplWrtDt} </td>
 											<td style="width: 180px;">${rpl.mdfyDt} </td>
-											<td style="width: 70px;">${rpl.delYn} </td>
+											<td style="width: 40px;">${rpl.delYn} </td>
 										</tr>
 									</c:forEach>
 								</c:when>

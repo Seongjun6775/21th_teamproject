@@ -132,7 +132,7 @@
 				<option value="Wrtr"${searchIdx eq 'Wrtr' ?  'selected': ''}>작성자</option>
 		    </select>
 		    <input class="form-control me-2" type="text" id="search-keyword" value="${searchKeyword}" placeholder="Search" aria-label="Search">
-		    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+		    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
 		</div>
 		<!-- /searchbar -->	
 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
