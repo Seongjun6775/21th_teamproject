@@ -22,7 +22,6 @@
 		$(".blue-rpl-btn").click(function(){
 
 			var rplId = $(this).val(); 
-			
 			console.log(rplId);
 			console.log($('.update_rpl_form').length);
 			

@@ -78,7 +78,7 @@
 						<input type="date" style ="margin-right: 10px;" id="search-keyword-enddt" class="form-control" value="${mbrVO.endDt}"/>
 						<input type="text" id="search-keyword-mbrNm" class="form-control me-2" placeholder="이름 검색" value="${mbrVO.mbrNm}"/>
 						
-						<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+						<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
 				</div>
 				<!-- 조회영역 -->
 				<div class="admin_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">

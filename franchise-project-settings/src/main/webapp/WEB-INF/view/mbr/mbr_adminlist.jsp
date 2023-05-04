@@ -224,7 +224,7 @@
 					<input type="text" style ="margin-right: 10px;" id="search-keyword-strNm" class="form-control me-2" placeholder="매장 검색" value="${mbrVO.strVO.strNm}"/>
 					
 					
-					<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+					<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
 			</div>
       		<!-- searchbar -->
       		<!-- 조회영역 -->
