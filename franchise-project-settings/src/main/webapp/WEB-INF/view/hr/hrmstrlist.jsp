@@ -96,6 +96,7 @@
 }
 </style>
 </head>
+
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 			<span class="fs-5 fw-bold">회원 > 채용 관리</span>
@@ -146,8 +147,8 @@
 							<th scope="col" style="border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;" >
 								<select id="delYn" class="select-align-center" aria-label="Default select example">
 									<option value="">삭제 여부</option>
-									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제됨</option>
-									<option value="N" ${hrVO.delYn eq "N" ? 'selected' : '' }>삭제되지 않음</option>
+									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제</option>
+									<option value="N" ${hrVO.delYn eq "N" ? 'selected' : '' }>&nbsp;&nbsp;&nbsp;&nbsp;-</option>
 								</select>
 							</th>
 						</tr>
@@ -199,7 +200,7 @@
 												</c:otherwise>
 											</c:choose>
 										</td>
-										<td>${hr.delYn eq 'Y' ? '삭제됨' : ''}</td>
+										<td>${hr.delYn eq 'Y' ? '삭제' : ''}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
