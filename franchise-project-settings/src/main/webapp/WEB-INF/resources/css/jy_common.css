@@ -119,6 +119,9 @@ body {
 .width0 {
 	width: auto;
 }
+.width80{
+	width: 80px;
+}
 .width100{
 	width: 100px;
 }
@@ -130,6 +133,9 @@ body {
 }
 .width180{
 	width: 180px;
+}
+.width200{
+	width: 200px;
 }
 .width220{
 	width: 220px;
@@ -222,12 +228,14 @@ input[type=file] {
 /* overflow */
 .overflow {
 	overflow: auto;
+	width: 100%;
 /* 	height: 150px; */
 }
 
 .overflow thead {
 	position: sticky;
-	top: 0;	
+	top: 0;
+	vertical-align: middle;
 /* 	background-color: #e4e4e4; */
 }
 
