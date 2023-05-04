@@ -15,53 +15,7 @@
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7121fa95573c132c57b4649cfa281f57&libraries=services"></script>
-<script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-            level: 5 // 지도의 확대 레벨
-        };
 
-    //지도를 미리 생성
-    var map = new daum.maps.Map(mapContainer, mapOption);
-    //주소-좌표 변환 객체를 생성
-    var geocoder = new daum.maps.services.Geocoder();
-    //마커를 미리 생성
-    var marker = new daum.maps.Marker({
-        position: new daum.maps.LatLng(37.537187, 127.005476),
-        map: map
-    });
-
-
-    function sample5_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var addr = data.address; // 최종 주소 변수
-
-                // 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("sample5_address").value = addr;
-                // 주소로 상세 정보를 검색
-                geocoder.addressSearch(data.address, function(results, status) {
-                    // 정상적으로 검색이 완료됐으면
-                    if (status === daum.maps.services.Status.OK) {
-
-                        var result = results[0]; //첫번째 결과의 값을 활용
-
-                        // 해당 주소에 대한 좌표를 받아서
-                        var coords = new daum.maps.LatLng(result.y, result.x);
-                        // 지도를 보여준다.
-                        mapContainer.style.display = "block";
-                        map.relayout();
-                        // 지도 중심을 변경한다.
-                        map.setCenter(coords);
-                        // 마커를 결과값으로 받은 위치로 옮긴다.
-                        marker.setPosition(coords)
-                    }
-                });
-            }
-        }).open();
-    }
-</script>
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function sample4_execDaumPostcode() {
@@ -511,9 +465,32 @@
 						</div>
 						
 						<div class="input-group inline">
+							<span class="input-group-text">점주ID</span>
+							<input class="form-control readonly"  type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">등록자</span>
+							<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  />
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">등록일</span>
+							<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">수정자</span>
+							<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${mbrVO.mbrId}" />
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">수정일</span>
+							<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
+						</div>
+						<div class="row g-3 half-right" style="display: inline-block; width: 40%; margin-left: 30px;">
+						
+						<div class="input-group inline">
 							<span class="input-group-text">매장명</span>
 							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
 						</div>
+						
 						<div class="input-group inline">
 							<span class="input-group-text ">지역명</span>
 							<select class="form-select" name="strLctn" id="strLctn">
@@ -527,6 +504,7 @@
 								</c:choose>
 							</select>
 						</div>
+						
 						<div class="input-group inline">
 							<span class="input-group-text">도시명</span>
 							<select class="form-select" name="strCty" id="strCty">
@@ -546,7 +524,6 @@
 							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${StrVO.strAddr}"/>
 						</div>
 						
-						
 						<div class="input-group inline" >
 							<input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기"><br>
 							<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
@@ -559,22 +536,64 @@
 							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 						</div>
 						
-						<input type="text" id="sample5_address" placeholder="주소">
-						<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
 						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+						<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+						<script>
+						    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+						        mapOption = {
+						            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+						            level: 5 // 지도의 확대 레벨
+						        };
+						
+						    //지도를 미리 생성
+						    var map = new daum.maps.Map(mapContainer, mapOption);
+						    //주소-좌표 변환 객체를 생성
+						    var geocoder = new daum.maps.services.Geocoder();
+						    //마커를 미리 생성
+						    var marker = new daum.maps.Marker({
+						        position: new daum.maps.LatLng(37.537187, 127.005476),
+						        map: map
+						    });
+						
+						
+						    function sample4_execDaumPostcode() {
+						        new daum.Postcode({
+						            oncomplete: function(data) {
+						                var addr = data.address; // 최종 주소 변수
+						
+						                // 주소 정보를 해당 필드에 넣는다.
+						                document.getElementById("sample4_roadAddress").value = addr;
+						                // 주소로 상세 정보를 검색
+						                geocoder.addressSearch(data.address, function(results, status) {
+						                    // 정상적으로 검색이 완료됐으면
+						                    if (status === daum.maps.services.Status.OK) {
+						
+						                        var result = results[0]; //첫번째 결과의 값을 활용
+						
+						                        // 해당 주소에 대한 좌표를 받아서
+						                        var coords = new daum.maps.LatLng(result.y, result.x);
+						                        // 지도를 보여준다.
+						                        mapContainer.style.display = "block";
+						                        map.relayout();
+						                        // 지도 중심을 변경한다.
+						                        map.setCenter(coords);
+						                        // 마커를 결과값으로 받은 위치로 옮긴다.
+						                        marker.setPosition(coords)
+						                    }
+						                });
+						            }
+						        }).open();
+						    }
+						</script>
 						
 					    <div class="input-group inline">
 					        <span class="input-group-text">전화번호</span>
 					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
 					    </div>	
 					
-						<div class="input-group inline">
-							<span class="input-group-text">점주ID</span>
-							<input class="form-control readonly"  type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
-						</div>
+						
 						</div>
 						
-						<div class="row g-3 half-right" style="display: inline-block; width: 40%; margin-left: 30px;">
 						<div class="input-group inline">
 							<span class="input-group-text">오픈시간</span>
 							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
@@ -583,25 +602,10 @@
 							<span class="input-group-text">종료시간</span>
 							<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
 						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">등록자</span>
-							<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  />
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">등록일</span>
-							<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">수정자</span>
-							<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${mbrVO.mbrId}" />
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">수정일</span>
-							<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
-						</div>
+						
 						<div class="inline">
 							<label class="form-check-label">사용여부</label>
-							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
+							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value=""/>
 						</div>
 						<div style="float:right; display: flex; flex-direction: row-reverse;">
 							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
