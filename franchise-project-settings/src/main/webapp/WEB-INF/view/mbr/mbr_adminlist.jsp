@@ -247,7 +247,7 @@
 													<c:choose>
 															<c:when test="${not empty srtList}">
 																<c:forEach items="${srtList}" var="srt">
-																	<option value="${srt.cdId}">${srt.cdNm eq '중간관리자' ? '점주' : '점원'}</option>
+																	<option value="${srt.cdId}">${srt.cdId eq '001-02' ? '점주' : '점원'}</option>
 																</c:forEach>
 															</c:when>
 														</c:choose>
@@ -286,7 +286,7 @@
 														<td>${mbr.mbrNm}</td>
 														<td>${mbr.mbrEml}</td>
 														<td>${mbr.strVO.strNm}</td>
-														<td>${mbr.cmmnCdVO.cdNm eq '중간관리자' ? '점주' : '점원'}</td>
+														<td>${mbr.cmmnCdVO.cdId eq '001-02' ? '점주' : '점원'}</td>
 														<td>${mbr.mbrRcntLgnDt}</td>
 														<td>${mbr.mbrLgnBlckYn}</td>
 													</tr>

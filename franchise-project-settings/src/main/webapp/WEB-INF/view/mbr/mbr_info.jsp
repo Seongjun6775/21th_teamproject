@@ -89,8 +89,8 @@
 										type="email" class="readonly" id="mbrEml" name="mbrEml" readonly onfocus="this.blur()" value="${myMbr.getMbrEml()}" />
 								</div>
 								<div class="info-item">
-									<label for="mbrLvl" style="width: 180px;">회원등급</label><input
-										type="text" class="readonly" id="mbrLvl" readonly onfocus="this.blur()" value="${myMbr.getMbrLvl()}" />
+									<label for="mbrLvl" style="width: 180px;">회원등급</label>
+									<input type="text" class="readonly" id="mbrLvl" readonly onfocus="this.blur()" value="${myMbr.cmmnCdVO.cdNm()}" />
 								</div>
 								<div class="info-item">
 									<label for="mbrPyMn" style="width: 180px;">내지갑</label><input
