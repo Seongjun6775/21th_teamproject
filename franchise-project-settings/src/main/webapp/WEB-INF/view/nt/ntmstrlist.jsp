@@ -134,6 +134,15 @@
 	}
 	
 </script>
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -169,14 +178,14 @@
 						<th scope="col" style="padding: 20px 20px 8px 20px;">수신인</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">쪽지 발송 일자</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">
-							<select id="checkNtRdDt" class="form-select select-align-center">
+							<select id="checkNtRdDt" class="select-align-center">
 								<option value="">수신 여부</option>
 								<option value="Y" ${checkNtRdDt eq "Y" ? 'selected' : '' }>수신</option>
 								<option value="N" ${checkNtRdDt eq "N" ? 'selected' : '' }>미수신</option>
 							</select>
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">
-							<select id="checkDelYn" class="form-select select-align-center">
+							<select id="checkDelYn" class="select-align-center">
 								<option value="">삭제 여부</option>
 								<option value="Y" ${checkDelYn eq "Y" ? 'selected' : '' }>삭제됨</option>
 								<option value="N" ${checkDelYn eq "N" ? 'selected' : '' }>삭제되지 않음</option>
