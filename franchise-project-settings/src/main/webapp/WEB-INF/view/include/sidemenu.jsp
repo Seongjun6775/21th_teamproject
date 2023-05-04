@@ -7,6 +7,7 @@
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <script type="text/javascript">
 	$().ready(function(){
+		var path = location.pathname;
 		path=path.slice(path.indexOf("/", 1));
 		$("a[data-href$='"+path+"']").closest("li.mb-1").find("button").click();
 	});
