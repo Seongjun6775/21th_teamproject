@@ -247,7 +247,7 @@
 	          		</div>
 				</div>
 		</div>
-			
+			 
 		<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
