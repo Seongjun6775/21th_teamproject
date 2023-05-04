@@ -111,15 +111,21 @@ public class RestOdrDtlController {
 		return odrDtlList;
 	}
 	
+	
+	
 	// 매출조회용
 	@PostMapping("/api/payment/groupPrdt")
 	@ResponseBody
-	public List<OdrDtlVO> forSale(@RequestBody OdrDtlVO odrDtlVO) {
-		
+	public List<OdrDtlVO> groupPrdt(@RequestBody OdrDtlVO odrDtlVO) {
 		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
-
-		
 		return groupPrdt;
+	}
+	
+	@PostMapping("/api/payment/startEnd")
+	@ResponseBody
+	public List<OdrDtlVO> startEnd(@RequestBody OdrDtlVO odrDtlVO) {
+		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
+		return startEnd;
 	}
 	
 	
