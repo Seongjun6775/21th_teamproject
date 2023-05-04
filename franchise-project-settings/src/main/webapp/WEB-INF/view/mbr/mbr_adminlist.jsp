@@ -213,6 +213,11 @@
     background-color: #0000;
     font-weight: bold;
 }
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
 </style>
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
@@ -311,7 +316,7 @@
 									</tbody>
 								</table>
 										<div class="align-right mt-10">
-											<button id="fire-btn" class="btn btn-outline-danger fire-btn" style="border: solid 2px; font-weight: 800;">해임</button>
+											<button id="fire-btn" class="btn btn-outline-danger fire-btn btn-default" style="border: solid 2px; font-weight: 800;">해임</button>
 										</div>
 										<div class="pagenate">
 											<nav aria-label="Page navigation example">
@@ -397,7 +402,7 @@
 									
 								</div>
 								<div class="align-right" style="margin-top: 16px;">
-	 								<button id="update_btn" class="btn btn-outline-primary" style="border: solid 2px; font-weight: 800; margin-right: 15px;">변경</button>
+	 								<button id="update_btn" class="btn btn-outline-primary btn-default" style="border: solid 2px; font-weight: 800; margin-right: 15px;">변경</button>
 								</div>
 							</div>
 	      			</div>
