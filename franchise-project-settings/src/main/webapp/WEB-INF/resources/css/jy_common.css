@@ -256,7 +256,6 @@ table .on {
 
 .money {
 	text-align: right;
-	display: flex;
     justify-content: flex-end;
     padding-right: 10px;
 }
@@ -318,6 +317,16 @@ input[type="number"]::-webkit-inner-spin-button {
 #evnt-info input {
 	width: 300px;
 }
+
+
+
+/* 매출데이터 관련 */
+.paymentTop > div {
+	flex: 1;
+	font-weight: bold;
+}
+
+
 
 
 

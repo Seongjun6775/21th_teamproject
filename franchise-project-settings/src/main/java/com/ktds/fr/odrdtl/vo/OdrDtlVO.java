@@ -1,7 +1,5 @@
 package com.ktds.fr.odrdtl.vo;
 
-import java.util.List;
-
 import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.evnt.vo.EvntVO;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
