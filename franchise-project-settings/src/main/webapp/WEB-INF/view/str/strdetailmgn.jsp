@@ -162,6 +162,8 @@ $().ready(function() {
 								</c:when>
 							</c:choose>
 						</select>
+						</div>	
+					<div class="input-group inline">
 						<label for="strCty" style="width:180px">도시</label>
 						<select id="strCty" name="strCty" disabled style="background-color:orange">
 							<option value="" >도시명</option>
@@ -188,7 +190,7 @@ $().ready(function() {
 				
 					<div class="input-group inline">
 						<label for="mbrId" style="width:180px">점주ID</label>
-						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}" style="background-color:orange"/>
+						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}" style="background-color:orange" placeholder="점주ID가 없습니다."/>
 					</div>
 					<div class="input-group inline">
 						<label for="strOpnTm" style="width:180px">오픈시간</label>
@@ -204,7 +206,7 @@ $().ready(function() {
 					</div>
 					<div class="input-group inline">
 						<label for="strRgstDt" style="width:180px">등록일</label>
-						<input type="date" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}" style="background-color:orange"/>
+						<input type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyr" style="width:180px" hidden="">수정자</label>
@@ -212,7 +214,7 @@ $().ready(function() {
 					</div>
 					<div class="input-group inline">
 						<label for="mdfyDt" style="width:180px">수정일</label>
-						<input type="date" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" style="background-color:orange"/>
+						<input type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
 						<label for="useYn" style="width:180px" hidden="">사용여부</label>

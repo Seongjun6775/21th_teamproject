@@ -367,12 +367,14 @@
 				   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10)
 				</if>
 				GROUP BY ODR_DTL_PRDT_ID) OD
-		INNER JOIN PRDT P
-		   ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
-		INNER JOIN CMMN_CD C
-		   ON P.PRDT_SRT = C.CD_ID
-	   ORDER BY SUM_PRC DESC 
-	</select>
+				INNER JOIN PRDT P
+		   		   ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+				INNER JOIN CMMN_CD C
+		   		   ON P.PRDT_SRT = C.CD_ID
+	   			ORDER BY SUM_PRC DESC 
+				</select>
+	
+	
 	
 	
 	
@@ -413,19 +415,16 @@
 				   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10)
 				</if>
 				GROUP BY ODR_DTL_STR_ID) OD
-		INNER JOIN PRDT P
-		   ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
-		INNER JOIN CMMN_CD C
-		   ON P.PRDT_SRT = C.CD_ID
-	   ORDER BY SUM_PRC DESC 
+		        INNER JOIN PRDT P
+		           ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+	        	INNER JOIN CMMN_CD C
+		           ON P.PRDT_SRT = C.CD_ID
+	            ORDER BY SUM_PRC DESC 
 	</select>
 	
 	
 	
 	
 	
-	
-
-
 
 </mapper>

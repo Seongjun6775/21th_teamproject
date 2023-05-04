@@ -3,6 +3,7 @@ package com.ktds.fr.str.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,10 +109,9 @@ public class RestStrController {
 	 }
 	 
 	 @GetMapping("/api/str/changecty")
-	 public ApiDataResponseVO changeCty(String lctId) {
+	 public ApiDataResponseVO changeCty(String lctId, Model model) {
 		
 		List<CtyCdVO> ctyChangedList = strService.readCategory(lctId);
-		 
 		return new ApiDataResponseVO(ApiStatus.OK, ctyChangedList);
 		 
 	 }
