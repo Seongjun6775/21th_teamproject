@@ -18,6 +18,7 @@ $().ready(function() {
 		});
 	});
 }); 
+
 </script>
 <!-- header -->
   <header class="p-3 mb-4">

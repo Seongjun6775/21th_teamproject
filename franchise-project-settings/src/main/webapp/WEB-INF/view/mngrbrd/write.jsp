@@ -15,6 +15,9 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
+		var simplemde = new SimpleMDE({ element: $("#mngrBrdCntnt")[0],
+										status: true});
+		
 		$("#list_btn").click(function() {
 			location.href="${context}/mngrbrd/list";
 		});
@@ -38,8 +41,11 @@
 			});
 	    
 		});
+		
 	});
 </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm  " style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -73,7 +79,7 @@
 						
 						<div class="create-group">
 							<label for="mngrBrdCntnt" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e; height: 47px;">본문</label> 
-							<textarea  id="mngrBrdCntnt" class="form-control" name="mngrBrdCntnt" style="resize:none;" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
+							<textarea id="mngrBrdCntnt" class="" name="mngrBrdCntnt"  placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
 						</div>
 					</form>	
 					<div style="padding: 10px;text-align: right;"> 
