@@ -243,7 +243,7 @@ li.dropdown > ul > li > a  {
 	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
 	              <li><hr class="dropdown-divider"></li>
 	              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
-	              <li><a class="dropdown-item" href="/mbr/rv/list">리뷰관리</a></li>
+	              <li><a class="dropdown-item" href="/user/rv/list">리뷰관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav-item dropdown">
