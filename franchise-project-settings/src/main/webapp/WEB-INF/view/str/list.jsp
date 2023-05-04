@@ -575,7 +575,7 @@
 					
 				</form>
 					<div style="display: inline-block; margin-bottom: 30%;">
-						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none; margin-bottom: 30%; margin-left: 160%; bottom: 430px;"></div>
+						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none; margin-bottom: 30%; margin-left: 160%;left: 1%; bottom: 450px;"></div>
 						
 						<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 						<script>
