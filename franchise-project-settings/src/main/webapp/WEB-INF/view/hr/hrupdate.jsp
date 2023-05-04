@@ -56,7 +56,7 @@
 	
     function deleteFile(obj) {
         obj.parent().remove();
-        var str = "<div class='file-input' style='margin:5px; float:right;'><input type='file' id='hrFile' name='hrFile'></div>";
+        var str = "<div class='file-input' style='margin:5px; float:right;'><input type='file' id='hrFile' class='form-control' name='hrFile'></div>";
         $("#file-list").append(str);
     }
 	
@@ -90,10 +90,25 @@
 					</div>
 				</div>
 				<div style="display: flex; flex-direction: row; margin-bottom: 4px;">
-					<label for="hrFile" class="col-form-label" style="padding: 4px; border-left: solid #ffbe2e; margin-right:15px;">파일첨부</label>
-					<input type="file" id="hrFile" name="hrFile" class="form-control" style="width: 50%;" value="${hr.orgnFlNm}"/>
+					<%-- <label for="hrFile" class="col-form-label" style="padding: 4px; border-left: solid #ffbe2e; margin-right:15px;">파일첨부</label>
+					<label for="hrFile" class="form-control" style="width: 50%">
+						<span style="padding: 8.5px; padding-left: 0px; border-right: 1px solid #aaac;">파일첨부</span>
+						<span style="padding-left: 2px; font-weight: bold;">${hr.orgnFlNm}</span>
+						<span style="padding-left: 2px; padding-right: 2px;"><fmt:formatNumber type="number" value="${hr.flSize/1024 > 0 ? hr.flSize/1024 : ''}" maxFractionDigits="2"/></span>KB
+					</label>
+					<input type="file" id="hrFile" name="hrFile" style="display: none;" /> --%>
+					<div class="file-group" id="file-list" style="margin-bottom: 4px;" >
+						<label for="hrFile" class="col-form-label" style="padding: 4px; border-left: solid #ffbe2e; margin-right:15px;">파일첨부</label>
+					    <div class="file-input" style="display: inline-block;">
+					    	  ${hr.orgnFlNm eq null ? '파일이 없습니다' : hr.orgnFlNm}
+					    	  <span><fmt:formatNumber type="number" value="${hr.flSize/1024 > 0 ? hr.flSize/1024 : ''}" maxFractionDigits="2"/></span>
+					    	  <span>${hr.orgnFlNm eq null ? '' : 'KB'}</span>
+					      <a href='#this' id='file-delete'>${hr.orgnFlNm eq null ? '파일 추가' : '삭제'}</a>
+					    </div>
+					</div>
 				</div>
-				<div style="margin: 20px 0 20px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
+				<div style="margin-bottom: 4px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : 'flex' }">
+					<label for="hrLvl" class="col-form-label" style="padding: 5px; border-left: solid #ffbe2e; margin-right: 7px;">지원 직군</label>
 					<select id="hrLvl" class="form-select" style="width:15%;">
 						<option value="" selected>직군을 선택하세요.</option>
 						<option value="005-01" ${hr.hrLvl == '005-01' ? 'selected' : ''}>점주</option>
@@ -107,7 +122,7 @@
 					</div>
 				</div>
 			     
-				<label for="hrCntnt" class="col-form-label" style="margin-bottom: 4px; padding-left: 8px; border-left: solid #ffbe2e;">본문</label>
+				<label for="hrCntnt" class="col-form-label" style="margin-bottom: 4px; margin-top: 4px; padding-left: 8px; border-left: solid #ffbe2e;">본문</label>
 				<div class="input-group">
 					<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
 							 placeholder="특이사항이 있다면 자유롭게 기술 부탁드립니다." class="form-control">${hr.hrCntnt}</textarea>
