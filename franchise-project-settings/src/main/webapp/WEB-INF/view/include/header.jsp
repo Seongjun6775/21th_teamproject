@@ -29,7 +29,7 @@ $().ready(function() {
         	<small style="float: right;">${sessionScope.__MBR__.mbrLvl eq '001-01' ? '본사' 
         	: sessionScope.__MBR__.mbrLvl eq '001-02' ? '가맹점주'
         	: sessionScope.__MBR__.mbrLvl eq '001-03' ? '점원'
-        	: '이용자'} </small> 
+        	: '이용자'} </small>  
         </div>
         
         <div class="dropdown text-end">
