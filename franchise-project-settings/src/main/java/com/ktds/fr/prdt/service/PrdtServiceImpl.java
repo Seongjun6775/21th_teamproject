@@ -113,8 +113,7 @@ public class PrdtServiceImpl implements PrdtService {
 		boolean isSuccess = prdtDAO.create(prdtVO) > 0;
 		
 		if (isSuccess) {
-			StrVO strVO = new StrVO();
-			List<StrVO> strList = strDAO.readAllStrMaster(strVO);
+			List<StrVO> strList = strDAO.readAll();
 			
 			StrPrdtVO strPrdtVO = null;
 			List<StrPrdtVO> strPrdtList = new ArrayList<>();
