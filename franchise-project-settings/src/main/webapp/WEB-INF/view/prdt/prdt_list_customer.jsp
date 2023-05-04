@@ -128,7 +128,7 @@ function movePage(pageNo) {
 									<div class="discount">
 										<c:choose>
 											<c:when test="${not empty prdt.evntVO.evntId}">
-												<span>이벤트 진행중 <i class='bx bxs-discount bx-tada bx-rotate-180' ></i></span>
+												<span><i class='bx bxs-star'></i>Event</span>
 											</c:when>
 										</c:choose>
 									</div>
