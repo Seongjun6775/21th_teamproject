@@ -118,8 +118,8 @@
 							<div class="hr_detail_header" style="display: inline-block;"> ${hr.flSize/1024}KB</div>
 						</div>
 					</div>
-					<div style="padding: 10px; display: ${hr.mbrVO.mbrLvl eq '001-01' ? '' : 'none'};">
-						<div style="display: ${hr.ntcYn eq 'Y' ? 'none' : ''};">
+					<div style="padding: 10px;">
+						<div>
 							<textarea class="fw-semibold" 
 									   style="margin-bottom: 100px; width: 600px; height:400px;
 									          overflow: auto; word-break: break-all;

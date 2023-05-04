@@ -16,6 +16,10 @@
 	var mbr;
 	function addMbrFn(search){
 		$("#rcvrId").val(search.mbrid);
+		if($("#rcvrId").val() == "${mbrVO.mbrId}") {
+			alert("자기 자신에게 쪽지를 보낼 수 없습니다!");
+			return;
+		}
 	}
 
 	$().ready(function() {
@@ -68,7 +72,7 @@
 	</div>	
 			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<form id="nt_form">
-					<div class="input-group" style="display: flex; flex-direction: row; margin-bottom: 4px;">
+					<div class="input-group" style="display: none; flex-direction: row; margin-bottom: 4px;">
 						<label for="sndrId" class="col-form-label" style="padding: 5px;  border-left: solid #ffbe2e; ">발신인</label>
 						<div>
 							<input type="text" id="sndrId" name="sndrId" value="${mbrVO.mbrId}" class="form-control" style="display: inline;"readonly/>
@@ -77,7 +81,7 @@
 					<div class="input-group" style="display: flex; flex-direction: row; margin-bottom: 4px;">
 						<label for="rcvrId" class="col-form-label" style="padding: 5px; border-left: solid #ffbe2e;">수신인</label>
 						<div>
-							<input type="text" id="rcvrId" name="rcvrId" value="${rcvrId}" class="form-control" />
+							<input type="text" id="rcvrId" name="rcvrId" value="${rcvrId}" class="form-control" placeholder="클릭 시 회원 검색"/>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
