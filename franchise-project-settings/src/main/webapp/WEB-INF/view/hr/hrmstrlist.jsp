@@ -11,6 +11,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
 <script type="text/javascript">
 	$().ready(function() {
 		var url;
@@ -93,6 +95,11 @@
 	border: none;
     background-color: #0000;
     font-weight: bold;
+}
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
 }
 </style>
 </head>
@@ -243,7 +250,7 @@
 						</nav>
 					</div>
 					<div style="position: absolute;right: 0;top: 0;">
-	           			<button id="create-btn" type="button" class="btn btn-secondary">작성</button>
+	           			<button id="create-btn" type="button" class="btn btn-outline-secondary btn-default">작성</button>
 	          		</div>
 				</div>
 		</div>
