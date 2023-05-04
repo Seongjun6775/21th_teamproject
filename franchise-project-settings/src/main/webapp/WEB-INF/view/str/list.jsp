@@ -266,7 +266,7 @@
 		    <select id="search-select" class="form-select input-text" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
 				<option value="">검색 조건</option>
 				<option value="strNm"${searchIdx eq 'strNm' ?  'selected': ''}>매장명</option>
-				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>점주ID</option>
+				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>가맹점주ID</option>
 		    </select>
 		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
 		    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
@@ -309,7 +309,7 @@
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">매장주소</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">전화번호</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px;">점주ID</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">가맹점주ID</th>
 						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
@@ -347,7 +347,7 @@
 								<td>
 								  <c:choose>
 								    <c:when test="${empty str.mbrId}">
-								      점주ID가 없습니다.
+								      가맹점주ID가 없습니다.
 								    </c:when>
 								    <c:otherwise>
 								      ${str.mbrId} (${str.mbrVO.mbrNm})
@@ -470,7 +470,7 @@
 					    </div>	
 					
 						<div class="input-group inline">
-							<span class="input-group-text">점주ID</span>
+							<span class="input-group-text">가맹점주ID</span>
 							<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
 						</div>
 						</div>

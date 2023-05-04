@@ -60,7 +60,7 @@
 							<th scope="col" class="col-1"  style="border-radius: 6px 0 0 0;">선택</th>
 							<th scope="col" class="col-1">매장명</th>
 							<th scope="col" class="col-1">매장주소</th>
-							<th scope="col" class="col-1">점주</th>
+							<th scope="col" class="col-1">가맹점주</th>
 						</tr>
 					</thead>
 					<tbody>

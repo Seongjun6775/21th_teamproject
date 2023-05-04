@@ -137,7 +137,7 @@ $().ready(function() {
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 					<span class="fs-5 fw-bold">매장 > 매장 상세 조회</span>
 			</div>
-			중간 관리자는 오직 매장주소, 전화번호, 오픈시간, 클로즈시간만 관리가능합니다.
+			가맹점주는 오직 매장주소, 전화번호, 오픈시간, 클로즈시간만 관리가능합니다.
 			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<form id="strdetailmgn_form">
 					<input type="hidden" id="isModify" value="false" />
@@ -187,7 +187,7 @@ $().ready(function() {
 				    </div>	
 				
 					<div class="input-group inline">
-						<label for="mbrId" style="width:180px">점주ID</label>
+						<label for="mbrId" style="width:180px">가맹점주ID</label>
 						<input type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}" style="background-color:orange"/>
 					</div>
 					<div class="input-group inline">
