@@ -484,8 +484,6 @@
 							<span class="input-group-text">수정일</span>
 							<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
 						</div>
-						<div class="row g-3 half-right" style="display: inline-block; width: 100%; margin-left: 30px;">
-						
 						<div class="input-group inline">
 							<span class="input-group-text">매장명</span>
 							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
@@ -536,7 +534,7 @@
 							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 						</div>
 						
-						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none; margin-left:110%"></div>
 						
 						<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 						<script>
@@ -652,7 +650,6 @@
 						<div class="inline">
 							<label class="form-check-label">사용여부</label>
 							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value=""/>
-						</div>
 						</div>
 						<div style="float:right; display: flex; flex-direction: row-reverse;">
 							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
