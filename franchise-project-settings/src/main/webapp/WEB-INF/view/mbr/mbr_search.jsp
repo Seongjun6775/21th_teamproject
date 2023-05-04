@@ -77,9 +77,9 @@
 										<td>${mbr.mbrNm}</td>
 										<td>
 											<c:choose>
-												<c:when test="${mbr.mbrLvl eq '001-01'}">최고관리자</c:when>
-												<c:when test="${mbr.mbrLvl eq '001-02'}">중간관리자</c:when>
-												<c:when test="${mbr.mbrLvl eq '001-03'}">하위관리자</c:when>
+												<c:when test="${mbr.mbrLvl eq '001-01'}">본사</c:when>
+												<c:when test="${mbr.mbrLvl eq '001-02'}">가맹점주</c:when>
+												<c:when test="${mbr.mbrLvl eq '001-03'}">점원</c:when>
 												<c:otherwise>사용자</c:otherwise>
 											</c:choose>
 										</td>

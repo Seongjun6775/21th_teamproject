@@ -303,7 +303,7 @@
 		    <select id="search-select" class="form-select input-text" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
 				<option value="">검색 조건</option>
 				<option value="strNm"${searchIdx eq 'strNm' ?  'selected': ''}>매장명</option>
-				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>점주ID</option>
+				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>가맹점주ID</option>
 		    </select>
 		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
 		    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
@@ -346,14 +346,7 @@
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">매장주소</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">전화번호</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px;">사용여부
-							<%-- <select class="form-select select-align-center" name="selectFilter" id="useYn">
-								<option value="">사용여부</option>
-								<option value="Y" ${strVO.useYn eq Y ? 'selected' : ''}>Y</option>
-								<option value="N" ${strVO.useYn eq N ? 'selected' : ''}>N</option>
-							</select> --%>
-						</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px;">점주ID</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">가맹점주ID</th>
 						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
@@ -393,7 +386,7 @@
 								<td>
 								  <c:choose>
 								    <c:when test="${empty str.mbrId}">
-								      점주ID가 없습니다.
+								      가맹점주ID가 없습니다.
 								    </c:when>
 								    <c:otherwise>
 								      ${str.mbrId} (${str.mbrVO.mbrNm})
@@ -465,8 +458,70 @@
 						</div>
 						
 						<div class="input-group inline">
-							<span class="input-group-text">점주ID</span>
-							<input class="form-control readonly"  type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
+							<span class="input-group-text">매장명</span>
+							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text ">지역명</span>
+							<select class="form-select" name="strLctn" id="strLctn">
+								<option value="">지역명</option>
+								<c:choose>
+									<c:when test="${not empty lctList}">
+										<c:forEach items="${lctList}" var="lct">
+											<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">도시명</span>
+							<select class="form-select" name="strCty" id="strCty">
+								<option value="">도시명</option>
+								<c:choose>
+									<c:when test="${not empty ctyList}">
+										<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
+											<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</div>
+						
+						<div class="input-group inline" >
+							<span class="input-group-text">매장주소</span>
+							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${StrVO.strAddr}"/>
+						</div>
+						<div class="input-group inline" >
+							<input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기"><br>
+							<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
+							<input type="text" id="sample4_postcode" placeholder="우편번호">
+							<input type="text" id="sample4_sido" placeholder="지역">
+							<input type="text" id="sample4_sigungu" placeholder="도시">
+							<input type="text" id="sample4_jibunAddress" placeholder="지번주소">
+							<span id="guide" style="color:#999;display:none"></span>
+							<input type="text" id="sample4_detailAddress" placeholder="상세주소">
+							<input type="text" id="sample4_extraAddress" placeholder="참고항목">
+						</div>
+					    <div class="input-group inline">
+					        <span class="input-group-text">전화번호</span>
+					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
+					    </div>	
+					
+						<div class="input-group inline">
+							<span class="input-group-text">가맹점주ID</span>
+							<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
+						</div>
+						</div>
+						
+						<div class="row g-3 half-right" style="display: inline-block; width: 30%; margin-left: 30px;">
+						<div class="input-group inline">
+							<span class="input-group-text">오픈시간</span>
+							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">종료시간</span>
+							<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
 						</div>
 						<div class="input-group inline">
 							<span class="input-group-text">등록자</span>
