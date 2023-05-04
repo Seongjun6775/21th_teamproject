@@ -23,10 +23,10 @@
 		$("#regist_btn").click(function(){
 			var checkbox = $(".check-idx:checked");
 			if(checkbox.length == 0 ){
-				alert("매장을 선택하세요.");
+				alert("회원을 선택하세요.");
 			}
-			var checkedStr = checkbox.closest("tr").data();
-			opener.addStrFn(checkedStr);
+			var checkedMbr = checkbox.closest("tr").data();
+			opener.addMbrFn(checkedMbr);
 			window.close();
 		});
 	});
@@ -45,45 +45,50 @@
 			  <i class="bi bi-search" style="margin: 15px;"></i>
 			  <!-- <label for="search-keyword-mbrNm" >이름</label> -->
 				<form style="display: flex; align-items: center;">
-					<input type="text" name="strNm" class="form-control me-2" placeholder="매장명 검색" value="${strNm}"/>
-					<input type="text" name="strAddr" class="form-control me-2" placeholder="매장주소 검색" value="${strAddr}"/>
+					<input type="text" name="mbrId" class="form-control me-2" placeholder="회원 ID 검색" value="${mbrId}"/>
+					<input type="text" name="mbrNm" class="form-control me-2" placeholder="회원 이름 검색" value="${mbrNm}"/>
 					<!-- <button class="btn-search" id="search-btn">검색</button> -->
-					<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+					<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">검색</button>
 				</form>
 			</div>
       		<!-- /contents -->
 	    	<div class="str_search_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
-				<div class="grid-count align-right">총 ${strList.size()}건</div>
+				<div class="grid-count align-right">총 ${mbrList.size()}건</div>
 				<table class="table  table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 							<th scope="col" class="col-1"  style="border-radius: 6px 0 0 0;">선택</th>
-							<th scope="col" class="col-1">매장명</th>
-							<th scope="col" class="col-1">매장주소</th>
-							<th scope="col" class="col-1">가맹점주</th>
+							<th scope="col" class="col-1">회원 ID</th>
+							<th scope="col" class="col-1">이름</th>
+							<th scope="col" class="col-1">회원 등급</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test ="${not empty strList }">
-								<c:forEach items="${strList}" var="str">
-									<tr data-strid="${str.strId}"
-										data-strnm="${str.strNm}"
-										data-straddr="${str.strAddr}"
-										data-mbrid="${str.mbrId}"
-									>
+							<c:when test ="${not empty mbrList}">
+								<c:forEach items="${mbrList}" var="mbr">
+									<tr data-mbrid="${mbr.mbrId}"
+										data-mbrnm="${mbr.mbrNm}"
+										data-mbrlvl="${mbr.mbrLvl}">
 										<td>
-											<input type="checkbox" class="check-idx form-check-input" value="${str.strId}"/>
+											<input type="checkbox" class="check-idx form-check-input" value="${mbr.mbrId}"/>
 										</td>
-										<td>${str.strNm}</td>
-										<td>${str.strAddr}</td>
-										<td>${empty str.mbrId ? '없음' : str.mbrId}</td>
+										<td>${mbr.mbrId}</td>
+										<td>${mbr.mbrNm}</td>
+										<td>
+											<c:choose>
+												<c:when test="${mbr.mbrLvl eq '001-01'}">본사</c:when>
+												<c:when test="${mbr.mbrLvl eq '001-02'}">가맹점주</c:when>
+												<c:when test="${mbr.mbrLvl eq '001-03'}">점원</c:when>
+												<c:otherwise>사용자</c:otherwise>
+											</c:choose>
+										</td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="4">검색된 매장이 없습니다.</td>
+									<td colspan="4">검색된 회원이 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>

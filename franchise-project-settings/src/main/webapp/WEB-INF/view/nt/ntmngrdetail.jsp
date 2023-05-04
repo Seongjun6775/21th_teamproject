@@ -42,27 +42,37 @@
 </script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
-			<h2>중간관리자 쪽지 상세보기 페이지</h2>
-			<div>
-				<div class="detail_header">제목 : ${nt.ntTtl}</div>
+		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+	        <span class="fs-5 fw-bold">쪽지 > 쪽지 관리 > 쪽지 상세조회</span>
+			<div style="position: absolute;right: 0;top: 0; margin: 20px;">
+			  <button id="list_btn" class="btn btn-secondary" >목록</button>
+	        </div>
+      	</div>
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+			<div style="margin: 20px;">
+				<div>
+					<label class="d-inline fw-bolder" style="float: left;width: 67px;">제목</label>
+					<div class="d-inline">${nt.ntTtl} <span style="color: #f00;">${nt.delYn eq 'Y' ? '(삭제됨)' : '	'}</span> </div>
+				</div>
+				<div>
+					<label class="d-inline fw-bolder" style="float: left;width: 67px;" >발신자</label>
+					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25" style="padding: 0 5px 0 5px;" >${nt.sndrId}</div>
+				</div>
+				<div>
+					<label class="d-inline fw-bolder" style="float: left;width: 67px;">수신자</label>
+					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25" style="padding: 0 5px 0 5px;">${nt.rcvrId}</div>
+				</div>
+				<div>
+					<div >쪽지 발송 일자 : ${nt.ntSndrDt}</div>
+					<div >쪽지 확인 일자 : ${nt.ntRdDt}</div>
+				</div>
 			</div>
 			<div>
-				<div class="detail_header">쪽지 번호 : ${nt.ntId}</div>
+				<div class="nt_cntnt fw-bolder" style="word-break: break-all; border-top: 2px solid #e0e0e0;">${nt.ntCntnt}</div>
 			</div>
-			<div>
-				<div class="detail_header">발신자 : ${nt.sndrId}</div>
-				<div class="detail_header">수신자 : ${nt.rcvrId}</div>
+			<div style="float: right;">
+				<button id="del_btn" class="btn btn-danger">삭제</button>
 			</div>
-			<div>
-				<div class="detail_header">쪽지 발송 일자 : ${nt.ntSndrDt}</div>
-				<div class="detail_header">쪽지 확인 일자 : ${nt.ntRdDt}</div>
-			</div>
-			
-			<div>
-				<div class="nt_cntnt" style="word-break: break-all;">${nt.ntCntnt}</div>
-			</div>
-			
-			<button id="del_btn">삭제</button>
-			<button id="list_btn">목록</button>
+		</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

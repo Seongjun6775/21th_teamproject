@@ -152,7 +152,7 @@ $().ready(function() {
 			
 		}
 	});
-	$("#evntaa").click(function() {
+	$("#evnt-info").click(function() {
 		var evntTtl = $("#evntTtl").val();
 		if (evntTtl != "") {
 			var evntId = $("#evntId").val();
@@ -578,7 +578,7 @@ function movePage(pageNo) {
 											onclick="event.cancelBubble=true">
 											<a class="open-layer" href="javascript:void(0);" 
 												val="${prdt.prdtRgstrMbrVO.mbrId}">
-												${prdt.prdtRgstrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.prdtRgstrMbrVO.mbrNm}</a>
+												${prdt.prdtRgstrMbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : prdt.prdtRgstrMbrVO.mbrId}</a>
 										</td>
 										<td>
 											<fmt:parseDate value="${prdt.prdtRgstDt}" pattern="yyyy-MM-dd" var="prdtRgstDt"/>
@@ -588,7 +588,7 @@ function movePage(pageNo) {
 											onclick="event.cancelBubble=true">
 											<a class="open-layer" href="javascript:void(0);" 
 													="${prdt.mdfyrMbrVO.mbrId}">
-												${prdt.mdfyrMbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>이름없음' : prdt.mdfyrMbrVO.mbrNm}</a>
+												${prdt.mdfyrMbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : prdt.mdfyrMbrVO.mbrId}</a>
 										</td>
 										<td>
 											<fmt:parseDate value="${prdt.mdfyDt}" pattern="yyyy-MM-dd" var="mdftyDt"/>

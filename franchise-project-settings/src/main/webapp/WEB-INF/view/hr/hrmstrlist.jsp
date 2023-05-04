@@ -120,8 +120,8 @@
 							<th scope="col" style="padding: 20px 20px 8px 20px;" >
 								<select id="hrLvl" class="form-select" aria-label="Default select example">
 									<option value="">지원 직군</option>
-									<option value="005-01" ${hrVO.hrLvl eq "005-01" ? 'selected' : '' }>점주</option>
-									<option value="005-02" ${hrVO.hrLvl eq "005-02" ? 'selected' : '' }>사원</option>
+									<option value="005-01" ${hrVO.hrLvl eq "005-01" ? 'selected' : '' }>가맹점주</option>
+									<option value="005-02" ${hrVO.hrLvl eq "005-02" ? 'selected' : '' }>점원</option>
 								</select>
 							</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>

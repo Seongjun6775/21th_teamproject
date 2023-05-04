@@ -165,6 +165,19 @@ public class HrServiceImpl implements HrService {
 				updateYn = true;
 			}
 		}
+		// 채용 마감일의 추가로, 공지의 경우 이것 또한 달라졌는지 확인합니다.
+		if(originalData.getNtcYn().equals("Y")) {
+			System.out.println(originalData.getHrDdlnDt());
+			System.out.println(hrVO.getHrDdlnDt());
+			System.out.println(originalData.getHrDdlnDt());
+			System.out.println(hrVO.getHrDdlnDt());
+			System.out.println(originalData.getHrDdlnDt());
+			System.out.println(hrVO.getHrDdlnDt());
+			if(!originalData.getHrDdlnDt().equals(hrVO.getHrDdlnDt())) {
+				newData.setHrDdlnDt(hrVO.getHrDdlnDt());
+				updateYn = true;
+			}
+		}
 		
 		// 이전에 업로드 되어 있던 파일이 있는지 확인합니다.
 		boolean isExisted = (originalData.getOrgnFlNm() != null && originalData.getOrgnFlNm().trim().length() != 0);

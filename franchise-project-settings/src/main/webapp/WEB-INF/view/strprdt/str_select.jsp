@@ -155,7 +155,7 @@ $(document).ready(function() {
 						class="table table-hover">
 					<thead class="">
 						<tr>
-							<th style="border-radius: 0">매장이름일까</th>
+							<th style="border-radius: 0">매장 이름</th>
 						</tr>
 					</thead>
 					<tbody>

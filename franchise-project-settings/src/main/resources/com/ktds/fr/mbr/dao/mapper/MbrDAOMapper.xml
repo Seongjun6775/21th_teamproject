@@ -260,25 +260,29 @@
 	
 	<select id="readOneMbrByMbrId"
 			parameterType="string"
-			resultType="com.ktds.fr.mbr.vo.MbrVO">
-		SELECT MBR_ID
-			 , MBR_NM
-			 , MBR_EML
-			 , TO_CHAR(MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
-			 , TO_CHAR(MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
-			 , MBR_RCNT_LGN_IP
-			 , MBR_LGN_FL_CNT
-			 , MBR_LGN_BLCK_YN
-			 , TO_CHAR(MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
-			 , MBR_PWD_SLT
-			 , TO_CHAR(MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
-			 , MBR_LVL
-			 , MBR_PY_MN
-			 , TO_CHAR(MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT
-		  FROM FRAN.MBR
-		 WHERE MBR_ID=#{_parameter}
-		   AND DEL_YN='N'
-		   AND USE_YN='Y'
+			resultMap="MbrVOMap">
+		SELECT M.MBR_ID
+			 , M.MBR_NM
+			 , M.MBR_EML
+			 , TO_CHAR(M.MBR_LEAV_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LEAV_DT
+			 , TO_CHAR(M.MBR_RCNT_LGN_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RCNT_LGN_DT
+			 , M.MBR_RCNT_LGN_IP
+			 , M.MBR_LGN_FL_CNT
+			 , M.MBR_LGN_BLCK_YN
+			 , TO_CHAR(M.MBR_LST_LGN_FL_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_LST_LGN_FL_DT
+			 , M.MBR_PWD_SLT
+			 , TO_CHAR(M.MBR_PWD_CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_PWD_CHNG_DT
+			 , M.MBR_LVL
+			 , M.MBR_PY_MN
+			 , TO_CHAR(M.MBR_RGSTR_DT, 'YYYY-MM-DD HH24:MI:SS') MBR_RGSTR_DT
+			 , CD.CD_ID
+			 , CD.CD_NM
+		  FROM FRAN.MBR M
+		 INNER JOIN CMMN_CD CD
+		 	ON CD.CD_ID = M.MBR_LVL
+		 WHERE M.MBR_ID=#{_parameter}
+		   AND M.DEL_YN='N'
+		   AND M.USE_YN='Y'
 	</select>
 	
 	<update id="updateOneMbrPwd"
@@ -388,4 +392,21 @@
 		   SET MBR_PY_MN = #{mbrPyMn}
 		 WHERE MBR_ID = #{mbrId}
 	</update>
+	
+	<select id="readAllMbrNoPagenation"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO"
+			resultType="com.ktds.fr.mbr.vo.MbrVO">
+		SELECT MBR_ID 
+			 , MBR_NM 
+			 , MBR_LVL 
+		  FROM MBR
+		 WHERE 1=1
+		<if test='mbrId != null and mbrId !=""'>
+		   AND MBR_ID LIKE '%' || #{mbrId} || '%'
+		</if>
+		<if test='mbrNm != null and mbrNm !=""'>
+		   AND MBR_NM LIKE '%' || #{mbrNm} || '%'
+		</if>
+	</select>
+	
 </mapper>

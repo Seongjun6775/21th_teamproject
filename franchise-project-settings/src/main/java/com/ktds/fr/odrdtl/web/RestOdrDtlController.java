@@ -3,6 +3,8 @@ package com.ktds.fr.odrdtl.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,8 @@ import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
+import com.ktds.fr.str.service.StrService;
+import com.ktds.fr.str.vo.StrVO;
 import com.ktds.fr.strprdt.service.StrPrdtService;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
 
@@ -27,6 +31,9 @@ public class RestOdrDtlController {
 	
 	@Autowired
 	private StrPrdtService strPrdtService;
+	
+	@Autowired
+	private StrService strService ;
 	
 	@PostMapping("/api/odrdtl/delete/{odrLstId}")
 	public ApiResponseVO deleteAllOdrDtlByOdrLstId(@PathVariable String odrLstId,
@@ -103,6 +110,18 @@ public class RestOdrDtlController {
 		System.out.println(odrLstId + " / " + odrDtlList.size());
 		return odrDtlList;
 	}
+	
+	// 매출조회용
+	@PostMapping("/api/payment/groupPrdt")
+	@ResponseBody
+	public List<OdrDtlVO> forSale(@RequestBody OdrDtlVO odrDtlVO) {
+		
+		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
+
+		
+		return groupPrdt;
+	}
+	
 	
 
 }

@@ -189,7 +189,7 @@ li.dropdown > ul > li > a  {
   <nav class="navbar navbar-expand-lg  border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
     <div class="container-fluid ">
       <img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/>
-      <a class="navbar-brand" href="#" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">쁑어빵	</a>
+      <a class="navbar-brand" href="#" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -293,8 +293,6 @@ li.dropdown > ul > li > a  {
 								<li><a href="#" class="fs-6 fw-bold">매장찾기 </a></li>
 								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트관리</a></li>
 								<li><a href="/user/rv/list" class="fs-6 fw-bold">리뷰관리</a></li>
-								<li><a href="#" class="fs-6 fw-bold">03-04</a></li>
-								<li><a href="#" class="fs-6 fw-bold">03-05</a></li>
 							</ul>
 						</li>
 						<li><a href="#" class="fs-4 fw-bold">게시판</a>
@@ -306,10 +304,6 @@ li.dropdown > ul > li > a  {
 						</li>
 						<li><a href="#" class="fs-4 fw-bold">기타</a>
 							<ul>
-								<li><a href="#" class="fs-6 fw-bold">01-01</a></li>
-								<li><a href="#" class="fs-6 fw-bold">01-02</a></li>
-								<li><a href="#" class="fs-6 fw-bold">01-03</a></li>
-								<li><a href="#" class="fs-6 fw-bold">01-04</a></li>
 								<li><a href="${context}/index"  class="fs-6 fw-bold">돌아가기</a></li>
 							</ul>
 						</li>

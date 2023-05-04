@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7121fa95573c132c57b4649cfa281f57&libraries=services"></script>
 
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -84,8 +85,8 @@
 			var data = $(this).data();
 			$("#strId").val(data.strid);
 			$("#strNm").val(data.strnm);
-			$("#strLctn").val(data.strlctn);
-			$("#strCty").val(data.strcty);
+			changeLocation(data.strlctn, data.strcty)
+			/* $("#strCty").val(data.strcty); */
 			$("#strAddr").val(data.straddr);
 			$("#strCallNum").val(data.strcallnum);
 			$("#mbrId").val(data.mbrid + "(" + data.mbrnm + ")");
@@ -107,12 +108,12 @@
 			$("#strAddr").val("");
 			$("#strCallNum").val("");
 			$("#mbrId").val("");
-			$("#strOpnTm").val("");
-			$("#strClsTm").val("");
-			$("#strRgstr").val("${mbrVO.mbrId}");
+			$("#strOpnTm").val("09:00:00");
+			$("#strClsTm").val("18:00:00");
+			$("#strRgstr").val("${strVO.strRgstr}");
 			$("#strRgstDt").val("");
 			$("#mdfyr").val("${mbrVO.mbrId}");
-			$("#mdfyDt").val("");
+			$("#mdfyDt").val("${strVO.mdfyDt}");
 			$("#useYn").prop("checked", false);
 		});
 		
@@ -223,11 +224,47 @@
 				movePage(0);
 			});
 			
-			$("#strLctn").change(function() {
+			function changeLocation(strlctn, cityVal) {
 				
+				$("#strLctn").val(strlctn);
+				
+				var select = $("#strCty");
 				var strLctn = $("#strLctn").val();
-				
-				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){})
+				var option;
+				select.children().remove();
+				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+					if(response.status=="200 OK"){
+						ctyChangedList = response.data;
+						for(var i=0; i<ctyChangedList.length; i++){
+							option="<option value='"+ ctyChangedList[i].ctyId +"'>"+ ctyChangedList[i].ctyNm +"</option>"
+							select.append(option);
+				        }
+						select.val(cityVal);
+					}
+					else{
+						alert("실패!");
+					}
+				})
+			}
+			
+			var ctyChangedList;
+			$("#strLctn").change(function() {
+				var select = $("#strCty");
+				var strLctn = $("#strLctn").val();
+				var option;
+				select.children().remove();
+				$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+					if(response.status=="200 OK"){
+						ctyChangedList = response.data;
+						for(var i=0; i<ctyChangedList.length; i++){
+							option="<option value='"+ ctyChangedList[i].ctyId +"'>"+ ctyChangedList[i].ctyNm +"</option>"
+							select.append(option);
+				        }
+					}
+					else{
+						alert("실패!");
+					}
+				})
 			});
 			
 		});
@@ -276,7 +313,7 @@
 		    <select id="search-select" class="form-select input-text" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
 				<option value="">검색 조건</option>
 				<option value="strNm"${searchIdx eq 'strNm' ?  'selected': ''}>매장명</option>
-				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>점주ID</option>
+				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>가맹점주ID</option>
 		    </select>
 		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
 		    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
@@ -319,7 +356,7 @@
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">매장주소</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">전화번호</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px;">점주ID</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">가맹점주ID</th>
 						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
@@ -335,6 +372,7 @@
 							data-strnm="${str.strNm}" 
 							data-strlctn="${str.lctCdVO.lctId}" 
 							data-strcty="${str.ctyCdVO.ctyId}" 
+							data-strctynm="${str.ctyCdVO.ctyNm}" 
 							data-straddr="${str.strAddr}" 
 							data-strcallnum="${str.strCallNum}" 
 							data-mbrid="${str.mbrId}" 
@@ -354,10 +392,11 @@
 								<td>${str.ctyCdVO.ctyNm}</td>
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
+								<td>${str.useYn}</td>
 								<td>
 								  <c:choose>
 								    <c:when test="${empty str.mbrId}">
-								      점주ID가 없습니다.
+								      가맹점주ID가 없습니다.
 								    </c:when>
 								    <c:otherwise>
 								      ${str.mbrId} (${str.mbrVO.mbrNm})
@@ -417,10 +456,10 @@
 				</nav>
 			</div>
 		</div>
-		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 1613px; margin:20px; height: auto;">
+		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 96.5%; margin:20px;">
 				<div class="grid-detail">
 				<h5 style="padding:10px">매장 정보</h5>
-				<form id="strdetailmst_form" class="needs-validation" style="width: 50%;">
+				<form id="strdetailmst_form" class="needs-validation" style="width: 80%;">
 					<input type="hidden" id="isModify" value="false" />
 					<div class="row g-3 " style="display: inline-block; width: 50%;">
 						<div class="input-group col-12">
@@ -480,7 +519,7 @@
 					    </div>	
 					
 						<div class="input-group inline">
-							<span class="input-group-text">점주ID</span>
+							<span class="input-group-text">가맹점주ID</span>
 							<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}"/>
 						</div>
 						</div>
@@ -510,9 +549,128 @@
 							<span class="input-group-text">수정일</span>
 							<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
 						</div>
+						<div class="row g-3 half-right" style="display: inline-block; width: 40%; margin-left: 30px;">
+						
+						<div class="input-group inline">
+							<span class="input-group-text">매장명</span>
+							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
+						</div>
+						
+						<div class="input-group inline">
+							<span class="input-group-text ">지역명</span>
+							<select class="form-select" name="strLctn" id="strLctn">
+								<option value="">지역명</option>
+								<c:choose>
+									<c:when test="${not empty lctList}">
+										<c:forEach items="${lctList}" var="lct">
+											<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</div>
+						
+						<div class="input-group inline">
+							<span class="input-group-text">도시명</span>
+							<select class="form-select" name="strCty" id="strCty">
+								<option value="">도시명</option>
+								<c:choose>
+									<c:when test="${not empty ctyChangedList}">
+										<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
+											<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</div>
+						
+						<div class="input-group inline" >
+							<span class="input-group-text">매장주소</span>
+							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${StrVO.strAddr}"/>
+						</div>
+						
+						<div class="input-group inline" >
+							<input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기"><br>
+							<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
+							<input type="hidden" id="sample4_postcode" placeholder="우편번호">
+							<input type="hidden" id="sample4_sido" placeholder="지역">
+							<input type="hidden" id="sample4_sigungu" placeholder="도시">
+							<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
+							<span id="guide" style="color:#999;display:none"></span>
+							<input type="hidden" id="sample4_detailAddress" placeholder="상세주소">
+							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
+						</div>
+						
+						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+						<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+						<script>
+						    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+						        mapOption = {
+						            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+						            level: 5 // 지도의 확대 레벨
+						        };
+						
+						    //지도를 미리 생성
+						    var map = new daum.maps.Map(mapContainer, mapOption);
+						    //주소-좌표 변환 객체를 생성
+						    var geocoder = new daum.maps.services.Geocoder();
+						    //마커를 미리 생성
+						    var marker = new daum.maps.Marker({
+						        position: new daum.maps.LatLng(37.537187, 127.005476),
+						        map: map
+						    });
+						
+						
+						    function sample4_execDaumPostcode() {
+						        new daum.Postcode({
+						            oncomplete: function(data) {
+						                var addr = data.address; // 최종 주소 변수
+						
+						                // 주소 정보를 해당 필드에 넣는다.
+						                document.getElementById("sample4_roadAddress").value = addr;
+						                // 주소로 상세 정보를 검색
+						                geocoder.addressSearch(data.address, function(results, status) {
+						                    // 정상적으로 검색이 완료됐으면
+						                    if (status === daum.maps.services.Status.OK) {
+						
+						                        var result = results[0]; //첫번째 결과의 값을 활용
+						
+						                        // 해당 주소에 대한 좌표를 받아서
+						                        var coords = new daum.maps.LatLng(result.y, result.x);
+						                        // 지도를 보여준다.
+						                        mapContainer.style.display = "block";
+						                        map.relayout();
+						                        // 지도 중심을 변경한다.
+						                        map.setCenter(coords);
+						                        // 마커를 결과값으로 받은 위치로 옮긴다.
+						                        marker.setPosition(coords)
+						                    }
+						                });
+						            }
+						        }).open();
+						    }
+						</script>
+						
+					    <div class="input-group inline">
+					        <span class="input-group-text">전화번호</span>
+					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
+					    </div>	
+					
+						
+						</div>
+						
+						<div class="input-group inline">
+							<span class="input-group-text">오픈시간</span>
+							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">종료시간</span>
+							<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
+						</div>
+						
 						<div class="inline">
 							<label class="form-check-label">사용여부</label>
-							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
+							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value=""/>
 						</div>
 						<div style="float:right; display: flex; flex-direction: row-reverse;">
 							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>

@@ -20,6 +20,7 @@
 	}
 	
 	$().ready(function(){
+		
 		$(".admin_table_grid > table > tbody > tr").click(function(){
 			var data = $(this).data();
 			$("#mbrId").val(data.mbrid);
@@ -255,7 +256,8 @@
 													<c:choose>
 															<c:when test="${not empty srtList}">
 																<c:forEach items="${srtList}" var="srt">
-																	<option value="${srt.cdId}">${srt.cdNm eq '중간관리자' ? '점주' : '점원'}</option>
+																	<option value="${srt.cdId}">${srt.cdId eq '001-02' ? '가맹점주' : '점원'}</option>
+
 																</c:forEach>
 															</c:when>
 														</c:choose>
@@ -294,7 +296,7 @@
 														<td>${mbr.mbrNm}</td>
 														<td>${mbr.mbrEml}</td>
 														<td>${mbr.strVO.strNm}</td>
-														<td>${mbr.cmmnCdVO.cdNm eq '중간관리자' ? '점주' : '점원'}</td>
+														<td>${mbr.cmmnCdVO.cdId eq '001-02' ? '가맹점주' : '점원'}</td>
 														<td>${mbr.mbrRcntLgnDt}</td>
 														<td>${mbr.mbrLgnBlckYn}</td>
 													</tr>
@@ -378,7 +380,7 @@
 												<div class="input-group col-12">
 													<select id="select-mbrLvl" class="form-select" name="mbrLvl" >
 														<option value="">변경 직급</option>
-														<option value="001-02">점주</option>
+														<option value="001-02">가맹점주</option>
 														<option value="001-03">점원</option>
 													</select>
 												</div>

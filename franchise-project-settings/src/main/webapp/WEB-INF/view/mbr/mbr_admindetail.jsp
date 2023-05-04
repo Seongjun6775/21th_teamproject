@@ -14,6 +14,9 @@
 
 <script type="text/javascript">
 	$().ready(function(){
+		
+		
+		
 		$("#fileDown").click(function(){
 			$.get("${context}/hr/hrfile/${mbr.hrVO.hrId}", function(resp){
 				if(resp.status == "200 OK"){
@@ -38,7 +41,7 @@
 			<!-- 조회영역 -->
 			<div class="grid">
 				<div class="detail-header">
-					<h1>직원 조회</h1>
+					<h1>점원 조회</h1>
 				</div>
 				<div class="detail-content">
 					<div class="content-block">
