@@ -54,7 +54,6 @@
 			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<form id="nt_form">
 					<div class="input-group" style="display: flex; flex-direction: row-reverse;">
-						<!-- 로그인 기능 완성되면 readonly로 바꾸고 송신인 ID 받아와서 setting할 것 -->
 						<div>
 							<input type="text" id="sndrId" name="sndrId" value="${nt.sndrId}" disabled class="form-control" />
 						</div>

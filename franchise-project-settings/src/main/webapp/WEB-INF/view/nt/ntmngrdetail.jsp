@@ -38,30 +38,6 @@
 			location.href = "${context}/nt/ntmngrlist";
 		});
 		
-		$("#upd_btn").click(function() {
-			var delYn = ("${nt.delYn}");
-			var ntRdDt = ("${nt.ntRdDt}");
-			
-			if (delYn == "Y") {
-				alert("이미 삭제된 쪽지는 수정할 수 없습니다!");
-				return;
-			}
-			
-			else if ( ("${nt.sndrId}") != ("${mbrVO.mbrId}")) {
-				alert("내가 보내지 않은 쪽지는 수정할 수 없습니다!")
-				return;
-			}
-			else {
-				if (ntRdDt == "") {
-					location.href = "${context}/nt/ntupdate/" + ntId;
-				}
-				else {
-					alert("이미 수신한 쪽지는 수정할 수 없습니다!");
-					return;
-				}
-			}
-		});
-		
 	});
 </script>
 </head>
@@ -95,7 +71,6 @@
 				<div class="nt_cntnt fw-bolder" style="word-break: break-all; border-top: 2px solid #e0e0e0;">${nt.ntCntnt}</div>
 			</div>
 			<div style="float: right;">
-				<button id="upd_btn" class="btn btn-success">수정</button> 
 				<button id="del_btn" class="btn btn-danger">삭제</button>
 			</div>
 		</div>
