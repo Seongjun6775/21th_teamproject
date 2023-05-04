@@ -88,6 +88,15 @@
 	
 	
 </script>
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 
@@ -122,8 +131,8 @@
 								<th scope="col" style="padding: 20px 20px 8px 20px;">작성자</th>
 								<th scope="col" style="padding: 20px 20px 8px 20px;">작성일</th>
 								<th scope="col" style="padding: 20px 20px 8px 20px; ">수정일</th>
-								<th scope="col" style="border-radius: 0 6px 0 0; width: 160px; padding: 20px 20px 8px 20px;" >
-									<select class="form-select select-align-center" name="selectFilter"
+								<th scope="col" style="border-radius: 0 6px 0 0; width: 160px;" >
+									<select class=" select-align-center" name="selectFilter"
 											id="search-keyword-delYn">
 										<option value="">삭제여부</option>
 										<option value="Y">Y</option>

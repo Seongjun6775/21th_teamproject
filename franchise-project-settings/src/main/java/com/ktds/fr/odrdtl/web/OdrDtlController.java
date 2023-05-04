@@ -111,6 +111,10 @@ public class OdrDtlController {
 		
 		
 		
+		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
+		model.addAttribute("startEnd", startEnd);
+		
+		
 		model.addAttribute("odrDtlVO", odrDtlVO);
 		model.addAttribute("strList", strList);
 		model.addAttribute("odrDtlList", odrDtlList);

@@ -36,10 +36,15 @@ $().ready(function() {
 	
 	
 	groupPrdt();
+	startEnd();
+	
 	$("#btn-search").click(function() {
 		groupPrdt();
-		
+		startEnd();
 	})
+	
+	
+	
 	
 	
 	
@@ -77,7 +82,7 @@ function groupPrdt() {
 				  $("<td>" + cdNm + "</td>"),
 				  $("<td>" + prdtNm + "</td>"),
 				  $("<td>" + sumCnt.toLocaleString() + "</td>"),
-				  $("<td>" + sumPrc.toLocaleString() + "</td>"),
+				  $("<td class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>"),
 				];
 		    pay = pay + sumPrc;
 			tr.append(tdList);
@@ -90,6 +95,37 @@ function groupPrdt() {
 			"font-weight":"bold",
 		});
 		$("#paymentTotal").html(div);
+	}})
+}
+function startEnd() {
+	
+	var odrDtlVO = {
+		odrDtlStrId : $("#search-keyword-str").val(),
+		startDt : $("#search-keyword-startdt").val(),
+		endDt : $("#search-keyword-enddt").val()
+	}
+	
+	$.ajax({
+		  url: "${context}/api/payment/startEnd",
+		  type: "POST",
+		  contentType: "application/json",
+		  dataType: "json",
+		  data: JSON.stringify(odrDtlVO),
+		  success: function(data) {
+		
+		$("#startEnd").empty();
+		for (var i = 0; i < data.length; i++) {
+		    var oneDay = data[i].oneDay;
+		    var sumPrc = data[i].sumPrc;
+		    var tr = $("<tr></tr>");
+		    var tdList = [
+				  $("<td>" + oneDay + "</td>"),
+				  $("<td class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>"),
+				];
+			tr.append(tdList);
+			$("#startEnd").append(tr);
+	    }
+		
 	}})
 }
 
@@ -145,41 +181,52 @@ function movePage(pageNo) {
 		</div>
 		
 		
-		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
-		
-			<div id="paymentTotal"></div>
-			
-			<table class="table table-striped table-sm table-hover align-center">
-				<thead class="table-secondary">
-					<tr>
-						<th>상품분류</th>
-						<th>상품이름</th>
-						<th>판매수량</th>
-						<th>판매총액</th>
-					</tr>
-				</thead>
-				<tbody id="paymentStr" class="table-group-divider">
-				</tbody>
-			</table>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		
 		
-		
-		
-		
-		
+		<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; margin: 20px;">
+			<div class="inline-flex">
+				
+				<div id="paymentTotal"></div>
+			</div>
 		</div>
+		
+		
+		
+		<div class="inline-flex">
+			<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; width: 70%; max-height: 640px; margin: 20px;">
+				
+				<table class="table table-striped table-sm table-hover align-center">
+					<thead class="table-secondary">
+						<tr>
+							<th style="width:15%">상품분류</th>
+							<th>상품이름</th>
+							<th style="width:15%">판매수량</th>
+							<th style="width:15%">판매총액</th>
+						</tr>
+					</thead>
+					<tbody id="paymentStr" class="table-group-divider">
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px;">
+				<div class="overflow">
+					<table class="table table-striped table-sm table-hover align-center">
+						<thead class="table-secondary">
+							<tr>
+								<th style="width:50%">Date</th>
+								<th>판매총액</th>
+							</tr>
+						</thead>
+						<tbody id="startEnd" class="table-group-divider">
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+
 		<!-- /contents -->
 		
 	<jsp:include page="../include/closeBody.jsp" />

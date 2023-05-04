@@ -205,6 +205,15 @@
 		location.href="${context}/mbr/admin/list?" + queryString;
 	}
 </script>
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+</style>
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <jsp:include page="../include/openBody.jsp" />
@@ -242,12 +251,13 @@
 											<th scope="col" class="col-1">이메일</th>
 											<th scope="col" class="col-1">매장명</th>
 											<th scope="col" class="col-1">
-												<select id="mbrLvl" name="mbrLvl" class="form-select" aria-label="Default select example">
+												<select id="mbrLvl" name="mbrLvl" class="select-align-center" aria-label="Default select example">
 													<option value="">직급</option>
 													<c:choose>
 															<c:when test="${not empty srtList}">
 																<c:forEach items="${srtList}" var="srt">
-																	<option value="${srt.cdId}">${srt.cdNm eq '가맹점주' ? '가맹점주' : '점원'}</option>
+																	<option value="${srt.cdId}">${srt.cdId eq '001-02' ? '가맹점주' : '점원'}</option>
+
 																</c:forEach>
 															</c:when>
 														</c:choose>
@@ -286,7 +296,7 @@
 														<td>${mbr.mbrNm}</td>
 														<td>${mbr.mbrEml}</td>
 														<td>${mbr.strVO.strNm}</td>
-														<td>${mbr.cmmnCdVO.cdNm eq '가맹점주' ? '가맹점주' : '점원'}</td>
+														<td>${mbr.cmmnCdVO.cdId eq '001-02' ? '가맹점주' : '점원'}</td>
 														<td>${mbr.mbrRcntLgnDt}</td>
 														<td>${mbr.mbrLgnBlckYn}</td>
 													</tr>

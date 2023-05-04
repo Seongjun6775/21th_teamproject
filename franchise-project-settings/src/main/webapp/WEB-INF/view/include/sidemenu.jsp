@@ -13,7 +13,10 @@
 	});
 </script>
  <!-- sidebar -->
-  <div class="flex-shrink-0 p-3 bg-dark bg-opacity-75" style="width: 230px; position: fixed;top: 0;bottom: 0; overflow: auto; background-color: ${sessionScope.__MBR__.mbrLvl eq '001-02' ? '#b08d61 !important' : ''};">
+  <div class="flex-shrink-0 p-3 bg-dark bg-opacity-75" style="width: 230px; position: fixed;top: 0;bottom: 0; overflow: auto; 
+  		border-right: ${sessionScope.__MBR__.mbrLvl eq '001-01' ? 'solid 20px'
+  		  : sessionScope.__MBR__.mbrLvl eq '001-02' ? ' solid 20px #ffbe2e'
+  		  : ''};">
     <a href="${context}/index" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
       <img src="${context}/img/붕어빵.png" width="30" height="24" class="rounded" style="margin: 8px;"/>
       <span class="text-light fs-5 fw-semibold">프렌차이즈</span> 
@@ -58,7 +61,7 @@
 					<li class="rounded"><a data-href="${context}/str/list" href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">전국 매장 조회</a></li>
 				</c:when >
 				<c:otherwise>
-					<li class="rounded"><a data-href="${context}/str/list" href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장 조회</a></li>
+					<li class="rounded"><a data-href="${context}/str/list, ${context}/str/strdetailmgn, ${context}/str/customer" href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장 조회</a></li>
 					<li class="rounded"><a data-href="${context}/strprdt/list" href="${context}/strprdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴관리</a></li>
 				</c:otherwise>
 			</c:choose>

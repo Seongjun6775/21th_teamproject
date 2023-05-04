@@ -54,9 +54,9 @@
 		
 	});
 	
-    function deleteFile(obj) {
+    function deleteFile(obj) { 
         obj.parent().remove();
-        var str = "<div class='file-input' style='margin:5px; float:right;'><input type='file' accept='.hwp' id='hrFile' class='form-control' name='hrFile'></div>";
+        var str = "<div class='file-input' style='float:right;'><input type='file' id='hrFile' class='form-control' name='hrFile'></div>";
         $("#file-list").append(str);
     }
 	
@@ -97,8 +97,8 @@
 						<span style="padding-left: 2px; padding-right: 2px;"><fmt:formatNumber type="number" value="${hr.flSize/1024 > 0 ? hr.flSize/1024 : ''}" maxFractionDigits="2"/></span>KB
 					</label>
 					<input type="file" id="hrFile" name="hrFile" style="display: none;" /> --%>
-					<div class="file-group" id="file-list" style="margin-bottom: 4px;" >
-						<label for="hrFile" class="col-form-label" style="padding: 4px; border-left: solid #ffbe2e; margin-right:15px;">파일첨부</label>
+					<div class="file-group" id="file-list" >
+						<label for="hrFile" class="col-form-label" style="padding: 4px; border-left: solid #ffbe2e; margin: 5px 15px 0px 0;">파일첨부</label>
 					    <div class="file-input" style="display: inline-block;">
 					    	  ${hr.orgnFlNm eq null ? '파일이 없습니다' : hr.orgnFlNm}
 					    	  <span><fmt:formatNumber type="number" value="${hr.flSize/1024 > 0 ? hr.flSize/1024 : ''}" maxFractionDigits="2"/></span>
@@ -111,8 +111,8 @@
 					<label for="hrLvl" class="col-form-label" style="padding: 5px; border-left: solid #ffbe2e; margin-right: 7px;">지원 직군</label>
 					<select id="hrLvl" class="form-select" style="width:15%;">
 						<option value="" selected>직군을 선택하세요.</option>
-						<option value="005-01" ${hr.hrLvl == '005-01' ? 'selected' : ''}>점주</option>
-						<option value="005-02" ${hr.hrLvl == '005-02' ? 'selected' : ''}>직원</option>
+						<option value="005-01" ${hr.hrLvl == '005-01' ? 'selected' : ''}>가맹점주</option>
+						<option value="005-02" ${hr.hrLvl == '005-02' ? 'selected' : ''}>점원</option>
 					</select>
 				</div>
 				<div>

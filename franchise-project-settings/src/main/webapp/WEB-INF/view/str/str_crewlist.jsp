@@ -22,7 +22,7 @@
 		<div>
 			<jsp:include page="../include/strMgmtSideMenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<div class="path">매장관리 > 직원 목록</div>
+			<div class="path">매장관리 > 점원 목록</div>
 			
 			<!-- 조회영역 -->
 			<div class="grid">
