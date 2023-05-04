@@ -213,8 +213,8 @@
 				    </div>	
 				
 					<div class="input-group inline">
-						<span class="input-group-text">점주ID</span>
-						<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}" placeholder="점주ID가 없습니다."/>
+						<span class="input-group-text">가맹점주ID</span>
+						<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}" placeholder="가맹점주ID가 없습니다."/>
 					</div>
 					<div class="input-group inline">
 						<span class="input-group-text">오픈시간</span>

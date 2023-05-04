@@ -12,6 +12,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript">
 	$().ready(function(){
 		$("#search-btn").click(function(){
@@ -90,7 +91,7 @@
 								<th scope="col" class="col-1">이름</th>
 								<th scope="col" class="col-1">이메일</th>
 								<th scope="col" class="col-1">
-									<select id="mbrLvl" name="mbrLvl" class="form-select" aria-label="Default select example">
+									<select id="mbrLvl" name="mbrLvl" class="select-align-center" aria-label="Default select example">
 										<option value="">멤버등급</option>
 										<c:choose>
 												<c:when test="${not empty srtList}">
@@ -106,7 +107,7 @@
 								<th scope="col" class="col-1">최근 로그인 IP</th>
 								<th scope="col" class="col-1">로그인 제한</th>
 								<th scope="col" class="col-1"  style="border-radius:0 6px 0 0;"> 
-									<select id="search-keyword-delYn" name="delYn" class="form-select" aria-label="Default select example">
+									<select id="search-keyword-delYn" name="delYn" class="select-align-center" aria-label="Default select example">
 											<option value="">탈퇴유무</option>
 											<option value="Y" ${MbrVO.delYn eq 'Y' ? 'selected' : ''}>Y</option>
 											<option value="N" ${MbrVO.delYn eq 'N' ? 'selected' : ''}>N</option>

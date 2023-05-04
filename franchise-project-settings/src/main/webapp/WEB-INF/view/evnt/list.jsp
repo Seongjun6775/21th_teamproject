@@ -144,7 +144,7 @@
 									<td>
 									
 										<button id="btn-init" type="submit" style="background-color: #fff;">
-											<img  src="${context}/img/초기화.png" width="50"; height="50"></button>
+											<img  src="${context}/img/reset2.png" width="28"; height="28"></button>
 									</td>
 																	
 								</tr>

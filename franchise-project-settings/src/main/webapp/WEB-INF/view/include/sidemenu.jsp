@@ -58,7 +58,7 @@
 					<li class="rounded"><a data-href="${context}/str/list" href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">전국 매장 조회</a></li>
 				</c:when >
 				<c:otherwise>
-					<li class="rounded"><a data-href="${context}/str/list" href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장 조회</a></li>
+					<li class="rounded"><a data-href="${context}/str/list, ${context}/str/strdetailmgn, ${context}/str/customer" href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장 조회</a></li>
 					<li class="rounded"><a data-href="${context}/strprdt/list" href="${context}/strprdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴관리</a></li>
 				</c:otherwise>
 			</c:choose>

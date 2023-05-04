@@ -191,5 +191,31 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.groupStr(odrDtlVO);
 	}
+
+	
+	
+	@Override
+	public List<OdrDtlVO> oneMonth(OdrDtlVO odrDtlVO) {
+		String oneDay = odrDtlVO.getOneDay();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -1);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		
+		System.out.println(year + " / " + month + " / " + day  + " / " + oneDay);
+		
+		
+		return odrDtlDAO.oneMonth(odrDtlVO);
+	}
+
+	@Override
+	public List<OdrDtlVO> startEnd(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.startEnd(odrDtlVO);
+	}
+	
+	
+	
 	
 }

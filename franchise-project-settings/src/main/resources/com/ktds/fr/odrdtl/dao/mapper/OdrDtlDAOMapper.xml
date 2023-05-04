@@ -10,6 +10,7 @@
 		<id property="odrDtlId" column="ODR_DTL_ID" />
 		<result property="sumCnt" column="SUM_CNT" />
     	<result property="sumPrc" column="SUM_PRC" jdbcType="BIGINT" />
+		<result property="oneDay" column="ONE_DAY" />
 		<association property="odrLstVO"
 		              javaType="com.ktds.fr.odrlst.vo.OdrLstVO"
 		              autoMapping="true">
@@ -382,19 +383,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<select id="groupStr"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultMap="odrDtlMap">
@@ -431,6 +419,48 @@
 	</select>
 	
 	
+	
+	
+	
+	
+	
+	
+	<select id="startEnd"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT D.ONE_DAY
+			 , SUM_PRC
+		  FROM (SELECT TO_CHAR(TRUNC(TO_DATE(#{startDt}, 'YYYY-MM-DD') + LEVEL - 1), 'YYYY-MM-DD') AS ONE_DAY
+				  FROM DUAL
+			   CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(TO_DATE(#{endDt}, 'YYYY-MM-DD')) 
+			  					- TRUNC(TO_DATE(#{startDt}, 'YYYY-MM-DD')) + 1 ) D
+				  LEFT JOIN (SELECT ONE_DAY
+								 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC
+							  FROM (SELECT OL.ODR_LST_ID
+										 , OD.ODR_DTL_STR_ID 
+										 , OD.ODR_DTL_PRDT_ID
+										 , OD.ODR_DTL_PRDT_CNT 
+										 , OD.ODR_DTL_PRC 
+									     , OD.MBR_ID
+									     , OL.ODR_LST_ODR_PRCS
+									     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+									     , OL.ODR_LST_RGSTR
+									     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') ONE_DAY
+									     , OL.MDFYR
+									  FROM ODR_DTL OD
+									  LEFT OUTER JOIN ODR_LST OL
+										ON OD.ODR_LST_ID = OL.ODR_LST_ID
+									  LEFT OUTER JOIN STR S
+									    ON OD.ODR_DTL_STR_ID = S.STR_ID
+									 WHERE OL.DEL_YN = 'N'
+									   AND OL.USE_YN = 'Y'
+									   AND OL.ODR_LST_ODR_PRCS = '003-04'
+									   AND S.USE_YN = 'Y' )
+							 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+							 GROUP BY ONE_DAY ) O
+		 ON D.ONE_DAY = O.ONE_DAY
+		 ORDER BY ONE_DAY ASC
+	</select>
 	
 	
 	

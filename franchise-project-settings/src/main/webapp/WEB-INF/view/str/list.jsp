@@ -287,6 +287,16 @@
 		location.href = "${context}/str/list?" + queryString;
 		}
 		</script>
+		
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+</style>
 </head>
 
 <jsp:include page="../include/openBody.jsp" />
@@ -303,7 +313,7 @@
 		    <select id="search-select" class="form-select input-text" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
 				<option value="">검색 조건</option>
 				<option value="strNm"${searchIdx eq 'strNm' ?  'selected': ''}>매장명</option>
-				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>점주ID</option>
+				<option value="mbrId"${searchIdx eq 'mbrId' ?  'selected': ''}>가맹점주ID</option>
 		    </select>
 		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
 		    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
@@ -316,8 +326,8 @@
 					<tr>
 						<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
 						<th scope="col" style="width:250px; padding: 20px 20px 8px 20px;">매장명</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select select-align-center" name="selectFilter" 
+						<th scope="col" style="width: 150px">
+							<select class="select-align-center" name="selectFilter" 
 										id="search-keyword-strLctn">
 								<option value="">지역명</option>
 								<c:choose>
@@ -330,8 +340,8 @@
 								</c:choose>
 							</select>
 						</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select select-align-center" name="selectFilter"
+						<th scope="col" style="width: 150px">
+							<select class="select-align-center" name="selectFilter"
 										id="search-keyword-strCty">
 								<option value="">도시명</option>
 								<c:choose>
@@ -346,15 +356,10 @@
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">매장주소</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">전화번호</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px;">사용여부
-							<%-- <select class="form-select select-align-center" name="selectFilter" id="useYn">
-								<option value="">사용여부</option>
-								<option value="Y" ${strVO.useYn eq Y ? 'selected' : ''}>Y</option>
-								<option value="N" ${strVO.useYn eq N ? 'selected' : ''}>N</option>
-							</select> --%>
-						</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px;">점주ID</th>
-						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">가맹점주ID</th>
+						<th scope="col" style=" width:240px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
+						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;"> </th>
+						
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
 						<th>사용여부</th> -->
@@ -393,7 +398,7 @@
 								<td>
 								  <c:choose>
 								    <c:when test="${empty str.mbrId}">
-								      점주ID가 없습니다.
+								      가맹점주ID가 없습니다.
 								    </c:when>
 								    <c:otherwise>
 								      ${str.mbrId} (${str.mbrVO.mbrNm})
@@ -491,7 +496,6 @@
 								</div>
 							</div>
 						</div>
-						
 						
 						<div class="row g-3 " style="display: inline-block; width: 55%;">
 						<div class="input-group inline">

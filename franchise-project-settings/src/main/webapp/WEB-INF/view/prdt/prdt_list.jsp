@@ -76,13 +76,13 @@ $().ready(function() {
 	var ajaxUtil = new AjaxUtil();
 	
 	
-	 $("#search-keyword-prdtSrt").val("${prdtVO.prdtSrt}");
-	 $("#search-keyword-useYn").val("${prdtVO.useYn}");
-	 var evntYn = ""
-	 if (${prdtVO.evntVO.evntId != ""} && ${not empty prdtVO.evntVO.evntId} ) {
-		 evntYn = "${prdtVO.evntVO.evntId}"
-	 }
-	 $("#search-keyword-evntYn").val(evntYn);
+	$("#search-keyword-prdtSrt").val("${prdtVO.prdtSrt}");
+	$("#search-keyword-useYn").val("${prdtVO.useYn}");
+	var evntYn = ""
+	if (${prdtVO.evntVO.evntId != ""} && ${not empty prdtVO.evntVO.evntId} ) {
+	 evntYn = "${prdtVO.evntVO.evntId}"
+	}
+	$("#search-keyword-evntYn").val(evntYn);
 	
 	
 	var table = document.getElementById("dataTable");
@@ -498,9 +498,9 @@ function movePage(pageNo) {
 							<th class="width100 ">
 								<select class="select-align-center" name="selectFilter"
 										id="search-keyword-evntYn">
-									<option value="">이벤트유무</option>
-									<option value="Y">Y</option>
-									<option value="N">N</option>
+									<option value="">이벤트</option>
+									<option value="Y">진행중</option>
+									<option value="N">-</option>
 								</select>
 							</th>
 							<th class="width100">변경가격</th>
@@ -512,8 +512,8 @@ function movePage(pageNo) {
 								<select class="select-align-center" name="selectFilter"
 										id="search-keyword-useYn">
 									<option value="">사용유무</option>
-									<option value="Y">Y</option>
-									<option value="N">N</option>
+									<option value="Y">사용</option>
+									<option value="N">미사용</option>
 								</select>
 							</th>
 						</tr>
@@ -562,7 +562,7 @@ function movePage(pageNo) {
 											<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber>원
 										</td>
 										<td>
-											${empty prdt.evntVO.evntId ? "N" : "Y"}
+											${empty prdt.evntVO.evntId ? "-" : "진행중"}
 										</td>
 										<td class="money">
 											<c:choose>
@@ -594,7 +594,7 @@ function movePage(pageNo) {
 											<fmt:parseDate value="${prdt.mdfyDt}" pattern="yyyy-MM-dd" var="mdftyDt"/>
 											<fmt:formatDate value="${mdftyDt}" pattern="yyyy.MM.dd"/>
 										</td>
-										<td>${prdt.useYn}</td>
+										<td>${prdt.useYn eq 'Y' ? '사용' : '미사용'}</td>
 									</tr>
 								</c:forEach>	
 							</c:when>
