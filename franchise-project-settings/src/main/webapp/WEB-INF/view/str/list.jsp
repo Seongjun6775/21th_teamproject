@@ -458,32 +458,42 @@
 				<h5 style="padding:10px">매장 정보</h5>
 				<form id="strdetailmst_form" class="needs-validation" style="width: 80%;">
 					<input type="hidden" id="isModify" value="false" />
-					<div class="row g-3 " style="display: inline-block; width: 60%;">
-						<div class="input-group col-12">
-							<span class="input-group-text">매장 ID</span>
-							<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  />
+						<div class="row g-3 " style="display: inline-block; width: 120%;">
+							<div class="input-group col-12" style="display: inline-block; width:100%; margin-bottom:8px;">
+								<div style="display: inline-block; width: 45%">
+									<div class="input-group inline">
+										<span class="input-group-text">점주ID</span>
+										<input class="form-control readonly"  type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">수정자</span>
+										<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${mbrVO.mbrId}" />
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">수정일</span>
+										<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
+									</div>
+								</div>
+								<div style="display: inline-block; width: 45%;">
+									<div class="input-group col-12" >
+										<span class="input-group-text">매장 ID</span>
+										<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  />
+									</div>
+									
+									<div class="input-group inline">
+										<span class="input-group-text">등록자</span>
+										<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  />
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">등록일</span>
+										<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
+									</div>
+								</div>
+							</div>
 						</div>
 						
-						<div class="input-group inline">
-							<span class="input-group-text">점주ID</span>
-							<input class="form-control readonly"  type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">등록자</span>
-							<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  />
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">등록일</span>
-							<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">수정자</span>
-							<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${mbrVO.mbrId}" />
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">수정일</span>
-							<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
-						</div>
+						
+						<div class="row g-3 " style="display: inline-block; width: 55%;">
 						<div class="input-group inline">
 							<span class="input-group-text">매장명</span>
 							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
@@ -534,7 +544,33 @@
 							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 						</div>
 						
-						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none; margin-left:110%"></div>
+					    <div class="input-group inline">
+					        <span class="input-group-text">전화번호</span>
+					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
+					    </div>	
+					
+						
+						<div class="input-group inline">
+							<span class="input-group-text">오픈시간</span>
+							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">종료시간</span>
+							<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
+						</div>
+						
+						<div class="inline">
+							<label class="form-check-label">사용여부</label>
+							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value=""/>
+						</div>
+						<div style="float:right; display: flex; flex-direction: row-reverse;">
+							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
+							<button type="button" id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
+						</div>
+					</div>
+					
+					<div style="display: inline-block;">
+						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none; margin-bottom: 100%; margin-left: 20%"></div>
 						
 						<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 						<script>
@@ -631,30 +667,6 @@
 						        }).open();
 						    }
 						</script>
-						
-					    <div class="input-group inline">
-					        <span class="input-group-text">전화번호</span>
-					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
-					    </div>	
-					
-						
-						<div class="input-group inline">
-							<span class="input-group-text">오픈시간</span>
-							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">종료시간</span>
-							<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
-						</div>
-						
-						<div class="inline">
-							<label class="form-check-label">사용여부</label>
-							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value=""/>
-						</div>
-						<div style="float:right; display: flex; flex-direction: row-reverse;">
-							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
-							<button type="button" id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
-						</div>
 					</div>
 				</form>
 			</div>
