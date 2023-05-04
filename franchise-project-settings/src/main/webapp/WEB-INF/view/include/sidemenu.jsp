@@ -134,4 +134,5 @@
       <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/hlpdsk/list" class="text-light link-dark d-inline-flex text-decoration-none rounded">고객센터</a></li>
     </ul>
   </div>
+  </div>
   <!-- /sidebar -->

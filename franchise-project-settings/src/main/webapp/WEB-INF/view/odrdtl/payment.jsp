@@ -192,6 +192,7 @@ function movePage(pageNo) {
 				<tbody id="paymentStr" class="table-group-divider">
 				</tbody>
 			</table>
+			</div>
 			
 			
 			
@@ -239,6 +240,5 @@ function movePage(pageNo) {
 		
 	<jsp:include page="../include/closeBody.jsp" />
 
-
-</body>
+	</body>
 </html>
