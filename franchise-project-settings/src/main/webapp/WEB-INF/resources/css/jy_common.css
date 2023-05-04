@@ -321,6 +321,9 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 /* 매출데이터 관련 */
+.paymentTop {
+	margin-bottom: 16px;
+}
 .paymentTop > div {
 	flex: 1;
 	font-weight: bold;

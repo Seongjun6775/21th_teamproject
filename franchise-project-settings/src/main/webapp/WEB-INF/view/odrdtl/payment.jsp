@@ -36,18 +36,18 @@ $().ready(function() {
 	
 	
 	groupPrdt();
-	
 	$("#btn-search").click(function() {
 		groupPrdt();
 	})
 	
-	$(document).on('click', '#paymentPrdt tr', function() {
-		console.log($(this).data());
+	$("#paymentStr").on("click", "tr", function() {
+		$(this).closest("tbody").find(".on").removeClass("on");
+		$(this).addClass("on");
+		var prdtId = $(this).data().prdtid;
+		var prdtNm = decodeURIComponent($(this).data().prdtnm);
+		startEnd(prdtId, prdtNm);
+		
 	});
-	$("#paymentPrdt").closest("table").find("tr").click(function() {
-		console.log($(this).data());
-	});
-	
 	
 	
 	
@@ -74,6 +74,7 @@ function groupPrdt() {
 		  data: JSON.stringify(odrDtlVO),
 		  success: function(data) {
 		
+		var cnt = 0;
 		var pay = 0;
 		$("#paymentStr").empty();
 		for (var i = 0; i < data.length; i++) {
@@ -81,31 +82,34 @@ function groupPrdt() {
 		    var prdtNm = data[i].prdtVO.prdtNm;
 		    var sumCnt = data[i].sumCnt;
 		    var sumPrc = data[i].sumPrc;
-		    var tr = $("<tr data-odrdtlprdtid="+data[i].prdtVO.prdtId+"></tr>");
+		    var tr = $("<tr data-prdtid="+data[i].prdtVO.prdtId+" data-prdtnm="+encodeURIComponent(data[i].prdtVO.prdtNm)+"></tr>");
 		    var tdList = [
 				  $("<td>" + cdNm + "</td>"),
 				  $("<td>" + prdtNm + "</td>"),
 				  $("<td>" + sumCnt.toLocaleString() + "</td>"),
 				  $("<td class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>"),
 				];
+		    cnt += sumCnt;
 		    pay += sumPrc;
 			tr.append(tdList);
 			$("#paymentStr").append(tr);
 	    }
 		
-		var div = $("<div>총 금액 : "+pay.toLocaleString() +"원</div>")
-		$("#paymentTotal").html(div);
+// 		var div = $("<div>총 금액 : "+pay.toLocaleString() +"원</div>")
+		$("#paymentTotal").html("금액 합계: "+pay.toLocaleString() +"원");
+		$("#paymentCnt").html("수량 합계 : "+cnt.toLocaleString());
 		
-		startEnd(pay);
+		startEnd();
 	}})
 }
 
-function startEnd(pay) {
+function startEnd(prdtId, prdtNm) {
 	
 	var odrDtlVO = {
 		odrDtlStrId : $("#search-keyword-str").val(),
 		startDt : $("#search-keyword-startdt").val(),
-		endDt : $("#search-keyword-enddt").val()
+		endDt : $("#search-keyword-enddt").val(),
+		odrDtlPrdtId : prdtId
 	}
 	
 	$.ajax({
@@ -117,12 +121,14 @@ function startEnd(pay) {
 		  success: function(data) {
 		
 		var dayCnt = 0;
+		var pay = 0;
 		$("#startEnd").empty();
 		for (var i = 0; i < data.length; i++) {
 		    var oneDay = data[i].oneDay;
 		    var sumPrc = data[i].sumPrc;
 		    if(sumPrc > 0) {
 		    	dayCnt++;
+		    	pay += sumPrc;
 		    }
 		    
 		    var tr = $("<tr></tr>");
@@ -133,10 +139,14 @@ function startEnd(pay) {
 			tr.append(tdList);
 			$("#startEnd").append(tr);
 	    }
-		var div = $("<div>운영일 수 : "+dayCnt +"일</div>")
-		$("#dayCnt").html(div);
-		div = $("<div>일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원</div>")
-		$("#paymentAvg").html(div);
+// 		var div = $("<div>운영일 수 : "+dayCnt +"일</div>")
+// 		$("#dayCnt").html("운영일 수 : "+dayCnt+"일");
+// 		div = $("<div>일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원</div>")
+// 		$("#paymentAvg").html("일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원");
+		if (prdtNm == null) {
+			prdtNm = "전체"
+		}
+		$("#selectPrdtNm").html("선택상품: "+ prdtNm);
 		
 	}})
 }
@@ -195,18 +205,17 @@ function movePage(pageNo) {
 		
 		
 		
-		<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; margin: 20px;">
-			<div class="flex paymentTop">
-				<div id="paymentTotal"></div>
-				<div id="dayCnt"></div>
-				<div id="paymentAvg"></div>
-			</div>
-		</div>
+<!-- 		<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; margin: 20px;"> -->
+<!-- 		</div> -->
 		
 		
 		
 		<div class="inline-flex">
-			<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; width: 70%; max-height: 640px; margin: 20px;">
+			<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; width: 70%; max-height: 640px; margin: 20px;">
+				<div class="flex paymentTop">
+					<div id="paymentTotal"></div>
+					<div id="paymentCnt"></div>
+				</div>
 				<div class="overflow">
 					<table class="table table-striped table-sm table-hover align-center">
 						<thead class="table-secondary">
@@ -223,7 +232,12 @@ function movePage(pageNo) {
 				</div>
 			</div>
 			
-			<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px;">
+			<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px;">
+				<div class="flex paymentTop">
+<!-- 					<div id="dayCnt"></div> -->
+<!-- 					<div id="paymentAvg"></div> -->
+					<div id="selectPrdtNm"></div>
+				</div>
 				<div class="overflow">
 					<table class="table table-striped table-sm table-hover align-center">
 						<thead class="table-secondary">

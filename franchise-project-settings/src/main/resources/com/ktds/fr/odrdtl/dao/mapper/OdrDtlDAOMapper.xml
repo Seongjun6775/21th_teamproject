@@ -460,7 +460,7 @@
 							   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
 							 GROUP BY ONE_DAY ) O
 		 ON D.ONE_DAY = O.ONE_DAY
-		 ORDER BY ONE_DAY ASC
+		 ORDER BY ONE_DAY DESC
 	</select>
 	
 	
