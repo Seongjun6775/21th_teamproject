@@ -148,12 +148,7 @@ function movePage(pageNo) {
 		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 		
 			<div id="paymentTotal"></div>
-			
-			
-			<%--아인수정코드 --%>
-			<div id="paymentTotal">${groupPrdt[0].odrDtlVO.sumPrc}</div>
-			
-			
+						
 			<table class="table table-striped table-sm table-hover align-center">
 				<thead class="table-secondary">
 					<tr>
