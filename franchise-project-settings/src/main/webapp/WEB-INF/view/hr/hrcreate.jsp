@@ -67,8 +67,8 @@
 						<div style="margin: 20px 0 20px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
 							<select id="hrLvl" class="form-select" style="width:15%;">
 								<option value=" ">직군을 선택하세요.</option>
-								<option value="005-01">점주</option>
-								<option value="005-02">직원</option>
+								<option value="005-01">가맹점주</option>
+								<option value="005-02">점원</option>
 							</select>
 						</div>
 						<div>

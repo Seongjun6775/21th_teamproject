@@ -220,7 +220,7 @@ public class RestMbrController {
 	public ApiResponseVO doFireAdmin(@SessionAttribute("__MBR__")MbrVO mbr,@RequestBody List<MbrVO> mbrVOList) {
 		
 		if(mbrVOList == null || mbrVOList.size()==0) {
-			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "해임하려는 직원을 다시 확인해 주세요.");
+			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "해임하려는 관리자를 다시 확인해 주세요.");
 		}
 		boolean delResult = mbrService.deleteAllMbrAdminByMbrId(mbr, mbrVOList);
 		if(!delResult) {

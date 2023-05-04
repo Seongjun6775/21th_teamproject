@@ -41,7 +41,7 @@
 			<!-- 조회영역 -->
 			<div class="grid">
 				<div class="detail-header">
-					<h1>직원 조회</h1>
+					<h1>점원 조회</h1>
 				</div>
 				<div class="detail-content">
 					<div class="content-block">

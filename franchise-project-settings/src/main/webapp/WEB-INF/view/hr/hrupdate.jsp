@@ -86,8 +86,8 @@
 				<div>
 					<select id="hrLvl" style="display: ${mbrVO.mbrLvl eq '001-01' ? 'none' : ''};">
 						<option value="" selected>직군을 선택하세요.</option>
-						<option value="005-01" ${hr.hrLvl == '005-01' ? 'selected' : ''}>점주</option>
-						<option value="005-02" ${hr.hrLvl == '005-02' ? 'selected' : ''}>직원</option>
+						<option value="005-01" ${hr.hrLvl == '005-01' ? 'selected' : ''}>가맹점주</option>
+						<option value="005-02" ${hr.hrLvl == '005-02' ? 'selected' : ''}>점원</option>
 					</select>
 				</div>
 				<div>

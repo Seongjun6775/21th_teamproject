@@ -52,8 +52,8 @@
 							<th>이벤트명</th>
 							<th>이벤트 참여매장 ID</th>
 							<th>이벤트 참여매장명</th>
-							<th>점주 ID</th>
-							<th>점주명</th>
+							<th>가맹점주 ID</th>
+							<th>가맹점주명</th>
 						</tr>
 					</thead>
 					<tbody>
