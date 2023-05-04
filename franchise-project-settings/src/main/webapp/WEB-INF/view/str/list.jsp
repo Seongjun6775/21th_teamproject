@@ -250,6 +250,16 @@
 		location.href = "${context}/str/list?" + queryString;
 		}
 		</script>
+		
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+</style>
 </head>
 
 <jsp:include page="../include/openBody.jsp" />
@@ -279,8 +289,8 @@
 					<tr>
 						<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
 						<th scope="col" style="width:250px; padding: 20px 20px 8px 20px;">매장명</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select select-align-center" name="selectFilter" 
+						<th scope="col" style="width: 150px">
+							<select class="select-align-center" name="selectFilter" 
 										id="search-keyword-strLctn">
 								<option value="">지역명</option>
 								<c:choose>
@@ -293,8 +303,8 @@
 								</c:choose>
 							</select>
 						</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select select-align-center" name="selectFilter"
+						<th scope="col" style="width: 150px">
+							<select class="select-align-center" name="selectFilter"
 										id="search-keyword-strCty">
 								<option value="">도시명</option>
 								<c:choose>

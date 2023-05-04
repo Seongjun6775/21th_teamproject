@@ -204,6 +204,15 @@
 		location.href="${context}/mbr/admin/list?" + queryString;
 	}
 </script>
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+</style>
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <jsp:include page="../include/openBody.jsp" />
@@ -241,7 +250,7 @@
 											<th scope="col" class="col-1">이메일</th>
 											<th scope="col" class="col-1">매장명</th>
 											<th scope="col" class="col-1">
-												<select id="mbrLvl" name="mbrLvl" class="form-select" aria-label="Default select example">
+												<select id="mbrLvl" name="mbrLvl" class="select-align-center" aria-label="Default select example">
 													<option value="">직급</option>
 													<c:choose>
 															<c:when test="${not empty srtList}">
