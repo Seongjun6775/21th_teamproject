@@ -120,7 +120,7 @@ public class NtController {
 		
 		if (mbrVO.getMbrLvl().equals("001-01") || mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
 			if (mbrVO.getMbrId().equals(mbrId)) {
-				throw new ApiException("400", "자기 자신에게는 쪽지를 보낼 수 없습니다!");
+				return "nt/500sendtome";
 			}
 			
 			model.addAttribute("mbrVO", mbrVO);

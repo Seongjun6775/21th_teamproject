@@ -26,7 +26,7 @@ function secId(mbrId) {
 }
 
   	
-$(document).ready(function() {
+$().ready(function() {
 	
 	console.log("ready function!")
 	var ajaxUtil = new AjaxUtil();
@@ -35,64 +35,64 @@ $(document).ready(function() {
 	
 	
 	
-	
-	
-	
-	
-	
+	groupPrdt();
 	$("#btn-search").click(function() {
-// 		movePage(0);
-		
-		
-		var odrDtlVO = {
-			odrDtlStrId : $("#search-keyword-str").val(),
-			startDt : $("#search-keyword-startdt").val(),
-			endDt : $("#search-keyword-enddt").val()
-		}
-		
-		$.ajax({
-			  url: "${context}/api/payment/groupPrdt",
-			  type: "POST",
-			  contentType: "application/json",
-			  dataType: "json",
-			  data: JSON.stringify(odrDtlVO),
-			  success: function(data) {
-			
-			var pay = 0;
-			$("#paymentStr").empty();
-			for (var i = 0; i < data.length; i++) {
-			    var cdNm = data[i].prdtVO.cmmnCdVO.cdNm;
-			    var prdtNm = data[i].prdtVO.prdtNm;
-			    var sumCnt = data[i].sumCnt;
-			    var sumPrc = data[i].sumPrc;
-			    var tr = $("<tr></tr>");
-			    var tdList = [
-					  $("<td>" + cdNm + "</td>"),
-					  $("<td>" + prdtNm + "</td>"),
-					  $("<td>" + sumCnt.toLocaleString() + "</td>"),
-					  $("<td>" + sumPrc.toLocaleString() + "</td>"),
-					];
-			    pay = pay + sumPrc;
-				tr.append(tdList);
-				$("#paymentStr").append(tr);
-		    }
-			
-			
-			var div = $("<div> 총 금액 : "+pay.toLocaleString() +"원</div>")
-			div.css({
-				"text-align":"right",
-				"font-weight":"bold",
-			});
-			$("#paymentTotal").html(div);
-			
-			
-		}})
+		groupPrdt();
 		
 	})
 	
 	
 	
 })
+
+
+
+
+
+function groupPrdt() {
+	
+	var odrDtlVO = {
+		odrDtlStrId : $("#search-keyword-str").val(),
+		startDt : $("#search-keyword-startdt").val(),
+		endDt : $("#search-keyword-enddt").val()
+	}
+	
+	$.ajax({
+		  url: "${context}/api/payment/groupPrdt",
+		  type: "POST",
+		  contentType: "application/json",
+		  dataType: "json",
+		  data: JSON.stringify(odrDtlVO),
+		  success: function(data) {
+		
+		var pay = 0;
+		$("#paymentStr").empty();
+		for (var i = 0; i < data.length; i++) {
+		    var cdNm = data[i].prdtVO.cmmnCdVO.cdNm;
+		    var prdtNm = data[i].prdtVO.prdtNm;
+		    var sumCnt = data[i].sumCnt;
+		    var sumPrc = data[i].sumPrc;
+		    var tr = $("<tr></tr>");
+		    var tdList = [
+				  $("<td>" + cdNm + "</td>"),
+				  $("<td>" + prdtNm + "</td>"),
+				  $("<td>" + sumCnt.toLocaleString() + "</td>"),
+				  $("<td>" + sumPrc.toLocaleString() + "</td>"),
+				];
+		    pay = pay + sumPrc;
+			tr.append(tdList);
+			$("#paymentStr").append(tr);
+	    }
+		
+		var div = $("<div> 총 금액 : "+pay.toLocaleString() +"원</div>")
+		div.css({
+			"text-align":"right",
+			"font-weight":"bold",
+		});
+		$("#paymentTotal").html(div);
+	}})
+}
+
 
 
 function movePage(pageNo) {
@@ -159,57 +159,10 @@ function movePage(pageNo) {
 					</tr>
 				</thead>
 				<tbody id="paymentStr" class="table-group-divider">
-					<c:choose>
-						<c:when test="${not empty groupPrdt}">
-							<c:forEach items="${groupPrdt}"
-										var="prdt">
-								<tr data-total="${prdt.sumCnt * prdt.sumPrc}" >
-<%-- 									<td>${prdt.prdtVO.cmmnCdVO.cdId}</td>							 --%>
-									<td>${prdt.prdtVO.cmmnCdVO.cdNm}</td>							
-<%-- 									<td>${prdt.prdtVO.prdtId}</td>							 --%>
-									<td>${prdt.prdtVO.prdtNm}</td>							
-									<td><fmt:formatNumber>${prdt.sumCnt}</fmt:formatNumber></td>							
-									<td><fmt:formatNumber>${prdt.sumPrc}</fmt:formatNumber></td>							
-								</tr>
-							</c:forEach>
-						</c:when>
-					</c:choose>
 				</tbody>
 			</table>
 			
 			
-			매장별 매출
-			<table class="table table-striped table-sm table-hover align-center">
-				<thead class="table-secondary">
-					<tr>
-						<th>매장ID</th>
-						<th>상품분류</th>
-						<th>상품ID</th>
-						<th>수량</th>
-						<th>단가</th>
-						<th>구매자</th>
-						<th>날짜</th>
-					</tr>
-				</thead>
-				<tbody class="table-group-divider">
-					<c:choose>
-						<c:when test="${not empty odrDtlList}">
-							<c:forEach items="${odrDtlList}"
-										var="odrDtl">
-								<tr >
-									<td>${odrDtl.odrDtlStrId}</td>							
-									<td>${odrDtl.prdtVO.cmmnCdVO.cdId}</td>							
-									<td>${odrDtl.odrDtlPrdtId}</td>							
-									<td>${odrDtl.odrDtlPrdtCnt}</td>							
-									<td>${odrDtl.odrDtlPrc}</td>							
-									<td>${odrDtl.mbrId}</td>							
-									<td>${odrDtl.odrLstVO.mdfyDt}</td>							
-								</tr>
-							</c:forEach>
-						</c:when>
-					</c:choose>
-				</tbody>
-			</table>
 			
 			
 			

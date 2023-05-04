@@ -435,6 +435,11 @@ input[type="number"]::-webkit-inner-spin-button {
 	height: 32px;
     display: flex;
     align-items: flex-end;
+    animation: eventText 0.4s linear infinite;
+    font-size: 18px;
+}
+.discount > span > i {
+	font-size : 24px;
 }
 .overlay {
 	width: 100%;
@@ -593,5 +598,23 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 
+
+
+
+
+
+
+
+@keyframes eventText {
+    0% {
+        color: burlywood;
+    }
+    50% {
+        color: cornsilk;
+    }
+    100% {
+        color: burlywood;
+    }
+}
 
 

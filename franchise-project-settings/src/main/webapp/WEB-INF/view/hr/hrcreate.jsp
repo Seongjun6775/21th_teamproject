@@ -78,7 +78,7 @@
 							</div>
 						</div>
 						<label for="hrCntnt" class="col-form-label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">본문</label>
-						<div class="input-group">
+						<div class="input-group" style="display: ${hr.mbrVO.mbrLvl eq '001-01' ? '' : 'none'};">
 							<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
 									 placeholder="간단하게 자기소개 부탁드립니다." class="form-control"></textarea>
 						</div>
@@ -88,6 +88,10 @@
 						</div>
 					</div>
 				</form>
+			<div>
+				<button id="save_btn">작성</button>
+				<button id="cancel_btn">취소</button>
 			</div>
+		</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
