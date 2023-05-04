@@ -86,7 +86,15 @@
 	}
 	
 </script>
-
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -118,17 +126,17 @@
 						<tr>
 							<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;">작성자</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;" >
-								<select id="hrLvl" class="form-select" aria-label="Default select example">
+								<select id="hrLvl" class="select-align-center" aria-label="Default select example">
 									<option value="">지원 직군</option>
-									<option value="005-01" ${hrVO.hrLvl eq "005-01" ? 'selected' : '' }>점주</option>
-									<option value="005-02" ${hrVO.hrLvl eq "005-02" ? 'selected' : '' }>사원</option>
+									<option value="005-01" ${hrVO.hrLvl eq "005-01" ? 'selected' : '' }>가맹점주</option>
+									<option value="005-02" ${hrVO.hrLvl eq "005-02" ? 'selected' : '' }>점원</option>
 								</select>
 							</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;">승인 여부</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;">
-								<select id="hrStat" class="form-select" aria-label="Default select example">
+								<select id="hrStat" class="select-align-center" aria-label="Default select example">
 									<option value="">채용 상태</option>
 									<option value="002-01" ${hrVO.hrStat eq "002-01" ? 'selected' : '' }>접수</option>
 									<option value="002-02" ${hrVO.hrStat eq "002-02" ? 'selected' : '' }>심사중</option>
@@ -136,7 +144,7 @@
 								</select>
 							</th>
 							<th scope="col" style="border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;" >
-								<select id="delYn" class="form-select" aria-label="Default select example">
+								<select id="delYn" class="select-align-center" aria-label="Default select example">
 									<option value="">삭제 여부</option>
 									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제됨</option>
 									<option value="N" ${hrVO.delYn eq "N" ? 'selected' : '' }>삭제되지 않음</option>
@@ -239,7 +247,7 @@
 	          		</div>
 				</div>
 		</div>
-			
+			 
 		<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
