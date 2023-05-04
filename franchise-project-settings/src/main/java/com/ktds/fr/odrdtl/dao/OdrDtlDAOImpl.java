@@ -77,6 +77,16 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO) {
 		return getSqlSession().selectList("OdrDtl.groupStr", odrDtlVO);
 	}
+
+	@Override
+	public List<OdrDtlVO> startEnd(OdrDtlVO odrDtlVO) {
+		return getSqlSession().selectList("OdrDtl.startEnd", odrDtlVO);
+	}
+	
+	@Override
+	public List<OdrDtlVO> oneMonth(OdrDtlVO odrDtlVO) {
+		return getSqlSession().selectList("OdrDtl.oneMonth", odrDtlVO);
+	}
 	
 	
 }

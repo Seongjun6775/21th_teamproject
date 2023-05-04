@@ -248,6 +248,9 @@ table .on {
 
 .money {
 	text-align: right;
+	display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
 }
 table > thead {
 	border-bottom: 2px solid #adb5bd;
