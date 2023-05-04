@@ -235,7 +235,7 @@
 				 , STR_OPN_TM =TO_DATE(#{strOpnTm}, 'HH24:MI:SS')
 			 	 , STR_CLS_TM =TO_DATE(#{strClsTm}, 'HH24:MI:SS')
 				 , STR_RGSTR=#{strRgstr}
-			 	 , STR_RGST_DT=SYSDATE
+			 	 , STR_RGST_DT=TO_CHAR(STR_RGST_DT, 'YYYY-MM-DD')
 				 , MDFYR=#{mdfyr}
 				 , MDFY_DT=SYSDATE
 				 , USE_YN= NVL(#{useYn}, 'N')
@@ -250,7 +250,7 @@
 				 , TO_DATE(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
 			 	 , TO_DATE(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
 			 	 , STR_RGSTR=#{strRgstr}
-			 	 , STR_RGST_DT=SYSDATE
+			 	 , STR_RGST_DT=TO_CHAR(STR_RGST_DT, 'YYYY-MM-DD') STR_RGST_DT
 				 , MDFYR=#{mdfyr}
 				 , MDFY_DT=SYSDATE
 				 , USE_YN= NVL(#{useYn}, 'N')
@@ -294,11 +294,9 @@
 	
 	<select id="readCategory"
 			parameterType="string"
-			resultMap="strVOMap">
+			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
 		SELECT C.CTY_ID
-			 , C.CTY_NM
-			 , C.LCT_ID
-			 , L.LCT_NM 
+	 		 , C.CTY_NM
 		  FROM CTY_CD C
 		  JOIN LCT_CD L
 		  	ON C.LCT_ID = L.LCT_ID

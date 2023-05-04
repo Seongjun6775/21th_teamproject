@@ -135,7 +135,7 @@
 						<option value="Wrtr"${searchIdx eq 'Wrtr' ?  'selected': ''}>작성자</option>
 				    </select>
 				    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
-				    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">Search</button>
+				    <button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;min-width:80px;">검색</button>
 				</div>
 				<!-- /searchbar -->	
 				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
@@ -160,7 +160,7 @@
 									<c:forEach items="${noticeList}" var="mngrBrd" >
 										<tr data-mngrid = "${mngrBrd.mngrId}"
 											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ffffaa7a' : ''}">
+											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ff8f56' : ''}">
 											
 											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 												<td style="width: 20px;"> 
@@ -172,7 +172,7 @@
 											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
 											
 											<td>
-												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid">
+												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid" style="${mngrBrd.ntcYn eq 'Y' ? 'font-weight: 900; color: #f00;' : ''}">
 													${mngrBrd.mngrBrdTtl}  
 												</a>[${mngrBrd.rplList.size()}] 
 											</td>
@@ -188,7 +188,7 @@
 									<c:forEach items="${mngrBrdList}" var="mngrBrd" >
 										<tr data-mngrid = "${mngrBrd.mngrId}"
 											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ffffaa7a' : ''}">
+											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ff8f56' : ''}">
 											
 											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 												<td style="width: 20px;"> 
@@ -235,7 +235,7 @@
 								<c:set value ="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
 								<c:if test="${nowGroup > 0}">
 									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
-									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})")>이전</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
 								</c:if>
 	
 								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">

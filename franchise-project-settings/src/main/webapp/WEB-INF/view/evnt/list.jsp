@@ -139,11 +139,13 @@
 									<td><input id="evntEndDt" type="date" name="evntEndDt" class="form-control " style="margin-right: 10px; "
 										value="${evntEndDt}" style="width: 90%;" /></td>
 									<td>
-										<button id="btn-init" class="btn btn-light" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">초기화</button>
-									</td>
-									<td>
-										<button type="submit" class="btn btn-outline-success" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;"id="search-btn">Search</button>
+										<button type="submit" class="btn btn-outline-success" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;"id="search-btn">검색</button>
 									</td>	
+									<td>
+									
+										<button id="btn-init" type="submit" style="background-color: #fff;">
+											<img  src="${context}/img/초기화.png" width="50"; height="50"></button>
+									</td>
 																	
 								</tr>
 							</table>

@@ -86,9 +86,15 @@ public class OdrDtlController {
 	
 	
 	
+	
+	
+	
 	@GetMapping("/payment")
-	public String forSale(Model model, OdrDtlVO odrDtlVO) {
-		
+	public String forSale(Model model, OdrDtlVO odrDtlVO
+						, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			odrDtlVO.setOdrDtlStrId(mbrVO.getStrId());
+		}
 		
 		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
 		
