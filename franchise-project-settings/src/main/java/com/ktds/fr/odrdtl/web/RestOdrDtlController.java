@@ -121,6 +121,30 @@ public class RestOdrDtlController {
 		return groupPrdt;
 	}
 	
+	// 매장별 매출조회용
+	@PostMapping("/api/payment/groupStr")
+	@ResponseBody
+	public List<OdrDtlVO> groupStr(@RequestBody OdrDtlVO odrDtlVO) {
+		System.out.println("getLctId : " + odrDtlVO.getCtyCdVO().getLctId());
+		System.out.println("getCtyId : " + odrDtlVO.getCtyCdVO().getCtyId());
+		System.out.println("getStartDt : " + odrDtlVO.getStartDt());
+		System.out.println("getEndDt : " + odrDtlVO.getEndDt());
+		
+		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
+		
+		for ( int i = 0 ; i < groupStr.size(); i++ ) {
+			System.out.println(i + " / " + groupStr.get(i).getLctCdVO().getLctId()
+			+ " / " + groupStr.get(i).getLctCdVO().getLctNm()
+			+ " / " + groupStr.get(i).getCtyCdVO().getCtyId()
+			+ " / " + groupStr.get(i).getCtyCdVO().getCtyNm()
+			+ " / " + groupStr.get(i).getStrVO().getStrId()
+			+ " / " + groupStr.get(i).getStrVO().getStrNm());
+		}
+		
+		return groupStr;
+	}
+	
+	
 	@PostMapping("/api/payment/startEnd")
 	@ResponseBody
 	public List<OdrDtlVO> startEnd(@RequestBody OdrDtlVO odrDtlVO) {

@@ -1,10 +1,10 @@
 package com.ktds.fr.odrdtl.vo;
 
-import java.util.List;
-
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.evnt.vo.EvntVO;
 import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.prdt.vo.PrdtVO;
@@ -80,8 +80,9 @@ public class OdrDtlVO extends AbstractVO{
 	private long sumPrc;
 	private int sumCnt;
 	
-	
-	
+	/* 매장별 매출 조회용 */
+	private CtyCdVO ctyCdVO;
+	private LctCdVO lctCdVO;
 	
 	public String getOdrDtlId() {
 		return odrDtlId;
@@ -260,6 +261,22 @@ public class OdrDtlVO extends AbstractVO{
 
 	public void setSumCnt(int sumCnt) {
 		this.sumCnt = sumCnt;
+	}
+	
+	public CtyCdVO getCtyCdVO() {
+		return ctyCdVO;
+	}
+
+	public void setCtyCdVO(CtyCdVO ctyCdVO) {
+		this.ctyCdVO = ctyCdVO;
+	}
+
+	public LctCdVO getLctCdVO() {
+		return lctCdVO;
+	}
+
+	public void setLctCdVO(LctCdVO lctCdVO) {
+		this.lctCdVO = lctCdVO;
 	}
 
 	

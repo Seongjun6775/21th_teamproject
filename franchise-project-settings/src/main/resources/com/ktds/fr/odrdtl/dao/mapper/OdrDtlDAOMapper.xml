@@ -375,53 +375,69 @@
 	   			ORDER BY SUM_PRC DESC 
 				</select>
 	
-	
-	
-	
-	
+
 
 	<select id="groupStr"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultMap="odrDtlMap">
-		SELECT *
-		  FROM (SELECT ODR_DTL_STR_ID
-		  			 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC 
-					 , SUM(ODR_DTL_PRDT_CNT) SUM_CNT
-				  FROM (SELECT OL.ODR_LST_ID
-							 , OD.ODR_DTL_STR_ID 
-				 		   	 , OD.ODR_DTL_PRDT_ID
-							 , OD.ODR_DTL_PRDT_CNT 
-							 , OD.ODR_DTL_PRC 
-						     , OD.MBR_ID
-						     , OL.ODR_LST_ODR_PRCS
-						     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
-						     , OL.ODR_LST_RGSTR
-						     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-						     , OL.MDFYR
-						  FROM ODR_DTL OD
-				  		  LEFT OUTER JOIN ODR_LST OL
-							ON OD.ODR_LST_ID = OL.ODR_LST_ID
-						  LEFT OUTER JOIN STR S
-						    ON OD.ODR_DTL_STR_ID = S.STR_ID
-						 WHERE OL.DEL_YN = 'N'
-						   AND OL.USE_YN = 'Y'
-						   AND OL.ODR_LST_ODR_PRCS = '003-04'
-						   AND S.USE_YN = 'Y' )
-				 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
-				   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
-				<if test='oneDay != null and oneDay != ""'>
-				   AND SUBSTR(MDFY_DT, 0, 10) = #{oneDay}
-				</if>
-				<if test='startDt != null and startDt != ""'>
-				   AND SUBSTR(MDFY_DT, 0, 10) >= #{startDt}
-				   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10)
-				</if>
-				GROUP BY ODR_DTL_STR_ID) OD
-		        INNER JOIN PRDT P
-		           ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
-	        	INNER JOIN CMMN_CD C
-		           ON P.PRDT_SRT = C.CD_ID
-	            ORDER BY SUM_PRC DESC 
+	 	SELECT L.LCT_ID AS "lctCdVO.lctId"
+		 	 , L.LCT_NM AS "lctCdVO.lctNm"
+		 	 , C.CTY_ID AS "ctyCdVO.ctyId"
+		 	 , C.CTY_NM AS "ctyCdVO.ctyNm" 
+		 	 , STR.STR_ID
+		 	 , STR.STR_NM
+		 	 , SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC 
+			 , SUM(OD.ODR_DTL_PRDT_CNT) SUM_CNT
+		 	FROM (
+				SELECT OL.ODR_LST_ID
+					 , OD.ODR_DTL_STR_ID 
+				   	 , OD.ODR_DTL_PRDT_ID
+					 , OD.ODR_DTL_PRDT_CNT 
+					 , OD.ODR_DTL_PRC 
+				     , OD.MBR_ID
+				     , OL.ODR_LST_ODR_PRCS
+				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+				     , OL.ODR_LST_RGSTR
+				     , TO_CHAR(OL.MDFY_DT, 'YYYYMMDD') MDFY_DT
+				     , OL.MDFYR
+				  FROM ODR_DTL OD
+				  LEFT OUTER JOIN ODR_LST OL
+					ON OD.ODR_LST_ID = OL.ODR_LST_ID
+				  LEFT OUTER JOIN STR S
+				    ON OD.ODR_DTL_STR_ID = S.STR_ID
+				 WHERE OL.DEL_YN = 'N'
+				   AND OL.USE_YN = 'Y'
+				   AND OL.ODR_LST_ODR_PRCS = '003-04'
+				   AND S.USE_YN = 'Y') OD
+			INNER JOIN STR STR 
+			        ON STR.STR_ID = OD.ODR_DTL_STR_ID  
+			INNER JOIN LCT_CD L
+			 		ON STR.STR_LCTN  = L.LCT_ID 
+			INNER JOIN CTY_CD C 
+			 		ON STR.STR_CTY = C.CTY_ID
+		WHERE 1=1
+		<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>
+		  AND L.LCT_ID = #{ctyCdVO.lctId} 
+		</if>
+		<if test='ctyCdVO.ctyId != null and ctyCdVO.ctyId != ""'>
+		  AND C.CTY_ID = #{ctyCdVO.ctyId}
+		</if>
+		<if test='startDt != null and startDt != ""'>
+		  AND OD.MDFY_DT >= REPLACE(#{startDt}, '-' , '')
+		  AND REPLACE(#{endDt}, '-', '') >= OD.MDFY_DT
+		</if>
+		GROUP BY L.LCT_ID 
+		 	   , L.LCT_NM 
+		 	   , C.CTY_ID 
+		 	   , C.CTY_NM 
+		 	   , STR.STR_ID 
+		 	   , STR.STR_NM
+		ORDER BY L.LCT_ID 
+		 	   , L.LCT_NM 
+		 	   , C.CTY_ID 
+		 	   , C.CTY_NM 
+		 	   , STR.STR_ID 
+		 	   , STR.STR_NM
 	</select>
 	
 	
