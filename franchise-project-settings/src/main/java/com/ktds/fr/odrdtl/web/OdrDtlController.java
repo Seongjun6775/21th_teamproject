@@ -137,7 +137,53 @@ public class OdrDtlController {
 		model.addAttribute("srtList", srtList);
 		model.addAttribute("strList", strList);
 		
+		
+		
+		
+//		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
+//		model.addAttribute("odrDtlList", odrDtlList);
+		
+		//상품별
+		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
+		model.addAttribute("groupPrdt", groupPrdt);
+		
+		//매장별
+//		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
+//		model.addAttribute("strGroup", groupStr);
+		
+//		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
+//		model.addAttribute("startEnd", startEnd);
+		
+		
+		
+		
+		
 		return "odrdtl/payment";
+	}
+	
+	
+	
+	@GetMapping("/payment/monthly")
+	public String monthly(Model model, OdrDtlVO odrDtlVO
+						, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			odrDtlVO.setOdrDtlStrId(mbrVO.getStrId());
+		}
+		
+		// 검색용 셀렉트박스 목록... 상품분류 / 매장목록(useYN 둘다)
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
+		List<StrVO> strList = strService.readAll();
+		
+		model.addAttribute("odrDtlVO", odrDtlVO);
+		model.addAttribute("srtList", srtList);
+		model.addAttribute("strList", strList);
+		
+		List<String> monthly = odrLstService.monthly();
+		System.out.println(monthly.size());
+		model.addAttribute("monthly", monthly);
+		
+		
+		return "odrdtl/payment_monthly";
 	}
 
 }

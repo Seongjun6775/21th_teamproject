@@ -208,7 +208,7 @@ function movePage(pageNo) {
 		
 		<!-- contents -->
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-			<span class="fs-5 fw-bold">상품별 매출 <a href="${context}/payment/monthly">월간조회용</a> </span>
+			<span class="fs-5 fw-bold">상품별 매출</span>
 		</div>
 
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
@@ -250,10 +250,21 @@ function movePage(pageNo) {
 					</select>
 				</div>
 				<div>
-					<input type="date" id="search-keyword-startdt" 
-							class="form-control width140" value="${odrDtlVO.startDt}"/>
-					<input type="date" id="search-keyword-enddt" 
-							class="form-control width140" value="${odrDtlVO.endDt}"/>
+					<label for="search-keyword-prdtSrt" class="col-form-label">날짜(연-월)</label>
+					<select name="selectFilter"
+							id="search-keyword-prdtSrt"
+							class="form-select" 
+							style="width:140px;">
+						<option value="">전체</option>
+						<c:choose>
+							<c:when test="${not empty monthly}">
+								<c:forEach items="${monthly}"
+											var="month">
+									<option value="${month}">${month}</option>
+								</c:forEach>
+							</c:when>
+						</c:choose>
+					</select>
 				</div>
 				<button id="btn-search" class="btn btn-outline-success btn-default" type="submit" >Search</button>
 			</div>
@@ -315,7 +326,6 @@ function movePage(pageNo) {
 		<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px;">
 			<div></div>
 			<svg id="chart"></svg>
-			
 		</div>
 		<!-- /contents -->
 		
