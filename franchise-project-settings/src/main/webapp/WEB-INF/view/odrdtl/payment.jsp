@@ -40,6 +40,9 @@ $().ready(function() {
 		groupPrdt();
 	})
 	
+	$("#paymentStr").closest("table").children("thead").on("click", "th", function() {
+		startEnd();
+	})
 	$("#paymentStr").on("click", "tr", function() {
 		$(this).closest("tbody").find(".on").removeClass("on");
 		$(this).addClass("on");
@@ -63,7 +66,8 @@ function groupPrdt() {
 	var odrDtlVO = {
 		odrDtlStrId : $("#search-keyword-str").val(),
 		startDt : $("#search-keyword-startdt").val(),
-		endDt : $("#search-keyword-enddt").val()
+		endDt : $("#search-keyword-enddt").val(),
+		prdtVO :  {prdtSrt : $("#search-keyword-prdtSrt").val()}
 	}
 	
 	$.ajax({
@@ -94,6 +98,11 @@ function groupPrdt() {
 			tr.append(tdList);
 			$("#paymentStr").append(tr);
 	    }
+		tr =  $("<tr data-prdtid='' data-prdtnm=''></tr>");
+		tr.append("<td colspan='2'>합계</td>")
+		tr.append("<td>"+cnt.toLocaleString()+"</td>")
+		tr.append("<td class='money' style='padding-right: 10px;'>"+pay.toLocaleString()+"</td>")
+		$("#paymentStr").append(tr);
 		
 // 		var div = $("<div>총 금액 : "+pay.toLocaleString() +"원</div>")
 		$("#paymentTotal").html("금액 합계: "+pay.toLocaleString() +"원");
@@ -139,6 +148,11 @@ function startEnd(prdtId, prdtNm) {
 			tr.append(tdList);
 			$("#startEnd").append(tr);
 	    }
+		tr =  $("<tr></tr>");
+		tr.append("<td>합계</td>")
+		tr.append("<td class='money' style='padding-right: 10px;'>"+pay.toLocaleString()+"</td>")
+		$("#startEnd").append(tr);
+		
 // 		var div = $("<div>운영일 수 : "+dayCnt +"일</div>")
 // 		$("#dayCnt").html("운영일 수 : "+dayCnt+"일");
 // 		div = $("<div>일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원</div>")
@@ -177,27 +191,48 @@ function movePage(pageNo) {
 
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
 			<div class="top-bar">
-				<label for="search-keyword-str" class="col-form-label">조회 매장</label>
-				<select name="selectFilter"
-						id="search-keyword-str"
-						class="form-select" 
-						style="width:300px;">
-					<option value="">전체</option>
-					<c:choose>
-						<c:when test="${not empty strList}">
-							<c:forEach items="${strList}"
-										var="str">
-								<c:if test="${str.useYn eq 'Y'}">
-									<option value="${str.strId}">${str.strNm} (${str.strId})</option>
-								</c:if>
-							</c:forEach>
-						</c:when>
-					</c:choose>
-				</select>
-				<input type="date" id="search-keyword-startdt" 
-						class="form-control width180" value="${odrDtlVO.startDt}"/>
-				<input type="date" id="search-keyword-enddt" 
-						class="form-control width180" value="${odrDtlVO.endDt}"/>
+				<div>
+					<label for="search-keyword-str" class="col-form-label">조회 매장</label>
+					<select name="selectFilter"
+							id="search-keyword-str"
+							class="form-select" 
+							style="width:200px;">
+						<option value="">전체</option>
+						<c:choose>
+							<c:when test="${not empty strList}">
+								<c:forEach items="${strList}"
+											var="str">
+									<c:if test="${str.useYn eq 'Y'}">
+										<option value="${str.strId}">${str.strNm} (${str.strId})</option>
+									</c:if>
+								</c:forEach>
+							</c:when>
+						</c:choose>
+					</select>
+				</div>
+				<div>
+					<label for="search-keyword-prdtSrt" class="col-form-label">상품분류</label>
+					<select name="selectFilter"
+							id="search-keyword-prdtSrt"
+							class="form-select" 
+							style="width:140px;">
+						<option value="">전체</option>
+						<c:choose>
+							<c:when test="${not empty srtList}">
+								<c:forEach items="${srtList}"
+											var="srt">
+									<option value="${srt.cdId}">${srt.cdNm}</option>
+								</c:forEach>
+							</c:when>
+						</c:choose>
+					</select>
+				</div>
+				<div>
+					<input type="date" id="search-keyword-startdt" 
+							class="form-control width140" value="${odrDtlVO.startDt}"/>
+					<input type="date" id="search-keyword-enddt" 
+							class="form-control width140" value="${odrDtlVO.endDt}"/>
+				</div>
 				<button id="btn-search" class="btn btn-outline-success btn-default" type="submit" >Search</button>
 			</div>
 		</div>
@@ -226,7 +261,7 @@ function movePage(pageNo) {
 								<th style="width:15%">판매총액</th>
 							</tr>
 						</thead>
-						<tbody id="paymentStr" class="table-group-divider">
+						<tbody id="paymentStr" class="table-group-divider last-tr-sticky">
 						</tbody>
 					</table>
 				</div>
@@ -246,7 +281,7 @@ function movePage(pageNo) {
 								<th>판매총액</th>
 							</tr>
 						</thead>
-						<tbody id="startEnd" class="table-group-divider">
+						<tbody id="startEnd" class="table-group-divider last-tr-sticky">
 						</tbody>
 					</table>
 				</div>
