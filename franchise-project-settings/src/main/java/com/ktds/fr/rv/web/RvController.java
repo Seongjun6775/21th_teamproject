@@ -32,12 +32,27 @@ public class RvController {
 	public String viewCreateNewRvPage(Model model,
 			@SessionAttribute("__MBR__") MbrVO mbrVO) {	
 		
-		List<OdrLstVO> odrLstId = odrLstService.getOdrLstIdForRv(mbrVO.getMbrId());
-		model.addAttribute("odrLstId", odrLstId);
+		List<OdrLstVO> odrLst = odrLstService.getOdrLstIdForRv(mbrVO.getMbrId());
+		model.addAttribute("odrLst", odrLst);
 		model.addAttribute("mbrVO", mbrVO);
 		
 		return "rv/create";
 	}
+	
+	// 1-2.주문 완료된 주문서에서 '리뷰 작성' 버튼을 눌러 리뷰 등록 == 이용자
+		@GetMapping("/rv/create/{odrLstId}")
+		public String viewCreateNewRvPage(Model model,
+				@SessionAttribute("__MBR__") MbrVO mbrVO,
+				@PathVariable String odrLstId) {	
+			
+			List<OdrLstVO> odrLst = odrLstService.getOdrLstIdForRv(mbrVO.getMbrId());
+			// 주문서 페이지에서 주문서 ID를 PathVariable로 받아와 넣어줍니다. 이외에는 1-1과 같습니다.
+			model.addAttribute("odrLstId", odrLstId);
+			model.addAttribute("odrLst", odrLst);
+			model.addAttribute("mbrVO", mbrVO);
+			
+			return "rv/create";
+		}
 	
 	// 2-1-ⓛ.리뷰 목록 조회 == 중간관리자, 하위관리자
 	@GetMapping("/rv/list/store")

@@ -75,6 +75,10 @@ public class HrController {
 			if (searchIdx.equals("mbrId")) {
 				hrVO.setMbrId(keyword);
 			}
+			// 리스트의 검색 초기값을 '삭제되지 않음( - )'으로 설정합니다.
+			if (hrVO.getDelYn() == null && hrVO.getDelYn() != "") {
+				hrVO.setDelYn("N");
+			}
 			// 채용 게시판의 모든 게시글을 가져와 hrList로 전송합니다.
 			List<HrVO> hrList = hrService.readAllHr(hrVO);
 			model.addAttribute("hrList", hrList);

@@ -22,7 +22,7 @@
 					{
 						rvId:$("#rvId").val(),			
 						mbrId:$("#mbrId").val(),
-						odrLstId:$("#odrLstId").val(),
+						odrLstId:$("#odrLst").val(),
 						rvTtl:$("#rvTtl").val(),
 						rvCntnt:$("#rvCntnt").val(),
 						rvLkDslk:$("#rvLkDslk").val(),		
@@ -49,14 +49,14 @@
 				<h2 class="fw-bold" style="margin: 20px; display: flex; flex-direction: row-reverse;">구매후기</h2>				
 				<form id="create_form" method="post">
 					<div class="create-group">
-						<label for="odrLstId" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">주문서 ID</label> 
-						<select id="odrLstId" style="width:40%;"
-								class="form-control"name="odrLstId">
+						<label for="odrLst" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">주문서 ID</label> 
+						<select id="odrLst" style="width:40%;"
+								class="form-control"name="odrLst">
 							<c:choose>
-								<c:when test="${not empty odrLstId}">
-									<c:forEach items="${odrLstId}"
+								<c:when test="${not empty odrLst}">
+									<c:forEach items="${odrLst}"
 											   var="rv">
-											<option value="${rv.odrLstId}">
+											<option value="${rv.odrLstId}" ${rv.odrLstId eq odrLstId ? 'selected' : '' }>
 												${rv.odrLstId}
 											</option>
 									</c:forEach>

@@ -163,6 +163,10 @@
 			location.href = "${context}/odrlst/list";
 		});
 		
+		$("#rv_btn").click(function() {
+			location.href = "${context}/rv/create/${odrLstId}";
+		})
+		
 	});
 	
 	function movePage(pageNo) {
