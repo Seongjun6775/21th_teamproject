@@ -157,7 +157,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 
 	@Override
 	public List<OdrDtlVO> groupPrdt(OdrDtlVO odrDtlVO) {
-
+		String monthly = odrDtlVO.getMonthly();
+		
+		if(!(monthly == null || monthly.length() == 0)) {
+			dateSetting(odrDtlVO);
+		}
 		return odrDtlDAO.groupPrdt(odrDtlVO);
 	}
 	
@@ -178,18 +182,60 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		int month = cal.get(Calendar.MONTH)+1;
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		
-		System.out.println(year + " / " + month + " / " + day  + " / " + oneDay);
-		
-		
 		return odrDtlDAO.oneMonth(odrDtlVO);
 	}
 
 	@Override
 	public List<OdrDtlVO> startEnd(OdrDtlVO odrDtlVO) {
+		String monthly = odrDtlVO.getMonthly();
+		
+		if(!(monthly == null || monthly.length() == 0)) {
+			dateSetting(odrDtlVO);
+			
+			odrDtlVO.setOrderBy("ASC");
+		}
 		return odrDtlDAO.startEnd(odrDtlVO);
+	}
+
+	@Override
+	public List<OdrDtlVO> sumMonth(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.sumMonth(odrDtlVO);
+	}
+
+	@Override
+	public List<OdrDtlVO> sumYear(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.sumYear(odrDtlVO);
 	}
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	private void dateSetting(OdrDtlVO odrDtlVO) {
+		String monthly = odrDtlVO.getMonthly();
+		String[] date = monthly.split("-");
+		if (date.length == 2) {
+			int year = Integer.parseInt(date[0]);
+			int month = Integer.parseInt(date[1]);
+			
+			Calendar cal = Calendar.getInstance();
+			cal.set(year, month-1, 1);
+			
+			String startDt = date[0]+ "-" + date[1] + "-01";
+			odrDtlVO.setStartDt(startDt);
+			
+			int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+			String endDt = date[0]+ "-" + date[1] + "-" + lastDay;
+			odrDtlVO.setEndDt(endDt);
+		} else {
+			odrDtlVO.setStartDt(monthly);
+			odrDtlVO.setEndDt(monthly);
+		}
+	}
+
 	
 }

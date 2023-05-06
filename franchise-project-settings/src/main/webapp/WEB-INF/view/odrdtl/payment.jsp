@@ -178,7 +178,7 @@ function startEnd(prdtId, prdtNm) {
 	// 		$("#dayCnt").html("운영일 수 : "+dayCnt+"일");
 	// 		div = $("<div>일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원</div>")
 	// 		$("#paymentAvg").html("일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원");
-			if (prdtNm == null) {
+			if (prdtNm == "" || prdtNm == null) {
 				prdtNm = "전체"
 			}
 			$("#selectPrdtNm").html("선택상품: "+ prdtNm);
@@ -188,18 +188,6 @@ function startEnd(prdtId, prdtNm) {
 }
 
 
-
-function movePage(pageNo) {
-	var strId = $("#search-keyword-str").val(); 
-	var startDt = $("#search-keyword-startdt").val();
-	var endDt = $("#search-keyword-enddt").val();
-	
-	var queryString = "odrDtlStrId=" + strId;
-	queryString += "&startDt=" + startDt;
-	queryString += "&endDt=" + endDt;
-	
-	location.href = "${context}/payment?" + queryString; // URL 요청
-} 
 </script>
 </head>
 <body>

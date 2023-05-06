@@ -449,7 +449,7 @@
 	
 	
 	
-	
+	<!-- 시작날짜와 종료날짜 사이의 모든 날짜를 가져옴 -->
 	<select id="startEnd"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultMap="odrDtlMap">
@@ -458,7 +458,63 @@
 		  FROM (SELECT TO_CHAR(TRUNC(TO_DATE(#{startDt}, 'YYYY-MM-DD') + LEVEL - 1), 'YYYY-MM-DD') AS ONE_DAY
 				  FROM DUAL
 			   CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(TO_DATE(#{endDt}, 'YYYY-MM-DD')) 
-			  					- TRUNC(TO_DATE(#{startDt}, 'YYYY-MM-DD')) + 1 ) D
+			  								- TRUNC(TO_DATE(#{startDt}, 'YYYY-MM-DD')) + 1 ) D
+		  LEFT JOIN (SELECT ONE_DAY
+						 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC
+					  FROM (SELECT OL.ODR_LST_ID
+								 , OD.ODR_DTL_STR_ID 
+								 , OD.ODR_DTL_PRDT_ID
+								 , OD.ODR_DTL_PRDT_CNT 
+								 , OD.ODR_DTL_PRC 
+							     , OD.MBR_ID
+							     , OL.ODR_LST_ODR_PRCS
+							     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+							     , OL.ODR_LST_RGSTR
+							     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') ONE_DAY
+							     , OL.MDFYR
+							  FROM ODR_DTL OD
+							  LEFT OUTER JOIN ODR_LST OL
+								ON OD.ODR_LST_ID = OL.ODR_LST_ID
+							  LEFT OUTER JOIN STR S
+							    ON OD.ODR_DTL_STR_ID = S.STR_ID
+							 INNER JOIN PRDT P 
+							    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+							 INNER JOIN CMMN_CD C 
+							    ON P.PRDT_SRT = C.CD_ID 
+							 WHERE OL.DEL_YN = 'N'
+							   AND OL.USE_YN = 'Y'
+							   AND OL.ODR_LST_ODR_PRCS = '003-04'
+							   AND C.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
+							   AND S.USE_YN = 'Y' )
+					 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+					   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+					 GROUP BY ONE_DAY ) O
+		   ON D.ONE_DAY = O.ONE_DAY
+		 <choose>
+			 <when test='orderBy != null and orderBy!= ""'>
+				ORDER BY ONE_DAY ASC
+			 </when>
+			 <otherwise>
+				ORDER BY ONE_DAY DESC
+			 </otherwise>
+		 </choose>
+	</select>
+	
+	
+	<select id="sumMonth"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT SUBSTR(D.ONE_DAY, 0, 4) YEARLY
+			 , SUBSTR(D.ONE_DAY, 6, 2) MONTHLY
+			 , SUM_PRC
+		  FROM (SELECT DISTINCT TO_CHAR(TRUNC((SELECT TO_DATE(TO_CHAR(MIN(MDFY_DT), 'YYYY')||'-01', 'YYYY-MM')
+											  FROM ODR_LST
+											 WHERE ODR_LST_ODR_PRCS = '003-04') + LEVEL - 1), 'YYYY-MM') AS ONE_DAY
+				   FROM DUAL
+				CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(TO_DATE(TO_CHAR(SYSDATE, 'YYYY')||'-12', 'YYYY-MM')) 
+							  				- TRUNC((SELECT TO_DATE(TO_CHAR(MIN(MDFY_DT), 'YYYY')||'-01', 'YYYY-MM')
+													  FROM ODR_LST
+													 WHERE ODR_LST_ODR_PRCS = '003-04')) + 1 ) D
 				  LEFT JOIN (SELECT ONE_DAY
 								 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC
 							  FROM (SELECT OL.ODR_LST_ID
@@ -470,7 +526,7 @@
 									     , OL.ODR_LST_ODR_PRCS
 									     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
 									     , OL.ODR_LST_RGSTR
-									     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') ONE_DAY
+									     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM') ONE_DAY
 									     , OL.MDFYR
 									  FROM ODR_DTL OD
 									  LEFT OUTER JOIN ODR_LST OL
@@ -490,49 +546,61 @@
 							   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
 							 GROUP BY ONE_DAY ) O
 		 ON D.ONE_DAY = O.ONE_DAY
-		 ORDER BY ONE_DAY DESC
+		 ORDER BY YEARLY DESC, MONTHLY ASC
 	</select>
-	<select id="startEndMonth"
+	
+	<select id="sumYear"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultMap="odrDtlMap">
 		SELECT D.ONE_DAY
 			 , SUM_PRC
-		  FROM (SELECT TO_CHAR(TRUNC(TO_DATE(#{startDt}, 'YYYY-MM') + LEVEL - 1), 'YYYY-MM') AS ONE_DAY
+		  FROM (SELECT DISTINCT TO_CHAR(TRUNC((SELECT MIN(MDFY_DT)
+									  FROM ODR_LST
+									 WHERE ODR_LST_ODR_PRCS = '003-04') + LEVEL - 1), 'YYYY') AS ONE_DAY
 				  FROM DUAL
-			   CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(TO_DATE(#{endDt}, 'YYYY-MM')) 
-			  					- TRUNC(TO_DATE(#{startDt}, 'YYYY-MM')) + 1 ) D
-				  LEFT JOIN (SELECT ONE_DAY
-								 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC
-							  FROM (SELECT OL.ODR_LST_ID
-										 , OD.ODR_DTL_STR_ID 
-										 , OD.ODR_DTL_PRDT_ID
-										 , OD.ODR_DTL_PRDT_CNT 
-										 , OD.ODR_DTL_PRC 
-									     , OD.MBR_ID
-									     , OL.ODR_LST_ODR_PRCS
-									     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
-									     , OL.ODR_LST_RGSTR
-									     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') ONE_DAY
-									     , OL.MDFYR
-									  FROM ODR_DTL OD
-									  LEFT OUTER JOIN ODR_LST OL
-										ON OD.ODR_LST_ID = OL.ODR_LST_ID
-									  LEFT OUTER JOIN STR S
-									    ON OD.ODR_DTL_STR_ID = S.STR_ID
-									 INNER JOIN PRDT P 
-									    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
-									 INNER JOIN CMMN_CD C 
-									    ON P.PRDT_SRT = C.CD_ID 
-									 WHERE OL.DEL_YN = 'N'
-									   AND OL.USE_YN = 'Y'
-									   AND OL.ODR_LST_ODR_PRCS = '003-04'
-									   AND C.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
-									   AND S.USE_YN = 'Y' )
-							 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
-							   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
-							 GROUP BY ONE_DAY ) O
-		 ON D.ONE_DAY = O.ONE_DAY
-		 ORDER BY ONE_DAY DESC
+			   CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(sysdate) 
+							  				- TRUNC((SELECT MIN(MDFY_DT)
+													  FROM ODR_LST
+													 WHERE ODR_LST_ODR_PRCS = '003-04')) + 1) D
+		  LEFT JOIN (SELECT ONE_DAY
+						 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC
+					  FROM (SELECT OL.ODR_LST_ID
+								 , OD.ODR_DTL_STR_ID 
+								 , OD.ODR_DTL_PRDT_ID
+								 , OD.ODR_DTL_PRDT_CNT 
+								 , OD.ODR_DTL_PRC 
+							     , OD.MBR_ID
+							     , OL.ODR_LST_ODR_PRCS
+							     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+							     , OL.ODR_LST_RGSTR
+							     , TO_CHAR(OL.MDFY_DT, 'YYYY') ONE_DAY
+							     , OL.MDFYR
+							  FROM ODR_DTL OD
+							  LEFT OUTER JOIN ODR_LST OL
+								ON OD.ODR_LST_ID = OL.ODR_LST_ID
+							  LEFT OUTER JOIN STR S
+							    ON OD.ODR_DTL_STR_ID = S.STR_ID
+							 INNER JOIN PRDT P 
+							    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+							 INNER JOIN CMMN_CD C 
+							    ON P.PRDT_SRT = C.CD_ID 
+							 WHERE OL.DEL_YN = 'N'
+							   AND OL.USE_YN = 'Y'
+							   AND OL.ODR_LST_ODR_PRCS = '003-04'
+							   AND C.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
+							   AND S.USE_YN = 'Y' )
+					 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+					   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+					 GROUP BY ONE_DAY ) O
+		   ON D.ONE_DAY = O.ONE_DAY
+		 <choose>
+			 <when test='orderBy != null and orderBy!= ""'>
+				ORDER BY ONE_DAY ASC
+			 </when>
+			 <otherwise>
+				ORDER BY ONE_DAY DESC
+			 </otherwise>
+		 </choose>
 	</select>
 
 	
