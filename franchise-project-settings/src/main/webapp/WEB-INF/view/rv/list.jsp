@@ -124,6 +124,13 @@
 			
 		}
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
 <body>
 <jsp:include page="../include/openBody.jsp" />
@@ -234,10 +241,10 @@
 			</div>
 			<div style="position: absolute;right: 0;top: 0;">	
 				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
-					<button id="new_btn" class="btn btn-success">등록</button>
+					<button id="new_btn" class="btn btn-outline-success btn-default">등록</button>
 				</c:if>
 				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-danger">삭제</button>
+					<button id="delete_all_btn" class="btn btn-outline-danger btn-default" >삭제</button>
 				</c:if>
 			</div>
 		</div>	

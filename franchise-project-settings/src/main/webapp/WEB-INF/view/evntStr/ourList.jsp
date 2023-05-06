@@ -7,7 +7,7 @@
 <html>
 <head>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="../css/evntCommon.css">
+<!-- <link rel="stylesheet" href="../css/evntCommon.css"> -->
 <meta charset="UTF-8">
 <title>우리매장 이벤트리스트 목록 조회</title>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
@@ -64,17 +64,25 @@
 	}
 	
 </script>
+<style>
+.btn{
+	border: solid 2px;
+    font-weight: 800;
+}
+  
+</style>
 </head>
 <body>
-	<div class="main-layout">
-		<div>
-			<h1>우리매장 이벤트리스트 목록 조회</h1>
-			<div>총 ${evntStrList.size()}건</div>
-		</div>
+	<div style="padding: 23px 18px 23px 18px;">
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin-bottom:20px;" >
+	        <span class="fs-5 fw-bold"> 우리매장 이벤트리스트 목록 조회</span>
+	        <button id="btn-close" class="btn btn-secondary" style="float: right;">닫기</button>
+      	</div>
 		<div class="content">
-			<div class="grid">
-				<table>
-					<thead>
+			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding:30px 30px 55px 30px;">
+			<div style="display: inline-block; margin-bottom: 5px;">총 ${evntStrList.size()}건</div>
+				<table class="table caption-top table-hover" style="text-align: center;">
+					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 							<th><input type="checkbox" id="all-check" /></th>
 							<th style="width: 100px">이벤트 참여번호</th>
@@ -107,44 +115,44 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="8">등록된 이벤트 참여매장 정보가 없습니다.</td>
+									<td colspan="9">등록된 이벤트 참여매장 정보가 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
 				</table>
-				<div class="pagenate">
-					<ul>
-						<c:set value="${evntStrList.size() > 0 ? evntStrList.get(0).lastPage : 0}" var="lastPage" />
-						  <c:set value="${evntStrList.size() > 0 ? evntStrList.get(0).lastGroup : 0}" var="lastGroup" />
-
-						<fmt:parseNumber var="nowGroup" value="${Math.floor(evntStrVO.pageNo /10)}" integerOnly="true" />
-						<c:set value="${nowGroup*10}" var="groupStartPageNo" />
-						<c:set value="${nowGroup*10+ 10}" var="groupEndPageNo" />
-						<c:set value="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo -1}" var="groupEndPageNo" />
-
-						<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-						<c:if test="${nowGroup > 0}">
-							<li><a href="javascript:movePage(0)">처음</a></li>
-							<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-						</c:if>
-
-						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
-							<li><a class="${pageNo eq evntStrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-						</c:forEach>
-						<c:if test="${lastGroup > nowGroup}">
-							<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-							<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-						</c:if>
-					</ul>
-				</div>	
+				<div style="position: relative;"> 
+					<div class="pagenate">
+						<ul class="pagination" style="text-align: center;">
+							<c:set value="${evntStrList.size() > 0 ? evntStrList.get(0).lastPage : 0}" var="lastPage" />
+							  <c:set value="${evntStrList.size() > 0 ? evntStrList.get(0).lastGroup : 0}" var="lastGroup" />
+	
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(evntStrVO.pageNo /10)}" integerOnly="true" />
+							<c:set value="${nowGroup*10}" var="groupStartPageNo" />
+							<c:set value="${nowGroup*10+ 10}" var="groupEndPageNo" />
+							<c:set value="${groupEndPageNo > lastPage ? lastPage :groupEndPageNo -1}" var="groupEndPageNo" />
+	
+							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+							<c:if test="${nowGroup > 0}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+							</c:if>
+	
+							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo < 0 ? 0 : groupEndPageNo}" step="1" var="pageNo">
+								<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq evntStrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+							</c:forEach>
+							<c:if test="${lastGroup > nowGroup}">
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+								<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+							</c:if>
+						</ul>
+					</div>
+					<div style="position: absolute;right: 0;top: 0;">
+						<button id="btn-exitEvnts" class=" btn btn-outline-danger">이벤트 참여해제</button>
+					</div>	
+				</div>
 			</div>
-			<div>
-				<button id="btn-exitEvnts" class="btn-primary">이벤트 참여해제</button>
-			</div>
-			<button id="btn-close" class="btn-primary">닫기</button>
-
 		</div>
 	</div>
 </body>

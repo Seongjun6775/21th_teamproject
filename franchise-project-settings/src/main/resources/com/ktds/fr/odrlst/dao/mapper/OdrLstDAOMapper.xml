@@ -8,6 +8,7 @@
 				type="com.ktds.fr.odrlst.vo.OdrLstVO"
 				autoMapping="true">
 		<id property="odrLstId" column="ODR_LST_ID" />
+		<result property="monthly" column="MONTHLY" />
 		<association property="strVO"
 		              javaType="com.ktds.fr.str.vo.StrVO"
 		              autoMapping="true">
@@ -271,4 +272,23 @@
 		  #{odrId} 
 		</foreach>
 	</update>
+	
+	
+	
+	<!-- 최초 주문서(완료) 생성일부터 현재날짜까지 월 구하기 -->
+	<select id="monthly"
+			resultType="string">
+		 SELECT DISTINCT TO_CHAR(TRUNC((SELECT MIN(MDFY_DT)
+										  FROM ODR_LST
+										 WHERE ODR_LST_ODR_PRCS = '003-04') + LEVEL - 1), 'YYYY-MM') AS MONTHLY
+		   FROM DUAL
+		CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(SYSDATE) 
+		  				- TRUNC((SELECT MIN(MDFY_DT)
+								  FROM ODR_LST
+								 WHERE ODR_LST_ODR_PRCS = '003-04')) + 1
+		  ORDER BY MONTHLY DESC
+	</select>
+	
+	
+	
 </mapper>
