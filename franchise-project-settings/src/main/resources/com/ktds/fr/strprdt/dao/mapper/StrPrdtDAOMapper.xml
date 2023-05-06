@@ -360,7 +360,8 @@
 			resultType="com.ktds.fr.prdt.vo.PrdtVO">
 		SELECT *
  		  FROM PRDT
-		 WHERE PRDT_ID NOT IN (SELECT PRDT_ID
+		 WHERE DEL_YN = 'N'
+		   AND PRDT_ID NOT IN (SELECT PRDT_ID
 		 						 FROM STR_PRDT
 		 						WHERE DEL_YN = 'N'
 		 						  AND STR_ID = #{_parameter} )

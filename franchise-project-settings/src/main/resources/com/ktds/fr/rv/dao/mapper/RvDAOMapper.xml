@@ -11,8 +11,14 @@
 		<association property="strVO"
 					 javaType="com.ktds.fr.str.vo.StrVO"
 					 autoMapping="true">
-				 <id property="strId" column="STR_ID"></id>
-				 <result property="strNm" column="STR_NM" />
+				<id property="strId" column="STR_ID"></id>
+				<result property="strNm" column="STR_NM" />
+		</association>
+		<association property="prdtVO"
+					 javaType="com.ktds.fr.prdt.vo.PrdtVO"
+					 autoMapping="true">
+				<id property="prdtId" column="PRDT_ID"></id>
+				<result property="prdtNm" column="PRDT_NM" />
 		</association>					   
 	</resultMap>
 
@@ -122,9 +128,14 @@
 			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 			 , R.USE_YN
 			 , R.DEL_YN
+			 , P.PRDT_NM
 		  FROM RV R
-		  INNER JOIN ODR_LST OL
+		 INNER JOIN ODR_LST OL
 		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN ODR_DTL OD
+		    ON OL.ODR_LST_ID = OD.ODR_LST_ID 
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
 		 INNER JOIN STR S
 		    ON OL.STR_ID = S.STR_ID
 		 WHERE R.RV_ID = #{_parameter}
@@ -149,10 +160,10 @@
 			 , TO_CHAR(R.RV_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') RV_RGST_DT
 			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 			 , R.USE_YN
-			 , R.DEL_YN
+			 , R.DEL_YN			 
 		  FROM RV R
 		 INNER JOIN ODR_LST OL 
-		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		    ON R.ODR_LST_ID = OL.ODR_LST_ID		 
 		 INNER JOIN STR S
 		    ON OL.STR_ID = S.STR_ID
 		 WHERE R.USE_YN = 'Y'
@@ -232,9 +243,14 @@
 			 , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 			 , R.USE_YN
 			 , R.DEL_YN
+			 , P.PRDT_NM
 		  FROM RV R
 		 INNER JOIN ODR_LST OL
 		    ON R.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN ODR_DTL OD
+		    ON OL.ODR_LST_ID = OD.ODR_LST_ID 
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
 		 INNER JOIN STR S
 		    ON OL.STR_ID = S.STR_ID
 		 WHERE R.USE_YN = 'Y'

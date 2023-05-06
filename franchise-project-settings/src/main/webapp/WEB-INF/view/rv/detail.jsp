@@ -113,6 +113,13 @@
 				</div>
 			</div>						
 			<div class="input-group" style="flex: 1;">
+				<label for="prdtCntnt" class="col-form-label">상품이름</label>
+				<div>
+					<textarea id="prdtCntnt" style="margin-top: 0.5rem; height:20px; resize: none;"
+							class="form-control">${rvDetail.prdtVO.prdtNm}</textarea>
+				</div>
+			</div>
+			<div class="input-group" style="flex: 1;">
 				<label for="prdtCntnt" class="col-form-label">내용</label>
 				<div>
 					<textarea id="prdtCntnt" style="margin-top: 0.5rem; height:400px; resize: none;"

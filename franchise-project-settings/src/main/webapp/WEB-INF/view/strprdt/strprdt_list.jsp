@@ -10,8 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>매장별 메뉴 관리</title>
-<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -143,7 +143,7 @@ function movePage(pageNo) {
 									id="search-keyword-str"
 									class="select-align-center" 
 									style="width:220px;">
-								<option value="">매장</option>
+								<option value="">매장명</option>
 								<c:choose>
 									<c:when test="${not empty strList}">
 										<c:forEach items="${strList}"
@@ -173,7 +173,7 @@ function movePage(pageNo) {
 					<th scope="col">
 						<select class="select-align-center" name="selectFilter"
 								id="search-keyword-prdt">
-							<option value="">상품</option>
+							<option value="">메뉴 이름</option>
 							<c:choose>
 								<c:when test="${not empty prdtList}">
 									<c:forEach items="${prdtList}"
@@ -187,9 +187,9 @@ function movePage(pageNo) {
 					<th scope="col">
 						<select class="select-align-center" name="selectFilter"
 								id="search-keyword-evntYn">
-							<option value="">이벤트유무</option>
-							<option value="Y">Y</option>
-							<option value="N">N</option>
+							<option value="">이벤트</option>
+							<option value="Y">진행중</option>
+							<option value="N">-</option>
 						</select>
 					</th>
 					<th scope="col">수정자</th>
@@ -198,8 +198,8 @@ function movePage(pageNo) {
 					<select class="select-align-center" name="selectFilter"
 							id="search-keyword-useYn">
 						<option value="">사용유무</option>
-						<option value="Y">Y</option>
-						<option value="N">N</option>
+						<option value="Y">사용</option>
+						<option value="N">미사용</option>
 					</select>
 					</th>
 				</tr>
@@ -222,10 +222,10 @@ function movePage(pageNo) {
 								
 								<td>${strPrdt.cmmnCdVO.cdNm}</td>
 								<td>${strPrdt.prdtVO.prdtNm}</td>
-								<td>${empty strPrdt.evntVO.evntId ? "N" : "Y"}</td>
+								<td>${empty strPrdt.evntVO.evntId ? "-" : "진행중"}</td>
 								<td>${strPrdt.mdfyr}(${strPrdt.mdfyrMbrVO.mbrNm})</td>
 								<td>${strPrdt.mdfyDt}</td>
-								<td>${strPrdt.useYn}</td>
+								<td>${strPrdt.useYn eq 'Y' ? '사용' : '미사용'}</td>
 							</tr>
 						</c:forEach>	
 					</c:when>
@@ -248,17 +248,17 @@ function movePage(pageNo) {
 			</div>
 			
 			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
-				<div class="align-right absolute " style="right: 0px;" >
-					<button class="btn-primary" 
+				<div class="align-right absolute white-space-nowrap" style="right: 0px;" >
+					<button class="btn btn-outline-success btn-default" 
 							id="btn-search-reset">검색초기화</button>
-					<select class="selectFilter"
+					<select class="form-select"
 							id="select-useYn">
 						<option value="">사용유무</option>
 						<option value="Y">Y</option>
 						<option value="N">N</option>
 					</select>
 					<button id="btn-update-all" 
-							class="btn-primary btn-delete" 
+							class="btn btn-outline-primary btn-default" 
 							style="vertical-align: top;">일괄수정</button>
 				</div>
 			</c:if>
@@ -301,7 +301,7 @@ function movePage(pageNo) {
 <!-- 		</div> -->
 		
 		<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-			<button id="btn-missingCheck"class="btn-primary btn-delete" style="vertical-align: top;">누락체크</button>
+			<button id="btn-missingCheck" class="btn btn-outline-success btn-default" style="vertical-align: top;">누락체크</button>
 		</c:if>	
 	</div>
 <jsp:include page="../include/closeBody.jsp" />
