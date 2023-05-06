@@ -13,16 +13,20 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp"/>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
-		var simplemde = new SimpleMDE({ element: $("#mngrBrdCntnt")[0],
-										status: true});
+		/* var simplemde = new SimpleMDE({ element: $("#mngrBrdCntnt")[0],
+										status: true,
+										spellChecker: false,
+										hideIcons: ["link", "image"]});
 		
 		$("#list_btn").click(function() {
 			location.href="${context}/mngrbrd/list";
-		});
+		}); */
 		
 		$("#new_btn").click(function(){	
+			/* $("#mngrBrdCntnt").val(simplemde.value()); */
 			$.post("${context}/api/mngrbrd/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
 					
@@ -56,7 +60,7 @@
 		    </div>
 
 			<div class="bg-white rounded shadow-sm" style="padding: 40px 18px 23px 35px; overflow: auto;  margin:20px;">
-				<h2 class="fw-bold" style="margin: 20px;">작성</h2>
+				<!-- <h2 class="fw-bold" style="margin: 20px;">작성</h2> -->
 				<div>
 					<form id="create_form" >
 						<div class="header-option-right">
@@ -68,7 +72,7 @@
 							</div>
 						</div>	
 						
-						<div class="create-group">
+						<div class="create-group" style="flex-direction: column;">
 							<label for="mngrBrdTtl" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label> 
 							<input type="text" id="mngrBrdTtl" class="form-control" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl}" />
 						</div>
@@ -77,9 +81,9 @@
 							<input type="hidden" id="mngrId" name="mngrId" value="${mngrBrd.mngrId}" />
 						</div>			
 						
-						<div class="create-group">
+						<div class="create-group" style="flex-direction: column;">
 							<label for="mngrBrdCntnt" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e; height: 47px;">본문</label> 
-							<textarea id="mngrBrdCntnt" class="" name="mngrBrdCntnt"  placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
+							<textarea id="mngrBrdCntnt" name="mngrBrdCntnt"  placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
 						</div>
 					</form>	
 					<div style="padding: 10px;text-align: right;"> 

@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
 		$("#list_btn").click(function() {
@@ -175,7 +176,11 @@
 			});
 	    
 		});
-		
+		/* var simplemde = new SimpleMDE({ element: $("#cntnt")[0],
+										initialPreviewMode: true,
+		});
+		var mdString = "${mngrBrd.mngrBrdCntnt}";
+		console.log(marked.parse(mdString)); */
 		
 	});
 </script>
