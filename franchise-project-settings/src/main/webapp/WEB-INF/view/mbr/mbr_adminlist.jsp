@@ -174,7 +174,7 @@
 				});
 			}
 		});
-		$("#mbrLvl").change(function(){
+		$("#mbrLvl, #listSize").change(function(){
 			movePage(0);
 		});
 	});
@@ -185,6 +185,7 @@
 		var startDt = $("#search-keyword-startdt").val();
 		var endDt = $("#search-keyword-enddt").val();
 		var strNm = $("#search-keyword-strNm").val();
+		var viewCnt = parseInt($("#listSize option:selected").val());
 		if(strNm == null || strNm.length == 0){
 			strNm="%";
 		}
@@ -200,6 +201,7 @@
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt=" + endDt;
 		queryString += "&strVO.strNm=" + strNm;
+		queryString += "&viewCnt=" + viewCnt;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href="${context}/mbr/admin/list?" + queryString;
@@ -246,7 +248,15 @@
 	      		<div class="rounded" style="margin: 20px;">
 	      			<div class="row" style="justify-content: space-between; margin: 0px;">
 	      				<div class="col-9 admin_table_grid bg-white rounded shadow-sm" style="padding: 30px; height: auto;">
-							<div>총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
+							<div>
+								총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건 / 게시물 개수
+								<select id="listSize" name="viewCnt" class="select-align-center">
+									<option value="10" ${mbrVO.viewCnt eq 10 ? 'selected' : ''}>10개</option>
+									<option value="30" ${mbrVO.viewCnt eq 30 ? 'selected' : ''}>30개</option>
+									<option value="50" ${mbrVO.viewCnt eq 50 ? 'selected' : ''}>50개</option>
+									<option value="100" ${mbrVO.viewCnt eq 100 ? 'selected' : ''}>100개</option>
+								</select>
+							</div>
 								<table class="table caption-top table-hover" style="text-align: center;">
 									<thead class="table-secondary">
 										<tr>

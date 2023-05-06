@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="${context}/js/join.js"></script>
 <script type="text/javascript">
 	// 특수문자 모두 제거    
@@ -17,7 +18,14 @@
 	    var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;   //정규식 구문
 	    if (RegExp.test(obj.value)) {
 	      obj.value="";
-	      alert("아이디에 특수문자를 입력할 수 없습니다. 다시 입력해주세요");
+	      Swal.fire({
+	    	  icon: 'error',
+	    	  title: "잘못된 입력",
+	    	  text: '아이디에 특수문자를 입력할 수 없습니다.',
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+	    	})
+	      /* alert("아이디에 특수문자를 입력할 수 없습니다. 다시 입력해주세요"); */
 	    }
 	  }
 	var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -53,7 +53,7 @@
 		$("#search_btn").click(function() {
 			movePage(0);
 		});
-		$("#hrLvl, #hrStat, #delYn").change(function() {
+		$("#hrLvl, #hrStat, #delYn, #listSize").change(function() {
 			movePage(0);
 		});
 	});
@@ -66,6 +66,7 @@
 		var delYn = $("#delYn").val();
 		var startDt = $("#startDt").val();
 		var endDt = $("#endDt").val();
+		var viewCnt = parseInt($("#listSize option:selected").val());
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
@@ -82,6 +83,7 @@
 		queryString += "&hrLvl=" + hrLvl;
 		queryString += "&hrStat=" + hrStat;
 		queryString += "&delYn=" + delYn;
+		queryString += "&viewCnt=" + viewCnt;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href = "${context}/hr/hrmstrlist?" + queryString;
@@ -128,7 +130,15 @@
 		    
 		<!-- contents -->
 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">				
-			<div style="margin: 13px;">총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
+			<div style="margin: 13px;">
+				총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건 / 게시물 개수
+				<select id="listSize" name="viewCnt" class="select-align-center">
+					<option value="10" ${hrVO.viewCnt eq 10 ? 'selected' : ''}>10개</option>
+					<option value="30" ${hrVO.viewCnt eq 30 ? 'selected' : ''}>30개</option>
+					<option value="50" ${hrVO.viewCnt eq 50 ? 'selected' : ''}>50개</option>
+					<option value="100" ${hrVO.viewCnt eq 100 ? 'selected' : ''}>100개</option>
+				</select>
+			</div>
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
