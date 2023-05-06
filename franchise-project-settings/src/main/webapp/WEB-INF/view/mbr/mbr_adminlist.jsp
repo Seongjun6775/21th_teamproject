@@ -246,11 +246,11 @@
 	      		<div class="rounded" style="margin: 20px;">
 	      			<div class="row" style="justify-content: space-between; margin: 0px;">
 	      				<div class="col-9 admin_table_grid bg-white rounded shadow-sm" style="padding: 30px; height: auto;">
-							<div>총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
+							<div style="margin: 13px;">총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
 								<table class="table caption-top table-hover" style="text-align: center;">
 									<thead class="table-secondary">
 										<tr>
-											<th scope="col" class="col-1"><input type="checkbox" id="all_check" class="form-check-input"/></th>
+											<th scope="col" class="col-1"  style="border-radius: 6px 0 0 0;"><input type="checkbox" id="all_check" class="form-check-input"/></th>
 											<th scope="col" class="col-1">ID</th>
 											<th scope="col" class="col-1">이름</th>
 											<th scope="col" class="col-1">이메일</th>
@@ -269,7 +269,7 @@
 												</select>
 											</th>
 											<th scope="col" class="col-2">최근 로그인</th>
-											<th scope="col" class="col-1">로그인 제한</th>
+											<th scope="col" class="col-1"  style="border-radius: 0 6px  0 0;">로그인 제한</th>
 										</tr>
 									</thead>
 									<tbody>

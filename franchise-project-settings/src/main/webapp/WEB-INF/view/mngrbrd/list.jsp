@@ -115,6 +115,13 @@
 	}
 
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 		<div>
@@ -250,9 +257,9 @@
 						</div>	
 						<div style="position: absolute;right: 0;top: 0;">  
 							<c:if test="${mbrVO.mbrLvl eq '001-01'}"> 
-								<button id="delete_btn"class="btn btn-danger">일괄삭제</button> 
+								<button id="delete_btn"class="btn btn-outline-danger btn-default">일괄삭제</button> 
 							</c:if>
-							<a href="${context}/mngrbrd/write" class="btn btn-secondary" style="text-decoration: none;"> 게시글 작성</a>
+							<a href="${context}/mngrbrd/write" class="btn btn-outline-secondary btn-default" style="text-decoration: none;"> 게시글 작성</a>
 						</div>
 					</div>
 		

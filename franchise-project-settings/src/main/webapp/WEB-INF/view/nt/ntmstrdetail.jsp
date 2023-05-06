@@ -76,6 +76,13 @@
 		});
 	});
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
@@ -86,6 +93,10 @@
       	</div>
       	<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<div style="margin: 20px;">
+				<div style="float: right;">
+					<button id="upd_btn" class="btn btn-outline-success btn-default">수정</button> 
+					<button id="del_btn" class="btn btn-outline-danger btn-default">삭제</button>
+				</div>
 				<div>
 					<label class="d-inline fw-bolder" style="float: left;width: 67px;">제목</label>
 					<div class="d-inline">${nt.ntTtl} <span style="color: #f00;">${nt.delYn eq 'Y' ? '(삭제됨)' : '	'}</span> </div>
@@ -105,10 +116,6 @@
 			</div>
 			<div>
 				<div class="nt_cntnt fw-bolder" style="word-break: break-all; border-top: 2px solid #e0e0e0;">${nt.ntCntnt}</div>
-			</div>
-			<div style="float: right;">
-				<button id="upd_btn" class="btn btn-success">수정</button> 
-				<button id="del_btn" class="btn btn-danger">삭제</button>
 			</div>
 		</div>	
 			
