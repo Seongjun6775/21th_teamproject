@@ -14,6 +14,15 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		$.ajaxSetup({
+			  beforeSend: function() {
+				  $("#overlay").show();
+			  },
+			  complete: function() {
+				  $("#overlay").hide();
+			  }
+		});
+		
 		var delYn = "${hr.delYn}";
 		var mbrId = "${hr.mbrId}";
 		var aprYn = "${hr.hrAprYn}";
@@ -90,6 +99,8 @@
 			form.append("<input type='hidden' name='hrLvl' value='${hr.hrLvl}'>");
 			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
 			form.append("<input type='hidden' name='hrAprYn' value='Y'>");
+			
+			
 			$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					alert("정상적으로 채용 처리 되었습니다.");
