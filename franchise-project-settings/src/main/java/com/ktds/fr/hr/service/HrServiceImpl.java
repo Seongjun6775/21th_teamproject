@@ -167,13 +167,13 @@ public class HrServiceImpl implements HrService {
 		}
 		// 채용 마감일의 추가로, 공지의 경우 이것 또한 달라졌는지 확인합니다.
 		if(originalData.getNtcYn().equals("Y")) {
-			System.out.println(originalData.getHrDdlnDt());
-			System.out.println(hrVO.getHrDdlnDt());
-			System.out.println(originalData.getHrDdlnDt());
-			System.out.println(hrVO.getHrDdlnDt());
-			System.out.println(originalData.getHrDdlnDt());
-			System.out.println(hrVO.getHrDdlnDt());
-			if(!originalData.getHrDdlnDt().equals(hrVO.getHrDdlnDt())) {
+			if(originalData.getHrDdlnDt() == null || originalData.getHrDdlnDt().trim().length() == 0) {
+				if (hrVO.getHrDdlnDt() != null && hrVO.getHrDdlnDt().trim().length() != 0) {
+					newData.setHrDdlnDt(hrVO.getHrDdlnDt());
+					updateYn = true;
+				}
+			}
+			else if(!originalData.getHrDdlnDt().equals(hrVO.getHrDdlnDt())) {
 				newData.setHrDdlnDt(hrVO.getHrDdlnDt());
 				updateYn = true;
 			}

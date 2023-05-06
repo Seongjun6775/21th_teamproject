@@ -27,10 +27,22 @@ $().ready(function() {
         </ul>
         <div style="margin-right:10px;">
         	<div class="fw-bold fs-5">${sessionScope.__MBR__.mbrNm}님 </div> 
-        	<small style="float: right;">${sessionScope.__MBR__.mbrLvl eq '001-01' ? '본사' 
-        	: sessionScope.__MBR__.mbrLvl eq '001-02' ? '가맹점주'
-        	: sessionScope.__MBR__.mbrLvl eq '001-03' ? '점원'
-        	: '이용자'} </small> 
+        	<small style="float: right;">
+	        	<c:choose>
+	        		<c:when test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+		        		본사
+	        		</c:when>
+	        		<c:when test="${sessionScope.__MBR__.mbrLvl eq '001-02'}">
+		        		가맹점주
+	        		</c:when>
+	        		<c:when test="${sessionScope.__MBR__.mbrLvl eq '001-03'}">
+		        		점원
+	        		</c:when>
+	        		<c:otherwise>
+	        			이용자
+	        		</c:otherwise>
+	        	</c:choose>
+        	</small> 
         </div>
         
         <div class="dropdown text-end">

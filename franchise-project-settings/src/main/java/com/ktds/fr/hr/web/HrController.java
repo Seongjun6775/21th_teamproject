@@ -238,7 +238,7 @@ public class HrController {
 	 * @param response
 	 */
 	@GetMapping("/hr/hrfile/{hrId}")
-	public void downloadHrFile(@SessionAttribute("__MBR__") MbrVO mbrVO ,
+	public String downloadHrFile(@SessionAttribute("__MBR__") MbrVO mbrVO ,
 								@PathVariable String hrId ,
 								HttpServletRequest request ,
 								HttpServletResponse response) {
@@ -252,12 +252,12 @@ public class HrController {
 				// 둘 모두 아니라면, 접근한 사람이 회원이 지원한 지점의 점주(중간관리자)인지 확인합니다.
 				if(!mbrVO.getMbrLvl().equals("001-02") && !hr.getMbrVO().getStrId().equals(mbrVO.getStrId())) {
 					// 위 조건을 모두 통과하지 못했다면, 접근을 거부합니다.
-					throw new ApiException("404", "잘못된 접근입니다.");
+					return "hr/400";
 				}
 			}
 		}
 		if (hr.getOrgnFlNm() == null || hr.getOrgnFlNm().trim().length() == 0) {
-			throw new ApiException("500", "존재하지 않는 파일입니다.");
+			return "hr/500nofile";
 		}
 		String uuid = hr.getUuidFlNm();
 		String origin = hr.getOrgnFlNm();
@@ -266,9 +266,10 @@ public class HrController {
 		if (hrFile.exists() && hrFile.isFile()) {
 			DownloadUtil dnUtil = new DownloadUtil(response, request, filePath + "/" + uuid);
 			dnUtil.download(origin);
+			return null;
 		}
 		else {
-			throw new ApiException("500", "파일 다운로드에 실패했습니다.");
+			return "hr/500downloadfail";
 		}
 	}
 	

@@ -125,4 +125,9 @@ public class OdrLstServiceImpl implements OdrLstService {
 		return odrLstDAO.completeOdrForStr(odrLstVO);
 	}
 
+	@Override
+	public List<String> monthly() {
+		return odrLstDAO.monthly();
+	}
+
 }

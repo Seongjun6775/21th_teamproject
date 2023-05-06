@@ -72,6 +72,7 @@ public class OdrLstVO extends AbstractVO{
 	 * 통계 검색용
 	 */
 	private String oneDay;
+	private String monthly;
 	private String startDt;
 	private String endDt;
 	
@@ -216,6 +217,14 @@ public class OdrLstVO extends AbstractVO{
 	
 	
 	
+	public String getMonthly() {
+		return monthly;
+	}
+
+	public void setMonthly(String monthly) {
+		this.monthly = monthly;
+	}
+
 	public String getOneDay() {
 		return oneDay;
 	}
