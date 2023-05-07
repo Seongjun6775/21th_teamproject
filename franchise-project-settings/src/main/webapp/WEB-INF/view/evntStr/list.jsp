@@ -36,14 +36,14 @@
 
 
 </head>
-<body>
+<body class="bg-dark bg-opacity-10 ">
 <div style="padding: 23px 18px 23px 18px;">
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin-bottom:20px;" >
 	        <span class="fs-5 fw-bold"> 이벤트참여매장 리스트 목록 조회</span>
       	</div>
 		<div class="content">
 			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding:30px 30px 55px 30px;">
-			<div style="display: inline-block; margin-bottom: 5px;">총 ${evntStrList.size()}건</div>
+			<div style="display: inline-block; margin:13px;">총 ${evntStrList.size()}건</div>
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>

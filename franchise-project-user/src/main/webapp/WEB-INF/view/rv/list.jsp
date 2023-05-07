@@ -148,98 +148,98 @@
 
 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<div style="margin: 13px; display:inline-block">총 ${rvList[0].totalCount}건</div>	
-		<table class="table caption-top table-hover" style="text-align: center;">
-			<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
-				<tr>
-					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<th scope="col" style="padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
-					</c:if>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">주문서ID</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">매장명</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">회원ID</th>						
-					<th scope="col" style="padding: 20px 20px 8px 20px;">좋아요/싫어요</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th> 
-				</tr>
-			</thead>
-			<tbody>
-				<c:choose>
-					<c:when test="${not empty rvList}">
-						<c:forEach items="${rvList}"
-								   var="rv">
-							<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;">
-								<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-								<td class="firstcell">
-									<input type="checkbox" 
-										   class="check-idx" 
-										   value="${rv.rvId}" style="width:13px;"/>
-								</td>
-								</c:if>
-								<td>${rv.odrLstId}</td>
-								<td>${rv.strVO.strNm}</td>
-								<td>${rv.rvTtl}</td>
-								<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
-								<td>${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}</td>					
-								<td>${rv.rvRgstDt}</td>					
-								<td>${rv.mdfyDt}</td>									
-							</tr>
+			<table class="table caption-top table-hover" style="text-align: center;">
+				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
+					<tr>
+						<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+						<th scope="col" style="padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
+						</c:if>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">주문서ID</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">매장명</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">회원ID</th>						
+						<th scope="col" style="padding: 20px 20px 8px 20px;">좋아요/싫어요</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th> 
+					</tr>
+				</thead>
+				<tbody>
+					<c:choose>
+						<c:when test="${not empty rvList}">
+							<c:forEach items="${rvList}"
+									   var="rv">
+								<tr class="rvRow" data-rvid="${rv.rvId}" style="cursor:pointer;">
+									<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+									<td class="firstcell">
+										<input type="checkbox" 
+											   class="check-idx" 
+											   value="${rv.rvId}" style="width:13px;"/>
+									</td>
+									</c:if>
+									<td>${rv.odrLstId}</td>
+									<td>${rv.strVO.strNm}</td>
+									<td>${rv.rvTtl}</td>
+									<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
+									<td>${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}</td>					
+									<td>${rv.rvRgstDt}</td>					
+									<td>${rv.mdfyDt}</td>									
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td colspan="8" class="no-item">
+								등록된 리뷰가 없습니다.
+							</td>
+						</c:otherwise>
+					</c:choose>			
+				</tbody>
+			</table>	
+			<div style="position: relative;">				
+				<div class="pagenate">
+					<ul class="pagination" style="text-align: center;">
+						<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
+						<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastGroup : 0}" var="lastGroup"/>
+						
+						<fmt:parseNumber var="nowGroup" value="${Math.floor(gnrVO.pageNo / 10)}" integerOnly = "true"/>
+						<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
+						<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
+						<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
+						
+						<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
+						<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
+						
+						<%-- lastPage: ${lastPage }
+						lastGroup: ${lastGroup }
+						nowGroup: ${nowGroup }
+						groupStartPageNo:${groupStartPageNo }
+						groupEndPageNo:${groupEndPageNo}
+						prevGroupStartPageNo: ${prevGroupStartPageNo }
+						nextGroupStartPageNo: ${nextGroupStartPageNo } --%>
+						
+						<c:if test = "${nowGroup > 0}">
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+						</c:if>
+						
+						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+							<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq gnrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<td colspan="8" class="no-item">
-							등록된 리뷰가 없습니다.
-						</td>
-					</c:otherwise>
-				</c:choose>			
-			</tbody>
-		</table>	
-		<div style="position: relative;">				
-			<div class="pagenate">
-				<ul class="pagination" style="text-align: center;">
-					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastPage : 0}" var="lastPage"/>
-					<c:set value = "${rvList.size() > 0 ? rvList.get(0).lastGroup : 0}" var="lastGroup"/>
-					
-					<fmt:parseNumber var="nowGroup" value="${Math.floor(gnrVO.pageNo / 10)}" integerOnly = "true"/>
-					<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
-					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
-					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo"/>
-					
-					<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
-					<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
-					
-					<%-- lastPage: ${lastPage }
-					lastGroup: ${lastGroup }
-					nowGroup: ${nowGroup }
-					groupStartPageNo:${groupStartPageNo }
-					groupEndPageNo:${groupEndPageNo}
-					prevGroupStartPageNo: ${prevGroupStartPageNo }
-					nextGroupStartPageNo: ${nextGroupStartPageNo } --%>
-					
-					<c:if test = "${nowGroup > 0}">
-						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
-						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+						
+						<c:if test = "${lastGroup >nowGroup }">
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+						</c:if>
+					</ul>
+				</div>
+				<div style="position: absolute;right: 0;top: 0;">	
+					<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
+						<button id="new_btn" class="btn btn-success">등록</button>
 					</c:if>
-					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-						<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq gnrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-					</c:forEach>
-					
-					<c:if test = "${lastGroup >nowGroup }">
-						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-						<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+						<button id="delete_all_btn" class="btn btn-danger">삭제</button>
 					</c:if>
-				</ul>
-			</div>
-			<div style="position: absolute;right: 0;top: 0;">	
-				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
-					<button id="new_btn" class="btn btn-success">등록</button>
-				</c:if>
-				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-danger">삭제</button>
-				</c:if>
-			</div>
-		</div>							
+				</div>
+			</div>							
 		</div>			
 		<jsp:include page="../include/footer.jsp" />
 <%-- <jsp:include page="../include/closeBody.jsp" /> --%>
