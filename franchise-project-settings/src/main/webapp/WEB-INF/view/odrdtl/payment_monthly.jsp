@@ -334,7 +334,7 @@ function prdtList(srt) {
 		
 		<!-- contents -->
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-			<span class="fs-5 fw-bold">상품별 매출</span>
+			<span class="fs-5 fw-bold">상품별 매출 <a href="${context}/payment/">기간조회용</a> </span>
 		</div>
 
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
