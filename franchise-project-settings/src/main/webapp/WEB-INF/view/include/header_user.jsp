@@ -83,6 +83,10 @@ li{
 font-size: 25px; FONT-WEIGHT: 550;  margin:10px; margin-top: 45px; color: #fff; padding: 10px 25px; border-radius: 25px;
 
 }
+.qna-btn{
+font-size: 25px; FONT-WEIGHT: 550;  margin:10px; color: #fff; padding: 10px 25px; border-radius: 25px;
+background-color: #ffbe2e; text-align: center;
+}
 /* .nav-item .nav-link-right:hover{
   background-color:#0000!important;
   --bs-btn-hover-bg: #6528e0;
@@ -247,7 +251,7 @@ li.dropdown > ul > li > a  {
 	         	<a class="nav-link-right" style=" background-color: #ffbe2e;" href="#" >채용 문의</a>
 	         </li>
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="#">고객센터</a>
+	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list">고객센터</a>
 	         </li>
 	        </ul>
 	        </div>

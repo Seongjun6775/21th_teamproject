@@ -453,7 +453,6 @@ img.profile{
 .qna_box {
 	display:flex;
 	border: #ddd solid 1px;
-    background: #c0c0c0;  
     padding: 10px 4%;
     font-size: 15px;
     margin: 10px 0 0 0; 
@@ -530,7 +529,7 @@ img.profile{
     font-size: 13px;
     text-decoration:none;
 }
-.qna-btn{
+/* .qna-btn{
     height: 50px;
     line-height: 50px;
     background-color: #1e43a2;
@@ -540,7 +539,7 @@ img.profile{
     transition: 0.2s all;
     font-size: 13px;
     text-decoration: none;	
-}
+} */ 
 
 
 .blue-rpl-btn { 
