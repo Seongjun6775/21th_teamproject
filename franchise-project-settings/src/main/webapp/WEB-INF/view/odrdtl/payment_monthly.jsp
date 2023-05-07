@@ -110,8 +110,9 @@ $().ready(function() {
 			$(this).text("금액 보기");
 			$("#unit").text("단위: 개");
 		}
-		sumMonth();
-		startEnd($("#clickMonthSave").val());
+		var prdtId = $("#search-keyword-prdt").val();
+		sumMonth(prdtId);
+		startEnd($("#clickMonthSave").val(), prdtId);
 	}).mouseover(function() {
 		if ($("#checkCntPrc").is(":checked")) {
 			$(this).text("금액 보기");
