@@ -277,15 +277,34 @@
 	
 	<!-- 최초 주문서(완료) 생성일부터 현재날짜까지 월 구하기 -->
 	<select id="monthly"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
 			resultType="string">
 		 SELECT DISTINCT TO_CHAR(TRUNC((SELECT MIN(MDFY_DT)
 										  FROM ODR_LST
-										 WHERE ODR_LST_ODR_PRCS = '003-04') + LEVEL - 1), 'YYYY-MM') AS MONTHLY
+										 WHERE ODR_LST_ODR_PRCS = '003-04'
+										   AND STR_ID LIKE NVL(#{strId}, '%')) + LEVEL - 1), 'YYYY-MM') AS MONTHLY
 		   FROM DUAL
 		CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(SYSDATE) 
 		  				- TRUNC((SELECT MIN(MDFY_DT)
 								  FROM ODR_LST
-								 WHERE ODR_LST_ODR_PRCS = '003-04')) + 1
+								 WHERE ODR_LST_ODR_PRCS = '003-04'
+								   AND STR_ID LIKE NVL(#{strId}, '%')) + 1 )
+		  ORDER BY MONTHLY DESC
+	</select>
+	<!-- 최초 주문서(완료) 생성일부터 현재날짜까지 연 구하기 -->
+	<select id="yearly"
+			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
+			resultType="string">
+		 SELECT DISTINCT TO_CHAR(TRUNC((SELECT MIN(MDFY_DT)
+										  FROM ODR_LST
+										 WHERE ODR_LST_ODR_PRCS = '003-04'
+										   AND STR_ID LIKE NVL(#{strId}, '%')) + LEVEL - 1), 'YYYY') AS MONTHLY
+		   FROM DUAL
+		CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(SYSDATE) 
+		  				- TRUNC((SELECT MIN(MDFY_DT)
+								  FROM ODR_LST
+								 WHERE ODR_LST_ODR_PRCS = '003-04'
+								   AND STR_ID LIKE NVL(#{strId}, '%')) + 1 )
 		  ORDER BY MONTHLY DESC
 	</select>
 	

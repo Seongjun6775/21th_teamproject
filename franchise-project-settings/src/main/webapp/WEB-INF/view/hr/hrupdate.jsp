@@ -56,7 +56,7 @@
 	
     function deleteFile(obj) { 
         obj.parent().remove();
-        var str = "<div class='file-input' style='float:right;'><input type='file' id='hrFile' class='form-control' name='hrFile'></div>";
+        var str = "<div class='file-input' style='float:right;'><input type='file' id='hrFile' class='form-control' name='hrFile'/></div>";
         $("#file-list").append(str);
     }
 	

@@ -153,9 +153,9 @@
 							</th>
 							<th scope="col" style="border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;" >
 								<select id="delYn" class="select-align-center" aria-label="Default select example">
-									<option value="">삭제 여부</option>
-									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제</option>
 									<option value="N" ${hrVO.delYn eq "N" ? 'selected' : '' }>&nbsp;&nbsp;&nbsp;&nbsp;-</option>
+									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제</option>
+									<option value="" ${hrVO.delYn eq "" ? 'selected' : '' }>전체보기</option>
 								</select>
 							</th>
 						</tr>

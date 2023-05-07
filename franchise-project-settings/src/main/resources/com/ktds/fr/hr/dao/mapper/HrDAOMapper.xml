@@ -239,6 +239,7 @@
 		   SET HR_APR_YN = #{hrAprYn}
 		     , HR_APR_DT = SYSDATE
 		     , HR_STAT = '002-03'
+		     , DEL_YN = 'Y'
 		 WHERE HR_ID = #{hrId}
 	</update>
 	
