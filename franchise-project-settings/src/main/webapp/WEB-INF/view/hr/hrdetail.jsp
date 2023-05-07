@@ -83,20 +83,31 @@
 	});
 	
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 	        <span class="fs-5 fw-bold">회원 > 채용 지원 > 상세 조회</span>
 	    	<div style="position: absolute;right: 0;top: 0; margin: 20px;">
-	          <button id="update_btn" class="btn btn-primary" >수정</button>
-			  <button id="delete_btn" class="btn btn-danger" style="margin-right:10px">삭제</button>
-			  <button id="list_btn" class="btn btn-secondary" >목록</button>
+				<button id="list_btn" class="btn btn-secondary" >목록</button>
 	        </div>
       	</div>
-		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:20px;">
+			<div style="float:right;">
+				<button id="update_btn" class="btn btn-outline-primary btn-default" >수정</button>
+				<button id="delete_btn" class="btn btn-outline-danger btn-default" style="margin-right:10px">삭제</button>
+			</div>
+			
 			<div style="padding:10px;">
 				<span class="fs-5 fw-bold">${hr.hrTtl}</span>
 				<div class="hr_detail_header">(${hr.hrId})</div>
+				
 			</div>
 			<div style="margin-top: 10px">
 			

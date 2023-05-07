@@ -40,6 +40,13 @@
 		});
 	});
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm  " style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -57,9 +64,11 @@
 							<div class="create-group form-check-label" style="display: inline-block;">		
 								게시여부<input type="checkbox" id="useYn" name="useYn"  value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
 							</div>
-							<div class="create-group form-check-label" style="display: inline-block;">
-								공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
-							</div>
+							<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+								<div class="create-group form-check-label" style="display: inline-block;">
+									공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
+								</div>
+							</c:if>
 						</div>	
 						
 						<div class="create-group">
@@ -77,7 +86,7 @@
 						</div>
 					</form>	
 					<div style="padding: 10px;text-align: right;"> 
-						<button id="new_btn" class="btn btn-primary">등록</button>
+						<button id="new_btn" class="btn btn-outline-primary btn-default">등록</button>
 					</div> 					
 				</div>
 			</div>			

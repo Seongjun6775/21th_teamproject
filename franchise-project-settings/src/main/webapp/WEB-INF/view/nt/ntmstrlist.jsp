@@ -142,6 +142,12 @@
     background-color: #0000;
     font-weight: bold;
 }
+
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
@@ -252,8 +258,8 @@
 					</nav>
 				</div>
 				<div style="right: 0;top: 0; position: absolute;">
-					<button id="crt_btn" class="btn btn-primary">작성</button>
-					<button id="check_del_btn" class="btn btn-danger">일괄삭제</button>
+					<button id="crt_btn" class="btn btn-outline-primary btn-default">작성</button>
+					<button id="check_del_btn" class="btn btn-outline-danger btn-default">일괄삭제</button>
 				</div>
 			</div>
 		</div>

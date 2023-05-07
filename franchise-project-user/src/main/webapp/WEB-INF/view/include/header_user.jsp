@@ -108,7 +108,19 @@ ul.dropdown-menu > li:focus{
   font-size: 20px; FONT-WEIGHT: 600;
 }
 
-
+.main-order-box{
+  border-radius: 15px;
+  display: inline-block;
+  width: 550px;
+  height: 240px;
+  border: 1px solid #fff;
+  background: #fff;
+  text-align: center;
+  line-height: 240px;
+  margin: 0;
+  margin-right: 20px;
+  font-size: 20px; FONT-WEIGHT: 600;
+}
 .footer{
   width: 100%;
   max-width: 1920px;
@@ -181,10 +193,11 @@ li.dropdown > ul > li > a  {
 }
 </style>
 
-  <nav class="navbar navbar-expand-lg shadow-sm border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
+
+  <nav class="navbar navbar-expand-lg  border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
     <div class="container-fluid ">
-      <a  href="${context}/index_user"><img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/></a>
-      <a class="navbar-brand" href="${context}/index_user" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
+      <img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/>
+      <a class="navbar-brand" href="${context}/user/index" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

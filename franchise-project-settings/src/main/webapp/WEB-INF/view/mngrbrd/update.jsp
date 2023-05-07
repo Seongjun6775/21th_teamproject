@@ -42,7 +42,13 @@
 	
 	});
 </script>
-
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+</style>
 
 </head>
 <jsp:include page="../include/openBody.jsp" />	
@@ -59,9 +65,11 @@
 							<div class="create-group form-check-label" style="display: inline-block;">		
 								게시여부<input type="checkbox" id="useYn" name="useYn"  value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
 							</div>
-							<div class="create-group form-check-label" style="display: inline-block;">
-								공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
-							</div>
+							<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+								<div class="create-group form-check-label" style="display: inline-block;">
+									공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
+								</div>
+							</c:if>
 						</div>	
 					<div class="create-group">
 						<label for="mngrBrdTtl" class="label"  style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label> 
@@ -83,8 +91,8 @@
 			
 				
 				<div style="padding: 10px;text-align: right;"> 
-					<button id="fix_btn" class="btn btn-primary">수정</button>
-					<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="btn btn-danger" style="text-decoration: none;">취소</a>		
+					<button id="fix_btn" class="btn btn-default btn-outline-primary">수정</button>
+					<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="btn btn-default btn-outline-danger" style="text-decoration: none;">취소</a>		
 				</div> 					
 			</div>
 <jsp:include page="../include/closeBody.jsp" />

@@ -96,6 +96,11 @@
     background-color: #0000;
     font-weight: bold;
 }
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
@@ -208,7 +213,7 @@
 							</ul>
 						</div>
 						<div style="position: absolute;right: 0;top: 0;">
-	           				<button id="delete_btn" class="btn btn-danger">삭제</button> 
+	           				<button id="delete_btn" class="btn btn-outline-danger btn-default">삭제</button> 
 	          			</div>	
 					</div>		
 				</div>		

@@ -131,7 +131,7 @@ function movePage(pageNo) {
 			<span class="fs-5 fw-bold">메뉴 > 매장별 메뉴관리</span>
 	</div>
 	<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-<%-- 		<div style="margin: 13px;">총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건</div> --%>
+ 		<div style="margin: 13px;">총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건</div> 
 		<table class="table caption-top table-hover" style="text-align: center;">
 			<thead class="table-secondary">
 				<tr>
@@ -241,16 +241,17 @@ function movePage(pageNo) {
 		</table>
 		
 		<div class="relative">
-			<div class="align-left absolute fontsize14">
+		<div class="align-left absolute fontsize14">
 				<!-- 페이지네이션용  -->
-				총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건
-				<%-- 총 ${strPrdtList.size() > 0 ? strPrdtList.size() : 0}건 --%>
-			</div>
+		<%-- 		총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건
+				총 ${strPrdtList.size() > 0 ? strPrdtList.size() : 0}건 --%>
+			<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+				<button id="btn-missingCheck" class="btn btn-outline-success btn-default" style="vertical-align: top;">누락체크</button>
+			</c:if>	
+			</div> 
 			
 			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
 				<div class="align-right absolute white-space-nowrap" style="right: 0px;" >
-					<button class="btn btn-outline-success btn-default" 
-							id="btn-search-reset">검색초기화</button>
 					<select class="form-select"
 							id="select-useYn">
 						<option value="">사용유무</option>
@@ -260,6 +261,8 @@ function movePage(pageNo) {
 					<button id="btn-update-all" 
 							class="btn btn-outline-primary btn-default" 
 							style="vertical-align: top;">일괄수정</button>
+					<button class="btn btn-outline-success btn-default" 
+							id="btn-search-reset">검색초기화</button>		
 				</div>
 			</c:if>
 			
@@ -300,9 +303,7 @@ function movePage(pageNo) {
 <%-- 			<a href="${context}/prdt/list"><button class="btn btn-secondary">메뉴리스트</button></a> --%>
 <!-- 		</div> -->
 		
-		<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-			<button id="btn-missingCheck" class="btn btn-outline-success btn-default" style="vertical-align: top;">누락체크</button>
-		</c:if>	
+
 	</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>
