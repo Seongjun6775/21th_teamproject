@@ -40,9 +40,21 @@ function confirmFileExtension(file) {
 	// 정규식을 사용히여 jpg, jpeg, png, gif, bmp등 이미지파일의 확장자를 가진것을 추려낸다.
 	var reg = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
   	if(file.match(reg)) {
-		alert("해당 파일은 이미지 파일입니다.");
+  		Swal.fire({
+	    	  icon: 'success',
+	    	  title: '해당 파일은 이미지 파일입니다.',
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+		});
+		/* alert("해당 파일은 이미지 파일입니다."); */
 	} else {
-		alert("해당 파일은 이미지 파일이 아닙니다.");
+		Swal.fire({
+	    	  icon: 'error',
+	    	  title: '해당 파일은 이미지 파일이 아닙니다.',
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+		});
+		/* alert("해당 파일은 이미지 파일이 아닙니다."); */
 }
 
   	/* 
@@ -235,7 +247,13 @@ $().ready(function() {
 					location.reload(); //새로고침
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			}, {"prdtFile":"uploadFile"})
 		} else {
@@ -245,7 +263,13 @@ $().ready(function() {
 					location.reload(); //새로고침
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			}, {"prdtFile":"uploadFile"})
 		}
@@ -257,7 +281,13 @@ $().ready(function() {
 		var prdtId = $("#prdtId").val();
 		var prdtNm = $("#prdtNm").val();
 		if (prdtId == "") {
-			alert("선택된 항목이 없습니다.")
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다.") */
 			return;
 		}
 		if (!confirm("ID    : " + prdtId + "\n이름 : " + prdtNm + "\n정말 삭제하시겠습니까?")) {
@@ -271,7 +301,13 @@ $().ready(function() {
 	$("#btn-delete-all").click(function() {
 		var checkLen = $(".check-idx0:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("체크한 항목이 일괄 삭제됩니다.\n정말 삭제하시겠습니까?")) {
@@ -290,7 +326,13 @@ $().ready(function() {
 				location.reload(); //새로고침
 			}
 			else {
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		});
 	})
@@ -306,11 +348,23 @@ $().ready(function() {
 	 $("#btn-update-all").click(function() {
 		var checkLen = $(".check-idx0:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if ($("select-useYn").val() == "") {
-			alert("사용유무가 선택되지 않았습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '사용유무가 선택되지 않았습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("사용유무가 선택되지 않았습니다."); */
 		}
 		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
 			return;
@@ -329,7 +383,13 @@ $().ready(function() {
 				location.reload(); //새로고침
 			}
 			else {
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		});
 	})
@@ -397,7 +457,13 @@ $().ready(function() {
 		if (url !== "cannot") {
 			location.href = url;
 		} else {
-			alert("본인에게 쪽지를 보낼 수 없습니다.");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '자신에게 쪽지를 보낼 수 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("본인에게 쪽지를 보낼 수 없습니다."); */
 		}
 	});
 	$('body').on('click', function(event) {

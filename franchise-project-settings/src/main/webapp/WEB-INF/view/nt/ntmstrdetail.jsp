@@ -22,13 +22,25 @@
 		$("#del_btn").click(function() {
 			var delYn = ("${nt.delYn}");
 			if (delYn == "Y") {
-				alert("이미 삭제 처리된 쪽지입니다!");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제 처리된 쪽지입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제 처리된 쪽지입니다!"); */
 				return;
 			}
 			
 			var rdYn = ("${nt.ntRdDt}");
 			if (rdYn != "") {
-				alert("이미 확인된 쪽지는 지울 수 없습니다!")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 확인된 쪽지는 지울 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 확인된 쪽지는 지울 수 없습니다!") */
 				return;
 			}
 			
@@ -41,7 +53,13 @@
 					location.href = "${context}/nt/ntmstrlist";
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
@@ -56,12 +74,24 @@
 			var ntRdDt = ("${nt.ntRdDt}");
 			
 			if (delYn == "Y") {
-				alert("이미 삭제된 쪽지는 수정할 수 없습니다!");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제된 쪽지는 수정할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제된 쪽지는 수정할 수 없습니다!"); */
 				return;
 			}
 			
 			else if ( ("${nt.sndrId}") != ("${mbrVO.mbrId}")) {
-				alert("내가 보내지 않은 쪽지는 수정할 수 없습니다!")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자기 쪽지만 수정할 수 있습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("내가 보내지 않은 쪽지는 수정할 수 없습니다!") */
 				return;
 			}
 			else {
@@ -69,7 +99,13 @@
 					location.href = "${context}/nt/ntupdate/" + ntId;
 				}
 				else {
-					alert("이미 수신한 쪽지는 수정할 수 없습니다!");
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '이미 수신한 쪽지는 수정할 수 없습니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("이미 수신한 쪽지는 수정할 수 없습니다!"); */
 					return;
 				}
 			}

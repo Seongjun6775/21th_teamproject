@@ -27,17 +27,35 @@
 		$("#delete_btn").click(function() {
 
 			if (delYn == 'Y') {
-				alert("이미 삭제 처리된 글입니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제 처리된 글입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제 처리된 글입니다."); */
 				return;
 			}
 			
 			if (mbrId != "${mbrVO.mbrId}") {
-				alert("자기가 작성한 글만 삭제할 수 있습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자기가 작성한 글만 삭제할 수 있습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("자기가 작성한 글만 삭제할 수 있습니다."); */
 				return;
 			}
 			
 			if (hrStat == "002-02") {
-				alert("현재 심사중인 지원입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '현재 심사중인 지원입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("현재 심사중인 지원입니다."); */
 				return;
 			}
 			
@@ -46,28 +64,61 @@
 			}
 			$.post("${context}/api/hr/delete/${hr.hrId}", function(response) {
 				if (response.status == "200 OK") {
-					alert("정상적으로 삭제되었습니다.");
-					location.href="${context}/hr/list";
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '정상적으로 삭제되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href="${context}/hr/list";
+						}
+					});
+					/* alert("정상적으로 삭제되었습니다."); */
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
 		
 		$("#update_btn").click(function() {
 			if (delYn == "Y") {
-				alert("이미 삭제된 글은 수정할 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제된 글은 수정할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제된 글은 수정할 수 없습니다."); */
 				return;
 			}
 			
 			if (mbrId != "${mbrVO.mbrId}") {
-				alert("자기가 작성한 글만 수정할 수 있습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자기가 작성한 글만 수정할 수 있습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("자기가 작성한 글만 수정할 수 있습니다."); */
 				return;
 			}
 			
 			if (hrStat != "002-01") {
-				alert("접수 상태의 게시글만 수정할 수 있습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '접수 상태의 게시글만 수정할 수 있습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("접수 상태의 게시글만 수정할 수 있습니다."); */
 				return;
 			}
 			

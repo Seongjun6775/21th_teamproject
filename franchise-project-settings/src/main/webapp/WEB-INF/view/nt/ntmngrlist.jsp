@@ -56,7 +56,13 @@
 			var checkLen = $(".check_idx:checked").length;
 			
 			if (checkLen == 0) {
-				alert("선택한 쪽지가 없습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '선택한 쪽지가 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("선택한 쪽지가 없습니다."); */
 				return;
 			}
 			
@@ -105,7 +111,13 @@
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
 		if(intStartDt > intEndDt) {
-			alert("시작일자는 종료일자보다 늦을 수 없습니다!");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '시작일자는 종료일자보다 늦을 수 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("시작일자는 종료일자보다 늦을 수 없습니다!"); */
 			return;
 		}
 		

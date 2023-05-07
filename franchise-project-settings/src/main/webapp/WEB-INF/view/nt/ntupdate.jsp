@@ -17,7 +17,13 @@
 		
 		$("#crt_btn").click(function() {
 			if($("#ntCntnt").val().length > 4000) {
-				alert("최대 4천자까지 입력할 수 있습니다!");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '더이상 입력할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("최대 4천자까지 입력할 수 있습니다!"); */
 				return;
 			}
 			
@@ -31,7 +37,13 @@
 					location.href="${context}/nt/ntmstrlist";
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});

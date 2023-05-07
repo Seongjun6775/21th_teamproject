@@ -49,7 +49,13 @@
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
 		if(intStartDt > intEndDt){
-			alert("시작 일자를 확인해 주세요");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '시작 일자를 확인해 주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+	    	});
+			/* alert("시작 일자를 확인해 주세요");*/
 			return;
 		}
 		var queryString = "mbrLvl=" + mbrLvl;

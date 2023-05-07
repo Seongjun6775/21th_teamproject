@@ -51,7 +51,13 @@
 											const pageNum = Number(document
 													.getElementById("pageNo").value) - 1;
 											if (pageNum < 0) {
-												alert("첫 페이지 입니다.");
+												Swal.fire({
+											    	  icon: 'warning',
+											    	  title: '첫 페이지 입니다.',
+											    	  showConfirmButton: false,
+											    	  timer: 2500
+												});
+												/* alert("첫 페이지 입니다."); */
 												return;
 											} else {
 												location.href = "${context}/evnt/list?pageNo="
@@ -62,7 +68,13 @@
 						$("#btn-nextPage").click(function() {
 											const pageNum = Number(document.getElementById("pageNo").value) + 1;
 											if (pageNum >= Number(document.getElementById("lastPage").value)) {
-												alert("마지막 페이지 입니다.");
+												Swal.fire({
+											    	  icon: 'warning',
+											    	  title: '마지막 페이지 입니다.',
+											    	  showConfirmButton: false,
+											    	  timer: 2500
+												});
+												/* alert("마지막 페이지 입니다."); */
 												return;
 											} else {
 												location.href = "${context}/evnt/list?pageNo="
@@ -78,7 +90,13 @@
 						$("#btn-checkEvnts").click(function() {
 											var checkLen = $(".check-idx:checked").length;
 											if (checkLen == 0) {
-												alert("체크한 대상이 없습니다.");
+												Swal.fire({
+											    	  icon: 'warning',
+											    	  title: '체크한 대상이 없습니다.',
+											    	  showConfirmButton: false,
+											    	  timer: 2500
+												});
+												/* alert("체크한 대상이 없습니다."); */
 												return;
 											}
 											var form = $("<form></form>");

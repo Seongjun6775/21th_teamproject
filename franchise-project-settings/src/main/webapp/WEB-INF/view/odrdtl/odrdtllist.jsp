@@ -81,10 +81,22 @@
 			
 			if (odrPrcs != "003-01") {
 				if (odrPrcs == "003-05") {
-					alert("주문 취소된 주문서입니다.");
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '주문 취소된 주문서입니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("주문 취소된 주문서입니다."); */
 					return;
 				}
-				alert("이미 주문 접수된 주문서입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '이미 주문 접수된 주문서 입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 주문 접수된 주문서입니다."); */
 				return;
 			}
 			
@@ -97,7 +109,13 @@
 					location.href = "${context}/odrdtl/list/${odrLstId}"
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 			
@@ -105,7 +123,13 @@
  
  		$("#delete_all_btn").click(function() {
  			if (odrPrcs != "003-01" && odrPrcs != "003-05") {
- 				alert("이미 주문 처리된 주문서입니다.");
+ 				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '이미 주문 처리된 주문서입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+ 				/* alert("이미 주문 처리된 주문서입니다."); */
  				return;
  			}
  			
@@ -118,7 +142,13 @@
 					location.href = "${context}/odrdtl/list/${odrLstId}"
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
  			});
  			
@@ -131,30 +161,70 @@
 			
 			if (odrPrcs != "003-01") {
 				if (odrPrcs == "003-05") {
-					alert("주문 취소된 주문서입니다.");
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  title: '주문 취소된 주문서입니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("주문 취소된 주문서입니다."); */
 					return;
 				}
-				alert("이미 결제 처리된 주문서입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '이미 결제 처리된 주문서입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 결제 처리된 주문서입니다."); */
 				return;
 			}
 			
 			if (listSize == 0) {
-				alert("주문할 물품이 없습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '주문할 물품이 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("주문할 물품이 없습니다."); */
 				return;
 			}
 			
 			if (sumPrice > pyMn) {
-				alert("충전 잔량이 부족합니다. 먼저 금액을 충전해 주세요!");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '잔액 부족',
+			    	  text: '잔액이 부족합니다. 먼저 금액을 충전해 주세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("충전 잔량이 부족합니다. 먼저 금액을 충전해 주세요!"); */
 				return;
 			}
 			var restMn = pyMn - sumPrice;
 			$.post("${context}/api/odrlst/update/${odrLstId}", {"mbrPyMn": restMn}, function(response){
 				if (response.status == "200 OK") {
-					alert("주문이 접수되었습니다.");
-					location.href = "${context}/odrlst/list";
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '주문이 접수되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href = "${context}/odrlst/list";
+						}
+					});
+					/* alert("주문이 접수되었습니다."); */
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});

@@ -11,8 +11,17 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		alert("다운로드에 실패했습니다.");
-		location.href = "${context}/hr/list";
+		Swal.fire({
+	    	  icon: 'error',
+	    	  title: '다운로드에 실패했습니다.',
+	    	  showConfirmButton: true,
+	    	  confirmButtonColor: '#3085d6'
+		}).then((result)=>{
+			if(result.isConfirmed){
+				location.href = "${context}/hr/list";
+			}
+		});
+		/* alert("다운로드에 실패했습니다."); */
 	});
 </script>
 </head>

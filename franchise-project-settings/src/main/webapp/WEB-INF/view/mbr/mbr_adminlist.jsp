@@ -71,27 +71,58 @@
 			console.log(strNm);
 			if(prevLvl.length ==0){
 				if(prevLvl.length ==0){
-					alert("회원을 선택하세요.");
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  title: '회원을 선택하세요.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+			    	});
+					/* alert("회원을 선택하세요."); */
 					return;
 				}
 			}
 			if(strNm.length == 0 ){
 				if(updateLvl.length==0){
-					alert("변경시킬 등급을 선택하세요.");
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  title: '변경시킬 등급을 선택하세요.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+			    	});
+					/* alert("변경시킬 등급을 선택하세요."); */
 					return;
 				}
 				if(updateLvl == prevLvl){
-					alert("선택한 회원의 등급과 변경하려는 등급이 같습니다.");
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  title: '확인 해주세요.',
+				    	  text: '선택한 회원의 등급과 변경하려는 등급이 같습니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+			    	});
+					/* alert("선택한 회원의 등급과 변경하려는 등급이 같습니다."); */
 					return;
 				}
 			
 				$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
 					if(resp.status=="200 OK"){
-						alert("변경이 완료되었습니다.");
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '변경이 완료되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+				    	});
+						/* alert("변경이 완료되었습니다."); */
 						location.reload();
 					}
 					else{
-						alert(resp.message);
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: resp.message,
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+				    	});
+						/* alert(resp.message); */
 					}
 				});
 			}
@@ -115,11 +146,23 @@
 				}else{
 					$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
 						if(resp.status=="200 OK"){
-							alert("변경이 완료되었습니다.");
+							Swal.fire({
+						    	  icon: 'success',
+						    	  title: '변경이 완료되었습니다.',
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+					    	});
+							/* alert("변경이 완료되었습니다."); */
 							location.reload();
 						}
 						else{
-							alert(resp.message);
+							Swal.fire({
+						    	  icon: 'error',
+						    	  title: resp.message,
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+					    	});
+							/* alert(resp.message); */
 						}
 					});
 				}
@@ -130,7 +173,13 @@
 			var prevMbrLvl = $("#prev-mbrLvl-hidden").val();
 			var mbrLvl = $("#select-mbrLvl").val();
 			if(prevMbrLvl.length == 0){
-				alert("회원을 선택하세요");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '회원을 선택하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("회원을 선택하세요"); */
 				return;
 			}
 			if(mbrLvl.length == 0){
@@ -165,10 +214,22 @@
 				    contentType: "application/json",
 				    success: function(resp) {
 				    	if(resp.status == "200 OK"){
-							alert("관리자가 해임되었습니다.");
+				    		Swal.fire({
+						    	  icon: 'success',
+						    	  title: '관리자가 해임되었습니다.',
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+					    	});
+							/* alert("관리자가 해임되었습니다."); */
 							location.reload();
 						}else{
-							alert(resp.message);
+							Swal.fire({
+						    	  icon: 'error',
+						    	  title: resp.message,
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+					    	});
+							/* alert(resp.message); */
 						}
 				    }
 				});
@@ -193,7 +254,13 @@
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
 		if(intStartDt > intEndDt){
-			alert("시작 일자를 확인해 주세요");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '시작 일자를 확인해 주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+	    	});
+			/* alert("시작 일자를 확인해 주세요"); */
 			return;
 		}
 		var queryString = "mbrLvl=" + mbrLvl;
@@ -401,7 +468,7 @@
 												</div>
 												<h5>소속 변경</h5>
 												<div class="input-group col-12">
-													<button class="btn btn-outline-success" id="search-str-btn" style="font-weight: 800;">Search</button>
+													<button class="btn btn-outline-success" id="search-str-btn" style="font-weight: 800;">검색</button>
 													<input type="text" id="search-strNm" name="strNm" class="form-control rounded-end" placeholder="매장 검색" readonly value="" aria-describedby="search-str-btn">
 													
 													<input type="hidden" id="search-strId" name="strId" readonly value="" />
@@ -412,7 +479,7 @@
 									
 								</div>
 								<div class="align-right" style="margin-top: 16px;">
-	 								<button id="update_btn" class="btn btn-outline-primary btn-default" style="border: solid 2px; font-weight: 800; margin-right: 15px;">변경</button>
+	 								<button id="update_btn" class="btn btn-outline-primary btn-default">변경</button>
 								</div>
 							</div>
 	      			</div>

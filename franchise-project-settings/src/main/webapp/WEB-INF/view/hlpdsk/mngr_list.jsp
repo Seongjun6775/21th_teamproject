@@ -59,7 +59,13 @@
 		$("#delete_btn").click(function(){
 			var checkLen= $(".check_idx:checked").length;
 			if(checkLen ==0){
-				alert("삭제할 글이 없습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '삭제할 글이 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("삭제할 글이 없습니다."); */
 				return;
 			} 
 			if(!confirm("정말 삭제하시겠습니까?")){
@@ -78,7 +84,13 @@
 					location.reload(); //새로고침	
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			});
 		});

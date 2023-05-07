@@ -29,11 +29,26 @@
 						
 					}, function(response) {
 						if (response.status == "200 OK") {
-							location.href = "${context}" + response.redirectURL;
-							alert("리뷰가 등록되었습니다.")
+							Swal.fire({
+						    	  icon: 'success',
+						    	  title: '리뷰가 등록되었습니다.',
+						    	  showConfirmButton: true,
+						    	  confirmButtonColor: '#3085d6'
+							}).then((result)=>{
+								if(result.isConfirmed){
+									location.href = "${context}" + response.redirectURL;
+								}
+							});
+							/* alert("리뷰가 등록되었습니다.") */
 						}
 						else {
-							alert(response.errorCode + " / " + response.message);
+							Swal.fire({
+						    	  icon: 'error',
+						    	  title: response.message,
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+							});
+							/* alert(response.errorCode + " / " + response.message); */
 						}	
 						
 					});				
