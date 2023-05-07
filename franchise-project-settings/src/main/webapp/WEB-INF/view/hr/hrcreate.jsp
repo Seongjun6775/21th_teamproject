@@ -69,8 +69,8 @@
 						<div style="display: flex; flex-direction: row; margin-bottom: 4px;">
 							<label for="hrFile" class="col-form-label" style="padding: 4px; border-left: solid #ffbe2e; margin-right:15px;">파일첨부
 							</label>
-							<i class='bx bx-message-square-add' style="font-size: 30px;"></i>
-							<input type="file" accept=".hwp" id="hrFile" name="hrFile" class="form-control" style="display: none; width: 50%;"/>
+							<!-- <i class='bx bx-message-square-add' style="font-size: 30px;"></i> -->
+							<input type="file" accept=".hwp" id="hrFile" name="hrFile" class="form-control" style="width: 50%;"/>
 						</div>
 						<div style="margin-bottom: 4px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : 'flex' }">
 							<label for="hrLvl" class="col-form-label" style="padding: 5px; border-left: solid #ffbe2e; margin-right: 7px;">지원 직군</label>
