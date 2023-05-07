@@ -345,6 +345,7 @@ function prdtList(srt) {
 					<select name="selectFilter"
 							id="search-keyword-str"
 							class="form-select" 
+							<c:if test="${sessionScope.__MBR__.mbrLvl ne '001-01'}"> disabled </c:if>
 							style="width:200px;">
 						<option value="">전체</option>
 						<c:choose>
