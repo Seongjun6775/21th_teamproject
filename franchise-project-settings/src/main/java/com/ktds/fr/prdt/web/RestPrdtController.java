@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,7 @@ import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.prdt.service.PrdtService;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.strprdt.vo.StrPrdtVO;
@@ -94,5 +97,14 @@ public class RestPrdtController {
 		}
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
+	
+	// 매출조회용 분류에 따른 물건조회하기
+	@PostMapping("/api/prdt/srtOfPrdt")
+	@ResponseBody
+	public List<PrdtVO> srtOfPrdt(@RequestBody PrdtVO prdtVO) {
+		List<PrdtVO> prdtList = prdtService.readAllNoPagenation(prdtVO);
+		return prdtList;
+	}
+	
 
 }

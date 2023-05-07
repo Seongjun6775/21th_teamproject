@@ -1,5 +1,6 @@
 package com.ktds.fr.odrdtl.web;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +129,19 @@ public class RestOdrDtlController {
 		return startEnd;
 	}
 	
+	@PostMapping("/api/payment/sumMonth")
+	@ResponseBody
+	public List<OdrDtlVO> monthly(@RequestBody OdrDtlVO odrDtlVO) {
+		List<OdrDtlVO> sumMonth = odrDtlService.sumMonth(odrDtlVO);
+		return sumMonth;
+	}
+	
+	@PostMapping("/api/payment/sumYear")
+	@ResponseBody
+	public List<OdrDtlVO> sumYear(@RequestBody OdrDtlVO odrDtlVO) {
+		List<OdrDtlVO> sumYear = odrDtlService.sumYear(odrDtlVO);
+		return sumYear;
+	}
 	
 
 }

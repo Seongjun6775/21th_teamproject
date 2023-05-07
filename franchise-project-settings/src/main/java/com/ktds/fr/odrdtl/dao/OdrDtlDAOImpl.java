@@ -88,5 +88,15 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 		return getSqlSession().selectList("OdrDtl.oneMonth", odrDtlVO);
 	}
 	
+	@Override
+	public List<OdrDtlVO> sumMonth(OdrDtlVO odrDtlVO) {
+		return getSqlSession().selectList("OdrDtl.sumMonth", odrDtlVO);
+	}
+	
+	@Override
+	public List<OdrDtlVO> sumYear(OdrDtlVO odrDtlVO) {
+		return getSqlSession().selectList("OdrDtl.sumYear", odrDtlVO);
+	}
+	
 	
 }
