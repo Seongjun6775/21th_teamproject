@@ -440,6 +440,71 @@
 		 	   , STR.STR_NM
 	</select>
 	
+	<select id="viewStrPayments"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT
+			<if test='strVO.strId != null and strVO.strId != ""'>
+		 	STR.STR_ID,
+		 	STR.STR_NM,
+			</if>
+			OD.MDFY_DT AS MDFY_DT ,
+			SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC ,
+			SUM(OD.ODR_DTL_PRDT_CNT) SUM_CNT
+		FROM
+		(
+			SELECT
+				OL.ODR_LST_ID ,
+				OD.ODR_DTL_STR_ID ,
+				OD.ODR_DTL_PRDT_ID ,
+				OD.ODR_DTL_PRDT_CNT ,
+				OD.ODR_DTL_PRC ,
+				OD.MBR_ID ,
+				OL.ODR_LST_ODR_PRCS ,
+				TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT ,
+				OL.ODR_LST_RGSTR ,
+				TO_CHAR(OL.MDFY_DT, 'YYYYMMDD') MDFY_DT ,
+				OL.MDFYR
+			FROM
+				ODR_DTL OD
+			LEFT OUTER JOIN ODR_LST OL ON
+				OD.ODR_LST_ID = OL.ODR_LST_ID
+			LEFT OUTER JOIN STR S ON
+				OD.ODR_DTL_STR_ID = S.STR_ID
+			WHERE
+				OL.DEL_YN = 'N'
+				AND OL.USE_YN = 'Y'
+				AND OL.ODR_LST_ODR_PRCS = '003-04'
+				AND S.USE_YN = 'Y') OD
+		INNER JOIN STR STR ON
+			STR.STR_ID = OD.ODR_DTL_STR_ID
+		INNER JOIN LCT_CD L ON
+			STR.STR_LCTN = L.LCT_ID
+		INNER JOIN CTY_CD C ON
+			STR.STR_CTY = C.CTY_ID
+		WHERE
+		1=1
+		<if test='strVO.strId != null and strVO.strId != ""'>
+		AND STR.STR_ID = #{strVO.strId}
+		</if>
+		<if test='startDt != null and startDt != ""'>
+		AND OD.MDFY_DT >= REPLACE(#{startDt}, '-' , '')
+		AND REPLACE(#{endDt}, '-', '') >= OD.MDFY_DT
+	</if>
+	GROUP BY
+		<if test='strVO.strId != null and strVO.strId != ""'>
+		STR.STR_ID ,
+		STR.STR_NM ,
+		</if>
+		OD.MDFY_DT
+	ORDER BY
+		<if test='strVO.strId != null and strVO.strId != ""'>
+		STR.STR_ID ,
+		STR.STR_NM ,
+		</if>
+		OD.MDFY_DT			
+	</select>
+	
 	
 	
 	

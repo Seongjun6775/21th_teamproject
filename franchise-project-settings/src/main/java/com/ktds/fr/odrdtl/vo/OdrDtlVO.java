@@ -83,6 +83,9 @@ public class OdrDtlVO extends AbstractVO{
 	/* 매장별 매출 조회용 */
 	private CtyCdVO ctyCdVO;
 	private LctCdVO lctCdVO;
+	/*일별 날짜*/
+	private String mdfyDt;
+	
 	
 	public String getOdrDtlId() {
 		return odrDtlId;
@@ -279,6 +282,13 @@ public class OdrDtlVO extends AbstractVO{
 		this.lctCdVO = lctCdVO;
 	}
 
-	
+	public String getMdfyDt() {
+		return mdfyDt;
+	}
+
+	public void setMdfyDt(String mdfyDt) {
+		this.mdfyDt = mdfyDt;
+	}
+
 
 }
