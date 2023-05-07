@@ -12,6 +12,10 @@
 <title>${strVO.strNm eq null ? '정보없음' : strVO.strNm } - 주문관리</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -290,7 +294,42 @@ $().ready(function() {
 				}
 		    }
 		});
-	})
+	});
+	
+	var url;
+	$(".open-layer").click(function(event) {
+		var mbrId = $(this).attr('val');
+		$("#layer_popup").css({
+		    "padding": "5px",
+			"top": event.pageY,
+			"left": event.pageX,
+			"backgroundColor": "#FFF",
+			"position": "absolute",
+			"border": "solid 1px #222",
+			"z-index": "10px"
+		}).show();
+		if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+			url = "cannot"
+		} else {
+			url = "${context}/nt/ntcreate/" + mbrId
+		}
+	});
+	$(".send-memo-btn").click(function() {
+		if (url !== "cannot") {
+			location.href = url;
+		} else {
+			alert("본인에게 쪽지를 보낼 수 없습니다.");
+		}
+	});
+	$('body').on('click', function(event) {
+		if (!$(event.target).closest('#layer_popup').length) {
+			$('#layer_popup').hide();
+		}
+	});
+	$(".close-memo-btn").click(function() {
+		url = undefined;
+		$("#layer_popup").hide();
+	});
 	
 	
 });
@@ -386,7 +425,12 @@ function movePage(pageNo) {
 														<td>${ordLst.odrLstId}</td>							
 														<td>${ordLst.mbrVO.mbrNm}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.mdfyr}</td>							
+														<td class="ellipsis"
+															onclick="event.cancelBubble=true">
+															<a class="open-layer" href="javascript:void(0);" 
+															    val="${ordLst.mdfyrMbrVO.mbrId}">
+																${ordLst.mdfyr eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : ordLst.mdfyr}</a>
+														</td>
 														<td>${ordLst.mdfyDt}</td>							
 													</tr>
 												</c:if>
@@ -439,7 +483,12 @@ function movePage(pageNo) {
 														<td>${ordLst.odrLstId}</td>							
 														<td>${ordLst.mbrVO.mbrNm}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.mdfyr}</td>							
+														<td class="ellipsis"
+															onclick="event.cancelBubble=true">
+															<a class="open-layer" href="javascript:void(0);" 
+															    val="${ordLst.mdfyrMbrVO.mbrId}">
+																${ordLst.mdfyr eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : ordLst.mdfyr}</a>
+														</td>							
 														<td>${ordLst.mdfyDt}</td>							
 													</tr>
 												</c:if>
@@ -481,7 +530,12 @@ function movePage(pageNo) {
 												<td>${ordLst.odrLstId}</td>							
 												<td>${ordLst.mbrVO.mbrNm}</td>							
 												<td>${ordLst.odrLstRgstDt}</td>							
-												<td>${ordLst.mdfyr}</td>							
+												<td class="ellipsis"
+													onclick="event.cancelBubble=true">
+													<a class="open-layer" href="javascript:void(0);" 
+													    val="${ordLst.mdfyrMbrVO.mbrId}">
+														${ordLst.mdfyr eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : ordLst.mdfyr}</a>
+												</td>
 												<td>${ordLst.mdfyDt}</td>							
 											</tr>
 										</c:forEach>
@@ -523,7 +577,21 @@ function movePage(pageNo) {
 
 	    </div>
      		<!-- /contents -->
-     		
+     	
+     <div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-mail-send' ></i>
+				쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-x'></i>
+				닫기</a>
+			</div>
+		</div>
+	</div>
 
 	<jsp:include page="../include/closeBody.jsp" />
 	

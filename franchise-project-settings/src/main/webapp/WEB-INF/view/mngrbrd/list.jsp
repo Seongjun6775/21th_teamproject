@@ -15,14 +15,18 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
 		var url;
 		$(".open-layer").click(function(event) {
-
-			var mbrId = $(this).text();  
+			var mbrId = $(this).attr('val');
 			$("#layer_popup").css({
+			    "padding": "5px",
 				"top": event.pageY,
 				"left": event.pageX,
 				"backgroundColor": "#FFF",
@@ -30,16 +34,24 @@
 				"border": "solid 1px #222",
 				"z-index": "10px"
 			}).show();
-			
-			url = "${context}/nt/ntcreate/" + mbrId
-		});
-		
-		$(".send-memo-btn").click(function() {
-			if (url) {
-				location.href = url;
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
 			}
 		});
-		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				alert("본인에게 쪽지를 보낼 수 없습니다.");
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
 		$(".close-memo-btn").click(function() {
 			url = undefined;
 			$("#layer_popup").hide();
@@ -211,8 +223,9 @@
 													${mngrBrd.mngrBrdTtl}  
 												</a>[${mngrBrd.rplList.size()}] 
 											</td>
-											<td style="width: 180px;" >${mngrBrd.mbrVO.mbrNm}
-											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);">${mngrBrd.mbrVO.mbrId}</a>)</span></td>
+											<td class="ellipsis"
+												onclick="event.cancelBubble=true" style="width: 180px;" >${mngrBrd.mbrVO.mbrNm}
+											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);" val="${mngrBrd.mbrVO.mbrId}">${mngrBrd.mbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : mngrBrd.mbrVO.mbrId}</a>)</span></td>
 											<td style="width: 200px;">${mngrBrd.mngrBrdWrtDt}</td>
 										</tr>
 									</c:forEach>
@@ -271,10 +284,14 @@
 <div class="layer_popup" id="layer_popup" style="display: none;">
 	<div class="popup_box">
 		<div class="popup_content">
-			<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+			<a class="send-memo-btn" href="javascript:void(0);">
+			<i class='bx bx-mail-send' ></i>
+			쪽지 보내기</a>
 		</div>
 		<div>
-			<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			<a class="close-memo-btn" href="javascript:void(0);">
+			<i class='bx bx-x'></i>
+			닫기</a>
 		</div>
 	</div>
 </div>
