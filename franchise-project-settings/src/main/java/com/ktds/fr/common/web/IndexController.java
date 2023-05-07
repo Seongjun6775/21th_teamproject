@@ -9,4 +9,8 @@ public class IndexController {
 	public String viewIndexPage() {
 		return "index";
 	}
+	@GetMapping("/index_user")
+	public String viewIndexUserPage() {
+		return "index_user"; 
+	}
 }

@@ -179,6 +179,13 @@
 		
 	});
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm  " style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -193,10 +200,10 @@
 				<div style="text-align: right;">
 					<div class="article-action">			
 						<c:if test="${mbrVO.mbrId eq mngrBrd.mngrId}">	
-							<a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}"  class="btn btn-primary" style="text-decoration: none;">수정하기</a>
+							<a href="${context}/mngrbrd/update/${mngrBrd.mngrBrdId}"  class="btn btn-default btn-outline-primary" style="text-decoration: none;">수정하기</a>
 						</c:if>
 						<c:if test="${mbr.mbrLvl eq '001-01' || mbrVO.mbrId eq mngrBrd.mngrId}">
-							<button id="delete_btn" class="btn btn-danger">삭제</button> 
+							<button id="delete_btn" class="btn btn-default btn-outline-danger">삭제</button> 
 						</c:if>		
 					</div>
 				</div>
@@ -280,7 +287,7 @@
 																<div class="rplbtn">
 																	<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button> 
 																	<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
-																		<button value="${rpl.rplId}" class="blue-rpl-btn">${rpl.delYn}</button>
+																		<button value="${rpl.rplId}" class="blue-rpl-btn">수</button>
 																	</c:if>						
 																	<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
 																		<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button>		

@@ -455,11 +455,10 @@ function movePage(pageNo) {
 			<span class="fs-5 fw-bold">메뉴 > 메뉴 관리</span>
 		</div>
 		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
-		
 			<div class="space-between mb-10">
-				<div class="top-bar">
-					<button id="btn-search-reset"
-							class="btn btn-outline-success btn-default" >검색 조건 초기화</button>
+			<div style="margin: 13px 5px; display: inline-block;">총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건</div>
+				<div class="top-bar" style="    display: inline-flex; float: right;">
+				
 					<label>메뉴 이름 검색</label>
 					<input type="text" class="form-control" 
 										style="width: 300px;"
@@ -468,6 +467,8 @@ function movePage(pageNo) {
 										onkeyup="chkChar(this)" 
 										value="${prdtVO.prdtNm}">	
 					<button id="btn-search" class="btn btn-outline-success btn-default">검색</button>
+					<button id="btn-search-reset"
+						class="btn btn-outline-success btn-default" >검색 조건 초기화</button>
 				</div>
 			</div>
 			
@@ -612,11 +613,6 @@ function movePage(pageNo) {
 			
 			
 			<div class="relative">
-				<div class="align-left absolute fontsize14">
-					<!-- 페이지네이션용  -->
-					총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
-					<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
-				</div>
 				<div class="align-right absolute white-space-nowrap" style="right: 0px;" >
 					<select id="select-useYn"
 							class="form-select">
