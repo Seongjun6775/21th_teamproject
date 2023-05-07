@@ -456,14 +456,12 @@ function movePage(pageNo) {
 		</div>
 		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 			<div class="space-between mb-10">
-			<div style="margin: 13px 5px; display: inline-block;">총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건</div>
+			<div style="margin: 5px 5px 10px 13px ; display: inline-block;">총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건</div>
 				<div class="top-bar" style="    display: inline-flex; float: right;">
-				
-					<label>메뉴 이름 검색</label>
 					<input type="text" class="form-control" 
 										style="width: 300px;"
 										id="search-keyword-prdtNm" 
-										placeholder="검색어 입력 후 Enter"
+										placeholder="메뉴 이름 검색"
 										onkeyup="chkChar(this)" 
 										value="${prdtVO.prdtNm}">	
 					<button id="btn-search" class="btn btn-outline-success btn-default">검색</button>

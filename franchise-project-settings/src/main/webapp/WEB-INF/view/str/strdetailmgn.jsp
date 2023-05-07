@@ -137,7 +137,6 @@ $().ready(function() {
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 					<span class="fs-5 fw-bold">매장 > 매장 상세 조회</span>
 			</div>
-			가맹점주는 오직 매장주소, 전화번호, 오픈시간, 클로즈시간만 관리가능합니다.
 			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<form id="strdetailmgn_form">
 					<input type="hidden" id="isModify" value="false" />
@@ -182,7 +181,6 @@ $().ready(function() {
 						<label for="strAddr" style="width:180px;">매장주소</label>
 						<input type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 					</div>
-					
 				    <div class="input-group inline">
 				        <label for="strCallNum" style="width:180px">전화번호</label>
 				        <input type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">

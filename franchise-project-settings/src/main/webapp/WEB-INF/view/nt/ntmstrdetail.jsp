@@ -82,6 +82,10 @@
     font-weight: 800;
 /*     margin-right: 15px; */
 } 
+
+.nt-table > div{
+	margin-bottom:10px;
+}
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
@@ -92,7 +96,7 @@
 	        </div>
       	</div>
       	<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-			<div style="margin: 20px;">
+			<div class="nt-table" style="margin: 20px;">
 				<div style="float: right;">
 					<button id="upd_btn" class="btn btn-outline-success btn-default">수정</button> 
 					<button id="del_btn" class="btn btn-outline-danger btn-default">삭제</button>
@@ -103,11 +107,11 @@
 				</div>
 				<div>
 					<label class="d-inline fw-bolder" style="float: left;width: 67px;" >발신자</label>
-					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25" style="padding: 0 5px 0 5px;" >${nt.sndrId}</div>
+					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25" style="padding: 5px;" >${nt.sndrId}</div>
 				</div>
 				<div>
 					<label class="d-inline fw-bolder" style="float: left;width: 67px;">수신자</label>
-					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25" style="padding: 0 5px 0 5px;">${nt.rcvrId}</div>
+					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25" style="padding: 5px;">${nt.rcvrId}</div>
 				</div>
 				<div>
 					<div >쪽지 발송 일자 : ${nt.ntSndrDt}</div>

@@ -50,7 +50,7 @@
 		    ON H.MBR_ID = M.MBR_ID
 		  LEFT OUTER JOIN MBR RM
 		    ON H.MSTR_ID = RM.MBR_ID
-		 WHERE 1=1 
+		 WHERE H.DEL_YN='N'
 		<if test= 'hlpDskTtl != null and hlpDskTtl != "" '>
            AND H.HLP_DSK_TTL LIKE '%' ||  #{hlpDskTtl} || '%'
          </if>
@@ -93,6 +93,7 @@
 		  LEFT OUTER JOIN MBR RM
 		    ON H.MSTR_ID = RM.MBR_ID
 		 WHERE H.MBR_ID  = #{mbrId}
+		   AND H.DEL_YN='N'
 		ORDER BY H.HLP_DSK_WRT_DT DESC 
 		<include refid="Common.pageFooter" />	
 	</select>
@@ -173,15 +174,15 @@
 	<update id="deleteOneHlpDsk"
 			parameterType="string">
 		UPDATE FRAN.HLP_DSK
-		   SET DEL_YN='Y'
-		 WHERE HLP_DSK_ID = #{_hlpDskWrtId}
+		   SET DEL_YN='Y' 
+		 WHERE HLP_DSK_WRT_ID = #{_hlpDskWrtId}
 	</update>
 	
 	<update id="deleteHlpDskBySelectedHlpDskId"
 			parameterType="arraylist">
 		UPDATE FRAN.HLP_DSK
 		   SET DEL_YN='Y'
-		 WHERE HLP_DSK_ID IN
+		 WHERE HLP_DSK_WRT_ID IN 
 		 	<foreach collection="list" item="hlpDskWrtId" open="(" close=")" separator=", ">
 			#{hlpDskWrtId}
 		</foreach>

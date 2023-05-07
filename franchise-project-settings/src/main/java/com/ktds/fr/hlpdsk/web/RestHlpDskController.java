@@ -84,8 +84,8 @@ public class RestHlpDskController {
 	}
 	
 	@PostMapping("/api/hlpdsk/delete")
-	public ApiResponseVO doDeleteHlpDskBySelectedHlpDskId(@RequestParam List<String> shlpDskWrtId) {
-		boolean deleteResult = hlpDskService.deleteHlpDskBySelectedHlpDskId(shlpDskWrtId);
+	public ApiResponseVO doDeleteHlpDskBySelectedHlpDskId(@RequestParam List<String> hlpDskWrtId) {
+		boolean deleteResult = hlpDskService.deleteHlpDskBySelectedHlpDskId(hlpDskWrtId);
 		System.out.println(deleteResult);
 		if(deleteResult) {
 			return new ApiResponseVO(ApiStatus.OK);

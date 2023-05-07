@@ -103,6 +103,13 @@
 		});
 	})
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -148,11 +155,11 @@
 					<input type="hidden" id="evntId" value="${evntVO.evntId}"/>
 					
 					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-						<button type="button" id="btn-update" class="btn btn-sm btn-success">수정</button>
+						<button type="button" id="btn-update" class="btn btn-sm btn-outline-success btn-default">수정</button>
 					</c:if>
 					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-						<button type="button" id="btn-updateDelete"class="btn btn-sm btn-danger" >삭제</button>
-					</c:if>
+						<button type="button" id="btn-updateDelete"class="btn btn-sm btn-outline-danger btn-default" >삭제</button>
+					</c:if> 
                 </div>
               </div>
             </div>
