@@ -33,44 +33,94 @@ $().ready(function() {
 	
 	$("#search-keyword-str").val("${odrDtlVO.odrDtlStrId}");
 	
+	var now = new Date();
+	var year = now.getFullYear();//연도
+    var month = now.getMonth()+1 < 10 ? "0" + (now.getMonth()+1) : "" + (now.getMonth()+1);//월
+    var day = now.getDate() < 10 ? "0" + now.getDate() : "" + now.getDate();//월
+	startEnd(year +"-"+ month);
+    $("#clickMonthSave").val(year +"-"+ month);
+    $("#clickDaySave").val(year +"-"+ month +"-"+ day);
+    
+    
+    // 시작 시 화면 내용 채우기
+	sumMonth();
+	groupPrdt($("#clickDaySave").val());
+	prdtList();
+    
 	
 	
-	groupPrdt();
 	$("#btn-search").click(function() {
-		groupPrdt();
+		var prdtId = $("#search-keyword-prdt").val();
+		sumMonth(prdtId);
+		startEnd($("#clickMonthSave").val(), prdtId);
+		groupPrdt($("#clickDatSave").val() != "" ? $("#clickDaySave").val() : $("#clickMonthSave").val())
 	})
 	
-	$("#paymentStr").closest("table").children("thead").on("click", "th", function() {
-		startEnd();
-	})
-	$("#paymentStr").on("click", "tr", function() {
+	$("#sumMonth").on("click", "td", function() {
+		var oneday = $(this).data().oneday;
+		if (oneday == null || oneday == "") return; 
 		$(this).closest("tbody").find(".on").removeClass("on");
 		$(this).addClass("on");
-		var prdtId = $(this).data().prdtid;
-		var prdtNm = decodeURIComponent($(this).data().prdtnm);
-		startEnd(prdtId, prdtNm);
+		$("#clickMonthSave").val(oneday)
+		$("#clickDaySave").val("")
 		
+		startEnd(oneday);
+		groupPrdt(oneday);
 	});
+	$("#startEnd").on("click", "tr", function() {
+		var oneday = $(this).data().oneday;
+		console.log(oneday)
+		if (oneday == null || oneday == "") return; 
+		$(this).closest("tbody").find(".on").removeClass("on");
+		$(this).addClass("on");
+		$("#clickDaySave").val(oneday)
+		
+		groupPrdt(oneday);
+	});
+
+
 	
 	
 	// 조건변경 시 데이터 실시간 변경
-	$("select[name=selectFilter]").on("change", function(event) {
-		groupPrdt();
-	});
-	$("input[type=date]").on("change", function(event) {
-		var startDt = new Date($("#search-keyword-startdt").val());
-		var endDt = new Date($("#search-keyword-enddt").val());
-		console.log(startDt)
-		console.log(endDt)
-		if (startDt > endDt) {
-			var temp = startDt;
-			$("#search-keyword-startdt").val($("#search-keyword-enddt").val());
-			$("#search-keyword-enddt").val(temp.toISOString().substring(0, 10));
+	$("select[name=selectFilter]").on("change", function() {
+		if ($(this).attr("id") == "search-keyword-prdtSrt") {
+			prdtList($(this).val());
+			var prdtId = "";
+		} else {
+			var prdtId = $("#search-keyword-prdt").val();
 		}
-		groupPrdt();
+		sumMonth(prdtId);
+		startEnd($("#clickMonthSave").val(), prdtId);
+		groupPrdt($("#clickDatSave").val() != "" ? $("#clickDaySave").val() : $("#clickMonthSave").val())
 	});
 	
 	
+	
+	
+	
+	
+	
+	$("#btn-type").click(function() {
+		if ($("#checkCntPrc").is(":checked")) {
+			$("#checkCntPrc").prop("checked", false);
+			$(this).text("수량 보기");
+			$("#unit").text("단위: 원");
+		} else {
+			$("#checkCntPrc").prop('checked', true);
+			$(this).text("금액 보기");
+			$("#unit").text("단위: 개");
+		}
+		sumMonth();
+		startEnd($("#clickMonthSave").val());
+	}).mouseover(function() {
+		if ($("#checkCntPrc").is(":checked")) {
+			$(this).text("금액 보기");
+		} else $(this).text("수량 보기");
+	}).mouseout(function() {
+		if ($("#checkCntPrc").is(":checked")) {
+			$(this).text("수량 보기");
+		} else $(this).text("금액 보기");
+	});
 
 
 	
@@ -78,15 +128,13 @@ $().ready(function() {
 
 
 
-function groupPrdt() {
+function groupPrdt(monthly) {
 	
 	var odrDtlVO = {
 		odrDtlStrId : $("#search-keyword-str").val(),
-		startDt : $("#search-keyword-startdt").val(),
-		endDt : $("#search-keyword-enddt").val(),
+		monthly : monthly,
 		prdtVO :  {prdtSrt : $("#search-keyword-prdtSrt").val()}
 	}
-	
 	$.ajax({
 		url: "${context}/api/payment/groupPrdt",
 		type: "POST",
@@ -99,17 +147,23 @@ function groupPrdt() {
 			var pay = 0;
 			$("#paymentStr").empty();
 			for (var i = 0; i < data.length; i++) {
-			    var cdNm = data[i].prdtVO.cmmnCdVO.cdNm;
-			    var prdtNm = data[i].prdtVO.prdtNm;
-			    var sumCnt = data[i].sumCnt;
-			    var sumPrc = data[i].sumPrc;
-			    var tr = $("<tr data-prdtid="+data[i].prdtVO.prdtId+" data-prdtnm="+encodeURIComponent(data[i].prdtVO.prdtNm)+"></tr>");
-			    var tdList = [
+				var cdNm = data[i].prdtVO.cmmnCdVO.cdNm;
+				var prdtNm = data[i].prdtVO.prdtNm;
+				var sumCnt = data[i].sumCnt;
+				var sumPrc = data[i].sumPrc;
+				var id = data[i].prdtVO.prdtId
+				var nm = data[i].prdtVO.prdtNm
+				var tr = $("<tr data-prdtid="+id+" data-prdtnm="+encodeURIComponent(nm)+"></tr>");
+				var tdList = [
 					  $("<td>" + cdNm + "</td>"),
 					  $("<td>" + prdtNm + "</td>"),
 					  $("<td>" + sumCnt.toLocaleString() + "</td>"),
 					  $("<td class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>"),
 					];
+				if (id == $("#search-keyword-prdt").val()) {
+					console.log("일치하는게 있다")
+					tr.addClass("selected");
+				}
 			    cnt += sumCnt;
 			    pay += sumPrc;
 				tr.append(tdList);
@@ -121,23 +175,18 @@ function groupPrdt() {
 			tr.append("<td class='money' style='padding-right: 10px;'>"+pay.toLocaleString()+"</td>")
 			$("#paymentStr").append(tr);
 			
-// 			var div = $("<div>총 금액 : "+pay.toLocaleString() +"원</div>")
-			$("#paymentTotal").html("금액 합계: "+pay.toLocaleString() +"원");
-			$("#paymentCnt").html("수량 합계 : "+cnt.toLocaleString());
-			
-			startEnd();
-			
+			var requirement = monthly.length < 8 ? monthly + " 한달" : monthly + " 하루";
+			$("#requirement").html(requirement + " 데이터");
 			
 		}
 	})
 }
 
-function startEnd(prdtId, prdtNm) {
+function startEnd(oneday, prdtId) {
 	
 	var odrDtlVO = {
 		odrDtlStrId : $("#search-keyword-str").val(),
-		startDt : $("#search-keyword-startdt").val(),
-		endDt : $("#search-keyword-enddt").val(),
+		monthly : oneday,
 		prdtVO :  {prdtSrt : $("#search-keyword-prdtSrt").val()},
 		odrDtlPrdtId : prdtId
 	}
@@ -155,13 +204,16 @@ function startEnd(prdtId, prdtNm) {
 			$("#startEnd").empty();
 			for (var i = 0; i < data.length; i++) {
 			    var oneDay = data[i].oneDay;
-			    var sumPrc = data[i].sumPrc;
+			    var sumPrc = $("#checkCntPrc").is(":checked") ? data[i].sumCnt : data[i].sumPrc;
 			    if(sumPrc > 0) {
 			    	dayCnt++;
 			    	pay += sumPrc;
 			    }
 			    
-			    var tr = $("<tr></tr>");
+			    var tr = $("<tr data-oneday='"+oneDay+"'></tr>");
+			    if ($("#clickDaySave").val() == oneDay) {
+					tr.addClass("on")
+				}
 			    var tdList = [
 					  $("<td>" + oneDay + "</td>"),
 					  $("<td class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>"),
@@ -174,37 +226,111 @@ function startEnd(prdtId, prdtNm) {
 			tr.append("<td class='money' style='padding-right: 10px;'>"+pay.toLocaleString()+"</td>")
 			$("#startEnd").append(tr);
 			
-	// 		var div = $("<div>운영일 수 : "+dayCnt +"일</div>")
-	// 		$("#dayCnt").html("운영일 수 : "+dayCnt+"일");
-	// 		div = $("<div>일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원</div>")
-	// 		$("#paymentAvg").html("일평균 매출액 : "+ (pay/dayCnt).toLocaleString() +"원");
-			if (prdtNm == null) {
-				prdtNm = "전체"
-			}
-			$("#selectPrdtNm").html("선택상품: "+ prdtNm);
+		}
+	})
+}
+
+function sumMonth(prdtId, prdtNm) {
+	
+	var odrDtlVO = {
+		odrDtlStrId : $("#search-keyword-str").val(),
+		prdtVO :  {prdtSrt : $("#search-keyword-prdtSrt").val()},
+		odrDtlPrdtId : prdtId
+	}
+	
+	$.ajax({
+		url: "${context}/api/payment/sumMonth",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+		data: JSON.stringify(odrDtlVO),
+		success: function(data) {
 			
+			var M = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+			var pay = 0;
+			var sum = 0;
+			var tbody = $("#sumMonth");
+			tbody.empty();
+			for (var i = 0; i < data.length; i++) {
+			    var yearly = data[i].yearly;
+			    var monthly = data[i].monthly;
+			    var sumPrc = $("#checkCntPrc").is(":checked") ? data[i].sumCnt : data[i].sumPrc;
+			    M[monthly-1] += sumPrc;
+			    pay += sumPrc;
+			    sum += sumPrc;
+			    if (monthly == 1) {
+			    	var tr = $("<tr></tr>");
+			    	var td = [
+			    		$("<td>"+yearly+"</td>"),
+			    		$("<td class='sumX money' style='padding-right: 10px;'></td>")
+		    		]
+					tr.append(td);
+			    }
+			    var td = $("<td data-oneday='"+yearly+"-"+monthly+"' class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>");
+				if ($("#clickMonthSave").val() == (yearly+"-"+monthly)) {
+					td.addClass("on")
+				}
+			    
+// 			    if (sumPrc == 0) td.css("color","lightgray")
+			    if (monthly == 12) {
+			    	tr.children("td.sumX").text(sum.toLocaleString());
+			    	sum = 0;
+			    }
+			    
+				tr.append(td);
+				tbody.append(tr);
+		    }
+			tr =  $("<tr></tr>");
+			tr.append("<td>합계</td>")
+			tr.append("<td class='money' style='padding-right: 10px;'>"+pay.toLocaleString()+"</td>")
+			$.each(M, function(i,v) {
+				tr.append("<td class='money' style='padding-right: 10px;'>"+v.toLocaleString()+"</td>")
+			});
+			tbody.append(tr);
+			
+			
+		}
+	})
+}
+
+function prdtList(srt) {
+	
+	var prdtVO = {
+			prdtSrt : srt
+		}
+	$.ajax({
+		url: "${context}/api/prdt/srtOfPrdt",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+		data: JSON.stringify(prdtVO),
+		success: function(data) {
+			
+			var selectbox = $("#search-keyword-prdt");
+			selectbox.empty();
+		    selectbox.append($("<option value=''>전체</option>"));
+			for (var i = 0; i < data.length; i++) {
+			    var id = data[i].prdtId;
+			    var nm = data[i].prdtNm;
+			    var op = $("<option value='"+id+"'>"+nm+"</option>")
+			    selectbox.append(op);
+			}
 		}
 	})
 }
 
 
 
-function movePage(pageNo) {
-	var strId = $("#search-keyword-str").val(); 
-	var startDt = $("#search-keyword-startdt").val();
-	var endDt = $("#search-keyword-enddt").val();
-	
-	var queryString = "odrDtlStrId=" + strId;
-	queryString += "&startDt=" + startDt;
-	queryString += "&endDt=" + endDt;
-	
-	location.href = "${context}/payment?" + queryString; // URL 요청
-} 
+
 </script>
 </head>
 <body>
 	
 	<jsp:include page="../include/openBody.jsp" />
+		
+		<input id="clickMonthSave" type="text" value="" style="display: none;">
+		<input id="clickDaySave" type="text" value="" style="display: none;">
+		<input id="checkCntPrc" type="checkbox" value="" style="display: none;">
 		
 		<!-- contents -->
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
@@ -214,6 +340,7 @@ function movePage(pageNo) {
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
 			<div class="top-bar">
 				<div>
+					<button id="btn-type" type="button" class="btn btn-outline-warning btn-default" >금액 보기</button>
 					<label for="search-keyword-str" class="col-form-label">조회 매장</label>
 					<select name="selectFilter"
 							id="search-keyword-str"
@@ -250,20 +377,11 @@ function movePage(pageNo) {
 					</select>
 				</div>
 				<div>
-					<label for="search-keyword-prdtSrt" class="col-form-label">날짜(연-월)</label>
+					<label for="search-keyword-prdt" class="col-form-label">상품이름</label>
 					<select name="selectFilter"
-							id="search-keyword-prdtSrt"
+							id="search-keyword-prdt"
 							class="form-select" 
 							style="width:140px;">
-						<option value="">전체</option>
-						<c:choose>
-							<c:when test="${not empty monthly}">
-								<c:forEach items="${monthly}"
-											var="month">
-									<option value="${month}">${month}</option>
-								</c:forEach>
-							</c:when>
-						</c:choose>
 					</select>
 				</div>
 				<button id="btn-search" class="btn btn-outline-success btn-default" type="submit" >Search</button>
@@ -273,64 +391,85 @@ function movePage(pageNo) {
 		
 		
 		
-<!-- 		<div class="bg-white rounded shadow-sm " style="padding: 23px 18px 23px 18px; margin: 20px;"> -->
-<!-- 		</div> -->
-		
-		
-		
-		<div class="inline-flex">
-			<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; width: 70%; max-height: 640px; margin: 20px;">
-				<div class="flex paymentTop">
-					<div id="paymentTotal"></div>
-					<div id="paymentCnt"></div>
-				</div>
-				<div class="overflow">
-					<table class="table table-striped table-sm table-hover align-center">
-						<thead class="table-secondary">
-							<tr>
-								<th style="width:20%">상품분류</th>
-								<th>상품이름</th>
-								<th style="width:15%">판매수량</th>
-								<th style="width:15%">판매총액</th>
-							</tr>
-						</thead>
-						<tbody id="paymentStr" class="table-group-divider last-tr-sticky">
-						</tbody>
-					</table>
-				</div>
-			</div>
-			
-			<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px;">
-				<div class="flex paymentTop">
+	
+		<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; max-height: 400px; margin: 20px;">
+			<div class="flex paymentTop">
 <!-- 					<div id="dayCnt"></div> -->
 <!-- 					<div id="paymentAvg"></div> -->
-					<div id="selectPrdtNm"></div>
-				</div>
-				<div class="overflow">
-					<table class="table table-striped table-sm table-hover align-center">
-						<thead class="table-secondary">
-							<tr>
-								<th style="width:50%">Date</th>
-								<th>판매총액</th>
-							</tr>
-						</thead>
-						<tbody id="startEnd" class="table-group-divider last-tr-sticky">
-						</tbody>
-					</table>
+				<div class="align-right"><span id="unit">단위: 원</span></div>
+			</div>
+			<div class="overflow">
+				<table class="forStatistics table table-striped table-sm table-hover align-center">
+					<thead class="table-secondary">
+						<tr>
+							<th class="min-width80 width80">연도</th>
+							<th class="min-width120">판매총액</th>
+							<th class="min-width120">1월</th>
+							<th class="min-width120">2월</th>
+							<th class="min-width120">3월</th>
+							<th class="min-width120">4월</th>
+							<th class="min-width120">5월</th>
+							<th class="min-width120">6월</th>
+							<th class="min-width120">7월</th>
+							<th class="min-width120">8월</th>
+							<th class="min-width120">9월</th>
+							<th class="min-width120">10월</th>
+							<th class="min-width120">11월</th>
+							<th class="min-width120">12월</th>
+						</tr>
+					</thead>
+					<tbody id="sumMonth" class="table-group-divider last-tr-sticky">
+					</tbody>
+				</table>
+			</div>
+		</div>
+			
+		
+		<div class="flex">
+			<div style="flex: 1;"> 
+				<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; height: 640px; margin: 20px;">
+					<div class="flex paymentTop">
+						<div id="selectPrdtNm"></div>
+					</div>
+					<div class="overflow">
+						<table class="table table-striped table-sm table-hover align-center">
+							<thead class="table-secondary">
+								<tr>
+									<th style="width:45%">날짜</th>
+									<th>판매총액</th>
+								</tr>
+							</thead>
+							<tbody id="startEnd" class="table-group-divider last-tr-sticky">
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-			
+			<div style="flex: 2;">
+				<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; height: 640px; margin: 20px;">
+					<div class="flex paymentTop">
+						<div id="requirement"></div>
+					</div>
+					<div class="overflow">
+						<table class="table table-striped table-sm table-hover align-center">
+							<thead class="table-secondary">
+								<tr>
+									<th style="width:20%">상품분류</th>
+									<th>상품이름</th>
+									<th style="width:15%">판매수량</th>
+									<th style="width:15%">판매총액</th>
+								</tr>
+							</thead>
+							<tbody id="paymentStr" class="table-group-divider last-tr-sticky">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 		
-		
-		<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; width: 30%; max-height: 640px; margin: 20px;">
-			<div></div>
-			<svg id="chart"></svg>
-		</div>
-		<!-- /contents -->
 		
 	<jsp:include page="../include/closeBody.jsp" />
-
 
 </body>
 </html>

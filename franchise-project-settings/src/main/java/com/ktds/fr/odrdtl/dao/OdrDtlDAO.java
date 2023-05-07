@@ -78,6 +78,8 @@ public interface OdrDtlDAO {
 
 	public List<OdrDtlVO> startEnd(OdrDtlVO odrDtlVO);
 	public List<OdrDtlVO> oneMonth(OdrDtlVO odrDtlVO);
+	public List<OdrDtlVO> sumMonth(OdrDtlVO odrDtlVO);
+	public List<OdrDtlVO> sumYear(OdrDtlVO odrDtlVO);
 
 	
 }

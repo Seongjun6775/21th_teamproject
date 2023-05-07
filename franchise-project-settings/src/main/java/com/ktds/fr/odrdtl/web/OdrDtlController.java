@@ -166,8 +166,11 @@ public class OdrDtlController {
 	@GetMapping("/payment/monthly")
 	public String monthly(Model model, OdrDtlVO odrDtlVO
 						, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		OdrLstVO odrLstVO = new OdrLstVO();
 		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			odrDtlVO.setOdrDtlStrId(mbrVO.getStrId());
+			String strId = mbrVO.getStrId();
+			odrDtlVO.setOdrDtlStrId(strId);
+			odrLstVO.setStrId(strId);
 		}
 		
 		// 검색용 셀렉트박스 목록... 상품분류 / 매장목록(useYN 둘다)
@@ -178,9 +181,10 @@ public class OdrDtlController {
 		model.addAttribute("srtList", srtList);
 		model.addAttribute("strList", strList);
 		
-		List<String> monthly = odrLstService.monthly();
-		System.out.println(monthly.size());
+		List<String> monthly = odrLstService.monthly(odrLstVO);
 		model.addAttribute("monthly", monthly);
+		List<String> yearly = odrLstService.yearly(odrLstVO);
+		model.addAttribute("yearly", yearly);
 		
 		
 		return "odrdtl/payment_monthly";

@@ -144,6 +144,21 @@ body {
 	width: 300px;
 }
 /* min-width */
+.min-width80 {
+	min-width: 80px;
+}
+.min-width100 {
+	min-width: 100px;
+}
+.min-width120 {
+	min-width: 120px;
+}
+.min-width140 {
+	min-width: 140px;
+}
+.min-width220 {
+	min-width: 220px;
+}
 .min-width300 {
 	min-width: 300px;
 }
@@ -238,6 +253,7 @@ input[type=file] {
 	position: sticky;
 	top: 0;
 	vertical-align: middle;
+	z-index: 1;
 /* 	background-color: #e4e4e4; */
 }
 
@@ -275,6 +291,28 @@ table > thead > tr > th:last-child {
     bottom: 0;
     background: #fff;
     font-weight: bold;
+/*     color: #000099; */
+}
+/* 통계용 테이블 - 행고정 */
+table.forStatistics th:first-child, 
+table.forStatistics td:first-child {
+	position: sticky;
+	left: 0;
+}
+table.forStatistics th:nth-child(2),
+table.forStatistics td:nth-child(2) {
+	position: sticky;
+	left: 80px;
+}
+table.forStatistics td:first-child,
+table.forStatistics td:nth-child(2){
+	background-color: white;
+/* 	font-weight: bold; */
+}
+.selected > td {
+	color: darkred !important;
+	font-weight: 800;
+	font-style: italic;
 }
 
 

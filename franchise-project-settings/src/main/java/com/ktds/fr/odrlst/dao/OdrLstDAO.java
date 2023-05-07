@@ -42,6 +42,7 @@ public interface OdrLstDAO {
 	public int updateCheckAll(OdrLstVO odrLstVO);
 	public List<OdrLstVO> completeOdrForStr(OdrLstVO odrLstVO);
 	
-	public List<String> monthly();
+	public List<String> monthly(OdrLstVO odrLstVO);
+	public List<String> yearly(OdrLstVO odrLstVO);
 	
 }
