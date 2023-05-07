@@ -17,6 +17,7 @@
 
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script type="text/javascript">
 
@@ -69,7 +70,6 @@ $().ready(function() {
 	});
 	$("#startEnd").on("click", "tr", function() {
 		var oneday = $(this).data().oneday;
-		console.log(oneday)
 		if (oneday == null || oneday == "") return; 
 		$(this).closest("tbody").find(".on").removeClass("on");
 		$(this).addClass("on");
@@ -91,7 +91,7 @@ $().ready(function() {
 		}
 		sumMonth(prdtId);
 		startEnd($("#clickMonthSave").val(), prdtId);
-		groupPrdt($("#clickDatSave").val() != "" ? $("#clickDaySave").val() : $("#clickMonthSave").val())
+		groupPrdt($("#clickDaySave").val() != "" ? $("#clickDaySave").val() : $("#clickMonthSave").val())
 	});
 	
 	
@@ -145,23 +145,27 @@ function groupPrdt(monthly) {
 			
 			var cnt = 0;
 			var pay = 0;
+			var nmlist = []
+			var cntlist = []
+			var prclist = []
 			$("#paymentStr").empty();
 			for (var i = 0; i < data.length; i++) {
 				var cdNm = data[i].prdtVO.cmmnCdVO.cdNm;
+				var prdtId = data[i].prdtVO.prdtId
 				var prdtNm = data[i].prdtVO.prdtNm;
 				var sumCnt = data[i].sumCnt;
 				var sumPrc = data[i].sumPrc;
-				var id = data[i].prdtVO.prdtId
-				var nm = data[i].prdtVO.prdtNm
-				var tr = $("<tr data-prdtid="+id+" data-prdtnm="+encodeURIComponent(nm)+"></tr>");
+				nmlist.push(prdtNm);
+				cntlist.push(sumCnt);
+				prclist.push(sumPrc);
+				var tr = $("<tr data-prdtid="+prdtId+" data-prdtnm="+encodeURIComponent(prdtNm)+"></tr>");
 				var tdList = [
 					  $("<td>" + cdNm + "</td>"),
 					  $("<td>" + prdtNm + "</td>"),
 					  $("<td>" + sumCnt.toLocaleString() + "</td>"),
 					  $("<td class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>"),
 					];
-				if (id == $("#search-keyword-prdt").val()) {
-					console.log("일치하는게 있다")
+				if (prdtId == $("#search-keyword-prdt").val()) {
 					tr.addClass("selected");
 				}
 			    cnt += sumCnt;
@@ -175,9 +179,110 @@ function groupPrdt(monthly) {
 			tr.append("<td class='money' style='padding-right: 10px;'>"+pay.toLocaleString()+"</td>")
 			$("#paymentStr").append(tr);
 			
-			var requirement = monthly.length < 8 ? monthly + " 한달" : monthly + " 하루";
+			var requirement = monthly.length > 8 ? monthly + " 하루" : monthly.length > 4 ? monthly + " 한달" : monthly + " 일년";
 			$("#requirement").html(requirement + " 데이터");
 			
+			
+			
+			var myChart = $("#myChart");
+			var ctx = $("<canvas></canvas>")
+			new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: nmlist,
+					datasets: [{
+						type: 'bar',
+						label: '판매총액',
+						backgroundColor: 'rgb(75, 192, 192)',
+						data: prclist,
+						xAxisID: 'x',
+						borderWidth: 1	
+					}, {
+						type: 'bar',
+						label: '판매수량',
+						data: cntlist,
+						backgroundColor: 'rgb(255, 99, 132)',
+						xAxisID: 'x_sub',
+						borderWidth: 1
+					}]
+				},
+				options: {
+					grouped: true,
+					indexAxis: 'y',
+					scales: {
+						x: { 
+							beginAtZero: true,
+							ticks: {
+								count:11,
+								stepSize: 10000,
+							},
+							axis: 'x',
+							position: 'top',
+							title: {
+								display: true,
+								align: 'end',
+								color: '#808080',
+								text: '단위: 원',
+								font: {
+									size: 12,
+									family: "'Noto Sans KR', sans-serif",
+									weight: 300,
+								}
+							}
+						},
+						x_sub: {
+							beginAtZero: (c) => {
+								c.chart.config.options.scales.x.beginAtZero
+							},
+							ticks: {
+								count:(c) => {
+									return c.chart.config.options.scales.x.ticks.count
+								},
+								stepSize: 10,
+							},
+							axis: 'x',
+							position: 'bottom',
+							title: {
+								display: true,
+								align: 'end',
+								color: '#808080',
+								text: '단위: 개',
+								font: {
+									size: 12,
+									family: "'Noto Sans KR', sans-serif",
+									weight: 300,
+								}
+							}
+						},
+						y: { 
+							
+						},
+					},
+					plugins: {
+			            tooltip: {
+			                callbacks: {
+			                    labelTextColor: function(context) {
+			                        return 'white';
+			                    },
+								label: (context) => {
+									let label = context.dataset.label || '';
+									let value = context.parsed.x;
+									 if (context.dataset.label === '판매총액') {
+										return label + ' : ' + value.toLocaleString() + '원';
+									} else if (context.dataset.label === '판매수량') {
+										return label + ' : ' + value.toLocaleString() + '개';
+									} else {
+										return label + ' : ' + value.toLocaleString();
+									}
+								},
+							},
+		                }
+		            }
+				}
+			});
+			myChart.html(ctx)
+			
+			  
 		}
 	})
 }
@@ -261,7 +366,7 @@ function sumMonth(prdtId, prdtNm) {
 			    if (monthly == 1) {
 			    	var tr = $("<tr></tr>");
 			    	var td = [
-			    		$("<td>"+yearly+"</td>"),
+			    		$("<td data-oneday='"+yearly+"'>"+yearly+"</td>"),
 			    		$("<td class='sumX money' style='padding-right: 10px;'></td>")
 		    		]
 					tr.append(td);
@@ -327,7 +432,7 @@ function prdtList(srt) {
 <body>
 	
 	<jsp:include page="../include/openBody.jsp" />
-		
+
 		<input id="clickMonthSave" type="text" value="" style="display: none;">
 		<input id="clickDaySave" type="text" value="" style="display: none;">
 		<input id="checkCntPrc" type="checkbox" value="" style="display: none;">
@@ -469,6 +574,9 @@ function prdtList(srt) {
 			</div>
 		</div>
 		
+		<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; margin: 20px;">
+			<div id="myChart" class="overflow chart" style="width: 100%;"></div>
+		</div>	
 		
 	<jsp:include page="../include/closeBody.jsp" />
 

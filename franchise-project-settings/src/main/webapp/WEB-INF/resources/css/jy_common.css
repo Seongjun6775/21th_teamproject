@@ -269,7 +269,7 @@ th:has(input[type=checkbox]) {
 	white-space: nowrap;
 }
 table .on {
-	background-color: #00000025;
+	background-color: #ddd !important;
 }
 
 .money {
@@ -310,7 +310,7 @@ table.forStatistics td:nth-child(2){
 /* 	font-weight: bold; */
 }
 .selected > td {
-	color: darkred !important;
+	color: #0000a0!important;
 	font-weight: 800;
 	font-style: italic;
 }

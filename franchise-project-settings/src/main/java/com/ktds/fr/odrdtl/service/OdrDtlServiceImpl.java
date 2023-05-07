@@ -218,7 +218,14 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	private void dateSetting(OdrDtlVO odrDtlVO) {
 		String monthly = odrDtlVO.getMonthly();
 		String[] date = monthly.split("-");
-		if (date.length == 2) {
+		if (date.length == 1) {
+			int year = Integer.parseInt(date[0]);
+			
+			String startDt = date[0]+ "-01-01";
+			odrDtlVO.setStartDt(startDt);
+			String endDt = date[0]+ "-12-31";
+			odrDtlVO.setEndDt(endDt);
+		} else if (date.length == 2) {
 			int year = Integer.parseInt(date[0]);
 			int month = Integer.parseInt(date[1]);
 			
