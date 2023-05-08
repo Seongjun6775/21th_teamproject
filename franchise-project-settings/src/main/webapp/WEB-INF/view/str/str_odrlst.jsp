@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${strVO.strNm eq null ? '정보없음' : strVO.strNm } - 주문관리</title>
+<title>주문관리 - ${strVO.strNm eq null ? mbrVO.mbrLvl eq '001-01' ? '관리자' : '소속없음' : strVO.strNm }</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript">

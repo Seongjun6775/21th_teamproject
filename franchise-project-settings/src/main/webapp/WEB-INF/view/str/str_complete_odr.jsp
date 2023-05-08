@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${strVO.strNm} - 주문 전체보기</title>
+<title>주문 전체보기 - ${strVO.strNm eq null ? mbrVO.mbrLvl eq '001-01' ? '관리자' : '소속없음' : strVO.strNm }</title>
 <jsp:include page="../include/stylescript.jsp" />
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript">
@@ -185,6 +185,9 @@ function movePage(pageNo) {
 						<thead class="table-secondary">
 							<tr>
 								<th><input type="checkbox" id="all-check"/></th>
+								<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+									<th>매장명</th>
+								</c:if>
 								<th>처리상태</th>
 								<th>주문서ID</th>
 								<th>주문자</th>
@@ -204,6 +207,9 @@ function movePage(pageNo) {
 											<td class="align-center">
 												<input type="checkbox" class="check-idx00" value="${odrLst.odrLstId}" />
 											</td>
+											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+												<td>${odrLst.strVO.strNm}</td>
+											</c:if>
 											<td>${odrLst.cmmnCdVO.cdNm}</td>							
 											<td>${odrLst.odrLstId}</td>							
 											<td>${odrLst.mbrVO.mbrNm}</td>							
