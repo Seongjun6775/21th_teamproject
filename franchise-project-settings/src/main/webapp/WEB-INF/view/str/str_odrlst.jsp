@@ -34,10 +34,8 @@ $().ready(function() {
 		    return;
 		  }
 		
-		var Id = $(this).data().odrlstid;
-		var mbrNm = $(this).data().mbrnm;
-		var odrLstRgstDt = $(this).data().odrlstrgstdt;
-		$("#staticBackdropLabel").html(Id + " / " + mbrNm + " / " + odrLstRgstDt);
+		var Id = $(this).text;
+		$("#staticBackdropLabel").html(Id);
 // 		$("#staticBackdropLabel").empty();
 // 		$("#staticBackdropLabel").empty();
 // 		$("div[class=modal-body]").empty();
@@ -577,7 +575,8 @@ function movePage(pageNo) {
 
 	    </div>
      		<!-- /contents -->
-     	
+     		
+     <!-- popup-layer -->
      <div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">

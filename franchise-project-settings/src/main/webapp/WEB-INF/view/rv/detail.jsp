@@ -44,6 +44,86 @@
 				})
 			}
 		});
+		
+		var ajaxUtil = new AjaxUtil();
+		
+		$("#showOdrLst").click(function() {
+			
+			var Id = $(this).val();
+			$("#staticBackdropLabel").html(Id);
+			
+			$.post("${context}/api/odrLst/odrDtl", {odrLstId: Id}, function(data) {
+				
+				var table = $("<table></table>");
+				table.addClass("table table-hover align-center");
+				var thead = $("<thead></thead>");
+				table.addClass("table table-striped");
+				var tr = $("<tr></tr>");
+				var thList = [
+				  $("<th>주문상세ID</th>"),
+				  $("<th>상품이름</th>"),
+				  $("<th>단가</th>"),
+				  $("<th>수량</th>"),
+				  $("<th>금액</th>"),
+				];
+				thList.forEach(function(th) {
+				  tr.append(th);
+				});
+				thead.append(tr);
+				table.append(thead);
+				
+				var tbody = $("<tbody></tbody>");
+				tbody.addClass("table-group-divider");
+				var pay = 0;
+				for (var i = 0; i < data.length; i++) {
+				    var odrDtlId = data[i].odrDtlId;
+				    var prdtNm = data[i].prdtVO.prdtNm;
+				    var odrDtlPrdtCnt = data[i].odrDtlPrdtCnt;
+				    var odrDtlPrc = data[i].odrDtlPrc;
+				    var tr = $("<tr></tr>");
+				    var tdList = [
+						  $("<td>" + odrDtlId + "</td>"),
+						  $("<td>" + prdtNm + "</td>"),
+						  $("<td>" + odrDtlPrc.toLocaleString() + "</td>"),
+						  $("<td>" + odrDtlPrdtCnt.toLocaleString() + "</td>"),
+						  $("<td>" + (odrDtlPrc * odrDtlPrdtCnt).toLocaleString() + "</td>"),
+						];
+				    pay = pay + (odrDtlPrc * odrDtlPrdtCnt);
+				    
+						tdList.forEach(function(td) {
+						  tr.append(td);
+						});
+					tbody.append(tr);
+			    }
+				table.append(tbody);
+				
+				$("div[class=modal-body]").html(table);
+				var div = $("<div> 총 금액 : "+pay.toLocaleString() +"원</div>")
+				div.css({
+					"text-align":"right",
+					"font-weight":"bold",
+				});
+				table.after(div);
+				
+				$("#modal").click();
+			});		
+			
+		});
+		$('body').on('click', function(event) {
+			if ($("#staticBackdrop").attr("class").includes("show")) {
+				if (!$(event.target).closest('.modal-content').length) {
+					$('button[data-bs-dismiss=modal]').click();
+				}
+			}
+		});
+		$('body').keydown(function(key) {
+			if (key.keyCode == 27) {
+				$('button[data-bs-dismiss=modal]').click();
+			}
+		});
+		
+		
+		
 	});
 </script>
 <style>
@@ -85,8 +165,11 @@
 					</div>
 					<div class="input-group">
 						<label for="prdtNm" class="col-form-label label-left-border">주문서ID</label>
-						<div>
+						<div style="display: ${mbrVO.mbrLvl eq '001-04' ? '' : 'none'}">
 							<input type="text" class="form-control" readonly value="${rvDetail.odrLstId}"/>
+						</div>
+						<div style="display: ${mbrVO.mbrLvl ne '001-04' ? '' : 'none'}">
+							<input type="text" id="showOdrLst" class="form-control" readonly value="${rvDetail.odrLstId}"/>
 						</div>
 					</div>
 					<div class="input-group">
@@ -145,6 +228,34 @@
 				</div>
 			</div>						
 		</div>				
+
+
+
+
+	<!-- Button trigger modal -->
+	<button id="modal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="display: none">
+	  Launch static backdrop modal
+	</button>
+	<!-- modal -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable">
+			<div class="modal-content" style="width:960px; max-height: 70%; position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+					<div class="modal-body">
+					
+					
+					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+<!-- 							<button type="button" class="btn btn-primary">Understood</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 <jsp:include page="../include/closeBody.jsp" />
 </html>
