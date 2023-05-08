@@ -11,6 +11,10 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/ntcommon.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 
 	$().ready(function() {
@@ -110,6 +114,48 @@
 				}
 			}
 		});
+		
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"padding": "5px",
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
 	});
 </script>
 <style>
@@ -142,12 +188,16 @@
 					<div class="d-inline">${nt.ntTtl} <span style="color: #f00;">${nt.delYn eq 'Y' ? '(삭제됨)' : '	'}</span> </div>
 				</div>
 				<div>
-					<label class="d-inline fw-bolder" style="float: left;width: 67px;" >발신자</label>
-					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25" style="padding: 5px;" >${nt.sndrId}</div>
+					<label class="d-inline fw-bolder " style="float: left;width: 67px;" >발신자</label>
+					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25 ellipsis" style="padding: 5px;" onclick="event.cancelBubble=true">
+						<a class="open-layer" href="javascript:void(0);" val="${nt.sndrId}">${nt.sndrId}</a>
+					</div>
 				</div>
 				<div>
 					<label class="d-inline fw-bolder" style="float: left;width: 67px;">수신자</label>
-					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25" style="padding: 5px;">${nt.rcvrId}</div>
+					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25 ellipsis" style="padding: 5px;"onclick="event.cancelBubble=true">
+						<a class="open-layer" href="javascript:void(0);" val="${nt.rcvrId}">${nt.rcvrId}</a>
+					</div>
 				</div>
 				<div>
 					<div >쪽지 발송 일자 : ${nt.ntSndrDt}</div>
@@ -159,5 +209,21 @@
 			</div>
 		</div>	
 			
+	<!-- layer-popup -->
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-mail-send' ></i>쪽지 보내기
+				</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-x'></i>닫기
+				</a>
+			</div>
+		</div>
+	</div>
+	
 <jsp:include page="../include/closeBody.jsp" />
 </html>

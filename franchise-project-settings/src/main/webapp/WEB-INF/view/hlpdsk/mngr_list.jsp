@@ -44,7 +44,12 @@
 			if (url !== "cannot") {
 				location.href = url;
 			} else {
-				alert("본인에게 쪽지를 보낼 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
 			}
 		});
 		$('body').on('click', function(event) {

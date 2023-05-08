@@ -423,7 +423,7 @@
 		</div>
 		<!-- /searchbar -->	
 		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-		<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
+			<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
 			<table class="table caption-top table-hover" style="text-align: center;">
 				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 					<tr>
@@ -462,7 +462,6 @@
 						<th scope="col" style="padding: 20px 20px 8px 20px;">사용여부</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">가맹점주ID</th>
 						<th scope="col" style=" width:240px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
-						
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
 						<th>사용여부</th> -->
@@ -675,6 +674,7 @@
 								</div>
 							</div>
 						</div>
+
 					<div style="display: inline-block;">
 						<div id="map" style="width:1000px;height:500px;margin-top:20px;display:none;"></div>
 						
@@ -774,7 +774,6 @@
 						    }
 						</script>
 					</div>
-				</form>
 			</div>
 		</div>
 		

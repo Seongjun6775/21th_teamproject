@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${strVO.strNm eq null ? '정보없음' : strVO.strNm } - 주문관리</title>
+<title>주문관리 - ${strVO.strNm eq null ? mbrVO.mbrLvl eq '001-01' ? '관리자' : '소속없음' : strVO.strNm }</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 
@@ -34,10 +34,8 @@ $().ready(function() {
 		    return;
 		  }
 		
-		var Id = $(this).data().odrlstid;
-		var mbrNm = $(this).data().mbrnm;
-		var odrLstRgstDt = $(this).data().odrlstrgstdt;
-		$("#staticBackdropLabel").html(Id + " / " + mbrNm + " / " + odrLstRgstDt);
+		var Id = $(this).text;
+		$("#staticBackdropLabel").html(Id);
 // 		$("#staticBackdropLabel").empty();
 // 		$("#staticBackdropLabel").empty();
 // 		$("div[class=modal-body]").empty();
@@ -625,7 +623,8 @@ function movePage(pageNo) {
 
 	    </div>
      		<!-- /contents -->
-     	
+     		
+     <!-- popup-layer -->
      <div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">

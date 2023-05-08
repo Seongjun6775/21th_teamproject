@@ -15,6 +15,11 @@
 		              javaType="com.ktds.fr.odrlst.vo.OdrLstVO"
 		              autoMapping="true">
 			<id property="odrLstId" column="ODR_LST_ID" />
+			<association property="strVO"
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
+			<id property="strId" column="STR_ID" />
+		</association>
 		</association>
 		<association property="strVO"
 		              javaType="com.ktds.fr.str.vo.StrVO"
@@ -790,6 +795,8 @@
 									   AND OL.USE_YN = 'Y'
 									   AND OL.ODR_LST_ODR_PRCS = '003-04'
 									   AND C.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
+									   AND S.STR_LCTN LIKE NVL(#{odrLstVO.strVO.strLctn}, '%')
+									   AND S.STR_CTY LIKE NVL(#{odrLstVO.strVO.strCty}, '%')
 									   AND S.USE_YN = 'Y' )
 							 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
 							   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')

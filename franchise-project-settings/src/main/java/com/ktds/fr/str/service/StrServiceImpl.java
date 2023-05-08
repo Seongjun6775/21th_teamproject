@@ -133,6 +133,7 @@ public class StrServiceImpl implements StrService {
 	public List<CtyCdVO> readCategory(String lctId) {
 		return strDAO.readCategory(lctId);
 	}
+	
 	/**
 	 * 매장별 상품등록시 사용 ... 사용유무에 관계없이 목록가져옴
 	 */
@@ -147,6 +148,14 @@ public class StrServiceImpl implements StrService {
 	@Override
 	public List<StrVO> readAllUseY(String ctyId) {
 		return strDAO.readAllUseY(ctyId);
+	}
+
+	/**
+	 * 매출조회 관련 / 지역, 도시 조회 시
+	 */
+	@Override
+	public List<StrVO> readAllLctCty(StrVO strVO) {
+		return strDAO.readAllLctCty(strVO);
 	}
 
 }
