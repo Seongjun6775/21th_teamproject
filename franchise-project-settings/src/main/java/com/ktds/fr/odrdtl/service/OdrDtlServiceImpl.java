@@ -14,28 +14,28 @@ import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 @Service
 public class OdrDtlServiceImpl implements OdrDtlService {
-	
+
 	@Autowired
 	public OdrDtlDAO odrDtlDAO;
-	
+
 	@Autowired
 	public OdrLstDAO odrLstDAO;
 
 	@Override
 	public boolean createNewOdrDtl(OdrDtlVO odrDtlVO) {
-		
+
 		// 현재 주문을 하고 있는 매장에서, 이전에 주문이 완료되지 않은 주문서가 존재하는지 확인합니다.
 		int remainList = odrLstDAO.checkRemainOdrLst(odrDtlVO);
-		
+
 		boolean createResult = false;
-		
+
 		// 만약 '대기'상태였던 주문서가 있다면, 새로운 OdrDtl을 그 안에 추가합니다.
 		if (remainList > 0) {
 			// odrDtl 내의 mbrId로 OdrLst에 접근해, 이미 존재하는 주문서 ID를 받아옵니다.
 			OdrLstVO OdrLstId = odrLstDAO.getOdrLstId(odrDtlVO);
 			// 받아온 주문서 ID를 odrDtlVO 안에 세팅합니다.
 			odrDtlVO.setOdrLstId(OdrLstId.getOdrLstId());
-			
+
 			// 주문서 ID가 포함된 odrDtlVO로 새 주문상세를 생성합니다.
 			createResult = odrDtlDAO.createNewOdrDtl(odrDtlVO) > 0;
 		}
@@ -49,7 +49,7 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 			odrLstVO.setStrId(odrDtlVO.getOdrDtlStrId());
 			// 새 주문서를 생성합니다.
 			odrLstDAO.createNewOdrLst(odrLstVO);
-			
+
 			// odrDtl 내의 mbrId로 OdrLst에 접근해, 방금 생성한 주문서의 ID를 받아옵니다.
 			OdrLstVO OdrLstId = odrLstDAO.getOdrLstId(odrDtlVO);
 			// 받아온 주문서 ID를 odrDtlVO 안에 세팅합니다.
@@ -57,37 +57,37 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 			// 주문서 ID가 포함된 odrDtlVO로 새 주문상세를 생성합니다.
 			createResult = odrDtlDAO.createNewOdrDtl(odrDtlVO) > 0;
 		}
-		
+
 		return createResult;
 	}
-	
+
 	@Override
 	public List<OdrDtlVO> readAllOdrDtlByOdrLstIdAndMbrId(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
 	}
-	
+
 	@Override
 	public OdrDtlVO readOneOdrDtlByOdrDtlId(String odrDtlId) {
 		return odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlId);
 	}
-	
+
 	@Override
 	public boolean updateOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO) {
-		
+
 		// 주문 상세를 생성한 계정 ID를 확인합니다.
 		OdrDtlVO mbrId = odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlVO.getOdrDtlId());
 		// 주문 상세를 생성한 계정 ID와 현재 접속중인 계정 ID가 같은지 확인합니다.
 		if (!mbrId.getMbrId().equals(odrDtlVO.getMbrId())) {
 			throw new ApiException("400", "권한이 없습니다.");
 		}
-		
+
 		// 수정 성공 여부를 RestOdrDtlController로 전달합니다.
 		return odrDtlDAO.updateOneOdrDtlByOdrDtlId(odrDtlVO) > 0;
 	}
 
 	@Override
 	public boolean deleteOneOdrDtlByOdrDtlId(OdrDtlVO odrDtlVO) {
-		
+
 		// 주문 상세를 생성한 계정 ID를 확인합니다.
 		OdrDtlVO mbrId = odrDtlDAO.readOneOdrDtlByOdrDtlId(odrDtlVO.getOdrDtlId());
 		// 주문 상세를 생성한 계정 ID와 현재 접속중인 계정 ID가 같은지 확인합니다.
@@ -96,10 +96,10 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		}
 		// 삭제 성공 여부를 저장합니다.
 		boolean deleteResult = odrDtlDAO.deleteOneOdrDtlByOdrDtlId(odrDtlVO) > 0;
-		
+
 		// 남은 물품 갯수 확인을 위해 odrLstId를 odrDtlVO 안에 저장합니다.
 		odrDtlVO.setOdrLstId(mbrId.getOdrLstId());
-		
+
 		if (deleteResult) {
 			// 삭제가 성공했을 때, 주문서 내에 남은 물품 갯수를 확인합니다.
 			List<OdrDtlVO> restList = odrDtlDAO.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
@@ -111,10 +111,10 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		// 삭제 성공 여부를 RestOdrDtlController로 전달합니다.
 		return deleteResult;
 	}
-	
+
 	@Override
 	public boolean deleteAllOdrDtlByOdrLstId(OdrDtlVO odrDtlVO) {
-		
+
 		// 주문서를 생성한 계정 ID를 확인합니다.
 		OdrLstVO mbrId = odrLstDAO.isThisMyOdrLst(odrDtlVO.getOdrLstId());
 		// 주문서를 생성한 계정 ID와 현재 접속중인 계정 ID가 같은지 확인합니다.
@@ -124,7 +124,7 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		}
 		// 삭제 성공 여부를 저장합니다.
 		boolean deleteResult = odrDtlDAO.deleteAllOdrDtlByOdrLstId(odrDtlVO) > 0;
-		
+
 		// 만약 전체 삭제에 성공했다면, 해당 주문서를 삭제합니다.
 		if (deleteResult) {
 			odrLstDAO.deleteOneOdrLstByOdrLstId(odrDtlVO.getOdrLstId());
@@ -132,7 +132,7 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		// 삭제 성공 여부를 RestOdrDtlController로 전달합니다.
 		return deleteResult;
 	}
-	
+
 	@Override
 	public boolean deleteOdrDtlBySelectedDtlId(List<String> odrDtlId) {
 		return odrDtlDAO.deleteOdrDtlBySelectedDtlId(odrDtlId) > 0;
@@ -143,8 +143,6 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		return odrDtlDAO.odrDtlForOdrLst(odrDtlId);
 	}
 
-	
-	
 	@Override
 	public List<OdrDtlVO> forSale(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.forSale(odrDtlVO);
@@ -158,42 +156,38 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	@Override
 	public List<OdrDtlVO> groupPrdt(OdrDtlVO odrDtlVO) {
 		String monthly = odrDtlVO.getMonthly();
-		
-		if(!(monthly == null || monthly.length() == 0)) {
+
+		if (!(monthly == null || monthly.length() == 0)) {
 			dateSetting(odrDtlVO);
 		}
 		return odrDtlDAO.groupPrdt(odrDtlVO);
 	}
-	
+
 	@Override
 	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.groupStr(odrDtlVO);
 	}
 
-	
-	
 	@Override
 	public List<OdrDtlVO> oneMonth(OdrDtlVO odrDtlVO) {
 		String oneDay = odrDtlVO.getOneDay();
-		
+
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -1);
 		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH)+1;
+		int month = cal.get(Calendar.MONTH) + 1;
 		int day = cal.get(Calendar.DAY_OF_MONTH);
-		
-		
-		
+
 		return odrDtlDAO.oneMonth(odrDtlVO);
 	}
 
 	@Override
 	public List<OdrDtlVO> startEnd(OdrDtlVO odrDtlVO) {
 		String monthly = odrDtlVO.getMonthly();
-		
-		if(!(monthly == null || monthly.length() == 0)) {
+
+		if (!(monthly == null || monthly.length() == 0)) {
 			dateSetting(odrDtlVO);
-			
+
 			odrDtlVO.setOrderBy("ASC");
 		}
 		return odrDtlDAO.startEnd(odrDtlVO);
@@ -208,34 +202,34 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public List<OdrDtlVO> sumYear(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.sumYear(odrDtlVO);
 	}
-	
+
 	public List<OdrDtlVO> viewStrPayments(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.viewStrPayments(odrDtlVO);
 
 	}
-	
+
 	private void dateSetting(OdrDtlVO odrDtlVO) {
 		String monthly = odrDtlVO.getMonthly();
 		String[] date = monthly.split("-");
 		if (date.length == 1) {
 			int year = Integer.parseInt(date[0]);
-			
-			String startDt = date[0]+ "-01-01";
+
+			String startDt = date[0] + "-01-01";
 			odrDtlVO.setStartDt(startDt);
-			String endDt = date[0]+ "-12-31";
+			String endDt = date[0] + "-12-31";
 			odrDtlVO.setEndDt(endDt);
 		} else if (date.length == 2) {
 			int year = Integer.parseInt(date[0]);
 			int month = Integer.parseInt(date[1]);
-			
+
 			Calendar cal = Calendar.getInstance();
-			cal.set(year, month-1, 1);
-			
-			String startDt = date[0]+ "-" + date[1] + "-01";
+			cal.set(year, month - 1, 1);
+
+			String startDt = date[0] + "-" + date[1] + "-01";
 			odrDtlVO.setStartDt(startDt);
-			
+
 			int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-			String endDt = date[0]+ "-" + date[1] + "-" + lastDay;
+			String endDt = date[0] + "-" + date[1] + "-" + lastDay;
 			odrDtlVO.setEndDt(endDt);
 		} else {
 			odrDtlVO.setStartDt(monthly);
@@ -243,5 +237,4 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		}
 	}
 
-	
 }
