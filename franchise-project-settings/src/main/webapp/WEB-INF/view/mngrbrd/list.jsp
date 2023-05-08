@@ -179,7 +179,7 @@
 									<c:forEach items="${noticeList}" var="mngrBrd" >
 										<tr data-mngrid = "${mngrBrd.mngrId}"
 											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ff8f56' : ''}">
+											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #fff' : ''}">
 											
 											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 												<td style="width: 20px;"> 
