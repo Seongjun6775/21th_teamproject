@@ -150,6 +150,13 @@
     font-weight: 800;
 /*     margin-right: 15px; */
 }
+.ntc-label{
+    border: 1px solid #ffc6c9;
+    background-color: #ffe3e4;
+    color: #ff4e59;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
@@ -205,7 +212,7 @@
 											</c:if>	
 											<td style="width: 100px;">No.${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
 											<td style="width: 130px;">
-											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
+											${mngrBrd.ntcYn eq 'Y' ? '<strong class="ntc-label">공지</strong>' : '커뮤니티'}</td>
 											
 											<td>
 												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid" style="${mngrBrd.ntcYn eq 'Y' ? 'font-weight: 900; color: #f00;' : ''}">
@@ -225,7 +232,7 @@
 									<c:forEach items="${mngrBrdList}" var="mngrBrd" >
 										<tr data-mngrid = "${mngrBrd.mngrId}"
 											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ff8f56' : ''}">
+											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #fff' : ''}">
 											
 											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 												<td style="width: 20px;"> 
