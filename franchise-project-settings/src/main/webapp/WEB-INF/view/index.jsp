@@ -259,31 +259,36 @@
 			dataType : "json",
 			data : JSON.stringify(odrDtlVO),
 			success : function(data) {
+				
+				for(var i = 0 ; i<data.sumYearOfStr.length; i+=1){
+					console.log(data.sumYearOfStr[i].strVO.strNm);
+					console.log(data.sumYearOfStr[i].sumPrc);
+				}
 
 				var pay = 0;
 				var max = 0;
 				var min = 0;
 				dataSet = [];
-				if (data.length > 0) {
-					max = data[0].sumPrc;
-					min = data[0].sumPrc;
+				if (data.groupStr.length > 0) {
+					max = data.groupStr[0].sumPrc;
+					min = data.groupStr[0].sumPrc;
 				}
 
-				for (var i = 0; i < data.length; i++) {
-					var strNm = data[i].strVO.strNm;
-					var mdfyDt = data[i].mdfyDt;
-					var sumCnt = data[i].sumCnt;
-					var sumPrc = data[i].sumPrc;
+				for (var i = 0; i < data.groupStr.length; i++) {
+					var strNm = data.groupStr[i].strVO.strNm;
+					var mdfyDt = data.groupStr[i].mdfyDt;
+					var sumCnt = data.groupStr[i].sumCnt;
+					var sumPrc = data.groupStr[i].sumPrc;
 
 					dataSet[i] = {
 						"mdfyDt" : mdfyDt,
 						"sumPrc" : sumPrc
 					};
-					if (max < data[i].sumPrc) {
-						max = data[i].sumPrc;
+					if (max < data.groupStr[i].sumPrc) {
+						max = data.groupStr[i].sumPrc;
 					}
-					if (min > data[i].sumPrc) {
-						min = data[i].sumPrc;
+					if (min > data.groupStr[i].sumPrc) {
+						min = data.groupStr[i].sumPrc;
 					}
 					pay = pay + sumPrc;
 				}

@@ -103,5 +103,11 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 		return getSqlSession().selectList("OdrDtl.sumYear", odrDtlVO);
 	}
 	
+	@Override
+	public List<OdrDtlVO> sumYearOfStr() {
+		return getSqlSession().selectList("OdrDtl.sumYearOfStr");
+	}
+	
+	
 	
 }

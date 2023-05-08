@@ -693,5 +693,46 @@
 			 </otherwise>
 		 </choose>
 	</select>
+	
+	<select id="sumYearOfStr"
+			resultMap="odrDtlMap">
+		SELECT STR_NM
+			 , SUM_PRC
+			 , RANK
+		  FROM (
+				SELECT a.STR_NM
+					 , a.SUM_PRC
+				     , rownum RANK
+				  FROM (SELECT ST.STR_NM
+				    		 , ODDT.SUM_PRC
+				  		  FROM STR ST
+				 		 INNER JOIN (SELECT OD.ODR_DTL_STR_ID
+							              , SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC
+							           FROM ODR_DTL OD
+							           LEFT OUTER JOIN ODR_LST OL
+							             ON OD.ODR_LST_ID = OL.ODR_LST_ID
+							           LEFT OUTER JOIN STR S
+							             ON OD.ODR_DTL_STR_ID = S.STR_ID
+							          WHERE OL.DEL_YN = 'N'
+							            AND OL.USE_YN = 'Y'
+							            AND OL.ODR_LST_ODR_PRCS = '003-04'
+							            AND S.USE_YN = 'Y'
+							            AND TO_CHAR(OL.MDFY_DT,'YYYY') >= TO_CHAR(SYSDATE,'YYYY')
+							          GROUP BY OD.ODR_DTL_STR_ID) ODDT
+				   			ON ODDT.ODR_DTL_STR_ID = ST.STR_ID
+				   		 ORDER BY ODDT.SUM_PRC) a )
+		  		 WHERE 3 >= RANK
+		     		OR RANK > (SELECT count(1)-3
+					             FROM (SELECT 1
+						                 FROM ODR_LST OL
+						                 LEFT OUTER JOIN STR S
+						                   ON OL.STR_ID = S.STR_ID
+						                WHERE OL.DEL_YN = 'N'
+						                  AND OL.USE_YN = 'Y'
+						                  AND OL.ODR_LST_ODR_PRCS = '003-04'
+						                  AND S.USE_YN = 'Y'
+						                GROUP BY OL.STR_ID ))
+       	ORDER BY RANK DESC
+	</select>
 
 </mapper>

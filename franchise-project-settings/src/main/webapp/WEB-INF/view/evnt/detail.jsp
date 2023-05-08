@@ -27,51 +27,60 @@
 		//삭제 버튼 누르면 삭제하시겠습니까? 물어보고 삭제하기
 		
 		$("#btn-updateDelete").click(function() {
-			
-	      if(!confirm("삭제 하시겠습니까?")){
-	    	  Swal.fire({
+			Swal.fire({
+			  title: '삭제 하시겠습니까?',
+			  text: "정말로 삭제하시겠습니까?",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: '취소',
+			  confirmButtonText: '삭제'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    	
+				  $.post(							
+							// 1. 호출할 주소
+							"${context}/api/evnt/delete",
+							// 2. 파라미터
+							{
+								evntId : $("#evntId").val(),
+							},
+							// 3. 결과 처리
+							function(response) {
+								if (response.status == "200 OK") {
+									Swal.fire({
+								    	  icon: 'success',
+								    	  title: response.message,
+								    	  showConfirmButton: true,
+								    	  confirmButtonColor: '#3085d6'
+									}).then((result)=>{
+										if(result.isConfirmed){
+											location.href="${context}/evnt/list";
+										}
+									});
+									/* alert(response.message); */
+									//location.reload(); // 새로고침
+								} else {
+									Swal.fire({
+								    	  icon: 'error',
+								    	  title: response.message,
+								    	  showConfirmButton: false,
+								    	  timer: 2500
+									});
+									/* alert(response.errorCode + " / " + response.message); */
+								}
+							});
+			  }else{
+				  Swal.fire({
 			    	  icon: 'success',
 			    	  title: '취소되었습니다.',
 			    	  showConfirmButton: false,
 			    	  timer: 2500
-				});
-				/* alert("취소되었습니다.") */		
-			} 
-	      else{
-				$.post(							
-						// 1. 호출할 주소
-						"${context}/api/evnt/delete",
-						// 2. 파라미터
-						{
-							evntId : $("#evntId").val(),
-						},
-						// 3. 결과 처리
-						function(response) {
-							if (response.status == "200 OK") {
-								Swal.fire({
-							    	  icon: 'success',
-							    	  title: response.message,
-							    	  showConfirmButton: true,
-							    	  confirmButtonColor: '#3085d6'
-								}).then((result)=>{
-									if(result.isConfirmed){
-										location.href="${context}/evnt/list";
-									}
-								});
-								/* alert(response.message); */
-								//location.reload(); // 새로고침
-							} else {
-								Swal.fire({
-							    	  icon: 'error',
-							    	  title: response.message,
-							    	  showConfirmButton: false,
-							    	  timer: 2500
-								});
-								/* alert(response.errorCode + " / " + response.message); */
-							}
-						});
-					} 
-				});
+					});
+			  }
+			});	
+		});
 		
 		// '참여매장등록하기' 버튼 클릭 시
 		$("#btn-createEvntStr").click(function() {
