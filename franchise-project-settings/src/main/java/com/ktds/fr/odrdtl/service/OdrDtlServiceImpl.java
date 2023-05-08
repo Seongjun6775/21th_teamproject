@@ -214,6 +214,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	public List<OdrDtlVO> startEnd(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.startEnd(odrDtlVO);
 	}
+
+	@Override
+	public List<OdrDtlVO> viewStrPayments(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.viewStrPayments(odrDtlVO);
+	}
 	
 	
 	
