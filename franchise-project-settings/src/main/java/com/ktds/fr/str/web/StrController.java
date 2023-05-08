@@ -224,12 +224,15 @@ public class StrController {
 		if (mbrVO.getMbrLvl().equals("001-03")) {
 	    	return "redirect:/index" + mbrVO.getStrId();
 	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
-	    		return "redirect:/index" + mbrVO.getStrId();
-	    	} else {
+    		return "redirect:/index" + mbrVO.getStrId();
+    	} else {
 		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
 		OdrLstVO odrLstVO = new OdrLstVO();
 		odrLstVO.setStrId(mbrVO.getStrId());
 		
+		if (mbrVO.getMbrLvl().equals("001-01")) {
+	    	odrLstVO.setStrId("%");
+		}
 		List<OdrLstVO> odrLstList = odrLstService.completeOdrForStr(odrLstVO);
 		
 		

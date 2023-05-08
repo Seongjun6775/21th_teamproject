@@ -128,7 +128,7 @@
 					</nav>
 				</div>
 				<div style="position: absolute; top:0; right:0;">
-	       			<button id="create-btn" type="button" class="btn btn-outline-secondary btn-default">채용 작성</button>
+	       			<button id="create-btn" type="button" class="btn btn-outline-secondary btn-default">채용 지원 작성</button>
 	       		</div> 
 			</div>
 		</div>

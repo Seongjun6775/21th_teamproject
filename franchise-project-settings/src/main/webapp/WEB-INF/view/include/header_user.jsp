@@ -223,7 +223,7 @@ li.dropdown > ul > li > a  {
 	              매장
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
+	              <li><a class="dropdown-item" href="${context}/str/customer">매장찾기</a></li>
 	              <li><a class="dropdown-item" href="${context}/rv/list">리뷰관리</a></li>
 	            </ul>
 	          </li>
@@ -251,7 +251,7 @@ li.dropdown > ul > li > a  {
 	         	<a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
 	         </li>
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style=" background-color: #502416;" href="#" >채용 문의</a>
+	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
 	         </li>
 	         <li class="nav-item">
 	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list">고객센터</a>
