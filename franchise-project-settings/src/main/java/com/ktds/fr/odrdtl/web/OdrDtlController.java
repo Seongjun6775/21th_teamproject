@@ -55,7 +55,7 @@ public class OdrDtlController {
 		
 		// 주문서에 접근한 계정이 그 주문서를 작성한 계정인지 확인합니다.
 		if (!lstMbrId.getMbrId().equals(mbrVO.getMbrId())) {
-			throw new ApiException("400", "권한이 없습니다.");
+			return "odrdtl/500cannot";
 		}
 		// 접근한 계정이 주문서를 작성한 회원 본인일 경우, 회원이 주문한 물품들의 정보를 보여줍니다.
 		if (mbrVO.getMbrLvl().equals("001-04")) {

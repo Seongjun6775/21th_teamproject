@@ -25,5 +25,7 @@ public interface NtDAO {
 	public int updateNtRdDtByNtId(String ntId);
 	
 	public int checkOneMbr(String rcvrId);
+	
+	public int countNewNt(String mbrId);
 
 }
