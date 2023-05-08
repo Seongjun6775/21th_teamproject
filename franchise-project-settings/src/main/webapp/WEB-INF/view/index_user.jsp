@@ -255,7 +255,7 @@ text-decoration: none;
 			
 		</div>
 			<div style="height: 402px;">
-			<a href="#"><img src="${context}/img/채용문의.png" width="50%" height="300"></a> 
+			<%-- <a href="#"><img src="${context}/img/채용문의.png" width="50%" height="300"></a>  --%> 
 			
 			
 		</div>
