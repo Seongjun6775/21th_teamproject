@@ -106,8 +106,7 @@
 	    </div>		
 		<div class="bg-white rounded shadow-sm" style="padding: 60px;  margin:20px;">
 			<div class="flex">
-				<div class="half-right rounded shadow-sm form-control" style="padding: 30px">
-				
+			
 					<div class="input-group" style="flex: 1; margin-top: 10px;">
 						<label for="prdtCntnt" class="col-form-label label-left-border">상품이름</label>
 						<div>
