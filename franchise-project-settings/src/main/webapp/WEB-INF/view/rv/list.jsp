@@ -13,15 +13,21 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 
 	$().ready(function() {
 		
 		var url;
+		var mbrId;
 		$(".open-layer").click(function(event) {
 			// event.preventDefault();
-			var mbrId = $(this).text();
+			mbrId = $(this).text();
 			$("#layer_popup").css({
+				"padding": "5px",
 				"top": event.pageY,
 				"left": event.pageX,
 				"backgroundColor": "#FFF",
@@ -29,18 +35,32 @@
 				"border": "solid 1px #222",
 				"z-index": "10px"
 			}).show();
-			
-			url = mbrId
+			if (url == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
 		});
 		
-		$(".send-memo-btn").click(function() {
-			if (url) {
-				$("input[name=searchWrap]").val(url)
+		$(".search-rv-btn").click(function() {
+			if (mbrId) {
+				$("input[name=searchWrap]").val(mbrId)
 				$("#search_option").val("mbrId").prop("selected", true);
 				$("#search_btn").click();
 			}
 		});
-		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				alert("본인에게 쪽지를 보낼 수 없습니다.");
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
 		$(".close-memo-btn").click(function() {
 			url = undefined;
 			$("#layer_popup").hide();
@@ -132,7 +152,7 @@
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});		 
-		$(".rvRow td").not(".firstcell, .mbrId").click(function() {
+		$(".rvRow td").not(".firstcell, .ellipsis").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
 			location.href="${context}/rv/detail/" + rvid;
 		})
@@ -214,7 +234,10 @@
 								<td>${rv.odrLstId}</td>
 								<td>${rv.strVO.strNm}</td>
 								<td>${rv.rvTtl}</td>
-								<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
+								<td class="ellipsis"
+									onclick="event.cancelBubble=true">
+									<a class="open-layer" href="javascript:void(0);" val="${rv.mbrId}">
+										${rv.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : rv.mbrId}</a></td>																			
 								<td>${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}</td>					
 								<td>${rv.rvRgstDt}</td>					
 								<td>${rv.mdfyDt}</td>									
@@ -280,10 +303,16 @@
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
-				<a class="send-memo-btn" href="javascript:void(0);">작성 리뷰 보기</a>
+				<a class="send-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
 			</div>
 			<div>
-				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+				<a class="search-rv-btn" href="javascript:void(0);">
+					<i class='bx bx-search-alt-2'></i>작성 리뷰 보기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-x'></i>닫기</a>
 			</div>
 		</div>
 	</div>	

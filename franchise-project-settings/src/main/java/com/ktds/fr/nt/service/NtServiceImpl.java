@@ -140,5 +140,10 @@ public class NtServiceImpl implements NtService {
 	public boolean checkOneMbr(String rcvrId) {
 		return ntDAO.checkOneMbr(rcvrId) > 0;
 	}
+	
+	@Override
+	public boolean countNewNt(String mbrId) {
+		return ntDAO.countNewNt(mbrId) > 0;
+	}
 
 }
