@@ -99,10 +99,22 @@
 			// 3. 결과 처리
 			function(response) {
 				if (response.status == "200 OK") {
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 					//location.reload(); // 새로고침
 				} else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
@@ -121,7 +133,13 @@
 		 $("#btn-create-evntPrdt").click(function() {
 				var checkLen = $(".check-idx:checked").length;
 				if (checkLen == 0) {
-					alert("선택된 항목이 없습니다.");
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '선택된 항목이 없습니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("선택된 항목이 없습니다."); */
 					return;
 				}
 				if (!confirm("체크한 항목이 일괄 등록됩니다.")) {
@@ -152,11 +170,26 @@
 							
 				$.post("${context}/api/evntPrdt/createCheckedEvntPrdtList", form.serialize(), function(response) {
 					if (response.status == "200 OK") {
-						alert(response.message);
-						location.reload(); //새로고침
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: response.message,
+					    	  showConfirmButton: true,
+					    	  confirmButtonColor: '#3085d6'
+						}).then((result)=>{
+							if(result.isConfirmed){
+								location.reload(); //새로고침
+							}
+						});
+						/* alert(response.message); */
 					}
 					else {
-						alert(response.errorCode + " / " + response.message);
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: response.message,
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert(response.errorCode + " / " + response.message); */
 					}
 				});
 			})

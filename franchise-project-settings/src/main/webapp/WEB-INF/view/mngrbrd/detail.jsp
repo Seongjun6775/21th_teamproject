@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
 		$("#list_btn").click(function() {
@@ -67,10 +68,22 @@
 				}
 				else if (response.status =="400"){
 					//파라미터를 전달하지 않은 경우
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			});
 		});
@@ -98,7 +111,13 @@
 					location.replace(url); 
 				}
 				else{
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			})
 		});
@@ -116,7 +135,13 @@
 					location.reload();
 				}
 				else{
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			})
 		});
@@ -150,10 +175,22 @@
 				else if (response.status =="400"){
 					//파라미터를 전달하지 않은 경우
 					console.log(response.message);
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			});
 		});
@@ -167,15 +204,31 @@
 				else if (response.status =="400"){
 					//파라미터를 전달하지 않은 경우
 					console.log(response.message);
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			});
 	    
 		});
-		
+		/* var simplemde = new SimpleMDE({ element: $("#cntnt")[0],
+										initialPreviewMode: true,
+		});
+		var mdString = "${mngrBrd.mngrBrdCntnt}";
+		console.log(marked.parse(mdString)); */
 		
 	});
 </script>

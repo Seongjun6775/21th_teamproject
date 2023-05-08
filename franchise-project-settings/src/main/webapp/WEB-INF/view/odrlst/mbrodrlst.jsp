@@ -76,7 +76,13 @@
 					location.reload();
 				}
 				else {
-					alert(response.message + "\n매장 점원에게 문의하세요.");
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  html: response.message + "<br/>매장 점원에게 문의하세요.",
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message + "\n매장 점원에게 문의하세요."); */
 				}
 			})
 			

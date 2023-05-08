@@ -69,10 +69,22 @@
 			
 			if (odrPrcs != "003-01") {
 				if (odrPrcs == "003-05") {
-					alert("주문 취소된 상품입니다.");
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  title: '주문 취소된 상품입니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("주문 취소된 상품입니다."); */
 					return;
 				}
-				alert("이미 주문 처리된 상품입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '이미 주문 처리된 상품입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 주문 처리된 상품입니다."); */
 				return;
 			}
 			
@@ -98,7 +110,13 @@
 					location.href = "${context}/odrdtl/list/${odrDtl.odrLstId}";
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 			
@@ -110,10 +128,22 @@
 			
 			if (odrPrcs != "003-01") {
 				if (odrPrcs == "003-05") {
-					alert("주문 취소된 상품입니다.");
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  title: '주문 취소된 상품입니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("주문 취소된 상품입니다."); */
 					return;
 				}
-				alert("이미 주문 처리된 상품입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '이미 주문 처리된 상품입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 주문 처리된 상품입니다."); */
 				return;
 			}
 			
@@ -126,7 +156,13 @@
 					location.href = "${context}/odrdtl/list/${odrDtl.odrLstId}";
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});

@@ -29,7 +29,13 @@
 					location.href = "${context}/nt/ntlist";
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});

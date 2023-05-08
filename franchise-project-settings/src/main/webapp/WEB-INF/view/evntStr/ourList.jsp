@@ -35,7 +35,13 @@
 			var checkLen = $(".check-idx:checked").length;
 			
 			if(checkLen == 0){
-				alert("체크한 대상이 없습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '체크한 대상이 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("체크한 대상이 없습니다."); */
 				return;
 			}
 			
@@ -47,11 +53,26 @@
 			
 			$.post("${context}/api/evntStr/delete", form.serialize(), function(response){
 				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-					alert("이벤트 참여가 해제되었습니다.")
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '이벤트 참여가 해제되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.reload(); //새로고침
+						}
+					});
+					/* alert("이벤트 참여가 해제되었습니다.") */
 				}
 				else{
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			})
 			

@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.ktds.fr.cmmncd.service.CmmnCdService;
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.api.exceptions.ApiException;
+import com.ktds.fr.ctycd.service.CtyCdService;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.lctcd.service.LctCdService;
+import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
@@ -35,6 +39,12 @@ public class OdrDtlController {
 	
 	@Autowired
 	public CmmnCdService cmmnCdService;
+
+	@Autowired
+	public CtyCdService ctyCdService;
+	
+	@Autowired
+	public LctCdService lctCdService;
 	
 	@GetMapping("/odrdtl/list/{odrLstId}")
 	public String viewOdrDtlListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
@@ -149,6 +159,17 @@ public class OdrDtlController {
 		
 		//매장별
 //		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
+
+		
+//		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
+//		model.addAttribute("startEnd", startEnd);
+//		
+//		
+//		model.addAttribute("odrDtlVO", odrDtlVO);
+//		model.addAttribute("strList", strList);
+//		model.addAttribute("odrDtlList", odrDtlList);
+//		model.addAttribute("groupPrdt", groupPrdt);
+
 //		model.addAttribute("strGroup", groupStr);
 		
 //		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
@@ -188,6 +209,52 @@ public class OdrDtlController {
 		
 		
 		return "odrdtl/payment_monthly";
+	}
+
+
+	@GetMapping("/paymentStr")
+	public String forSaleStr(Model model, OdrDtlVO odrDtlVO
+						, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			odrDtlVO.setOdrDtlStrId(mbrVO.getStrId());
+		}
+		
+//		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
+		
+		//매장별 상품 조회 
+		odrDtlVO.setOrderBy("DESC");
+		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
+		
+		
+		List<StrVO> strList = strService.readAll();
+		
+		
+		//매장별
+//		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
+		
+		
+		
+		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
+		CtyCdVO ctyCdVO = new CtyCdVO();
+		LctCdVO lctCdVO = new LctCdVO();
+		
+		List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
+	    List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
+		
+	    
+	    model.addAttribute("startEnd", startEnd);
+		
+		
+		model.addAttribute("odrDtlVO", odrDtlVO);
+		model.addAttribute("strList", strList);
+//		model.addAttribute("odrDtlList", odrDtlList);
+		model.addAttribute("groupPrdt", groupPrdt);
+//		model.addAttribute("strGroup", groupStr);
+		model.addAttribute("ctyList", ctyList);
+	    model.addAttribute("lctList", lctList);
+		
+		return "odrdtl/paymentStr";
+
 	}
 
 }

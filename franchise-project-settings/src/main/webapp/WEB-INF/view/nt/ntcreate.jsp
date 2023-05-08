@@ -17,7 +17,13 @@
 	function addMbrFn(search){
 		$("#rcvrId").val(search.mbrid);
 		if($("#rcvrId").val() == "${mbrVO.mbrId}") {
-			alert("자기 자신에게 쪽지를 보낼 수 없습니다!");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '자신에게 쪽지를 보낼 수 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("자기 자신에게 쪽지를 보낼 수 없습니다!"); */
 			return;
 		}
 	}
@@ -28,7 +34,13 @@
 			// 자기 자신에게 쪽지를 보낼 수 없도록 제한했습니다.
 			// 굳이 막을 이유는 없지 않나 싶어서 고민했는데, 일단 막아 두고 나중에 필요 없다 싶으면 지우겠습니다.
 			if ($("#rcvrId").val() == $("#sndrId").val()) {
-				alert("자기 자신에게 쪽지를 보낼 수 없습니다!")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게 쪽지를 보낼 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("자기 자신에게 쪽지를 보낼 수 없습니다!") */
 				return;
 			}
 			
@@ -43,7 +55,13 @@
 					location.href="${context}/nt/ntmstrlist";
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});

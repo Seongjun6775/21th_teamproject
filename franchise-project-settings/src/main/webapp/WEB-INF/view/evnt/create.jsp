@@ -26,27 +26,64 @@ $().ready(function() {
 		var orgnFlNm = document.getElementById("orgnFlNm").value;
 		
 		if (evntTtl == ""){
-			alert("이벤트 제목을 입력해주세요.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '이벤트 제목을 입력해주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("이벤트 제목을 입력해주세요."); */
 			return;
 		}
 		if (evntCntnt == ""){
-			alert("이벤트 내용을 입력해주세요.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '이벤트 내용을 입력해주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("이벤트 내용을 입력해주세요."); */
 			return;
 		}
 		if (evntStrtDt == ""){
-			alert("이벤트 시작일자를 입력해주세요.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '이벤트 시작일자를 입력해주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("이벤트 시작일자를 입력해주세요."); */
 			return;
 		}
 		if (evntEndDt == ""){
-			alert("이벤트 종료일자를 입력해주세요.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '이벤트 종료일자를 입력해주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("이벤트 종료일자를 입력해주세요."); */
 			return;
 		}
 		if (orgnFlNm == ""){
-			alert("사진을 등록해주세요.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '사진을 등록해주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("사진을 등록해주세요."); */
 			return;
 		}
 		if(evntStrtDt > evntEndDt){
-			alert("시작일자("+evntStrtDt+")가 종료일자("+evntEndDt+")보다 큽니다");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '잘못된 날짜 입력',
+		    	  html: "시작일자("+evntStrtDt+")<br/>종료일자("+evntEndDt+")",
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("시작일자("+evntStrtDt+")가 종료일자("+evntEndDt+")보다 큽니다"); */
 			return;
 		}
 		
@@ -54,13 +91,28 @@ $().ready(function() {
 		ajaxUtil.upload("#form-create" , "${context}/api/evnt/create", function(response) {
 			if (response.status == "200 OK") {
 				console.log("200임")
-				alert(response.message);
+				Swal.fire({
+			    	  icon: 'success',
+			    	  title: response.message,
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				}).then((result)=>{
+					if(result.isConfirmed){
+						location.href = "${context}/evnt/list";
+					}
+				});
+				/* alert(response.message); */
 				
-				location.href = "${context}/evnt/list";
 				//location.reload(); // 새로고침
 			} else {
 				console.log("안됨")
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		}, {"orgnFlNm" : "uploadFile"})
 	});

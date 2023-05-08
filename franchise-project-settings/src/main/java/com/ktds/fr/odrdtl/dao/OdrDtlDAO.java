@@ -3,7 +3,6 @@ package com.ktds.fr.odrdtl.dao;
 import java.util.List;
 
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
-import com.ktds.fr.odrlst.vo.OdrLstVO;
 
 public interface OdrDtlDAO {
 	
@@ -81,5 +80,7 @@ public interface OdrDtlDAO {
 	public List<OdrDtlVO> sumMonth(OdrDtlVO odrDtlVO);
 	public List<OdrDtlVO> sumYear(OdrDtlVO odrDtlVO);
 
+	/* index page 매장별 조회용 기능 */
+	public List<OdrDtlVO> viewStrPayments(OdrDtlVO odrDtlVO);
 	
 }

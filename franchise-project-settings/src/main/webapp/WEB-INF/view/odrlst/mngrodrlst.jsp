@@ -63,12 +63,24 @@ $().ready(function() {
 			var checkLen = $(".check_idx:checked").length;
 			
 			if (${sessionScope.__MBR__.mbrLvl} != "001-02" || ${sessionScope.__MBR__.mbrLvl} != "001-03") {
-				alert("권한이 없습니다!");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '권한이 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("권한이 없습니다!"); */
 				return;
 			}
 			
 			if (checkLen == 0) {
-				alert("선택한 쪽지가 없습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '선택한 쪽지가 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("선택한 쪽지가 없습니다."); */
 				return;
 			}
 			

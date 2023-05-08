@@ -19,12 +19,9 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <script type="text/javascript">
-
-
 function secId(mbrId) {
 	return mbrId.substring(0, mbrId.length - 3) + "***";
 }
-
   	
 $().ready(function() {
 	
@@ -71,13 +68,8 @@ $().ready(function() {
 	});
 	
 	
-
-
 	
 })
-
-
-
 function groupPrdt() {
 	
 	var odrDtlVO = {
@@ -131,7 +123,6 @@ function groupPrdt() {
 		}
 	})
 }
-
 function startEnd(prdtId, prdtNm) {
 	
 	var odrDtlVO = {
@@ -186,8 +177,6 @@ function startEnd(prdtId, prdtNm) {
 		}
 	})
 }
-
-
 </script>
 </head>
 <body>

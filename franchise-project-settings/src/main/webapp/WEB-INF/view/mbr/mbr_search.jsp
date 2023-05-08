@@ -23,7 +23,13 @@
 		$("#regist_btn").click(function(){
 			var checkbox = $(".check-idx:checked");
 			if(checkbox.length == 0 ){
-				alert("회원을 선택하세요.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '회원을 선택하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("회원을 선택하세요."); */
 			}
 			var checkedMbr = checkbox.closest("tr").data();
 			opener.addMbrFn(checkedMbr);
