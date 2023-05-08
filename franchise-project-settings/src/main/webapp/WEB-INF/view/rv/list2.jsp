@@ -11,12 +11,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<%-- <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}"> --%>
 <jsp:include page="../include/stylescript.jsp" />
 
-<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 
 	$().ready(function() {
@@ -53,12 +53,7 @@
 			if (url !== "cannot") {
 				location.href = url;
 			} else {
-				Swal.fire({
-			    	  icon: 'error',
-			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
-			    	  showConfirmButton: true,
-			    	  confirmButtonColor: '#3085d6'
-				});
+				alert("본인에게 쪽지를 보낼 수 없습니다.");
 			}
 		});
 		$('body').on('click', function(event) {
@@ -80,7 +75,7 @@
 			}
 		});
 		$("#new_btn").click(function() {
-			location.href = "${context}/rv/create";
+			location.href = "${context}/user/rv/create";
 		});
 		$("#all_check").click(function() {
 			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
@@ -159,7 +154,7 @@
 		});		 
 		$(".rvRow td").not(".firstcell, .ellipsis").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
-			location.href="${context}/rv/detail/" + rvid;
+			location.href="${context}/user/rv/detail/" + rvid;
 		})
 	});
 		function movePage(pageNo){
@@ -172,24 +167,90 @@
 			queryString += "&type="+selec + "&search=" + id;
 			
 			//URL요청
-			location.href="${context}/rv/list" + queryString;
+			location.href="${context}/user/rv/list" + queryString;
 			
 		}
 </script>
-<style>
-.btn-default {
-	border: solid 2px;
-    font-weight: 800;
-/*     margin-right: 15px; */
+ <style>
+*{
+  box-sizing: border-box; 
+}
+  
+.que:first-child{
+    border-top: 2px solid black;
+  }
+
+  
+.que{
+  position: relative;
+  padding: 17px 0;
+  cursor: pointer;
+  font-size: 14px;
+  border-bottom: 1px solid #dddddd;
+  
+}
+  
+.que::before{
+  display: inline-block;
+  content: 'Q';
+  font-size: 14px;
+  color: #ffbe2e;
+  margin: 0 5px;
+}
+
+.que.on>span{
+  font-weight: bold;
+  color: #ffbe2e;
+}
+  
+.anw {
+  display: none;
+  overflow: hidden;
+  font-size: 14px;
+  background-color: #f4f4f2;
+  padding: 30px;
+}
+  
+.anw::before {
+  display: inline-block;
+  content: 'A';
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin: 0 5px;
+}
+
+.arrow-wrap {
+  position: absolute;
+  top:50%; right: 10px;
+  transform: translate(0, -50%);
+}
+
+.que .arrow-top {
+  display: none;
+}
+.que .arrow-bottom {
+  display: block;
+}
+.que.on .arrow-bottom {
+  display: none;
+}
+.que.on .arrow-top {
+  display: block; 
 }
 </style>
 </head>
-<body>
-<jsp:include page="../include/openBody.jsp" />
-		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">리뷰</div>
+		<div class="overlay absolute"></div>
+	</div>				
+	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 			<span class="fs-5 fw-bold">리뷰 > 리뷰목록</span>
-	    </div>		
-		
+	</div>
+	
 		<!-- searchbar -->
 		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
 		  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
@@ -304,7 +365,7 @@
 			</div>
 		</div>	
 	</div>
-<jsp:include page="../include/closeBody.jsp" />
+<jsp:include page="../include/footer_user.jsp" />
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
@@ -321,4 +382,5 @@
 			</div>
 		</div>
 	</div>	
+</body>
 </html>

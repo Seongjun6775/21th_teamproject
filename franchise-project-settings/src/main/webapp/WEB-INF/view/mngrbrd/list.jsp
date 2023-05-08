@@ -44,7 +44,12 @@
 			if (url !== "cannot") {
 				location.href = url;
 			} else {
-				alert("본인에게 쪽지를 보낼 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
 			}
 		});
 		$('body').on('click', function(event) {
@@ -145,6 +150,13 @@
     font-weight: 800;
 /*     margin-right: 15px; */
 }
+.ntc-label{
+    border: 1px solid #ffc6c9;
+    background-color: #ffe3e4;
+    color: #ff4e59;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
@@ -200,15 +212,16 @@
 											</c:if>	
 											<td style="width: 100px;">No.${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
 											<td style="width: 130px;">
-											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
+											${mngrBrd.ntcYn eq 'Y' ? '<strong class="ntc-label">공지</strong>' : '커뮤니티'}</td>
 											
 											<td>
 												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid" style="${mngrBrd.ntcYn eq 'Y' ? 'font-weight: 900; color: #f00;' : ''}">
 													${mngrBrd.mngrBrdTtl}  
 												</a>[${mngrBrd.rplList.size()}] 
 											</td>
-											<td style="width: 180px;">${mngrBrd.mbrVO.mbrNm}
-											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);">${mngrBrd.mbrVO.mbrId}</a>)</span></td>
+											<td class="ellipsis"
+												onclick="event.cancelBubble=true" style="width: 180px;">${mngrBrd.mbrVO.mbrNm}
+											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);" val="${mngrBrd.mbrVO.mbrId}">${mngrBrd.mbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : mngrBrd.mbrVO.mbrId}</a>)</span></td>
 											<td style="width: 200px;">${mngrBrd.mngrBrdWrtDt}</td>
 										</tr>
 									</c:forEach>
@@ -219,7 +232,7 @@
 									<c:forEach items="${mngrBrdList}" var="mngrBrd" >
 										<tr data-mngrid = "${mngrBrd.mngrId}"
 											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ff8f56' : ''}">
+											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #fff' : ''}">
 											
 											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 												<td style="width: 20px;"> 
@@ -293,6 +306,8 @@
 		</div>
 		
 <jsp:include page="../include/closeBody.jsp" />
+
+<!-- layer-popup -->
 <div class="layer_popup" id="layer_popup" style="display: none;">
 	<div class="popup_box">
 		<div class="popup_content">

@@ -459,11 +459,10 @@ $().ready(function() {
 		} else {
 			Swal.fire({
 		    	  icon: 'error',
-		    	  title: '자신에게 쪽지를 보낼 수 없습니다.',
-		    	  showConfirmButton: false,
-		    	  timer: 2500
+		    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+		    	  showConfirmButton: true,
+		    	  confirmButtonColor: '#3085d6'
 			});
-			/* alert("본인에게 쪽지를 보낼 수 없습니다."); */
 		}
 	});
 	$('body').on('click', function(event) {
@@ -652,7 +651,7 @@ function movePage(pageNo) {
 										<td class="ellipsis"
 											onclick="event.cancelBubble=true">
 											<a class="open-layer" href="javascript:void(0);" 
-													="${prdt.mdfyrMbrVO.mbrId}">
+													val="${prdt.mdfyrMbrVO.mbrId}">
 												${prdt.mdfyrMbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : prdt.mdfyrMbrVO.mbrId}</a>
 										</td>
 										<td>

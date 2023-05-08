@@ -16,10 +16,10 @@
 	$().ready(function() {
 		Swal.fire({
 	    	  icon: 'error',
-	    	  title: '자신에게는 쪽지를 보낼 수 없습니다.',
+	    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
 	    	  showConfirmButton: true,
 	    	  confirmButtonColor: '#3085d6'
-		}).then((result)=>{
+		});.then((result)=>{
 			if(result.isConfirmed){
 				location.href = "${context}/nt/list";
 			}

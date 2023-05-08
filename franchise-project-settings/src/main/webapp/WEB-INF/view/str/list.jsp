@@ -423,7 +423,7 @@
 		</div>
 		<!-- /searchbar -->	
 		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-		<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
+			<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
 			<table class="table caption-top table-hover" style="text-align: center;">
 				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 					<tr>
