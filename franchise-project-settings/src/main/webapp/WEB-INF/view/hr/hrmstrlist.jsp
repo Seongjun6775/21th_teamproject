@@ -30,6 +30,7 @@
 				"border": "solid 1px #222",
 				"z-index": "10px"
 			}).show();
+			mbrId = mbrId.trim();
 			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
 				url = "cannot"
 			} else {
@@ -38,10 +39,15 @@
 		});
 		
 		$(".send-memo-btn").click(function() {
-			if (url) {
+			if (url !== "cannot") {
 				location.href = url;
 			} else {
-				alert("본인에게 쪽지를 보낼 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
 			}
 		});
 		$('body').on('click', function(event) {
@@ -218,7 +224,7 @@
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
 										<td class="ellipsis" onclick="event.cancelBubble=true">
 											<a class="open-layer" href="javascript:void(0);" val="${hr.mbrId}">
-												${hr.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : hr.mbrId}
+												${hr.mbrId}
 											</a>
 										</td>
 										<td>${hr.cdNm}</td> 
@@ -286,18 +292,21 @@
 	          		</div>
 				</div>
 		</div>
-			 
+		
+		<!-- layer-popup -->
 		<div class="layer_popup" id="layer_popup" style="display: none;">
-		<div class="popup_box">
-			<div class="popup_content">
-				<a class="send-memo-btn" href="javascript:void(0);">
-					<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
+			<div class="popup_box">
+				<div class="popup_content">
+					<a class="send-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-mail-send' ></i>쪽지 보내기
+					</a>
+				</div>
+				<div>
+					<a class="close-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-x'></i>닫기
+					</a>
+				</div>
 			</div>
-			<div>
-				<a class="close-memo-btn" href="javascript:void(0);">
-					<i class='bx bx-x'></i>닫기</a>
-			</div>
-		</div>
 		</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

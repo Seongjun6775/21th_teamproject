@@ -182,6 +182,8 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		int month = cal.get(Calendar.MONTH)+1;
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		
+		
+		
 		return odrDtlDAO.oneMonth(odrDtlVO);
 	}
 
@@ -207,13 +209,10 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		return odrDtlDAO.sumYear(odrDtlVO);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	public List<OdrDtlVO> viewStrPayments(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.viewStrPayments(odrDtlVO);
+
+	}
 	
 	private void dateSetting(OdrDtlVO odrDtlVO) {
 		String monthly = odrDtlVO.getMonthly();

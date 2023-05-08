@@ -80,7 +80,7 @@ li{
   color: #ffbe2e
 }
 .nav-item .nav-link-right{
-font-size: 25px; FONT-WEIGHT: 550;  margin:10px; margin-top: 45px; color: #fff; padding: 10px 25px; border-radius: 25px;
+font-size: 22px; FONT-WEIGHT: 550;  margin:10px; margin-top: 45px; color: #fff; padding: 10px 25px; border-radius: 25px;
 
 }
 .qna-btn{
@@ -248,7 +248,10 @@ li.dropdown > ul > li > a  {
 	        <div style="margin-right:20px;">
 	        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style=" background-color: #ffbe2e;" href="#" >채용 문의</a>
+	         	<a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
+	         </li>
+	         <li class="nav-item">
+	         	<a class="nav-link-right" style=" background-color: #502416;" href="#" >채용 문의</a>
 	         </li>
 	         <li class="nav-item">
 	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list">고객센터</a>
