@@ -224,7 +224,7 @@ li.dropdown > ul > li > a  {
 	            </a>
 	            <ul class="dropdown-menu">
 	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
-	              <li><a class="dropdown-item" href="/user/rv/list">리뷰관리</a></li>
+	              <li><a class="dropdown-item" href="${context}/rv/list">리뷰관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav-item dropdown">
@@ -240,7 +240,7 @@ li.dropdown > ul > li > a  {
 	              리뷰
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="/user/rv/list">리뷰</a></li>
+	              <li><a class="dropdown-item" href="${context}/user/rv/list">리뷰</a></li>
 	            </ul>
 	          </li>
 
@@ -281,9 +281,9 @@ li.dropdown > ul > li > a  {
 								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트</a></li>
 							</ul>
 						</li>
-						<li><a href="/user/rv/list" class="fs-4 fw-bold">리뷰</a>
+						<li><a href="${context}/user/rv/list" class="fs-4 fw-bold">리뷰</a>
 							<ul>
-								<li><a href="/user/rv/list" class="fs-6 fw-bold">리뷰</a></li>
+								<li><a href="${context}/user/rv/list" class="fs-6 fw-bold">리뷰</a></li>
 							</ul>
 						</li>
 						<li><a href="${context}/index" class="fs-4 fw-bold">관리자페이지로</a>

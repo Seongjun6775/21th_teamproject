@@ -11,15 +11,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
-<link rel="stylesheet" href="${context}/css/hr_mstr.css?p=${date}">
-<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+<%-- <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}"> --%>
 <jsp:include page="../include/stylescript.jsp" />
+
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
+
 	$().ready(function() {
 		
 		$("#list_btn").click(function() {
-			location.href="${context}/rv/list";
+			location.href="${context}/user/rv/list";
 		});
 		
 		$("#delete_btn").click(function(){
@@ -48,7 +51,7 @@
 					    	  confirmButtonColor: '#3085d6'
 						}).then((result)=>{
 							if(result.isConfirmed){
-								location.href = "${context}/rv/list" + response.redirectURL;
+								location.href = "${context}/user/rv/list" + response.redirectURL;
 							}
 						});
 						/* alert("리뷰가 삭제되었습니다.") */
@@ -85,7 +88,13 @@
 
 </style>
 </head>
-<jsp:include page="../include/openBody.jsp" />
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">리뷰</div>
+		<div class="overlay absolute"></div>
+	</div>
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px; position: relative;">	
 			<span class="fs-5 fw-bold"> 리뷰 > 리뷰목록 > 리뷰상세</span>
 			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
@@ -166,6 +175,6 @@
 				</div>
 			</div>						
 		</div>				
-
-<jsp:include page="../include/closeBody.jsp" />
+<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>
