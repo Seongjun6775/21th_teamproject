@@ -196,11 +196,14 @@ public class OdrDtlController {
 		
 		// 검색용 셀렉트박스 목록... 상품분류 / 매장목록(useYN 둘다)
 		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
+		List<LctCdVO> lctList = lctCdService.read();
 		List<StrVO> strList = strService.readAll();
 		
 		model.addAttribute("odrDtlVO", odrDtlVO);
 		model.addAttribute("srtList", srtList);
+		model.addAttribute("lctList", lctList);
 		model.addAttribute("strList", strList);
+		
 		
 		List<String> monthly = odrLstService.monthly(odrLstVO);
 		model.addAttribute("monthly", monthly);

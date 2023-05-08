@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -115,5 +116,14 @@ public class RestStrController {
 		return new ApiDataResponseVO(ApiStatus.OK, ctyChangedList);
 		 
 	 }
+	 
+	 
+	 // 매출조회 관련 / 지역, 도시 조회 시
+	 @PostMapping("/api/str/readAllLctCty")
+	 public List<StrVO> readAllLctCty(@RequestBody StrVO strVO) {
+		 List<StrVO> strList = strService.readAllLctCty(strVO);
+		 return strList;
+	 }
+	 
 	 
 }
