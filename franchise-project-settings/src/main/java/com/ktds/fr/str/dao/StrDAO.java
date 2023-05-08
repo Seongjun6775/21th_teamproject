@@ -42,6 +42,7 @@ public interface StrDAO {
 	
 	public List<StrVO>readAll();
 	public List<StrVO>readAllUseY(String ctyId);
+	public List<StrVO>readAllLctCty(StrVO strVO);
 	
 	public List<CtyCdVO> readCategory(String lctId);
 	
