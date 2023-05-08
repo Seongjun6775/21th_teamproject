@@ -22,9 +22,10 @@
 	$().ready(function() {
 		
 		var url;
+		var mbrId;
 		$(".open-layer").click(function(event) {
 			// event.preventDefault();
-			var mbrId = $(this).text();
+			mbrId = $(this).text();
 			$("#layer_popup").css({
 				"padding": "5px",
 				"top": event.pageY,
@@ -34,24 +35,21 @@
 				"border": "solid 1px #222",
 				"z-index": "10px"
 			}).show();
-			
-			url = mbrId
+			if (url == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
 		});
 		
 		$(".search-rv-btn").click(function() {
-			if (url) {
-				$("input[name=searchWrap]").val(url)
+			if (mbrId) {
+				$("input[name=searchWrap]").val(mbrId)
 				$("#search_option").val("mbrId").prop("selected", true);
 				$("#search_btn").click();
 			}
 		});
 		$(".send-memo-btn").click(function() {
-			if (url == '${sessionScope.__MBR__.mbrId}') {
-				url = "cannot"
-			} else {
-				url = "${context}/nt/ntcreate/" + url
-			}
-			
 			if (url !== "cannot") {
 				location.href = url;
 			} else {
