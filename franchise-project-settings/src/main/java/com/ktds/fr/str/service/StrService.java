@@ -37,5 +37,6 @@ public List<StrVO>readAllStrMaster(StrVO strVO);
 	public List<CtyCdVO> readCategory(String lctId);
 	public List<StrVO>readAll();
 	public List<StrVO>readAllUseY(String ctyId);
+	public List<StrVO>readAllLctCty(StrVO strVO);
 	
 }
