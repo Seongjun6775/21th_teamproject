@@ -108,8 +108,7 @@
 				$(".check-idx:checked").each(function(){
 					var myMbrId = "${mbrVO.mbrId}";
 					var myMbrLvl = "${mbrVO.mbrLvl}";
-					var mbrId = $(this).closest("tr").find(".open-layer").text();
-					alert(mbrId); 
+					var mbrId = $(this).closest("tr").find(".open-layer").text().trim();
 					if (myMbrLvl == "001-04" && myMbrId != mbrId) {
 						Swal.fire({
 					    	  icon: 'error',
