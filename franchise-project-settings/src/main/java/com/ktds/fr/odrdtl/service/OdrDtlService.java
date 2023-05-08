@@ -81,5 +81,8 @@ public interface OdrDtlService {
 	public List<OdrDtlVO> sumMonth(OdrDtlVO odrDtlVO);
 	public List<OdrDtlVO> sumYear(OdrDtlVO odrDtlVO);
 	
+	/* index page 매장별 조회용 기능 */
+	public List<OdrDtlVO> viewStrPayments(OdrDtlVO odrDtlVO);
+	
 }
 

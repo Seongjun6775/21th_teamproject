@@ -12,9 +12,23 @@
 <script type="text/javascript">
 
 	$().ready(function() {
-		
-		alert("잘못된 접근입니다.");
-		location.href="${context}/index";
+		/* Swal.fire({
+	    	  icon: 'error',
+	    	  title: '잘못된 접근입니다.',
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+  		}); */
+		Swal.fire({
+	    	  icon: 'error',
+	    	  title: '잘못된 접근입니다.',
+	    	  showConfirmButton: true,
+	    	  confirmButtonColor: '#3085d6'
+		}).then((result)=>{
+			if(result.isConfirmed){
+				location.href="${context}/index";
+			}
+		});
+		/* alert("잘못된 접근입니다."); */
 		
 	});
 

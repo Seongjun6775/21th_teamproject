@@ -13,12 +13,16 @@
 <jsp:include page="../include/stylescript.jsp" />
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 	$().ready(function() {
 		var url;
 		$(".open-layer").click(function(event) {
 			var mbrId = $(this).text();
 			$("#layer_popup").css({
+				"padding": "5px",
 				"top": event.pageY,
 				"left": event.pageX,
 				"backgroundColor": "#FFF",
@@ -26,15 +30,25 @@
 				"border": "solid 1px #222",
 				"z-index": "10px"
 			}).show();
-			url = "${context}/nt/ntcreate/" + mbrId
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
 		});
 		
 		$(".send-memo-btn").click(function() {
 			if (url) {
 				location.href = url;
+			} else {
+				alert("본인에게 쪽지를 보낼 수 없습니다.");
 			}
 		});
-		
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
 		$(".close-memo-btn").click(function() {
 			url = undefined;
 			$("#layer_popup").hide();
@@ -53,7 +67,7 @@
 		$("#search_btn").click(function() {
 			movePage(0);
 		});
-		$("#hrLvl, #hrStat, #delYn").change(function() {
+		$("#hrLvl, #hrStat, #delYn, #listSize").change(function() {
 			movePage(0);
 		});
 	});
@@ -66,12 +80,19 @@
 		var delYn = $("#delYn").val();
 		var startDt = $("#startDt").val();
 		var endDt = $("#endDt").val();
+		var viewCnt = parseInt($("#listSize option:selected").val());
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
 		if(intStartDt > intEndDt) {
-			alert("시작일자는 종료일자보다 늦을 수 없습니다!");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '시작일자는 종료일자보다 늦을 수 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("시작일자는 종료일자보다 늦을 수 없습니다!"); */
 			return;
 		}
 		
@@ -82,6 +103,7 @@
 		queryString += "&hrLvl=" + hrLvl;
 		queryString += "&hrStat=" + hrStat;
 		queryString += "&delYn=" + delYn;
+		queryString += "&viewCnt=" + viewCnt;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href = "${context}/hr/hrmstrlist?" + queryString;
@@ -127,7 +149,15 @@
 		    
 		<!-- contents -->
 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">				
-			<div style="margin: 13px;">총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
+			<div style="margin: 13px;">
+				총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건 / 게시물 개수
+				<select id="listSize" name="viewCnt" class="select-align-center">
+					<option value="10" ${hrVO.viewCnt eq 10 ? 'selected' : ''}>10개</option>
+					<option value="30" ${hrVO.viewCnt eq 30 ? 'selected' : ''}>30개</option>
+					<option value="50" ${hrVO.viewCnt eq 50 ? 'selected' : ''}>50개</option>
+					<option value="100" ${hrVO.viewCnt eq 100 ? 'selected' : ''}>100개</option>
+				</select>
+			</div>
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
@@ -186,8 +216,10 @@
 									    	</c:when>
 									    </c:choose>
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
-										<td onclick="event.cancelBubble=true">
-											<a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
+										<td class="ellipsis" onclick="event.cancelBubble=true">
+											<a class="open-layer" href="javascript:void(0);" val="${hr.mbrId}">
+												${hr.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : hr.mbrId}
+											</a>
 										</td>
 										<td>${hr.cdNm}</td> 
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
@@ -258,10 +290,12 @@
 		<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
-				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+				<a class="send-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
 			</div>
 			<div>
-				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+				<a class="close-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-x'></i>닫기</a>
 			</div>
 		</div>
 		</div>

@@ -60,7 +60,13 @@ $().ready(function() {
 		$("#save_btn").click(function(){
 			var strNm = $("#strNm").val();
 			if(strNm == ""){
-				alert("선택한 매장명이 없습니다.")
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '매장명을 입력하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("선택한 매장명이 없습니다.") */
 				return;	
 			}
 			/* else if(strNm == $("#strNm").val()){
@@ -69,14 +75,26 @@ $().ready(function() {
 			} */
 			var strAddr = $("#strAddr").val();
 			if(strAddr == ""){
-				alert("선택한 주소가 없습니다.")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '선택한 주소가 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("선택한 주소가 없습니다.") */
 				return;	
 			}
 			var patt = new RegExp("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
 			var res = patt.test( $("#strCallNum").val());
 
 			if( !patt.test( $("#strCallNum").val()) ){
-			    alert("'-'을 작성하여 전화번호를 정확히 입력하여 주십시오.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '전화번호를 확인해 주세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+			    /* alert("'-'을 작성하여 전화번호를 정확히 입력하여 주십시오."); */
 			    return false;
 			}
 			/* if(strCallNum = "#strCallNum"){
@@ -86,7 +104,13 @@ $().ready(function() {
 			var strOpnTm = $("#strOpnTm").val();
 			var strClsTm = $("#strClsTm").val();
 			if(strOpnTm >= strClsTm){
-				alert("선택한 오픈 시간이 클로즈 시간보다 느립니다.")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '오픈시간과 클로즈 시간을 확인하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("선택한 오픈 시간이 클로즈 시간보다 느립니다.") */
 				return;	
 			}
 			if (!confirm("정말 수정하시겠습니까?")) {
@@ -100,11 +124,26 @@ $().ready(function() {
 				$.post("${context}/api/str/update", $("#strdetailmgn_form").serialize(), function(response) {
 					console.log($("#strdetailmgn_form").serialize());
 				if(response.status == "200 OK"){
-					alert("수정되었습니다.");
-					location.reload(); // 새로고침
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '수정되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.reload(); // 새로고침
+						}
+					});
+					/* alert("수정되었습니다."); */
 				}
 				else{
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 					}
 				});
 			}

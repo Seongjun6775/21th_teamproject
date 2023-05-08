@@ -12,6 +12,10 @@
 <title>주문관리 - ${strVO.strNm eq null ? mbrVO.mbrLvl eq '001-01' ? '관리자' : '소속없음' : strVO.strNm }</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -30,10 +34,8 @@ $().ready(function() {
 		    return;
 		  }
 		
-		var Id = $(this).data().odrlstid;
-		var mbrNm = $(this).data().mbrnm;
-		var odrLstRgstDt = $(this).data().odrlstrgstdt;
-		$("#staticBackdropLabel").html(Id + " / " + mbrNm + " / " + odrLstRgstDt);
+		var Id = $(this).text;
+		$("#staticBackdropLabel").html(Id);
 // 		$("#staticBackdropLabel").empty();
 // 		$("#staticBackdropLabel").empty();
 // 		$("div[class=modal-body]").empty();
@@ -137,7 +139,13 @@ $().ready(function() {
 	$("#btn-complete02").click(function() {
 		var checkLen = $(".check-idx02:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
@@ -166,7 +174,13 @@ $().ready(function() {
 		            location.reload(); //새로고침
 		        }
 		        else {
-					alert(response.errorCode + " / " + response.message);
+		        	Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 		    }
 		});
@@ -177,7 +191,13 @@ $().ready(function() {
 	$("#btn-cancle02").click(function() {
 		var checkLen = $(".check-idx02:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("주문취소 ? ")) {
@@ -207,7 +227,13 @@ $().ready(function() {
 		            location.reload(); //새로고침
 		        }
 		        else {
-					alert(response.errorCode + " / " + response.message);
+		        	Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 		    }
 		});
@@ -216,7 +242,13 @@ $().ready(function() {
 	$("#btn-complete03").click(function() {
 		var checkLen = $(".check-idx03:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
@@ -245,7 +277,13 @@ $().ready(function() {
 		            location.reload(); //새로고침
 		        }
 		        else {
-					alert(response.errorCode + " / " + response.message);
+		        	Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 		    }
 		});
@@ -256,7 +294,13 @@ $().ready(function() {
 	$("#btn-cancle03").click(function() {
 		var checkLen = $(".check-idx03:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("주문취소 ? ")) {
@@ -286,11 +330,52 @@ $().ready(function() {
 		            location.reload(); //새로고침
 		        }
 		        else {
-					alert(response.errorCode + " / " + response.message);
+		        	Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 		    }
 		});
-	})
+	});
+	
+	var url;
+	$(".open-layer").click(function(event) {
+		var mbrId = $(this).attr('val');
+		$("#layer_popup").css({
+		    "padding": "5px",
+			"top": event.pageY,
+			"left": event.pageX,
+			"backgroundColor": "#FFF",
+			"position": "absolute",
+			"border": "solid 1px #222",
+			"z-index": "10px"
+		}).show();
+		if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+			url = "cannot"
+		} else {
+			url = "${context}/nt/ntcreate/" + mbrId
+		}
+	});
+	$(".send-memo-btn").click(function() {
+		if (url !== "cannot") {
+			location.href = url;
+		} else {
+			alert("본인에게 쪽지를 보낼 수 없습니다.");
+		}
+	});
+	$('body').on('click', function(event) {
+		if (!$(event.target).closest('#layer_popup').length) {
+			$('#layer_popup').hide();
+		}
+	});
+	$(".close-memo-btn").click(function() {
+		url = undefined;
+		$("#layer_popup").hide();
+	});
 	
 	
 });
@@ -386,7 +471,12 @@ function movePage(pageNo) {
 														<td>${ordLst.odrLstId}</td>							
 														<td>${ordLst.mbrVO.mbrNm}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.mdfyr}</td>							
+														<td class="ellipsis"
+															onclick="event.cancelBubble=true">
+															<a class="open-layer" href="javascript:void(0);" 
+															    val="${ordLst.mdfyrMbrVO.mbrId}">
+																${ordLst.mdfyr eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : ordLst.mdfyr}</a>
+														</td>
 														<td>${ordLst.mdfyDt}</td>							
 													</tr>
 												</c:if>
@@ -439,7 +529,12 @@ function movePage(pageNo) {
 														<td>${ordLst.odrLstId}</td>							
 														<td>${ordLst.mbrVO.mbrNm}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
-														<td>${ordLst.mdfyr}</td>							
+														<td class="ellipsis"
+															onclick="event.cancelBubble=true">
+															<a class="open-layer" href="javascript:void(0);" 
+															    val="${ordLst.mdfyrMbrVO.mbrId}">
+																${ordLst.mdfyr eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : ordLst.mdfyr}</a>
+														</td>							
 														<td>${ordLst.mdfyDt}</td>							
 													</tr>
 												</c:if>
@@ -481,7 +576,12 @@ function movePage(pageNo) {
 												<td>${ordLst.odrLstId}</td>							
 												<td>${ordLst.mbrVO.mbrNm}</td>							
 												<td>${ordLst.odrLstRgstDt}</td>							
-												<td>${ordLst.mdfyr}</td>							
+												<td class="ellipsis"
+													onclick="event.cancelBubble=true">
+													<a class="open-layer" href="javascript:void(0);" 
+													    val="${ordLst.mdfyrMbrVO.mbrId}">
+														${ordLst.mdfyr eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : ordLst.mdfyr}</a>
+												</td>
 												<td>${ordLst.mdfyDt}</td>							
 											</tr>
 										</c:forEach>
@@ -524,6 +624,21 @@ function movePage(pageNo) {
 	    </div>
      		<!-- /contents -->
      		
+     <!-- popup-layer -->
+     <div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-mail-send' ></i>
+				쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-x'></i>
+				닫기</a>
+			</div>
+		</div>
+	</div>
 
 	<jsp:include page="../include/closeBody.jsp" />
 	

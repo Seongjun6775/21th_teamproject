@@ -29,13 +29,28 @@ $().ready(function() {
 			
 			if (response.status == "200 OK") {
 				console.log("200임")
-				alert(response.message);
-				var evntId = document.getElementById("evntId").value;
-				location.href = "${context}/evnt/detail/"+evntId;
+				/* alert(response.message); */
+				Swal.fire({
+			    	  icon: 'success',
+			    	  title: response.message,
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				}).then((result)=>{
+					if(result.isConfirmed){
+						var evntId = document.getElementById("evntId").value;
+						location.href = "${context}/evnt/detail/"+evntId;
+					}
+				});
 				//location.reload(); // 새로고침
 			} else {
 				console.log("안됨")
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		}, {"orgnFlNm" : "uploadFile"})
    });

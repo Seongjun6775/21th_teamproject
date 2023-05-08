@@ -15,10 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.common.service.MailSendService;
 import com.ktds.fr.common.util.ObjectUtils;
 import com.ktds.fr.hr.dao.HrDAO;
 import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.mbr.dao.MbrDAO;
+import com.ktds.fr.mbr.vo.MbrVO;
 
 @Service
 public class HrServiceImpl implements HrService {
@@ -32,9 +34,12 @@ public class HrServiceImpl implements HrService {
 	@Autowired
 	private ChSrlDAO chSrlDAO;
 	
+	@Autowired
+	private MailSendService mailSendService;
+	
 	// 채용 지원서 작성 시 업로드된 파일이 저장될 경로입니다.
-	/* @Value("${upload.hr.path:/franchise-prj/files/hr/}") */
-	@Value("${upload.hr.path:/files/hr/}")
+	@Value("${upload.hr.path:/franchise-prj/files/hr/}")
+	/* @Value("${upload.hr.path:/files/hr/}") */
 	private String filePath;
 
 	/**
@@ -288,7 +293,16 @@ public class HrServiceImpl implements HrService {
 		// 미채용 클릭 시 에러가 나서 추가했습니다.
 		// hrAprYn값이 'N'이라면, 그 채용 지원의 상태만 '미채용'으로 변경시키고 끝이 납니다.
 		if (hrVO.getHrAprYn().equals("N")) {
-			return hrDAO.updateHrAprByHrId(hrVO) > 0;
+			
+			boolean updateResult = hrDAO.updateHrAprByHrId(hrVO) > 0;
+			if(updateResult) {
+				MbrVO mbrVO = mbrDAO.readOneMbrByMbrId(hrVO.getMbrVO().getMbrId());
+				hrVO.getMbrVO().setMbrNm(mbrVO.getMbrNm());
+				hrVO.getMbrVO().setMbrEml(mbrVO.getMbrEml());
+				mailSendService.makeHrEamilForm(hrVO);
+			}
+			
+			return updateResult; 
 		}
 		
 		boolean updateResult = hrDAO.updateHrAprByHrId(hrVO) > 0;
@@ -298,6 +312,10 @@ public class HrServiceImpl implements HrService {
 		mbrDAO.updateOneMbrLvlAndStrId(hrVO.getMbrVO());
 		hrVO.getMbrVO().setOriginMbrLvl("001-04");
 		chSrlDAO.createOneChHist(hrVO.getMbrVO());
+		MbrVO mbrVO = mbrDAO.readOneMbrByMbrId(hrVO.getMbrVO().getMbrId());
+		hrVO.getMbrVO().setMbrNm(mbrVO.getMbrNm());
+		hrVO.getMbrVO().setMbrEml(mbrVO.getMbrEml());
+		mailSendService.makeHrEamilForm(hrVO);
 		return updateResult;
 	}
 	

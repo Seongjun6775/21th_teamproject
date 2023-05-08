@@ -29,7 +29,13 @@
 		$("#btn-updateDelete").click(function() {
 			
 	      if(!confirm("삭제 하시겠습니까?")){
-				alert("취소되었습니다.")		
+	    	  Swal.fire({
+			    	  icon: 'success',
+			    	  title: '취소되었습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("취소되었습니다.") */		
 			} 
 	      else{
 				$.post(							
@@ -42,11 +48,26 @@
 						// 3. 결과 처리
 						function(response) {
 							if (response.status == "200 OK") {
-								alert(response.message);
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: response.message,
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}/evnt/list";
+									}
+								});
+								/* alert(response.message); */
 								//location.reload(); // 새로고침
-								location.href="${context}/evnt/list";
 							} else {
-								alert(response.errorCode + " / " + response.message);
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.errorCode + " / " + response.message); */
 							}
 						});
 					} 
@@ -69,10 +90,22 @@
 	        			// 3. 결과 처리
 	        			function(response) {
 	        				if (response.status == "200 OK") {
-	        					alert(response.message);
+	        					Swal.fire({
+							    	  icon: 'success',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+	        					/* alert(response.message); */
 	        					//location.reload(); // 새로고침
 	        				} else {
-	        					alert(response.errorCode + " / " + response.message);
+	        					Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+	        					/* alert(response.errorCode + " / " + response.message); */
 	        				}
 	        			});
 	        }

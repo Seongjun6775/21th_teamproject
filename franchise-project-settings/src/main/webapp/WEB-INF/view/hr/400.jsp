@@ -11,8 +11,17 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		alert("올바른 접근이 아닙니다.");
-		location.href = "${context}/hr/list";
+		Swal.fire({
+	    	  icon: 'error',
+	    	  title: '잘못된 접근입니다.',
+	    	  showConfirmButton: true,
+	    	  confirmButtonColor: '#3085d6'
+		}).then((result)=>{
+			if(result.isConfirmed){
+				location.href = "${context}/hr/list";
+			}
+		});
+		/* alert("올바른 접근이 아닙니다."); */
 	});
 </script>
 </head>
