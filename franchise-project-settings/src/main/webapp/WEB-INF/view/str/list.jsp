@@ -676,14 +676,14 @@
 						</div>
 
 					<div style="display: inline-block;">
-						<div id="map" style="width:1000px;height:500px;margin-top:20px;display:none;"></div>
+						<div id="map" style="width:500px;height:400px;margin-top:20px;display:none;"></div>
 						
 						<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 						<script>
 						    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 						        mapOption = {
 						            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-						            level: 5 // 지도의 확대 레벨
+						            level: 3 // 지도의 확대 레벨
 						        };
 						
 						    //지도를 미리 생성
