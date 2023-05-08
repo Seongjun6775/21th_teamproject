@@ -12,6 +12,10 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
 <jsp:include page="../include/stylescript.jsp"/>
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script type="text/javascript">
@@ -230,6 +234,48 @@
 		var mdString = "${mngrBrd.mngrBrdCntnt}";
 		console.log(marked.parse(mdString)); */
 		
+		
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).attr('val');
+			$("#layer_popup").css({
+				"padding": "5px",
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+		
 	});
 </script>
 <style>
@@ -277,7 +323,9 @@
 								            ${mngrBrd.mngrBrdWrtDt}${mngrBrd.mngrBrdWrtDt eq mngrBrd.mdfyDt ? '':'(수정됨)'}   
 								        </div>
 								        <div class="etc-user">작성자 </div>
-								        <div class="etc-data">${mngrBrd.mbrVO.mbrNm}</div>	
+								        <div class="etc-data ellipsis"  onclick="event.cancelBubble=true">
+								        	<a class="open-layer" href="javascript:void(0);" val="${mngrBrd.mbrVO.mbrId}">${mngrBrd.mbrVO.mbrNm}</a>
+								        </div>	
 								    </div> 
 								</div>
 					        </div>	
@@ -317,7 +365,9 @@
 																<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
 																<li class="rpl-one fw-normal" style="float: right;"><small>${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
 																${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</small></li>								 	
-																<li class="rpl-one fw-bolder" style="margin: 10px 0; ">${rpl.mbrVO.mbrNm}</li>
+																<li class="rpl-one fw-bolder ellipsis" style="margin: 10px 0;" onclick="event.cancelBubble=true">
+																	<a class="open-layer" href="javascript:void(0);" val="${rpl.mbrVO.mbrId}">${rpl.mbrVO.mbrNm}</a>
+																</li>
 																<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''}; margin: 10px;"> ${rpl.rplCntnt } ${rpl.delYn eq 'Y' ? '[이미 삭제된 댓글입니다.]<br>' : ''}</li>
 																<div class="rplbtn">
 																	<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button>
@@ -335,7 +385,9 @@
 																<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
 																<li class="rpl-one fw-normal" style="float: right;">${rpl.rplWrtDt eq rpl.mdfyDt ? rpl.rplWrtDt : rpl.mdfyDt}
 																${rpl.rplWrtDt eq rpl.mdfyDt ? '' : '(수정됨)'}</li>								 	
-																<li class="rpl-one fw-bolder" style="margin: 10px 0 ;">${rpl.mbrVO.mbrNm}</li>
+																<li class="rpl-one fw-bolder ellipsis" style="margin: 10px 0;" onclick="event.cancelBubble=true">
+																	<a class="open-layer" href="javascript:void(0);" val="${rpl.mbrVO.mbrId}">${rpl.mbrVO.mbrNm}</a>
+																</li>
 																<li class="replace" id="cntnt" style="${rpl.delYn eq 'Y' ? 'color: #f00' : ''};">${rpl.delYn eq 'Y' ? '이미 삭제된 댓글입니다. ' : rpl.rplCntnt}</li>
 																<div class="rplbtn">
 																	<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button> 
@@ -369,5 +421,20 @@
 					</article>
 				</div>	
 			</div>
+			
+	<!-- layer-popup -->
+		<div class="layer_popup" id="layer_popup" style="display: none;">
+			<div class="popup_box">
+				<div class="popup_content">
+					<a class="send-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
+				</div>
+				<div>
+					<a class="close-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-x'></i>닫기</a>
+				</div>
+			</div>
+		</div>
+			
 <jsp:include page="../include/closeBody.jsp" />
 </html>

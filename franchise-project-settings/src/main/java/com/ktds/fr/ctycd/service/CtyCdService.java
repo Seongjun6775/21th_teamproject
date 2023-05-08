@@ -10,5 +10,6 @@ public interface CtyCdService {
 	
 	// 지점조회
 	public List<CtyCdVO> read(String lctId);
+	public List<CtyCdVO> readCtyInLct(String lctId);
 	
 }

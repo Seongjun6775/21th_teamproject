@@ -133,14 +133,14 @@ public class RestOdrDtlController {
 		
 		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
 		
-		for ( int i = 0 ; i < groupStr.size(); i++ ) {
-			System.out.println(i + " / " + groupStr.get(i).getLctCdVO().getLctId()
-			+ " / " + groupStr.get(i).getLctCdVO().getLctNm()
-			+ " / " + groupStr.get(i).getCtyCdVO().getCtyId()
-			+ " / " + groupStr.get(i).getCtyCdVO().getCtyNm()
-			+ " / " + groupStr.get(i).getStrVO().getStrId()
-			+ " / " + groupStr.get(i).getStrVO().getStrNm());
-		}
+//		for ( int i = 0 ; i < groupStr.size(); i++ ) {
+//			System.out.println(i + " / " + groupStr.get(i).getLctCdVO().getLctId()
+//			+ " / " + groupStr.get(i).getLctCdVO().getLctNm()
+//			+ " / " + groupStr.get(i).getCtyCdVO().getCtyId()
+//			+ " / " + groupStr.get(i).getCtyCdVO().getCtyNm()
+//			+ " / " + groupStr.get(i).getStrVO().getStrId()
+//			+ " / " + groupStr.get(i).getStrVO().getStrNm());
+//		}
 		
 		return groupStr;
 	}

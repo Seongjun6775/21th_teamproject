@@ -278,5 +278,10 @@ public class HrController {
 		}
 	}
 	
+	@GetMapping("/hr/hrindex")
+	public String viewHrIndexPage(@SessionAttribute("__MBR__") MbrVO mbrVO, Model model) {
+		model.addAttribute("mbrVO", mbrVO);
+		return "hr/hrindex";
+	}
 
 }

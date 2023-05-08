@@ -46,6 +46,10 @@ $().ready(function() {
     // 시작 시 화면 내용 채우기
 	sumMonth();
 	groupPrdt($("#clickDaySave").val());
+	
+	ctyList($("#search-keyword-lct").val());
+	strList();
+	strList();
 	prdtList();
     
 	
@@ -89,7 +93,21 @@ $().ready(function() {
 		} else {
 			var prdtId = $("#search-keyword-prdt").val();
 		}
-		sumMonth(prdtId);
+		var lct = $("#search-keyword-lct").val();
+		if ($(this).attr("id") == "search-keyword-lct") {
+			ctyList($(this).val());
+			strList($(this).val());
+			var cty = "";
+			var str = "";
+		} else if ($(this).attr("id") == "search-keyword-cty") {
+			strList(lct, $(this).val());
+			var cty = $("#search-keyword-cty").val();
+			var str = "";
+		} else {
+			var cty = $("#search-keyword-cty").val();
+			var str = $("#search-keyword-str").val();
+		}
+		sumMonth(prdtId, lct, cty, str);
 		startEnd($("#clickMonthSave").val(), prdtId);
 		groupPrdt($("#clickDaySave").val() != "" ? $("#clickDaySave").val() : $("#clickMonthSave").val())
 	});
@@ -110,8 +128,9 @@ $().ready(function() {
 			$(this).text("금액 보기");
 			$("#unit").text("단위: 개");
 		}
-		sumMonth();
-		startEnd($("#clickMonthSave").val());
+		var prdtId = $("#search-keyword-prdt").val();
+		sumMonth(prdtId);
+		startEnd($("#clickMonthSave").val(), prdtId);
 	}).mouseover(function() {
 		if ($("#checkCntPrc").is(":checked")) {
 			$(this).text("금액 보기");
@@ -335,12 +354,18 @@ function startEnd(oneday, prdtId) {
 	})
 }
 
-function sumMonth(prdtId, prdtNm) {
+function sumMonth(prdtId, lct, cty, str) {
 	
 	var odrDtlVO = {
-		odrDtlStrId : $("#search-keyword-str").val(),
+		odrDtlStrId : str,
 		prdtVO :  {prdtSrt : $("#search-keyword-prdtSrt").val()},
-		odrDtlPrdtId : prdtId
+		odrDtlPrdtId : prdtId,
+		odrLstVO : {
+			strVO : {
+				strLctn: lct,
+				strCty: cty
+			}
+		}
 	}
 	
 	$.ajax({
@@ -398,6 +423,56 @@ function sumMonth(prdtId, prdtNm) {
 	})
 }
 
+function ctyList(lct) {
+	
+	var ctyVO = {
+		lctId : lct
+	}
+	$.ajax({
+		url: "${context}/api/cty/ctyInLct",
+		type: "POST",
+		contentType: "application/json",
+		data: JSON.stringify(ctyVO),
+		success: function(data) {
+			
+			var selectbox = $("#search-keyword-cty");
+			selectbox.empty();
+		    selectbox.append($("<option value=''>전체</option>"));
+			for (var i = 0; i < data.length; i++) {
+			    var id = data[i].ctyId;
+			    var nm = data[i].ctyNm;
+			    var op = $("<option value='"+id+"'>"+nm+"</option>")
+			    selectbox.append(op);
+			}
+		}
+	})
+}
+function strList(lct, cty) {
+	
+	var str = {
+		strLctn : lct,
+		strCty : cty
+	}
+	$.ajax({
+		url: "${context}/api/str/readAllLctCty",
+		type: "POST",
+		contentType: "application/json",
+		data: JSON.stringify(str),
+		success: function(data) {
+			
+			var selectbox = $("#search-keyword-str");
+			selectbox.empty();
+		    selectbox.append($("<option value=''>전체</option>"));
+			for (var i = 0; i < data.length; i++) {
+			    var id = data[i].strId;
+			    var nm = data[i].strNm;
+			    var op = $("<option value='"+id+"'>"+nm+"</option>")
+			    selectbox.append(op);
+			}
+		}
+	})
+}
+
 function prdtList(srt) {
 	
 	var prdtVO = {
@@ -432,7 +507,7 @@ function prdtList(srt) {
 <body>
 	
 	<jsp:include page="../include/openBody.jsp" />
-
+		
 		<input id="clickMonthSave" type="text" value="" style="display: none;">
 		<input id="clickDaySave" type="text" value="" style="display: none;">
 		<input id="checkCntPrc" type="checkbox" value="" style="display: none;">
@@ -442,59 +517,83 @@ function prdtList(srt) {
 			<span class="fs-5 fw-bold">상품별 매출 <a href="${context}/payment/">기간조회용</a> </span>
 		</div>
 
-		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-			<div class="top-bar">
-				<div>
+		<!-- sticky -->
+		<div class="menu-admin-sticky">
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+				<div class="top-bar">
 					<button id="btn-type" type="button" class="btn btn-outline-warning btn-default" >금액 보기</button>
-					<label for="search-keyword-str" class="col-form-label">조회 매장</label>
-					<select name="selectFilter"
-							id="search-keyword-str"
-							class="form-select" 
-							<c:if test="${sessionScope.__MBR__.mbrLvl ne '001-01'}"> disabled </c:if>
-							style="width:200px;">
-						<option value="">전체</option>
-						<c:choose>
-							<c:when test="${not empty strList}">
-								<c:forEach items="${strList}"
-											var="str">
-									<c:if test="${str.useYn eq 'Y'}">
-										<option value="${str.strId}">${str.strNm} (${str.strId})</option>
-									</c:if>
-								</c:forEach>
-							</c:when>
-						</c:choose>
-					</select>
+					<div>
+						<label for="search-keyword-lct" class="col-form-label">지역</label>
+						<select name="selectFilter"
+								id="search-keyword-lct"
+								class="form-select width100" 
+								<c:if test="${sessionScope.__MBR__.mbrLvl ne '001-01'}"> disabled </c:if>>
+							<option value="">전체</option>
+							<c:choose>
+								<c:when test="${not empty lctList}">
+									<c:forEach items="${lctList}"
+												var="lct">
+										<option value="${lct.lctId}">${lct.lctNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
+					</div>
+					<div>
+						<label for="search-keyword-cty" class="col-form-label">도시</label>
+						<select name="selectFilter"
+								id="search-keyword-cty"
+								class="form-select width100" 
+								<c:if test="${sessionScope.__MBR__.mbrLvl ne '001-01'}"> disabled </c:if>>
+						</select>
+					</div>
+					<div>
+						<label for="search-keyword-str" class="col-form-label">매장명</label>
+						<select name="selectFilter"
+								id="search-keyword-str"
+								class="form-select width200" 
+								<c:if test="${sessionScope.__MBR__.mbrLvl ne '001-01'}"> disabled </c:if>>
+<!-- 							<option value="">전체</option> -->
+<%-- 							<c:choose> --%>
+<%-- 								<c:when test="${not empty strList}"> --%>
+<%-- 									<c:forEach items="${strList}" --%>
+<%-- 												var="str"> --%>
+<%-- 										<c:if test="${str.useYn eq 'Y'}"> --%>
+<%-- 											<option value="${str.strId}">${str.strNm} (${str.strId})</option> --%>
+<%-- 										</c:if> --%>
+<%-- 									</c:forEach> --%>
+<%-- 								</c:when> --%>
+<%-- 							</c:choose> --%>
+						</select>
+					</div>
+					<div>
+						<label for="search-keyword-prdtSrt" class="col-form-label">상품분류</label>
+						<select name="selectFilter"
+								id="search-keyword-prdtSrt"
+								class="form-select width140">
+							<option value="">전체</option>
+							<c:choose>
+								<c:when test="${not empty srtList}">
+									<c:forEach items="${srtList}"
+												var="srt">
+										<option value="${srt.cdId}">${srt.cdNm}</option>
+									</c:forEach>
+								</c:when>
+							</c:choose>
+						</select>
+					</div>
+					<div>
+						<label for="search-keyword-prdt" class="col-form-label">상품이름</label>
+						<select name="selectFilter"
+								id="search-keyword-prdt"
+								class="form-select width140">
+						</select>
+					</div>
+					<button id="btn-search" class="btn btn-outline-success btn-default" type="submit" >Search</button>
 				</div>
-				<div>
-					<label for="search-keyword-prdtSrt" class="col-form-label">상품분류</label>
-					<select name="selectFilter"
-							id="search-keyword-prdtSrt"
-							class="form-select" 
-							style="width:140px;">
-						<option value="">전체</option>
-						<c:choose>
-							<c:when test="${not empty srtList}">
-								<c:forEach items="${srtList}"
-											var="srt">
-									<option value="${srt.cdId}">${srt.cdNm}</option>
-								</c:forEach>
-							</c:when>
-						</c:choose>
-					</select>
-				</div>
-				<div>
-					<label for="search-keyword-prdt" class="col-form-label">상품이름</label>
-					<select name="selectFilter"
-							id="search-keyword-prdt"
-							class="form-select" 
-							style="width:140px;">
-					</select>
-				</div>
-				<button id="btn-search" class="btn btn-outline-success btn-default" type="submit" >Search</button>
 			</div>
 		</div>
-		
-		
+			
 		
 		
 	
@@ -575,7 +674,7 @@ function prdtList(srt) {
 		</div>
 		
 		<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; margin: 20px;">
-			<div id="myChart" class="overflow chart" style="width: 100%;"></div>
+			<div id="myChart" class="overflow chart"></div>
 		</div>	
 		
 	<jsp:include page="../include/closeBody.jsp" />
