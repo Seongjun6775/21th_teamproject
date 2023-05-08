@@ -32,7 +32,7 @@
 			$("#search-keyword-startdt").val("");
 			$("#search-keyword-enddt").val("");
 		});
-		$("#mbrLvl, #search-keyword-delYn").change(function(){
+		$("#mbrLvl, #search-keyword-delYn, #listSize").change(function(){
 			movePage(0);
 		});
 	});
@@ -43,12 +43,19 @@
 		var startDt = $("#search-keyword-startdt").val();
 		var endDt = $("#search-keyword-enddt").val();
 		var delYn = $("#search-keyword-delYn").val();
+		var viewCnt = parseInt($("#listSize option:selected").val());
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
 		if(intStartDt > intEndDt){
-			alert("시작 일자를 확인해 주세요");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '시작 일자를 확인해 주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+	    	});
+			/* alert("시작 일자를 확인해 주세요");*/
 			return;
 		}
 		var queryString = "mbrLvl=" + mbrLvl;
@@ -56,6 +63,7 @@
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt=" + endDt;
 		queryString += "&delYn=" + delYn;
+		queryString += "&viewCnt=" + viewCnt;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href="${context}/mbr/list?" + queryString;
@@ -83,7 +91,15 @@
 				</div>
 				<!-- 조회영역 -->
 				<div class="admin_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
-					<div style="margin: 13px;">총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
+					<div style="margin: 13px;">
+						총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건 / 게시물 개수
+						<select id="listSize" name="viewCnt" class="select-align-center">
+							<option value="10" ${mbrVO.viewCnt eq 10 ? 'selected' : ''}>10개</option>
+							<option value="30" ${mbrVO.viewCnt eq 30 ? 'selected' : ''}>30개</option>
+							<option value="50" ${mbrVO.viewCnt eq 50 ? 'selected' : ''}>50개</option>
+							<option value="100" ${mbrVO.viewCnt eq 100 ? 'selected' : ''}>100개</option>
+						</select>
+					</div>
 					<table class="table caption-top table-hover" style="text-align: center;">
 						<thead class="table-secondary " style="border-bottom: 2px solid #adb5bd;" >
 							<tr>

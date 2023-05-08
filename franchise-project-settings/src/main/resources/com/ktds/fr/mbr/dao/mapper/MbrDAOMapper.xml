@@ -128,7 +128,7 @@
 			resultType="com.ktds.fr.mbr.vo.MbrVO">
 	    <include refid="Mbrcommon.pageHeader" />
 		SELECT M.MBR_ID PK_COL
-		     , DENSE_RANK() OVER(ORDER BY M.MBR_NM ASC) RNUM
+		     , DENSE_RANK() OVER(ORDER BY M.MBR_ID ASC) RNUM
 			 , M.MBR_ID
 			 , M.MBR_NM
 			 , M.MBR_EML

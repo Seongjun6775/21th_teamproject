@@ -74,7 +74,13 @@
 			var checkLen = $(".check-idx:checked").length;
 			
 			if(checkLen == 0){
-				alert("삭제할 리뷰가 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '삭제할 리뷰가 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("삭제할 리뷰가 없습니다."); */
 				return;
 			}
 			if(confirm("정말 삭제하시겠습니까?")) {
@@ -84,7 +90,13 @@
 					var myMbrLvl = "${mbrVO.mbrLvl}";
 					var mbrId = $(this).closest("tr").find(".open-layer").text();
 					if (myMbrLvl == "001-04" && myMbrId != mbrId) {
-						alert("자신의 리뷰만 삭제 가능합니다.");
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: '자신의 리뷰만 삭제 가능합니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert("자신의 리뷰만 삭제 가능합니다."); */
 						return;		
 					}
 					console.log($(this).val());
@@ -92,11 +104,26 @@
 				});
 				$.post("${context}/api/rv/delete", form.serialize(), function(response){
 					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-						alert("리뷰가 삭제되었습니다.")
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '리뷰가 삭제되었습니다.',
+					    	  showConfirmButton: true,
+					    	  confirmButtonColor: '#3085d6'
+						}).then((result)=>{
+							if(result.isConfirmed){
+								location.reload(); //새로고침
+							}
+						});
+						/* alert("리뷰가 삭제되었습니다.") */
 					}
 					else{
-						alert(response.errorCode + "권한이 없습니다." + response.message);
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: response.message,
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert(response.errorCode + "권한이 없습니다." + response.message); */
 					}
 				})
 			}

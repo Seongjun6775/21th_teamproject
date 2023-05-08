@@ -137,7 +137,13 @@ $().ready(function() {
 	$("#btn-complete02").click(function() {
 		var checkLen = $(".check-idx02:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
@@ -166,7 +172,13 @@ $().ready(function() {
 		            location.reload(); //새로고침
 		        }
 		        else {
-					alert(response.errorCode + " / " + response.message);
+		        	Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 		    }
 		});
@@ -177,7 +189,13 @@ $().ready(function() {
 	$("#btn-cancle02").click(function() {
 		var checkLen = $(".check-idx02:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("주문취소 ? ")) {
@@ -207,7 +225,13 @@ $().ready(function() {
 		            location.reload(); //새로고침
 		        }
 		        else {
-					alert(response.errorCode + " / " + response.message);
+		        	Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 		    }
 		});
@@ -216,7 +240,13 @@ $().ready(function() {
 	$("#btn-complete03").click(function() {
 		var checkLen = $(".check-idx03:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
@@ -245,7 +275,13 @@ $().ready(function() {
 		            location.reload(); //새로고침
 		        }
 		        else {
-					alert(response.errorCode + " / " + response.message);
+		        	Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 		    }
 		});
@@ -256,7 +292,13 @@ $().ready(function() {
 	$("#btn-cancle03").click(function() {
 		var checkLen = $(".check-idx03:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("주문취소 ? ")) {
@@ -286,7 +328,13 @@ $().ready(function() {
 		            location.reload(); //새로고침
 		        }
 		        else {
-					alert(response.errorCode + " / " + response.message);
+		        	Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 		    }
 		});
