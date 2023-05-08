@@ -23,18 +23,36 @@
 			console.log("${hlpDsk.hlpDskWrtId}");
 			var hlpDskWrtId = ("${hlpDsk.hlpDskWrtId}"); 
 			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			} 
-			$.get("${context}/api/hlpdsk/delete/"+ hlpDskWrtId, function(response){
-				if(response.status =="200 OK"){
-					var url= '${context}/hlpdsk/list'
-					location.replace(url); 
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			})
+			Swal.fire({
+			  title: '삭제하시겠습니까?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: '취소',
+			  confirmButtonText: '삭제'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.get("${context}/api/hlpdsk/delete/"+ hlpDskWrtId, function(response){
+						if(response.status =="200 OK"){
+							var url= '${context}/hlpdsk/list'
+							location.replace(url); 
+						}
+						else{
+							alert(response.errorCode + "/" + response.message);
+						}
+					});
+			  }
+			  else{
+				  Swal.fire(
+				      '취소',
+				      '삭제가 취소되었습니다.',
+				      'success'
+				    )
+				  return;
+			  }
+			});
+
 		});
 		$("#fix_btn").click(function(){
 			//수정

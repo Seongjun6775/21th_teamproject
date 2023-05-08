@@ -72,10 +72,11 @@
 						/* alert("계정이 잠겼습니다. 관리자에게 문의하세요."); */
 					}
 				}else{
+					var str = resp.message.split(".");
 					Swal.fire({
 				    	  icon: 'error',
 				    	  title: '입력값이 다릅니다.',
-				    	  text: resp.message,
+				    	  html: str[0]+".<br/>"+str[1]+".<br/>"+str[2],
 				    	  showConfirmButton: false,
 				    	  timer: 2500
 			    	});

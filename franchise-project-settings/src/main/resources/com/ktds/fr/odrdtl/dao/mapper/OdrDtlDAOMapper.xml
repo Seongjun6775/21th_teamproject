@@ -458,6 +458,7 @@
 <!-- 		  AND OD.MDFY_DT >= REPLACE(#{startDt}, '-' , '') -->
 <!-- 		  AND REPLACE(#{endDt}, '-', '') >= OD.MDFY_DT -->
 <!-- 		</if> -->
+		
 <!-- 		GROUP BY L.LCT_ID  -->
 <!-- 		 	   , L.LCT_NM  -->
 <!-- 		 	   , C.CTY_ID  -->
@@ -478,12 +479,13 @@
 			<select id="groupStr"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultMap="odrDtlMap">
-	 	SELECT <if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>		 	 
+	 	SELECT 		 	 
+			<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>
 		 	   STR.STR_ID
 		 	 , STR.STR_NM
 		 	 , C.CTY_ID AS "ctyCdVO.ctyId"
 		 	 , C.CTY_NM AS "ctyCdVO.ctyNm" , 
-		 	  </if>
+	 	  	</if>
 		 	   L.LCT_ID AS "lctCdVO.lctId"
 		 	 , L.LCT_NM AS "lctCdVO.lctNm"
 		 	 , SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC 

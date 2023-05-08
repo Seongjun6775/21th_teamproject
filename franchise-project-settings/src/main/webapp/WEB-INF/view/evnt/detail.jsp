@@ -84,40 +84,61 @@
 		
 		// '참여매장등록하기' 버튼 클릭 시
 		$("#btn-createEvntStr").click(function() {
-			if (!confirm("소속 매장을 이벤트 참여 매장으로 하시겠습니까?\n확인(예) 또는 취소(아니오)를 선택해주세요.")) {
-	            alert("취소(아니오)를 누르셨습니다.");
-	        } else {
-	        	var evntId = $("#evntId").val()
-	        	console.log(evntId)
-	        	$.post(
-	        			// 1. 호출할 주소
-	        			"${context}/api/evntStr/create",
-	        			// 2. 파라미터
-	        			{
-	        				evntId : $("#evntId").val(),
-	        			},
-	        			// 3. 결과 처리
-	        			function(response) {
-	        				if (response.status == "200 OK") {
-	        					Swal.fire({
-							    	  icon: 'success',
-							    	  title: response.message,
-							    	  showConfirmButton: false,
-							    	  timer: 2500
-								});
-	        					/* alert(response.message); */
-	        					//location.reload(); // 새로고침
-	        				} else {
-	        					Swal.fire({
-							    	  icon: 'error',
-							    	  title: response.message,
-							    	  showConfirmButton: false,
-							    	  timer: 2500
-								});
-	        					/* alert(response.errorCode + " / " + response.message); */
-	        				}
-	        			});
-	        }
+			Swal.fire({
+				  title: '이벤트참여매장 등록',
+				  text: "해당 매장을 이벤트 참여시키겠습니까?",
+				  icon: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '미참여',
+				  confirmButtonText: '참여'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  var evntId = $("#evntId").val()
+			        	console.log(evntId)
+			        	$.post(
+			        			// 1. 호출할 주소
+			        			"${context}/api/evntStr/create",
+			        			// 2. 파라미터
+			        			{
+			        				evntId : $("#evntId").val(),
+			        			},
+			        			// 3. 결과 처리
+			        			function(response) {
+			        				if (response.status == "200 OK") {
+			        					Swal.fire({
+									    	  icon: 'success',
+									    	  title: response.message,
+									    	  showConfirmButton: false,
+									    	  timer: 2500
+										});
+			        					/* alert(response.message); */
+			        					//location.reload(); // 새로고침
+			        				} else {
+			        					Swal.fire({
+									    	  icon: 'error',
+									    	  title: response.message,
+									    	  showConfirmButton: false,
+									    	  timer: 2500
+										});
+			        					/* alert(response.errorCode + " / " + response.message); */
+			        				}
+			        			});
+				  }else{
+					  Swal.fire({
+				    	  icon: 'success',
+				    	  title: '미참여 하셨습니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+				  }
+				});
+// 			if (!confirm("소속 매장을 이벤트 참여 매장으로 하시겠습니까?\n확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+// 	            alert("취소(아니오)를 누르셨습니다.");
+// 	        } else {
+	        	
+// 	        }
 		});
 		
 		//'목록으로'버튼 누르면 뒤로 돌아가기

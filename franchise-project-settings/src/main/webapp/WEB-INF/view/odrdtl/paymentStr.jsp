@@ -23,6 +23,7 @@
    rel='stylesheet'>
 
 <script type="text/javascript">
+   var test;
    var dataSet = [];
    
    function secId(mbrId) {
@@ -117,13 +118,27 @@
    }
    var ctyNm1;
    $().ready(function() {
+	   
+// 	   <tr>
+//        <th>지역명</th>
+//        <c:if test="${ctyCdVO.ctyNm ne null}"> 
+//            <th>도시명</th>
+//            <th>매장이름</th>
+//        </c:if>
+//        <th>판매총액</th> 
+//     	</tr>
 
+		
+	  
+	   
       console.log("ready function!")
       var ajaxUtil = new AjaxUtil();
 
       groupStr();
 
       $("#btn-search").click(function() {
+    	  
+    	  
          groupStr();
       })
 
@@ -187,7 +202,9 @@
 
 
    function groupStr() {
-
+	   
+	  
+	   
       console.log("strLctn : " + $("#search-keyword-strLctn").val() + "\n"
             + "strCty : " + $("#search-keyword-strCty").val() + "\n"
             + "startDt : " + $("#search-keyword-startdt").val() + "\n"
@@ -209,7 +226,8 @@
          dataType : "json",
          data : JSON.stringify(odrDtlVO),
          success : function(data) {
-
+//         	test = data
+        	console.log(data); 
             var pay = 0;
             var max = 0;
             var min = 0;
@@ -341,19 +359,8 @@
       style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 
       <div id="paymentTotal"></div>
-	${ctyNm}  
       <table class="table table-striped table-sm table-hover align-center">
-         <thead class="table-secondary">
-            <tr>
-               <th>지역명</th>
-               <c:if test="${ctyCdVO.ctyNm ne null}"> 
-               <th>도시명</th>
-               <th>매장이름</th>
-<!--                <th>총수량</th> -->      
-               </c:if>
-               <th>판매총액</th> 
-          	    
-            </tr>
+         <thead class="table-secondary" id="mk-thead">
          </thead>
          <tbody id="paymentStr" class="table-group-divider">
          </tbody>
