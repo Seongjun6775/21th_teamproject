@@ -119,6 +119,49 @@
 			$("#mdfyr").val("${mbrVO.mbrId}");
 			$("#mdfyDt").val("${strVO.mdfyDt}");
 			$("#useYn").prop("checked", false);
+			
+			$("#strImg").attr("src", "${context}/img/default_photo.jpg");
+		});
+		
+		$("tbody").children("tr").click(function() {
+			
+			var uuidFlNm = data.uuidflnm;
+			if (uuidFlNm==""){
+				uuidFlNm= "errorFileNameIsNull";
+			}
+			$("#strImg").attr("src", "${context}/str/img/" + uuidFlNm + "/");
+		});
+		
+		$("#strFile").change(function() {
+			var file = $(this)[0].files;
+			console.log(file);
+			
+			if(file.length > 0) {
+				var fileReader = new FileReader();
+				fileReader.onload = function(data) {
+					// FileReader 객체가 로드 됐을 떄,
+					console.log(data);
+					$("#strImg").attr("src", data.target.result);
+				}
+				fileReader.readAsDataURL(file[0]);
+				$("#isDeleteImg").val("Y");
+				
+			} else {
+				// 기본 이미지로 변경
+				$("#strFile").val("");
+				$("#strImg").attr("src", "${context}/img/default_photo.jpg")
+				$("#isDeleteImg").val("Y");
+			}
+		});
+		$("#del-img").click(function(event) {
+			event.preventDefault();
+			$("#strFile").val("");
+			$("#isDeleteImg").val("Y");
+			$("#strImg").attr("src", "${context}/img/default_photo.jpg")
+		});
+		$("#strImg").click(function() {
+			console.log("이미지 클릭했음");
+			$("#strFile").click();
 		});
 		
 		$("#delete_btn").click(function(){
@@ -475,6 +518,7 @@
 							<tr data-strid="${str.strId}" 
 							data-strnm="${str.strNm}" 
 							data-strlctn="${str.lctCdVO.lctId}" 
+							data-uuidflnm="${prdt.uuidFlNm}" 
 							data-strcty="${str.ctyCdVO.ctyId}" 
 							data-strctynm="${str.ctyCdVO.ctyNm}" 
 							data-straddr="${str.strAddr}" 
@@ -622,14 +666,32 @@
 								</div>
 							</div>
 							<div class="half-right">
+								<input type="hidden" id="isModify" value="false" />
+					
+								<div class="grid-left">
+									<div class="img-box">
+										<img src="${context}/img/default_photo.jpg" id="strImg" class="img">
+									</div>
+									<label for="strFile" class="form-control flex"
+											style="align-items: center; justify-content: space-between;">
+										매장 지도
+										<button id="del-img" class="btn btn-light">
+											<i class='bx bx-x'></i>
+										</button>
+									</label>
+									
+									<input type="file" id="strFile"  name="strFile" value=""/>
+									
+									<input type="hidden" id="isDeleteImg" name="isDeleteImg" value="N">
+								</div>
 								<div class="input-group col-12" >
 										<span class="input-group-text">매장 ID</span>
 										<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  />
-									</div>
+								</div>
 								<div class="input-group inline">
 										<span class="input-group-text">매장명</span>
 										<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
-									</div>
+								</div>
 								<div class="input-group inline">
 									<span class="input-group-text ">지역명</span>
 									<select class="form-select" name="strLctn" id="strLctn">
