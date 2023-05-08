@@ -18,13 +18,23 @@
 			<association property="strVO"
 		              javaType="com.ktds.fr.str.vo.StrVO"
 		              autoMapping="true">
-			<id property="strId" column="STR_ID" />
-		</association>
+				<id property="strId" column="STR_ID" />
+			</association>
 		</association>
 		<association property="strVO"
 		              javaType="com.ktds.fr.str.vo.StrVO"
 		              autoMapping="true">
 			<id property="strId" column="STR_ID" />
+		</association>
+		<association property="lctCdVO"
+		              javaType="com.ktds.fr.lctcd.vo.LctCdVO"
+		              autoMapping="true">
+			<id property="lctId" column="LCT_ID" />
+		</association>
+		<association property="ctyCdVO"
+		              javaType="com.ktds.fr.ctycd.vo.CtyCdVO"
+		              autoMapping="true">
+			<id property="ctyId" column="CTY_ID" />
 		</association>
 		<association property="prdtVO"
 		              javaType="com.ktds.fr.prdt.vo.PrdtVO"
@@ -367,10 +377,16 @@
 							ON OD.ODR_LST_ID = OL.ODR_LST_ID
 						  LEFT OUTER JOIN STR S
 						    ON OD.ODR_DTL_STR_ID = S.STR_ID
+						 INNER JOIN CTY_CD C
+						    ON S.STR_CTY = C.CTY_ID
+						 INNER JOIN LCT_CD L
+						    ON C.LCT_ID = L.LCT_ID
 						 WHERE OL.DEL_YN = 'N'
 						   AND OL.USE_YN = 'Y'
 						   AND OL.ODR_LST_ODR_PRCS = '003-04'
-						   AND S.USE_YN = 'Y' )
+						   AND S.USE_YN = 'Y' 
+						   AND L.LCT_ID LIKE NVL(#{lctCdVO.lctId}, '%')
+						   AND C.CTY_ID LIKE NVL(#{ctyCdVO.ctyId}, '%'))
 				 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
 				   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
 				<if test='oneDay != null and oneDay != ""'>
@@ -737,15 +753,21 @@
 								ON OD.ODR_LST_ID = OL.ODR_LST_ID
 							  LEFT OUTER JOIN STR S
 							    ON OD.ODR_DTL_STR_ID = S.STR_ID
+							 INNER JOIN CTY_CD C
+							    ON S.STR_CTY = C.CTY_ID
+							 INNER JOIN LCT_CD L
+							    ON C.LCT_ID = L.LCT_ID
 							 INNER JOIN PRDT P 
 							    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
-							 INNER JOIN CMMN_CD C 
-							    ON P.PRDT_SRT = C.CD_ID 
+							 INNER JOIN CMMN_CD CC 
+							    ON P.PRDT_SRT = CC.CD_ID 
 							 WHERE OL.DEL_YN = 'N'
 							   AND OL.USE_YN = 'Y'
 							   AND OL.ODR_LST_ODR_PRCS = '003-04'
-							   AND C.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
-							   AND S.USE_YN = 'Y' )
+							   AND CC.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
+							   AND S.USE_YN = 'Y'
+							   AND L.LCT_ID LIKE NVL(#{lctCdVO.lctId}, '%')
+							   AND C.CTY_ID LIKE NVL(#{ctyCdVO.ctyId}, '%') )
 					 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
 					   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
 					 GROUP BY ONE_DAY ) O
