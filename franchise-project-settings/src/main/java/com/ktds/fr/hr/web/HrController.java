@@ -66,6 +66,7 @@ public class HrController {
 									, @RequestParam(required=false, defaultValue = "") String searchIdx
 									, @RequestParam(required=false, defaultValue = "") String keyword
 									, Model model, HrVO hrVO) {
+		System.out.println(hrVO.getViewCnt());
 		// 접근한 계정이 최고관리자인지 확인합니다.
 		if (mbrVO.getMbrLvl().equals("001-01")) {
 			// 검색 조건을 확인하여 값을 부여합니다.

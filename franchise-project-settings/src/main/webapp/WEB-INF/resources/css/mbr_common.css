@@ -395,8 +395,9 @@ img {
 .checkGroup{
 	display: flex;
     justify-content: center;
-    height: 750px;
-    align-items: center;
+    height: auto;
+    align-items: flex-start;
+    flex-direction: column;
 }
 .checkGroup .checkBox{
 	display: flex;
@@ -441,7 +442,7 @@ img {
 .infoGroup{
 	display: flex;
     justify-content: center;
-    height: 750px;
+    height: auto;
     align-items: center;
 }
 .infoGroup .infoBox{
@@ -461,10 +462,10 @@ img {
 .info-item{
 	display: grid;
 }
-.readonly{
+/* .readonly{
 	background-color: #eaf8ff;
 	border: 1px solid;
-}
+} */
 /*find*/
 .find__box{
 	display: flex;
@@ -477,6 +478,9 @@ img {
 }
 .mt-10{
 	margin-top: 10px;
+}
+.mt-16{
+	margin-top: 16px;
 }
 /*update*/
 .update-group{
@@ -602,4 +606,8 @@ h1{
 }
 .is-hide{
   display:none;
+}
+.btn-div{
+	width: 100%;
+	text-align: right;
 }

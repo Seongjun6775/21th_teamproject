@@ -35,7 +35,13 @@
 			var checkLen = $(".check-idx:checked").length;
 			
 			if(checkLen == 0){
-				alert("체크한 대상이 없습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '체크한 대상이 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("체크한 대상이 없습니다."); */
 				return;
 			}
 			
@@ -47,11 +53,26 @@
 			
 			$.post("${context}/api/evntStr/delete", form.serialize(), function(response){
 				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-					alert("이벤트 참여가 해제되었습니다.")
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '이벤트 참여가 해제되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.reload(); //새로고침
+						}
+					});
+					/* alert("이벤트 참여가 해제되었습니다.") */
 				}
 				else{
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			})
 			
@@ -72,20 +93,19 @@
   
 </style>
 </head>
-<body>
+<body class="bg-dark bg-opacity-10 ">
 	<div style="padding: 23px 18px 23px 18px;">
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin-bottom:20px;" >
 	        <span class="fs-5 fw-bold"> 우리매장 이벤트리스트 목록 조회</span>
-	        <button id="btn-close" class="btn btn-secondary" style="float: right;">닫기</button>
       	</div>
 		<div class="content">
 			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding:30px 30px 55px 30px;">
-			<div style="display: inline-block; margin-bottom: 5px;">총 ${evntStrList.size()}건</div>
+			<div style="display: inline-block; margin:13px;">총 ${evntStrList.size()}건</div>
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 							<th><input type="checkbox" id="all-check" /></th>
-							<th style="width: 100px">이벤트 참여번호</th>
+							<th>이벤트 참여번호</th>
 							<th style="width: 200px">이벤트 ID</th>
 							<th style="width: 200px">이벤트 제목</th>
 							<th style="width: 200px">이벤트 내용</th>
@@ -150,6 +170,7 @@
 					</div>
 					<div style="position: absolute;right: 0;top: 0;">
 						<button id="btn-exitEvnts" class=" btn btn-outline-danger">이벤트 참여해제</button>
+						<button id="btn-close" class="btn btn-outline-secondary ">닫기</button>
 					</div>	
 				</div>
 			</div>

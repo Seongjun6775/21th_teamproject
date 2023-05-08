@@ -13,6 +13,10 @@
 <jsp:include page="../include/stylescript.jsp"/> 
 <%-- <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/> --%>
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />	
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {	
@@ -31,7 +35,13 @@
 		$("#delete_btn").click(function(){
 			var checkLen= $(".check_idx:checked").length;
 			if(checkLen ==0){
-				alert("삭제할 댓글이 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '삭제할 댓글이 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("삭제할 댓글이 없습니다."); */
 				return;
 			} 
 			if(!confirm("정말 삭제하시겠습니까?")){
@@ -49,7 +59,13 @@
 					location.reload(); //새로고침	
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			});
 		});
@@ -70,6 +86,47 @@
 	    $("select[name=selectFilter]").on("change", function(evetn) {
 			movePage(0);
 		});
+	    
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).attr('val');
+			$("#layer_popup").css({
+			    "padding": "5px",
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
+		});
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
+		});
+	    
 	}); 
 
 	function movePage(pageNo){
@@ -167,7 +224,9 @@
 												${rpl.mngrbrdVO.mngrBrdTtl}</a>
 											</td>
 											<td class="ellipsis">${rpl.rplCntnt} </td>
-											<td style="width: 110px;">${rpl.mbrVO.mbrNm} </td>
+											<td class="ellipsis" style="width: 110px;" onclick="event.cancelBubble=true">
+												<a class="open-layer" href="javascript:void(0);" 
+												   val="${rpl.mbrId}">${rpl.mbrVO.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : rpl.mbrVO.mbrNm}</a> </td>
 											<td style="width: 180px;">${rpl.rplWrtDt} </td>
 											<td style="width: 180px;">${rpl.mdfyDt} </td>
 											<td style="width: 40px;">${rpl.delYn} </td>
@@ -216,6 +275,22 @@
 	           				<button id="delete_btn" class="btn btn-outline-danger btn-default">삭제</button> 
 	          			</div>	
 					</div>		
-				</div>		
+				</div>
+
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-mail-send' ></i>
+				쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-x'></i>
+				닫기</a>
+			</div>
+		</div>
+	</div>
+
 <jsp:include page="../include/closeBody.jsp" />
 </html>

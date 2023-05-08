@@ -151,7 +151,6 @@ text-decoration: none;
  
  .shop_categorylist > li{
     float: left;
-    width: 16.666%;
     font-size: 1.125rem;
     line-height: 110%;
     border-left: 1px solid #ededed;
@@ -188,12 +187,12 @@ text-decoration: none;
 						<img src="${context}/img/cat4.jpg" class="d-block w-100" alt="고양이4">
 					</div>
 				</div>
-				<div style="display: flex; justify-content: center;">
+<%-- 				<div style="display: flex; justify-content: center;">
 					<div style="position: absolute; bottom: 0; display:inline-block; z-index: 1; margin-bottom: 270px;">
 						<a href="${context}/prdt/list2" style="font-size: 20px; FONT-WEIGHT: 600;"><button class="main-order-box">주문</button></a>
 						<a href="${context}/prdt/list2" style="font-size: 20px; FONT-WEIGHT: 600;"><button class="main-order-box">메뉴 더보기</button></a>
 					</div>
-				</div>
+				</div> --%>
 					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
 						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 						<span class="visually-hidden">Previous</span>
@@ -217,43 +216,48 @@ text-decoration: none;
 			</div>
 		</div>
 		<iframe width="100%" height="600" src="https://www.youtube.com/embed/y___01py2wk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-		<div style="padding:50px 100px;  background-color: #fff">
-			<h2 class="flex-center fs-1 fw-bold" style="FONT-WEIGHT:800">매장찾기</h2>
-			<p class="flex-center fw-bold" >고객님 주변에 있는 뿡어빵을 찾아보세요!</p>
-			<div class="flex-center" style="margin:20px">
-				<button class="map_btn flex-center">매장찾기</button> 
-			</div>
-			<ul class="shop_categorylist flex-center">
-				<li>
-					<img src="${context}/img/map3.gif" width="100" height="100" style="margin-left: 25%;">
-					<div class="fw-bolder flex-center flex-center">미리 주문하고 <br>픽업가능한
-					</div> 
-					<div class="fw-bold text-danger fs-5 flex-center" >오더</div>
-				</li>
-				<li>
-					<img src="${context}/img/map4.gif" width="100" height="100" style="margin-left: 25%;">
-					<div class="fw-bolder flex-center">차안에서 빠르게 <br>이용할 수 있는
-					</div>
-					<div class="fw-bold text-danger fs-5 flex-center" >드라이브 스루</div>
-				</li>
-				<li>
-					<img src="${context}/img/map1.gif" width="100" height="100" style="margin-left: 25%;">
-					<div class="fw-bolder flex-center">24시간 언제든 <br>함께할 수 있는</div>
-					<div class="fw-bold text-danger fs-5 flex-center">24시간</div>
-				</li>
-				<li>
-					<img src="${context}/img/map5.gif" width="100" height="100" style="margin-left: 25%;">
-					<div class="fw-bolder flex-center">내 차와 함께 <br>올 수 있는</div>
-					<div class="fw-bold text-danger fs-5 flex-center" >주차공간</div>
+		<div style=" position: relative; padding:50px 100px; background-color: #fff; height: 810px;" >
+			<div style="position: absolute; top: 25%; left: 30%;">
+				<h2 class="flex-center fs-1 fw-bold" style="FONT-WEIGHT:800">매장찾기</h2>
+				<p class="flex-center fw-bold" >고객님 주변에 있는 뿡어빵을 찾아보세요!</p>
+	<!-- 			<div class="flex-center" style="margin:20px">
+					<button class="map_btn flex-center">매장찾기</button> 
+				</div> -->
+				<ul class="shop_categorylist flex-center">
+					<li>
+						<img src="${context}/img/map3.gif" width="150" height="100" > 
+						<div class="fw-bolder flex-center flex-center">미리 주문하고 <br>픽업가능한
+						</div> 
+						<div class="fw-bold text-danger fs-5 flex-center m-10"  >오더</div>
 					</li>
-			</ul>
+					<li> 
+						<img src="${context}/img/map4.gif" width="150" height="100" >
+						<div class="fw-bolder flex-center">차안에서 빠르게 <br>이용할 수 있는
+						</div>
+						<div class="fw-bold text-danger fs-5 flex-center m-10 " >드라이브 스루</div>
+					</li>
+					<li>
+						<img src="${context}/img/map1.gif" width="150" height="100" >
+						<div class="fw-bolder flex-center">24시간 언제든 <br>함께할 수 있는</div>
+						<div class="fw-bold text-danger fs-5 flex-center m-10">24시간</div>
+					</li>
+					<li>
+						<img src="${context}/img/map5.gif" width="150" height="100">
+						<div class="fw-bolder flex-center">내 차와 함께 <br>올 수 있는</div>
+						<div class="fw-bold text-danger fs-5 flex-center m-10 " >주차공간</div>
+					</li>
+				</ul>
+			</div>
 		</div>
 		
 		<div style="height: 300px;">
 			<h1>이벤트 한눈에 보기 </h1>
+			
 		</div>
-			<div style="height: 300px;">
-			<h1>리뷰 한눈에 보기</h1>
+			<div style="height: 402px;">
+			<%-- <a href="#"><img src="${context}/img/채용문의.png" width="50%" height="300"></a>  --%> 
+			
+			
 		</div>
 	 </div>
 <jsp:include page="./include/footer_user.jsp" />

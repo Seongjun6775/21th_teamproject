@@ -27,5 +27,10 @@ public class CtyCdDAOImpl extends SqlSessionDaoSupport implements CtyCdDAO {
 	public List<CtyCdVO> read(String lctId) {
 		return getSqlSession().selectList("Cty.read", lctId);
 	}
+	
+	@Override
+	public List<CtyCdVO> readCtyInLct(String lctId) {
+		return getSqlSession().selectList("Cty.readCtyInLct", lctId);
+	}
 
 }

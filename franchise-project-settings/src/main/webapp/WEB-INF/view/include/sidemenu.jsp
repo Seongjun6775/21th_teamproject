@@ -13,10 +13,12 @@
 	});
 </script>
  <!-- sidebar -->
+  <div class="flex-shrink-0 p-3 bg-dark bg-opacity-75" style="width: 230px; position: fixed;top: 0;bottom: 0; overflow: auto; background-color: ${sessionScope.__MBR__.mbrLvl eq '001-02' ? '#b08d61 !important' : '#b08d61 !important'};">
   <div class="flex-shrink-0 p-3 bg-dark bg-opacity-75" style="width: 230px; position: fixed;top: 0;bottom: 0; overflow: auto; 
   		border-right: ${sessionScope.__MBR__.mbrLvl eq '001-01' ? 'solid 20px'
   		  : sessionScope.__MBR__.mbrLvl eq '001-02' ? ' solid 20px #ffbe2e'
   		  : ''};">
+
     <a href="${context}/index" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
       <img src="${context}/img/붕어빵.png" width="30" height="24" class="rounded" style="margin: 8px;"/>
       <span class="text-light fs-5 fw-semibold">프렌차이즈</span> 
@@ -68,6 +70,8 @@
             <li class="rounded"><a data-href="${context}/str/odrlst" href="${context}/str/odrlst" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문관리</a></li>
             <li class="rounded"><a data-href="${context}/str/completeOdr" href="${context}/str/completeOdr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">처리주문조회</a></li>
               <li class="rounded"><a data-href="${context}/payment" href="${context}/payment/monthly" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매출관리</a></li>
+<%--               <li class="rounded"><a data-href="${context}/payment" href="${context}/payment" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매출관리</a></li> --%>
+            <li class="rounded"><a data-href="${context}/paymentStr" href="${context}/paymentStr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장별 매출관리</a></li>
           </ul>
         </div>
       </li>
@@ -110,7 +114,6 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 	        <li class="rounded"><a data-href="${context}/mngrbrd/list" href="${context}/mngrbrd/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">관리자게시판</a></li>
             <li class="rounded"><a data-href="${context}/rpl/list" href="${context}/rpl/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">댓글관리</a></li>
-            <li class="rounded"><a data-href="${context}/hlpdsk/list" href="${context}/hlpdsk/list" class="text-light link-dark d-inline-flex text-decoration-none rounded">고객센터</a></li>
           </ul>
         </div>
       </li>
@@ -127,9 +130,15 @@
         </div>
       </li>
       <li class="border-top my-3"></li>	
-      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/prdt/list2" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li>
+      <li class="mb-1">
+	      <a href="${context}/hlpdsk/list">
+	      <button class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" aria-expanded="false">
+	          고객센터
+	       </button></a>
+       </li>
+      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/index_user" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li>
       <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/odrlst/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문목록</a></li> 
-      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/hlpdsk/list" class="text-light link-dark d-inline-flex text-decoration-none rounded">고객센터</a></li>
     </ul>
+  </div>
   </div>
   <!-- /sidebar -->

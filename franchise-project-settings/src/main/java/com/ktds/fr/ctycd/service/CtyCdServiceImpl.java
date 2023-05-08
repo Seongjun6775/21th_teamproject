@@ -23,5 +23,10 @@ public class CtyCdServiceImpl implements CtyCdService {
 	public List<CtyCdVO> read(String lctId) {
 		return ctyCdDAO.read(lctId);
 	}
+	
+	@Override
+	public List<CtyCdVO> readCtyInLct(String lctId) {
+		return ctyCdDAO.readCtyInLct(lctId);
+	}
 
 }

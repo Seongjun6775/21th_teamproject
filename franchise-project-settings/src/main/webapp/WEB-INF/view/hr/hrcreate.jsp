@@ -34,10 +34,22 @@
 					location.href = "${context}/hr/list";
 				}
 				else if (response.status == "500") {
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 				else {
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 			}, {"hrFile": "uploadFile"});
 		});

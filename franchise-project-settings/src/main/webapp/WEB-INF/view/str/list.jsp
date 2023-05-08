@@ -13,6 +13,10 @@
 <jsp:include page="../include/stylescript.jsp" />
 <link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7121fa95573c132c57b4649cfa281f57&libraries=services"></script>
 
@@ -120,7 +124,13 @@
 		$("#delete_btn").click(function(){
 				var strId = $("#strId").val();
 				if(strId == ""){
-					alert("선택한 매장이 없습니다.")
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '선택한 매장이 없습니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("선택한 매장이 없습니다.") */
 					return;	
 				}
 				if(!confirm("정말 삭제하시겠습니까?")){
@@ -131,8 +141,13 @@
 					location.reload(); // 새로고침
 				}
 				else{
-					
-					alert(respones.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(respones.errorCode + " / " + response.message); */
 				}
 			});
 		})
@@ -141,7 +156,13 @@
 			
 				var strNm = $("#strNm").val();
 				if(strNm == ""){
-					alert("선택한 매장명이 없습니다.")
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '매장명을 입력하세요',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("선택한 매장명이 없습니다.") */
 					return;	
 				}
 				/* if(strNm == $("#strNm").val()){
@@ -150,14 +171,26 @@
 				} */
 				var strAddr = $("#strAddr").val();
 				if(strAddr == ""){
-					alert("선택한 주소가 없습니다.")
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '주소를 입력해 주세요.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("선택한 주소가 없습니다.") */
 					return;	
 				}
 				var patt = new RegExp("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}");
 				
 				// #strCallNum의 값이 patt에서 정의한 정규표현식에 맞는지 검사합니다. (틀릴 시 false를 반환합니다.)
 				if( !patt.test( $("#strCallNum").val()) ){
-					alert("'-'을 기입하지 않았거나, 전화번호가 일치하지 않습니다. 전화번호를 정확히 입력하여 주십시오.");
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '전화번호를 다시 입력해주세요.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("'-'을 기입하지 않았거나, 전화번호가 일치하지 않습니다. 전화번호를 정확히 입력하여 주십시오."); */
 				    return false;
 				}
 				/* if(strCallNum = "#strCallNum"){
@@ -167,7 +200,13 @@
 				var strOpnTm = $("#strOpnTm").val();
 				var strClsTm = $("#strClsTm").val();
 				if(strOpnTm >= strClsTm){
-					alert("선택한 오픈 시간이 클로즈 시간보다 느립니다.")
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '오픈 시간과 클로즈 시간을 확인하세요.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("선택한 오픈 시간이 클로즈 시간보다 느립니다.") */
 					return;	
 				}
 				
@@ -193,7 +232,13 @@
 						location.reload(); // 새로고침
 					}
 					else{
-						alert(response.errorCode + " / " + response.message);
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: response.message,
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert(response.errorCode + " / " + response.message); */
 						}
 					});
 				}
@@ -242,7 +287,13 @@
 						select.val(cityVal);
 					}
 					else{
-						alert("실패!");
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: '실패',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert("실패!"); */
 					}
 				})
 			}
@@ -262,9 +313,51 @@
 				        }
 					}
 					else{
-						alert("실패!");
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: '실패',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert("실패!"); */
 					}
 				})
+			});
+			
+			
+			var url;
+			$(".open-layer").click(function(event) {
+				var mbrId = $(this).attr('val');
+				$("#layer_popup").css({
+				    "padding": "5px",
+					"top": event.pageY,
+					"left": event.pageX,
+					"backgroundColor": "#FFF",
+					"position": "absolute",
+					"border": "solid 1px #222",
+					"z-index": "10px"
+				}).show();
+				if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+					url = "cannot"
+				} else {
+					url = "${context}/nt/ntcreate/" + mbrId
+				}
+			});
+			$(".send-memo-btn").click(function() {
+				if (url !== "cannot") {
+					location.href = url;
+				} else {
+					alert("본인에게 쪽지를 보낼 수 없습니다.");
+				}
+			});
+			$('body').on('click', function(event) {
+				if (!$(event.target).closest('#layer_popup').length) {
+					$('#layer_popup').hide();
+				}
+			});
+			$(".close-memo-btn").click(function() {
+				url = undefined;
+				$("#layer_popup").hide();
 			});
 			
 		});
@@ -296,6 +389,16 @@
     background-color: #0000;
     font-weight: bold;
 }
+.half-left {
+	width: 100%;
+	display: inline-block;
+	
+}
+ .half-right {
+	width: 40%;
+	display: inline-block;
+	
+}
 </style>
 </head>
 
@@ -320,12 +423,12 @@
 		</div>
 		<!-- /searchbar -->	
 		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-		<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
+			<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
 			<table class="table caption-top table-hover" style="text-align: center;">
 				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 					<tr>
 						<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
-						<th scope="col" style="width:250px; padding: 20px 20px 8px 20px;">매장명</th>
+						<th scope="col" style="width:150px; padding: 20px 20px 8px 20px;">매장명</th>
 						<th scope="col" style="width: 150px">
 							<select class="select-align-center" name="selectFilter" 
 										id="search-keyword-strLctn">
@@ -356,10 +459,9 @@
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">매장주소</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">전화번호</th>
+						<th scope="col" style="padding: 20px 20px 8px 20px;">사용여부</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px;">가맹점주ID</th>
 						<th scope="col" style=" width:240px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;">상세조회</th>
-						<th scope="col" style=" width:120px;border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;"> </th>
-						
 						<!-- <th>오픈시간</th>
 						<th>종료시간</th>
 						<th>사용여부</th> -->
@@ -395,13 +497,16 @@
 								<td>${str.strAddr}</td>
 								<td>${str.strCallNum}</td>
 								<td>${str.useYn}</td>
-								<td>
+								<td class="ellipsis"
+									onclick="event.cancelBubble=true">
 								  <c:choose>
 								    <c:when test="${empty str.mbrId}">
 								      가맹점주ID가 없습니다.
 								    </c:when>
 								    <c:otherwise>
-								      ${str.mbrId} (${str.mbrVO.mbrNm})
+								    	<a class="open-layer" href="javascript:void(0);" 
+											val="${str.mbrId}">
+											${str.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : str.mbrId}(${str.mbrVO.mbrNm})</a>
 								    </c:otherwise>
 								  </c:choose>
 								</td>
@@ -418,7 +523,7 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="9" class="no-items">
+								<td colspan="10" class="no-items">
 									등록된 매장이 없습니다.
 								</td>
 							</tr>
@@ -459,16 +564,40 @@
 			</div>
 		</div>
 		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 96.5%; margin:20px;">
-				<div class="grid-detail">
-				<h5 style="padding:10px">매장 정보</h5>
-				<form id="strdetailmst_form" class="needs-validation" style="width: 80%;">
+				<div>	
+				<h5 class="fs-5 fw-bold" style="padding:10px">매장 정보</h5>
+				<form id="strdetailmst_form" class="needs-validation" style="width: 100%;">
 					<input type="hidden" id="isModify" value="false" />
-						<div class="row g-3 " style="display: inline-block; width: 120%;">
-							<div class="input-group col-12" style="display: inline-block; width:100%; margin-bottom:8px;">
-								<div style="display: inline-block; width: 45%">
+						<div class="flex">
+							<div class="half-left" style="position: relative;">
+								<div style="display: inline-block; width: 45%">						
 									<div class="input-group inline">
 										<span class="input-group-text">점주ID</span>
 										<input class="form-control readonly"  type="text" id="mbrId" name="mbrId" maxlength="20" readonly value="${strVO.mbrId}"/>
+									</div>
+
+									<div class="input-group inline">
+								        <span class="input-group-text">연락처</span>
+								        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
+							 	    </div>	
+							 	    <div class="input-group inline">
+										<span class="input-group-text">오픈시간</span>
+										<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">종료시간</span>
+										<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
+									</div> 
+							 	    
+								</div>
+								<div style="display: inline-block; width: 45%;">
+									<div class="input-group inline">
+										<span class="input-group-text">등록자</span>
+										<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  />
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">등록일</span>
+										<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
 									</div>
 									<div class="input-group inline">
 										<span class="input-group-text">수정자</span>
@@ -478,104 +607,76 @@
 										<span class="input-group-text">수정일</span>
 										<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
 									</div>
+								</div>	
+								
+								<div style="position: absolute; bottom: 0;"> 
+									<input type="button" onclick="sample4_execDaumPostcode()" class="btn btn-outline-secondary btn-default" value="매장 찾기"><br>
+									<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
+									<input type="hidden" id="sample4_postcode" placeholder="우편번호">
+									<input type="hidden" id="sample4_sido" placeholder="지역">
+									<input type="hidden" id="sample4_sigungu" placeholder="도시">
+									<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
+									<span id="guide" style="color:#999;display:none"></span>
+									<input type="hidden" id="sample4_detailAddress" placeholder="상세주소">
+									<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 								</div>
-								<div style="display: inline-block; width: 45%;">
-									<div class="input-group col-12" >
+							</div>
+							<div class="half-right">
+								<div class="input-group col-12" >
 										<span class="input-group-text">매장 ID</span>
 										<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  />
 									</div>
-									
-									<div class="input-group inline">
-										<span class="input-group-text">등록자</span>
-										<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${mbrVO.mbrId}"  />
+								<div class="input-group inline">
+										<span class="input-group-text">매장명</span>
+										<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
 									</div>
-									<div class="input-group inline">
-										<span class="input-group-text">등록일</span>
-										<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
+								<div class="input-group inline">
+									<span class="input-group-text ">지역명</span>
+									<select class="form-select" name="strLctn" id="strLctn">
+										<option value="">지역명</option>
+										<c:choose>
+											<c:when test="${not empty lctList}">
+												<c:forEach items="${lctList}" var="lct">
+													<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</select>
+								</div>
+								
+								<div class="input-group inline">
+									<span class="input-group-text">도시명</span>
+									<select class="form-select" name="strCty" id="strCty">
+										<option value="">도시명</option>
+										<c:choose>
+											<c:when test="${not empty ctyChangedList}">
+												<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
+													<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</select>
+								</div>
+								
+								<div class="input-group inline" style="margin-bottom:10px;">
+									<span class="input-group-text">매장주소</span>
+									<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${StrVO.strAddr}"/>
+								</div>  
+						
+	
+								<div style="float:right; margin-top: 40px;" >
+									<div style="display:inline-block; margin-right:5px;"> 
+										<label class="form-check-label">사용여부</label>
+										<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value=""/>
 									</div>
+									<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
+									<button type="button" id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
 								</div>
 							</div>
 						</div>
-						
-						<div class="row g-3 " style="display: inline-block; width: 55%;">
-						<div class="input-group inline">
-							<span class="input-group-text">매장명</span>
-							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
-						</div>
-						
-						<div class="input-group inline">
-							<span class="input-group-text ">지역명</span>
-							<select class="form-select" name="strLctn" id="strLctn">
-								<option value="">지역명</option>
-								<c:choose>
-									<c:when test="${not empty lctList}">
-										<c:forEach items="${lctList}" var="lct">
-											<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-							</select>
-						</div>
-						
-						<div class="input-group inline">
-							<span class="input-group-text">도시명</span>
-							<select class="form-select" name="strCty" id="strCty">
-								<option value="">도시명</option>
-								<c:choose>
-									<c:when test="${not empty ctyChangedList}">
-										<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
-											<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
-										</c:forEach>
-									</c:when>
-								</c:choose>
-							</select>
-						</div>
-						
-						<div class="input-group inline" >
-							<span class="input-group-text">매장주소</span>
-							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${StrVO.strAddr}"/>
-						</div>
-						
-						<div class="input-group inline" >
-							<input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기"><br>
-							<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
-							<input type="hidden" id="sample4_postcode" placeholder="우편번호">
-							<input type="hidden" id="sample4_sido" placeholder="지역">
-							<input type="hidden" id="sample4_sigungu" placeholder="도시">
-							<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
-							<span id="guide" style="color:#999;display:none"></span>
-							<input type="hidden" id="sample4_detailAddress" placeholder="상세주소">
-							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
-						</div>
-						
-					    <div class="input-group inline">
-					        <span class="input-group-text">전화번호</span>
-					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
-					    </div>	
-					
-						
-						<div class="input-group inline">
-							<span class="input-group-text">오픈시간</span>
-							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
-						</div>
-						<div class="input-group inline">
-							<span class="input-group-text">종료시간</span>
-							<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
-						</div>
-						
-						<div class="inline">
-							<label class="form-check-label">사용여부</label>
-							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value=""/>
-						</div>
-						<div style="float:right; display: flex; flex-direction: row-reverse;">
-							<button type="button" id="save_btn" class="btn btn-outline-success" >등록</button>
-							<button type="button" id="new_btn" class="btn btn-outline-primary" style="margin-right: 10px;">신규</button>
-						</div>
-					</div>
-					
-				</form>
-					<div style="display: inline-block; margin-bottom: 30%;">
-						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none; margin-bottom: 30%; margin-left: 160%;left: 1%; bottom: 450px;"></div>
+
+					<div style="display: inline-block;">
+						<div id="map" style="width:1000px;height:500px;margin-top:20px;display:none;"></div>
 						
 						<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 						<script>
@@ -675,5 +776,20 @@
 					</div>
 			</div>
 		</div>
+		
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-mail-send' ></i>
+				쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-x'></i>
+				닫기</a>
+			</div>
+		</div>
+	</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

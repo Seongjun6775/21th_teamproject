@@ -19,6 +19,23 @@
 			location.href="${context}/hlpdsk/list";
 		});
 		
+		$("#delete_btn").click(function(){
+			console.log("${hlpDsk.hlpDskWrtId}");
+			var hlpDskWrtId = ("${hlpDsk.hlpDskWrtId}"); 
+			
+			if(!confirm("정말 삭제하시겠습니까?")){
+				return;
+			} 
+			$.get("${context}/api/hlpdsk/delete/"+ hlpDskWrtId, function(response){
+				if(response.status =="200 OK"){
+					var url= '${context}/hlpdsk/list'
+					location.replace(url); 
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			})
+		});
 		$("#fix_btn").click(function(){
 			//수정
 			var mngrId = $(this).val(); 
@@ -29,7 +46,13 @@
 					location.reload(); //새로고침	
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}	
 			});
 	    
@@ -49,6 +72,11 @@
 				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<header class="detailview-header">
 				    <div class="detailview-header-area">
+				    	<div style="float:right;">
+				    		<c:if test="${mbrVO.mbrLvl eq '001-01'}"> 
+								<button id="delete_btn"class="btn btn-outline-danger btn-default">삭제</button> 
+							</c:if>
+				    	</div>
 				        <div class="detailview-header-left">
 				                    <p class="list-title">${hlpDsk.hlpDskTtl}</p>
 				            <!-- 추가 정보 -->

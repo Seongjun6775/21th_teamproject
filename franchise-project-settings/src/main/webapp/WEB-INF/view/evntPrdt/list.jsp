@@ -34,7 +34,13 @@
 			var checkLen = $(".check-idx:checked").length;
 			
 			if(checkLen == 0){
-				alert("체크한 대상이 없습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '체크한 대상이 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("체크한 대상이 없습니다."); */
 				return;
 			}
 			
@@ -46,11 +52,26 @@
 			
 			$.post("${context}/api/evntPrdt/delete", form.serialize(), function(response){
 				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-					alert("이벤트 상품 등록이 해제되었습니다.")
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '이벤트 상품 등록이 해제되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.reload(); //새로고침
+						}
+					});
+					/* alert("이벤트 상품 등록이 해제되었습니다.") */
 				}
 				else{
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			})
 			
@@ -76,27 +97,32 @@
 	}
 	
 </script>
-
-
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
-<body>
+<body class="bg-dark bg-opacity-10" >
 	<div style="padding: 23px 18px 23px 18px;">	
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin-bottom:20px;" >
 	        <span class="fs-5 fw-bold"> 이벤트상품 리스트 목록 조회</span>
       	</div>
 		<div class="content">
 			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding:30px 30px 55px 30px;">
-				<div style="display: inline-block; margin-bottom: 5px;">총 ${evntPrdtList.size()}건</div>
+				<div style="display: inline-block; margin: 13px;">총 ${evntPrdtList.size()}건</div>
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
-						   <th style="width: 50px; text-align: center;"><input type="checkbox" id="all-check" /></th>
-							<th style="width: 100px">이벤트 상품 ID</th>
+						   <th style="width: 50px; text-align: center; border-radius: 6px 0 0 0;"><input type="checkbox" id="all-check" /></th>
+							<th style="width: 100px ">이벤트 상품 ID</th>
 							<th style="width: 200px">이벤트 ID</th>
 							<th style="width: 200px">상품 ID</th>
 							<th style="width: 200px">상품 이름</th>
 							<th style="width: 200px">상품 가격</th>
-							<th style="width: 200px">변경 후 가격</th>
+							<th style="width: 200px; border-radius: 0 6px 0 0;">변경 후 가격</th>
 <!-- 							<th style="width: 80px">사용유무</th> -->
 <!-- 							<th style="width: 80px">삭제여부</th> -->
 						</tr>
@@ -121,7 +147,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="6">등록된 이벤트 대상 품목 정보가 없습니다.</td>
+									<td colspan="7">등록된 이벤트 대상 품목 정보가 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>
@@ -155,8 +181,8 @@
 						</ul>
 					</div>
 					<div style="position: absolute;right: 0;top: 0;">
-						<button id="btn-close" class="btn btn-secondary" >닫기</button>
-						<button id="btn-revomeEvntPrdt" class="btn btn-danger">상품 삭제</button>
+						<button id="btn-revomeEvntPrdt" class="btn btn-outline-danger btn-default">상품 삭제</button>
+						<button id="btn-close" class="btn btn-outline-secondary btn-default" >닫기</button>
 						<%--<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button>--%>
 					</div>	
 				</div>

@@ -80,8 +80,12 @@ li{
   color: #ffbe2e
 }
 .nav-item .nav-link-right{
-font-size: 25px; FONT-WEIGHT: 550;  margin:10px; margin-top: 45px; color: #fff; padding: 10px 25px; border-radius: 25px;
+font-size: 22px; FONT-WEIGHT: 550;  margin:10px; margin-top: 45px; color: #fff; padding: 10px 25px; border-radius: 25px;
 
+}
+.qna-btn{
+font-size: 25px; FONT-WEIGHT: 550;  margin:10px; color: #fff; padding: 10px 25px; border-radius: 25px;
+background-color: #ffbe2e; text-align: center;
 }
 /* .nav-item .nav-link-right:hover{
   background-color:#0000!important;
@@ -220,7 +224,7 @@ li.dropdown > ul > li > a  {
 	            </a>
 	            <ul class="dropdown-menu">
 	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
-	              <li><a class="dropdown-item" href="/user/rv/list">리뷰관리</a></li>
+	              <li><a class="dropdown-item" href="${context}/rv/list">리뷰관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav-item dropdown">
@@ -236,7 +240,7 @@ li.dropdown > ul > li > a  {
 	              리뷰
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="/user/rv/list">리뷰</a></li>
+	              <li><a class="dropdown-item" href="${context}/user/rv/list">리뷰</a></li>
 	            </ul>
 	          </li>
 
@@ -244,10 +248,13 @@ li.dropdown > ul > li > a  {
 	        <div style="margin-right:20px;">
 	        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style=" background-color: #ffbe2e;" href="#" >채용 문의</a>
+	         	<a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
 	         </li>
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="#">고객센터</a>
+	         	<a class="nav-link-right" style=" background-color: #502416;" href="#" >채용 문의</a>
+	         </li>
+	         <li class="nav-item">
+	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list">고객센터</a>
 	         </li>
 	        </ul>
 	        </div>
@@ -277,9 +284,9 @@ li.dropdown > ul > li > a  {
 								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트</a></li>
 							</ul>
 						</li>
-						<li><a href="/user/rv/list" class="fs-4 fw-bold">리뷰</a>
+						<li><a href="${context}/user/rv/list" class="fs-4 fw-bold">리뷰</a>
 							<ul>
-								<li><a href="/user/rv/list" class="fs-6 fw-bold">리뷰</a></li>
+								<li><a href="${context}/user/rv/list" class="fs-6 fw-bold">리뷰</a></li>
 							</ul>
 						</li>
 						<li><a href="${context}/index" class="fs-4 fw-bold">관리자페이지로</a>

@@ -168,7 +168,7 @@
 		 , 'N'
 		 , #{ntcYn}
 		 , #{hrLvl}
-		 , #{hrDdlnDt})
+		 , TO_DATE(#{hrDdlnDt}, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 	
 	<select id="readOneHrByHrId"

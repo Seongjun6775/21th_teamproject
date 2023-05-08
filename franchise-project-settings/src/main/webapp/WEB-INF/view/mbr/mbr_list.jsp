@@ -13,6 +13,10 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 	$().ready(function(){
 		$("#search-btn").click(function(){
@@ -32,8 +36,49 @@
 			$("#search-keyword-startdt").val("");
 			$("#search-keyword-enddt").val("");
 		});
-		$("#mbrLvl, #search-keyword-delYn").change(function(){
+		$("#mbrLvl, #search-keyword-delYn, #listSize").change(function(){
 			movePage(0);
+		});
+		
+		// layer-popup (이름 클릭 시 쪽지보내기 창 띄우기)
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).attr('val');
+			$("#layer_popup").css({
+			    "padding": "5px",
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
+		});
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
 		});
 	});
 	
@@ -43,12 +88,19 @@
 		var startDt = $("#search-keyword-startdt").val();
 		var endDt = $("#search-keyword-enddt").val();
 		var delYn = $("#search-keyword-delYn").val();
+		var viewCnt = parseInt($("#listSize option:selected").val());
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
 		if(intStartDt > intEndDt){
-			alert("시작 일자를 확인해 주세요");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '시작 일자를 확인해 주세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+	    	});
+			/* alert("시작 일자를 확인해 주세요");*/
 			return;
 		}
 		var queryString = "mbrLvl=" + mbrLvl;
@@ -56,6 +108,7 @@
 		queryString += "&startDt=" + startDt;
 		queryString += "&endDt=" + endDt;
 		queryString += "&delYn=" + delYn;
+		queryString += "&viewCnt=" + viewCnt;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href="${context}/mbr/list?" + queryString;
@@ -83,7 +136,15 @@
 				</div>
 				<!-- 조회영역 -->
 				<div class="admin_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
-					<div style="margin: 13px;">총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건</div>
+					<div style="margin: 13px;">
+						총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건 / 게시물 개수
+						<select id="listSize" name="viewCnt" class="select-align-center">
+							<option value="10" ${mbrVO.viewCnt eq 10 ? 'selected' : ''}>10개</option>
+							<option value="30" ${mbrVO.viewCnt eq 30 ? 'selected' : ''}>30개</option>
+							<option value="50" ${mbrVO.viewCnt eq 50 ? 'selected' : ''}>50개</option>
+							<option value="100" ${mbrVO.viewCnt eq 100 ? 'selected' : ''}>100개</option>
+						</select>
+					</div>
 					<table class="table caption-top table-hover" style="text-align: center;">
 						<thead class="table-secondary " style="border-bottom: 2px solid #adb5bd;" >
 							<tr>
@@ -135,7 +196,12 @@
 											data-delYn="${mbr.delYn}"
 											>
 											<td>${fn:substring(mbr.mbrId, 0, fn:length(mbr.mbrId)-3)}***</td>
-											<td>${mbr.mbrNm}</td>
+											<td class="ellipsis"
+											onclick="event.cancelBubble=true">
+											<a class="open-layer" href="javascript:void(0);" 
+												val="${mbr.mbrId}">
+												${mbr.mbrNm eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : mbr.mbrNm}</a>
+											</td>
 											<td>${mbr.mbrEml}</td>
 											<td>${mbr.mbrLvl}</td>
 											<td>${mbr.mbrRgstrDt}</td>
@@ -187,6 +253,23 @@
 						</div>
 				</div>
       		<!-- /contents -->
+      		
+      		<div class="layer_popup" id="layer_popup" style="display: none;">
+				<div class="popup_box">
+					<div class="popup_content">
+						<a class="send-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-mail-send' ></i>
+						쪽지 보내기</a>
+					</div>
+					<div>
+						<a class="close-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-x'></i>
+						닫기</a>
+					</div>
+				</div>
+			</div>
+      		
+      		
 <jsp:include page="../include/closeBody.jsp" />
 <body>
 	

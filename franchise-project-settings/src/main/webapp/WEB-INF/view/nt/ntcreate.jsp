@@ -17,7 +17,13 @@
 	function addMbrFn(search){
 		$("#rcvrId").val(search.mbrid);
 		if($("#rcvrId").val() == "${mbrVO.mbrId}") {
-			alert("자기 자신에게 쪽지를 보낼 수 없습니다!");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '자신에게 쪽지를 보낼 수 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("자기 자신에게 쪽지를 보낼 수 없습니다!"); */
 			return;
 		}
 	}
@@ -28,7 +34,13 @@
 			// 자기 자신에게 쪽지를 보낼 수 없도록 제한했습니다.
 			// 굳이 막을 이유는 없지 않나 싶어서 고민했는데, 일단 막아 두고 나중에 필요 없다 싶으면 지우겠습니다.
 			if ($("#rcvrId").val() == $("#sndrId").val()) {
-				alert("자기 자신에게 쪽지를 보낼 수 없습니다!")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게 쪽지를 보낼 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("자기 자신에게 쪽지를 보낼 수 없습니다!") */
 				return;
 			}
 			
@@ -43,7 +55,13 @@
 					location.href="${context}/nt/ntmstrlist";
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
@@ -65,6 +83,13 @@
 	});
 
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -78,24 +103,24 @@
 							<input type="text" id="sndrId" name="sndrId" value="${mbrVO.mbrId}" class="form-control" style="display: inline;"readonly/>
 						</div>
 					</div>
-					<div class="input-group" style="display: flex; flex-direction: row; margin-bottom: 4px;">
+					<div class="input-group" style="display: flex; flex-direction: row; margin-bottom: 20px;">
 						<label for="rcvrId" class="col-form-label" style="padding: 5px; border-left: solid #ffbe2e;">수신인</label>
 						<div>
 							<input type="text" id="rcvrId" name="rcvrId" value="${rcvrId}" class="form-control" placeholder="클릭 시 회원 검색"/>
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<label for="ntTtl" style="padding: 5px; border-left: solid #ffbe2e;">쪽지 제목</label>
-						<input type="text" id="ntTtl" name="ntTtl" class="form-control"/>
+						<label for="ntTtl" style="padding: 5px; border-left: solid #ffbe2e;margin-bottom:10px;">쪽지</label>
+						<input type="text" id="ntTtl" name="ntTtl" class="form-control" placeholder="쪽지 제목"/>
 					</div>
 					<div>
-						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="4000자 까지 입력 가능합니다."
+						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="쪽지 본문 : 4000자 까지 입력 가능합니다."
 								  class="form-control"  style="word-break: bredk-all; resize:none;"></textarea>
 					</div>
 				</form>
 				<div style="float: right; margin:10px">
-					<button id="crt_btn" class="btn btn-secondary">작성</button>
-					<button id="cancel_btn" class="btn btn-danger">취소</button>
+					<button id="crt_btn" class="btn btn-outline-secondary btn-default">작성</button>
+					<button id="cancel_btn" class="btn btn-outline-danger btn-default">취소</button>
 				</div>
 			</div>
 <jsp:include page="../include/closeBody.jsp" />

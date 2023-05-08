@@ -76,7 +76,13 @@
 					location.reload();
 				}
 				else {
-					alert(response.message + "\n매장 점원에게 문의하세요.");
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  html: response.message + "<br/>매장 점원에게 문의하세요.",
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message + "\n매장 점원에게 문의하세요."); */
 				}
 			})
 			
@@ -95,16 +101,17 @@
 	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 		<span class="fs-5 fw-bold">주문목록</span>
 	</div>
-			<div>총 ${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}건</div>
+			
 			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
-			<div class="odrlst_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-				<table class="table table-striped">
-					<thead>
+			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; "> 
+				<div style="margin:13px;">총 ${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}건</div>
+				<table class="table caption-top table-hover" style="text-align: center;">
+					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 							<!-- <th><input type="checkbox" id="all_check"/></th> -->
 							<th>주문 번호</th>
 							<th>주문 일자</th>
-							<th>주문 매장</th>
+							<th>주문 매장</th> 
 							<th>주문 상태</th>
 							<th></th>
 						</tr>
@@ -144,36 +151,36 @@
 						</c:choose>
 					</tbody>
 				</table>
-			</div>
-			<div class="pagenate">
-				<ul style="list-style: none;">
-					<c:set value="${myOdrLst.size() >0 ? myOdrLst.get(0).lastPage : 0}" var="lastPage" />
-					<c:set value="${myOdrLst.size() >0 ? myOdrLst.get(0).lastGroup : 0}" var="lastGroup" />
+				<div class="pagenate">
+					<ul class="pagination" style="text-align: center;">
+						<c:set value="${myOdrLst.size() >0 ? myOdrLst.get(0).lastPage : 0}" var="lastPage" />
+						<c:set value="${myOdrLst.size() >0 ? myOdrLst.get(0).lastGroup : 0}" var="lastGroup" />
+						
+						<fmt:parseNumber var="nowGroup" value="${Math.floor(odrLstVO.pageNo / 10)}" integerOnly="true" />
+						<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+						<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+						<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+						
+						<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+						<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+						
+						
+						<c:if test="${nowGroup > 0}">
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+						</c:if>
 					
-					<fmt:parseNumber var="nowGroup" value="${Math.floor(odrLstVO.pageNo / 10)}" integerOnly="true" />
-					<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-					
-					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-					<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-					
-					
-					<c:if test="${nowGroup > 0}">
-						<li><a href="javascript:movePage(0)">처음</a></li>
-						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-					</c:if>
-				
-					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-						<li><a class="${pageNo eq odrLstVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-					</c:forEach>
-					
-					<c:if test="${lastGroup > nowGroup}">
-						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-					</c:if>
-				</ul>
+						
+						<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+							<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq odrLstVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+						</c:forEach>
+						
+						<c:if test="${lastGroup > nowGroup}">
+							<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+							<li class="page-item" ><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+						</c:if>
+					</ul>
+				</div>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
 <jsp:include page="../include/closeBody.jsp" />

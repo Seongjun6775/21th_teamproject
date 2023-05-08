@@ -42,6 +42,8 @@ public class MbrController {
 	
 	@GetMapping("/mbr/list")
 	public String viewMbrListPage(@SessionAttribute("__MBR__")MbrVO session, Model model, MbrVO mbrVO) {
+		log.info("리스트 사이즈 {}",mbrVO.getViewCnt());
+		log.info("페이지 카운트 {}",mbrVO.getPageCnt());
 		if(!session.getMbrLvl().equals("001-01")) {
 			//TODO 에러 페이지경로 따로 설정해주기 PRDT말고 공용으로
 			return "prdt/session_error";

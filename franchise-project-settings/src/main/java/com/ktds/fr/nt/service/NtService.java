@@ -25,5 +25,7 @@ public interface NtService {
 	public boolean updateNtRdDtByNtId(String ntId);
 	
 	public boolean checkOneMbr(String rcvrId);
+	
+	public boolean countNewNt(String mbrId);
 
 }
