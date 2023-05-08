@@ -109,61 +109,39 @@
 	    
 				
 			<div class="content">
+				<form action="${context}/evnt/list" method="post">
+					<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin: 15px;">
+							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+						</svg>
+						
+							<input  class="form-control me-2" id="evntTtl" type="text" name="evntTtl" placeholder="이벤트제목" 
+									value="${evntTtl}" style="width: 300px;" />
+								
+							<input class="form-control me-2" id="evntCntnt" type="text" name="evntCntnt" placeholder="이벤트내용"
+								value="${evntCntnt}" style="width: 500px;"/>
+			
+					
 				
-				<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px; display: flex;justify-content: center;">
-					<div>
-						<form action="${context}/evnt/list" method="post">
-							<table style="width: 100%;">
-								<tr>
-									<td>이벤트 제목</td>
-									<td><input  class="form-control me-2" id="evntTtl" type="text" name="evntTtl"
-										value="${evntTtl}" style="width: 90%;" /></td>
-									<td>이벤트 내용</td>
-									<td><input class="form-control me-2" id="evntCntnt" type="text" name="evntCntnt"
-										value="${evntCntnt}" style="width: 90%;" /></td>
-									<td >이벤트 사용유무</td>
-									<td>
-										<select id="useYn" class="form-select" name="useYn" >
-											<option value="ALL">전체</option>
-											<option value="Y" ${useYn eq 'Y' ? 'selected' : ''}>Y</option>
-											<option value="N" ${useYn eq 'N' ? 'selected' : ''}>N</option>
-										</select>
-									</td>
-
-								</tr>
-								<tr>
-									<td>이벤트 시작일자</td>
-									<td><input id="evntStrtDt" type="date" name="evntStrtDt" class="form-control " style="margin-right: 10px;"
-										value="${evntStrtDt}" style="width: 90%;" /></td>
-									<td>이벤트 종료일자</td>
-									<td><input id="evntEndDt" type="date" name="evntEndDt" class="form-control " style="margin-right: 10px; "
-										value="${evntEndDt}" style="width: 90%;" /></td>
-									<td>
-										<button type="submit" class="btn btn-outline-success" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;"id="search-btn">검색</button>
-									</td>	
-									<td>
-									
-										<button id="btn-init" type="submit" style="background-color: #fff;">
-											<img  src="${context}/img/reset2.png" width="28"; height="28"></button>
-									</td>
-																	
-								</tr>
-							</table>
-										    	
-
-							<!-- 페이지 네이션을 위한 Hidden 데이터 -->
-<%-- 							<input id="viewCnt" name="viewCnt" value="${viewCnt}" type="hidden" /> --%>
-<%-- 						   <input id="pageCnt" name="pageCnt" value="${pageCnt}" type="hidden" />  --%>
-<%-- 						   <input id="pageNo" name="pageNo" value="${pageNo}" type="hidden" />  --%>
-<%-- 						   <input id="totalCount" name="totalCount" value="${totalCount}" type="hidden" />  --%>
-<%-- 						   <input id="lastPage" name="lastPage" value="${lastPage}" type="hidden" />  --%>
-<%-- 						   <input id="lastGroup" name="lastGroup" value="${lastGroup}" type="hidden" /> --%>
-
-						</form>
+						
+							<input id="evntStrtDt" type="date" name="evntStrtDt" class="form-control " style="margin-right: 10px; width: 550px;"
+								value="${evntStrtDt}"  />
+							<input id="evntEndDt" type="date" name="evntEndDt" class="form-control " style="margin-right: 10px; width: 550px;"
+								value="${evntEndDt}"  />
+							<select id="useYn" class="form-select" name="useYn" style="width: 140px;">
+								<option value="ALL">전체</option>
+								<option value="Y" ${useYn eq 'Y' ? 'selected' : ''}>Y</option>
+								<option value="N" ${useYn eq 'N' ? 'selected' : ''}>N</option>
+							</select>
+							<button type="submit" class="btn btn-outline-success" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;"id="search-btn">검색</button>
+							
+							<button id="btn-init" type="submit" style="background-color: #fff;">
+								<img  src="${context}/img/reset2.png" width="50"; height="50"></button>  
+						
+	
+						<!--             </form> -->
 					</div>
-
-					<!--             </form> -->
-				</div>
+				</form>
 				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 					<div style="margin: 13px;" >총 ${evntList.size() > 0 ? evntList.get(0).totalCount : 0}건</div>
 					<table class="table caption-top table-hover" style="text-align: center;">
