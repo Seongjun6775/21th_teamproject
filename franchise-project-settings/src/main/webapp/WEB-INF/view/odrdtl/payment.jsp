@@ -48,8 +48,6 @@ $().ready(function() {
 
 
 
-
-
 function groupPrdt() {
 	
 	var odrDtlVO = {
