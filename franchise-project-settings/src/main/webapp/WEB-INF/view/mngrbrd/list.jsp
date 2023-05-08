@@ -44,7 +44,12 @@
 			if (url !== "cannot") {
 				location.href = url;
 			} else {
-				alert("본인에게 쪽지를 보낼 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
 			}
 		});
 		$('body').on('click', function(event) {
@@ -207,8 +212,9 @@
 													${mngrBrd.mngrBrdTtl}  
 												</a>[${mngrBrd.rplList.size()}] 
 											</td>
-											<td style="width: 180px;">${mngrBrd.mbrVO.mbrNm}
-											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);">${mngrBrd.mbrVO.mbrId}</a>)</span></td>
+											<td class="ellipsis"
+												onclick="event.cancelBubble=true" style="width: 180px;">${mngrBrd.mbrVO.mbrNm}
+											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);" val="${mngrBrd.mbrVO.mbrId}">${mngrBrd.mbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : mngrBrd.mbrVO.mbrId}</a>)</span></td>
 											<td style="width: 200px;">${mngrBrd.mngrBrdWrtDt}</td>
 										</tr>
 									</c:forEach>
@@ -293,6 +299,8 @@
 		</div>
 		
 <jsp:include page="../include/closeBody.jsp" />
+
+<!-- layer-popup -->
 <div class="layer_popup" id="layer_popup" style="display: none;">
 	<div class="popup_box">
 		<div class="popup_content">
