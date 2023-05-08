@@ -223,7 +223,7 @@ li.dropdown > ul > li > a  {
 	              매장
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
+	              <li><a class="dropdown-item" href="${context}/str/customer">매장찾기</a></li>
 	              <li><a class="dropdown-item" href="${context}/rv/list">리뷰관리</a></li>
 	            </ul>
 	          </li>
