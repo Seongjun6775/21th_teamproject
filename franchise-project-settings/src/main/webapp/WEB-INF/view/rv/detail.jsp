@@ -214,7 +214,7 @@
 					<div class="input-group">
 						<label for="prdtNm" class="col-form-label label-left-border" >수정일</label>
 						<div>
-							<input type="text" class="form-control" readonly  value="${rvDetail.mdfyDt}"/>
+							<input type="text" class="form-control" readonly value="${rvDetail.mdfyDt}"/>
 						</div>
 					</div>
 				</div>
@@ -223,7 +223,7 @@
 						<label for="prdtCntnt" class="col-form-label label-left-border">상품이름</label>
 						<div>
 							<textarea id="prdtCntnt" style="height:20px; resize: none;" readonly
-									class="form-control">${rvDetail.prdtVO.prdtNm}</textarea>
+									class="form-control">${rvDetail.prdtVO.prdtNm} 외 ${odrDtl.size() -1}건</textarea>
 						</div>
 					</div>
 					<div class="input-group">

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.odrdtl.service.OdrDtlService;
+import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.service.OdrLstService;
 import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.rv.service.RvService;
@@ -26,6 +28,9 @@ public class RvController {
 	
 	@Autowired
 	private OdrLstService odrLstService;
+	
+	@Autowired
+	private OdrDtlService odrDtlService;
 	
 	// 1-1.(제품 이력확인 후)리뷰 등록 == 이용자
 	@GetMapping("/rv/create")
@@ -89,34 +94,35 @@ public class RvController {
 	@GetMapping("/rv/detail/{rvId}")
 	public String viewRvDetailPage(Model model, @PathVariable String rvId
 			, @SessionAttribute("__MBR__") MbrVO mbrVO
-			,HttpServletRequest request) {
-		
-		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			RvVO rvVO = new RvVO();
-			rvVO.setRvId(rvId);
-			RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
-			
-			if (rvDetail != null && !rvDetail.getStrVO().getStrId().equals(mbrVO.getStrId())) {
-				return "rv/error_page";
-				
-			} else if (rvDetail == null) {
-				return "rv/error_page";
-			}
-							
-			model.addAttribute("rvDetail", rvDetail);
-			model.addAttribute("mbrVO", mbrVO);
-			model.addAttribute("rvVO", rvVO);
-			
-			return "rv/detail";
-		}
+			,HttpServletRequest request, OdrDtlVO odrDtlVO) {
 		
 		RvVO rvVO = new RvVO();
 		rvVO.setRvId(rvId);
 		RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
 		
+		odrDtlVO.setMbrId(rvDetail.getMbrId());
+		odrDtlVO.setOdrLstId(rvDetail.getOdrLstId());
+		List<OdrDtlVO> odrDtl = odrDtlService.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
+				
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			
+			if (rvDetail != null && !rvDetail.getStrVO().getStrId().equals(mbrVO.getStrId())) {
+				return "rv/error_page";				
+			} 
+			
+			model.addAttribute("rvDetail", rvDetail);
+			model.addAttribute("mbrVO", mbrVO);
+			model.addAttribute("rvVO", rvVO);
+			model.addAttribute("odrDtl", odrDtl);
+			
+			return "rv/detail";
+		}
+		
+		
 		model.addAttribute("rvDetail", rvDetail);
 		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("rvVO", rvVO);
+		model.addAttribute("odrDtl", odrDtl);
 		
 		return "rv/detail";
 	}
@@ -151,15 +157,20 @@ public class RvController {
 		@GetMapping("/user/rv/detail/{rvId}")
 		public String viewRvDetailPage2(Model model, @PathVariable String rvId
 				, @SessionAttribute("__MBR__") MbrVO mbrVO
-				, HttpServletRequest request) {
+				, HttpServletRequest request, OdrDtlVO odrDtlVO) {
 			
 			RvVO rvVO = new RvVO();
 			rvVO.setRvId(rvId);
 			RvVO rvDetail = rvService.readOneRvVO(rvVO, mbrVO);
 			
+			odrDtlVO.setMbrId(rvDetail.getMbrId());
+			odrDtlVO.setOdrLstId(rvDetail.getOdrLstId());
+			List<OdrDtlVO> odrDtl = odrDtlService.readAllOdrDtlByOdrLstIdAndMbrId(odrDtlVO);
+					
 			model.addAttribute("rvDetail", rvDetail);
-			model.addAttribute("rvVO", rvVO);
 			model.addAttribute("mbrVO", mbrVO);
+			model.addAttribute("rvVO", rvVO);
+			model.addAttribute("odrDtl", odrDtl);
 			
 			return "rv/detail2";
 		}
