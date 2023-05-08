@@ -147,5 +147,14 @@
 		 WHERE MBR_ID = #{_parameter}
 	</select>
 	
+	<select id="countNewNt"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM NT
+		 WHERE RCVR_ID = #{_parameter}
+		   AND NT_RD_DT IS NULL
+	</select>
+	
 	
 </mapper>

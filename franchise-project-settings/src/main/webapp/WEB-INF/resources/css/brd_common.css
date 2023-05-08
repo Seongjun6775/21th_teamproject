@@ -453,7 +453,6 @@ img.profile{
 .qna_box {
 	display:flex;
 	border: #ddd solid 1px;
-    background: #c0c0c0;  
     padding: 10px 4%;
     font-size: 15px;
     margin: 10px 0 0 0; 
@@ -530,7 +529,7 @@ img.profile{
     font-size: 13px;
     text-decoration:none;
 }
-.qna-btn{
+/* .qna-btn{
     height: 50px;
     line-height: 50px;
     background-color: #1e43a2;
@@ -540,7 +539,7 @@ img.profile{
     transition: 0.2s all;
     font-size: 13px;
     text-decoration: none;	
-}
+} */ 
 
 
 .blue-rpl-btn { 
@@ -552,7 +551,6 @@ img.profile{
     font-size: 13px;
     text-decoration:none; 
     border-radius: 5px;
-    border: 1px solid #333;  
 }
 .black-rpl-btn{
     background-color: #555;
@@ -563,7 +561,6 @@ img.profile{
     font-size: 13px;
     text-decoration:none; 
     border-radius: 5px;
-    border: 1px solid #333;  
 }
 
 .red-btn {
@@ -579,7 +576,7 @@ img.profile{
     font-size: 13px;
     text-decoration:none; 
     border-radius: 0px;
-    border: 1px solid #333;  
+
 }
 
 .red-rpl-btn {
@@ -591,7 +588,6 @@ img.profile{
     font-size: 13px;
     text-decoration:none; 
     border-radius: 5px;
-    border: 1px solid #333;  
 }
 
 
@@ -670,7 +666,6 @@ a.btn-m:active{
     font-size: 13px;
     text-decoration: none;
     border-radius: 5px;
-    border: 1px solid #333;
     height: 30px;
 }
 

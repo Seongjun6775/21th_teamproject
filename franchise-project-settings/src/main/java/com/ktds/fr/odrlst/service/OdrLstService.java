@@ -36,4 +36,7 @@ public interface OdrLstService {
 	public boolean updateCheckAll(OdrLstVO odrLstVO);
 	public List<OdrLstVO> completeOdrForStr(OdrLstVO odrLstVO);
 	
+	public List<String> monthly(OdrLstVO odrLstVO);
+	public List<String> yearly(OdrLstVO odrLstVO);
+	
 }

@@ -63,7 +63,13 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 			e.preventDefault();
 			$("div:hidden").slice(0, 1).show(); // 클릭시 more 갯수 지저정
 			if ($("div:hidden").length == 0) { // 컨텐츠 남아있는지 확인
-				alert("게시물의 끝입니다."); // 컨텐츠 없을시 alert 창 띄우기 
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '게시물의 끝입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				//alert("게시물의 끝입니다."); // 컨텐츠 없을시 alert 창 띄우기 
 			}
 		});
 	});

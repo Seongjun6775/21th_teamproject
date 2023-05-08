@@ -1,5 +1,6 @@
 package com.ktds.fr.odrdtl.web;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.ktds.fr.cmmncd.service.CmmnCdService;
+import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.ctycd.service.CtyCdService;
 import com.ktds.fr.ctycd.vo.CtyCdVO;
@@ -35,6 +38,9 @@ public class OdrDtlController {
 	public StrService strService;
 	
 	@Autowired
+	public CmmnCdService cmmnCdService;
+
+	@Autowired
 	public CtyCdService ctyCdService;
 	
 	@Autowired
@@ -49,7 +55,7 @@ public class OdrDtlController {
 		
 		// 주문서에 접근한 계정이 그 주문서를 작성한 계정인지 확인합니다.
 		if (!lstMbrId.getMbrId().equals(mbrVO.getMbrId())) {
-			throw new ApiException("400", "권한이 없습니다.");
+			return "odrdtl/500cannot";
 		}
 		// 접근한 계정이 주문서를 작성한 회원 본인일 경우, 회원이 주문한 물품들의 정보를 보여줍니다.
 		if (mbrVO.getMbrLvl().equals("001-04")) {
@@ -106,34 +112,109 @@ public class OdrDtlController {
 			odrDtlVO.setOdrDtlStrId(mbrVO.getStrId());
 		}
 		
-		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
+		if(odrDtlVO.getStartDt() == null || odrDtlVO.getStartDt().length()==0) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, -1);
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH)+1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			
+			String startDt = year+ "-" + strMonth + "-" + strDay;
+			odrDtlVO.setStartDt(startDt);
+		}
+		if(odrDtlVO.getEndDt() == null || odrDtlVO.getEndDt().length() == 0) {
+			Calendar cal = Calendar.getInstance();
+			
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int day = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String strMonth = month < 10 ? "0" + month : month + "";
+			String strDay = day < 10 ? "0" + day : day + "";
+			
+			String endDt = year + "-" + strMonth + "-" + strDay;
+			odrDtlVO.setEndDt(endDt);
+		}
 		
-		//상품별
-		odrDtlVO.setOrderBy("DESC");
-		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
-		
-		
+		// 검색용 셀렉트박스 목록... 상품분류 / 매장목록(useYN 둘다)
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
 		List<StrVO> strList = strService.readAll();
 		
+		model.addAttribute("odrDtlVO", odrDtlVO);
+		model.addAttribute("srtList", srtList);
+		model.addAttribute("strList", strList);
+		
+		
+		
+		
+//		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
+//		model.addAttribute("odrDtlList", odrDtlList);
+		
+		//상품별
+		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
+		model.addAttribute("groupPrdt", groupPrdt);
 		
 		//매장별
 //		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
+
 		
-	
-		
-		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
-		model.addAttribute("startEnd", startEnd);
-		
-		
-		model.addAttribute("odrDtlVO", odrDtlVO);
-		model.addAttribute("strList", strList);
-		model.addAttribute("odrDtlList", odrDtlList);
-		model.addAttribute("groupPrdt", groupPrdt);
+//		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
+//		model.addAttribute("startEnd", startEnd);
+//		
+//		
+//		model.addAttribute("odrDtlVO", odrDtlVO);
+//		model.addAttribute("strList", strList);
+//		model.addAttribute("odrDtlList", odrDtlList);
+//		model.addAttribute("groupPrdt", groupPrdt);
+
 //		model.addAttribute("strGroup", groupStr);
+		
+//		List<OdrDtlVO> startEnd = odrDtlService.startEnd(odrDtlVO);
+//		model.addAttribute("startEnd", startEnd);
+		
+		
+		
+		
 		
 		return "odrdtl/payment";
 	}
 	
+	
+	
+	@GetMapping("/payment/monthly")
+	public String monthly(Model model, OdrDtlVO odrDtlVO
+						, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		OdrLstVO odrLstVO = new OdrLstVO();
+		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+			String strId = mbrVO.getStrId();
+			odrDtlVO.setOdrDtlStrId(strId);
+			odrLstVO.setStrId(strId);
+		}
+		
+		// 검색용 셀렉트박스 목록... 상품분류 / 매장목록(useYN 둘다)
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
+		List<LctCdVO> lctList = lctCdService.read();
+		List<StrVO> strList = strService.readAll();
+		
+		model.addAttribute("odrDtlVO", odrDtlVO);
+		model.addAttribute("srtList", srtList);
+		model.addAttribute("lctList", lctList);
+		model.addAttribute("strList", strList);
+		
+		
+		List<String> monthly = odrLstService.monthly(odrLstVO);
+		model.addAttribute("monthly", monthly);
+		List<String> yearly = odrLstService.yearly(odrLstVO);
+		model.addAttribute("yearly", yearly);
+		
+		
+		return "odrdtl/payment_monthly";
+	}
+
+
 	@GetMapping("/paymentStr")
 	public String forSaleStr(Model model, OdrDtlVO odrDtlVO
 						, @SessionAttribute("__MBR__") MbrVO mbrVO) {
@@ -143,7 +224,7 @@ public class OdrDtlController {
 		
 //		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
 		
-		//상품별
+		//매장별 상품 조회 
 		odrDtlVO.setOrderBy("DESC");
 		List<OdrDtlVO> groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
 		
@@ -176,6 +257,7 @@ public class OdrDtlController {
 	    model.addAttribute("lctList", lctList);
 		
 		return "odrdtl/paymentStr";
+
 	}
 
 }

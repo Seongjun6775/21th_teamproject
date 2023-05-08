@@ -11,8 +11,17 @@
 <link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
 <script type="text/javascript">
 $().ready(function() {
-	alert("권한이 없습니다");	
-	location.href = "${context}/index";
+	Swal.fire({
+  	  icon: 'error',
+  	  title: '권한이 없습니다.',
+  	  showConfirmButton: true,
+  	  confirmButtonColor: '#3085d6'
+	}).then((result)=>{
+		if(result.isConfirmed){
+			location.href = "${context}/index";
+		}
+	});
+	/* alert("권한이 없습니다"); */	
 });
 </script>
 </head>

@@ -1,5 +1,6 @@
 package com.ktds.fr.odrdtl.web;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,14 +133,14 @@ public class RestOdrDtlController {
 		
 		List<OdrDtlVO> groupStr = odrDtlService.groupStr(odrDtlVO);
 		
-		for ( int i = 0 ; i < groupStr.size(); i++ ) {
-			System.out.println(i + " / " + groupStr.get(i).getLctCdVO().getLctId()
-			+ " / " + groupStr.get(i).getLctCdVO().getLctNm()
-			+ " / " + groupStr.get(i).getCtyCdVO().getCtyId()
-			+ " / " + groupStr.get(i).getCtyCdVO().getCtyNm()
-			+ " / " + groupStr.get(i).getStrVO().getStrId()
-			+ " / " + groupStr.get(i).getStrVO().getStrNm());
-		}
+//		for ( int i = 0 ; i < groupStr.size(); i++ ) {
+//			System.out.println(i + " / " + groupStr.get(i).getLctCdVO().getLctId()
+//			+ " / " + groupStr.get(i).getLctCdVO().getLctNm()
+//			+ " / " + groupStr.get(i).getCtyCdVO().getCtyId()
+//			+ " / " + groupStr.get(i).getCtyCdVO().getCtyNm()
+//			+ " / " + groupStr.get(i).getStrVO().getStrId()
+//			+ " / " + groupStr.get(i).getStrVO().getStrNm());
+//		}
 		
 		return groupStr;
 	}
@@ -152,6 +153,19 @@ public class RestOdrDtlController {
 		return startEnd;
 	}
 	
+	@PostMapping("/api/payment/sumMonth")
+	@ResponseBody
+	public List<OdrDtlVO> monthly(@RequestBody OdrDtlVO odrDtlVO) {
+		List<OdrDtlVO> sumMonth = odrDtlService.sumMonth(odrDtlVO);
+		return sumMonth;
+	}
+	
+	@PostMapping("/api/payment/sumYear")
+	@ResponseBody
+	public List<OdrDtlVO> sumYear(@RequestBody OdrDtlVO odrDtlVO) {
+		List<OdrDtlVO> sumYear = odrDtlService.sumYear(odrDtlVO);
+		return sumYear;
+	}
 	
 
 }

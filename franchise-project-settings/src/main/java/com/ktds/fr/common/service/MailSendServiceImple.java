@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ktds.fr.common.api.exceptions.ApiException;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 
 @Service
@@ -86,5 +87,20 @@ public class MailSendServiceImple implements MailSendService{
 				mbrVO.getMbrId()+"님의 초기화된 비밀 번호는 <b>" + mbrVO.getMbrPwd() + "</b>입니다." +"<br>" +
 				"로그인 후 꼭 비밀번호를 <span style='color: red;'>변경</span>해 주세요";
 		mailSend(from, to, title, content);
+	}
+	
+	@Override
+	public void makeHrEamilForm(HrVO hrVO) {
+		String from = "franchise.21th@gmail.com";
+		String to = hrVO.getMbrVO().getMbrEml();
+		String title = projectName + "지원하신 채용 결과";
+		if(hrVO.getHrAprYn() != null && hrVO.getHrAprYn().length() != 0) {
+			String content = 
+					"<h1>"+projectName+"를 이용해 주셔서 감사합니다.</h1>" +"<br/><br/><b>" +
+					(hrVO.getHrAprYn().equals("Y") ? "축하드립니다." : "죄송합니다.")+"</b><br/><br/>"+hrVO.getMbrVO().getMbrId()+"("+hrVO.getMbrVO().getMbrNm()+") 님은 "+
+					"지원하신 <b>" +(hrVO.getHrLvl().equals("005-01") ? "가맹점주" : "점원")+ "</b> 분야에 <br/><b>"+(hrVO.getHrAprYn().equals("Y") ? "합격" : "불합격")+"</b> 하셨습니다.<br/>"+
+					(hrVO.getHrAprYn().equals("Y") ? "합격자 일정은 추후 메일로 연락드리겠습니다. 다시한번 합격을 축하드립니다." : "이후 더욱 성장한 모습으로 다시금 만날 수 있기를 진심으로 바랍니다.");
+			mailSend(from, to, title, content);
+		}
 	}
 }

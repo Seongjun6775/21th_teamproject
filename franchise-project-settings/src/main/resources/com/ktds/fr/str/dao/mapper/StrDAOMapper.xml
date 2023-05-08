@@ -332,7 +332,7 @@
 		  	ON S.STR_CTY = C.CTY_ID
 		 WHERE S.DEL_YN = 'N'
 		   AND S.USE_YN = 'Y'
-		   AND S.STR_CTY = NVL(#{_parameter}, '%')
+		   AND S.STR_CTY LIKE NVL(#{_parameter}, '%')
 		 ORDER BY S.STR_NM ASC
 	</select>
 	<!-- 회원 기능과 연동 -->
@@ -393,6 +393,36 @@
 			 , S.DEL_YN
 		  FROM STR S
 		 WHERE S.DEL_YN = 'N'
+		 ORDER BY S.STR_NM ASC 
 	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 매출조회 관련 / 지역, 도시 조회 시 -->
+	<select id="readAllLctCty"
+			parameterType="com.ktds.fr.str.vo.StrVO"
+			resultMap="strVOMap">
+		SELECT S.STR_ID
+			 , S.STR_NM
+			 , S.STR_LCTN
+			 , S.STR_CTY
+		  FROM STR S
+		  LEFT JOIN MBR M	
+		    ON S.MBR_ID = M.MBR_ID
+		  LEFT JOIN LCT_CD L
+		  	ON S.STR_LCTN = L.LCT_ID
+		  LEFT JOIN CTY_CD C 
+		  	ON S.STR_CTY = C.CTY_ID
+		 WHERE S.DEL_YN = 'N'
+		   AND S.USE_YN = 'Y'
+		   AND S.STR_LCTN LIKE NVL(#{strLctn}, '%')
+		   AND S.STR_CTY LIKE NVL(#{strCty}, '%')
+		 ORDER BY S.STR_NM ASC
+	</select>
+	
+	
 
 </mapper>

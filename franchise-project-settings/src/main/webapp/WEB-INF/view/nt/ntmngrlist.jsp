@@ -10,7 +10,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%-- <link rel="stylesheet" href="${context}/css/ntcommon.css?p=${date}" /> --%>
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -19,6 +22,7 @@
 		$(".open-layer").click(function(event) {
 			var mbrId = $(this).text();
 			$("#layer_popup").css({
+				"padding": "5px",
 				"top": event.pageY,
 				"left": event.pageX,
 				"backgroundColor": "#FFF",
@@ -26,16 +30,30 @@
 				"border": "solid 1px #222",
 				"z-index": "10px"
 			}).show();
-			
-			url = "${context}/nt/ntcreate/" + mbrId
-		});
-		
-		$(".send-memo-btn").click(function() {
-			if (url) {
-				location.href = url;
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
 			}
 		});
 		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
 		$(".close-memo-btn").click(function() {
 			url = undefined;
 			$("#layer_popup").hide();
@@ -56,7 +74,13 @@
 			var checkLen = $(".check_idx:checked").length;
 			
 			if (checkLen == 0) {
-				alert("선택한 쪽지가 없습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '선택한 쪽지가 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("선택한 쪽지가 없습니다."); */
 				return;
 			}
 			
@@ -105,7 +129,13 @@
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
 		if(intStartDt > intEndDt) {
-			alert("시작일자는 종료일자보다 늦을 수 없습니다!");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '시작일자는 종료일자보다 늦을 수 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("시작일자는 종료일자보다 늦을 수 없습니다!"); */
 			return;
 		}
 		
@@ -120,6 +150,13 @@
 	}
 	
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 
@@ -168,8 +205,8 @@
 									    data-ntrddt="${nt.ntRdDt}">
 										<td onclick="event.cancelBubble=true"><input type="checkbox" class="check_idx" value="${nt.ntId}"/></td>
 										<td><a href="${context}/nt/ntmngrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
-										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.sndrId}</a></td>
-										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${nt.rcvrId}</a></td>
+										<td class="ellipsis" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);" val="${nt.sndrId}">${nt.sndrId}</a></td>
+										<td class="ellipsis" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);" val="${nt.rcvrId}">${nt.rcvrId}</a></td>
 										<td>${nt.ntSndrDt}</td>
 										<td>${nt.ntRdDt ne null ? '수신' : '미수신'}</td>
 									</tr>
@@ -212,8 +249,8 @@
 						</ul>
 					</div>
 					<div style=" right: 0;top: 0; position: absolute;">
-						<button id="crt_btn" class="btn btn-secondary">작성</button>
-						<button id="check_del_btn" class="btn btn-danger">일괄삭제</button>
+						<button id="check_del_btn" class="btn btn-outline-danger btn-default ">일괄삭제</button>
+						<button id="crt_btn" class="btn btn-outline-secondary btn-default">작성</button>
 					</div>
 				</div>
 			</div>
@@ -222,10 +259,14 @@
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
-				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+				<a class="send-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-mail-send' ></i>쪽지 보내기
+				</a>
 			</div>
 			<div>
-				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+				<a class="close-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-x'></i>닫기
+				</a>
 			</div>
 		</div>
 	</div>

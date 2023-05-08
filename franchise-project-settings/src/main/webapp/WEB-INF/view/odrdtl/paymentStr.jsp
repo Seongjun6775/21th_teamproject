@@ -44,21 +44,25 @@
 			arrays[1] = [ '', 0, middleColor];
 		} else {
 		    for ( i = 0 ; i < dataSet.length + 1; i++ ){
+		    	console.log(">", dataSet[i])
 		    	var color;
-		    	if(dataSet[i].sumPrc == max){
+		    	if(dataSet[i] && dataSet[i].sumPrc == max){
 		    		color = maxColor;
 		    	}
-		    	else if(dataSet[i].sumPrc == min){
+		    	else if(dataSet[i] && dataSet[i].sumPrc == min){
 					color = minColor;		    	 
 		    	}
 		    	else{
 		    		color = middleColor;
 		    	}
 
-		    	console.log("dataSet[i].strNm : " + dataSet[i].strNm 
-		    			+ ", dataSet[i].sumPrc : " + dataSet[i].sumPrc 
-		    			+ ", color : " + color);
-		    	arrays[i+1] = [dataSet[i].strNm, dataSet[i].sumPrc, color];
+		    	 
+		    	if(dataSet[i]){
+		    		
+			    	arrays.push([dataSet[i].strNm || dataSet[i].lctNm, dataSet[i].sumPrc, color]);
+		    	}
+		    	
+		    	 
 		    }
    		}
 	    
@@ -111,7 +115,7 @@
       
       return year+"-"+month+"-"+date
    }
-   
+   var ctyNm1;
    $().ready(function() {
 
       console.log("ready function!")
@@ -193,7 +197,7 @@
          ctyCdVO : {
             lctId : $("#search-keyword-strLctn").val(),
             ctyId : $("#search-keyword-strCty").val()
-         },
+         },        
          startDt : $("#search-keyword-startdt").val(),
          endDt : $("#search-keyword-enddt").val()
       }
@@ -215,22 +219,41 @@
 	            min = data[0].sumPrc;
 	        } 
             $("#paymentStr").empty();
-         
+            
+//ctyNm1 = data[0].ctyCdVO.ctyNm
+            
             for (var i = 0; i < data.length; i++) {
                var lctNm = data[i].lctCdVO.lctNm;
-               var ctyNm = data[i].ctyCdVO.ctyNm;
+             
                var strNm = data[i].strVO.strNm;
-               var sumCnt = data[i].sumCnt;
+         //    var sumCnt = data[i].sumCnt;
                var sumPrc = data[i].sumPrc;
                var tr = $("<tr></tr>");
+         
+           if(data[i].ctyCdVO) {
+        	//필요없긴 함 
+              var ctyNm = data[i].ctyCdVO.ctyNm;
+        
                var tdList = [
                      $("<td>" + lctNm + "</td>"),
+                     //필요없긴 함
                      $("<td>" + ctyNm + "</td>"),
                      $("<td>" + strNm + "</td>"),
-                     $("<td>" + sumCnt.toLocaleString() + "</td>"),
+              //     $("<td>" + sumCnt.toLocaleString() + "</td>"),
                      $("<td class='money' style='padding-right: 10px;'>"
                            + sumPrc.toLocaleString() + "</td>"), ];
-               dataSet[i] = { "strNm" : strNm, "sumPrc" : sumPrc };
+           }
+           else{
+        	   var tdList = [
+                   $("<td>" + lctNm + "</td>"),
+                   //필요없긴 함
+            //       $("<td>" + ctyNm + "</td>"),
+                   $("<td>" + strNm + "</td>"),
+            //     $("<td>" + sumCnt.toLocaleString() + "</td>"),
+                   $("<td class='money' style='padding-right: 10px;'>"
+                         + sumPrc.toLocaleString() + "</td>"), ];  
+           }
+               dataSet.push({ "lctNm" : lctNm, "strNm" : strNm, "sumPrc" : sumPrc });
                if (max < data[i].sumPrc){
                   max = data[i].sumPrc;
                }
@@ -238,7 +261,9 @@
             	   min = data[i].sumPrc;
                }
                pay = pay + sumPrc;
+               
                tr.append(tdList);
+               
                $("#paymentStr").append(tr);
             }
 
@@ -254,6 +279,7 @@
       })
    }
 </script>
+
 </head>
 <body>
 
@@ -291,8 +317,7 @@
                <c:choose>
                   <c:when test="${not empty ctyChangedList}">
                      <c:forEach
-                        items="${ctyChangedList != null ? ctyChangedList : ctyList}"
-                        var="cty">
+                        items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
                         <option value="${cty.ctyId}"
                            ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
                      </c:forEach>
@@ -316,15 +341,18 @@
       style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 
       <div id="paymentTotal"></div>
-
+	${ctyNm}  
       <table class="table table-striped table-sm table-hover align-center">
          <thead class="table-secondary">
             <tr>
                <th>지역명</th>
+               <c:if test="${ctyCdVO.ctyNm ne null}"> 
                <th>도시명</th>
                <th>매장이름</th>
-               <th>총수량</th>
-               <th>판매총액</th>
+<!--                <th>총수량</th> -->      
+               </c:if>
+               <th>판매총액</th> 
+          	    
             </tr>
          </thead>
          <tbody id="paymentStr" class="table-group-divider">

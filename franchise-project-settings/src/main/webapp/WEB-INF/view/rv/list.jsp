@@ -13,15 +13,21 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 
 	$().ready(function() {
 		
 		var url;
+		var mbrId;
 		$(".open-layer").click(function(event) {
 			// event.preventDefault();
-			var mbrId = $(this).text();
+			mbrId = $(this).text();
 			$("#layer_popup").css({
+				"padding": "5px",
 				"top": event.pageY,
 				"left": event.pageX,
 				"backgroundColor": "#FFF",
@@ -29,18 +35,37 @@
 				"border": "solid 1px #222",
 				"z-index": "10px"
 			}).show();
-			
-			url = mbrId
+			if (url == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
 		});
 		
-		$(".send-memo-btn").click(function() {
-			if (url) {
-				$("input[name=searchWrap]").val(url)
+		$(".search-rv-btn").click(function() {
+			if (mbrId) {
+				$("input[name=searchWrap]").val(mbrId)
 				$("#search_option").val("mbrId").prop("selected", true);
 				$("#search_btn").click();
 			}
 		});
-		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
 		$(".close-memo-btn").click(function() {
 			url = undefined;
 			$("#layer_popup").hide();
@@ -74,7 +99,13 @@
 			var checkLen = $(".check-idx:checked").length;
 			
 			if(checkLen == 0){
-				alert("삭제할 리뷰가 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '삭제할 리뷰가 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("삭제할 리뷰가 없습니다."); */
 				return;
 			}
 			if(confirm("정말 삭제하시겠습니까?")) {
@@ -82,9 +113,15 @@
 				$(".check-idx:checked").each(function(){
 					var myMbrId = "${mbrVO.mbrId}";
 					var myMbrLvl = "${mbrVO.mbrLvl}";
-					var mbrId = $(this).closest("tr").find(".open-layer").text();
+					var mbrId = $(this).closest("tr").find(".open-layer").text().trim();
 					if (myMbrLvl == "001-04" && myMbrId != mbrId) {
-						alert("자신의 리뷰만 삭제 가능합니다.");
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: '자신의 리뷰만 삭제 가능합니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert("자신의 리뷰만 삭제 가능합니다."); */
 						return;		
 					}
 					console.log($(this).val());
@@ -92,11 +129,26 @@
 				});
 				$.post("${context}/api/rv/delete", form.serialize(), function(response){
 					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-						alert("리뷰가 삭제되었습니다.")
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '리뷰가 삭제되었습니다.',
+					    	  showConfirmButton: true,
+					    	  confirmButtonColor: '#3085d6'
+						}).then((result)=>{
+							if(result.isConfirmed){
+								location.reload(); //새로고침
+							}
+						});
+						/* alert("리뷰가 삭제되었습니다.") */
 					}
 					else{
-						alert(response.errorCode + "권한이 없습니다." + response.message);
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: response.message,
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert(response.errorCode + "권한이 없습니다." + response.message); */
 					}
 				})
 			}
@@ -105,7 +157,7 @@
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});		 
-		$(".rvRow td").not(".firstcell, .mbrId").click(function() {
+		$(".rvRow td").not(".firstcell, .ellipsis").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
 			location.href="${context}/rv/detail/" + rvid;
 		})
@@ -124,6 +176,13 @@
 			
 		}
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
 <body>
 <jsp:include page="../include/openBody.jsp" />
@@ -180,7 +239,10 @@
 								<td>${rv.odrLstId}</td>
 								<td>${rv.strVO.strNm}</td>
 								<td>${rv.rvTtl}</td>
-								<td class="mbrId" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${rv.mbrId}</a></td>																			
+								<td class="ellipsis"
+									onclick="event.cancelBubble=true">
+									<a class="open-layer" href="javascript:void(0);" val="${rv.mbrId}">
+										${rv.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : rv.mbrId}</a></td>																			
 								<td>${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}</td>					
 								<td>${rv.rvRgstDt}</td>					
 								<td>${rv.mdfyDt}</td>									
@@ -234,10 +296,10 @@
 			</div>
 			<div style="position: absolute;right: 0;top: 0;">	
 				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
-					<button id="new_btn" class="btn btn-success">등록</button>
+					<button id="new_btn" class="btn btn-outline-success btn-default">등록</button>
 				</c:if>
 				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-danger">삭제</button>
+					<button id="delete_all_btn" class="btn btn-outline-danger btn-default" >삭제</button>
 				</c:if>
 			</div>
 		</div>	
@@ -246,10 +308,16 @@
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
-				<a class="send-memo-btn" href="javascript:void(0);">작성 리뷰 보기</a>
+				<a class="send-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
 			</div>
 			<div>
-				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+				<a class="search-rv-btn" href="javascript:void(0);">
+					<i class='bx bx-search-alt-2'></i>작성 리뷰 보기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+					<i class='bx bx-x'></i>닫기</a>
 			</div>
 		</div>
 	</div>	

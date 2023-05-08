@@ -108,12 +108,13 @@
 		}
 		</script>
 </head>
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
 
-<jsp:include page="../include/openBody.jsp" />
-<div class="bg-white rounded shadow-sm  "
-	style="padding: 23px 18px 23px 18px; margin: 20px;">
-	<span class="fs-5 fw-bold">매장 > 매장지도</span>
-</div>
+	<div class="visualArea flex relative">
+		<div class="content-setting title">매장 찾기</div>
+		<div class="overlay absolute"></div>
+	</div>
 		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 		<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
 			<table class="table caption-top table-hover" style="text-align: center;">
@@ -313,4 +314,6 @@
 		<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
 	</div>
 </div>
+	<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>

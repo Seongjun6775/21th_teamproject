@@ -27,17 +27,35 @@
 		$("#delete_btn").click(function() {
 
 			if (delYn == 'Y') {
-				alert("이미 삭제 처리된 글입니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제 처리된 글입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제 처리된 글입니다."); */
 				return;
 			}
 			
 			if (mbrId != "${mbrVO.mbrId}") {
-				alert("자기가 작성한 글만 삭제할 수 있습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자기가 작성한 글만 삭제할 수 있습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("자기가 작성한 글만 삭제할 수 있습니다."); */
 				return;
 			}
 			
 			if (hrStat == "002-02") {
-				alert("현재 심사중인 지원입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '현재 심사중인 지원입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("현재 심사중인 지원입니다."); */
 				return;
 			}
 			
@@ -46,28 +64,61 @@
 			}
 			$.post("${context}/api/hr/delete/${hr.hrId}", function(response) {
 				if (response.status == "200 OK") {
-					alert("정상적으로 삭제되었습니다.");
-					location.href="${context}/hr/list";
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '정상적으로 삭제되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href="${context}/hr/list";
+						}
+					});
+					/* alert("정상적으로 삭제되었습니다."); */
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
 		
 		$("#update_btn").click(function() {
 			if (delYn == "Y") {
-				alert("이미 삭제된 글은 수정할 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제된 글은 수정할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제된 글은 수정할 수 없습니다."); */
 				return;
 			}
 			
 			if (mbrId != "${mbrVO.mbrId}") {
-				alert("자기가 작성한 글만 수정할 수 있습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자기가 작성한 글만 수정할 수 있습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("자기가 작성한 글만 수정할 수 있습니다."); */
 				return;
 			}
 			
 			if (hrStat != "002-01") {
-				alert("접수 상태의 게시글만 수정할 수 있습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '접수 상태의 게시글만 수정할 수 있습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("접수 상태의 게시글만 수정할 수 있습니다."); */
 				return;
 			}
 			
@@ -83,20 +134,31 @@
 	});
 	
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 	        <span class="fs-5 fw-bold">회원 > 채용 지원 > 상세 조회</span>
 	    	<div style="position: absolute;right: 0;top: 0; margin: 20px;">
-	          <button id="update_btn" class="btn btn-primary" >수정</button>
-			  <button id="delete_btn" class="btn btn-danger" style="margin-right:10px">삭제</button>
-			  <button id="list_btn" class="btn btn-secondary" >목록</button>
+				<button id="list_btn" class="btn btn-secondary" >목록</button>
 	        </div>
       	</div>
-		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:20px;">
+			<div style="float:right;">
+				<button id="update_btn" class="btn btn-outline-primary btn-default" >수정</button>
+				<button id="delete_btn" class="btn btn-outline-danger btn-default" style="margin-right:10px">삭제</button>
+			</div>
+			
 			<div style="padding:10px;">
 				<span class="fs-5 fw-bold">${hr.hrTtl}</span>
 				<div class="hr_detail_header">(${hr.hrId})</div>
+				
 			</div>
 			<div style="margin-top: 10px">
 			

@@ -2,6 +2,7 @@ package com.ktds.fr.common.service;
 
 import java.util.List;
 
+import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 
 public interface MailSendService {
@@ -12,5 +13,6 @@ public interface MailSendService {
 	public String makeEmailForm(String email);
 	public void makeFindIdEmailForm(String email, List<MbrVO> mbrList);
 	public void makeFindPwEmailForm(MbrVO mbrVO);
+	public void makeHrEamilForm(HrVO hrVO);
 
 }

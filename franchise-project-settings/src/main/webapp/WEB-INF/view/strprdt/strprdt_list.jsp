@@ -10,8 +10,12 @@
 <head>
 <meta charset="UTF-8">
 <title>매장별 메뉴 관리</title>
-<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 $().ready(function() {
 	
@@ -45,11 +49,23 @@ $().ready(function() {
 	$("#btn-update-all").click(function() {
 		var checkLen = $(".check-idx:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if ($("select-useYn").val() == "") {
-			alert("사용유무가 선택되지 않았습니다.");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '사용유무가 선택되지 않았습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("사용유무가 선택되지 않았습니다."); */
 		}
 		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
 			return;
@@ -68,7 +84,13 @@ $().ready(function() {
 				location.reload(); //새로고침
 			}
 			else {
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		});
 	})
@@ -77,11 +99,26 @@ $().ready(function() {
 	$("#btn-missingCheck").click(function() {
 		$.post("${context}/api/strprdt/listCheck", null, function(response) {
 			if (response.status == "200 OK") {
-				alert(response.message)
-				location.reload(); //새로고침
+				Swal.fire({
+			    	  icon: 'success',
+			    	  title: response.message,
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				}).then((result)=>{
+					if(result.isConfirmed){
+						location.reload(); //새로고침
+					}
+				});
+				/* alert(response.message) */
 			}
 			else {
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		});
 	});
@@ -95,10 +132,50 @@ $().ready(function() {
 	
 	$("#btn-search-reset").click(function() {
 		location.href = "${context}/strprdt/list";
-	})
+	});
+	
+	var url;
+	$(".open-layer").click(function(event) {
+		var mbrId = $(this).attr('val');
+		$("#layer_popup").css({
+		    "padding": "5px",
+			"top": event.pageY,
+			"left": event.pageX,
+			"backgroundColor": "#FFF",
+			"position": "absolute",
+			"border": "solid 1px #222",
+			"z-index": "10px"
+		}).show();
+		if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+			url = "cannot"
+		} else {
+			url = "${context}/nt/ntcreate/" + mbrId
+		}
+	});
+	$(".send-memo-btn").click(function() {
+		if (url !== "cannot") {
+			location.href = url;
+		} else {
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+		    	  showConfirmButton: true,
+		    	  confirmButtonColor: '#3085d6'
+			});
+		}
+	});
+	$('body').on('click', function(event) {
+		if (!$(event.target).closest('#layer_popup').length) {
+			$('#layer_popup').hide();
+		}
+	});
+	$(".close-memo-btn").click(function() {
+		url = undefined;
+		$("#layer_popup").hide();
+	});
 	
 	
-})
+});
 
 
 function movePage(pageNo) {
@@ -131,7 +208,7 @@ function movePage(pageNo) {
 			<span class="fs-5 fw-bold">메뉴 > 매장별 메뉴관리</span>
 	</div>
 	<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-<%-- 		<div style="margin: 13px;">총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건</div> --%>
+ 		<div style="margin: 13px;">총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건</div> 
 		<table class="table caption-top table-hover" style="text-align: center;">
 			<thead class="table-secondary">
 				<tr>
@@ -143,7 +220,7 @@ function movePage(pageNo) {
 									id="search-keyword-str"
 									class="select-align-center" 
 									style="width:220px;">
-								<option value="">매장</option>
+								<option value="">매장명</option>
 								<c:choose>
 									<c:when test="${not empty strList}">
 										<c:forEach items="${strList}"
@@ -173,7 +250,7 @@ function movePage(pageNo) {
 					<th scope="col">
 						<select class="select-align-center" name="selectFilter"
 								id="search-keyword-prdt">
-							<option value="">상품</option>
+							<option value="">메뉴 이름</option>
 							<c:choose>
 								<c:when test="${not empty prdtList}">
 									<c:forEach items="${prdtList}"
@@ -187,9 +264,9 @@ function movePage(pageNo) {
 					<th scope="col">
 						<select class="select-align-center" name="selectFilter"
 								id="search-keyword-evntYn">
-							<option value="">이벤트유무</option>
-							<option value="Y">Y</option>
-							<option value="N">N</option>
+							<option value="">이벤트</option>
+							<option value="Y">진행중</option>
+							<option value="N">-</option>
 						</select>
 					</th>
 					<th scope="col">수정자</th>
@@ -198,8 +275,8 @@ function movePage(pageNo) {
 					<select class="select-align-center" name="selectFilter"
 							id="search-keyword-useYn">
 						<option value="">사용유무</option>
-						<option value="Y">Y</option>
-						<option value="N">N</option>
+						<option value="Y">사용</option>
+						<option value="N">미사용</option>
 					</select>
 					</th>
 				</tr>
@@ -222,10 +299,15 @@ function movePage(pageNo) {
 								
 								<td>${strPrdt.cmmnCdVO.cdNm}</td>
 								<td>${strPrdt.prdtVO.prdtNm}</td>
-								<td>${empty strPrdt.evntVO.evntId ? "N" : "Y"}</td>
-								<td>${strPrdt.mdfyr}(${strPrdt.mdfyrMbrVO.mbrNm})</td>
+								<td>${empty strPrdt.evntVO.evntId ? "-" : "진행중"}</td>
+								<td class="ellipsis"
+									onclick="event.cancelBubble=true">
+									<a class="open-layer" href="javascript:void(0);" 
+												val="${strPrdt.mdfyrMbrVO.mbrId}">
+												${strPrdt.mdfyr eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : strPrdt.mdfyr}(${strPrdt.mdfyrMbrVO.mbrNm})</a>
+								</td>
 								<td>${strPrdt.mdfyDt}</td>
-								<td>${strPrdt.useYn}</td>
+								<td>${strPrdt.useYn eq 'Y' ? '사용' : '미사용'}</td>
 							</tr>
 						</c:forEach>	
 					</c:when>
@@ -241,25 +323,28 @@ function movePage(pageNo) {
 		</table>
 		
 		<div class="relative">
-			<div class="align-left absolute fontsize14">
+		<div class="align-left absolute fontsize14">
 				<!-- 페이지네이션용  -->
-				총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건
-				<%-- 총 ${strPrdtList.size() > 0 ? strPrdtList.size() : 0}건 --%>
-			</div>
+		<%-- 		총 ${strPrdtList.size() > 0 ? strPrdtList.get(0).totalCount : 0}건
+				총 ${strPrdtList.size() > 0 ? strPrdtList.size() : 0}건 --%>
+			<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+				<button id="btn-missingCheck" class="btn btn-outline-success btn-default" style="vertical-align: top;">누락체크</button>
+			</c:if>	
+			</div> 
 			
 			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
-				<div class="align-right absolute " style="right: 0px;" >
-					<button class="btn-primary" 
-							id="btn-search-reset">검색초기화</button>
-					<select class="selectFilter"
+				<div class="align-right absolute white-space-nowrap" style="right: 0px;" >
+					<select class="form-select"
 							id="select-useYn">
 						<option value="">사용유무</option>
 						<option value="Y">Y</option>
 						<option value="N">N</option>
 					</select>
 					<button id="btn-update-all" 
-							class="btn-primary btn-delete" 
+							class="btn btn-outline-primary btn-default" 
 							style="vertical-align: top;">일괄수정</button>
+					<button class="btn btn-outline-success btn-default" 
+							id="btn-search-reset">검색초기화</button>		
 				</div>
 			</c:if>
 			
@@ -299,10 +384,23 @@ function movePage(pageNo) {
 <!-- 		<div class="align-right grid-btns"> -->
 <%-- 			<a href="${context}/prdt/list"><button class="btn btn-secondary">메뉴리스트</button></a> --%>
 <!-- 		</div> -->
+
+	<div class="layer_popup" id="layer_popup" style="display: none;">
+		<div class="popup_box">
+			<div class="popup_content">
+				<a class="send-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-mail-send' ></i>
+				쪽지 보내기</a>
+			</div>
+			<div>
+				<a class="close-memo-btn" href="javascript:void(0);">
+				<i class='bx bx-x'></i>
+				닫기</a>
+			</div>
+		</div>
+	</div>
 		
-		<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-			<button id="btn-missingCheck"class="btn-primary btn-delete" style="vertical-align: top;">누락체크</button>
-		</c:if>	
+
 	</div>
 <jsp:include page="../include/closeBody.jsp" />
 </html>

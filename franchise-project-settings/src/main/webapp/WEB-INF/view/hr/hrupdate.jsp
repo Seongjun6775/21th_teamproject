@@ -39,10 +39,22 @@
 					location.href = "${context}/hr/list";
 				}
 				else if (response.status == "500") {
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 				else {
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 			}, {"hrFile": "uploadFile"});
 		});
@@ -56,7 +68,7 @@
 	
     function deleteFile(obj) { 
         obj.parent().remove();
-        var str = "<div class='file-input' style='float:right;'><input type='file' id='hrFile' class='form-control' name='hrFile'></div>";
+        var str = "<div class='file-input' style='float:right;'><input type='file' id='hrFile' class='form-control' name='hrFile'/></div>";
         $("#file-list").append(str);
     }
 	

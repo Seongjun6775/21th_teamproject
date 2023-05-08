@@ -50,6 +50,11 @@ public class PrdtServiceImpl implements PrdtService {
 	}
 	
 	@Override
+	public List<PrdtVO> readAllNoPagenationUseY(PrdtVO prdtVO) {
+		return prdtDAO.readAllNoPagenationUseY(prdtVO);
+	}
+	
+	@Override
 	public List<PrdtVO> readAllCustomerNoPagenation(PrdtVO prdtVO) {
 		return prdtDAO.readAllCustomerNoPagenation(prdtVO);
 	}

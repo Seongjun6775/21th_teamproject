@@ -15,7 +15,14 @@
 <script type="text/javascript">
 	$().ready(function(){
 		
-		
+		function Salert(str){
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: str,
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+	    	});
+		}
 		
 		$("#fileDown").click(function(){
 			$.get("${context}/hr/hrfile/${mbr.hrVO.hrId}", function(resp){
@@ -23,7 +30,13 @@
 					location.reload();
 				}
 				else{
-					alert(resp.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: resp.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+			    	});
+					/* alert(resp.message); */
 					location.reload();
 				}
 			});
@@ -103,7 +116,7 @@
 								<input type="text" style="width:200px;" value="${empty mbr.hrVO.orgnFlNm ? '파일이 없습니다.' : mbr.hrVO.orgnFlNm}"/>
 								<c:choose>
 									<c:when test ="${empty mbr.hrVO.hrId}">
-										<a href="javascript:alert('파일이 없습니다.')"><i class='bx bx-file'></i></a>
+										<a href="javascript:Salert('파일이 없습니다.')"><i class='bx bx-file'></i></a>
 									</c:when>
 									<c:otherwise>
 										<a href="#" id="fileDown"><i class='bx bx-file'></i></a>

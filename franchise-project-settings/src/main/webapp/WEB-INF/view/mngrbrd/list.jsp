@@ -15,14 +15,18 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
 		var url;
 		$(".open-layer").click(function(event) {
-
-			var mbrId = $(this).text();  
+			var mbrId = $(this).attr('val');
 			$("#layer_popup").css({
+			    "padding": "5px",
 				"top": event.pageY,
 				"left": event.pageX,
 				"backgroundColor": "#FFF",
@@ -30,16 +34,29 @@
 				"border": "solid 1px #222",
 				"z-index": "10px"
 			}).show();
-			
-			url = "${context}/nt/ntcreate/" + mbrId
-		});
-		
-		$(".send-memo-btn").click(function() {
-			if (url) {
-				location.href = url;
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
 			}
 		});
-		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
 		$(".close-memo-btn").click(function() {
 			url = undefined;
 			$("#layer_popup").hide();
@@ -69,7 +86,13 @@
 		$("#delete_btn").click(function(){
 			var checkLen= $(".check_idx:checked").length;
 			if(checkLen ==0){
-				alert("삭제할 글이 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '삭제할 글이 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("삭제할 글이 없습니다."); */
 				return;
 			} 
 			if(!confirm("정말 삭제하시겠습니까?")){
@@ -88,7 +111,13 @@
 					location.reload(); //새로고침	
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			});
 		});
@@ -115,6 +144,20 @@
 	}
 
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+.ntc-label{
+    border: 1px solid #ffc6c9;
+    background-color: #ffe3e4;
+    color: #ff4e59;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 		<div>
@@ -169,15 +212,16 @@
 											</c:if>	
 											<td style="width: 100px;">No.${mngrBrd.mngrBrdId.substring(12,17).replaceFirst("^0+(?!$)", "")} </td>
 											<td style="width: 130px;">
-											${mngrBrd.ntcYn eq 'Y' ? '공지' : '커뮤니티'}</td>
+											${mngrBrd.ntcYn eq 'Y' ? '<strong class="ntc-label">공지</strong>' : '커뮤니티'}</td>
 											
 											<td>
 												<a href="${context}/mngrbrd/${mngrBrd.mngrBrdId}" class="brdid" style="${mngrBrd.ntcYn eq 'Y' ? 'font-weight: 900; color: #f00;' : ''}">
 													${mngrBrd.mngrBrdTtl}  
 												</a>[${mngrBrd.rplList.size()}] 
 											</td>
-											<td style="width: 180px;">${mngrBrd.mbrVO.mbrNm}
-											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);">${mngrBrd.mbrVO.mbrId}</a>)</span></td>
+											<td class="ellipsis"
+												onclick="event.cancelBubble=true" style="width: 180px;">${mngrBrd.mbrVO.mbrNm}
+											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);" val="${mngrBrd.mbrVO.mbrId}">${mngrBrd.mbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : mngrBrd.mbrVO.mbrId}</a>)</span></td>
 											<td style="width: 200px;">${mngrBrd.mngrBrdWrtDt}</td>
 										</tr>
 									</c:forEach>
@@ -188,7 +232,7 @@
 									<c:forEach items="${mngrBrdList}" var="mngrBrd" >
 										<tr data-mngrid = "${mngrBrd.mngrId}"
 											data-mngrbrdwrtdt = "${mngrBrd.mngrBrdWrtDt}"
-											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #ff8f56' : ''}">
+											data-useyn = "${mngrBrd.useYn}" style="${mngrBrd.ntcYn eq 'Y' ? 'background-color: #fff' : ''}">
 											
 											<c:if test="${mbrVO.mbrLvl eq '001-01'}">
 												<td style="width: 20px;"> 
@@ -204,8 +248,9 @@
 													${mngrBrd.mngrBrdTtl}  
 												</a>[${mngrBrd.rplList.size()}] 
 											</td>
-											<td style="width: 180px;" >${mngrBrd.mbrVO.mbrNm}
-											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);">${mngrBrd.mbrVO.mbrId}</a>)</span></td>
+											<td class="ellipsis"
+												onclick="event.cancelBubble=true" style="width: 180px;" >${mngrBrd.mbrVO.mbrNm}
+											<span>(<a class="open-layer" style="text-decoration: none;" href="javascript:void(0);" val="${mngrBrd.mbrVO.mbrId}">${mngrBrd.mbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : mngrBrd.mbrVO.mbrId}</a>)</span></td>
 											<td style="width: 200px;">${mngrBrd.mngrBrdWrtDt}</td>
 										</tr>
 									</c:forEach>
@@ -214,7 +259,7 @@
 									<tr>
 										<td colspan="8" class="no-items">
 											동록된 글이 없습니다.
-										</td> 
+										</td>
 									</tr>
 								</c:otherwise>
 							</c:choose>
@@ -250,9 +295,9 @@
 						</div>	
 						<div style="position: absolute;right: 0;top: 0;">  
 							<c:if test="${mbrVO.mbrLvl eq '001-01'}"> 
-								<button id="delete_btn"class="btn btn-danger">일괄삭제</button> 
+								<button id="delete_btn"class="btn btn-outline-danger btn-default">일괄삭제</button> 
 							</c:if>
-							<a href="${context}/mngrbrd/write" class="btn btn-secondary" style="text-decoration: none;"> 게시글 작성</a>
+							<a href="${context}/mngrbrd/write" class="btn btn-outline-secondary btn-default" style="text-decoration: none;"> 게시글 작성</a>
 						</div>
 					</div>
 		
@@ -261,13 +306,19 @@
 		</div>
 		
 <jsp:include page="../include/closeBody.jsp" />
+
+<!-- layer-popup -->
 <div class="layer_popup" id="layer_popup" style="display: none;">
 	<div class="popup_box">
 		<div class="popup_content">
-			<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
+			<a class="send-memo-btn" href="javascript:void(0);">
+			<i class='bx bx-mail-send' ></i>
+			쪽지 보내기</a>
 		</div>
 		<div>
-			<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+			<a class="close-memo-btn" href="javascript:void(0);">
+			<i class='bx bx-x'></i>
+			닫기</a>
 		</div>
 	</div>
 </div>

@@ -29,7 +29,13 @@
 		$("#btn-updateDelete").click(function() {
 			
 	      if(!confirm("삭제 하시겠습니까?")){
-				alert("취소되었습니다.")		
+	    	  Swal.fire({
+			    	  icon: 'success',
+			    	  title: '취소되었습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("취소되었습니다.") */		
 			} 
 	      else{
 				$.post(							
@@ -42,11 +48,26 @@
 						// 3. 결과 처리
 						function(response) {
 							if (response.status == "200 OK") {
-								alert(response.message);
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: response.message,
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}/evnt/list";
+									}
+								});
+								/* alert(response.message); */
 								//location.reload(); // 새로고침
-								location.href="${context}/evnt/list";
 							} else {
-								alert(response.errorCode + " / " + response.message);
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.errorCode + " / " + response.message); */
 							}
 						});
 					} 
@@ -69,10 +90,22 @@
 	        			// 3. 결과 처리
 	        			function(response) {
 	        				if (response.status == "200 OK") {
-	        					alert(response.message);
+	        					Swal.fire({
+							    	  icon: 'success',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+	        					/* alert(response.message); */
 	        					//location.reload(); // 새로고침
 	        				} else {
-	        					alert(response.errorCode + " / " + response.message);
+	        					Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+	        					/* alert(response.errorCode + " / " + response.message); */
 	        				}
 	        			});
 	        }
@@ -86,23 +119,30 @@
 		
 		//'참여매장목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntStr").click(function() {
-			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=800, height=600, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=1500, height800, scrollbars=yes, resizable=no"); 
 		       pop.focus();	
 		});
 		
 		//'이벤트상품목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=1300, height=800, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=1600, height=800, scrollbars=yes, resizable=no"); 
 		       pop.focus();	
 		});
 		
 		//'이벤트상품등록' 버튼 클릭 시 팝업창으로 뜸
 		$("#btn-createEvntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/prdtList2/${evntVO.evntId}" ,  "resPopup", "width=1500, height=800, scrollbars=yes, resizable=yes"); 
+			var pop = window.open("${context}/evntPrdt/prdtList2/${evntVO.evntId}" , "resPopup", "width=1500, height=800, scrollbars=yes, resizable=no"); 
 		       pop.focus();	
 		});
 	})
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -148,11 +188,11 @@
 					<input type="hidden" id="evntId" value="${evntVO.evntId}"/>
 					
 					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-						<button type="button" id="btn-update" class="btn btn-sm btn-success">수정</button>
+						<button type="button" id="btn-update" class="btn btn-sm btn-outline-success btn-default">수정</button>
 					</c:if>
 					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
-						<button type="button" id="btn-updateDelete"class="btn btn-sm btn-danger" >삭제</button>
-					</c:if>
+						<button type="button" id="btn-updateDelete"class="btn btn-sm btn-outline-danger btn-default" >삭제</button>
+					</c:if> 
                 </div>
               </div>
             </div>

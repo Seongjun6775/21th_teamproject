@@ -119,6 +119,9 @@ body {
 .width0 {
 	width: auto;
 }
+.width80{
+	width: 80px;
+}
 .width100{
 	width: 100px;
 }
@@ -131,6 +134,9 @@ body {
 .width180{
 	width: 180px;
 }
+.width200{
+	width: 200px;
+}
 .width220{
 	width: 220px;
 }
@@ -138,6 +144,21 @@ body {
 	width: 300px;
 }
 /* min-width */
+.min-width80 {
+	min-width: 80px;
+}
+.min-width100 {
+	min-width: 100px;
+}
+.min-width120 {
+	min-width: 120px;
+}
+.min-width140 {
+	min-width: 140px;
+}
+.min-width220 {
+	min-width: 220px;
+}
 .min-width300 {
 	min-width: 300px;
 }
@@ -222,12 +243,17 @@ input[type=file] {
 /* overflow */
 .overflow {
 	overflow: auto;
+	width: 100%;
 /* 	height: 150px; */
 }
-
+.overflow > table {
+	margin-bottom: 0;
+}
 .overflow thead {
 	position: sticky;
-	top: 0;	
+	top: 0;
+	vertical-align: middle;
+	z-index: 1;
 /* 	background-color: #e4e4e4; */
 }
 
@@ -243,12 +269,11 @@ th:has(input[type=checkbox]) {
 	white-space: nowrap;
 }
 table .on {
-	background-color: #00000025;
+	background-color: #ddd !important;
 }
 
 .money {
 	text-align: right;
-	display: flex;
     justify-content: flex-end;
     padding-right: 10px;
 }
@@ -261,6 +286,35 @@ table > thead > tr > th:first-child {
 table > thead > tr > th:last-child {
 	border-radius:0 6px 0 0;
 }
+.last-tr-sticky > tr:last-child {
+	position: sticky;
+    bottom: 0;
+    background: #fff;
+    font-weight: bold;
+/*     color: #000099; */
+}
+/* 통계용 테이블 - 행고정 */
+table.forStatistics th:first-child, 
+table.forStatistics td:first-child {
+	position: sticky;
+	left: 0;
+}
+table.forStatistics th:nth-child(2),
+table.forStatistics td:nth-child(2) {
+	position: sticky;
+	left: 80px;
+}
+table.forStatistics td:first-child,
+table.forStatistics td:nth-child(2){
+	background-color: white;
+/* 	font-weight: bold; */
+}
+.selected > td {
+	color: #0000a0!important;
+	font-weight: 800;
+	font-style: italic;
+}
+
 
 
 
@@ -303,13 +357,32 @@ input[type="number"]::-webkit-inner-spin-button {
 	display: flex;	
 	align-items: center;
 }
-.top-bar * + * {
+.top-bar > div{
+	display: flex;
+}
+.top-bar > div > * + * {
 	margin-left: 8px;
+}
+.top-bar > * + * {
+	margin-left: 18px;
 }
 
 #evnt-info input {
 	width: 300px;
 }
+
+
+
+/* 매출데이터 관련 */
+.paymentTop {
+	margin-bottom: 16px;
+}
+.paymentTop > div {
+	flex: 1;
+	font-weight: bold;
+}
+
+
 
 
 
@@ -346,6 +419,15 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
+
+
+
+.menu-admin-sticky {
+    top: -1px;
+    background-color: #e8e8e9 !important;
+    z-index: 2;
+    position: sticky;
+}
 #menu {
 /* 	background-color: #F002; */
 	width: 1440px;

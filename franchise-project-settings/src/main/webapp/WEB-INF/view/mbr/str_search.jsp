@@ -23,7 +23,13 @@
 		$("#regist_btn").click(function(){
 			var checkbox = $(".check-idx:checked");
 			if(checkbox.length == 0 ){
-				alert("매장을 선택하세요.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '매장을 선택하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("매장을 선택하세요."); */
 			}
 			var checkedStr = checkbox.closest("tr").data();
 			opener.addStrFn(checkedStr);

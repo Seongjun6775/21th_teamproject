@@ -75,4 +75,8 @@ public class IndexController {
 
 		return "index";
 	}
+	@GetMapping("/index_user")
+	public String viewIndexUserPage() {
+		return "index_user"; 
+	}
 }

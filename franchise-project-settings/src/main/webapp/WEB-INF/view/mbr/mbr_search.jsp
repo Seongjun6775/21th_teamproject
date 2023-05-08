@@ -23,7 +23,13 @@
 		$("#regist_btn").click(function(){
 			var checkbox = $(".check-idx:checked");
 			if(checkbox.length == 0 ){
-				alert("회원을 선택하세요.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '회원을 선택하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("회원을 선택하세요."); */
 			}
 			var checkedMbr = checkbox.closest("tr").data();
 			opener.addMbrFn(checkedMbr);
@@ -48,12 +54,12 @@
 					<input type="text" name="mbrId" class="form-control me-2" placeholder="회원 ID 검색" value="${mbrId}"/>
 					<input type="text" name="mbrNm" class="form-control me-2" placeholder="회원 이름 검색" value="${mbrNm}"/>
 					<!-- <button class="btn-search" id="search-btn">검색</button> -->
-					<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;">검색</button>
+					<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px;min-width:80px ">검색</button>
 				</form>
 			</div>
       		<!-- /contents -->
 	    	<div class="str_search_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
-				<div class="grid-count align-right">총 ${mbrList.size()}건</div>
+				<div style="margin:13px;">총 ${mbrList.size()}건</div>
 				<table class="table  table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>

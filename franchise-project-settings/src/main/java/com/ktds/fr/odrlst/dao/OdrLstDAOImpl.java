@@ -97,6 +97,16 @@ public class OdrLstDAOImpl extends SqlSessionDaoSupport implements OdrLstDAO {
 		return getSqlSession().selectList("OdrLst.completeOdrForStr", odrLstVO);
 	}
 
+	@Override
+	public List<String> monthly(OdrLstVO odrLstVO) {
+		return getSqlSession().selectList("OdrLst.monthly");
+	}
+	
+	@Override
+	public List<String> yearly(OdrLstVO odrLstVO) {
+		return getSqlSession().selectList("OdrLst.yearly");
+	}
+
 	
 	
 }

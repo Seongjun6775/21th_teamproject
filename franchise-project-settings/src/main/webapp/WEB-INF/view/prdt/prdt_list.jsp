@@ -40,9 +40,21 @@ function confirmFileExtension(file) {
 	// 정규식을 사용히여 jpg, jpeg, png, gif, bmp등 이미지파일의 확장자를 가진것을 추려낸다.
 	var reg = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
   	if(file.match(reg)) {
-		alert("해당 파일은 이미지 파일입니다.");
+  		Swal.fire({
+	    	  icon: 'success',
+	    	  title: '해당 파일은 이미지 파일입니다.',
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+		});
+		/* alert("해당 파일은 이미지 파일입니다."); */
 	} else {
-		alert("해당 파일은 이미지 파일이 아닙니다.");
+		Swal.fire({
+	    	  icon: 'error',
+	    	  title: '해당 파일은 이미지 파일이 아닙니다.',
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+		});
+		/* alert("해당 파일은 이미지 파일이 아닙니다."); */
 }
 
   	/* 
@@ -235,7 +247,13 @@ $().ready(function() {
 					location.reload(); //새로고침
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			}, {"prdtFile":"uploadFile"})
 		} else {
@@ -245,7 +263,13 @@ $().ready(function() {
 					location.reload(); //새로고침
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			}, {"prdtFile":"uploadFile"})
 		}
@@ -257,7 +281,13 @@ $().ready(function() {
 		var prdtId = $("#prdtId").val();
 		var prdtNm = $("#prdtNm").val();
 		if (prdtId == "") {
-			alert("선택된 항목이 없습니다.")
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다.") */
 			return;
 		}
 		if (!confirm("ID    : " + prdtId + "\n이름 : " + prdtNm + "\n정말 삭제하시겠습니까?")) {
@@ -271,7 +301,13 @@ $().ready(function() {
 	$("#btn-delete-all").click(function() {
 		var checkLen = $(".check-idx0:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if (!confirm("체크한 항목이 일괄 삭제됩니다.\n정말 삭제하시겠습니까?")) {
@@ -290,7 +326,13 @@ $().ready(function() {
 				location.reload(); //새로고침
 			}
 			else {
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		});
 	})
@@ -306,11 +348,23 @@ $().ready(function() {
 	 $("#btn-update-all").click(function() {
 		var checkLen = $(".check-idx0:checked").length;
 		if (checkLen == 0) {
-			alert("선택된 항목이 없습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '선택된 항목이 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("선택된 항목이 없습니다."); */
 			return;
 		}
 		if ($("select-useYn").val() == "") {
-			alert("사용유무가 선택되지 않았습니다.");
+			Swal.fire({
+		    	  icon: 'warning',
+		    	  title: '사용유무가 선택되지 않았습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("사용유무가 선택되지 않았습니다."); */
 		}
 		if (!confirm("체크한 항목이 일괄 수정됩니다.")) {
 			return;
@@ -329,7 +383,13 @@ $().ready(function() {
 				location.reload(); //새로고침
 			}
 			else {
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		});
 	})
@@ -397,7 +457,12 @@ $().ready(function() {
 		if (url !== "cannot") {
 			location.href = url;
 		} else {
-			alert("본인에게 쪽지를 보낼 수 없습니다.");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+		    	  showConfirmButton: true,
+		    	  confirmButtonColor: '#3085d6'
+			});
 		}
 	});
 	$('body').on('click', function(event) {
@@ -455,19 +520,18 @@ function movePage(pageNo) {
 			<span class="fs-5 fw-bold">메뉴 > 메뉴 관리</span>
 		</div>
 		<div class="bg-white rounded shadow-sm " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
-		
 			<div class="space-between mb-10">
-				<div class="top-bar">
-					<button id="btn-search-reset"
-							class="btn btn-outline-success btn-default" >검색 조건 초기화</button>
-					<label>메뉴 이름 검색</label>
+			<div style="margin: 5px 5px 10px 13px ; display: inline-block;">총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건</div>
+				<div class="top-bar" style="    display: inline-flex; float: right;">
 					<input type="text" class="form-control" 
 										style="width: 300px;"
 										id="search-keyword-prdtNm" 
-										placeholder="검색어 입력 후 Enter"
+										placeholder="메뉴 이름 검색"
 										onkeyup="chkChar(this)" 
 										value="${prdtVO.prdtNm}">	
 					<button id="btn-search" class="btn btn-outline-success btn-default">검색</button>
+					<button id="btn-search-reset"
+						class="btn btn-outline-success btn-default" >검색 조건 초기화</button>
 				</div>
 			</div>
 			
@@ -587,7 +651,7 @@ function movePage(pageNo) {
 										<td class="ellipsis"
 											onclick="event.cancelBubble=true">
 											<a class="open-layer" href="javascript:void(0);" 
-													="${prdt.mdfyrMbrVO.mbrId}">
+													val="${prdt.mdfyrMbrVO.mbrId}">
 												${prdt.mdfyrMbrVO.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : prdt.mdfyrMbrVO.mbrId}</a>
 										</td>
 										<td>
@@ -612,11 +676,6 @@ function movePage(pageNo) {
 			
 			
 			<div class="relative">
-				<div class="align-left absolute fontsize14">
-					<!-- 페이지네이션용  -->
-					총 ${prdtList.size() > 0 ? prdtList.get(0).totalCount : 0}건
-					<%-- 총 ${prdtList.size() > 0 ? prdtList.size() : 0}건 --%>
-				</div>
 				<div class="align-right absolute white-space-nowrap" style="right: 0px;" >
 					<select id="select-useYn"
 							class="form-select">

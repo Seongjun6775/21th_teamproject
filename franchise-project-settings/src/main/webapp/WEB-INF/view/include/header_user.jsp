@@ -79,6 +79,18 @@ li{
   background-color:#0000!important;
   color: #ffbe2e
 }
+.nav-item .nav-link-right{
+font-size: 22px; FONT-WEIGHT: 550;  margin:10px; margin-top: 45px; color: #fff; padding: 10px 25px; border-radius: 25px;
+
+}
+.qna-btn{
+font-size: 25px; FONT-WEIGHT: 550;  margin:10px; color: #fff; padding: 10px 25px; border-radius: 25px;
+background-color: #ffbe2e; text-align: center;
+}
+/* .nav-item .nav-link-right:hover{
+  background-color:#0000!important;
+  --bs-btn-hover-bg: #6528e0;
+} */ 
 
 .collapse > ul > li > a:focus {
 background-color:#0000!important;
@@ -100,19 +112,7 @@ ul.dropdown-menu > li:focus{
   font-size: 20px; FONT-WEIGHT: 600;
 }
 
-.main-order-box{
-  border-radius: 15px;
-  display: inline-block;
-  width: 550px;
-  height: 240px;
-  border: 1px solid #fff;
-  background: #fff;
-  text-align: center;
-  line-height: 240px;
-  margin: 0;
-  margin-right: 20px;
-  font-size: 20px; FONT-WEIGHT: 600;
-}
+
 .footer{
   width: 100%;
   max-width: 1920px;
@@ -185,38 +185,21 @@ li.dropdown > ul > li > a  {
 }
 </style>
 
-
-  <nav class="navbar navbar-expand-lg  border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
+  <nav class="navbar navbar-expand-lg shadow-sm border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
     <div class="container-fluid ">
-      <img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/>
-      <a class="navbar-brand" href="#" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
+      <a  href="${context}/index_user"><img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/></a>
+      <a class="navbar-brand" href="${context}/index_user" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent" >
 	        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	          <li class="nav-item dropdown">
-	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550; padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-	              회원
-	            </a>  
-	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="#">회원</a></li>
-	              <li><hr class="dropdown-divider"></li>
-	              <li><a class="dropdown-item" href="#">회원관리</a></li>
-	              <li><a class="dropdown-item" href="#">주문관리</a></li>
-	              <li><a class="dropdown-item" href="#">채용관리</a></li>
-	              <li><a class="dropdown-item" href="#">쪽지관리</a></li>
-	              
-	            </ul>
-	          </li> 
-	          <li class="nav-item dropdown">
 	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
 	              메뉴
 	            </a>
 	            <ul class="dropdown-menu">
 	              <li><a class="dropdown-item" href="${context}/prdt/list2">전체보기</a></li>
-	              <li><hr class="dropdown-divider"></li>
-	
 	<%--               <c:choose> --%>
 	<%-- 				<c:when test="${not empty srtList}"> --%>
 	<%-- 					<c:forEach items="${srtList}" --%>
@@ -240,30 +223,41 @@ li.dropdown > ul > li > a  {
 	              매장
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
-	              <li><hr class="dropdown-divider"></li>
-	              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
-	              <li><a class="dropdown-item" href="/user/rv/list">리뷰관리</a></li>
+	              <li><a class="dropdown-item" href="${context}/str/customer">매장찾기</a></li>
+	              <li><a class="dropdown-item" href="${context}/rv/list">리뷰관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav-item dropdown">
 	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-	              게시판
+	              이벤트
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="#">관리자게시판</a></li>
-	              <li><hr class="dropdown-divider"></li>
-	              <li><a class="dropdown-item" href="#">댓글관리</a></li>
+	              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
 	            </ul>
 	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link disabled" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">채용</a>
+	          <li class="nav-item dropdown">
+	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+	              리뷰
+	            </a>
+	            <ul class="dropdown-menu">
+	              <li><a class="dropdown-item" href="${context}/user/rv/list">리뷰</a></li>
+	            </ul>
 	          </li>
-	          <li class="nav-item">
-	           	<a class="nav-link disabled" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px;"></a>
-	           	
-	          </li>
+
 	        </ul>
+	        <div style="margin-right:20px;">
+	        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	         <li class="nav-item">
+	         	<a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
+	         </li>
+	         <li class="nav-item">
+	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
+	         </li>
+	         <li class="nav-item">
+	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list">고객센터</a>
+	         </li>
+	        </ul>
+	        </div>
 	        <div style=" width: 40px;">
 				<input type="checkbox" id="menuicon">
 				<label for="menuicon">
@@ -273,14 +267,6 @@ li.dropdown > ul > li > a  {
 				</label>
 				<div class="sidebar">
 					<ul class="sitemap-ul">
-						<li><a href="#" class="fs-4 fw-bold">회원 </a>
-							<ul>
-								<li><a href="#" class="fs-6 fw-bold">회원관리 </a></li>
-								<li><a href="#" class="fs-6 fw-bold">주문관리</a></li>
-								<li><a href="#" class="fs-6 fw-bold">채용관리 </a></li>
-								<li><a href="#" class="fs-6 fw-bold">쪽지관리</a></li>
-							</ul>
-						</li>
 						<li><a href="${context}/prdt/list2" class="fs-4 fw-bold">메뉴</a>
 							<ul>
 								<li><a href="${context}/prdt/list2?prdtSrt=004-01" class="fs-6 fw-bold">메인메뉴</a></li>
@@ -291,20 +277,21 @@ li.dropdown > ul > li > a  {
 						<li><a href="#" class="fs-4 fw-bold">매장</a>
 							<ul>
 								<li><a href="#" class="fs-6 fw-bold">매장찾기 </a></li>
-								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트관리</a></li>
-								<li><a href="/user/rv/list" class="fs-6 fw-bold">리뷰관리</a></li>
 							</ul>
 						</li>
-						<li><a href="#" class="fs-4 fw-bold">게시판</a>
+						<li><a href="#" class="fs-4 fw-bold">이벤트</a>
 							<ul>
-								<li><a href="#" class="fs-6 fw-bold">관리자게시판</a></li>
-								<li><a href="#" class="fs-6 fw-bold">댓글관리</a></li>
-								<li><a href="#" class="fs-6 fw-bold">고객센터</a></li>
+								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트</a></li>
 							</ul>
 						</li>
-						<li><a href="#" class="fs-4 fw-bold">기타</a>
+						<li><a href="${context}/user/rv/list" class="fs-4 fw-bold">리뷰</a>
 							<ul>
-								<li><a href="${context}/index"  class="fs-6 fw-bold">돌아가기</a></li>
+								<li><a href="${context}/user/rv/list" class="fs-6 fw-bold">리뷰</a></li>
+							</ul>
+						</li>
+						<li><a href="${context}/index" class="fs-4 fw-bold">관리자페이지로</a>
+							<ul>
+								<li><a class="fs-6 fw-bold">삭제예정</a></li>
 							</ul>
 						</li>
 					</ul>

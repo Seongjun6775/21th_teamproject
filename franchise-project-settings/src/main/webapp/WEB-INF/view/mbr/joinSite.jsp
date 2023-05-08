@@ -17,7 +17,14 @@
 	    var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;   //정규식 구문
 	    if (RegExp.test(obj.value)) {
 	      obj.value="";
-	      alert("아이디에 특수문자를 입력할 수 없습니다. 다시 입력해주세요");
+	      Swal.fire({
+	    	  icon: 'error',
+	    	  title: "잘못된 입력",
+	    	  text: '아이디에 특수문자를 입력할 수 없습니다.',
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+	    	})
+	      /* alert("아이디에 특수문자를 입력할 수 없습니다. 다시 입력해주세요"); */
 	    }
 	  }
 	var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -47,12 +54,31 @@
 				else if(resp.message=="계정정보없음"){
 					localStorage.setItem("failCount", parseInt(failCount)+1);
 					if(failCount <= 5){
-						alert("아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ failCount + " / 5");
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: '입력값이 다릅니다.',
+					    	  html: "아이디 또는 비밀번호를 확인해 주세요.<br/>5회이상 실패시 계정이 차단됩니다. <br/>"+ failCount + " / 5",
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+				    	});
+						/* alert("아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ failCount + " / 5"); */
 					}else{
-						alert("계정이 잠겼습니다. 관리자에게 문의하세요.");
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: "계정이 잠겼습니다.\n관리자에게 문의하세요.",
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+				    	});
+						/* alert("계정이 잠겼습니다. 관리자에게 문의하세요."); */
 					}
 				}else{
-					alert(resp.message)
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: resp.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+			    	});
+					/* alert(resp.message) */
 				}
 			});
 		});
@@ -137,7 +163,13 @@
 			$("#mbrPwdChck").val(mbrPwdChck);
 			//비밀번호 값이 8자 미만일 때 - alert();
 			if(pwd == null||pwd.length < pwMinLength){
-				alert("비밀번호 8자리를 먼저 입력하세요");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '비밀번호 8자리를 먼저 입력하세요',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("비밀번호 8자리를 먼저 입력하세요"); */
 				$("#checkPwd").hide();
 				$("#matchPwd").hide();
 				$("#notMatchPwd").hide();
@@ -197,17 +229,35 @@
 			}
 			var dupStatus = $("#dupId").css("display");
 			if(dupStatus != "none"){
-				alert("이미 사용중인 아이디 입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '이미 사용중인 아이디 입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("이미 사용중인 아이디 입니다."); */
 				return;
 			}
 			var idLen = $("#idLen").css("display");
 			if(idLen != "none"){
-				alert("아이디는 5자 이상입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '아이디는 5자 이상입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("아이디는 5자 이상입니다."); */
 				return;
 			}
 			var shortPwd = $("#shortPwd").css("display");
 			if(shortPwd != "none"){
-				alert("비밀번호는 8자 이상입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '비밀번호는 8자 이상입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("비밀번호는 8자 이상입니다."); */
 				return;
 			}
 			if(!valueUtil.requires("#mbrPwd")){
@@ -215,22 +265,46 @@
 			}
 			var matchPwd= $("#matchPwd").css("display");
 			if(matchPwd == "none"){
-				alert("비밀번호가 일치하지 않습니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '비밀번호가 일치하지 않습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("비밀번호가 일치하지 않습니다."); */
 				return;
 			}
 			if(!valueUtil.requires("#mbrEml")){
 				return;
 			}
 			if($("#doneAuth").val() == "false" ? true : false){
-				alert("이메일 인증을 진행해 주세요.")
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '이메일 인증을 진행해 주세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("이메일 인증을 진행해 주세요.") */
 				return;
 			}
 			$.post("${context}/api/mbr/regist", $("#login-up").serialize(), function(resp){
 				if(resp.status == "200 OK"){
-					alert("회원가입 성공!");
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '회원가입 성공',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+			    	});
+					/* alert("회원가입 성공!"); */
 					location.href="${context}"+resp.redirectURL;
 				}else if(resp.errorCode=="403" || resp.errorCode=="500"){
-					alert(resp.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: resp.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+			    	});
+					/* alert(resp.message); */
 				}
 			});
 		});
@@ -252,7 +326,14 @@
 		    // 타이머 끝
 		    if (--count < 0) {
 		      clearInterval(timer);
-		      alert("시간초과");
+		      Swal.fire({
+		    	  icon: 'error',
+		    	  title: '시간초과',
+		    	  text: '다시 시도하세요.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+	    	  });
+		      /* alert("시간초과"); */
 		      display.text("시간초과 다시 시도하세요.");
 		      $("#auth-btn").attr("disabled", true);
 		      isRunning = false;
@@ -266,7 +347,13 @@
 			$("#auth-btn").attr("disabled", false);
 			
 			if( email == "" || !emailRegExp.test(email)){
-				alert("이메일을 확인하세요.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '이메일을 확인하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+		    	});
+				/* alert("이메일을 확인하세요."); */
 				return;
 			}
 			$("#timer").show();
@@ -295,14 +382,32 @@
 						      } else{
 						        startTimer(leftSec, display);
 						      }
-						      alert("전송되었습니다. 이메일을 확인해 주세요");
+						      Swal.fire({
+						    	  icon: 'success',
+						    	  title: '전송되었습니다. 이메일을 확인해 주세요.',
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+				    			});
+						      /* alert("전송되었습니다. 이메일을 확인해 주세요"); */
 						    } else{
-						      alert(resp.message);
+						    	Swal.fire({
+							    	  icon: 'error',
+							    	  title: resp.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+					    			});
+						      /* alert(resp.message); */
 						    }
 						  },
 					  error: function(){
 						  	$("#overlay").hide();
-						    alert("에러가 발생했습니다. 다시 시도해주세요");
+						  	Swal.fire({
+						    	  icon: 'error',
+						    	  title: '에러가 발생했습니다. 다시 시도해주세요.',
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+			    			});
+						    /* alert("에러가 발생했습니다. 다시 시도해주세요"); */
 						  },
 					  complete: function() {
 						  $("#overlay").hide();
@@ -326,10 +431,22 @@
 				$("#authEml").attr("disabled", "true");
 				$("#mbrEml").attr("readonly", "readonly");
 				clearInterval(timer);
-				alert("인증번호가 일치합니다.");
+				Swal.fire({
+			    	  icon: 'success',
+			    	  title: '인증번호가 일치합니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+  				});
+				/* alert("인증번호가 일치합니다."); */
 			}else{
 				//TODO alert말고 sapn으로 처리(타이머 시간때문에)
-				alert("인증번호가 불일치 합니다. 다시 입력해주세요.")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '인증번호가 불일치 합니다. 다시 입력해주세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+  				});
+				/* alert("인증번호가 불일치 합니다. 다시 입력해주세요.") */
 			}
 		});
 		$("#mbrEml").change(function(){
@@ -363,15 +480,33 @@
 					  success: function(resp) {
 						  	$("#overlay").hide();
 						    if(resp.status == "200 OK"){
-					    		alert("이메일로 전송완료, 확인 해 주세요.");
+						    	Swal.fire({
+							    	  icon: 'success',
+							    	  title: '이메일로 전송완료, 확인 해 주세요.',
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+				  				});
+					    		/* alert("이메일로 전송완료, 확인 해 주세요."); */
 								location.href="${context}/"+resp.redirectURL;
 						    } else{
-						      alert(resp.message);
+						    	Swal.fire({
+							    	  icon: 'error',
+							    	  title: resp.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+				  				});
+						      /* alert(resp.message); */
 						    }
 						  },
 					  error: function(){
 						  	$("#overlay").hide();
-						    alert("에러가 발생했습니다. 다시 시도해주세요");
+						  	Swal.fire({
+						    	  icon: 'error',
+						    	  title: '에러가 발생했습니다. 다시 시도해주세요',
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+			  				});
+						    /* alert("에러가 발생했습니다. 다시 시도해주세요"); */
 						  },
 					  complete: function() {
 						  $("#overlay").hide();
@@ -399,15 +534,33 @@
 					  success: function(resp) {
 						  	$("#overlay").hide();
 						    if(resp.status == "200 OK"){
-					    		alert("이메일로 전송완료, 확인 해 주세요.");
+						    	Swal.fire({
+							    	  icon: 'success',
+							    	  title: '이메일로 전송완료, 확인 해주세요.',
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+				  				});
+					    		/* alert("이메일로 전송완료, 확인 해 주세요."); */
 								location.href="${context}/"+resp.redirectURL;
 						    } else{
-						      alert(resp.message);
+						    	Swal.fire({
+							    	  icon: 'error',
+							    	  title: resp.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+				  				});
+						      /* alert(resp.message); */
 						    }
 						  },
 					  error: function(){
 						  	$("#overlay").hide();
-						    alert("에러가 발생했습니다. 다시 시도해주세요");
+						  	Swal.fire({
+						    	  icon: 'error',
+						    	  title: '에러가 발생했습니다. 다시 시도해주세요.',
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+			  				});
+						    /* alert("에러가 발생했습니다. 다시 시도해주세요"); */
 						  },
 					  complete: function() {
 						  $("#overlay").hide();

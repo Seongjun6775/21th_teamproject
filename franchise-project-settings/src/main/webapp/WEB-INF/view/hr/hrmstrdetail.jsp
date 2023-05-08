@@ -11,8 +11,21 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/hr_mstr.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 	$().ready(function() {
+		
+		$.ajaxSetup({
+			  beforeSend: function() {
+				  $("#overlay").show();
+			  },
+			  complete: function() {
+				  $("#overlay").hide();
+			  }
+		});
 		
 		var delYn = "${hr.delYn}";
 		var mbrId = "${hr.mbrId}";
@@ -29,12 +42,24 @@
 		$("#delete_btn").click(function() {
 
 			if (delYn == 'Y') {
-				alert("이미 삭제 처리된 글입니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제 처리된 글입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제 처리된 글입니다."); */
 				return;
 			}
 			
 			if (mbrId != "${mbrVO.mbrId}") {
-				alert("자기가 작성한 글만 삭제할 수 있습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자기가 작성한 글만 삭제할 수 있습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("자기가 작성한 글만 삭제할 수 있습니다."); */
 				return;
 			}
 			
@@ -43,23 +68,50 @@
 			}
 			$.post("${context}/api/hr/delete/${hr.hrId}", function(response) {
 				if (response.status == "200 OK") {
-					alert("정상적으로 삭제되었습니다.");
-					location.href="${context}/hr/list";
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '정상적으로 삭제되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href="${context}/hr/list";
+						}
+					});
+					/* alert("정상적으로 삭제되었습니다."); */
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
 		
 		$("#update_btn").click(function() {
 			if (delYn == "Y") {
-				alert("이미 삭제된 글은 수정할 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제된 글은 수정할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제된 글은 수정할 수 없습니다."); */
 				return;
 			}
 			
 			if (mbrId != "${mbrVO.mbrId}") {
-				alert("다른 사람의 글은 수정할 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '다른 사람의 글은 수정할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("다른 사람의 글은 수정할 수 없습니다."); */
 				return;
 			}
 			
@@ -68,17 +120,35 @@
 		
 		$("#hrApr_Y_btn").click(function() {
 			if (ntcYn == "Y") {
-				alert("공지 게시글은 채용 처리를 할 수 없습니다!");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '공지 게시글은 채용처리할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("공지 게시글은 채용 처리를 할 수 없습니다!"); */
 				return;
 			}
 			
 			if (delYn == "Y") {
-				alert("이미 삭제된 글은 채용 처리할 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제된 글은 채용 처리할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제된 글은 채용 처리할 수 없습니다."); */
 				return;
 			}
 			
 			if (aprYn != null && aprYn != "") {
-				alert("이미 채용/미채용이 완료된 건입니다.")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 채용/미채용 처리된 건입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 채용/미채용이 완료된 건입니다.") */
 				return;
 			}
 			
@@ -90,30 +160,65 @@
 			form.append("<input type='hidden' name='hrLvl' value='${hr.hrLvl}'>");
 			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
 			form.append("<input type='hidden' name='hrAprYn' value='Y'>");
+			
+			
 			$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
-					alert("정상적으로 채용 처리 되었습니다.");
-					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '정상적으로 채용처리 되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
+						}
+					});
+					/* alert("정상적으로 채용 처리 되었습니다."); */
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
 		
 		$("#hrApr_N_btn").click(function() {
 			if (ntcYn == "Y") {
-				alert("공지 게시글은 채용 처리를 할 수 없습니다!");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '공지 게시글은 채용 처리할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("공지 게시글은 채용 처리를 할 수 없습니다!"); */
 				return;
 			}
 			
 			if (delYn == "Y") {
-				alert("이미 삭제된 글은 미채용 처리할 수 없습니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 삭제된 글은 미채용 처리할 수 없습니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 삭제된 글은 미채용 처리할 수 없습니다."); */
 				return;
 			}
 			
 			if (aprYn != null && aprYn != "") {
-				alert("이미 채용/미채용이 완료된 건입니다.")
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '이미 채용/미채용 처리된 건입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("이미 채용/미채용이 완료된 건입니다.") */
 				return;
 			}
 			
@@ -129,11 +234,26 @@
 			
 			$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
-					alert("정상적으로 미채용 처리 되었습니다.");
-					location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '정상적으로 미채용 처리되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
+						}
+					});
+					/* alert("정상적으로 미채용 처리 되었습니다."); */
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
@@ -143,6 +263,48 @@
 			var hrId = "${hr.hrId}";
 			location.href="${context}/hr/hrfile/" + hrId;
 		
+		});
+		
+		var url;
+		$(".open-layer").click(function(event) {
+			var mbrId = $(this).text();
+			$("#layer_popup").css({
+				"padding": "5px",
+				"top": event.pageY,
+				"left": event.pageX,
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
+			}).show();
+			mbrId = mbrId.trim();
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
+			}
+		});
+		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
+		$(".close-memo-btn").click(function() {
+			url = undefined;
+			$("#layer_popup").hide();
 		});
 		
 	});
@@ -170,7 +332,7 @@
 				<c:if test="${hr.ntcYn eq 'Y'}">
 					<div class="hr_detail_header">마감일 : ${hr.hrDdlnDt}</div>
 				</c:if>
-				<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
+				<div class="hr_detail_header ellipsis" onclick="event.cancelBubble=true">작성자 : <span><a class="open-layer" href="javascript:void(0);" val="${hr.mbrId}">${hr.mbrId}</a></span></div>
 				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
 			</div>
 				<div style="padding:10px; ">
@@ -234,5 +396,22 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- layer-popup -->
+		<div class="layer_popup" id="layer_popup" style="display: none;">
+			<div class="popup_box">
+				<div class="popup_content">
+					<a class="send-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-mail-send' ></i>쪽지 보내기
+					</a>
+				</div>
+				<div>
+					<a class="close-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-x'></i>닫기
+					</a>
+				</div>
+			</div>
+		</div>
+		
 <jsp:include page="../include/closeBody.jsp" />
 </html>

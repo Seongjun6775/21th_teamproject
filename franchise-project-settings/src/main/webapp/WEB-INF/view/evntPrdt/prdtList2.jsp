@@ -8,10 +8,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../../css/evntCommon.css">
+<!-- <link rel="stylesheet" href="../../css/evntCommon.css"> --> 
 <meta charset="UTF-8">
 <title>이벤트 상품 설정</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	//input 가격 입력의 최대길이를 제한하기 위한 기능
@@ -98,10 +99,22 @@
 			// 3. 결과 처리
 			function(response) {
 				if (response.status == "200 OK") {
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 					//location.reload(); // 새로고침
 				} else {
-					alert(response.errorCode + " / " + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + " / " + response.message); */
 				}
 			});
 		});
@@ -120,7 +133,13 @@
 		 $("#btn-create-evntPrdt").click(function() {
 				var checkLen = $(".check-idx:checked").length;
 				if (checkLen == 0) {
-					alert("선택된 항목이 없습니다.");
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '선택된 항목이 없습니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert("선택된 항목이 없습니다."); */
 					return;
 				}
 				if (!confirm("체크한 항목이 일괄 등록됩니다.")) {
@@ -151,11 +170,26 @@
 							
 				$.post("${context}/api/evntPrdt/createCheckedEvntPrdtList", form.serialize(), function(response) {
 					if (response.status == "200 OK") {
-						alert(response.message);
-						location.reload(); //새로고침
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: response.message,
+					    	  showConfirmButton: true,
+					    	  confirmButtonColor: '#3085d6'
+						}).then((result)=>{
+							if(result.isConfirmed){
+								location.reload(); //새로고침
+							}
+						});
+						/* alert(response.message); */
 					}
 					else {
-						alert(response.errorCode + " / " + response.message);
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: response.message,
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						/* alert(response.errorCode + " / " + response.message); */
 					}
 				});
 			})
@@ -184,9 +218,15 @@
 	     return str.replace(/[^\d]+/g, '');
 	 }
 </script>
-
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
-<body>
+<body class="bg-dark bg-opacity-10">
 	<div style="padding: 23px 18px 23px 18px;">
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin-bottom:20px;" >
 	        <span class="fs-5 fw-bold"> 이벤트상품 리스트 목록 조회</span>
@@ -202,9 +242,9 @@
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
-							<th style="width: 50px; text-align: center;"><input type="checkbox" id="all-check" /></th>
+							<th style="width: 50px; text-align: center; border-radius: 6px 0 0 0;"><input type="checkbox" id="all-check" /></th>
 							<th style="width: 200px; text-align: center;">상품 ID</th>
-							<th style="width: 200px; text-align: center;"><select class="selectFilter form-select"
+							<th style="width: 200px; text-align: center;"><select class="select-align-center "
 								name="selectFilter" id="search-keyword-prdtSrt">
 									<option value="">분류</option>
 									<c:choose>
@@ -216,7 +256,7 @@
 									</c:choose>
 							</select></th>
 							<th style="width: 200px; text-align: center;">상품 가격</th>
-							<th style="width: 200px; text-align: center;">변경 가격</th>
+							<th style="width: 200px; text-align: center; border-radius: 0 6px  0 0;">변경 가격</th>
 <!-- 							<th style="width: 80px; text-align: center;">사용유무</th> -->
 <!-- 							<th style="width: 80px; text-align: center;">삭제여부</th> -->
 						</tr>
@@ -249,8 +289,8 @@
 					</tbody>
 				</table>
 				<div style="float: right;">
-					<button id="btn-create-evntPrdt" class="btn btn-primary" style="background-color: #8080ff;">일괄 등록</button>
-					<button id="btn-close" class="btn btn-secondary">닫기</button>
+					<button id="btn-create-evntPrdt" class="btn btn-outline-primary btn-default">일괄 등록</button>
+					<button id="btn-close" class="btn btn-outline-secondary btn-default">닫기</button>
 					<!-- 			<button id="btn-revomeEvntPrdt" class="btn-primary">상품 삭제</button> -->
 					<!-- 			<button id="btn-listEvntPrdt" class="btn-primary">확인용도</button> -->
 				</div>

@@ -168,7 +168,7 @@
 		 , 'N'
 		 , #{ntcYn}
 		 , #{hrLvl}
-		 , #{hrDdlnDt})
+		 , TO_DATE(#{hrDdlnDt}, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 	
 	<select id="readOneHrByHrId"
@@ -239,6 +239,7 @@
 		   SET HR_APR_YN = #{hrAprYn}
 		     , HR_APR_DT = SYSDATE
 		     , HR_STAT = '002-03'
+		     , DEL_YN = 'Y'
 		 WHERE HR_ID = #{hrId}
 	</update>
 	

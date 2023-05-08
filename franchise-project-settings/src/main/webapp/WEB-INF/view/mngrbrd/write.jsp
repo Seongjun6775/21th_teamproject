@@ -13,13 +13,20 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp"/>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
+		/* var simplemde = new SimpleMDE({ element: $("#mngrBrdCntnt")[0],
+										status: true,
+										spellChecker: false,
+										hideIcons: ["link", "image"]});
+		
 		$("#list_btn").click(function() {
 			location.href="${context}/mngrbrd/list";
-		});
+		}); */
 		
 		$("#new_btn").click(function(){	
+			/* $("#mngrBrdCntnt").val(simplemde.value()); */
 			$.post("${context}/api/mngrbrd/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
 					
@@ -30,16 +37,38 @@
 				else if (response.status =="400"){
 					//파라미터를 전달하지 않은 경우
 					console.log(response.message);
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}
 			});
 	    
 		});
+		
 	});
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm  " style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -50,19 +79,21 @@
 		    </div>
 
 			<div class="bg-white rounded shadow-sm" style="padding: 40px 18px 23px 35px; overflow: auto;  margin:20px;">
-				<h2 class="fw-bold" style="margin: 20px;">작성</h2>
+				<!-- <h2 class="fw-bold" style="margin: 20px;">작성</h2> -->
 				<div>
 					<form id="create_form" >
 						<div class="header-option-right">
 							<div class="create-group form-check-label" style="display: inline-block;">		
 								게시여부<input type="checkbox" id="useYn" name="useYn"  value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
 							</div>
-							<div class="create-group form-check-label" style="display: inline-block;">
-								공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
-							</div>
+							<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+								<div class="create-group form-check-label" style="display: inline-block;">
+									공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
+								</div>
+							</c:if>
 						</div>	
 						
-						<div class="create-group">
+						<div class="create-group" style="flex-direction: column;">
 							<label for="mngrBrdTtl" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label> 
 							<input type="text" id="mngrBrdTtl" class="form-control" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl}" />
 						</div>
@@ -71,13 +102,13 @@
 							<input type="hidden" id="mngrId" name="mngrId" value="${mngrBrd.mngrId}" />
 						</div>			
 						
-						<div class="create-group">
+						<div class="create-group" style="flex-direction: column;">
 							<label for="mngrBrdCntnt" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e; height: 47px;">본문</label> 
-							<textarea  id="mngrBrdCntnt" class="form-control" name="mngrBrdCntnt" style="resize:none;" placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
+							<textarea id="mngrBrdCntnt" name="mngrBrdCntnt"  placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
 						</div>
 					</form>	
 					<div style="padding: 10px;text-align: right;"> 
-						<button id="new_btn" class="btn btn-primary">등록</button>
+						<button id="new_btn" class="btn btn-outline-primary btn-default">등록</button>
 					</div> 					
 				</div>
 			</div>			
