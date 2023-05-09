@@ -292,11 +292,14 @@
 					Swal.fire({
 				    	  icon: 'success',
 				    	  title: '회원가입 성공',
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-			    	});
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href="${context}"+resp.redirectURL;
+						}
+					});
 					/* alert("회원가입 성공!"); */
-					location.href="${context}"+resp.redirectURL;
 				}else if(resp.errorCode=="403" || resp.errorCode=="500"){
 					Swal.fire({
 				    	  icon: 'error',
