@@ -106,48 +106,12 @@
 	    </div>		
 		<div class="bg-white rounded shadow-sm" style="padding: 60px;  margin:20px;">
 			<div class="flex">
-				<div class="half-left" style="margin-right: 30px;">
-					<div class="input-group">
-						<label for="prdtId" class="col-form-label label-left-border">리뷰ID</label>
-						<div>
-							<input type="text" class="form-control" readonly value="${rvDetail.rvId}"/>
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="prdtNm" class="col-form-label label-left-border">주문서ID</label>
-						<div>
-							<input type="text" class="form-control" readonly value="${rvDetail.odrLstId}"/>
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="prdtNm" class="col-form-label label-left-border" >매장명</label>
-						<div>
-							<input type="text" class="form-control" readonly value="${rvDetail.strVO.strNm}"/>
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="prdtNm" class="col-form-label label-left-border">회원ID</label>
-						<div>
-							<input type="text" class="form-control" readonly value="${rvDetail.mbrId}"/>
-						</div>
-					</div>	
-					<div class="input-group">
-						<label for="prdtNm" class="col-form-label label-left-border">등록일</label>
-						<div>
-							<input type="text" class="form-control" readonly value="${rvDetail.rvRgstDt}"/>
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="prdtNm" class="col-form-label label-left-border" >수정일</label>
-						<div>
-							<input type="text" class="form-control" readonly  value="${rvDetail.mdfyDt}"/>
-						</div>
-					</div>
+			
 					<div class="input-group" style="flex: 1; margin-top: 10px;">
 						<label for="prdtCntnt" class="col-form-label label-left-border">상품이름</label>
 						<div>
 							<textarea id="prdtCntnt" style="height:20px; resize: none;" readonly
-									class="form-control">${rvDetail.prdtVO.prdtNm}</textarea>
+									class="form-control">${rvDetail.prdtVO.prdtNm} 외 ${odrDtl.size() -1}건</textarea>
 						</div>
 					</div>
 				</div>

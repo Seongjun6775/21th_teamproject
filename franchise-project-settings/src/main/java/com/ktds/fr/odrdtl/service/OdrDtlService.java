@@ -66,7 +66,8 @@ public interface OdrDtlService {
 	 */
 	public List<OdrDtlVO> odrDtlForOdrLst(String odrDtlId);
 	
-	
+	// 2-5.상세 조회에서 주문서 ID의 개수 받아오기 == 상위관리자, 중간관리자, 하위관리자, 이용자
+	public int readCountOdrLstId(OdrDtlVO odrDtlVO);
 	
 	/**
 	 * 매출관련 조회용 
