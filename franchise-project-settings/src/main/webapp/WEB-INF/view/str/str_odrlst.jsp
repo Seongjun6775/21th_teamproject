@@ -34,8 +34,10 @@ $().ready(function() {
 		    return;
 		  }
 		
-		var Id = $(this).text;
-		$("#staticBackdropLabel").html(Id);
+		var Id = $(this).data().odrlstid;
+		var mbrNm = $(this).data().mbrnm;
+		var odrLstRgstDt = $(this).data().odrlstrgstdt;
+		$("#staticBackdropLabel").html(Id + " / " + mbrNm + " / " + odrLstRgstDt);
 // 		$("#staticBackdropLabel").empty();
 // 		$("#staticBackdropLabel").empty();
 // 		$("div[class=modal-body]").empty();
