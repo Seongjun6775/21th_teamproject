@@ -56,9 +56,13 @@ $().ready(function() {
 	
 	$("#btn-search").click(function() {
 		var prdtId = $("#search-keyword-prdt").val();
-		sumMonth(prdtId);
-		startEnd($("#clickMonthSave").val(), prdtId);
-		groupPrdt($("#clickDatSave").val() != "" ? $("#clickDaySave").val() : $("#clickMonthSave").val())
+		var lct = $("#search-keyword-lct").val();
+		var cty = $("#search-keyword-cty").val();
+		var month = $("#clickMonthSave").val();
+		var day = $("#clickDaySave").val();
+		sumMonth(prdtId, lct, cty);
+		startEnd(month, prdtId, lct, cty);
+		groupPrdt(day != "" ? day : month, lct, cty)
 	})
 	
 	$("#sumMonth").on("click", "td", function() {
@@ -66,20 +70,26 @@ $().ready(function() {
 		if (oneday == null || oneday == "") return; 
 		$(this).closest("tbody").find(".on").removeClass("on");
 		$(this).addClass("on");
+		var prdtId = $("#search-keyword-prdt").val();
+		var lct = $("#search-keyword-lct").val();
+		var cty = $("#search-keyword-cty").val();
 		$("#clickMonthSave").val(oneday)
 		$("#clickDaySave").val("")
 		
-		startEnd(oneday);
-		groupPrdt(oneday);
+		startEnd(oneday, prdtId, lct, cty);
+		groupPrdt(oneday, lct, cty);
 	});
 	$("#startEnd").on("click", "tr", function() {
 		var oneday = $(this).data().oneday;
 		if (oneday == null || oneday == "") return; 
 		$(this).closest("tbody").find(".on").removeClass("on");
 		$(this).addClass("on");
+		var lct = $("#search-keyword-lct").val();
+		var cty = $("#search-keyword-cty").val();
+
 		$("#clickDaySave").val(oneday)
 		
-		groupPrdt(oneday);
+		groupPrdt(oneday, lct, cty);
 	});
 
 
@@ -108,8 +118,8 @@ $().ready(function() {
 			var str = $("#search-keyword-str").val();
 		}
 		sumMonth(prdtId, lct, cty, str);
-		startEnd($("#clickMonthSave").val(), prdtId);
-		groupPrdt($("#clickDaySave").val() != "" ? $("#clickDaySave").val() : $("#clickMonthSave").val())
+		startEnd($("#clickMonthSave").val(), prdtId, lct, cty);
+		groupPrdt($("#clickDaySave").val() != "" ? $("#clickDaySave").val() : $("#clickMonthSave").val(), lct, cty)
 	});
 	
 	
@@ -147,11 +157,13 @@ $().ready(function() {
 
 
 
-function groupPrdt(monthly) {
+function groupPrdt(monthly, lct, cty) {
 	
 	var odrDtlVO = {
 		odrDtlStrId : $("#search-keyword-str").val(),
 		monthly : monthly,
+		lctCdVO : {lctId : lct},
+		ctyCdVO : {ctyId : cty},
 		prdtVO :  {prdtSrt : $("#search-keyword-prdtSrt").val()}
 	}
 	$.ajax({
@@ -306,11 +318,13 @@ function groupPrdt(monthly) {
 	})
 }
 
-function startEnd(oneday, prdtId) {
+function startEnd(oneday, prdtId, lct, cty) {
 	
 	var odrDtlVO = {
 		odrDtlStrId : $("#search-keyword-str").val(),
 		monthly : oneday,
+		lctCdVO : {lctId : lct},
+		ctyCdVO : {ctyId : cty},
 		prdtVO :  {prdtSrt : $("#search-keyword-prdtSrt").val()},
 		odrDtlPrdtId : prdtId
 	}
@@ -388,16 +402,20 @@ function sumMonth(prdtId, lct, cty, str) {
 			    M[monthly-1] += sumPrc;
 			    pay += sumPrc;
 			    sum += sumPrc;
+			    var monthSave = $("#clickMonthSave").val();
+			    console.log(monthSave , yearly)
 			    if (monthly == 1) {
 			    	var tr = $("<tr></tr>");
-			    	var td = [
-			    		$("<td data-oneday='"+yearly+"'>"+yearly+"</td>"),
-			    		$("<td class='sumX money' style='padding-right: 10px;'></td>")
-		    		]
+		    		var td = $("<td data-oneday='"+yearly+"'>"+yearly+"</td>");
+			    	if (monthSave == yearly) {
+						td.addClass("on")
+		    		}
+					tr.append(td);
+			    	td = $("<td class='sumX money' style='padding-right: 10px;'></td>")
 					tr.append(td);
 			    }
 			    var td = $("<td data-oneday='"+yearly+"-"+monthly+"' class='money' style='padding-right: 10px;'>" + sumPrc.toLocaleString() + "</td>");
-				if ($("#clickMonthSave").val() == (yearly+"-"+monthly)) {
+				if (monthSave == (yearly+"-"+monthly)) {
 					td.addClass("on")
 				}
 			    

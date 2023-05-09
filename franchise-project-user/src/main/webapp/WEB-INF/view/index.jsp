@@ -11,6 +11,7 @@
 <title>Insert title here</title>
 <jsp:include page="./include/stylescript.jsp" /> 
 <link rel="stylesheet2" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript" src="${context}/bs/assets/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
@@ -104,18 +105,20 @@ input[id="menuicon"]:checked + label + div {height:300px;}
   font-size: 20px; FONT-WEIGHT: 600;
 }
 
+
 .main-order-box{
   border-radius: 15px;
   display: inline-block;
-  width: 550px;
-  height: 240px;
+  width: 350px; 
+  height: 140px; 
   border: 1px solid #fff;
   background: #fff;
   text-align: center;
-  line-height: 240px;
+  line-height: 140px;
   margin: 0;
   margin-right: 20px;
-  font-size: 20px; FONT-WEIGHT: 600;
+  font-size: 20px;
+  FONT-WEIGHT: 600;
 }
 .footer{
   width: 100%;
@@ -141,162 +144,122 @@ font-size: 18px;
 color: #aaa;
 text-decoration: none;
  }
+ .flex-center{
+     display: flex;
+    justify-content: center;
+ }
+ 
+ .shop_categorylist > li{
+    float: left;
+    font-size: 1.125rem;
+    line-height: 110%;
+    border-left: 1px solid #ededed;
+    border-right: 1px solid #ededed;
+ }
+ 
+ .map_btn{
+ font-size: 25px;
+    FONT-WEIGHT: 550;
+    margin: 10px;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 35px;
+    background-color:#d72300;
+    }
 </style>
 </head>
-<body>
-	<main>
-  <nav class="navbar navbar-expand-lg  border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
-    <div class="container-fluid ">
-      <img src = "${context}/img/cat.jpg"  width="40"; height="32";/>
-      <a class="navbar-brand" href="#" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프렌차이즈</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent" >
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550; padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-              회원
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">회원</a></li>
-              <li><a class="dropdown-item" href="#">회원관리</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">주문관리</a></li>
-              <li><a class="dropdown-item" href="#">채용관리</a></li>
-              <li><a class="dropdown-item" href="#">쪽지관리</a></li>
-              
-            </ul>
-          </li> 
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-              메뉴
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">메뉴관리</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">이벤트관리</a></li>
-              <li><a class="dropdown-item" href="#">리뷰관리</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-              매장
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">매장찾기</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">이벤트관리</a></li>
-              <li><a class="dropdown-item" href="#">리뷰관리</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-              게시판
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">관리자게시판</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">댓글관리</a></li>
-            </ul>      
-          </li>
-          <li class="nav-item"  >
-            <a class="nav-link disabled" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">채용</a>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-3" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <div style="padding: 5px;">
-          <button type="button" class="btn btn-primary position-relative">
-            Profile
-              <span class="visually-hidden">New alerts</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-  <div style="background-color:#f7f7f7;">
-    <div>
-      <div>
-        <div> 
-          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" style=" width: auto; height: auto; ">
-              <div class="carousel-item active">
-                <img src="${context}/img/cat.jpg" class="d-block w-100" alt="고양이1" >
-              </div>
-              <div class="carousel-item">
-                <img src="${context}/img/cat2.jpg" class="d-block w-100" alt="고양이2">
-              </div>
-              <div class="carousel-item">
-                <img src="${context}/img/cat3.jpg" class="d-block w-100" alt="고양이3">
-              </div>
-              <div class="carousel-item">
-                <img src="${context}/img/cat4.jpg" class="d-block w-100" alt="고양이4">
-              </div>
-            </div>
-            <div style="display: flex; justify-content: center;">
-              <div style="position: absolute; bottom: 0; display:inline-block; z-index: 1; margin-bottom: 270px;">
-                <div class="main-order-box"><a class="dropdown-item" href="#" style="font-size: 20px; FONT-WEIGHT: 600;">포장주문</a></div>
-                <div class="main-order-box"><a class="dropdown-item" href="#" style="font-size: 20px; FONT-WEIGHT: 600;">마이오더</a></div>
-              </div>
-            </div>
-          </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-
-          <div style="padding: 20px;">
-            <div class="container-fluid">
-              <h2 style="margin-top: 10px;"><img src = "${context}/img/화살표.png" width="40"; height="32"; style="border-radius: 100%; margin-bottom: 10px;"/>로그인하고 더 많은 해택을 즐겨보세요!</h2>
-            </div>
-            <div style="margin: 30px;">
-              <div class="roundbox"><a class="dropdown-item" href="#" style="font-size: 20px; FONT-WEIGHT: 600;">로그인/회원가입</a></div>
-              <div class="roundbox"><a class="dropdown-item" href="#" style="font-size: 20px; FONT-WEIGHT: 600;">비회원 주문조회</a></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <div style="height: 300px;">
-    <h1>컨텐츠~~~~</h1>
-  </div>
-  <div>
-      <div class = "footer">
-        <div style="padding: 45px 40px 0px 40px;">
-          <div style="display: inline-block;"><h3>프렌차이즈logo</h3></div>
-          <div class="ft_info">
-            <ul class="menu">
-              <li><a href="#" class="item">이용약관</a></li>
-              <li><a href="#" class="privacy">개인정보처리방침</a></li>
-              <li><a href="#" target="_blank" class="notice">공지사항</a></li>
-              <li><a href="#" target="_blank" class="item">창업안내</a></li>
-              <li><a class="item" style="cursor: unset;">대표번호 1588-1588(운영시간 09:00 ~ 18:00)</a></li>
-            </ul>
-            <div style="margin-left: 40px;"> 서울시 서초구 방배역 KTDSuniversity 4, 2층<br> 사업자등록번호 120-81-63948<span class="vbar"></span>
-              통신판매업신고번호 제2018-서울영등포-1220호<br> 한국피자헛유한회사 대표이사 : 김성준<span class="vbar"></span>
-              개인정보 보호책임자 : 이진영 
-            </div>
-            <div style="margin-left: 40px;"> Copyright © BY PIZZA HUT KOREA LTD. ALL RIGHT RESERVED 
-            </div>
-          </div>   
-        </div>
-      </div>
-  </div>
-  
-
-  
-
-  
-</main>
+<body style="background-color:#f2ebe6; overflow: auto;">
+	<jsp:include page="./include/header_user.jsp" />
+	<div style="background-color:#f7f7f7; margin: 0 230px;">
+		<div>
+			<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner" style=" width: 100%; height:1050px; ">
+					<div class="carousel-item active">
+						<img src="${context}/img/붕어빵이벤트2.jpg" class="d-block w-100" alt="고양이1" >
+					</div>
+					<div class="carousel-item">
+						<img src="${context}/img/cat.jpg" class="d-block w-100" alt="고양이2">
+					</div>
+					<div class="carousel-item">
+						<img src="${context}/img/와플.png" class="d-block w-100" alt="고양이3">
+					</div>
+					<div class="carousel-item">
+						<img src="${context}/img/cat4.jpg" class="d-block w-100" alt="고양이4">
+					</div>
+				</div>
+<%-- 				<div style="display: flex; justify-content: center;">
+					<div style="position: absolute; bottom: 0; display:inline-block; z-index: 1; margin-bottom: 270px;">
+						<a href="${context}/prdt/list2" style="font-size: 20px; FONT-WEIGHT: 600;"><button class="main-order-box">주문</button></a>
+						<a href="${context}/prdt/list2" style="font-size: 20px; FONT-WEIGHT: 600;"><button class="main-order-box">메뉴 더보기</button></a>
+					</div>
+				</div> --%>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+			</div>
+			<div style="padding: 30px; background: #444;">
+				<div class="container-fluid"style="display: flex;">
+				<svg  style="display:inline-block" xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" style="color: #fff;"/>
+				</svg>
+				<a href="#" style="margin-left: 20px ; font-size: 25px; FONT-WEIGHT: 550; display:inline-block; color: #fff;">로그인하고 더 많은 해택을 즐겨보세요!</a>
+				</div>
+<!-- 				<div style="margin: 30px;">
+					<div class="roundbox"><a class="dropdown-item" href="#" style="font-size: 20px; FONT-WEIGHT: 600;">로그인/회원가입</a></div>
+					<div class="roundbox"><a class="dropdown-item" href="#" style="font-size: 20px; FONT-WEIGHT: 600;">비회원 주문조회</a></div>
+				</div> -->
+			</div>
+		</div>
+		<iframe width="100%" height="600" src="https://www.youtube.com/embed/y___01py2wk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+		<div style=" position: relative; padding:50px 100px; background-color: #fff; height: 810px;" >
+			<div style="position: absolute; top: 25%; left: 30%;">
+				<h2 class="flex-center fs-1 fw-bold" style="FONT-WEIGHT:800">매장찾기</h2>
+				<p class="flex-center fw-bold" >고객님 주변에 있는 뿡어빵을 찾아보세요!</p>
+	<!-- 			<div class="flex-center" style="margin:20px">
+					<button class="map_btn flex-center">매장찾기</button> 
+				</div> -->
+				<ul class="shop_categorylist flex-center">
+					<li>
+						<img src="${context}/img/map3.gif" width="150" height="100" > 
+						<div class="fw-bolder flex-center flex-center">미리 주문하고 <br>픽업가능한
+						</div> 
+						<div class="fw-bold text-danger fs-5 flex-center m-10"  >오더</div>
+					</li>
+					<li> 
+						<img src="${context}/img/map4.gif" width="150" height="100" >
+						<div class="fw-bolder flex-center">차안에서 빠르게 <br>이용할 수 있는
+						</div>
+						<div class="fw-bold text-danger fs-5 flex-center m-10 " >드라이브 스루</div>
+					</li>
+					<li>
+						<img src="${context}/img/map1.gif" width="150" height="100" >
+						<div class="fw-bolder flex-center">24시간 언제든 <br>함께할 수 있는</div>
+						<div class="fw-bold text-danger fs-5 flex-center m-10">24시간</div>
+					</li>
+					<li>
+						<img src="${context}/img/map5.gif" width="150" height="100">
+						<div class="fw-bolder flex-center">내 차와 함께 <br>올 수 있는</div>
+						<div class="fw-bold text-danger fs-5 flex-center m-10 " >주차공간</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div style="height: 300px;">
+			<h1>이벤트 한눈에 보기 </h1>
+			
+		</div>
+			<div style="height: 402px;">
+			<%-- <a href="#"><img src="${context}/img/채용문의.png" width="50%" height="300"></a>  --%> 
+			
+			
+		</div>
+	 </div>
+<jsp:include page="./include/footer_user.jsp" />
 </body>
 </html>

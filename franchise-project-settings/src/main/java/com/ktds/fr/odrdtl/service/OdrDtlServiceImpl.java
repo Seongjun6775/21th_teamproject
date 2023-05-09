@@ -144,6 +144,12 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	}
 
 	@Override
+	public int readCountOdrLstId(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.readCountOdrLstId(odrDtlVO);
+	}
+	
+	
+	@Override
 	public List<OdrDtlVO> forSale(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.forSale(odrDtlVO);
 	}

@@ -19,12 +19,12 @@ public interface RvDAO {
 	public List<RvVO> readAllRvListForTopManager(SearchRvVO searchRvVO);
 	// 2-2.모든 매장의 리뷰 상세 조회 == 상위관리자, 이용자
 	public RvVO readOneRvVOForTopManagerByRvId(String rvId);
-	
 
 	
 	// 3-1.모든 매장의 리뷰 삭제 == 상위관리자
 	public int deleteAllRvVOByRvIdList(List<String> rvIdList);
 	// 3-2.자기가 쓴 리뷰 삭제 == 이용자
 	public int deleteOneRvVOByRvId(String rvId);
+
 	
 }

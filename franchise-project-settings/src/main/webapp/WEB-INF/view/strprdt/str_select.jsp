@@ -18,6 +18,19 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
+	if ("${mbrVO.mbrLvl}" != "001-04") {
+		Swal.fire({
+		  	  icon: 'error',
+		  	  title: '이용자 로그인 후<br>주문하실 수 있습니다.',
+		  	  showConfirmButton: true,
+		  	  confirmButtonColor: '#3085d6'
+			}).then((result)=>{
+				if(result.isConfirmed){
+					location.href = "${context}/index";
+				}
+			});
+	}
+	
 	console.log("ready function!")
 	var ajaxUtil = new AjaxUtil();
 	

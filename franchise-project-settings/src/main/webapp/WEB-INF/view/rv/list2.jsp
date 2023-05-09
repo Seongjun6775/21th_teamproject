@@ -21,6 +21,9 @@
 
 	$().ready(function() {
 		
+		var dt = new DateTime();
+		var date = dt.today();
+		
 		var url;
 		var mbrId;
 		$(".open-layer").click(function(event) {
@@ -246,7 +249,9 @@
 	<div class="visualArea flex relative">
 		<div class="content-setting title">리뷰</div>
 		<div class="overlay absolute"></div>
-	</div>				
+	</div>	
+	
+	<div id="menu" class="flex-column">			
 	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 			<span class="fs-5 fw-bold">리뷰 > 리뷰목록</span>
 	</div>
@@ -364,6 +369,7 @@
 				</c:if>
 			</div>
 		</div>	
+	</div>
 	</div>
 <jsp:include page="../include/footer_user.jsp" />
 	<div class="layer_popup" id="layer_popup" style="display: none;">

@@ -25,7 +25,7 @@
 	
 </script>
 </head>
-<%-- <jsp:include page="../include/openBody.jsp" /> --%>
+<jsp:include page="../include/openBody.jsp" />
 <div class="bg-white rounded shadow-sm"
 	style="padding: 23px 18px 23px 18px; margin: 20px; position: relative;">
 	<span class="fs-5 fw-bold"> 리뷰 > 리뷰목록 > 리뷰상세</span>
@@ -54,5 +54,5 @@
 		</div>
 	</div>
 </div>
-<%-- <jsp:include page="../include/closeBody.jsp" /> --%>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
