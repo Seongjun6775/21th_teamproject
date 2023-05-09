@@ -78,7 +78,7 @@
 				</div>
 		    </div>
 
-			<div class="bg-white rounded shadow-sm" style="padding: 40px 18px 23px 35px; overflow: auto;  margin:20px;">
+			<div class="bg-white rounded shadow-sm" style="padding: 40px 18px 23px 35px; margin:20px;">
 				<!-- <h2 class="fw-bold" style="margin: 20px;">작성</h2> -->
 				<div>
 					<form id="create_form" >
@@ -94,7 +94,7 @@
 						</div>	
 						
 						<div class="create-group" style="flex-direction: column;">
-							<label for="mngrBrdTtl" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label> 
+							<label for="mngrBrdTtl" class="label" style="margin-left: 12px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label> 
 							<input type="text" id="mngrBrdTtl" class="form-control" name="mngrBrdTtl" placeholder="제목을 입력해주세요." value="${mngrBrd.mngrBrdTtl}" />
 						</div>
 								
@@ -103,8 +103,8 @@
 						</div>			
 						
 						<div class="create-group" style="flex-direction: column;">
-							<label for="mngrBrdCntnt" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e; height: 47px;">본문</label> 
-							<textarea id="mngrBrdCntnt" name="mngrBrdCntnt"  placeholder="내용을 입력해주세요." >${mngrBrd.mngrBrdCntnt}</textarea>
+							<label for="mngrBrdCntnt" class="label" style=" margin-left: 12px; padding-left: 8px; border-left: solid #ffbe2e; height: 47px;">본문</label> 
+							<textarea id="mngrBrdCntnt" name="mngrBrdCntnt"  placeholder="내용을 입력해주세요." class="form-control" style="resize:none;">${mngrBrd.mngrBrdCntnt}</textarea>
 						</div>
 					</form>	
 					<div style="padding: 10px;text-align: right;"> 
