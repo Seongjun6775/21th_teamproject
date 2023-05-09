@@ -359,7 +359,7 @@
 												<div class="rplBox">
 													<ul class="rpl-box">							 
 														<c:forEach items="${mngrBrd.rplList}" var="rpl" varStatus="index"> 
-															<div class="rplymember rounded shadow-sm" style=" background-color: #89b8e75e; border: 1px solid #e0e0e0; padding: 10px; margin-left: ${rpl.depth*50}px">
+															<div class="rplymember rounded shadow-sm" style="border: 1px solid #e0e0e0; padding: 10px; margin-left: ${rpl.depth*50}px">
 															<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
 																<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
 																<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												

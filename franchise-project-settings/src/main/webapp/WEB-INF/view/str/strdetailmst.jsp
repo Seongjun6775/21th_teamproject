@@ -12,6 +12,7 @@
 	<title>Insert title here</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
+	<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 	<script type="text/javascript">
 		$().ready(function() {
 				
@@ -203,173 +204,190 @@
 	</script>
 </head>
 <jsp:include page="../include/openBody.jsp" />
-		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-			<span class="fs-5 fw-bold"> 매장관리 > 상세 조회</span>
-			<h1>매장 상세 조회</h1>
-		</div>
-		<div class="col-2 admin_detail_table_grid bg-white rounded shadow-sm" style="padding: 30px; width: 96.5%; margin:20px; height: auto;">
+
+		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+	        <span class="fs-5 fw-bold">매장관리 > 상세 조회</span>
+	        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
+	        	<button id="list_btn" class="btn btn-secondary" >목록</button>
+	        </div>
+      	</div>
+		<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:20px;"> 
 			<div class="grid-detail">
 			<h3 style="padding:10px">상세 매장 정보</h3>
-			<div class="grid-strdetailmst" style="padding: 20px;">
+			<div style="padding: 20px;">
 				<form id="strdetailmst_form" class="needs-validation">
 					<input type="hidden" id="isModify" value="false" />
-					<div class="row g-3 " style="display: inline-block;">
-						<div class="input-group col-12">
-						<span class="input-group-text">매장 ID</span>
-						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  style="background-color:orange" />
-					</div>
-					
-					<div class="input-group inline">
-						<span class="input-group-text">매장명</span>
-						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
-					</div>
-					
-					<div class="input-group inline">
-						<span class="input-group-text">지역명</span>
-						<select class="form-select" name="strLctn" id="strLctn">
-							<option value="">지역명</option>
-							<c:choose>
-								<c:when test="${not empty lctList}">
-									<c:forEach items="${lctList}"
-												var="lct"> 
-										<option value="${lct.lctId}" ${lct.lctId eq strVO.strLctn ? 'selected' : ''}>${lct.lctNm} </option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</select>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">도시명</span>
-						<select class="form-select" name="strCty" id="strCty">
-							<option value="">도시</option>
-							<c:choose>
-								<c:when test="${not empty ctyList}">
-									<c:forEach items="${ctyList}"
-												var="cty" >
-										<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</select>
-					</div>
-					
-				    <div class="input-group inline">
-						<span class="input-group-text">매장주소</span>
-						<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
-					</div>
-				    <div class="input-group inline">
-				        <span class="input-group-text">전화번호</span>
-				        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
-				    </div>	
-				
-					<div class="input-group inline">
-						<span class="input-group-text">가맹점주ID</span>
-						<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}" placeholder="가맹점주ID가 없습니다."/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">오픈시간</span>
-						<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">종료시간</span>
-						<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">등록자</span>
-						<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">등록일</span>
-						<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}" style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">수정자</span>
-						<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">수정일</span>
-						<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" style="background-color:orange"	/>
-					</div>
-					<div class="inline">
-						<label class="form-check-label">사용여부</label>
-						<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
-					</div>
-					<div style="float:right; display: flex; flex-direction: row-reverse;">
-							
-						</div>
-					</div>
-				</form>
-			
-			<!-- 관리자 리스트 -->
-			<div class="grid-count align-right" style="width: 100%;" >총 ${mbrList.size()}명</div>
-					<table>
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>이름</th>
-								<th>이메일</th>
-								<th>매장명</th>
-								<th>회원등급</th>
-								<th>가입일</th>
-								<th>최근 로그인 날짜</th>
-								<th>최근 로그인 IP</th>
-								<th>로그인 제한</th>
-								
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty mbrList}">
-									<c:forEach items="${mbrList}" var="mbr" varStatus="index">
-										<tr data-mbrId="${mbr.mbrId}" 
-											data-mbrNm="${mbr.mbrNm }" 
-											data-strId="${mbr.strId }" 
-											data-mbrEml="${mbr.mbrEml }" 
-											data-mbrLvl="${mbr.mbrLvl }" 
-											data-mbrLvlNm ="${mbr.cmmnCdVO.cdNm}"
-											data-mbrRgstrDt="${mbr.mbrRgstrDt }" 
-											data-useYn="${mbr.useYn}" 
-											data-mbrRcntLgnDt="${mbr.mbrRcntLgnDt }" 
-											data-mbrRcntLgnIp="${mbr.mbrRcntLgnIp}" 
-											data-mbrLgnFlCnt="${mbr.mbrLgnFlCnt }" 
-											data-mbrLgnBlckYn="${mbr.mbrLgnBlckYn}" 
-											data-mbrLstLgnFlDt="${mbr.mbrLstLgnFlDt }" 
-											data-mbrPwdChngDt="${mbr.mbrPwdChngDt }" 
-											data-mbrLeavDt="${mbr.mbrLeavDt}"
-											data-delYn="${mbr.delYn}"
-											>
+					<div class="flex">
+							<div class="half-left" style="position: relative;">
+								<div style="display: inline-block; width: 45%">						
+									<div class="input-group inline">
+										<span class="input-group-text">점주ID</span>
+										<input class="form-control readonly"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}" readonly placeholder="가맹점주ID가 없습니다."/>
+									</div>
 
-											<td>${mbr.mbrId}</td>
-											<td>
-												<a href="${context}/mbr/detail/${mbr.mbrId}">${mbr.mbrNm}</a>
-											</td>
-											<td>${mbr.mbrEml}</td>
-											<td>${mbr.strVO.strNm}</td>
-											<td>${mbr.cmmnCdVO.cdNm}</td>
-											<td>${mbr.mbrRgstrDt}</td>
-											<td>${mbr.mbrRcntLgnDt}</td>
-											<td>${mbr.mbrRcntLgnIp}</td>
-											<td>${mbr.mbrLgnBlckYn}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="10" class="no-items">등록된 관리자가 없습니다.</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-			<div class="align-right">
-				<button id="save_btn" class="btn-primary">매장 수정</button>
-				<button id="delete_btn" class="btn-delete">삭제</button>
-				<button id="list_btn" class="btn-list">목록</button>
-				<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
-			</div>
+									<div class="input-group inline">
+								        <span class="input-group-text">연락처</span>
+								        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
+							 	    </div>	
+							 	    <div class="input-group inline">
+										<span class="input-group-text">오픈시간</span>
+										<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">종료시간</span>
+										<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
+									</div> 
+							 	    
+								</div>
+								<div style="display: inline-block; width: 45%;">
+									<div class="input-group inline">
+										<span class="input-group-text">등록자</span>
+										<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"  />
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">등록일</span>
+										<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}"/>
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">수정자</span>
+										<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}" />
+									</div>
+									<div class="input-group inline">
+										<span class="input-group-text">수정일</span>
+										<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" 	/>
+									</div>
+								</div>	
+							</div>
+							<div class="half-right">
+								<div class="input-group col-12" >
+										<span class="input-group-text">매장 ID</span>
+										<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  />
+									</div>
+								<div class="input-group inline">
+										<span class="input-group-text">매장명</span>
+										<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
+									</div>
+								<div class="input-group inline">
+									<span class="input-group-text ">지역명</span>
+									<select class="form-select" name="strLctn" id="strLctn">
+										<option value="">지역명</option>
+										<c:choose>
+											<c:when test="${not empty lctList}">
+												<c:forEach items="${lctList}" var="lct">
+													<option value="${lct.lctId}" ${strVO.strLctn eq lct.lctId ? 'selected' : ''}>${lct.lctNm}</option>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</select>
+								</div>
+								
+								<div class="input-group inline">
+									<span class="input-group-text">도시명</span>
+									<select class="form-select" name="strCty" id="strCty">
+										<option value="">도시명</option>
+										<c:choose>
+											<c:when test="${not empty ctyChangedList}">
+												<c:forEach items="${ctyChangedList != null ? ctyChangedList : ctyList}" var="cty">
+													<option value="${cty.ctyId}" ${strVO.strCty eq cty.ctyId ? 'selected' : ''}>${cty.ctyNm}</option>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</select>
+								</div>
+								
+								<div class="input-group inline" style="margin-bottom:10px;">
+									<span class="input-group-text">매장주소</span>
+									<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
+									
+									
+								</div>  
+						
+	
+						
+								<div style="float:right; margin-top: 40px;" >
+									<div style="display:inline-block; margin-right:5px;"> 
+										<label class="form-check-label">사용여부</label>
+										<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value=""/>
+									</div>
+										<button id="save_btn" class="btn btn-outline-success">매장 수정</button>
+										<button id="delete_btn" class="btn btn-outline-danger" style="margin-right: 10px;">삭제</button>
+								</div>
+								
+							</div>
+						</div> 
+				</form>
+
+
+						
+				<div>
+				
+				</div>
 			
-		</div>
+			</div>
 		</div>
 	</div>
+	<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:20px;">
+		<div style="margin: 13px;">총 ${mbrList.size()}명</div>
+		<table class="table caption-top table-hover" style="text-align: center;">
+			<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
+				<tr>
+					<th>ID</th>
+					<th>이름</th>
+					<th>이메일</th>
+					<th>매장명</th>
+					<th>회원등급</th>
+					<th>가입일</th>
+					<th>최근 로그인 날짜</th>
+					<th>최근 로그인 IP</th>
+					<th>로그인 제한</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${not empty mbrList}">
+						<c:forEach items="${mbrList}" var="mbr" varStatus="index">
+							<tr data-mbrId="${mbr.mbrId}" 
+								data-mbrNm="${mbr.mbrNm }" 
+								data-strId="${mbr.strId }" 
+								data-mbrEml="${mbr.mbrEml }" 
+								data-mbrLvl="${mbr.mbrLvl }" 
+								data-mbrLvlNm ="${mbr.cmmnCdVO.cdNm}"
+								data-mbrRgstrDt="${mbr.mbrRgstrDt }" 
+								data-useYn="${mbr.useYn}" 
+								data-mbrRcntLgnDt="${mbr.mbrRcntLgnDt }" 
+								data-mbrRcntLgnIp="${mbr.mbrRcntLgnIp}" 
+								data-mbrLgnFlCnt="${mbr.mbrLgnFlCnt }" 
+								data-mbrLgnBlckYn="${mbr.mbrLgnBlckYn}" 
+								data-mbrLstLgnFlDt="${mbr.mbrLstLgnFlDt }" 
+								data-mbrPwdChngDt="${mbr.mbrPwdChngDt }" 
+								data-mbrLeavDt="${mbr.mbrLeavDt}"
+								data-delYn="${mbr.delYn}"
+								>
+
+								<td>${mbr.mbrId}</td>
+								<td>
+									<a href="${context}/mbr/detail/${mbr.mbrId}">${mbr.mbrNm}</a>
+								</td>
+								<td>${mbr.mbrEml}</td>
+								<td>${mbr.strVO.strNm}</td>
+								<td>${mbr.cmmnCdVO.cdNm}</td>
+								<td>${mbr.mbrRgstrDt}</td>
+								<td>${mbr.mbrRcntLgnDt}</td>
+								<td>${mbr.mbrRcntLgnIp}</td>
+								<td>${mbr.mbrLgnBlckYn}</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<tr>
+							<td colspan="10" class="no-items">등록된 관리자가 없습니다.</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
+	</div>
+	
 <jsp:include page="../include/closeBody.jsp" />
 </html>
