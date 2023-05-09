@@ -419,6 +419,15 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
+
+
+
+.menu-admin-sticky {
+    top: -1px;
+    background-color: #e8e8e9 !important;
+    z-index: 2;
+    position: sticky;
+}
 #menu {
 /* 	background-color: #F002; */
 	width: 1440px;
