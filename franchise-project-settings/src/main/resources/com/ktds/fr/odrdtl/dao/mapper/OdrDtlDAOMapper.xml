@@ -505,8 +505,8 @@
 	 	SELECT <if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>		 	 
 		 	   STR.STR_ID
 		 	 , STR.STR_NM
-		 	 , C.CTY_ID AS "ctyCdVO.ctyId"
-		 	 , C.CTY_NM AS "ctyCdVO.ctyNm" , 
+		 	 , C.CTY_ID 
+		 	 , C.CTY_NM , 
 		 	  </if>
 		 	   L.LCT_ID AS "lctCdVO.lctId"
 		 	 , L.LCT_NM AS "lctCdVO.lctNm"

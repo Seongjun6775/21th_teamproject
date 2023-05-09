@@ -120,8 +120,7 @@
    }
    
    
-   
-   
+    
    
    $().ready(function() {
 	  
@@ -262,7 +261,6 @@
          //    var sumCnt = data[i].sumCnt;
                var sumPrc = data[i].sumPrc;
                var tr = $("<tr></tr>");
-               
            if(data[i].ctyCdVO) {
     		
         	//필요없긴 함 
