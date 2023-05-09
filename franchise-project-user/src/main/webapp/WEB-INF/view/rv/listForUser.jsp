@@ -283,13 +283,8 @@
 					</c:if>
 				</ul>
 			</div>
-			<div style="position: absolute;right: 0;top: 0;">	
-				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
-					<button id="new_btn" class="btn btn-outline-success btn-default">등록</button>
-				</c:if>
-				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-outline-danger btn-default" >삭제</button>
-				</c:if>
+			<div style="position: absolute;right: 0;top: 0;">		
+				<button id="new_btn" class="btn btn-outline-success btn-default">등록</button>
 			</div>
 		</div>	
 	</div>

@@ -26,6 +26,6 @@ public interface NtService {
 	
 	public boolean checkOneMbr(String rcvrId);
 	
-	public boolean countNewNt(String mbrId);
+	public List<NtVO> countNewNt(String mbrId);
 
 }

@@ -236,6 +236,16 @@
 							myElementStrt.value = replaceDate;
 							groupStr();
 						});
+				
+				if (${newNt.size()} != 0) {
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  title: '확인하지 않은 쪽지가<br>${newNt.size()}건 있습니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+				}
+				
 			})
 
 	function groupStr() {

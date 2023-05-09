@@ -5,6 +5,8 @@ function DateTime() {
 }
 
 DateTime.prototype.dateFormat = function(dateObject, format) {
+
+
 	if (!format) {
 		format = "YYYY-MM-DD"
 	}
@@ -36,4 +38,5 @@ DateTime.prototype.addDate = function(date, add, format) {
 	today.setDate(today.getDate() + add);
 	
 	return this.dateFormat(today, format);
+
 }
