@@ -14,6 +14,7 @@
 <title>매출 관리</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="${context}/js/DateTimeUtil.js"></script>
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -113,27 +114,52 @@
       month = ("0" + month).slice(-2)
       date = ("0" + date).slice(-2)
       
+      
+      
       return year+"-"+month+"-"+date
    }
-   var ctyNm1;
+   
+   
+    
+   
    $().ready(function() {
-
+	  
+	   
+	   var dt = new DateTime();	   	   
+	   var date = dt.today();
+	  
+	   var myElementStrt = document.getElementById("search-keyword-startdt");
+	   myElementStrt.value = date;
+	   
+	   var myElementStrt = document.getElementById("search-keyword-enddt");
+	   myElementStrt.value = date;
+	   
+	   
+	   
       console.log("ready function!")
-      var ajaxUtil = new AjaxUtil();
+       var ajaxUtil = new AjaxUtil();
 
       groupStr();
+      
+      $("#noneHidden").addClass("hidden");
 
       $("#btn-search").click(function() {
-         groupStr();
+       groupStr();
       })
-
+      
+      
+      
       var ctyChangedList;
       $("#search-keyword-strLctn").change(function() {
          var select = $("#search-keyword-strCty");
          var strLctn = $("#search-keyword-strLctn").val();
          var option;
          select.children().remove();
-      
+      		
+        
+        	 
+         console.log(strLctn)
+         
          $.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
             if(response.status=="200 OK"){
                ctyChangedList = response.data;
@@ -150,7 +176,11 @@
          })
       });
       
+      
+      // 날짜 버튼 펑션  
+      
       $("#btn-1month").click(function() {
+
          var myElementStrt = document.getElementById("search-keyword-startdt");
          let replaceDate = new Date($("#search-keyword-enddt").val());
          
@@ -220,7 +250,9 @@
 	        } 
             $("#paymentStr").empty();
             
-//ctyNm1 = data[0].ctyCdVO.ctyNm
+     //       $("#test").hide()
+            
+		//ctyNm1 = data[0].ctyCdVO.ctyNm
             
             for (var i = 0; i < data.length; i++) {
                var lctNm = data[i].lctCdVO.lctNm;
@@ -229,8 +261,8 @@
          //    var sumCnt = data[i].sumCnt;
                var sumPrc = data[i].sumPrc;
                var tr = $("<tr></tr>");
-         
            if(data[i].ctyCdVO) {
+    		
         	//필요없긴 함 
               var ctyNm = data[i].ctyCdVO.ctyNm;
         
@@ -243,7 +275,7 @@
                      $("<td class='money' style='padding-right: 10px;'>"
                            + sumPrc.toLocaleString() + "</td>"), ];
            }
-           else{
+          else {      
         	   var tdList = [
                    $("<td>" + lctNm + "</td>"),
                    //필요없긴 함
@@ -252,6 +284,7 @@
             //     $("<td>" + sumCnt.toLocaleString() + "</td>"),
                    $("<td class='money' style='padding-right: 10px;'>"
                          + sumPrc.toLocaleString() + "</td>"), ];  
+        	   
            }
                dataSet.push({ "lctNm" : lctNm, "strNm" : strNm, "sumPrc" : sumPrc });
                if (max < data[i].sumPrc){
@@ -277,6 +310,13 @@
             drawChart(dataSet, max, min);
          }
       })
+      
+      if ($("#search-keyword-strLctn").val() != "") {
+     	 $("#noneHidden").removeClass("hidden");
+      } else {
+     	 $("#noneHidden").addClass("hidden");
+      }
+      
    }
 </script>
 
@@ -290,11 +330,11 @@
       style="padding: 23px 18px 23px 18px; margin: 20px;">
       <span class="fs-5 fw-bold">매장별 매출</span>
    </div>
-
+	
    <div class="bg-white rounded shadow-sm  "
       style="padding: 23px 18px 23px 18px; margin: 20px;">
       <div class="top-bar">
-
+		
          <div class="input-group inline" style="width: 300px">
             <span class="input-group-text ">지역명</span> <select
                class="form-select" name="strLctn" id="search-keyword-strLctn">
@@ -325,6 +365,7 @@
                </c:choose>
             </select>
          </div>
+ 
          <input type="date" id="search-keyword-startdt"
             class="form-control width180" value="${odrDtlVO.startDt}" /> <input
             type="date" id="search-keyword-enddt" class="form-control width180"
@@ -338,19 +379,18 @@
    </div>
 
    <div class="bg-white rounded shadow-sm "
+		id="noneHidden"
       style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 
       <div id="paymentTotal"></div>
-	${ctyNm}  
+
       <table class="table table-striped table-sm table-hover align-center">
          <thead class="table-secondary">
             <tr>
                <th>지역명</th>
-               <c:if test="${ctyCdVO.ctyNm ne null}"> 
                <th>도시명</th>
                <th>매장이름</th>
 <!--                <th>총수량</th> -->      
-               </c:if>
                <th>판매총액</th> 
           	    
             </tr>
@@ -359,7 +399,6 @@
          </tbody>
       </table>
    </div>
-
 
    <div class="bg-white rounded shadow-sm "
       style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">

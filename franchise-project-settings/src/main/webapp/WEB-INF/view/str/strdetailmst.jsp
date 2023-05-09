@@ -76,7 +76,6 @@
 					$("#mdfyr").val(data.mdfyr);
 					$("#mdfyDt").val(data.mdfydt);
 					$("#useYn").prop("checked", data.useyn == "Y");
-					mkMap(data.straddr, data.strnm);
 				});
 				$("#new_btn").click(function() {
 					$("#isModify").val("false"); //등록모드

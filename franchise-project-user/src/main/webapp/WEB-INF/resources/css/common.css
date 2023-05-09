@@ -7,27 +7,35 @@ body{
 	color: #333;
 	font-size: 12pt;
 }
-a { 
+
+.table-hover > tbody > tr:hover > * {
+	background-color: #000 !important;
+}
+
+a {
 	color: #333;
 	font-size: 12pt;
 }
 
+li{
+	list-style: none;
+	display: inline-block;
+}
 /*Main Layout*/
 .main-layout > .header{
 	height: 90px;
 	padding: 10px;
 	position: relative;
 }
-.bg-black {
-	background-color: #555;
-}
+
 .main-layout > .header > .nav{
 	display: inline-block;
 	padding: 0px;
 	margin: 0px;
 	list-style-type: none;
 	position: absolute;
-	bottom: 10px;
+	bottom: 50px;
+	
 }
 
 .main-layout > .header > .nav > .nav-item,
@@ -37,7 +45,10 @@ a {
 	margin: 0px;
 	color: #eee;
 	text-decoration: none;
+	position: relative;
 }
+
+
 .main-layout > .header > .nav > .active{
 	font-weight: bold;
 	color: #ddd;
@@ -79,4 +90,50 @@ a {
 	overflow: auto;
 	padding: 10px;
 }
+ ------------------------------
+.main-layout > .header > .nav{
+	display: inline-block;
+	padding: 0;
+	margin :0px;
+	list-style-type:none;
+	position: absolute;
+	top:0;
+}
+.main-layout > .header > .nav > .nav-item,
+.main-layout > .header > .nav > .nav-item  a {
+	display: inline-block;
+	padding: 0px;
+	margin :0px;
+	color: #fff;
+	position: relative;
+	padding: 0 5px;
+}
 
+.main-layout > .header > .nav > .nav-item > a {
+	padding: 10px 0;
+}
+
+.main-layout > .header > .nav > .nav-item > .sub-item{
+	position: absolute;
+	padding: 0;
+	opacity: 0;
+	display: none;
+}
+
+.main-layout > .header > .nav > .nav-item.active {
+	font-weight:bold;
+	color: #fff;
+}
+.main-layout > .header > .nav > .nav-item.active a {
+	color: #fff;
+}
+.main-layout > .header > .nav > .nav-item.active > .sub-item.active,
+.main-layout > .header > .nav > .nav-item.active:hover > .sub-item {
+	opacity: 1;
+	width: 1000px;
+	display: block;
+}
+
+.main-layout > .header > .nav > .nav-item.active > .sub-item.active > li:hover a {
+	color: #8080ff;
+}

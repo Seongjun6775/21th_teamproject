@@ -236,6 +236,16 @@
 							myElementStrt.value = replaceDate;
 							groupStr();
 						});
+				
+				if (${newNt.size()} != 0) {
+					Swal.fire({
+				    	  icon: 'warning',
+				    	  title: '확인하지 않은 쪽지가<br>${newNt.size()}건 있습니다.',
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+				}
+				
 			})
 
 	function groupStr() {
@@ -314,7 +324,6 @@
 	<div class="bg-white rounded shadow-sm  "
 		style="padding: 23px 18px 23px 18px; margin: 20px;">
 		<div class="top-bar">
-
 			<div class="input-group inline" style="width: 300px">
 				<span class="input-group-text ">매장명</span> <select
 					class="form-select" name="strId" id="search-keyword-strId">

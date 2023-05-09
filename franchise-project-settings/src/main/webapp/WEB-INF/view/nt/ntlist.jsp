@@ -102,6 +102,13 @@
 	}
 	
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
@@ -194,9 +201,7 @@
 						</ul>
 					</div>
 					<div style="position: absolute;right: 0;top: 0;">
-						<button id="check_del_btn" class="btn btn-danger"
-						style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-						일괄삭제</button>
+						<button id="check_del_btn" class="btn btn-outline-danger btn-default">삭제</button>
 					</div>
 				</div>
 			</div>

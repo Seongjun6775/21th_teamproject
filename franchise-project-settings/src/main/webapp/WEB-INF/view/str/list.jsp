@@ -167,51 +167,6 @@
 			$("#mdfyr").val("${mbrVO.mbrId}");
 			$("#mdfyDt").val("${strVO.mdfyDt}");
 			$("#useYn").prop("checked", false);
-			
-			$("#strImg").attr("src", "${context}/img/default_photo.jpg");
-			$("#map").remove();
-			$("#map_parent").prepend("<div id='map' style='width:500px;height:400px;margin-top:20px;display:none;'></map>");
-		});
-		
-		$("tbody").children("tr").click(function() {
-			
-// 			var uuidFlNm = data.uuidflnm;
-// 			if (uuidFlNm==""){
-// 				uuidFlNm= "errorFileNameIsNull";
-// 			}
-// 			$("#strImg").attr("src", "${context}/str/img/" + uuidFlNm + "/");
-		});
-		
-		$("#strFile").change(function() {
-			var file = $(this)[0].files;
-			console.log(file);
-			
-			if(file.length > 0) {
-				var fileReader = new FileReader();
-				fileReader.onload = function(data) {
-					// FileReader 객체가 로드 됐을 떄,
-					console.log(data);
-					$("#strImg").attr("src", data.target.result);
-				}
-				fileReader.readAsDataURL(file[0]);
-				$("#isDeleteImg").val("Y");
-				
-			} else {
-				// 기본 이미지로 변경
-				$("#strFile").val("");
-				$("#strImg").attr("src", "${context}/img/default_photo.jpg")
-				$("#isDeleteImg").val("Y");
-			}
-		});
-		$("#del-img").click(function(event) {
-			event.preventDefault();
-			$("#strFile").val("");
-			$("#isDeleteImg").val("Y");
-			$("#strImg").attr("src", "${context}/img/default_photo.jpg")
-		});
-		$("#strImg").click(function() {
-			console.log("이미지 클릭했음");
-			$("#strFile").click();
 		});
 		
 		$("#delete_btn").click(function(){
@@ -715,15 +670,14 @@
 								</div>
 							</div>
 							<div class="half-right">
-								
 								<div class="input-group col-12" >
 										<span class="input-group-text">매장 ID</span>
 										<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  />
-								</div>
+									</div>
 								<div class="input-group inline">
 										<span class="input-group-text">매장명</span>
 										<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
-								</div>
+									</div>
 								<div class="input-group inline">
 									<span class="input-group-text ">지역명</span>
 									<select class="form-select" name="strLctn" id="strLctn">
@@ -781,7 +735,7 @@
 						    	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 						        mapOption = {
 						            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-						            level: 3 // 지도의 확대 레벨
+						            level: 5 // 지도의 확대 레벨
 						        };
 							
 							    //지도를 미리 생성

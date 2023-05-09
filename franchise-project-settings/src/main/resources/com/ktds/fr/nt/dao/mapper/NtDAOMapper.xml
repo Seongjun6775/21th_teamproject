@@ -149,8 +149,8 @@
 	
 	<select id="countNewNt"
 			parameterType="string"
-			resultType="_int">
-		SELECT COUNT(1)
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		SELECT NT_ID
 		  FROM NT
 		 WHERE RCVR_ID = #{_parameter}
 		   AND NT_RD_DT IS NULL

@@ -39,7 +39,7 @@ public class RestMbrController {
 
 	//회원 로그인
 	@PostMapping("/login")
-	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {
+	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {		
 		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
 		}
@@ -51,7 +51,10 @@ public class RestMbrController {
 		
 		if(mbr == null) {
 			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ mbrVO.getMbrLgnFlCnt() + " / 5");
-		}else {
+		}else if(!mbr.getMbrLvl().equals("001-04")) {
+			throw new ApiException("400", "사용할 수 없는 계정입니다.");
+		}
+		else {
 			mbr.setMbrRcntLgnIp(request.getRemoteAddr());
 			session.setAttribute("__MBR__", mbr);
 			SessionManager.getInstance().addSession(mbr.getMbrId(), session);
@@ -201,30 +204,30 @@ public class RestMbrController {
 		return new ApiResponseVO(ApiStatus.FAIL,"계정 찾기에 실패했습니다.");
 	}
 	//권한및 소속 변경 -> 빼기
-	@PostMapping("/api/mbr/update/admin")
-	public ApiResponseVO doUpdateAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session){
-		if((mbrVO.getStrId() == null || mbrVO.getStrId().length() == 0) && (mbrVO.getMbrLvl() == null || mbrVO.getMbrLvl().length() == 0)) {
-			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "변경하려는 값을 선택 해 주세요.");
-		}
-		mbrVO.setMdfyr(session.getMbrNm());
-		boolean updateResult = mbrService.updateOneMbrLvlAndStrId(mbrVO);
-		if(!updateResult) {
-			throw new ApiException(ApiStatus.FAIL, "변경에 실패했습니다. 다시 시도해주세요.");
-		}
-		return new ApiResponseVO(ApiStatus.OK);
-	}
+//	@PostMapping("/api/mbr/update/admin")
+//	public ApiResponseVO doUpdateAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session){
+//		if((mbrVO.getStrId() == null || mbrVO.getStrId().length() == 0) && (mbrVO.getMbrLvl() == null || mbrVO.getMbrLvl().length() == 0)) {
+//			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "변경하려는 값을 선택 해 주세요.");
+//		}
+//		mbrVO.setMdfyr(session.getMbrNm());
+//		boolean updateResult = mbrService.updateOneMbrLvlAndStrId(mbrVO);
+//		if(!updateResult) {
+//			throw new ApiException(ApiStatus.FAIL, "변경에 실패했습니다. 다시 시도해주세요.");
+//		}
+//		return new ApiResponseVO(ApiStatus.OK);
+//	}
 	//권한 해임 -> 빼기
-	@GetMapping("mbr/admin/fire")
-	public ApiResponseVO doFireAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session) {
-		log.info("넘겨지니? {}",mbrVO.getMbrId());
-		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length()==0) {
-			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "해임하려는 직원을 다시 확인해 주세요.");
-		}
-		mbrVO.setMdfyr(session.getMbrId());
-		boolean delResult = mbrService.deleteOneMbrAdminByMbrId(mbrVO);
-		if(!delResult) {
-			throw new ApiException(ApiStatus.FAIL, "관리자 해임에 실패했습니다. 다시 시도해주세요."); 
-		}
-		return new ApiResponseVO(ApiStatus.OK);
-	}
+//	@GetMapping("mbr/admin/fire")
+//	public ApiResponseVO doFireAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session) {
+//		log.info("넘겨지니? {}",mbrVO.getMbrId());
+//		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length()==0) {
+//			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "해임하려는 직원을 다시 확인해 주세요.");
+//		}
+//		mbrVO.setMdfyr(session.getMbrId());
+//		boolean delResult = mbrService.deleteOneMbrAdminByMbrId(mbrVO);
+//		if(!delResult) {
+//			throw new ApiException(ApiStatus.FAIL, "관리자 해임에 실패했습니다. 다시 시도해주세요."); 
+//		}
+//		return new ApiResponseVO(ApiStatus.OK);
+//	}
 }
