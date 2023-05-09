@@ -284,6 +284,7 @@
     font-weight: 800;
 /*     margin-right: 15px; */
 } 
+
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
@@ -333,7 +334,7 @@
 					</header>
 					</div>
 					<article class="detailview-article">												
-					    <textarea style="width: 100%; overflow-x: auto; overflow-y: hidden; border: none; resize:none;" 
+					    <textarea style="width: 100%; overflow-x: auto; overflow-y: hidden; border: none; resize:none;     background-color: #fff;" 
 					    		class="contentsDiv"
 					    		disabled>${mngrBrd.mngrBrdCntnt}</textarea>
 					    <div class="pop-lay-col2"> 
