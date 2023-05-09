@@ -34,7 +34,13 @@
 			
 			const pageNum = Number(document.getElementById("pageNo").value) - 1;
 			if (pageNum < 0){
-				alert("첫 페이지 입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '첫 페이지 입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("첫 페이지 입니다."); */
 				return;
 			} else {
 				location.href = "${context}/evnt/list?pageNo="+pageNum;
@@ -45,7 +51,13 @@
 		$("#btn-nextPage").click(function() {
 			const pageNum = Number(document.getElementById("pageNo").value) + 1;
 			if (pageNum >= Number(document.getElementById("lastPage").value)){
-				alert("마지막 페이지 입니다.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '마지막 페이지 입니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert("마지막 페이지 입니다."); */
 				return;
 			} else {
 				location.href = "${context}/evnt/list?pageNo="+pageNum;

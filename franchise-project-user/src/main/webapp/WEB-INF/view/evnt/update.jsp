@@ -16,7 +16,6 @@
 <script type="text/javascript" src="${context}/js/AjaxUtil.js"></script>
 <script type="text/javascript">
 $().ready(function() {
-
  	$("#useYn").prop("checked", "${evntVO.useYn}" == "Y");
 	
 	//수정 완료 버튼
@@ -30,13 +29,28 @@ $().ready(function() {
 			
 			if (response.status == "200 OK") {
 				console.log("200임")
-				alert(response.message);
-				
-				location.href = "${context}/evnt/list";
+				/* alert(response.message); */
+				Swal.fire({
+			    	  icon: 'success',
+			    	  title: response.message,
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				}).then((result)=>{
+					if(result.isConfirmed){
+						var evntId = document.getElementById("evntId").value;
+						location.href = "${context}/evnt/detail/"+evntId;
+					}
+				});
 				//location.reload(); // 새로고침
 			} else {
 				console.log("안됨")
-				alert(response.errorCode + " / " + response.message);
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: response.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
+				/* alert(response.errorCode + " / " + response.message); */
 			}
 		}, {"orgnFlNm" : "uploadFile"})
    });
@@ -45,7 +59,6 @@ $().ready(function() {
 	
 	
 	
-
    //'닫기'버튼 누르면 뒤로 돌아가기
    $("#btn-update-close").click(function(){
 	   //location.href="${context}/evnt/list3"
@@ -55,7 +68,6 @@ $().ready(function() {
    });
    
 });
-
 	function check(box) {
 		if (box.checked == true) {
 			box.value = "Y";
@@ -64,73 +76,75 @@ $().ready(function() {
 		}
 	}
 </script>
+ <style>
+.btn-default {
+    border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
+
 </head>
-<body>
-	<div class="main-layout">
-	<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-		<form id="form-update" enctype="multipart/form-data">
-			<div>
-				<table border=1 style="width: 600px;">
-					<tr>
-						<td colspan="4"><h1 style="text-align: center;">이벤트 수정
-								페이지</h1></td>
-					</tr>
-					<tr>
-						<td style="width:150px;">이벤트 ID</td>
-						<td colspan="3"><input type="text" id="evntId"
-							style="width: 99%;" readonly="readonly" value="${evntVO.evntId}" /></td>
-					</tr>
-
-					<tr>
-						<td>이벤트 제목</td>
-						<td colspan="3"><input type="text" id="evntTtl"
-							style="width: 99%;" value="${evntVO.evntTtl}" /></td>
-					</tr>
-
-					<tr>
-						<td>이벤트 내용</td>
-						<td colspan="3"><input type="text" id="evntCntnt"
-							style="width: 99%; height: 99px" value="${evntVO.evntCntnt}" /></td>
-					</tr>
-
-					<tr>
-						<td style="width:150px;">이벤트 시작일</td>
-						<td style="width:150px;"><input type="date" id="evntStrtDt"
-							value="${evntVO.evntStrtDt}" /></td>
-						<td style="width:150px;">이벤트 종료일</td>
-						<td style="width:150px;"><input type="date" id="evntEndDt"
-							value="${evntVO.evntEndDt}" /></td>
-					</tr>
-
-					<tr>
-						<td>이벤트 사진</td>
-						<td colspan="3"><img
-							src="${context}/evnt/img/${evntVO.uuidFlNm}"  style="width:100%;"/> <input
-							type="file" id="orgnFlNm" style="width: 99%;" accept="image/png, image/jpeg"
-							value="${evntVO.orgnFlNm eq null ? '파일이 없습니다' : evntVO.orgnFlNm}" /></td>
-					</tr>
-
-					<tr>
-						<td>사용 여부</td>
-						<td><input type="checkbox" id="useYn" name="useYn" onClick="check(this)" value="Y"/></td>
-					</tr>
-
-					<tr>
-						<td></td>
-						<td></td>
-						<td><button id="btn-update-success" type="button" class="btn-primary"
-								style="width: 100%;">완료</button></td>
-						<td><button id="btn-update-close" class="btn-primary"
-								style="width: 100%;">닫기</button></td>
-					</tr>
-				</table>
-			</div>
-		</form>
-		<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/openBody.jsp" />
+		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+	        <span class="fs-5 fw-bold">이벤트 > 상세페이지 > 수정</span>
+      	</div>
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+			<h5 class="fs-5 fw-bold" style="padding:20px">이벤트 수정</h5>
+			<form id="form-update" enctype="multipart/form-data">
+				<div>
+					<table style="border-spacing: 20px;border-collapse: separate;">
+						<tr>
+							<td style="width:150px; margin: 5px; padding-left: 8px; border-left: solid #ffbe2e; ">이벤트 ID</td>
+							<td colspan="3"><input type="text" id="evntId" class="form-control" 
+								style="width: 99%;" readonly="readonly" value="${evntVO.evntId}" /></td>
+						</tr>
+	
+						<tr>
+							<td style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">이벤트 제목</td>
+							<td colspan="3"><input type="text" id="evntTtl" class="form-control" 
+								style="width: 99%;" value="${evntVO.evntTtl}" /></td>
+						</tr>
+	
+						<tr>
+							<td style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">이벤트 내용</td>
+							<td colspan="3"><input type="text" id="evntCntnt" class="form-control" 
+								style="width: 99%; height: 99px" value="${evntVO.evntCntnt}" />	</td>
+						</tr>
+	
+						<tr>
+							<td style="width:150px;  margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">이벤트 시작일</td>
+							<td style="width:150px;"><input type="date" id="evntStrtDt" class="form-control"  
+								value="${evntVO.evntStrtDt}" /></td>
+							<td style="width:150px; margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">이벤트 종료일</td>
+							<td style="width:150px;"><input type="date" id="evntEndDt" class="form-control" 
+								value="${evntVO.evntEndDt}" /></td>
+						</tr>
+	
+						<tr>
+							<td ><span style="margin: 5px; padding: 10px; border-left: solid #ffbe2e;">이벤트 사진 </span></td>
+							<td colspan="3"><img
+								src="${context}/evnt/img/${evntVO.uuidFlNm}"  style="width:100%;"/> <input class="form-control"
+								type="file" id="orgnFlNm" style="width: 99%;" accept="image/png, image/jpeg"
+								value="${evntVO.orgnFlNm eq null ? '파일이 없습니다' : evntVO.orgnFlNm}" /></td>
+						</tr>
+						<tr>
+							<td><br></td>
+							<td><br></td>
+							<td><br></td>
+							<td><br></td>
+						</tr>
+						<tr>
+							<td >사용 여부</td>
+							<td><input type="checkbox" id="useYn" name="useYn" onClick="check(this)" value="Y"/></td>
+							<td><button id="btn-update-success" type="button" class="btn btn-outline-success btn-default "
+									style="width: 100%;">수정</button></td>
+							<td><button id="btn-update-close" class="btn btn-outline-danger btn-default"
+									style="width: 100%;">닫기</button></td>
+						</tr>
+					</table>
+				</div>
+			</form>
 		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

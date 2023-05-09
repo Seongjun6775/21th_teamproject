@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -67,6 +66,7 @@ public class HrController {
 									, @RequestParam(required=false, defaultValue = "") String searchIdx
 									, @RequestParam(required=false, defaultValue = "") String keyword
 									, Model model, HrVO hrVO) {
+		System.out.println(hrVO.getViewCnt());
 		// 접근한 계정이 최고관리자인지 확인합니다.
 		if (mbrVO.getMbrLvl().equals("001-01")) {
 			// 검색 조건을 확인하여 값을 부여합니다.
@@ -75,6 +75,10 @@ public class HrController {
 			}
 			if (searchIdx.equals("mbrId")) {
 				hrVO.setMbrId(keyword);
+			}
+			// 리스트의 검색 초기값을 '삭제되지 않음( - )'으로 설정합니다.
+			if (hrVO.getDelYn() == null && hrVO.getDelYn() != "") {
+				hrVO.setDelYn("N");
 			}
 			// 채용 게시판의 모든 게시글을 가져와 hrList로 전송합니다.
 			List<HrVO> hrList = hrService.readAllHr(hrVO);
@@ -101,7 +105,15 @@ public class HrController {
 	@GetMapping("/hr/hrlist")
 	public String viewMyHrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
 								  , Model model, HrVO hrVO) {
+		// 최고관리자가 아닌 회원들이 볼 수 있는 페이지입니다.
 		if ((mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03") || mbrVO.getMbrLvl().equals("001-04"))) {
+			
+			// 현재 진행중인 채용 공고가 있는지를 확인합니다.
+			boolean isNtcExist = hrService.countNtc();
+			// 만약 현재 진행중인 채용 공고가 없다면, 채용 공고가 없음을 알려주는 페이지로 이동시킵니다.
+			if (!isNtcExist) {
+				return "hr/nohrlist";
+			}
 			
 			hrVO.setMbrId(mbrVO.getMbrId());
 			
@@ -112,6 +124,11 @@ public class HrController {
 			return "hr/hrlist";
 		}
 		return "redirect:/hr/list";
+	}
+	
+	@GetMapping("/hr/nohrlist")
+	public String viewNoHrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO) {
+		return "hr/nohrlist";
 	}
 	
 	/**
@@ -129,7 +146,7 @@ public class HrController {
 		// 최고 관리자가 아닐 경우, 이미 접수되거나 심사중인 글이 있다면 글 작성이 불가능합니다.
 		if (!mbrVO.getMbrLvl().equals("001-01")) {
 			if (!check) {
-				throw new ApiException("500", "이미 진행중인 지원 정보가 있습니다.");
+				return "hr/500create";
 			}
 		}
 		
@@ -153,7 +170,7 @@ public class HrController {
 			HrVO hr = hrService.readOneHrByHrId(hrId);
 			
 			// 조회하는 글이 공지가 아니고, 최고관리자가 읽은 적이 없어 "접수"인 상태라면 "심사중"으로 변경시킨 후 조회합니다.
-			if (hr.getNtcYn().equals("N") && hr.getHrStat().equals("접수")) {
+			if (hr.getNtcYn().equals("N") && hr.getHrStat().equals("002-01")) {
 				hrService.updateHrStatByHrId(hrId);
 				hr = hrService.readOneHrByHrId(hrId);
 			}
@@ -178,12 +195,13 @@ public class HrController {
 		
 		HrVO hr = hrService.readOneHrByHrId(hrId);
 		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !hr.getNtcYn().equals("Y")) {
-			throw new ApiException("500", "권한이 없어 접근할 수 없습니다!");
+			return "hr/500cannot";
 		}
 		else if (hr.getDelYn().equals("Y") && !mbrVO.getMbrLvl().equals("001-01")) {
-			throw new ApiException("500", "권한이 없어 접근할 수 없습니다!");
+			return "hr/500cannot";
 		}
 		else {
+			
 			model.addAttribute("hr", hr);
 			model.addAttribute("mbrVO", mbrVO);
 			
@@ -192,38 +210,7 @@ public class HrController {
 		
 	}
 	
-	/**
-	 * 글에 업로드 된 파일을 다운받는 기능입니다.
-	 * @param mbrVO 현재 접속중인 계정 정보
-	 * @param hrId 다운로드 받을 파일이 있는 글 ID
-	 * @param request
-	 * @param response
-	 */
-	@GetMapping("/hr/hrfile/{hrId}")
-	public void downloadHrFile(@SessionAttribute("__MBR__") MbrVO mbrVO ,
-								@PathVariable String hrId ,
-								HttpServletRequest request ,
-								HttpServletResponse response) {
-		
-		HrVO hr = hrService.readOneHrByHrId(hrId);
-		if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !mbrVO.getMbrLvl().equals("001-01")) {
-			throw new ApiException("500", "권한이 없습니다");
-		}
-		if (hr.getOrgnFlNm() == null || hr.getOrgnFlNm().trim().length() == 0) {
-			throw new ApiException("400", "파일이 없습니다.");
-		}
-		
-		String uuid = hr.getUuidFlNm();
-		String origin = hr.getOrgnFlNm();
-		File hrFile = new File(filePath, uuid);
-		if (hrFile.exists() && hrFile.isFile()) {
-			DownloadUtil dnUtil = new DownloadUtil(response, request, filePath + "/" + uuid);
-			dnUtil.download(origin);
-		}
-		else {
-			throw new ApiException("500", "파일 다운로드에 실패했습니다.");
-		}
-	}
+	
 	
 	/**
 	 * 글 수정 페이지입니다.
@@ -238,15 +225,63 @@ public class HrController {
 		
 		HrVO hr = hrService.readOneHrByHrId(hrId);
 		if (mbrVO.getMbrId().equals(hr.getMbrId())) {
-			if (hr.getHrStat().equals("접수")) {
+			if (hr.getHrStat().equals("002-01")) {
 				model.addAttribute("hr", hr);
 				model.addAttribute("mbrVO", mbrVO);
 				return "hr/hrupdate";
 			}
-			return "redirect:/hr/list";
+			return "hr/400";
 		}
-		return "redirect:/hr/list";
+		return "hr/400";
 	}
 	
+	/**
+	 * 글에 업로드 된 파일을 다운받는 기능입니다.
+	 * @param mbrVO 현재 접속중인 계정 정보
+	 * @param hrId 다운로드 받을 파일이 있는 글 ID
+	 * @param request
+	 * @param response
+	 */
+	@GetMapping("/hr/hrfile/{hrId}")
+	public String downloadHrFile(@SessionAttribute("__MBR__") MbrVO mbrVO ,
+								@PathVariable String hrId ,
+								HttpServletRequest request ,
+								HttpServletResponse response) {
+		// 해당 파일에 접근하기 위해, 해당 파일이 업로드된 게시글의 정보를 받아옵니다.
+		HrVO hr = hrService.readOneHrByHrId(hrId);
+		
+		// 만약 해당 파일이 최고관리자가 올린 공지 게시글이 아니라면, 다음을 검사합니다.
+		if (hr.getNtcYn().equals("N")) {
+			// 파일에 접근한 사람이 파일을 업로드한 본인인지, 혹은 최고관리자인지 확인합니다.
+			if (!hr.getMbrId().equals(mbrVO.getMbrId()) && !mbrVO.getMbrLvl().equals("001-01")) {
+				// 둘 모두 아니라면, 접근한 사람이 회원이 지원한 지점의 점주(중간관리자)인지 확인합니다.
+				if(!mbrVO.getMbrLvl().equals("001-02") && !hr.getMbrVO().getStrId().equals(mbrVO.getStrId())) {
+					// 위 조건을 모두 통과하지 못했다면, 접근을 거부합니다.
+					return "hr/400";
+				}
+			}
+		}
+		if (hr.getOrgnFlNm() == null || hr.getOrgnFlNm().trim().length() == 0) {
+			return "hr/500nofile";
+		}
+		String uuid = hr.getUuidFlNm();
+		String origin = hr.getOrgnFlNm();
+		System.out.println(uuid + "//" + origin);
+		File hrFile = new File(filePath, uuid);
+		if (hrFile.exists() && hrFile.isFile()) {
+			DownloadUtil dnUtil = new DownloadUtil(response, request, filePath + "/" + uuid);
+			dnUtil.download(origin);
+			return null;
+		}
+		else {
+			return "hr/500downloadfail";
+		}
+	}
+	
+	@GetMapping("/hr/hrindex")
+	public String viewHrIndexPage() {
+//		model.addAttribute("mbrVO", mbrVO);
+		return "hr/hrindex";
+	}
 
 }

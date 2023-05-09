@@ -12,8 +12,8 @@
 <%
 MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 %>
-<link rel="stylesheet" href="../css/evnt_common_customer2.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
+<link rel="stylesheet" href="../css/evnt_common_customer2.css?p=${date}">
 <meta charset="UTF-8">
 <title>이벤트 목록 조회</title>
 
@@ -52,11 +52,14 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 		
 	});
 </script>
+
 <style>
 .prdt:hover img {
 	transform: scale(1.2);
 }
+
 </style>
+
 </head>
 <body class="scroll">
 	<jsp:include page="../include/header_user.jsp" />
@@ -74,8 +77,8 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 				붕어빵 프렌차이즈의 <br> 다양한 이벤트를 만나보세요!
 			</p>
 			<div class="head-count">총 ${evntList.size() > 0 ? evntList.get(0).totalCount : 0}건</div>
-		</div>
- --%>
+		</div> --%>
+
 		<div id="menu" class="flex-column">
 		<div id="menuCategory" class="flex" >
 			<a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a>
@@ -92,11 +95,11 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 									<div class="img-box" style="width: 600px; height: 600px;">
 										<c:choose>
 											<c:when test="${empty evnt.uuidFlNm}">
-												<img src="${context}/img/default_photo.jpg" style="width: 600px; height: 600px;" >
+												<img src="${context}/img/default_photo.jpg" style="width:600px; height:600px;" >
 											</c:when>
 											<c:otherwise>
 												<a href="${context}/evnt/detail_customer/${evnt.evntId}"> 
-												<img src="${context}/evnt/img/${evnt.uuidFlNm}/" style="width: 600px; height: 600px;" ></a>
+												<img src="${context}/evnt/img/${evnt.uuidFlNm}/" style="width:600px; height:600px;" ></a>
 											</c:otherwise>
 										</c:choose>
 									</div>
