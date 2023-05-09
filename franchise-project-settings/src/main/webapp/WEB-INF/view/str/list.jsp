@@ -83,6 +83,53 @@
  -->
 
 <script type="text/javascript">
+	function mkMap(addr, strNm){
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+	
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+	
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch(addr, function(result, status) {
+	
+		    // 정상적으로 검색이 완료됐으면 
+		     if (status === kakao.maps.services.Status.OK) {
+	
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            position: coords
+		        });
+	
+		        // 인포윈도우로 장소에 대한 설명을 표시합니다
+		        var infowindow = new kakao.maps.InfoWindow({
+		            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+strNm+'</div>'
+		        });
+		        infowindow.open(map, marker);
+	
+		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        mapContainer.style.display = "block";
+		        map.relayout();
+		        
+		        map.setCenter(coords);
+		        
+		        marker.setPosition(coords);
+		        
+		    } 
+		}); 
+	}
+
+
+
 	$().ready(function() {
 		$(".table_grid > table > tbody > tr").click(function(){
 			$("#isModify").val("true"); //수정모드
@@ -101,6 +148,7 @@
 			$("#mdfyr").val(data.mdfyr);
 			$("#mdfyDt").val(data.mdfydt);
 			$("#useYn").prop("checked", data.useyn == "Y");
+			mkMap(data.straddr, data.strnm);
 		});
 		
 		$("#new_btn").click(function() {
@@ -121,15 +169,17 @@
 			$("#useYn").prop("checked", false);
 			
 			$("#strImg").attr("src", "${context}/img/default_photo.jpg");
+			$("#map").remove();
+			$("#map_parent").prepend("<div id='map' style='width:500px;height:400px;margin-top:20px;display:none;'></map>");
 		});
 		
 		$("tbody").children("tr").click(function() {
 			
-			var uuidFlNm = data.uuidflnm;
-			if (uuidFlNm==""){
-				uuidFlNm= "errorFileNameIsNull";
-			}
-			$("#strImg").attr("src", "${context}/str/img/" + uuidFlNm + "/");
+// 			var uuidFlNm = data.uuidflnm;
+// 			if (uuidFlNm==""){
+// 				uuidFlNm= "errorFileNameIsNull";
+// 			}
+// 			$("#strImg").attr("src", "${context}/str/img/" + uuidFlNm + "/");
 		});
 		
 		$("#strFile").change(function() {
@@ -518,7 +568,6 @@
 							<tr data-strid="${str.strId}" 
 							data-strnm="${str.strNm}" 
 							data-strlctn="${str.lctCdVO.lctId}" 
-							data-uuidflnm="${prdt.uuidFlNm}" 
 							data-strcty="${str.ctyCdVO.ctyId}" 
 							data-strctynm="${str.ctyCdVO.ctyNm}" 
 							data-straddr="${str.strAddr}" 
@@ -666,24 +715,7 @@
 								</div>
 							</div>
 							<div class="half-right">
-								<input type="hidden" id="isModify" value="false" />
-					
-								<div class="grid-left">
-									<div class="img-box">
-										<img src="${context}/img/default_photo.jpg" id="strImg" class="img">
-									</div>
-									<label for="strFile" class="form-control flex"
-											style="align-items: center; justify-content: space-between;">
-										매장 지도
-										<button id="del-img" class="btn btn-light">
-											<i class='bx bx-x'></i>
-										</button>
-									</label>
-									
-									<input type="file" id="strFile"  name="strFile" value=""/>
-									
-									<input type="hidden" id="isDeleteImg" name="isDeleteImg" value="N">
-								</div>
+								
 								<div class="input-group col-12" >
 										<span class="input-group-text">매장 ID</span>
 										<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  />
@@ -737,29 +769,34 @@
 							</div>
 						</div>
 
-					<div style="display: inline-block;">
+					<div id="map_parent" style="display: inline-block;">
 						<div id="map" style="width:500px;height:400px;margin-top:20px;display:none;"></div>
 						
 						<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 						<script>
-						    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+						    function sample4_execDaumPostcode() {
+						    	
+						    	//지도 생성부분
+						    	
+						    	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 						        mapOption = {
 						            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
 						            level: 3 // 지도의 확대 레벨
 						        };
-						
-						    //지도를 미리 생성
-						    var map = new daum.maps.Map(mapContainer, mapOption);
-						    //주소-좌표 변환 객체를 생성
-						    var geocoder = new daum.maps.services.Geocoder();
-						    //마커를 미리 생성
-						    var marker = new daum.maps.Marker({
-						        position: new daum.maps.LatLng(37.537187, 127.005476),
-						        map: map
-						    });
-						
-						
-						    function sample4_execDaumPostcode() {
+							
+							    //지도를 미리 생성
+							    var map = new daum.maps.Map(mapContainer, mapOption);
+							    //주소-좌표 변환 객체를 생성
+							    var geocoder = new daum.maps.services.Geocoder();
+							    //마커를 미리 생성
+							    var marker = new daum.maps.Marker({
+							        position: new daum.maps.LatLng(37.537187, 127.005476),
+							        map: map
+							    });
+						    	
+						    	//지도 생성부분
+						    	
+						    	
 						        new daum.Postcode({
 						            oncomplete: function(data) {
 						                var addr = data.address; // 최종 주소 변수
