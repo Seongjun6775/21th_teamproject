@@ -21,9 +21,6 @@
 
 	$().ready(function() {
 		
-		var dt = new DateTime();
-		var date = dt.today();
-		
 		var url;
 		var mbrId;
 		$(".open-layer").click(function(event) {
