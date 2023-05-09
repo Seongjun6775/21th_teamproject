@@ -218,9 +218,15 @@ public class OdrDtlController {
 	@GetMapping("/paymentStr")
 	public String forSaleStr(Model model, OdrDtlVO odrDtlVO
 						, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+
+		
 		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
 			odrDtlVO.setOdrDtlStrId(mbrVO.getStrId());
 		}
+		
+		if(!mbrVO.getMbrLvl().equals("001-01") ) { 
+			 
+			 return "errors/evnt_customer_error"; }
 		
 //		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
 		
