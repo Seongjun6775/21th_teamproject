@@ -74,6 +74,7 @@ public interface OdrDtlService {
 	public List<OdrDtlVO> forSale(OdrDtlVO odrDtlVO);
 	public List<OdrDtlVO> group(OdrDtlVO odrDtlVO);
 	public List<OdrDtlVO> groupPrdt(OdrDtlVO odrDtlVO);
+	public List<OdrDtlVO> groupSrtCdId(OdrDtlVO odrDtlVO);
 	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO);
 
 	public List<OdrDtlVO> startEnd(OdrDtlVO odrDtlVO);

@@ -133,10 +133,12 @@ $().ready(function() {
 			$("#checkCntPrc").prop("checked", false);
 			$(this).text("수량 보기");
 			$("#unit").text("단위: 원");
+			$("#thCntPrc").text("금액합계")
 		} else {
 			$("#checkCntPrc").prop('checked', true);
 			$(this).text("금액 보기");
 			$("#unit").text("단위: 개");
+			$("#thCntPrc").text("수량합계")
 		}
 		var prdtId = $("#search-keyword-prdt").val();
 		sumMonth(prdtId);
@@ -403,7 +405,6 @@ function sumMonth(prdtId, lct, cty, str) {
 			    pay += sumPrc;
 			    sum += sumPrc;
 			    var monthSave = $("#clickMonthSave").val();
-			    console.log(monthSave , yearly)
 			    if (monthly == 1) {
 			    	var tr = $("<tr></tr>");
 		    		var td = $("<td data-oneday='"+yearly+"'>"+yearly+"</td>");
@@ -532,7 +533,7 @@ function prdtList(srt) {
 		
 		<!-- contents -->
 		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
-			<span class="fs-5 fw-bold">상품별 매출 <a href="${context}/payment/">기간조회용</a> </span>
+			<span class="fs-5 fw-bold">상품별 매출 <a href="${context}/payment/">기간조회용</a></span>
 		</div>
 
 		<!-- sticky -->
@@ -626,7 +627,7 @@ function prdtList(srt) {
 					<thead class="table-secondary">
 						<tr>
 							<th class="min-width80 width80">연도</th>
-							<th class="min-width120">판매총액</th>
+							<th id="thCntPrc" class="min-width120">금액합계</th>
 							<th class="min-width120">1월</th>
 							<th class="min-width120">2월</th>
 							<th class="min-width120">3월</th>

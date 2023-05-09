@@ -674,6 +674,23 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
+.indexChart2 {
+}
+.indexChart2 > div {
+	
+}
+.indexChart2 ul {
+	font-style: italic;
+	font-weight: bold;
+}
+.indexChart2 li > a::before {
+	content: "[ ";
+}
+.indexChart2 li > a::after {
+	content: " ]";
+}
+
+
 
 
 

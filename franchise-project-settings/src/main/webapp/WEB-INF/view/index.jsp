@@ -351,15 +351,19 @@
 
 
 
-	<div class="bg-white rounded shadow-sm "
+	<div class="bg-white rounded shadow-sm flex"
 		style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
-		<div style="float: left">
+		<div class="half-left">
 			<span class="fs-5 fw-bold">매장별 매출 그래프</span>
 			<div id="columnchart_values"></div>
 		</div>
-		<div style="float: left">
+		<div class="half-right">
 			<span class="fs-5 fw-bold">매장별 상품 그래프</span>
-			<div id="columnchart_values2"></div>
+			<div id="columnchart_values2" >
+				<div>
+					<jsp:include page="./odrdtl/indexChart2.jsp" />
+				</div>
+			</div>
 		</div>
 	</div>
 

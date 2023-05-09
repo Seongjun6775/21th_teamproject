@@ -162,6 +162,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		}
 		return odrDtlDAO.groupPrdt(odrDtlVO);
 	}
+	
+	@Override
+	public List<OdrDtlVO> groupSrtCdId(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.groupSrtCdId(odrDtlVO);
+	}
 
 	@Override
 	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO) {
