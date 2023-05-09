@@ -85,31 +85,50 @@
 				/* alert("삭제할 글이 없습니다."); */
 				return;
 			} 
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return; 
-			}
 			
-			var form =$("<form></form>")	
 			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='hlpDskWrtId' value='" + $(this).val() + "'>")
-			});
-
-			$.post("${context}/api/hlpdsk/delete",form.serialize(),function(response){
-				if(response.status =="200 OK"){
-					location.reload(); //새로고침	
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
+			Swal.fire({
+			  title: '삭제하시겠습니까?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: '취소',
+			  confirmButtonText: '삭제'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  var form =$("<form></form>")	
+					
+					$(".check_idx:checked").each(function(){
+						console.log($(this).val());
+						form.append("<input type='hidden' name='hlpDskWrtId' value='" + $(this).val() + "'>")
 					});
-					/* alert(response.errorCode + "/" + response.message); */
-				}
+
+					$.post("${context}/api/hlpdsk/delete",form.serialize(),function(response){
+						if(response.status =="200 OK"){
+							location.reload(); //새로고침	
+						}
+						else {
+							Swal.fire({
+						    	  icon: 'error',
+						    	  title: response.message,
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+							});
+							/* alert(response.errorCode + "/" + response.message); */
+						}
+					});
+			  }
+			  else{
+				  Swal.fire(
+				      '취소',
+				      '삭제가 취소되었습니다.',
+				      'success'
+				    )
+				  return;
+			  }
 			});
+			
 		});
 		
 	    $("#search-btn").click(function(){

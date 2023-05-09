@@ -1,6 +1,7 @@
 package com.ktds.fr.hr.vo;
 
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.mbr.vo.MbrVO;
 
 public class HrVO extends AbstractVO {
 	
@@ -76,6 +77,14 @@ public class HrVO extends AbstractVO {
 	 * 채용 종류 이름
 	 */
 	private String cdNm;
+	/**
+	 * 채용 마감일
+	 */
+	private String hrDdlnDt;
+	/**
+	 * 지원한 회원의 정보
+	 */
+	private MbrVO mbrVO;
 	
 	
 	public String getHrId() {
@@ -186,6 +195,18 @@ public class HrVO extends AbstractVO {
 	public void setCdNm(String cdNm) {
 		this.cdNm = cdNm;
 	}
-
+	public String getHrDdlnDt() {
+		return hrDdlnDt;
+	}
+	public void setHrDdlnDt(String hrDdlnDt) {
+		this.hrDdlnDt = hrDdlnDt;
+	}
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
+	
 
 }
