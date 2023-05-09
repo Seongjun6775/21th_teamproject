@@ -34,10 +34,22 @@ $().ready(function() {
 				// 3. 결과 처리
 				function(response) {
 					if (response.status == "200 OK") {
-						alert(response.message);
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: response.message,
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+		    			});
+						/* alert(response.message); */
 						//location.reload(); // 새로고침
 					} else {
-						alert(response.errorCode + " / " + response.message);
+						Swal.fire({
+					    	  icon: 'error',
+					    	  title: response.message,
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+		    			});
+						/* alert(response.errorCode + " / " + response.message); */
 					}
 				});
 	});

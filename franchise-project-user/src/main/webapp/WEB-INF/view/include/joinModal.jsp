@@ -22,12 +22,29 @@ function chkId(obj){
   }
 var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	$().ready(function(){
+		
 	var valueUtil = new ValueUtil();
 	var idMinLength = 5;
 	var pwMinLength = 8;
 	var authCode="";
 	localStorage.setItem("failCount", 0);
-	
+	$(".modal").on("show.bs.modal", function(){
+		$("#sign-in").click();
+	});
+	$('.modal').on('hidden.bs.modal', function () {
+	  clearInterval(timer);
+	  isRunning=false;
+	  $("form").each(function(){
+		  this.reset();
+		  $("#ableId").hide();
+		  $("#idLen").hide();
+		  $("#dupId").hide();
+		  $("#notMatchPwd").hide();
+			$("#matchPwd").hide();
+			$("#checkPwd").hide();
+			$("#timer").hide();
+	  })
+	});	
 	
 	$("#login_btn").click(function(event){
 		var failCount = localStorage.getItem("failCount");
@@ -581,22 +598,23 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 });
 </script>
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<!-- spinner -->
+<div id="overlay">
+  <div class="cv-spinner">
+    <span class="spinner"></span>
+  </div>
+</div>	
 <!-- Modal -->
 <div class="modal fade" id="loginModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-scrollable">
-		<div class="modal-content" style="position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
+		<div class="modal-content" style="background: none; border: 0px; overflow: hidden;height: 790px; position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
 			<!-- <div class="modal-header">
 				<h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div> -->
 			<!-- <div class="modal-body"> -->
 			<!-- 로그인 부분 Start -->
-			  <!-- spinner -->
-				<div id="overlay">
-				  <div class="cv-spinner">
-				    <span class="spinner"></span>
-				  </div>
-				</div>	
+			  
 			  <div class="login modal-body">
 			    <div class="login__content">
 			      <div class="login__forms">
@@ -736,9 +754,9 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 			<!-- 로그인 부분 End   -->
 			
 			<!-- </div> -->
-			<!-- <div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			</div> -->
+			<div class="modal-footer" style="border-top: 0px;">
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+			</div>
 		</div>
 	</div>
 </div>

@@ -27,6 +27,11 @@ public class HrDAOImpl extends SqlSessionDaoSupport implements HrDAO {
 	public List<HrVO> readAllMyHr(HrVO hrVO) {
 		return getSqlSession().selectList("Hr.readAllMyHr", hrVO);
 	}
+	
+	@Override
+	public int countNtc() {
+		return getSqlSession().selectOne("Hr.countNtc");
+	}
 
 	@Override
 	public HrVO readOneHrByHrId(String hrId) {
@@ -62,6 +67,19 @@ public class HrDAOImpl extends SqlSessionDaoSupport implements HrDAO {
 	public int checkCreateYn(String mbrId) {
 		return getSqlSession().selectOne("Hr.checkCreateYn", mbrId);
 	}
-	
+	/**
+	 * 직원 조회용
+	 */
+	@Override
+	public HrVO readOneHrByMbrId(String mbrId) {
+		return getSqlSession().selectOne("Hr.readOneHrByMbrId", mbrId);
+	}
+	/**
+	 * 직원 해임용
+	 */
+	@Override
+	public int deleteAllHrByMbrId(List<String> mbrIdList) {
+		return getSqlSession().update("Hr.deleteAllHrByMbrId", mbrIdList);
+	}
 
 }

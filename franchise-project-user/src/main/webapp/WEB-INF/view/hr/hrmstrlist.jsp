@@ -10,34 +10,57 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${context}/css/hr_mstr.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <script type="text/javascript">
 	$().ready(function() {
 		var url;
 		$(".open-layer").click(function(event) {
 			var mbrId = $(this).text();
 			$("#layer_popup").css({
+				"padding": "5px",
 				"top": event.pageY,
 				"left": event.pageX,
-				"backgroundColor": "#FFF" 
+				"backgroundColor": "#FFF",
+				"position": "absolute",
+				"border": "solid 1px #222",
+				"z-index": "10px"
 			}).show();
-			
-			url = "${context}/nt/ntcreate/" + mbrId
-		});
-		
-		$(".send-memo-btn").click(function() {
-			if (url) {
-				location.href = url;
+			mbrId = mbrId.trim();
+			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+				url = "cannot"
+			} else {
+				url = "${context}/nt/ntcreate/" + mbrId
 			}
 		});
 		
+		$(".send-memo-btn").click(function() {
+			if (url !== "cannot") {
+				location.href = url;
+			} else {
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '자신에게는 쪽지를<br>보낼 수 없습니다.',
+			    	  showConfirmButton: true,
+			    	  confirmButtonColor: '#3085d6'
+				});
+			}
+		});
+		$('body').on('click', function(event) {
+			if (!$(event.target).closest('#layer_popup').length) {
+				$('#layer_popup').hide();
+			}
+		});
 		$(".close-memo-btn").click(function() {
 			url = undefined;
 			$("#layer_popup").hide();
 		});
 		
-		$(".create_btn").click(function() {
+		$("#create-btn").click(function() {
 			location.href="${context}/hr/hrcreate"
 		});
 		
@@ -47,17 +70,13 @@
 				location.href="${context}/hr/hrmstrdetail/" + data.hrid;
 			}
 		});
-		
 		$("#search_btn").click(function() {
 			movePage(0);
 		});
-		
-		$("#hrLvl, #hrStat, #delYn").change(function() {
+		$("#hrLvl, #hrStat, #delYn, #listSize").change(function() {
 			movePage(0);
 		});
-		
 	});
-	
 	function movePage(pageNo) {
 		
 		var searchIdx = $("#search_idx").val();
@@ -67,12 +86,19 @@
 		var delYn = $("#delYn").val();
 		var startDt = $("#startDt").val();
 		var endDt = $("#endDt").val();
+		var viewCnt = parseInt($("#listSize option:selected").val());
 		
 		var intStartDt = parseInt(startDt.split("-").join(""));
 		var intEndDt = parseInt(endDt.split("-").join(""));
 		
 		if(intStartDt > intEndDt) {
-			alert("시작일자는 종료일자보다 늦을 수 없습니다!");
+			Swal.fire({
+		    	  icon: 'error',
+		    	  title: '시작일자는 종료일자보다 늦을 수 없습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			/* alert("시작일자는 종료일자보다 늦을 수 없습니다!"); */
 			return;
 		}
 		
@@ -83,82 +109,106 @@
 		queryString += "&hrLvl=" + hrLvl;
 		queryString += "&hrStat=" + hrStat;
 		queryString += "&delYn=" + delYn;
+		queryString += "&viewCnt=" + viewCnt;
 		queryString += "&pageNo=" + pageNo;
 		
 		location.href = "${context}/hr/hrmstrlist?" + queryString;
 	}
 	
 </script>
+<style> 
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<h3>master 채용 페이지 테스트</h3>
-			<div>
-				<div>총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건</div>
-				<!-- <button id="check_download_btn">전체 다운로드</button> -->
-				<div>
-					<label for="startDt">검색 시작일</label>
-					<input type="date" id="startDt" name="startDt" value="${hrVO.startDt}" />
-					<label for="endDt">검색 종료일</label>
-					<input type="date" id="endDt" name="endDt" value="${hrVO.endDt}" />
-					<select id="search_idx">
-						<option value="">검색 조건</option>
-						<option value="hrTtl" ${searchIdx eq "hrTtl" ? 'selected' : '' }>제목</option>
-						<option value="mbrId" ${searchIdx eq "mbrId" ? 'selected' : '' }>지원자</option>
-					</select>
-				<input type="text" id="search-keyword" value="${keyword}"/>
-				<button id="search_btn">검색</button>
-				</div>
+<jsp:include page="../include/openBody.jsp" />
+		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">회원 > 채용 관리</span>
+	    </div>
+		<!-- searchbar -->
+		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
+		  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
+		  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin: 15px;">
+		    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+		  </svg>
+		  <input class="form-control " style="margin-right: 10px; width: 30%;" type="date" id="startDt" name="startDt" value="${hrVO.startDt}">
+		  <input class="form-control" style="margin-right: 40px; width: 30%;" type="date" id="endDt" name="endDt" value="${hrVO.endDt}">
+		    <select id="search_idx" class="form-select" style="margin-right: 10px; width: 30%;" aria-label="Default select example">
+				<option value="">검색 조건</option>
+				<option value="hrTtl" ${searchIdx eq "hrTtl" ? 'selected' : '' }>제목</option>
+				<option value="mbrId" ${searchIdx eq "mbrId" ? 'selected' : '' }>작성자 ID</option>
+		    </select>
+		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
+		    <button id="search_btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
+		</div>
+		<!-- /searchbar -->	
+		    
+		<!-- contents -->
+		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">				
+			<div style="margin: 13px;">
+				총 ${hrList.size() > 0 ? hrList.get(0).totalCount : 0}건 / 게시물 개수
+				<select id="listSize" name="viewCnt" class="select-align-center">
+					<option value="10" ${hrVO.viewCnt eq 10 ? 'selected' : ''}>10개</option>
+					<option value="30" ${hrVO.viewCnt eq 30 ? 'selected' : ''}>30개</option>
+					<option value="50" ${hrVO.viewCnt eq 50 ? 'selected' : ''}>50개</option>
+					<option value="100" ${hrVO.viewCnt eq 100 ? 'selected' : ''}>100개</option>
+				</select>
 			</div>
-			<div class="hr_table_grid">
-				<table>
-					<thead>
+				<table class="table caption-top table-hover" style="text-align: center;">
+					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
-							<!-- <th><input type="checkbox" id="all_check"/></th> -->
-							<th>지원자 ID</th>
-							<th>
-								<select id="hrLvl">
+							<th scope="col" style="border-radius: 6px 0 0 0; padding: 20px 20px 8px 20px;">작성자</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;" >
+								<select id="hrLvl" class="select-align-center" aria-label="Default select example">
 									<option value="">지원 직군</option>
-									<option value="005-01" ${hrVO.hrLvl eq "005-01" ? 'selected' : '' }>점주</option>
-									<option value="005-02" ${hrVO.hrLvl eq "005-02" ? 'selected' : '' }>사원</option>
+									<option value="005-01" ${hrVO.hrLvl eq "005-01" ? 'selected' : '' }>가맹점주</option>
+									<option value="005-02" ${hrVO.hrLvl eq "005-02" ? 'selected' : '' }>점원</option>
 								</select>
 							</th>
-							<th>제목</th>
-							<th>등록일</th>
-							<th>승인 여부</th>
-							<th>
-								<select id="hrStat">
+							<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">승인 여부</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">
+								<select id="hrStat" class="select-align-center" aria-label="Default select example">
 									<option value="">채용 상태</option>
-									<option value="접수" ${hrVO.hrStat eq "접수" ? 'selected' : '' }>접수</option>
-									<option value="심사중" ${hrVO.hrStat eq "심사중" ? 'selected' : '' }>심사중</option>
-									<option value="심사완료" ${hrVO.hrStat eq "심사완료" ? 'selected' : '' }>심사완료</option>
+									<option value="002-01" ${hrVO.hrStat eq "002-01" ? 'selected' : '' }>접수</option>
+									<option value="002-02" ${hrVO.hrStat eq "002-02" ? 'selected' : '' }>심사중</option>
+									<option value="002-03" ${hrVO.hrStat eq "002-03" ? 'selected' : '' }>심사완료</option>
 								</select>
 							</th>
-							<th>
-								<select id="delYn">
-									<option value="">삭제 여부</option>
-									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제됨</option>
-									<option value="N" ${hrVO.delYn eq "N" ? 'selected' : '' }>삭제되지 않음</option>
+							<th scope="col" style="border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;" >
+								<select id="delYn" class="select-align-center" aria-label="Default select example">
+									<option value="N" ${hrVO.delYn eq "N" ? 'selected' : '' }>&nbsp;&nbsp;&nbsp;&nbsp;-</option>
+									<option value="Y" ${hrVO.delYn eq "Y" ? 'selected' : '' }>삭제</option>
+									<option value="" ${hrVO.delYn eq "" ? 'selected' : '' }>전체보기</option>
 								</select>
 							</th>
 						</tr>
-					</thead>
+					</thead> 
 					<tbody>
 						<c:choose>
 							<c:when test="${not empty hrList}">
 								<c:forEach items="${hrList}" var="hr">
 									<tr data-hrid="${hr.hrId}"
 									    data-mbrid="${hr.mbrId}"
+									    data-mbrnm="${hr.mbrVO.mbrNm}"
 									    data-hrlvl="${hr.hrLvl}"
 									    data-hrttl="${hr.hrTtl}"
 									    data-hrrgstdt="${hr.hrRgstDt}"
 									    data-hrapryn="${hr.hrAprYn}"
 									    data-hrstat="${hr.hrStat}"
-									    data-delyn="${hr.delYn}">
+									    data-delyn="${hr.delYn}"
+									    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
 									    <c:set var="checkYn" value="" />
 									    <c:choose>
 									    	<c:when test="${hr.delYn eq 'Y'}">
@@ -172,15 +222,29 @@
 									    	</c:when>
 									    </c:choose>
 										<%-- <td><input type="checkbox" class="check_idx" value="${hr.hrId}" ${checkYn}/></td> --%>
-										<td onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);">${hr.mbrId}</a>
-											
+										<td class="ellipsis" onclick="event.cancelBubble=true">
+											<a class="open-layer" href="javascript:void(0);" val="${hr.mbrId}">
+												${hr.mbrId}
+											</a>
 										</td>
-										<td>${hr.cdNm}</td>
+										<td>${hr.cdNm}</td> 
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
 										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
-										<td>${hr.hrStat}</td>
-										<td>${hr.delYn eq 'Y' ? '삭제됨' : ''}</td>
+										<td>
+											<c:choose>
+												<c:when test="${hr.ntcYn eq 'Y'}"></c:when>
+												<c:otherwise>
+													<c:choose>
+														<c:when test="${hr.hrStat eq '002-01'}">접수</c:when>
+														<c:when test="${hr.hrStat eq '002-02'}">심사중</c:when>
+														<c:when test="${hr.hrStat eq '002-03'}">심사완료</c:when>
+														<c:otherwise><td></td></c:otherwise>
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>${hr.delYn eq 'Y' ? '삭제' : ''}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -190,53 +254,59 @@
 						</c:choose>
 					</tbody>
 				</table>
-			</div>
-			<div class="pagenate">
-				<ul>
-					<c:set value="${hrList.size() >0 ? hrList.get(0).lastPage : 0}" var="lastPage" />
-					<c:set value="${hrList.size() >0 ? hrList.get(0).lastGroup : 0}" var="lastGroup" />
-					
-					<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
-					<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-					<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-					<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-					
-					<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-					<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-					
-					
-					<c:if test="${nowGroup > 0}">
-						<li><a href="javascript:movePage(0)">처음</a></li>
-						<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-					</c:if>
-				
-					
-					<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-						<li><a class="${pageNo eq hrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-					</c:forEach>
-					
-					<c:if test="${lastGroup > nowGroup}">
-						<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-						<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-					</c:if>
-				</ul>
-			</div>
-			<div>
-				<button class="create_btn">작성</button>
-			</div>
-			<jsp:include page="../include/footer.jsp" />
+				<div style="position: relative;">
+					<div class="pagenate">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination" style="text-align: center;">
+								<c:set value="${hrList.size() >0 ? hrList.get(0).lastPage : 0}" var="lastPage" />
+								<c:set value="${hrList.size() >0 ? hrList.get(0).lastGroup : 0}" var="lastGroup" />
+								
+								<fmt:parseNumber var="nowGroup" value="${Math.floor(hrVO.pageNo / 10)}" integerOnly="true" />
+								<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
+								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
+								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
+								
+								<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
+								<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
+								
+								
+								<c:if test="${nowGroup > 0}">
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+								</c:if>
+							
+								
+								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+									<li class="page-item"><a class="page-link text-secondary"  class="${pageNo eq hrVO.pageNo ? 'on' : ''} page-link text-secondary" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+								</c:forEach>
+								
+								<c:if test="${lastGroup > nowGroup}">
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+								</c:if>
+							</ul>
+						</nav>
+					</div>
+					<div style="position: absolute;right: 0;top: 0;">
+	           			<button id="create-btn" type="button" class="btn btn-outline-secondary btn-default">작성</button>
+	          		</div>
+				</div>
 		</div>
-	</div>
-
-	<div class="layer_popup" id="layer_popup" style="display: none;">
-		<div class="popup_box">
-			<div class="popup_content">
-				<a class="send-memo-btn" href="javascript:void(0);">쪽지 보내기</a>
-			</div>
-			<div>
-				<a class="close-memo-btn" href="javascript:void(0);">닫기</a>
+		
+		<!-- layer-popup -->
+		<div class="layer_popup" id="layer_popup" style="display: none;">
+			<div class="popup_box">
+				<div class="popup_content">
+					<a class="send-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-mail-send' ></i>쪽지 보내기
+					</a>
+				</div>
+				<div>
+					<a class="close-memo-btn" href="javascript:void(0);">
+						<i class='bx bx-x'></i>닫기
+					</a>
+				</div>
 			</div>
 		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
