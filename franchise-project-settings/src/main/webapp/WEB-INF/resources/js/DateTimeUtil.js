@@ -4,7 +4,9 @@
 function DateTime() {
 }
 
-DateTimeUtil.prototype.dateFormat = function(dateObject, format) {
+DateTime.prototype.dateFormat = function(dateObject, format) {
+
+
 	if (!format) {
 		format = "YYYY-MM-DD"
 	}
@@ -20,20 +22,21 @@ DateTimeUtil.prototype.dateFormat = function(dateObject, format) {
 	return result;
 }
 
-DateTimeUtil.prototype.today = function(format) {
-	return dateFormat(new Date(), format);
+DateTime.prototype.today = function(format) {
+	return this.dateFormat(new Date(), format);
 }
 
-DateTimeUtil.prototype.addMonth = function(date, add, format) {
+DateTime.prototype.addMonth = function(date, add, format) {
 	var today = new Date();
 	today.setMonth(today.getMonth() + add);
 	
-	return dateFormat(today, format);
+	return this.dateFormat(today, format);
 }
 
-DateTimeUtil.prototype.addDate = function(date, add, format) {
+DateTime.prototype.addDate = function(date, add, format) {
 	var today = new Date();
 	today.setDate(today.getDate() + add);
 	
-	return dateFormat(today, format);
+	return this.dateFormat(today, format);
+
 }

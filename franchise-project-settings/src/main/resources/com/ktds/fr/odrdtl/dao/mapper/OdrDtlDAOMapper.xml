@@ -505,8 +505,8 @@
 	 	SELECT <if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>		 	 
 		 	   STR.STR_ID
 		 	 , STR.STR_NM
-		 	 , C.CTY_ID AS "ctyCdVO.ctyId"
-		 	 , C.CTY_NM AS "ctyCdVO.ctyNm" , 
+		 	 , C.CTY_ID 
+		 	 , C.CTY_NM , 
 		 	  </if>
 		 	   L.LCT_ID AS "lctCdVO.lctId"
 		 	 , L.LCT_NM AS "lctCdVO.lctNm"
@@ -533,7 +533,7 @@
 				   AND OL.USE_YN = 'Y'
 				   AND OL.ODR_LST_ODR_PRCS = '003-04'
 				   AND S.USE_YN = 'Y') OD
-			INNER JOIN STR STR 
+			FULL JOIN STR STR 
 			        ON STR.STR_ID = OD.ODR_DTL_STR_ID  
 			INNER JOIN LCT_CD L
 			 		ON STR.STR_LCTN  = L.LCT_ID 

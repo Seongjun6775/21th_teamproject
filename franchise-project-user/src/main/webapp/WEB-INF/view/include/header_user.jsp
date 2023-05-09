@@ -239,7 +239,16 @@ li.dropdown > ul > li > a  {
 	              리뷰
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="${context}/user/rv/list">리뷰</a></li>
+	            	<li class="dropdown-item">
+		            	<c:choose>
+							<c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-04'}">
+								<a href="${context}/mbr/rv/list">리뷰</a>
+							</c:when>
+							<c:otherwise>
+								<a href="${context}/user/rv/list">리뷰</a>
+							</c:otherwise>
+						</c:choose>
+					</li>
 	            </ul>
 	          </li>
 
@@ -283,9 +292,19 @@ li.dropdown > ul > li > a  {
 								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트</a></li>
 							</ul>
 						</li>
-						<li><a href="${context}/user/rv/list" class="fs-4 fw-bold">리뷰</a>
+						
+						<li class="fs-4 fw-bold">리뷰
 							<ul>
-								<li><a href="${context}/user/rv/list" class="fs-6 fw-bold">리뷰</a></li>
+								<li class="fs-6 fw-bold">
+					            	<c:choose>
+										<c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-04'}">
+											<a href="${context}/mbr/rv/list">리뷰</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${context}/user/rv/list">리뷰</a>
+										</c:otherwise>
+									</c:choose>
+								</li>
 							</ul>
 						</li>
 						<li><a href="${context}/index" class="fs-4 fw-bold">관리자페이지로</a>
