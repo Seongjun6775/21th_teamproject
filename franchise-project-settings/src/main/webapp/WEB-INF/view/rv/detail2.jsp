@@ -105,39 +105,37 @@
 			</c:if>	
 	    </div>		
 		<div class="bg-white rounded shadow-sm" style="padding: 60px;  margin:20px;">
-			<div class="flex">
-			
-					<div class="input-group" style="flex: 1; margin-top: 10px;">
-						<label for="prdtCntnt" class="col-form-label label-left-border">상품이름</label>
-						<div>
-							<textarea id="prdtCntnt" style="height:20px; resize: none;" readonly
-									class="form-control">${rvDetail.prdtVO.prdtNm} 외 ${odrDtl.size() -1}건</textarea>
-						</div>
+			<div class="flex">			
+				<div class="input-group" style="flex: 1; margin-top: 10px;">
+					<label for="prdtCntnt" class="col-form-label label-left-border">상품이름</label>
+					<div>
+						<textarea id="prdtCntnt" style="height:20px; resize: none;" readonly
+								class="form-control">${rvDetail.prdtVO.prdtNm} 외 ${odrDtl.size() -1}건</textarea>
 					</div>
 				</div>
-				<div class="half-right">
-					<div class="input-group">
-						<label for="prdtNm" class="col-form-label label-left-border">제목</label>
-						<div>
-							<input type="text" class="form-control" readonly value="${rvDetail.rvTtl}"/>
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="prdtNm" class="col-form-label label-left-border">평가</label>
-						<div>
-							<input type="text" id="rvLkDslk" name="rvLkDslk" class="form-control" readonly value="${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}">
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1;">
-						<label for="prdtCntnt" class="col-form-label label-left-border" style="height: 40px;">내용</label>
-						<div>
-							<textarea id="prdtCntnt" style="margin-top: 0.5rem; height:220px; resize: none;" readonly
-									class="form-control">${rvDetail.rvCntnt}</textarea>
-						</div>
+			</div>
+			<div class="half-right">
+				<div class="input-group">
+					<label for="prdtNm" class="col-form-label label-left-border">제목</label>
+					<div>
+						<input type="text" class="form-control" readonly value="${rvDetail.rvTtl}"/>
 					</div>
 				</div>
-			</div>						
-		</div>				
+				<div class="input-group">
+					<label for="prdtNm" class="col-form-label label-left-border">평가</label>
+					<div>
+						<input type="text" id="rvLkDslk" name="rvLkDslk" class="form-control" readonly value="${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}">
+					</div>
+				</div>
+				<div class="input-group" style="flex: 1;">
+					<label for="prdtCntnt" class="col-form-label label-left-border" style="height: 40px;">내용</label>
+					<div>
+						<textarea id="prdtCntnt" style="margin-top: 0.5rem; height:220px; resize: none;" readonly
+								class="form-control">${rvDetail.rvCntnt}</textarea>
+					</div>
+				</div>
+			</div>
+		</div>										
 <jsp:include page="../include/footer_user.jsp" />
 </body>
 </html>

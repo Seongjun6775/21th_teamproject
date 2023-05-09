@@ -39,7 +39,7 @@ public class RestMbrController {
 
 	//회원 로그인
 	@PostMapping("/login")
-	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {
+	public ApiResponseVO doLogin(MbrVO mbrVO, HttpSession session,HttpServletRequest request) {		
 		if(mbrVO.getMbrId() == null || mbrVO.getMbrId().length() == 0) {
 			throw new ApiArgsException(ApiStatus.MISSING_ARGS, "아이디 또는 비밀번호를 확인해 주세요.");
 		}
@@ -51,7 +51,10 @@ public class RestMbrController {
 		
 		if(mbr == null) {
 			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ mbrVO.getMbrLgnFlCnt() + " / 5");
-		}else {
+		}else if(!mbr.getMbrLvl().equals("001-04")) {
+			throw new ApiException("400", "사용할 수 없는 계정입니다.");
+		}
+		else {
 			mbr.setMbrRcntLgnIp(request.getRemoteAddr());
 			session.setAttribute("__MBR__", mbr);
 			SessionManager.getInstance().addSession(mbr.getMbrId(), session);
@@ -213,7 +216,9 @@ public class RestMbrController {
 //		}
 //		return new ApiResponseVO(ApiStatus.OK);
 //	}
+
 //	//권한 해임 -> 빼기
+
 //	@GetMapping("mbr/admin/fire")
 //	public ApiResponseVO doFireAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session) {
 //		log.info("넘겨지니? {}",mbrVO.getMbrId());

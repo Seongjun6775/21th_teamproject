@@ -308,7 +308,7 @@
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
-				<a class="send-memo-btn" href="javascript:void(0);">
+				<a class="send-memo-btn" href="javascript:void(0);" style="display: ${mbrVO.mbrLvl eq '001-04' ? 'none' : ''}">
 					<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
 			</div>
 			<div>

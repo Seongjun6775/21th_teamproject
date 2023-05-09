@@ -20,20 +20,22 @@
 		
 		var url;
 		$(".open-layer").click(function(event) {
-			var mbrId = $(this).text();
-			$("#layer_popup").css({
-				"padding": "5px",
-				"top": event.pageY,
-				"left": event.pageX,
-				"backgroundColor": "#FFF",
-				"position": "absolute",
-				"border": "solid 1px #222",
-				"z-index": "10px"
-			}).show();
-			if (mbrId == '${sessionScope.__MBR__.mbrId}') {
-				url = "cannot"
-			} else {
-				url = "${context}/nt/ntcreate/" + mbrId
+			if ("${mbrVO.mbrLvl}" == "001-02") {
+				var mbrId = $(this).text();
+				$("#layer_popup").css({
+					"padding": "5px",
+					"top": event.pageY,
+					"left": event.pageX,
+					"backgroundColor": "#FFF",
+					"position": "absolute",
+					"border": "solid 1px #222",
+					"z-index": "10px"
+				}).show();
+				if (mbrId == '${sessionScope.__MBR__.mbrId}') {
+					url = "cannot"
+				} else {
+					url = "${context}/nt/ntcreate/" + mbrId
+				}
 			}
 		});
 		
@@ -250,7 +252,8 @@
 					</div>
 					<div style=" right: 0;top: 0; position: absolute;">
 						<button id="check_del_btn" class="btn btn-outline-danger btn-default ">일괄삭제</button>
-						<button id="crt_btn" class="btn btn-outline-secondary btn-default">작성</button>
+						<button id="crt_btn" class="btn btn-outline-secondary btn-default"
+								 style="display: ${mbrVO.mbrLvl eq '001-03' ? 'none' : ''}">작성</button>
 					</div>
 				</div>
 			</div>

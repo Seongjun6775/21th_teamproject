@@ -32,7 +32,7 @@
 	
 	<div class="carousel-inner" style="height: 1200px;">
 		<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
-			<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳<br>프랜차이즈의 최신 채용정보를 확인하세요. </p>
+			<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 최신 채용정보를 확인하세요. </p>
 		</div>
 		<div style="margin: 80px; height: 100%; text-align:center;">
 			<div style="float: left; width: 50%; height: 900px;">

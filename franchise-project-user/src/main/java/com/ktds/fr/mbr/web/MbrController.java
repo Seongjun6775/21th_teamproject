@@ -87,7 +87,7 @@ public class MbrController {
 		lgnHistVO.setMbrId(mbrVO.getMbrId());
 		lgnHistVO.setLgnHistIp(mbrVO.getMbrRcntLgnIp());
 		mbrService.logoutMbr(lgnHistVO);
-		return "redirect:/join";
+		return "redirect:/";
 	}
 	
 	

@@ -207,6 +207,7 @@ public class NtController {
 			ntVO.setRcvrId(mbrVO.getMbrId());
 			List<NtVO> myNtList = ntService.readAllMyNt(ntVO);
 			model.addAttribute("myNtList", myNtList);
+			model.addAttribute("mbrVO", mbrVO);
 			model.addAttribute("ntVO", ntVO);
 			model.addAttribute("searchVal", searchVal);
 			model.addAttribute("keyword", keyword);
