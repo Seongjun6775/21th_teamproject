@@ -49,7 +49,10 @@
 	<select id="readAllOdrDtlByOdrLstIdAndMbrId"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultMap="odrDtlMap">
-		SELECT OD.ODR_DTL_ID
+		<include refid="Common.pageHeader" />
+		SELECT OD.ODR_DTL_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY OD.ODR_DTL_ID DESC) RNUM
+			 , OD.ODR_DTL_ID
 			 , OD.ODR_LST_ID
 			 , OD.ODR_DTL_PRDT_ID
 			 , OD.ODR_DTL_PRDT_CNT
@@ -57,18 +60,25 @@
 			 , OD.USE_YN
 			 , OD.DEL_YN
 			 , OD.MBR_ID
+			 , OD.ODR_DTL_PRC
 			 , P.PRDT_NM
 			 , P.PRDT_PRC 
+			 , P.UUID_FL_NM
 			 , S.STR_NM
 			 , S.STR_CALL_NUM 
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
 		  FROM ODR_DTL OD
 		 INNER JOIN PRDT P
 		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
 		 INNER JOIN STR S
-		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
 		 WHERE ODR_LST_ID = #{odrLstId}
 		   AND OD.MBR_ID = #{mbrId}
 		   AND OD.DEL_YN = 'N'
+		<include refid="Common.pageFooter" />
 	</select>
 	
 	

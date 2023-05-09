@@ -2,6 +2,7 @@ package com.ktds.fr.rv.vo;
 
 import com.ktds.fr.common.vo.AbstractVO;
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.vo.StrVO;
 
 /**
@@ -34,6 +35,7 @@ public class RvVO extends AbstractVO {
 	
 	private MbrVO mbrVO;
 	private StrVO strVO;
+	private PrdtVO prdtVO;
 	
 	
 	public String getRvId() {	
@@ -107,6 +109,12 @@ public class RvVO extends AbstractVO {
 	}
 	public void setStrVO(StrVO strVO) {
 		this.strVO = strVO;
+	}
+	public PrdtVO getPrdtVO() {
+		return prdtVO;
+	}
+	public void setPrdtVO(PrdtVO prdtVO) {
+		this.prdtVO = prdtVO;
 	}
 	
 }		
