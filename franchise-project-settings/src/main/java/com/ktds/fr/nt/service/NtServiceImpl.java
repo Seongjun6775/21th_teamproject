@@ -142,8 +142,8 @@ public class NtServiceImpl implements NtService {
 	}
 	
 	@Override
-	public boolean countNewNt(String mbrId) {
-		return ntDAO.countNewNt(mbrId) > 0;
+	public List<NtVO> countNewNt(String mbrId) {
+		return ntDAO.countNewNt(mbrId);
 	}
 
 }

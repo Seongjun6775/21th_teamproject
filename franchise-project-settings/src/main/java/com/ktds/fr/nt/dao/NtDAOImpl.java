@@ -69,8 +69,8 @@ public class NtDAOImpl extends SqlSessionDaoSupport implements NtDAO {
 	}
 	
 	@Override
-	public int countNewNt(String mbrId) {
-		return getSqlSession().selectOne("Nt.countNewNt", mbrId);
+	public List<NtVO> countNewNt(String mbrId) {
+		return getSqlSession().selectList("Nt.countNewNt", mbrId);
 	}
 	
 }
