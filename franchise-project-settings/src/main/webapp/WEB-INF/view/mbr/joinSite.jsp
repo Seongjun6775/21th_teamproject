@@ -42,11 +42,7 @@
 					mbrId: $("#lgn_mbrId").val(),
 					mbrPwd: $("#lgn_mbrPwd").val()
 			}
-			$('#spinner-div').show();
-			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/login", data, function(resp){
-				$('#spinner-div').hide();
-				$('#spinner-div').removeClass("d-flex");
 				if(resp.status == "200 OK"){
 					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;
@@ -72,6 +68,7 @@
 						/* alert("계정이 잠겼습니다. 관리자에게 문의하세요."); */
 					}
 				}else{
+					alert(resp.message);
 					var str = resp.message.split(".");
 					Swal.fire({
 				    	  icon: 'error',

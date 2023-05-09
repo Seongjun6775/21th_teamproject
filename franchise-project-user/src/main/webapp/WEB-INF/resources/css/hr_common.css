@@ -8,3 +8,7 @@ footer {
 	weight: 750px;
 	margin: 10px;
 }
+
+textarea:focus {
+	outline: none;
+}

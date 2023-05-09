@@ -35,11 +35,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 				mbrId: $("#lgn_mbrId").val(),
 				mbrPwd: $("#lgn_mbrPwd").val()
 		}
-		$('#spinner-div').show();
-		$('#spinner-div').addClass("d-flex");
-		$.post("${context}/api/mbr/login", data, function(resp){
-			$('#spinner-div').hide();
-			$('#spinner-div').removeClass("d-flex");
+		$.post("${context}/login", data, function(resp){
 			if(resp.status == "200 OK"){
 				localStorage.clear();
 				location.href = "${context}"+resp.redirectURL;
@@ -65,6 +61,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 					/* alert("계정이 잠겼습니다. 관리자에게 문의하세요."); */
 				}
 			}else{
+				console.log(resp);
 				var str = (resp.message).split(".");
 				Swal.fire({
 			    	  icon: 'error',
@@ -94,7 +91,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 			return;
 		}
 			
-		$.get("${context}/api/mbr/check/"+mbrIdVal,function(resp){
+		$.get("${context}/check/"+mbrIdVal,function(resp){
 			if(resp.status == "200 OK"){
 				if(mbrIdVal.length >= 1 && mbrIdVal.length < idMinLength){
 					$("#ableId").hide();
@@ -282,7 +279,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 			/* alert("이메일 인증을 진행해 주세요.") */
 			return;
 		}
-		$.post("${context}/api/mbr/regist", $("#login-up").serialize(), function(resp){
+		$.post("${context}/regist", $("#login-up").serialize(), function(resp){
 			if(resp.status == "200 OK"){
 				Swal.fire({
 			    	  icon: 'success',
@@ -362,7 +359,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 		$('#spinner-div').show();
 		
 		$.ajax({
-			  url: "${context}/api/mbr/emailSend",
+			  url: "${context}/emailSend",
 			  type: 'post',
 			  data: {"email": mbrEml},
 				  beforeSend: function() {
@@ -382,7 +379,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 					      }
 					      Swal.fire({
 					    	  icon: 'success',
-					    	  title: '전송되었습니다. 이메일을 확인해 주세요.',
+					    	  title: '전송되었습니다.\n이메일을 확인해 주세요.',
 					    	  showConfirmButton: false,
 					    	  timer: 2500
 			    			});
@@ -401,7 +398,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 					  	$("#overlay").hide();
 					  	Swal.fire({
 					    	  icon: 'error',
-					    	  title: '에러가 발생했습니다. 다시 시도해주세요.',
+					    	  title: '에러가 발생했습니다.\n다시 시도해주세요.',
 					    	  showConfirmButton: false,
 					    	  timer: 2500
 		    			});
@@ -440,7 +437,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 			//TODO alert말고 sapn으로 처리(타이머 시간때문에)
 			Swal.fire({
 		    	  icon: 'error',
-		    	  title: '인증번호가 불일치 합니다. 다시 입력해주세요.',
+		    	  title: '인증번호가 불일치 합니다.\n다시 입력해주세요.',
 		    	  showConfirmButton: false,
 		    	  timer: 2500
 				});
@@ -469,7 +466,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 		$('#spinner-div').show();
 		
 		$.ajax({
-			  url: "${context}/api/mbr/find",
+			  url: "${context}/find",
 			  type: 'post',
 			  data: {email: email, type: type},
 				  beforeSend: function() {
@@ -504,7 +501,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 					  	$("#overlay").hide();
 					  	Swal.fire({
 					    	  icon: 'error',
-					    	  title: '에러가 발생했습니다. 다시 시도해주세요',
+					    	  title: '에러가 발생했습니다.\n다시 시도해주세요',
 					    	  showConfirmButton: false,
 					    	  timer: 2500
 		  				});
@@ -527,7 +524,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 		}
 		
 		$.ajax({
-			  url: "${context}/api/mbr/find",
+			  url: "${context}/find",
 			  type: 'post',
 			  data: {email: email, type: type, mbrId: mbrId},
 				  beforeSend: function() {
@@ -561,7 +558,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 					  	$("#overlay").hide();
 					  	Swal.fire({
 					    	  icon: 'error',
-					    	  title: '에러가 발생했습니다. 다시 시도해주세요.',
+					    	  title: '에러가 발생했습니다.\n다시 시도해주세요.',
 					    	  showConfirmButton: false,
 					    	  timer: 2500
 		  				});
@@ -579,12 +576,12 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 <!-- Modal -->
 <div class="modal fade" id="loginModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-scrollable">
-		<div class="modal-content" style="width:960px; max-height: 70%; position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
-			<div class="modal-header">
+		<div class="modal-content" style="position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
+			<!-- <div class="modal-header">
 				<h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
+			</div> -->
+			<!-- <div class="modal-body"> -->
 			<!-- 로그인 부분 Start -->
 			  <!-- spinner -->
 				<div id="overlay">
@@ -592,7 +589,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 				    <span class="spinner"></span>
 				  </div>
 				</div>	
-			  <div class="login">
+			  <div class="login modal-body">
 			    <div class="login__content">
 			      <div class="login__forms">
 						<!--로그인 영역 -->
@@ -730,10 +727,10 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 			   </div>
 			<!-- 로그인 부분 End   -->
 			
-			</div>
-			<div class="modal-footer">
+			<!-- </div> -->
+			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
