@@ -314,7 +314,6 @@
 	<div class="bg-white rounded shadow-sm  "
 		style="padding: 23px 18px 23px 18px; margin: 20px;">
 		<div class="top-bar">
-
 			<div class="input-group inline" style="width: 300px">
 				<span class="input-group-text ">매장명</span> <select
 					class="form-select" name="strId" id="search-keyword-strId">

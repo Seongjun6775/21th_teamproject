@@ -15,6 +15,27 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function(){
+		$("#list_btn").click(function() {
+			location.href="${context}/hlpdsk/list";
+		});
+		
+		$("#delete_btn").click(function(){
+			console.log("${hlpDsk.hlpDskWrtId}");
+			var hlpDskWrtId = ("${hlpDsk.hlpDskWrtId}"); 
+			
+			if(!confirm("정말 삭제하시겠습니까?")){
+				return;
+			} 
+			$.get("${context}/api/hlpdsk/delete/"+ hlpDskWrtId, function(response){
+				if(response.status =="200 OK"){
+					var url= '${context}/hlpdsk/list'
+					location.replace(url); 
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			})
+		});
 		$("#fix_btn").click(function(){
 			//수정
 			var mngrId = $(this).val(); 
@@ -25,36 +46,49 @@
 					location.reload(); //새로고침	
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.errorCode + "/" + response.message); */
 				}	
 			});
 	    
 		}); 
 	});
 </script>
+<style>
+.qna-btn{
+    font-size: 25px;
+    FONT-WEIGHT: 550;
+    margin: 10px;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 25px;
+    background-color: #ffbe2e;
+    text-align: center;
+}
+</style>
 </head>
-<body>
-	<div class="main-layout" >
-	<jsp:include page="../include/header.jsp" />
-		<div>
-		<jsp:include page="../include/sidemenu.jsp" />
-		<jsp:include page="../include/content.jsp" />
-			<div>
-			<!-- 상세화면 헤더 -->
-				<div class="header-option-bar">
-					<div class="header-option-right">
-						<div class="article-action">			
-							<a href="${context}/hlpdsk/list" class="btn-m" style="text-decoration: none;">목록</a> 
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- //상세화면 헤더 -->
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
+		        <span class="fs-5 fw-bold"> 고객센터 > 문의/건의</span>
+		        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
+				  <button id="list_btn" class="btn btn-secondary" >목록</button>
+		        </div>
+      		</div>
 			<div>
 				<!-- 게시판 콘텐츠 -->		
-				<div>
+				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 				<header class="detailview-header">
 				    <div class="detailview-header-area">
+				    	<div style="float:right;">
+				    		<c:if test="${mbrVO.mbrLvl eq '001-01'}"> 
+								<button id="delete_btn"class="btn btn-outline-danger btn-default">삭제</button> 
+							</c:if>
+				    	</div>
 				        <div class="detailview-header-left">
 				                    <p class="list-title">${hlpDsk.hlpDskTtl}</p>
 				            <!-- 추가 정보 -->
@@ -71,23 +105,22 @@
 				        </div>	
 				    </div>
 				</header>
-				</div>
-				<article class="detailview-article">												
-				    <div style="overflow-x:auto;overflow-y:hidden; border-bottom: solid 1px;" 
-				    	class="contentsDiv">
-				        ${hlpDsk.hlpDskCntnt}
-				    </div>
-
+				
+				<article class="detailview-article">											
+				    <textarea style="width: 100%; overflow-x: auto; overflow-y: hidden; border: none; resize:none;     background-color: #fff;" 
+					    		class="contentsDiv"
+					    		disabled>${hlpDsk.hlpDskCntnt}</textarea>
 				</article>
+				</div>
 			</div>
 			<c:if test="${hlpDsk.hlpDskPrcsYn eq 'Y'}">	
 				<div 	>
 					<!-- 게시판 콘텐츠 -->		
-					<div class="qna-cntnt">
+					<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 					<header class="detailview-header">
 					    <div class="detailview-header-area">
 					        <div class="detailview-header-left">
-					        	<div class="qna-font">답변완료</div> 
+					        	<div class="list-title">답변완료</div> 
 
 					            <!-- 추가 정보 -->
 								<div class="etc">
@@ -109,29 +142,29 @@
 					    </div>
 					</article>
 					</div>
-
 				</div>
+				
 			</c:if>
 			<c:if test="${hlpDsk.hlpDskPrcsYn eq 'N'&& sessionScope.__MBR__.mbrLvl eq '001-04'}">
-				<div class="wait-box"  >
+				<div class="bg-white rounded shadow-sm fs-6" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 					답변대기중입니다.		
 				</div>
 			</c:if>
 			<c:if test="${hlpDsk.hlpDskPrcsYn eq 'N' && sessionScope.__MBR__.mbrLvl ne '001-04'}">
-				<form id="create_form" >
-					<div class="qna_box row" style="background: #ffffff;" >	
-						<button class="qna-btn" id="fix_btn" style="width:70%;">답변하기</button>
-					</div>
-					<input type="hidden" id="mstrId" name="mstrId" value="${sessionScope.__MBR__.mbrId}" />
-					<div>
-						<textarea id="hlpOkCntnt" name="hlpOkCntnt" placeholder="답변을 입력해주세요." class="qna-text"></textarea>
-					</div>	
-				</form>	
+				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+					<form id="create_form" >
+						<div class="qna_box row rounded" style="background: #adb5bd8a;padding:20px;" >
+							<button class="qna-btn" id="fix_btn" style="width:70%;">답변하기</button>
+						
+						<input type="hidden" id="mstrId" name="mstrId" value="${sessionScope.__MBR__.mbrId}" />
+						<div>
+							<textarea id="hlpOkCntnt" name="hlpOkCntnt" placeholder="답변을 입력해주세요." class="qna-text form-control"></textarea>
+						</div>
+						</div>	
+					</form>	
+				</div>
 			</c:if>
 			
 			
-		</div>	
-		<jsp:include page="../include/footer.jsp" />
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
