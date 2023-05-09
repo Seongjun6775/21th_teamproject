@@ -10,8 +10,8 @@
 <script type="text/javascript" src="${context}/bs/assets/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
-		
         $().ready(function(){
+        	
             $('.nav-item').mouseenter(function(){
                 $(this).find('.dropdown-menu').show();
             }).mouseleave(function(){
@@ -80,8 +80,12 @@ li{
   color: #ffbe2e
 }
 .nav-item .nav-link-right{
-font-size: 25px; FONT-WEIGHT: 550;  margin:10px; margin-top: 45px; color: #fff; padding: 10px 25px; border-radius: 25px;
+font-size: 22px; FONT-WEIGHT: 550;  margin:10px; margin-top: 45px; color: #fff; padding: 10px 25px; border-radius: 25px;
 
+}
+.qna-btn{
+font-size: 25px; FONT-WEIGHT: 550;  margin:10px; color: #fff; padding: 10px 25px; border-radius: 25px;
+background-color: #ffbe2e; text-align: center;
 }
 /* .nav-item .nav-link-right:hover{
   background-color:#0000!important;
@@ -108,19 +112,7 @@ ul.dropdown-menu > li:focus{
   font-size: 20px; FONT-WEIGHT: 600;
 }
 
-.main-order-box{
-  border-radius: 15px;
-  display: inline-block;
-  width: 550px;
-  height: 240px;
-  border: 1px solid #fff;
-  background: #fff;
-  text-align: center;
-  line-height: 240px;
-  margin: 0;
-  margin-right: 20px;
-  font-size: 20px; FONT-WEIGHT: 600;
-}
+
 .footer{
   width: 100%;
   max-width: 1920px;
@@ -193,11 +185,10 @@ li.dropdown > ul > li > a  {
 }
 </style>
 
-
-  <nav class="navbar navbar-expand-lg  border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
+  <nav class="navbar navbar-expand-lg shadow-sm border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
     <div class="container-fluid ">
-      <img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/>
-      <a class="navbar-brand" href="${context}/user/index" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
+      <a  href="${context}/index_user"><img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/></a>
+      <a class="navbar-brand" href="${context}/index_user" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -232,8 +223,7 @@ li.dropdown > ul > li > a  {
 	              매장
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="#">매장찾기</a></li>
-	              <li><a class="dropdown-item" href="/user/rv/list">리뷰관리</a></li>
+	              <li><a class="dropdown-item" href="${context}/str/customer">매장찾기</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav-item dropdown">
@@ -249,7 +239,16 @@ li.dropdown > ul > li > a  {
 	              리뷰
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="/user/rv/list">리뷰</a></li>
+	            	<li class="dropdown-item">
+		            	<c:choose>
+							<c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-04'}">
+								<a href="${context}/mbr/rv/list">리뷰</a>
+							</c:when>
+							<c:otherwise>
+								<a href="${context}/user/rv/list">리뷰</a>
+							</c:otherwise>
+						</c:choose>
+					</li>
 	            </ul>
 	          </li>
 
@@ -257,10 +256,13 @@ li.dropdown > ul > li > a  {
 	        <div style="margin-right:20px;">
 	        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style=" background-color: #ffbe2e;" href="#" >채용 문의</a>
+	         	<a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
 	         </li>
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="#">고객센터</a>
+	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의 ${sessionScope.__MBR__}</a>
+	         </li>
+	         <li class="nav-item">
+	         		<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list_user">고객센터</a>
 	         </li>
 	        </ul>
 	        </div>
@@ -290,9 +292,19 @@ li.dropdown > ul > li > a  {
 								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트</a></li>
 							</ul>
 						</li>
-						<li><a href="/user/rv/list" class="fs-4 fw-bold">리뷰</a>
+						
+						<li class="fs-4 fw-bold">리뷰
 							<ul>
-								<li><a href="/user/rv/list" class="fs-6 fw-bold">리뷰</a></li>
+								<li class="fs-6 fw-bold">
+					            	<c:choose>
+										<c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-04'}">
+											<a href="${context}/mbr/rv/list">리뷰</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${context}/user/rv/list">리뷰</a>
+										</c:otherwise>
+									</c:choose>
+								</li>
 							</ul>
 						</li>
 						<li><a href="${context}/index" class="fs-4 fw-bold">관리자페이지로</a>

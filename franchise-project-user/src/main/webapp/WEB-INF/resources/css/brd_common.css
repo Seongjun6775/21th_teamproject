@@ -2,13 +2,14 @@
 body{
 	margin: 0px;
 	padding:0px;
-	font-size: 12px !important;
+/* 	font-size: 12px !important;
     line-height: 1.4em;
     font-family: 'Noto Sans KR', sans-serif;
-	font-weight:500;
+	font-weight
+	: 500;
     letter-spacing: -0.2px;
     word-break: keep-all;
-    font-family: 's-core-dream', sans-serif;	
+    font-family: 's-core-dream', sans-serif;	 */
 }
 
 *, ::before, ::after {
@@ -47,7 +48,47 @@ body{
 	margin: 0px;
 	color: #eee;
 	text-decoration: none;
+	position: relative;
 }
+
+.main-layout > .header > .nav > .nav-item > .sub-item{
+	position: absolute;
+	top: 40px;
+	left: 0px;
+	margin: 0px;
+	padding: 0px;
+	width: 500px;
+	text-align: left;
+	display: none;
+}
+
+
+
+.header li.nav-item ul.sub-item {
+	position: absolute;
+	top: 40px;
+	left: 0px;
+	margin: 0px;
+	padding: 0px;
+	display: none; 
+	width: 500px;
+	text-align: left;
+}
+
+.header li.nav-item ul.on {
+	display: inline-block; 
+}
+
+.header li.nav-item ul.sub-item li.nav-item {
+	margin: 0px;
+	padding: 0px;
+	display: inline-block;
+	font-size: 16pt;
+}
+
+
+
+
 .main-layout > .header > .nav > .active{
 	font-weight: bold;
 	color: #ddd;
@@ -151,7 +192,7 @@ body{
 
 
 /*botton  */
-.btn-primary {
+/* .btn-primary {
 	background-color:#4242ff;
 	color:#FFF;
 	border:none;
@@ -159,7 +200,7 @@ body{
 	font-size: 10px;
 	padding:5px;
 	
-}
+} */
 
 .btn-primary:active {
 	background-color: #80a2fd;
@@ -314,8 +355,8 @@ body{
 	margin-right:10px;
 }
  */
-
-/* page */
+/* 
+page
 .pagenate {
 	display: flex;
 	margin-top: 10px;
@@ -346,7 +387,7 @@ body{
 .pagenate ul li a.on{
 	font-weight: bold;
 }
-
+ */
 .mt-10 {
  margin-top: 10px;
  }
@@ -412,10 +453,9 @@ img.profile{
 .qna_box {
 	display:flex;
 	border: #ddd solid 1px;
-    background: #c0c0c0;  
     padding: 10px 4%;
     font-size: 15px;
-    margin: 10px 0 20px 0; 
+    margin: 10px 0 0 0; 
     border-radius: 3px;
 	width: 100%;
 	float: right;
@@ -489,7 +529,7 @@ img.profile{
     font-size: 13px;
     text-decoration:none;
 }
-.qna-btn{
+/* .qna-btn{
     height: 50px;
     line-height: 50px;
     background-color: #1e43a2;
@@ -499,7 +539,7 @@ img.profile{
     transition: 0.2s all;
     font-size: 13px;
     text-decoration: none;	
-}
+} */ 
 
 
 .blue-rpl-btn { 
@@ -511,7 +551,6 @@ img.profile{
     font-size: 13px;
     text-decoration:none; 
     border-radius: 5px;
-    border: 1px solid #333;  
 }
 .black-rpl-btn{
     background-color: #555;
@@ -522,7 +561,6 @@ img.profile{
     font-size: 13px;
     text-decoration:none; 
     border-radius: 5px;
-    border: 1px solid #333;  
 }
 
 .red-btn {
@@ -538,7 +576,7 @@ img.profile{
     font-size: 13px;
     text-decoration:none; 
     border-radius: 0px;
-    border: 1px solid #333;  
+
 }
 
 .red-rpl-btn {
@@ -550,7 +588,6 @@ img.profile{
     font-size: 13px;
     text-decoration:none; 
     border-radius: 5px;
-    border: 1px solid #333;  
 }
 
 
@@ -629,7 +666,6 @@ a.btn-m:active{
     font-size: 13px;
     text-decoration: none;
     border-radius: 5px;
-    border: 1px solid #333;
     height: 30px;
 }
 

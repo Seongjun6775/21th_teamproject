@@ -26,6 +26,6 @@ public interface NtDAO {
 	
 	public int checkOneMbr(String rcvrId);
 	
-	public int countNewNt(String mbrId);
+	public List<NtVO> countNewNt(String mbrId);
 
 }

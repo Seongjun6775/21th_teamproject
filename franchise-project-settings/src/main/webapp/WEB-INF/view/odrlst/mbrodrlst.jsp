@@ -103,7 +103,7 @@
 	</div>
 			
 			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
-			<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; "> 
+			<div class="odrlst_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; "> 
 				<div style="margin:13px;">총 ${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}건</div>
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">

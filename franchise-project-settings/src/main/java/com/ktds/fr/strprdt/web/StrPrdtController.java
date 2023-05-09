@@ -81,6 +81,7 @@ public class StrPrdtController {
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		List<LctCdVO> lctList = lctService.read();
 		model.addAttribute("lctList",lctList);
+		model.addAttribute("mbrVO", mbrVO);
 		
 		return "strprdt/str_select";
 	}
