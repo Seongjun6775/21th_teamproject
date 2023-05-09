@@ -341,6 +341,7 @@
 					<div style="float:right; display: flex; flex-direction: row-reverse;">
 							
 						</div>
+						<div id="map" style="width:500px;height:400px;"></div>
 					</div>
 				</form>
 			

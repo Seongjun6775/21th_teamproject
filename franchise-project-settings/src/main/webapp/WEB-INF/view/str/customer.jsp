@@ -227,7 +227,7 @@
 					혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요. </a>
 			</em>
 		</p>
-		<div id="map" style="width:500px;height:400px;"></div>
+		<div id="map" style="width:500px;height:400px;">상단의 원하는 위치의 매장을 클릭하시면 지도가 보입니다!</div>
 	
 		<script type="text/javascript">
 		function mkMap(addr, strNm){
@@ -275,9 +275,6 @@
 			}); 
 		}
 	</script>
-		<div style="float: right; display: flex; flex-direction: row-reverse;">
-			<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
-		</div>
 	</div>
 	</div>
 	<jsp:include page="../include/footer_user.jsp" />
