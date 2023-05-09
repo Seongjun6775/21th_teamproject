@@ -14,6 +14,7 @@
 <title>매출 관리</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="${context}/js/DateTimeUtil.js"></script>
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -123,23 +124,32 @@
    
    
    $().ready(function() {
-
-	   var dt = new DateTime();
+	  
+	   
+	   var dt = new DateTime();	   	   
 	   var date = dt.today();
+	  
+	   var myElementStrt = document.getElementById("search-keyword-startdt");
+	   myElementStrt.value = date;
+	   
+	   var myElementStrt = document.getElementById("search-keyword-enddt");
+	   myElementStrt.value = date;
+	   
 	   
 	   
       console.log("ready function!")
-      var ajaxUtil = new AjaxUtil();
+       var ajaxUtil = new AjaxUtil();
 
       groupStr();
+      
       $("#noneHidden").addClass("hidden");
 
       $("#btn-search").click(function() {
-         groupStr();
-         
-
+       groupStr();
       })
-
+      
+      
+      
       var ctyChangedList;
       $("#search-keyword-strLctn").change(function() {
          var select = $("#search-keyword-strCty");
@@ -167,9 +177,8 @@
          })
       });
       
-      // 날짜 버튼 펑션
       
-    
+      // 날짜 버튼 펑션  
       
       $("#btn-1month").click(function() {
 
