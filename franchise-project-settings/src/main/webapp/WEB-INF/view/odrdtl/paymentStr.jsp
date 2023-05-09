@@ -113,18 +113,31 @@
       month = ("0" + month).slice(-2)
       date = ("0" + date).slice(-2)
       
+      
+      
       return year+"-"+month+"-"+date
    }
-   var ctyNm1;
+   
+   
+   
+   
+   
    $().ready(function() {
 
+	   var dt = new DateTime();
+	   var date = dt.today();
+	   
+	   
       console.log("ready function!")
       var ajaxUtil = new AjaxUtil();
 
       groupStr();
+      $("#noneHidden").addClass("hidden");
 
       $("#btn-search").click(function() {
          groupStr();
+         
+
       })
 
       var ctyChangedList;
@@ -133,7 +146,11 @@
          var strLctn = $("#search-keyword-strLctn").val();
          var option;
          select.children().remove();
-      
+      		
+        
+        	 
+         console.log(strLctn)
+         
          $.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
             if(response.status=="200 OK"){
                ctyChangedList = response.data;
@@ -150,7 +167,12 @@
          })
       });
       
+      // 날짜 버튼 펑션
+      
+    
+      
       $("#btn-1month").click(function() {
+
          var myElementStrt = document.getElementById("search-keyword-startdt");
          let replaceDate = new Date($("#search-keyword-enddt").val());
          
@@ -233,6 +255,7 @@
                var tr = $("<tr></tr>");
                
            if(data[i].ctyCdVO) {
+    		
         	//필요없긴 함 
               var ctyNm = data[i].ctyCdVO.ctyNm;
         
@@ -245,8 +268,7 @@
                      $("<td class='money' style='padding-right: 10px;'>"
                            + sumPrc.toLocaleString() + "</td>"), ];
            }
-          else if($("div").css("#paymentStr") == "none"){      
-        	   $("div").hide();
+          else {      
         	   var tdList = [
                    $("<td>" + lctNm + "</td>"),
                    //필요없긴 함
@@ -281,6 +303,13 @@
             drawChart(dataSet, max, min);
          }
       })
+      
+      if ($("#search-keyword-strLctn").val() != "") {
+     	 $("#noneHidden").removeClass("hidden");
+      } else {
+     	 $("#noneHidden").addClass("hidden");
+      }
+      
    }
 </script>
 
@@ -343,19 +372,18 @@
    </div>
 
    <div class="bg-white rounded shadow-sm "
+		id="noneHidden"
       style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 
       <div id="paymentTotal"></div>
- 
+
       <table class="table table-striped table-sm table-hover align-center">
          <thead class="table-secondary">
             <tr>
                <th>지역명</th>
-<!--                <c:if test="${ctyCdVO.ctyNm ne null}">  -->
                <th>도시명</th>
                <th>매장이름</th>
 <!--                <th>총수량</th> -->      
-<!--               </c:if> --> 
                <th>판매총액</th> 
           	    
             </tr>
@@ -364,7 +392,6 @@
          </tbody>
       </table>
    </div>
-
 
    <div class="bg-white rounded shadow-sm "
       style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
