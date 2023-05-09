@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7121fa95573c132c57b4649cfa281f57&libraries=services"></script>
 
 
 <script type="text/javascript">
@@ -35,6 +36,7 @@
 			$("#mdfyr").val(data.mdfyr);
 			$("#mdfyDt").val(data.mdfydt);
 			$("#useYn").prop("checked", data.useyn == "Y");
+			mkMap(data.straddr, data.strnm);
 		});
 		$("#strnm").click(function() {
 			
@@ -115,14 +117,15 @@
 		<div class="content-setting title">매장 찾기</div>
 		<div class="overlay absolute"></div>
 	</div>
+		<div id="menu" class="flex-column"> 
 		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-		<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
+			<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
 			<table class="table caption-top table-hover" style="text-align: center;">
 				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 					<tr>
 						<th scope="col" style="width:250px; padding: 20px 20px 8px 20px;">매장명</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select" name="selectFilter" 
+							<select class="select-align-center " name="selectFilter" 
 										id="search-keyword-strLctn">
 								<option value="">지역명</option>
 								<c:choose>
@@ -136,7 +139,7 @@
 							</select>
 						</th>
 						<th scope="col" style="padding: 20px 20px 8px 20px; width: 150px">
-							<select class="form-select" name="selectFilter"
+							<select class="select-align-center" name="selectFilter"
 										id="search-keyword-strCty">
 								<option value="">도시명</option>
 								<c:choose>
@@ -218,102 +221,65 @@
 					</ul>
 				</nav>
 			</div>
-			<p style="margin-top: -12px">
-		<em class="link"> <a href="javascript:void(0);"
-			onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
-				혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요. </a>
-		</em>
-	</p>
-	<div id="map" style="width:500px;height:400px;"></div>
-
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7121fa95573c132c57b4649cfa281f57&libraries=services"></script>
-	<script>
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		mapOption = {
-			center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-			level : 4
-		// 지도의 확대 레벨
-		};
+		<p style="margin-top: -12px">
+			<em class="link"> <a href="javascript:void(0);"
+				onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+					혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요. </a>
+			</em>
+		</p>
+		<div id="map" style="width:500px;height:400px;"></div>
 	
+		<script type="text/javascript">
+		function mkMap(addr, strNm){
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			    mapOption = {
+			        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+			        level: 3 // 지도의 확대 레벨
+			    };  
 		
-		// 지도를 생성합니다    
-		var map = new kakao.maps.Map(mapContainer, mapOption);
-
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption); 
 		
-		geocoder.addressSearch('삼성동',function(result, status) {
-
-			// 정상적으로 검색이 완료됐으면 
-			if (status === kakao.maps.services.Status.OK) {
-
-				var coords = new kakao.maps.LatLng(result[0].y,
-						result[0].x);
-
-	 			// 결과값으로 받은 위치를 마커로 표시합니다
-				var marker = new kakao.maps.Marker({
-					map : map,
-					position : coords
-				});
-
-				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-				map.setCenter(coords);
-			} 
-		// 마커를 표시할 위치와 title 객체 배열입니다 
-		var positions = [
-		    {
-		        title: '서귀포점', 
-		        latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-		    },
-		    
-		    {
-		        title: '서초점', 
-		        latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-		    },
-		    
-		    {
-		        title: '해운대점', 
-		        latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-		    },
-		    
-		    {
-		        title: '강남점	',
-		        latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-		    },
-		    
-		    {
-		        title: '분당점',
-		        latlng: new kakao.maps.LatLng(34.451323, 126.572138)
-		    },
-		];
-
-		// 마커 이미지의 이미지 주소입니다
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-		    
-		for (var i = 0; i < positions.length; i ++) {
-		    
-		    // 마커 이미지의 이미지 크기 입니다
-		    var imageSize = new kakao.maps.Size(24, 35); 
-		    
-		    // 마커 이미지를 생성합니다    
-		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-		    
-		    // 마커를 생성합니다
-		    var marker = new kakao.maps.Marker({
-		        map: map, // 마커를 표시할 지도
-		        position: positions[i].latlng, // 마커를 표시할 위치
-		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		        image : markerImage // 마커 이미지 
-		    });
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+		
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch(addr, function(result, status) {
+		
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+		
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		
+			        // 결과값으로 받은 위치를 마커로 표시합니다
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+		
+			        // 인포윈도우로 장소에 대한 설명을 표시합니다
+			        var infowindow = new kakao.maps.InfoWindow({
+			            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+strNm+'</div>'
+			        });
+			        infowindow.open(map, marker);
+		
+			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        mapContainer.style.display = "block";
+			        map.relayout();
+			        
+			        map.setCenter(coords);
+			        
+			        marker.setPosition(coords);
+			        
+			    } 
+			}); 
 		}
-		});
-		
-</script>
-	<div style="float: right; display: flex; flex-direction: row-reverse;">
-		<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
+	</script>
+		<div style="float: right; display: flex; flex-direction: row-reverse;">
+			<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
+		</div>
 	</div>
-</div>
+	</div>
 	<jsp:include page="../include/footer_user.jsp" />
 </body>
 </html>
