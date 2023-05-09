@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%-- <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}"> --%>
+<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
 
 <link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
@@ -135,6 +135,6 @@
 			</div>
 		</div>
 	</div>										
-<%-- <jsp:include page="../include/footer_user.jsp" /> --%>
+<jsp:include page="../include/footer_user.jsp" />
 </body>
 </html>
