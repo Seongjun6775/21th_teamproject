@@ -10,8 +10,8 @@
 <script type="text/javascript" src="${context}/bs/assets/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
-		
         $().ready(function(){
+        	
             $('.nav-item').mouseenter(function(){
                 $(this).find('.dropdown-menu').show();
             }).mouseleave(function(){
@@ -259,10 +259,10 @@ li.dropdown > ul > li > a  {
 	         	<a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
 	         </li>
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
+	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의 ${sessionScope.__MBR__}</a>
 	         </li>
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list">고객센터</a>
+	         		<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list_user">고객센터</a>
 	         </li>
 	        </ul>
 	        </div>

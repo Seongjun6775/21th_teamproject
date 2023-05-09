@@ -14,6 +14,8 @@ import com.ktds.fr.ctycd.vo.CtyCdVO;
 import com.ktds.fr.lctcd.service.LctCdService;
 import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.nt.service.NtService;
+import com.ktds.fr.nt.vo.NtVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.service.OdrLstService;
@@ -37,6 +39,9 @@ public class IndexController {
 	
 	@Autowired
 	public LctCdService lctCdService;
+	
+	@Autowired
+	public NtService ntService;
 	
 	@GetMapping("/index")
 	public String viewIndexPage(Model model, OdrDtlVO odrDtlVO, @SessionAttribute("__MBR__") MbrVO mbrVO) {
@@ -64,9 +69,10 @@ public class IndexController {
 
 		List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
 		List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
+		List<NtVO> newNt = ntService.countNewNt(mbrVO.getMbrId());
 
 		model.addAttribute("startEnd", startEnd);
-
+		model.addAttribute("newNt", newNt);
 		model.addAttribute("odrDtlVO", odrDtlVO);
 		model.addAttribute("strList", strList);
 		model.addAttribute("groupPrdt", groupPrdt);

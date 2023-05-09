@@ -21,6 +21,10 @@ public class HlpDskController {
 	@Autowired
 	private HlpDskService hlpDskService;
 	
+	@GetMapping("/hlpdsk/list_user")
+	public String viewHlpDskUser() {
+		return "hlpdsk/list_user";
+	}
 	@GetMapping("/hlpdsk/list")
 	public String viewHlpDsklistPage(Model model,HlpDskVO hlpDskVO,
 						@SessionAttribute("__MBR__") MbrVO mbrVO,
