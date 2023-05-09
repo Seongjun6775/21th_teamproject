@@ -61,7 +61,6 @@ public class PrdtController {
 	
 	@GetMapping("/prdt/list2")
 	public String prdtList2(PrdtVO prdtVO
-			, @SessionAttribute("__MBR__") MbrVO mbrVO
 			, Model model) {
 		// 손님용 페이지 (등급상관없이 전체조회가능)
 		List<PrdtVO> prdtList = prdtService.readAll(prdtVO);

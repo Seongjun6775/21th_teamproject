@@ -11,26 +11,51 @@
 <meta charset="UTF-8">
 <title>메뉴 관리</title>
 <jsp:include page="../include/stylescript.jsp"></jsp:include>
-<link rel="stylesheet" href="${context}/css/prdt_common.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script type="text/javascript">
 $().ready(function() {
 	
 	console.log("ready function!")
 	var ajaxUtil = new AjaxUtil();
 	
-	$("li").click(function() {
-		var srt = $(this).attr('value');
+	
+	$('a[href="#"]').click(function(ignore) {
+		ignore.preventDefault();
+	});
+	$('div[class="itemList"]').click(function() {
+		location.href = "${context}/prdt/list2/"+$(this).data("prdtid");
+	});
+
+	
+	var srt = "${prdtVO.prdtSrt}"
+	$("div[id=menuCategory] a").each(function() {
+		if ($(this).attr("value") == srt) {
+			$(this).addClass("menuOn");
+		}
+	})
+	
+	
+	$("div[id=menuCategory] a").click(function() {
+		var srt = $(this).attr("value");
 		var queryString = "prdtSrt=" + srt;
 		location.href = "${context}/prdt/list2?" + queryString;
 	});
 	
 	
-	$(".prdt1").click(function() {
-		var data = $(this).data();
-		location.href="${context}/prdt/list2/"+data.prdtid
-	})
+// 	$(".prdt1").click(function() {
+// 		var data = $(this).data();
+// 		location.href="${context}/prdt/list2/"+data.prdtid
+// 	})
 	
 	
+	
+
+
+
+		
 	
 	
 });
@@ -50,62 +75,87 @@ function movePage(pageNo) {
 } 
 
 </script>
-</head>
-<body>
 
-	<div class="headline relative">
-		상단 헤드라인임 //////// <a href="${context}/prdt/list">관리자 메뉴로 돌아가깅</a>
-		<br><a href="${context}/strprdt/list2">주문가볼까</a>
-		<div>${prdtList}</div>
-		<div>${prdtVO}</div>
-		<div>${srtList}</div>
-			<ul id="prdtSrtList" class="flex absolute" style="list-style-type: none; bottom: 0px;">
-				<li value="">전체메뉴</li>
-				<c:choose>
-					<c:when test="${not empty srtList}">
-						<c:forEach items="${srtList}"
-									var="srt">
-							<li class="ml-20" value="${srt.cdId}">${srt.cdNm}</li>
-						</c:forEach>
-					</c:when>
-				</c:choose>
-			</ul>
+</head>
+<body class="scroll">
+
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">붕어빵 파는곳</div>
+		<div class="overlay absolute"></div>
 	</div>
+
+
 	
-	<div>
-		<c:choose>
-			<c:when test="${not empty prdtList}">
-				<c:forEach items="${prdtList}"
-							var="prdt">
-					<div class="prdt1" id="${prdt.prdtId}"
-						data-prdtid="${prdt.prdtId}">
-						<div class="img-box">
-							<c:choose>
-								<c:when test="${empty prdt.uuidFlNm}">
-									<img src="${context}/img/default_photo.jpg">
-								</c:when>
-								<c:otherwise>
-									<img src="${context}/prdt/img/${prdt.uuidFlNm}/">
-								</c:otherwise>
-							</c:choose>	
-						</div>
-						<div class="prdt3">
-							<div class="name">${prdt.prdtNm}
-								<c:choose>
-									<c:when test="${not empty prdt.evntVO.evntId}">
-										<span>할인중!!</span>
-									</c:when>
-								</c:choose>
+	<div id="menu" class="flex-column">
+		<div id="menuCategory" class="flex">
+			<a href="#" value="" class="menu">
+				전체메뉴
+			</a>
+			<c:choose>
+				<c:when test="${not empty srtList}">
+					<c:forEach items="${srtList}"
+								var="srt">
+						<a href="#"  class="menu"
+							value="${srt.cdId}" >
+							${srt.cdNm}
+						</a>
+					</c:forEach>
+				</c:when>
+			</c:choose>
+		</div>
+		
+	
+		<div id="itemList" class="flow-wrap">
+			<c:choose>
+				<c:when test="${not empty prdtList}">
+					<c:forEach items="${prdtList}"
+								var="prdt">
+						<div class="itemList" data-prdtid="${prdt.prdtId}">
+							<div class="prdt card shadow" style="padding: 24px; border-radius: 24px;">
+								<div class="img-box" style="width: 100%">
+									<c:choose>
+										<c:when test="${empty prdt.uuidFlNm}">
+											<img src="${context}/img/default_photo.jpg">
+										</c:when>
+										<c:otherwise>
+											<img src="${context}/prdt/img/${prdt.uuidFlNm}/">
+										</c:otherwise>
+									</c:choose>	
+								</div>
+								<div class="prdt3">
+									<div class="discount">
+										<c:choose>
+											<c:when test="${not empty prdt.evntVO.evntId}">
+												<span><i class='bx bxs-star'></i>Event</span>
+											</c:when>
+										</c:choose>
+									</div>
+									<div class="name ellipsis">${prdt.prdtNm}</div>
+									<div class="price">
+										<c:choose>
+											<c:when test="${not empty prdt.evntVO.evntId}">
+												<span style="font-size: 15px; color: #888;"><del><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber></del></span>
+												<fmt:formatNumber>${prdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber><span>원</span>
+											</c:when>
+											<c:otherwise>
+												<fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</div>
 							</div>
-							<div class="price"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber><span>원</span></div>
 						</div>
-					</div>
-				</c:forEach>
-			</c:when>
-		</c:choose>
+					</c:forEach>
+				</c:when>
+			</c:choose>
+		</div>
+	
 	</div>
 	
 	
+	<jsp:include page="../include/footer_user.jsp" />
 
 
 </body>

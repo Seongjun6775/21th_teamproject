@@ -24,6 +24,7 @@
    rel='stylesheet'>
 
 <script type="text/javascript">
+   var test;
    var dataSet = [];
    
    function secId(mbrId) {
@@ -123,8 +124,6 @@
     
    
    $().ready(function() {
-	  
-	   
 	   var dt = new DateTime();	   	   
 	   var date = dt.today();
 	  
@@ -133,9 +132,7 @@
 	   
 	   var myElementStrt = document.getElementById("search-keyword-enddt");
 	   myElementStrt.value = date;
-	   
-	   
-	   
+
       console.log("ready function!")
        var ajaxUtil = new AjaxUtil();
 
@@ -145,6 +142,7 @@
 
       $("#btn-search").click(function() {
        groupStr();
+
       })
       
       
@@ -217,7 +215,9 @@
 
 
    function groupStr() {
-
+	   
+	  
+	   
       console.log("strLctn : " + $("#search-keyword-strLctn").val() + "\n"
             + "strCty : " + $("#search-keyword-strCty").val() + "\n"
             + "startDt : " + $("#search-keyword-startdt").val() + "\n"
@@ -239,7 +239,8 @@
          dataType : "json",
          data : JSON.stringify(odrDtlVO),
          success : function(data) {
-
+//         	test = data
+        	console.log(data); 
             var pay = 0;
             var max = 0;
             var min = 0;
@@ -383,7 +384,6 @@
       style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
 
       <div id="paymentTotal"></div>
-
       <table class="table table-striped table-sm table-hover align-center">
          <thead class="table-secondary">
             <tr>

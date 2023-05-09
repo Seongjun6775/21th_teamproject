@@ -42,11 +42,7 @@
 					mbrId: $("#lgn_mbrId").val(),
 					mbrPwd: $("#lgn_mbrPwd").val()
 			}
-			$('#spinner-div').show();
-			$('#spinner-div').addClass("d-flex");
 			$.post("${context}/api/mbr/login", data, function(resp){
-				$('#spinner-div').hide();
-				$('#spinner-div').removeClass("d-flex");
 				if(resp.status == "200 OK"){
 					localStorage.clear();
 					location.href = "${context}"+resp.redirectURL;
@@ -72,9 +68,12 @@
 						/* alert("계정이 잠겼습니다. 관리자에게 문의하세요."); */
 					}
 				}else{
+					alert(resp.message);
+					var str = resp.message.split(".");
 					Swal.fire({
 				    	  icon: 'error',
-				    	  title: resp.message,
+				    	  title: '입력값이 다릅니다.',
+				    	  html: str[0]+".<br/>"+str[1]+".<br/>"+str[2],
 				    	  showConfirmButton: false,
 				    	  timer: 2500
 			    	});
@@ -485,12 +484,16 @@
 						    if(resp.status == "200 OK"){
 						    	Swal.fire({
 							    	  icon: 'success',
-							    	  title: '이메일로 전송완료, 확인 해 주세요.',
-							    	  showConfirmButton: false,
-							    	  timer: 2500
-				  				});
+							    	  title: '이메일 전송완료',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}/"+resp.redirectURL;
+									}
+								});
+						    	
 					    		/* alert("이메일로 전송완료, 확인 해 주세요."); */
-								location.href="${context}/"+resp.redirectURL;
 						    } else{
 						    	Swal.fire({
 							    	  icon: 'error',
@@ -539,12 +542,15 @@
 						    if(resp.status == "200 OK"){
 						    	Swal.fire({
 							    	  icon: 'success',
-							    	  title: '이메일로 전송완료, 확인 해주세요.',
-							    	  showConfirmButton: false,
-							    	  timer: 2500
-				  				});
+							    	  title: '이메일 전송완료',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}/"+resp.redirectURL;
+									}
+								});
 					    		/* alert("이메일로 전송완료, 확인 해 주세요."); */
-								location.href="${context}/"+resp.redirectURL;
 						    } else{
 						    	Swal.fire({
 							    	  icon: 'error',

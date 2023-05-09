@@ -209,6 +209,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		return odrDtlDAO.sumYear(odrDtlVO);
 	}
 
+	@Override
+	public List<OdrDtlVO> sumYearOfStr() {
+		return odrDtlDAO.sumYearOfStr();
+	}
+
 	public List<OdrDtlVO> viewStrPayments(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.viewStrPayments(odrDtlVO);
 
