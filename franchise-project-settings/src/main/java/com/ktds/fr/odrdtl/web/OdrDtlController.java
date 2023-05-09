@@ -224,9 +224,7 @@ public class OdrDtlController {
 			odrDtlVO.setOdrDtlStrId(mbrVO.getStrId());
 		}
 		
-		if(!mbrVO.getMbrLvl().equals("001-01") ) { 
-			 
-			 return "errors/evnt_customer_error"; }
+
 		
 //		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
 		
