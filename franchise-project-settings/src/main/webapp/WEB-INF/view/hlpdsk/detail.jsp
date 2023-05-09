@@ -59,6 +59,18 @@
 		}); 
 	});
 </script>
+<style>
+.qna-btn{
+    font-size: 25px;
+    FONT-WEIGHT: 550;
+    margin: 10px;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 25px;
+    background-color: #ffbe2e;
+    text-align: center;
+}
+</style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
 			<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
@@ -94,11 +106,10 @@
 				    </div>
 				</header>
 				
-				<article class="detailview-article">												
-				    <div style="overflow-x:auto;overflow-y:hidden;" 
-				    	class="contentsDiv">
-				        ${hlpDsk.hlpDskCntnt}
-				    </div>
+				<article class="detailview-article">											
+				    <textarea style="width: 100%; overflow-x: auto; overflow-y: hidden; border: none; resize:none;     background-color: #fff;" 
+					    		class="contentsDiv"
+					    		disabled>${hlpDsk.hlpDskCntnt}</textarea>
 				</article>
 				</div>
 			</div>
@@ -140,15 +151,18 @@
 				</div>
 			</c:if>
 			<c:if test="${hlpDsk.hlpDskPrcsYn eq 'N' && sessionScope.__MBR__.mbrLvl ne '001-04'}">
-				<form id="create_form" >
-					<div class="qna_box row" style="background: #ffffff;" >	
-						<button class="qna-btn" id="fix_btn" style="width:70%;">답변하기</button>
-					</div>
-					<input type="hidden" id="mstrId" name="mstrId" value="${sessionScope.__MBR__.mbrId}" />
-					<div>
-						<textarea id="hlpOkCntnt" name="hlpOkCntnt" placeholder="답변을 입력해주세요." class="qna-text"></textarea>
-					</div>	
-				</form>	
+				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
+					<form id="create_form" >
+						<div class="qna_box row rounded" style="background: #adb5bd8a;padding:20px;" >
+							<button class="qna-btn" id="fix_btn" style="width:70%;">답변하기</button>
+						
+						<input type="hidden" id="mstrId" name="mstrId" value="${sessionScope.__MBR__.mbrId}" />
+						<div>
+							<textarea id="hlpOkCntnt" name="hlpOkCntnt" placeholder="답변을 입력해주세요." class="qna-text form-control"></textarea>
+						</div>
+						</div>	
+					</form>	
+				</div>
 			</c:if>
 			
 			

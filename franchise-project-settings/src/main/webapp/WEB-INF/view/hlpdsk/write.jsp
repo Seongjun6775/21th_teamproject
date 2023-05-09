@@ -21,9 +21,10 @@
 		$("#new_btn").click(function(){	
 			$.post("${context}/api/hlpdsk/write", $("#create_form").serialize(),function(response){
 				if(response.status =="200 OK"){
-					var url= '${context}/hlpdsk/list'
-					location.replace(url);	
-				}
+			/* 		var url= '${context}/hlpdsk/list'
+					location.replace(url); */	
+					location.href="${context}/hlpdsk/list";
+				} 
 				else if (response.status =="400"){
 					//파라미터를 전달하지 않은 경우
 					console.log(response.message);
@@ -83,10 +84,10 @@
 							<label for="hlpDskCntnt" class="label" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e; height: 47px;">본문</label> 
 							<textarea  id="hlpDskCntnt" name="hlpDskCntnt" placeholder="내용을 입력해주세요." class="form-control"  style="resize: none;" >${hlpDsk.mngrBrdCntnt}</textarea>
 						</div>
-					<div style="padding: 10px;text-align: right;"> 
-						<button id="new_btn" class="btn btn-primary">등록</button>
-					</div> 					
 					</form>	
+					<div style="padding: 10px;text-align: right;"> 
+						<button type="button" id="new_btn" class="btn btn-primary">등록</button>
+					</div> 					
 				</div>
 			</div>			
 <jsp:include page="../include/closeBody.jsp" />

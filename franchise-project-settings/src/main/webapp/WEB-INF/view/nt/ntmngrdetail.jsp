@@ -19,6 +19,10 @@
 
 	$().ready(function() {
 		
+		$("#list_btn").click(function() {
+			location.href = "${context}/str/strlist";
+		});
+		
 		var ntId = ("${nt.ntId}");
 		
 		$("#del_btn").click(function() {

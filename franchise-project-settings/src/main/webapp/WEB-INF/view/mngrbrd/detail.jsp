@@ -154,18 +154,18 @@
 			
 			var div = $(this).closest("div.rplbtn")
 			console.log(div);
-			console.log($('.create_rpl_form').length);			
+			console.log($('.rpl_box').length);			
 			
-			if($('.create_rpl_form').length == 0 ){
-				var reRplForm = $("<div><form class='create_rpl_form' >" + "<input type='hidden' class='altclId' name='altclId' value='${mngrBrd.mngrBrdId}'' />"
+			if($('.rpl_box').length == 0 ){
+				var reRplForm = $("<div class='rpl_box rounded shadow-sm' style='padding: 10px; background-color: #e0e0e0; margin-top: 10px;'><form class='create_rpl_form' >" + "<input type='hidden' class='altclId' name='altclId' value='${mngrBrd.mngrBrdId}'' />"
 						+ "<input type='hidden' class='rplPrntRpl form-control'name='rplPrntRpl' value='"+ $(this).data('value')+"'/> </form></div>");
-				var input = $("<textarea name='rplCntnt' class='rplCntnt form-control' style='resize:none; margin-top: 10px;'></textarea>"
-							+ "<div style='margin:5px; display: flex;justify-content: center;'><button class='btn btn-primary new_btn' style='background-color: #1e51a2; padding:7px 10px 7px 10px;'>댓글등록</button></div>");
-				reRplForm.append(input);
+				var input = $("<textarea name='rplCntnt' class='rplCntnt form-control' style='resize:none; margin-top: 10px;' placeholder='댓글을 입력하시오.'></textarea>"
+							+ "<div style='margin-top: 10px; display: flex;justify-content: center;'><button class='btn btn-primary new_btn' style='background-color: #1e51a2; padding:7px 10px 7px 10px;'>댓글등록</button></div>");
+				reRplForm.append(input); 
 				div.after(reRplForm);
 			}	
 			else{
-				$('.create_rpl_form').remove();
+				$('.rpl_box').remove();
 			}
 		
 			
@@ -284,6 +284,7 @@
     font-weight: 800;
 /*     margin-right: 15px; */
 } 
+
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
@@ -333,7 +334,7 @@
 					</header>
 					</div>
 					<article class="detailview-article">												
-					    <textarea style="width: 100%; overflow-x: auto; overflow-y: hidden; border: none; resize:none;" 
+					    <textarea style="width: 100%; overflow-x: auto; overflow-y: hidden; border: none; resize:none;     background-color: #fff;" 
 					    		class="contentsDiv"
 					    		disabled>${mngrBrd.mngrBrdCntnt}</textarea>
 					    <div class="pop-lay-col2"> 
@@ -359,7 +360,7 @@
 												<div class="rplBox">
 													<ul class="rpl-box">							 
 														<c:forEach items="${mngrBrd.rplList}" var="rpl" varStatus="index"> 
-															<div class="rplymember rounded shadow-sm" style=" background-color: #89b8e75e; border: 1px solid #e0e0e0; padding: 10px; margin-left: ${rpl.depth*50}px">
+															<div class="rplymember rounded shadow-sm" style="border: 1px solid #e0e0e0; padding: 10px; margin-left: ${rpl.depth*50}px">
 															<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
 																<input type="hidden" id="rplId" name="rplId" value="${rpl.rplId}" />	
 																<input type="hidden" id="altclId" name="altclId" value="${mbrVO.mbrNm}" />												
