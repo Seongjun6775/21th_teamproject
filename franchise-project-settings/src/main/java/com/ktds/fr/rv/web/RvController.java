@@ -69,6 +69,7 @@ public class RvController {
 			List<RvVO> rvList = rvService.readAllRvListForManager(searchRvVO);
 
 			model.addAttribute("rvList", rvList);
+			model.addAttribute("mbrVO", mbrVO);
 			model.addAttribute("rvVO", rvVO);
 			return "rv/listOfStore";
 		}
