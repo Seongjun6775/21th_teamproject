@@ -60,6 +60,14 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 			    	});
 					/* alert("계정이 잠겼습니다. 관리자에게 문의하세요."); */
 				}
+			}else if(resp.errorCode=="400"){
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '오류',
+			    	  html: resp.message,
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
 			}else{
 				console.log(resp);
 				var str = (resp.message).split(".");
