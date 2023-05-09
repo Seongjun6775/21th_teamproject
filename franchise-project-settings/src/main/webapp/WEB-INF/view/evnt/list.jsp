@@ -85,7 +85,7 @@
 											}
 										});
 						//'우리매장 참여이벤트' 버튼 클릭 시 팝업창으로 리스트 뜸
-						$("#btn-ourStrEvnt").click(function() {
+						$("#btn-ourStrEvnt").click(function() {									
 											var pop = window.open("${context}/evntStr/ourList","resPopup","width=1200, height=600, scrollbars=yes, resizable=yes");
 											pop.focus();
 										});
@@ -115,7 +115,8 @@
 						$("#btn-ongoingList").click(function() {
 							location.href = "${context}/evnt/ongoingList";
 						});
-			/* 		});
+			 		});
+			/*
 			$("#all-check").change(function() {
 						$(".check-idx").prop("checked",
 								$(this).prop("checked"));
@@ -188,8 +189,8 @@
 			//이용자 페이지로 이동하기       
 			$("#btn-ongoingList").click(function() {
 				location.href = "${context}/evnt/ongoingList";
-			});
-		}); */
+			}); */
+		}); 
 	
 	function movePage(pageNum) {
 		location.href = "${context}/evnt/list?pageNo=" + (pageNum);
@@ -210,7 +211,7 @@
 							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 						</svg>
 						
-							<input  class="form-control me-2" id="evntTtl" type="text" name="evntTtl" placeholder="이벤트제목" 
+							<input class="form-control me-2" id="evntTtl" type="text" name="evntTtl" placeholder="이벤트제목" 
 									value="${evntTtl}" style="width: 300px;" />
 								
 							<input class="form-control me-2" id="evntCntnt" type="text" name="evntCntnt" placeholder="이벤트내용"
@@ -231,7 +232,7 @@
 							<button type="submit" class="btn btn-outline-success" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;"id="search-btn">검색</button>
 							
 							<button id="btn-init" type="submit" style="background-color: #fff;">
-								<img  src="${context}/img/reset2.png" width="50"; height="50"></button>  
+							<img  src="${context}/img/reset2.png" width="50" height="50"></button>  
 						
 	
 						<!--             </form> -->
@@ -310,7 +311,7 @@
 					</div>
 					<div class="btn-group">
 							<c:if test="${mbrVO.mbrLvl eq '001-02'}">
-							<button type="submit" id="btn-ourStrEvnt" class="btn btn-secondary" style="border: solid 1px;">우리매장 참여중인 이벤트</button>
+							<button type="button" id="btn-ourStrEvnt" class="btn btn-secondary" style="border: solid 1px;">우리매장 참여중인 이벤트</button>
 							</c:if>
 			 			<%-- 	<button id="btn-checkEvnts" class="btn-primary">체크 이벤트..</button>--%>
 							<button id="btn-ongoingList" class=" btn btn-secondary" style="border: solid 1px;">이용자 페이지로 이동</button>
