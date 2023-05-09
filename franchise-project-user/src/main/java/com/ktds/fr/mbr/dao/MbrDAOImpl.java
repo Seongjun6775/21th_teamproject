@@ -63,15 +63,15 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 		return getSqlSession().insert("Mbr.createNewMbr",mbrVO);
 	}
 
-	@Override
-	public List<MbrVO> readAllMbr(MbrVO mbrVO) {
-		return getSqlSession().selectList("Mbr.readAllMbr", mbrVO);
-	}
+//	@Override
+//	public List<MbrVO> readAllMbr(MbrVO mbrVO) {
+//		return getSqlSession().selectList("Mbr.readAllMbr", mbrVO);
+//	}
 
-	@Override
-	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO) {
-		return getSqlSession().selectList("Mbr.readAllAdminMbr",mbrVO);
-	}
+//	@Override
+//	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO) {
+//		return getSqlSession().selectList("Mbr.readAllAdminMbr",mbrVO);
+//	}
 
 	@Override
 	public int updateOneMbr(MbrVO mbrVO) {
@@ -99,12 +99,12 @@ public class MbrDAOImpl extends SqlSessionDaoSupport implements MbrDAO {
 	public List<MbrVO> readMbrByMbrEml(MbrVO mbrVO) {
 		return getSqlSession().selectList("Mbr.readMbrByMbrEml",mbrVO);
 	}
-	@Override
-	public int updateOneMbrLvlAndStrId(MbrVO mbrVO) {
-		return getSqlSession().update("Mbr.updateOneMbrLvlAndMbrStrId", mbrVO);
-	}
-	@Override
-	public int deleteOneMbrAdminByMbrId(MbrVO mbrVO) {
-		return getSqlSession().update("Mbr.deleteOneMbrAdminByMbrId", mbrVO);
-	}
+//	@Override
+//	public int updateOneMbrLvlAndStrId(MbrVO mbrVO) {
+//		return getSqlSession().update("Mbr.updateOneMbrLvlAndMbrStrId", mbrVO);
+//	}
+//	@Override
+//	public int deleteOneMbrAdminByMbrId(MbrVO mbrVO) {
+//		return getSqlSession().update("Mbr.deleteOneMbrAdminByMbrId", mbrVO);
+//	}
 }

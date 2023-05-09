@@ -141,7 +141,18 @@ function movePage(pageNo) {
 											</c:choose>
 										</div>
 										<div class="name ellipsis">${strPrdt.prdtVO.prdtNm}</div>
-										<div class="price"><fmt:formatNumber>${strPrdt.prdtVO.prdtPrc}</fmt:formatNumber><span>원</span></div>
+										<div class="price">
+											<c:choose>
+												<c:when test="${not empty strPrdt.evntVO.evntId}">
+													<span style="font-size: 15px; color: #888;"><del><fmt:formatNumber>${strPrdt.prdtVO.prdtPrc}</fmt:formatNumber></del></span>
+													<fmt:formatNumber>${strPrdt.evntPrdtVO.evntPrdtChngPrc}</fmt:formatNumber><span>원</span>
+												</c:when>
+												<c:otherwise>
+													<fmt:formatNumber>${strPrdt.prdtVO.prdtPrc}</fmt:formatNumber><span>원</span>
+												</c:otherwise>
+											</c:choose>
+											
+										</div>
 									</div>
 								</div>
 							</div>
