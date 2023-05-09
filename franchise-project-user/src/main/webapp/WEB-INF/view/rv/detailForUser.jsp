@@ -24,7 +24,7 @@
 		$("#list_btn").click(function() {
 			location.href="${context}/user/rv/list";
 		});
-		
+	});	
 </script>
 <style>
 .label-left-border{
@@ -50,15 +50,7 @@
 	<div class="visualArea flex relative">
 		<div class="content-setting title">리뷰</div>
 		<div class="overlay absolute"></div>
-	</div>
-		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px; position: relative;">	
-			<span class="fs-5 fw-bold"> 리뷰 > 리뷰목록 > 리뷰상세</span>
-			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-				<div style="position: absolute; right: 0;top: 0; margin: 20px;">
-					<button id="list_btn" class="btn btn-secondary" >목록</button>
-				</div>
-			</c:if>	
-	    </div>		
+	</div>	
 		<div class="bg-white rounded shadow-sm" style="padding: 60px;  margin:20px;">
 			<div class="flex">			
 				<div class="input-group" style="flex: 1; margin-top: 10px;">
@@ -90,6 +82,9 @@
 					</div>
 				</div>
 			</div>
+					<div style="right: 0;top: 0; margin: 20px;">
+				<button id="list_btn" class="btn btn-secondary" >목록</button>
+		</div>
 		</div>										
 <jsp:include page="../include/footer_user.jsp" />
 </body>
