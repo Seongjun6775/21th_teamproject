@@ -154,18 +154,18 @@
 			
 			var div = $(this).closest("div.rplbtn")
 			console.log(div);
-			console.log($('.create_rpl_form').length);			
+			console.log($('.rpl_box').length);			
 			
-			if($('.create_rpl_form').length == 0 ){
-				var reRplForm = $("<div><form class='create_rpl_form' >" + "<input type='hidden' class='altclId' name='altclId' value='${mngrBrd.mngrBrdId}'' />"
+			if($('.rpl_box').length == 0 ){
+				var reRplForm = $("<div class='rpl_box rounded shadow-sm' style='padding: 10px; background-color: #e0e0e0; margin-top: 10px;'><form class='create_rpl_form' >" + "<input type='hidden' class='altclId' name='altclId' value='${mngrBrd.mngrBrdId}'' />"
 						+ "<input type='hidden' class='rplPrntRpl form-control'name='rplPrntRpl' value='"+ $(this).data('value')+"'/> </form></div>");
-				var input = $("<textarea name='rplCntnt' class='rplCntnt form-control' style='resize:none; margin-top: 10px;'></textarea>"
-							+ "<div style='margin:5px; display: flex;justify-content: center;'><button class='btn btn-primary new_btn' style='background-color: #1e51a2; padding:7px 10px 7px 10px;'>댓글등록</button></div>");
-				reRplForm.append(input);
+				var input = $("<textarea name='rplCntnt' class='rplCntnt form-control' style='resize:none; margin-top: 10px;' placeholder='댓글을 입력하시오.'></textarea>"
+							+ "<div style='margin-top: 10px; display: flex;justify-content: center;'><button class='btn btn-primary new_btn' style='background-color: #1e51a2; padding:7px 10px 7px 10px;'>댓글등록</button></div>");
+				reRplForm.append(input); 
 				div.after(reRplForm);
 			}	
 			else{
-				$('.create_rpl_form').remove();
+				$('.rpl_box').remove();
 			}
 		
 			
