@@ -85,7 +85,7 @@ public class IndexController {
 		model.addAttribute("ctyList", ctyList);
 	    model.addAttribute("lctList", lctList);
 		
-		return "odrdtl/paymentStr";
+		return "index";
 
 		
 		

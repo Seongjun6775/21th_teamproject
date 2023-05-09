@@ -710,6 +710,21 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
+#columnchart_values {
+	overflow: hidden;
+}
+#columnchart_values > div{
+	top: -50px;
+}
+#columnchart_values > div > div {
+	transform: scale(1.1);
+}
+
+
+
+
+
+
 
 
 @keyframes eventText {
