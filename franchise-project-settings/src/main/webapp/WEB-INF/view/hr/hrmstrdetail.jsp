@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.util.Random"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
 <!DOCTYPE html>
@@ -63,33 +64,44 @@
 				return;
 			}
 			
-			if (!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			$.post("${context}/api/hr/delete/${hr.hrId}", function(response) {
-				if (response.status == "200 OK") {
-					Swal.fire({
-				    	  icon: 'success',
-				    	  title: '정상적으로 삭제되었습니다.',
-				    	  showConfirmButton: true,
-				    	  confirmButtonColor: '#3085d6'
-					}).then((result)=>{
-						if(result.isConfirmed){
-							location.href="${context}/hr/list";
-						}
-					});
-					/* alert("정상적으로 삭제되었습니다."); */
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + " / " + response.message); */
-				}
+			Swal.fire({
+			     title: '지원서 삭제',
+			     text: "정말 삭제하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '아니오',
+			     confirmButtonText: '예'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			    	  $.post("${context}/api/hr/delete/${hr.hrId}", function(response) {
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 삭제되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}/hr/list";
+									}
+								});
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+							}
+						});
+			      }else{
+			         return;
+			      }
 			});
+			
 		});
 		
 		$("#update_btn").click(function() {
@@ -328,9 +340,11 @@
 			<div style="margin-top: 10px">
 			
 			<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
-				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
+				<fmt:parseDate value="${hr.hrRgstDt}" var="parseHrRgstDt" pattern="yyyy-MM-dd" />
+				<div class="hr_detail_header">등록일 : <fmt:formatDate value="${parseHrRgstDt}" pattern="yyyy-MM-dd" /></div>
 				<c:if test="${hr.ntcYn eq 'Y'}">
-					<div class="hr_detail_header">마감일 : ${hr.hrDdlnDt}</div>
+					<fmt:parseDate value="${hr.hrDdlnDt}" var="parseHrDdlnDt" pattern="yyyy-MM-dd" />
+					<div class="hr_detail_header" style="font-weight: bold;">마감일 : <fmt:formatDate value="${parseHrDdlnDt}" pattern="yyyy-MM-dd" /></span></div>
 				</c:if>
 				<div class="hr_detail_header ellipsis" onclick="event.cancelBubble=true">작성자 : <span><a class="open-layer" href="javascript:void(0);" val="${hr.mbrId}">${hr.mbrId}</a></span></div>
 				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>

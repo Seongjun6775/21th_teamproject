@@ -40,18 +40,16 @@
 		     , NT_SNDR_DT
 		     , NT_RD_DT
 		     , NT_TTL
-		     , DEL_YN
           FROM NT
 		 WHERE NT_SNDR_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
 		   AND NT_SNDR_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		   AND RCVR_ID = #{rcvrId}
+		   AND DEL_YN = 'N'
         <if test='ntTtl != null and ntTtl != ""'>
            AND NT_TTL LIKE '%' || #{ntTtl} || '%'
         </if>
         <if test='sndrId != null and sndrId != ""'>
            AND SNDR_ID LIKE '%' || #{sndrId} || '%'
-        </if>
-        <if test='rcvrId != null and rcvrId != ""'>
-           AND RCVR_ID LIKE '%' || #{rcvrId} || '%'
         </if>
         <if test='useYn != null and useYn != ""'>
            AND USE_YN = #{useYn}

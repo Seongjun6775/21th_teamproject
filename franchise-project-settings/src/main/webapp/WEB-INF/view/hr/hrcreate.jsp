@@ -17,41 +17,74 @@
 		
 		
 		$("#cancel_btn").click(function() {
-			if (!confirm("작성을 취소하시겠습니까?")) {
-				return;
-			}
-			location.href="${context}/hr/list";
+			Swal.fire({
+			     title: '작성 취소',
+			     text: "작성을 취소하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '아니오',
+			     confirmButtonText: '예'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			    	  location.href="${context}/hr/list";
+			      }else{
+			         return;
+			      }
+			});
 		});
 		
 		$("#save_btn").click(function() {
-			if (!confirm("작성을 완료하시겠습니까?")) {
-				return;
-			}
-			
 			var ajaxUtil = new AjaxUtil();
-			ajaxUtil.upload("#hr_form", "${context}/api/hr/create", function(response) {
-				if (response.status == "200 OK") {
-					location.href = "${context}/hr/list";
-				}
-				else if (response.status == "500") {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.message); */
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.message); */
-				}
-			}, {"hrFile": "uploadFile"});
+			Swal.fire({
+			     title: '지원서 작성',
+			     text: "작성을 완료하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '아니오',
+			     confirmButtonText: '예'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			    	  ajaxUtil.upload("#hr_form", "${context}/api/hr/create", function(response) {
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 등록되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href = "${context}/hr/list";
+									}
+								});
+							}
+							else if (response.status == "500") {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.message); */
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.message); */
+							}
+						}, {"hrFile": "uploadFile"});
+			      }else{
+			         return;
+			      }
+			});
+			
 		});
 		$('.bxs-file-plus').click(function(){
 			$("#hrfile").click();

@@ -28,7 +28,7 @@ public class HrController {
 	private HrService hrService;
 
 	// 파일 다운로드 시 파일을 찾아서 받아 올 경로입니다.
-	@Value("${upload.hr.path:/files/hr/}")
+	@Value("${upload.hr.path:/franchise-prj/files/hr/}")
 	private String filePath;
 
 	/*	*//**
@@ -120,11 +120,9 @@ public class HrController {
 
 		boolean check = hrService.checkCreateYn(mbrVO.getMbrId());
 
-		// 최고 관리자가 아닐 경우, 이미 접수되거나 심사중인 글이 있다면 글 작성이 불가능합니다.
-		if (!mbrVO.getMbrLvl().equals("001-01")) {
-			if (!check) {
-				return "hr/500create";
-			}
+		// 이미 접수되거나 심사중인 글이 있다면 글 작성이 불가능합니다.
+		if (!check) {
+			return "hr/500create";
 		}
 
 		model.addAttribute("mbrVO", mbrVO);

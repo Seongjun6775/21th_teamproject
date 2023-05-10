@@ -129,6 +129,27 @@
     font-weight: 800;
 /*     margin-right: 15px; */
 }
+
+.ntc-label{
+    border: 1px solid #ffc6c9;
+    background-color: #ffe3e4;
+    color: #ff4e59;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+
+table tr[class=ntc] td,
+table tr[class=ntc] a {
+	color: #F00;
+	font-weight: bold;
+}
+
+table:hover tr[class=ntc] td,
+table:hover tr[class=ntc] a {
+	color: #F00;
+	font-weight: bold;
+}
+
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
@@ -176,7 +197,6 @@
 								</select>
 							</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
-							<th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;">승인 여부</th>
 							<th scope="col" style="padding: 20px 20px 8px 20px;">
 								<select id="hrStat" class="select-align-center" aria-label="Default select example">
@@ -186,6 +206,7 @@
 									<option value="002-03" ${hrVO.hrStat eq "002-03" ? 'selected' : '' }>심사완료</option>
 								</select>
 							</th>
+							<th scope="col" style="padding: 20px 20px 8px 20px;">작성일</th>
 							<th scope="col" style="border-radius: 0 6px 0 0; padding: 20px 20px 8px 20px;" >
 								<select id="delYn" class="select-align-center" aria-label="Default select example">
 									<option value="N" ${hrVO.delYn eq "N" ? 'selected' : '' }>&nbsp;&nbsp;&nbsp;&nbsp;-</option>
@@ -208,7 +229,8 @@
 									    data-hrapryn="${hr.hrAprYn}"
 									    data-hrstat="${hr.hrStat}"
 									    data-delyn="${hr.delYn}"
-									    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
+									    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};"
+									    ${hr.ntcYn eq 'Y' ? 'class="ntc"' : ''}>
 									    <c:set var="checkYn" value="" />
 									    <c:choose>
 									    	<c:when test="${hr.delYn eq 'Y'}">
@@ -227,9 +249,8 @@
 												${hr.mbrId}
 											</a>
 										</td>
-										<td>${hr.cdNm}</td> 
+										<td>${hr.ntcYn eq 'Y' ? '<strong class="ntc-label">공지</strong>' : hr.cdNm}</td> 
 										<td><a href="${context}/hr/hrmstrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
-										<td>${hr.hrRgstDt}</td>
 										<td>${hr.hrAprYn}</td>
 										<td>
 											<c:choose>
@@ -244,6 +265,8 @@
 												</c:otherwise>
 											</c:choose>
 										</td>
+										<fmt:parseDate value="${hr.hrRgstDt}" var="parseHrRgstDt" pattern="yyyy-MM-dd" />
+										<td><fmt:formatDate value="${parseHrRgstDt}" pattern="yyyy-MM-dd" /></td>
 										<td>${hr.delYn eq 'Y' ? '삭제' : ''}</td>
 									</tr>
 								</c:forEach>
