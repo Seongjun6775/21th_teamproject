@@ -82,7 +82,7 @@ function movePage(pageNo) {
 	<jsp:include page="../include/header_user.jsp" />
 
 	<div class="visualArea flex relative">
-		<div class="content-setting title">붕어빵 파는곳</div>
+		<div class="content-setting title">메뉴</div>
 		<div class="overlay absolute"></div>
 	</div>
 
