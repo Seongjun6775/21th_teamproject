@@ -182,6 +182,15 @@ li.dropdown > ul > li > a  {
 .dropdown-menu{
 	--bs-dropdown-min-width: 12rem;
 }
+.btm_image{
+    font-size: 22px;
+    FONT-WEIGHT: 550;
+    margin: 10px;
+    margin-top: 45px;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 25px;
+}
 </style>
 <jsp:include page="./joinModal.jsp" />
   <nav class="navbar navbar-expand-lg shadow-sm border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
@@ -261,7 +270,7 @@ li.dropdown > ul > li > a  {
 	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
 	         </li>
 	         <li class="nav-item">
-	         		<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list_user">고객센터</a>
+	         		<a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list_user">고객센터</a>
 	         </li>
 	        </ul>
 	        </div>
@@ -317,10 +326,10 @@ li.dropdown > ul > li > a  {
 	        <div style="padding: 5px; margin:20px;">
 	        	<c:choose>
 	        		<c:when test="${sessionScope.__MBR__ ne null}">
-			            <a href="${context}/mbr/logout"><button type="button" class="btm_image" id="img_btn_logout" style="background-color: #fff;"><img  src="${context}/img/logout.png" width="50" height="50"></button></a>
+			            <a href="${context}/mbr/logout" class="btm_image" id="img_btn" style=" background-color:  #448938;">로그인</a> 
 	        		</c:when>
 	        		<c:otherwise>
-			            <button type="button" data-bs-toggle="modal"  data-bs-target="#loginModal" class="btm_image" id="img_btn" style="background-color: #fff;"><img  src="${context}/img/logout.png" width="50" height="50"></button>
+			            <a class="btm_image" id="img_btn" style=" background-color: #d72300;" href="${context}/mbr/logout">로그아웃</a>  
 	        		</c:otherwise>
 	        	</c:choose>
 	        </div>

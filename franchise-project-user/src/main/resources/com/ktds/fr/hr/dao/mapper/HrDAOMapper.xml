@@ -171,6 +171,42 @@
 		 , TO_DATE(#{hrDdlnDt}, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 	
+	<select id="readAllMyHr"
+			parameterType="com.ktds.fr.hr.vo.HrVO"
+			resultType="com.ktds.fr.hr.vo.HrVO">
+		<include refid="Common.pageHeader" />
+		SELECT ROWNUM RNUM
+			 , ROWNUM PK_COL
+			 , E.*
+		  FROM (SELECT HR_ID
+					 , MBR_ID
+				     , HR_TTL
+				     , HR_RGST_DT
+				     , HR_MDFY_DT
+				     , HR_APR_YN
+					 , HR_APR_DT
+					 , HR_STAT
+					 , DEL_YN
+					 , NTC_YN
+					 , HR_LVL
+				  FROM HR
+				 WHERE DEL_YN = 'N'
+				   AND (MBR_ID = #{mbrId}
+				    OR NTC_YN = 'Y')
+			     ORDER BY NTC_YN DESC
+		 			 , HR_RGST_DT DESC) E
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="countNtc"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM HR
+		 WHERE NTC_YN = 'Y'
+		   AND DEL_YN = 'N'
+		   AND HR_DDLN_DT > SYSDATE
+	</select>
+	
 	<select id="readOneHrByHrId"
 			parameterType="string"
 			resultMap="hrMap">
