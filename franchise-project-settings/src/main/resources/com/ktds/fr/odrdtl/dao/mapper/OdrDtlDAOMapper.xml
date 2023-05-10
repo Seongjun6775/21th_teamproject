@@ -477,6 +477,7 @@
 						   AND OL.USE_YN = 'Y'
 						   AND OL.ODR_LST_ODR_PRCS = '003-04'
 						   AND S.USE_YN = 'Y' 
+						   AND ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
 						<if test='startDt != null and startDt != ""'>
 						   AND OL.MDFY_DT >= #{startDt}
 						   AND #{endDt} >= OL.MDFY_DT
