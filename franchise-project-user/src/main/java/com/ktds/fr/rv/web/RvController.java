@@ -41,7 +41,7 @@ public class RvController {
 		model.addAttribute("odrLst", odrLst);
 		model.addAttribute("mbrVO", mbrVO);
 		
-		return "rv/create";
+		return "rv/create2";
 	}
 	
 	// 1-2.주문 완료된 주문서에서 '리뷰 작성' 버튼을 눌러 리뷰 등록 == 이용자

@@ -43,6 +43,21 @@ public class PrdtServiceImpl implements PrdtService {
 	public List<PrdtVO> readAll(PrdtVO prdtVO) {
 		return prdtDAO.readAll(prdtVO);
 	}
+	
+	@Override
+	public List<PrdtVO> readAllNoPagenation(PrdtVO prdtVO) {
+		return prdtDAO.readAllNoPagenation(prdtVO);
+	}
+	
+	@Override
+	public List<PrdtVO> readAllNoPagenationUseY(PrdtVO prdtVO) {
+		return prdtDAO.readAllNoPagenationUseY(prdtVO);
+	}
+	
+	@Override
+	public List<PrdtVO> readAllCustomerNoPagenation(PrdtVO prdtVO) {
+		return prdtDAO.readAllCustomerNoPagenation(prdtVO);
+	}
 
 	@Override
 	public PrdtVO readOne(String prdtId) {
@@ -103,8 +118,7 @@ public class PrdtServiceImpl implements PrdtService {
 		boolean isSuccess = prdtDAO.create(prdtVO) > 0;
 		
 		if (isSuccess) {
-			StrVO strVO = new StrVO();
-			List<StrVO> strList = strDAO.readAllStrMaster(strVO);
+			List<StrVO> strList = strDAO.readAll();
 			
 			StrPrdtVO strPrdtVO = null;
 			List<StrPrdtVO> strPrdtList = new ArrayList<>();
@@ -176,11 +190,11 @@ public class PrdtServiceImpl implements PrdtService {
 
 		
 		if (isModify) {
-			String fileExt = uploadFile.getContentType();
-			if (!(fileExt.contains("image"))) {
-				throw new ApiArgsException("400", "이미지 파일만 업로드 가능합니다.\njpg, jpeg, png, gif, bmp");
-			}
 			if (uploadFile != null && !uploadFile.isEmpty()) {
+				String fileExt = uploadFile.getContentType();
+				if (!(fileExt.contains("image"))) {
+					throw new ApiArgsException("400", "이미지 파일만 업로드 가능합니다.\njpg, jpeg, png, gif, bmp");
+				}
 				File dir = new File(profilePath);
 				if (!dir.exists()) {
 					dir.mkdirs();
@@ -241,6 +255,15 @@ public class PrdtServiceImpl implements PrdtService {
 		}
 		return result;
 	}
+
+	
+	
+	@Override
+	public List<PrdtVO> readAllNoPagenationEvnt(PrdtVO prdtVO) {
+		return prdtDAO.readAllNoPagenationEvnt(prdtVO);
+	}
+
+
 
 	
 }
