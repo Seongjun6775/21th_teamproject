@@ -16,6 +16,31 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
+		$(".qna-btn").click(function() {
+			if ("${sessionScope.__MBR__.mbrId}" == "") {
+				Swal.fire({
+				     title: '로그인 필요',
+				     text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
+				     icon: 'warning',
+				     showCancelButton: true,
+				     confirmButtonColor: '#3085d6',
+				     cancelButtonColor: '#d33',
+				     cancelButtonText: '취소',
+				     confirmButtonText: '로그인'
+				   }).then((result) => {
+				      if(result.isConfirmed){
+				         $("#img_btn").click();
+				      }else{
+				         $("#btn-modal-close").click();
+				      }
+				});
+			}
+			else {
+				location.href = "${context}/hr/hrlist";
+			}
+		});
+		
+		
 		$(".que").click(function() {
 			   $(this).next(".anw").stop().slideToggle(300);
 			  $(this).toggleClass('on').siblings().removeClass('on');
@@ -112,7 +137,7 @@
 		<div class="overlay absolute"></div>
 	</div>
 		<div id="menu" class="flex-column" style=" margin-bottom: 0;">
-			<div class="bg-white " style="padding: 100px; height:1000px;">
+			<div class="bg-white " style="padding: 100px; height:auto;">
 				<h1 style="font-weight: 700; margin-bottom: 1rem;">자주 묻는 질문</h1>
 				<div id="Accordion_wrap" style="margin-bottom: 20px; border-bottom: 1px solid black;">
 				     <div class="que">
