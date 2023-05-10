@@ -115,6 +115,22 @@
 		});
 	});
 </script>
+
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+} 
+
+#menu {
+/* 	background-color: #F002; */
+	width: 1440px;
+	margin: 0 auto;
+	margin-bottom: 144px;
+}
+</style>
+
  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body class="scroll">
@@ -126,7 +142,7 @@
 		</div>
 		<div class="overlay absolute"></div>
 	</div>
-			
+	<div id="menu">
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin:80px;">
 			<h2 class="fw-bold" style="margin: 20px;">채용 ${mbrVO.mbrLvl == '001-01' ? '공지' : '지원'} 작성</h2>
 			<div style="float: right; margin: 20px 0 20px 20px">
@@ -175,6 +191,7 @@
 				</div>
 			</form>
 		</div>
+	</div>
 	<jsp:include page="../include/footer_user.jsp" />
 </body>
 </html>
