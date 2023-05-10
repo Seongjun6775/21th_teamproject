@@ -238,7 +238,7 @@ li.dropdown > ul > li > a  {
 	              이벤트
 	            </a>
 	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
+	              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트목록</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav-item dropdown">
