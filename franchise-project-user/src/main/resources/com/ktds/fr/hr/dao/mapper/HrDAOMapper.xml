@@ -117,6 +117,15 @@
 		<include refid="Common.pageFooter" />
 	</select>
 	
+	<select id="countNtc"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM HR
+		 WHERE NTC_YN = 'Y'
+		   AND DEL_YN = 'N'
+		   AND HR_DDLN_DT > SYSDATE
+	</select>
+	
 	<select id="readOneHrByHrId"
 			parameterType="string"
 			resultType="com.ktds.fr.hr.vo.HrVO">

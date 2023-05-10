@@ -16,13 +16,32 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		if ("${sessionScope.__MBR__.mbrId}" == "") {
+			Swal.fire({
+			     title: '로그인 필요',
+			     text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '취소',
+			     confirmButtonText: '로그인'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			         $("#img_btn").click();
+			      }else{
+			         $("#btn-modal-close").click();
+			      }
+			});
+		}
+		
 		document.getElementById("hrDdlnDt").value = ("${hr.hrDdlnDt}").substring(0,10);
 		
 		$("#cancel_btn").click(function() {
 			if (!confirm("수정을 취소하시겠습니까?")) {
 				return;
 			}
-			location.href="${context}/hr/list";
+			location.href="${context}/hr/hrlist";
 		});
 		
 		$("#update_btn").click(function() {
@@ -36,7 +55,7 @@
 			var ajaxUtil = new AjaxUtil();
 			ajaxUtil.upload("#hr_form", "${context}/api/hr/update/${hr.hrId}", function(response) {
 				if (response.status == "200 OK") {
-					location.href = "${context}/hr/list";
+					location.href = "${context}/hr/hrlist";
 				}
 				else if (response.status == "500") {
 					Swal.fire({
