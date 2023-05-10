@@ -134,7 +134,6 @@
 	   myElementenddt.value = date;
 	   
 	   
-	   
       console.log("ready function!")
        var ajaxUtil = new AjaxUtil();
 
