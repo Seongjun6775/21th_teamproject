@@ -13,7 +13,7 @@
 	});
 </script>
  <!-- sidebar -->
-  <div class="flex-shrink-0 p-3 bg-dark bg-opacity-75" style="width: 230px; position: fixed;top: 0;bottom: 0; overflow: auto; background-color: ${sessionScope.__MBR__.mbrLvl eq '001-02' ? '#b08d61 !important' : '#b08d61 !important'};">
+ 
   <div class="flex-shrink-0 p-3 bg-dark bg-opacity-75" style="width: 230px; position: fixed;top: 0;bottom: 0; overflow: auto; 
   		border-right: ${sessionScope.__MBR__.mbrLvl eq '001-01' ? 'solid 20px'
   		  : sessionScope.__MBR__.mbrLvl eq '001-02' ? ' solid 20px #ffbe2e'
@@ -135,15 +135,13 @@
       <li class="border-top my-3"></li>	
       <li class="mb-1">
 	      <a href="${context}/hlpdsk/list">
-	      <button class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" aria-expanded="false">
+	      <button class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"
+	       style="--bs-btn-font-weight: 700;" data-bs-toggle="collapse" aria-expanded="false">
 	          고객센터
 	       </button></a>
-       </li>
-
-      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/odrlst/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문목록</a></li> 
-      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed" style="position: fixed; bottom: 0; left: 60px; right: 0;"> 
-      	<a href="${context}/index_user" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li>
+       </li> 
+<%--       <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed" style="position: fixed; bottom: 0; left: 60px; right: 0;"> 
+      	<a href="${context}/index_user" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li> --%>
     </ul>
-  </div>
   </div>
   <!-- /sidebar -->
