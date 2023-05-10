@@ -123,7 +123,7 @@
 	   var date = dt.today();
 	  
 	   
-	   var date7 = dt.addDate( -7, 'YYYY-MM-DD');
+	   var date7 = dt.addDate(-6, 'YYYY-MM-DD');
 	   
 	   console.log("일주일 전", date7)
 	   
