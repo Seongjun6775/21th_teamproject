@@ -9,7 +9,7 @@
 <link rel="stylesheet2" href="${context}/css/brd_common.css?p=${date}"/>
 <script type="text/javascript" src="${context}/bs/assets/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
-	$().ready(function() {
+   $().ready(function() {
         $().ready(function(){
             $('.nav-item').mouseenter(function(){
                 $(this).find('.dropdown-menu').show();
@@ -17,8 +17,8 @@
                 $(this).find('.dropdown-menu').hide();
             })
         });
-		
-	}); 
+      
+   }); 
 </script>
 <style>
 
@@ -70,7 +70,7 @@ li{
   z-index: 1500;
 }
 .dropdown-menu {
-	--bs-dropdown-link-active-color: #ffbe2e;
+   --bs-dropdown-link-active-color: #ffbe2e;
     --bs-dropdown-link-active-bg: #0000;
 }
 .nav-item .nav-link:hover{
@@ -95,7 +95,7 @@ background-color: #ffbe2e; text-align: center;
 background-color:#0000!important;
 }
 ul.dropdown-menu > li:focus{
-	background-color:#0000!important;
+   background-color:#0000!important;
 }
 .roundbox {
   border-radius: 15px;
@@ -156,7 +156,7 @@ input[id="menuicon"] {display:none;}
 input[id="menuicon"] + label {display:block;position:relative;width:100%;height:40px;cursor:pointer;}
 input[id="menuicon"] + label span {display:block;position:absolute;width:100%;height:3px;border-radius:30px;background:#666;transition:all .35s;}
 input[id="menuicon"] + label span:nth-child(1) {top:10%;}
-input[id="menuicon"] + label span:nth-child(2) {top:50%;transform:translateY(-50%);} /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
+input[id="menuicon"] + label span:nth-child(2) {top:50%;transform:translateY(-50%);} /*     ϰ            ִ  style top:calc(50% - 2.5px); margin-top:-2.5px;*/
 input[id="menuicon"] + label span:nth-child(3) {bottom:10%;}
 input[id="menuicon"]:checked + label {z-index:2;}
 input[id="menuicon"]:checked + label span:nth-child(1) {top:50%;transform:translateY(-50%) rotate(45deg);}
@@ -180,14 +180,14 @@ li.dropdown > ul > li > a  {
     font-size: 18px;
 }
 .dropdown-menu{
-	--bs-dropdown-min-width: 12rem;
+   --bs-dropdown-min-width: 12rem;
 }
 .btm_image{
-    font-size: 22px;
+    font-size: 20px;
     FONT-WEIGHT: 550;
-    margin: 10px;
+    margin: 5px;
     color: #fff;
-    padding: 10px 25px;
+    padding: 5px 15px;
     border-radius: 25px;
 }
 </style>
@@ -195,138 +195,161 @@ li.dropdown > ul > li > a  {
   <nav class="navbar navbar-expand-lg shadow-sm border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
     <div class="container-fluid ">
       <a  href="${context}/"><img src = "${context}/img/붕어빵라이언누끼.png"  width="100" height="100"/></a>
-      <a class="navbar-brand" href="${context}/" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
+      <a class="navbar-brand" href="${context}/" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈   </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent" >
-	        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-	          <li class="nav-item dropdown">
-	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-	              메뉴
-	            </a>
-	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="${context}/prdt/list2">전체보기</a></li>
-	<%--               <c:choose> --%>
-	<%-- 				<c:when test="${not empty srtList}"> --%>
-	<%-- 					<c:forEach items="${srtList}" --%>
-	<%-- 								var="srt"> --%>
-	<%-- 						<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=${srt.cdId}"> --%>
-	<%-- 							${srt.cdNm} --%>
-	<!-- 						</a></li> -->
-	<%-- 					</c:forEach> --%>
-	<%-- 				</c:when> --%>
-	<%-- 			</c:choose> --%>
-					<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-01">메인메뉴</a></li>
-					<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-02">사이드메뉴</a></li>
-					<li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-03">음료</a></li>
-	
-	<!--               <li><a class="dropdown-item" href="#">전체보기</a></li> -->
-	<!--               <li><a class="dropdown-item" href="#">메인메뉴</a></li> -->
-	            </ul>
-	          </li>
-	          <li class="nav-item dropdown">
-	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-	              매장
-	            </a>
-	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="${context}/str/customer">매장찾기</a></li>
-	            </ul>
-	          </li>
-	          <li class="nav-item dropdown">
-	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-	              이벤트
-	            </a>
-	            <ul class="dropdown-menu">
-	              <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트관리</a></li>
-	            </ul>
-	          </li>
-	          <li class="nav-item dropdown">
-	            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
-	              리뷰
-	            </a>
-	            <ul class="dropdown-menu">
-	            	<li class="dropdown-item">
-		            	<c:choose>
-							<c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-04'}">
-								<a href="${context}/mbr/rv/list">리뷰</a>
-							</c:when>
-							<c:otherwise>
-								<a href="${context}/user/rv/list">리뷰</a>
-							</c:otherwise>
-						</c:choose>
-					</li>
-	            </ul>
-	          </li>
+           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+             <li class="nav-item dropdown">
+               <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+                 메뉴
+               </a>
+               <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="${context}/prdt/list2">전체보기</a></li>
+   <%--               <c:choose> --%>
+   <%--             <c:when test="${not empty srtList}"> --%>
+   <%--                <c:forEach items="${srtList}" --%>
+   <%--                         var="srt"> --%>
+   <%--                   <li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=${srt.cdId}"> --%>
+   <%--                      ${srt.cdNm} --%>
+   <!--                   </a></li> -->
+   <%--                </c:forEach> --%>
+   <%--             </c:when> --%>
+   <%--          </c:choose> --%>
+               <li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-01">메인메뉴</a></li>
+               <li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-02">사이드메뉴</a></li>
+               <li><a class="dropdown-item" href="${context}/prdt/list2?prdtSrt=004-03">음료</a></li>
+   
+   <!--               <li><a class="dropdown-item" href="#">전체보기</a></li> -->
+   <!--               <li><a class="dropdown-item" href="#">메인메뉴</a></li> -->
+               </ul>
+             </li>
+             <li class="nav-item dropdown">
+               <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+                 매장
+               </a>
+               <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="${context}/str/customer">매장찾기</a></li>
+               </ul>
+             </li>
+             <li class="nav-item dropdown">
+               <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+                 이벤트
+               </a>
+               <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="${context}/evnt/ongoingList">이벤트목록</a></li>
+               </ul>
+             </li>
+             <li class="nav-item dropdown">
+               <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; FONT-WEIGHT: 550;  padding:25px; padding-top: 45px; HEIGHT: 130PX;">
+                 리뷰
+               </a>
+               <ul class="dropdown-menu">
+                  <li class="dropdown-item">
+                     <c:choose>
+                     <c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-04'}">
+                        <a href="${context}/mbr/rv/list">리뷰</a>
+                     </c:when>
+                     <c:otherwise>
+                        <a href="${context}/user/rv/list">리뷰</a>
+                     </c:otherwise>
+                  </c:choose>
+               </li>
+               </ul>
+             </li>
 
-	        </ul>
-	        <div style="margin-right:20px;">
-	        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-	         <li class="nav-item">
-	         	<a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
-	         </li>
-	         <li class="nav-item">
-	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
-	         </li>
-	         <li class="nav-item">
-	         		<a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list_user">고객센터</a>
-	         </li>
-	        </ul>
-	        </div>
-	        <div style=" width: 40px;">
-				<input type="checkbox" id="menuicon">
-				<label for="menuicon">
-					<span></span>
-					<span></span>
-					<span></span>
-				</label>
-				<div class="sidebar">
-					<ul class="sitemap-ul">
-						<li><a href="${context}/prdt/list2" class="fs-4 fw-bold">메뉴</a>
-							<ul>
-								<li><a href="${context}/prdt/list2?prdtSrt=004-01" class="fs-6 fw-bold">메인메뉴</a></li>
-								<li><a href="${context}/prdt/list2?prdtSrt=004-02" class="fs-6 fw-bold">사이드메뉴</a></li>
-								<li><a href="${context}/prdt/list2?prdtSrt=004-03" class="fs-6 fw-bold">음료</a></li>
-							</ul>
-						</li>
-						<li><a href="#" class="fs-4 fw-bold">매장</a>
-							<ul>
-								<li><a href="#" class="fs-6 fw-bold">매장찾기 </a></li>
-							</ul>
-						</li>
-						<li><a href="#" class="fs-4 fw-bold">이벤트</a>
-							<ul>
-								<li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트</a></li>
-							</ul>
-						</li>
-						
-						<li class="fs-4 fw-bold">리뷰
-							<ul>
-								<li class="fs-6 fw-bold">
-					            	<c:choose>
-										<c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-04'}">
-											<a href="${context}/mbr/rv/list">리뷰</a>
-										</c:when>
-										<c:otherwise>
-											<a href="${context}/user/rv/list">리뷰</a>
-										</c:otherwise>
-									</c:choose>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>			
-			</div>
-	        <div style="padding: 5px; margin:20px;">
-	        	<c:choose>
-	        		<c:when test="${not empty sessionScope.__MBR__ }">
-			            <a href="${context}/mbr/logout" class="btm_image" id="img_btn_logout" style=" background-color: #d72300;">로그아웃</a> 
-	        		</c:when>
-	        		<c:otherwise>
-			            <button class="btm_image" id="img_btn" data-bs-toggle="modal" data-bs-target="#loginModal" style=" background-color: #ffbe2e;;" >로그인</button>  
-	        		</c:otherwise>
-	        	</c:choose>
-	        </div>
+           </ul>
+           <div style="margin-right:20px;">
+           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+               <a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
+            </li>
+            <li class="nav-item">
+                  <a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list_user">고객센터</a>
+            </li>
+           </ul>
+           </div>
+           <div style=" width: 40px;">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon">
+               <span></span>
+               <span></span>
+               <span></span>
+            </label>
+            <div class="sidebar">
+               <ul class="sitemap-ul">
+                  <li><a href="${context}/prdt/list2" class="fs-4 fw-bold">메뉴</a>
+                     <ul>
+                        <li><a href="${context}/prdt/list2?prdtSrt=004-01" class="fs-6 fw-bold">메인메뉴</a></li>
+                        <li><a href="${context}/prdt/list2?prdtSrt=004-02" class="fs-6 fw-bold">사이드메뉴</a></li>
+                        <li><a href="${context}/prdt/list2?prdtSrt=004-03" class="fs-6 fw-bold">음료</a></li>
+                     </ul>
+                  </li>
+                  <li><a href="#" class="fs-4 fw-bold">매장</a>
+                     <ul>
+                        <li><a href="#" class="fs-6 fw-bold">매장찾기 </a></li>
+                     </ul>
+                  </li>
+                  <li><a href="#" class="fs-4 fw-bold">이벤트</a>
+                     <ul>
+                        <li><a href="${context}/evnt/ongoingList" class="fs-6 fw-bold">이벤트</a></li>
+                     </ul>
+                  </li>
+                  
+                  <li class="fs-4 fw-bold">리뷰
+                     <ul>
+                        <li class="fs-6 fw-bold">
+                              <c:choose>
+                              <c:when test ="${sessionScope.__MBR__.mbrLvl eq '001-04'}">
+                                 <a href="${context}/mbr/rv/list">리뷰</a>
+                              </c:when>
+                              <c:otherwise>
+                                 <a href="${context}/user/rv/list">리뷰</a>
+                              </c:otherwise>
+                           </c:choose>
+                        </li>
+                     </ul>
+                  </li>
+               </ul>
+            </div>         
+         </div>
+         <div class="dropdown text-end" style="margin-left: 20px;">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img  src="${context}/img/logout.png" width="50" height="50">
+          </a> 
+          <small class="fw-semibold" style="position: fixed; right: 70px;">${sessionScope.__MBR__.mbrNm}</small>
+          <ul class="dropdown-menu text-small profile" style="position: absolute;inset: 0px 0px auto auto;margin: 0px;transform: translate(10px, 60px);">
+            <li><a class="dropdown-item" href="#">${sessionScope.__MBR__.mbrNm}</a></li>
+           <!--  <li><a class="dropdown-item" href="#">Settings</a></li> -->
+            <li><a class="dropdown-item" href="${context}/mbr/pwdCheck">프로필</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li style="text-align: center;">	
+				<c:choose>
+					<c:when test="${not empty sessionScope.__MBR__ }">
+					    <a href="${context}/mbr/logout" class="btm_image" id="img_btn_logout" style=" background-color: #d72300;">로그아웃</a> 
+					</c:when>
+					<c:otherwise>
+					    <button class="btm_image" id="img_btn" data-bs-toggle="modal" data-bs-target="#loginModal" style=" background-color: #ffbe2e;;" >로그인</button>  
+					</c:otherwise>
+				</c:choose>
+            </li>
+          </ul>
+        </div>
+        
+<%--            <div style="padding: 5px; margin:20px;">
+              <c:choose>
+                 <c:when test="${not empty sessionScope.__MBR__ }">
+                     <a href="${context}/mbr/logout" class="btm_image" id="img_btn_logout" style=" background-color: #d72300;">로그아웃</a> 
+                 </c:when>
+                 <c:otherwise>
+                     <button class="btm_image" id="img_btn" data-bs-toggle="modal" data-bs-target="#loginModal" style=" background-color: #ffbe2e;;" >로그인</button>  
+                 </c:otherwise>
+              </c:choose>
+           </div> --%>
         </div>
     </div>
   </nav>
