@@ -186,7 +186,7 @@
 		<div class="overlay absolute"></div>
 	</div>
 	
-		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:20px;">
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:80px;">
 			<div style="float:right;">
 				<button id="update_btn" class="btn btn-outline-primary btn-default" >수정</button>
 				<button id="delete_btn" class="btn btn-outline-danger btn-default" style="margin-right:10px">삭제</button>
