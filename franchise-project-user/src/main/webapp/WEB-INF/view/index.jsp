@@ -210,8 +210,8 @@ text-decoration: none;
 			</div>
 		</div>
 		
-<%-- 		<iframe width="100%" height="600" src="https://www.youtube.com/embed/y___01py2wk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-		<div style=" position: relative; padding:50px 100px; background-color: #fff; height: 810px;" >
+		<iframe width="100%" height="600" src="https://www.youtube.com/embed/y___01py2wk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<%-- 		<div style=" position: relative; padding:50px 100px; background-color: #fff; height: 810px;" >
 			<div style="position: absolute; top: 25%; left: 30%;">
 				<h2 class="flex-center fs-1 fw-bold" style="FONT-WEIGHT:800">매장찾기</h2>
 				<p class="flex-center fw-bold" >고객님 주변에 있는 뿡어빵을 찾아보세요!</p>
