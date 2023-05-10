@@ -66,7 +66,7 @@
 		}); 
 	}
 
-	$().ready(function() {
+		$().ready(function() {
 		$(".table_grid > table > tbody > tr").click(function(){
 			$("#isModify").val("true"); //수정모드
 			var data = $(this).data();
