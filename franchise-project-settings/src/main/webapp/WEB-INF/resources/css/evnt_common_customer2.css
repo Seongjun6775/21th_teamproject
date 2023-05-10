@@ -425,6 +425,11 @@ input[type="number"]::-webkit-inner-spin-button {
 	color: #333;
 	font-size: 26px;
 }
+.menuOn {
+	font-weight: bold;
+	color: #333;
+	font-size: 26px;
+}
 .menuOn::before {
 	content: "";
 	position: absolute;
