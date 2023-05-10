@@ -21,26 +21,63 @@
 	
 		//'목록으로'버튼 누르면 뒤로 돌아가기
 		$("#btn-cancle").click(function() {
-			//location.href="${context}/evnt/list3"
-			history.go(-1);
+			location.href="${context}/evnt/list"
+			//history.go(-1);
 		});
-			
-	})
+       	})
 </script>
+<style>
+.btn-default {
+	border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
-<body>
+<jsp:include page="../include/openBody.jsp" />
+	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
+			<span class="fs-5 fw-bold">이벤트 > 상세페이지</span>
+			<div style="float: right;">
+				<button type="submit" id="btn-cancle" class="btn btn-secondary">목록</button>
+			</div>
+	</div>
+	
+	
+		<div class="card hr_table_grid bg-white rounded shadow-sm" style="margin: 20px; padding:20px; border-radius:30px; display:inline-flex;">
+            <div class="bd-placeholder-img card-img-top" >
+            	<div style="text-align: center;; background-color: #FFFFF;">
+            		<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="height:100; width:70;" />
+            	</div>
+            </div>
 
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/evntSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-		<div>
+            <div class="card-body">
+            	<p class="card-text" style="float: right;">이벤트 기간: ${evntVO.evntStrtDt} ~ ${evntVO.evntEndDt}</p>
+            	<p class="card-text fw-bold" >${evntVO.evntTtl}</p>
+            	<p class="card-text">${evntVO.evntCntnt}</p>
+	            <div class="d-flex justify-content-between align-items-center">		         
+                <div>
+            
+					
+					<input type="hidden" id="evntId" value="${evntVO.evntId}"/>
+					
+			
+                </div>
+              </div>
+            </div>
+          </div>
+<%-- 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<table border=1 style="width: 600px;">
 				<tr>
 					<td colspan="4"><h1 style="text-align: center;">이벤트 상세페이지</h1></td>
 				</tr>
-				
+				<tr>
+					<td style="width:150px;">이벤트 ID</td>
+					
+					<td colspan="3"><input type="text" id="evntId"
+						style="width: 99%;" value="${evntVO.evntId}" readonly="readonly"
+						style="background-color:red;" /></td>
+				</tr>
+
 				<tr>
 					<td>이벤트 제목</td>
 					<td colspan="3"><input type="text" id="evntTtl"
@@ -67,24 +104,52 @@
 		
 					<td>이벤트 사진</td>
 					<td colspan="3">
-					<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="width:100%; height:100%;"/>
+					<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="width:100%;"/>
 					
 					</td>
 						
 				</tr>
 
 				<tr>
-					<td><button type="submit" id="btn-cancle" class="btn-primary"
-							style="width: 100%;">목록으로</button></td>
-					<td></td>
+					<td>사용 여부</td>
+					<td><input type="checkbox" id="useYn" value="${evntVO.useYn}"  onclick="return false;"/></td>
+					
 				</tr>
 
+				<tr>
+					<td></td>
+					<td></td>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+					<td><button type="submit" id="btn-update" class="btn-primary"
+							style="width: 100%;">수정</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+					<td><button type="submit" id="btn-updateDelete"
+							class="btn-primary" style="width: 100%;">삭제</button></td>
+					</c:if>
+				</tr>
+
+				<tr>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+					<td><button type="submit" id="btn-evntStr" class="btn-primary"
+							style="width: 100%;">참여매장목록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-02'}">
+					<td><button type="submit" id="btn-evntPrdt" class="btn-primary"
+							style="width: 100%;">이벤트상품목록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-02'}">
+					<td><button type="submit" id="btn-createEvntStr" class="btn-primary"
+							style="width: 100%;">참여매장등록</button></td>
+					</c:if>
+					<c:if test="${mbrVO.mbrLvl eq '001-01'}">
+					<td><button type="submit" id="btn-createEvntPrdt" class="btn-primary"
+							style="width: 100%;">이벤트상품등록</button></td>
+					</c:if>
+				</tr>
 			</table>
-		</div>
-		<jsp:include page="../include/footer.jsp" />
-		</div>
-	</div>
-	
+		</div> --%>
+<jsp:include page="../include/closeBody.jsp" />
  	<%-- <script type="text/javascript">
 	const btn1 = document.getElementById("btn-evntStr");
 	const btn2 = document.getElementById("btn-createEvntStr");
@@ -105,5 +170,5 @@
 	</script>  --%>
 	
 	
-</body>
+
 </html>

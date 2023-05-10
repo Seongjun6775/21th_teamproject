@@ -417,6 +417,20 @@ input[type="number"]::-webkit-inner-spin-button {
 	background: #ffcc00;
 	
 }
+
+/* active  */
+#menuCategory  > a:not(.menuOn):hover::active {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	height: 5px;
+	width: 100%;
+	background: #ffcc00;
+	
+}
+
+
+
 #menuCategory  > a:not(.menuOn):hover {
 	font-size: 26px;
 }
@@ -434,7 +448,23 @@ input[type="number"]::-webkit-inner-spin-button {
 	background: #ffcc00;
 }
 
-
+/* active */
+#menuCategory  > a:not(.menuOn):active {
+	font-size: 26px;
+}
+.on {
+	font-weight: bold;
+	color: #333;
+	font-size: 26px;
+}
+.menuOn::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	height: 5px;
+	width: 100%;
+	background: #ffcc00;
+}
 
 
 

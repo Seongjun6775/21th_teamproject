@@ -127,8 +127,7 @@
 	   
 	   var dt = new DateTime();	   	   
 	   var date = dt.today();
-	   
-	   var date7; 
+	  
 	   
 	   var date7 = dt.addDate( -7, 'YYYY-MM-DD');
 	   
@@ -137,9 +136,7 @@
 	   var myElementStrt = document.getElementById("search-keyword-startdt");
 	   myElementStrt.value = date7;
 	   
-	   
-	   
-	   
+	     
 	   var myElementenddt= document.getElementById("search-keyword-enddt");
 	   myElementenddt.value = date;
 	   
