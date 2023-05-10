@@ -12,6 +12,8 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/odrdtl_odrdtl.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -170,9 +172,14 @@
 	});
 </script>
 </head>
-<jsp:include page="../include/openBody.jsp" />
-	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-		<span class="fs-5 fw-bold">주문목록 > 주문조회 > 상품 상세조회</span>
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">주문 상세조회
+			<div style="color: #ccc; padding-top: 10px;"></div>
+		</div>
+		<div class="overlay absolute"></div>
 	</div>
 			<div class="container bg-white rounded shadow-sm" style="padding: 50px; margin: 0 auto; ">
 				<div class="row content text-center">
@@ -223,5 +230,6 @@
 				<button type="button" id="list_btn" class="btn btn-secondary">목록</button>
 				<button type="button" id="delete_btn" class="btn btn-danger">삭제</button>
 			</div>
-<jsp:include page="../include/closeBody.jsp" />
+	<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>
