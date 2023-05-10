@@ -209,7 +209,8 @@ text-decoration: none;
 				</div> -->
 			</div>
 		</div>
-		<iframe width="100%" height="600" src="https://www.youtube.com/embed/y___01py2wk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+		
+<%-- 		<iframe width="100%" height="600" src="https://www.youtube.com/embed/y___01py2wk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 		<div style=" position: relative; padding:50px 100px; background-color: #fff; height: 810px;" >
 			<div style="position: absolute; top: 25%; left: 30%;">
 				<h2 class="flex-center fs-1 fw-bold" style="FONT-WEIGHT:800">매장찾기</h2>
@@ -249,10 +250,10 @@ text-decoration: none;
 			
 		</div>
 			<div style="height: 402px;">
-			<%-- <a href="#"><img src="${context}/img/채용문의.png" width="50%" height="300"></a>  --%> 
+			<a href="#"><img src="${context}/img/채용문의.png" width="50%" height="300"></a>  
 			
 			
-		</div>
+		</div> --%>
 	 </div>
 <jsp:include page="./include/footer_user.jsp" />
 </body>

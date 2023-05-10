@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
 <script type="text/javascript">
 $().ready(function() {
 	
