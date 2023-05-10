@@ -220,6 +220,7 @@ public class StrController {
 	 */
 	@GetMapping("/str/completeOdr")
 	public String viewcompleteOdrForStr(Model model
+			,OdrLstVO odrLstVO
 			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		if (mbrVO.getMbrLvl().equals("001-03")) {
 	    	return "redirect:/index" + mbrVO.getStrId();
@@ -227,7 +228,6 @@ public class StrController {
     		return "redirect:/index" + mbrVO.getStrId();
     	} else {
 		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
-		OdrLstVO odrLstVO = new OdrLstVO();
 		odrLstVO.setStrId(mbrVO.getStrId());
 		
 		if (mbrVO.getMbrLvl().equals("001-01")) {
@@ -236,6 +236,7 @@ public class StrController {
 		List<OdrLstVO> odrLstList = odrLstService.completeOdrForStr(odrLstVO);
 		
 		
+		model.addAttribute("odrLstVO", odrLstVO);
 		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("strVO", strVO);
 		model.addAttribute("odrLstList", odrLstList);

@@ -82,7 +82,7 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 		<div id="menu" class="flex-column">
 		<div id="menuCategory" class="flex" >
 			<a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a>
-			<a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a>
+			<a href="${context}/evnt/pastEvntList" class="btn menuOn">종료된 이벤트</a>
 			<a href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a>
 		</div>
 

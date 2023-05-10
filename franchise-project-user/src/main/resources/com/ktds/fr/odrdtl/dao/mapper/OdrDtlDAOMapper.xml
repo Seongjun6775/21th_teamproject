@@ -8,17 +8,53 @@
 				type="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 				autoMapping="true">
 		<id property="odrDtlId" column="ODR_DTL_ID" />
-		<association property="prdtVO"
-		              javaType="com.ktds.fr.prdt.vo.PrdtVO" >
-			<id property="prdtId" column="PRDT_ID" />
-			<result property="prdtNm" column="PRDT_NM" />
-			<result property="prdtPrc" column="PRDT_PRC" />
+		<result property="sumCnt" column="SUM_CNT" />
+    	<result property="sumPrc" column="SUM_PRC" jdbcType="BIGINT" />
+		<result property="oneDay" column="ONE_DAY" />
+		<association property="odrLstVO"
+		              javaType="com.ktds.fr.odrlst.vo.OdrLstVO"
+		              autoMapping="true">
+			<id property="odrLstId" column="ODR_LST_ID" />
+			<association property="strVO"
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
+				<id property="strId" column="STR_ID" />
+			</association>
 		</association>
 		<association property="strVO"
-		              javaType="com.ktds.fr.str.vo.StrVO" >
+		              javaType="com.ktds.fr.str.vo.StrVO"
+		              autoMapping="true">
 			<id property="strId" column="STR_ID" />
-			<result property="strNm" column="STR_NM" />
-			<result property="strCallNum" column="STR_CALL_NUM" />
+		</association>
+		<association property="lctCdVO"
+		              javaType="com.ktds.fr.lctcd.vo.LctCdVO"
+		              autoMapping="true">
+			<id property="lctId" column="LCT_ID" />
+		</association>
+		<association property="ctyCdVO"
+		              javaType="com.ktds.fr.ctycd.vo.CtyCdVO"
+		              autoMapping="true">
+			<id property="ctyId" column="CTY_ID" />
+		</association>
+		<association property="prdtVO"
+		              javaType="com.ktds.fr.prdt.vo.PrdtVO"
+		              autoMapping="true">
+			<id property="prdtId" column="PRDT_ID" />
+			<association property="cmmnCdVO"
+						  javaType="com.ktds.fr.cmmncd.vo.CmmnCdVO"
+			              autoMapping="true">
+				<id property="cdId" column="CD_ID" />
+			</association>
+			<association property="evntVO"
+						  javaType="com.ktds.fr.evnt.vo.EvntVO"
+			              autoMapping="true">
+				<id property="evntId" column="EVNT_ID" />
+			</association>
+			<association property="evntPrdtVO"
+						  javaType="com.ktds.fr.evntprdt.vo.EvntPrdtVO"
+			              autoMapping="true">
+				<id property="evntPrdtId" column="EVNT_PRDT_ID" />
+			</association>
 		</association>
 	</resultMap>
 	
@@ -34,16 +70,18 @@
 		, ODR_DTL_STR_ID
 		, USE_YN
 		, DEL_YN
-		, MBR_ID)
+		, MBR_ID
+		, ODR_DTL_PRC)
 		VALUES
 		 ('OD-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ODR_DTL_PK.NEXTVAL, 5, '0')
-		, NULL
+		, #{odrLstId}
 		, #{odrDtlPrdtId}
 		, #{odrDtlPrdtCnt}
 		, #{odrDtlStrId}
 		, 'Y'
 		, 'N'
-		, #{mbrId})
+		, #{mbrId}
+		, #{odrDtlPrc})
 	</insert>
 	
 	<select id="readAllOdrDtlByOdrLstIdAndMbrId"
@@ -84,51 +122,881 @@
 	
 	<select id="readOneOdrDtlByOdrDtlId"
 			parameterType="string"
-			resultType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
-		SELECT ODR_DTL_ID
-			 , ODR_LST_ID
-			 , ODR_DTL_PRDT_ID
-			 , ODR_DTL_PRDT_CNT
-			 , ODR_DTL_STR_ID
-			 , USE_YN
-			 , DEL_YN
-			 , MBR_ID
-		  FROM ODR_DTL
-		 WHERE ODR_DTL_ID = #{_parameter}
-		   AND DEL_YN = 'N'
+			resultMap="odrDtlMap">
+		SELECT OD.ODR_DTL_ID
+			 , OD.ODR_LST_ID
+			 , OD.ODR_DTL_PRDT_ID
+			 , OD.ODR_DTL_PRDT_CNT
+			 , OD.ODR_DTL_STR_ID
+			 , OD.DEL_YN
+			 , OD.MBR_ID
+			 , OD.ODR_DTL_PRC
+			 , S.STR_ID 
+			 , S.STR_NM 
+			 , S.STR_CALL_NUM 
+			 , P.PRDT_ID 
+			 , P.PRDT_NM
+			 , P.PRDT_PRC
+			 , P.PRDT_CNTNT
+			 , P.ORGN_FL_NM
+			 , P.UUID_FL_NM
+			 , EP.EVNT_PRDT_CHNG_PRC
+			 , EP.EVNT_ID
+		  FROM ODR_DTL OD
+		 INNER JOIN STR S
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID 
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		  LEFT JOIN EVNT_PRDT EP
+		    ON P.PRDT_ID = EP.PRDT_ID
+		 WHERE OD.ODR_DTL_ID = #{_parameter}
+		   AND OD.DEL_YN = 'N'
 	</select>
 	
 	<update id="updateOneOdrDtlByOdrDtlId"
-			parameterType="string">
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
 		UPDATE ODR_DTL
 		   SET ODR_DTL_PRDT_CNT = #{odrDtlPrdtCnt}
+		     , ODR_DTL_PRC = #{odrDtlPrc}
 		 WHERE ODR_DTL_ID = #{odrDtlId}
 	</update>
 	
 	<update id="deleteOneOdrDtlByOdrDtlId"
-			parameterType="string">
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
 		UPDATE ODR_DTL
 		   SET DEL_YN = 'Y'
 		 WHERE ODR_DTL_ID = #{odrDtlId}
 	</update>
 	
+	<update id="deleteAllOdrDtlByOdrLstId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO">
+		UPDATE ODR_DTL
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_LST_ID = #{odrLstId}
+	</update>
+	
+	
+	<update id="deleteOdrDtlBySelectedDtlId"
+			parameterType="arraylist">
+		UPDATE ODR_DTL
+		   SET DEL_YN = 'Y'
+		 WHERE ODR_DTL_ID IN
+		<foreach collection="list" item="odrDtlId" open="(" close=")" separator=", ">
+			#{odrDtlId}
+		</foreach>
+	</update>
+	
+	<!-- 2-5.상세 조회에서 주문서 ID의 개수 받아오기 == 상위관리자, 중간관리자, 하위관리자, 이용자 -->
+	<!-- <select id="readCountOdrLstId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultType="_int">
+		SELECT COUNT(1) -1
+  		  FROM ODR_DTL
+ 		 WHERE MBR_ID = #{mbrId}
+   		   AND ODR_LST_ID = #{odrLstId}
+	</select> -->
+	
+	
+	<!-- 매장에서 보는 주문서의 디테일 / 노 페이지네이션 -->
+<!-- 	<select id="odrDtlForOdrLst" -->
+<!-- 			parameterType="string" -->
+<!-- 			resultMap="odrDtlMap"> -->
+<!-- 		SELECT OD.ODR_DTL_ID -->
+<!-- 			 , OD.ODR_LST_ID -->
+<!-- 			 , OL.ODR_LST_RGST_DT -->
+<!-- 			 , OD.ODR_DTL_PRDT_ID -->
+<!-- 			 , P.PRDT_NM -->
+<!-- 			 , OD.ODR_DTL_PRDT_CNT -->
+<!-- 			 , OD.ODR_DTL_STR_ID -->
+<!-- 			 , OD.MBR_ID -->
+<!-- 			 , P.PRDT_PRC  -->
+<!-- 			 , EP.EVNT_PRDT_CHNG_PRC -->
+<!-- 			 , EP.EVNT_ID -->
+<!-- 		  FROM (SELECT * -->
+<!-- 				  FROM ODR_DTL -->
+<!-- 				 WHERE ODR_LST_ID = #{_parameter} ) OD -->
+<!-- 		  LEFT JOIN (SELECT * -->
+<!-- 		 			   FROM ODR_LST -->
+<!-- 		 			  WHERE USE_YN = 'Y' -->
+<!-- 						AND DEL_YN = 'N' -->
+<!-- 						AND ODR_LST_ID = #{_parameter} ) OL -->
+<!-- 		 	ON OD.ODR_LST_ID = OL.ODR_LST_ID -->
+<!-- 		 INNER JOIN PRDT P -->
+<!-- 		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID -->
+<!-- 		 INNER JOIN STR S -->
+<!-- 		    ON OD.ODR_DTL_STR_ID = S.STR_ID -->
+<!-- 		  LEFT JOIN (  SELECT E.EVNT_ID -->
+<!-- 							 , E.EVNT_TTL -->
+<!-- 							 , EP.PRDT_ID  -->
+<!-- 							 , EP.EVNT_PRDT_CHNG_PRC  -->
+<!-- 						FROM ( -->
+<!-- 						SELECT * -->
+<!-- 						  FROM EVNT e  -->
+<!-- 						 WHERE USE_YN = 'Y' -->
+<!-- 						   AND DEL_YN = 'N' -->
+<!-- 						   AND EVNT_STRT_DT >= (SELECT ODR_LST_RGST_DT -->
+<!-- 									 			  FROM ODR_LST -->
+<!-- 									 			 WHERE ODR_LST_ID = #{_parameter} )  -->
+<!-- 						   AND (SELECT ODR_LST_RGST_DT -->
+<!-- 								  FROM ODR_LST -->
+<!-- 								 WHERE ODR_LST_ID = #{_parameter} ) >= EVNT_END_DT ) E -->
+<!-- 						 INNER JOIN (SELECT * -->
+<!-- 									   FROM EVNT_PRDT -->
+<!-- 									  WHERE USE_YN = 'Y' -->
+<!-- 						  				AND DEL_YN = 'N') EP  -->
+<!-- 		   					 ON E.EVNT_ID = EP.EVNT_ID  )EP -->
+<!-- 		    ON P.PRDT_ID = EP.PRDT_ID -->
+<!-- 	</select> -->
+	<select id="odrDtlForOdrLst"
+			parameterType="string"
+			resultMap="odrDtlMap">
+		SELECT OD.ODR_DTL_ID
+			 , OD.ODR_LST_ID
+			 , OL.ODR_LST_RGST_DT
+			 , OD.ODR_DTL_PRDT_ID
+			 , P.PRDT_NM
+			 , OD.ODR_DTL_PRC
+			 , OD.ODR_DTL_PRDT_CNT
+			 , OD.ODR_DTL_STR_ID
+			 , OD.MBR_ID
+			 , EP.EVNT_ID
+		  FROM (SELECT *
+				  FROM ODR_DTL
+				 WHERE ODR_LST_ID = #{_parameter} 
+				   AND USE_YN = 'Y'
+				   AND DEL_YN = 'N' ) OD
+		  LEFT JOIN (SELECT *
+		 			   FROM ODR_LST
+		 			  WHERE USE_YN = 'Y'
+						AND DEL_YN = 'N'
+						AND ODR_LST_ID = #{_parameter} ) OL
+		 	ON OD.ODR_LST_ID = OL.ODR_LST_ID
+		 INNER JOIN PRDT P
+		    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		 INNER JOIN STR S
+		    ON OD.ODR_DTL_STR_ID = S.STR_ID
+		  LEFT JOIN (  SELECT E.EVNT_ID
+							 , E.EVNT_TTL
+							 , EP.PRDT_ID 
+							 , EP.EVNT_PRDT_CHNG_PRC 
+						FROM (
+						SELECT *
+						  FROM EVNT e 
+						 WHERE USE_YN = 'Y'
+						   AND DEL_YN = 'N'
+						   AND EVNT_STRT_DT >= (SELECT ODR_LST_RGST_DT
+									 			  FROM ODR_LST
+									 			 WHERE ODR_LST_ID = #{_parameter} ) 
+						   AND (SELECT ODR_LST_RGST_DT
+								  FROM ODR_LST
+								 WHERE ODR_LST_ID = #{_parameter} ) >= EVNT_END_DT ) E
+						 INNER JOIN (SELECT *
+									   FROM EVNT_PRDT
+									  WHERE USE_YN = 'Y'
+						  				AND DEL_YN = 'N') EP 
+		   					 ON E.EVNT_ID = EP.EVNT_ID  )EP
+		    ON P.PRDT_ID = EP.PRDT_ID
+	</select>
 	
 	
 	
 	
 	
+	<!-- 매출관련 조회용 -->
+	<select id="forSale"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT *
+		  FROM (SELECT OL.ODR_LST_ID
+					 , OD.ODR_DTL_STR_ID 
+					 , S.STR_NM 
+					 , OD.ODR_DTL_PRDT_ID
+					 , P.PRDT_NM 
+					 , OD.ODR_DTL_PRDT_CNT 
+					 , OD.ODR_DTL_PRC 
+				     , OD.MBR_ID
+				     , R.MBR_NM
+				     , OL.ODR_LST_ODR_PRCS
+				     , C.CD_ID
+				     , C.CD_NM
+				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+				     , OL.ODR_LST_RGSTR
+				     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+				     , OL.MDFYR
+				     , M.MBR_NM MDFYR_NM
+				  FROM ODR_DTL OD
+				  LEFT OUTER JOIN ODR_LST OL
+				    ON OD.ODR_LST_ID = OL.ODR_LST_ID
+				  LEFT OUTER JOIN MBR R
+				    ON OL.MBR_ID = R.MBR_ID
+				  LEFT OUTER JOIN STR S
+				    ON OL.STR_ID = S.STR_ID
+				  LEFT OUTER JOIN MBR M
+				    ON OL.MDFYR = M.MBR_ID
+				  INNER JOIN PRDT P 
+				    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+				 INNER JOIN CMMN_CD C
+				    ON OL.ODR_LST_ODR_PRCS = C.CD_ID
+				 WHERE OL.DEL_YN = 'N'
+				   AND OL.USE_YN = 'Y'
+				   AND OL.ODR_LST_ODR_PRCS = '003-04' )
+		 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+		   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+		<if test='oneDay != null and oneDay != ""'>
+		   AND SUBSTR(MDFY_DT, 0, 10) = #{oneDay}
+		</if>
+		<if test='startDt != null and startDt != ""'>
+		   AND SUBSTR(MDFY_DT, 0, 10) >= #{startDt}
+		   AND #{endDt} >= SUBSTR(MDFY_DT, 0, 10)
+		</if>
+<!-- 		 GROUP BY #{groupBy} -->
+<!-- 		 ORDER BY #{orderBy} DESC -->
+	</select>
 	
 	
+	<select id="groupPrdt"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT *
+		  FROM (SELECT ODR_DTL_PRDT_ID
+		  			 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC 
+					 , SUM(ODR_DTL_PRDT_CNT) SUM_CNT
+				  FROM (SELECT OL.ODR_LST_ID
+							 , OD.ODR_DTL_STR_ID 
+							 , OD.ODR_DTL_PRDT_ID
+							 , OD.ODR_DTL_PRDT_CNT 
+							 , OD.ODR_DTL_PRC 
+						     , OD.MBR_ID
+						     , OL.ODR_LST_ODR_PRCS
+						     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+						     , OL.ODR_LST_RGSTR
+						     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+						     , OL.MDFYR
+						  FROM ODR_DTL OD
+				  		  LEFT OUTER JOIN ODR_LST OL
+							ON OD.ODR_LST_ID = OL.ODR_LST_ID
+						  LEFT OUTER JOIN STR S
+						    ON OD.ODR_DTL_STR_ID = S.STR_ID
+						 INNER JOIN CTY_CD C
+						    ON S.STR_CTY = C.CTY_ID
+						 INNER JOIN LCT_CD L
+						    ON C.LCT_ID = L.LCT_ID
+						 WHERE OL.DEL_YN = 'N'
+						   AND OL.USE_YN = 'Y'
+						   AND OL.ODR_LST_ODR_PRCS = '003-04'
+						   AND S.USE_YN = 'Y' 
+						   AND L.LCT_ID LIKE NVL(#{lctCdVO.lctId}, '%')
+						   AND C.CTY_ID LIKE NVL(#{ctyCdVO.ctyId}, '%'))
+				 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+				   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+				<if test='oneDay != null and oneDay != ""'>
+				   AND SUBSTR(MDFY_DT, 0, 10) = #{oneDay}
+				</if>
+				<if test='startDt != null and startDt != ""'>
+				   AND MDFY_DT >= #{startDt}
+				   AND #{endDt} >= MDFY_DT
+				</if>
+				GROUP BY ODR_DTL_PRDT_ID) OD
+		FULL JOIN ( SELECT PRDT_ID 
+						 , PRDT_NM
+						 , PRDT_SRT
+					  FROM PRDT
+					 WHERE DEL_YN = 'N'
+					   AND USE_YN = 'Y'
+					   AND PRDT_SRT LIKE NVL(#{prdtVO.prdtSrt}, '%') 
+					 UNION  
+					SELECT PRDT_ID 
+						 , PRDT_NM
+						 , PRDT_SRT
+					  FROM PRDT
+					 WHERE PRDT_SRT LIKE NVL(#{prdtVO.prdtSrt}, '%') 
+					   AND PRDT_ID IN (SELECT DISTINCT ODR_DTL_PRDT_ID
+										 FROM ODR_DTL OD
+								  		 LEFT OUTER JOIN ODR_LST OL
+										   ON OD.ODR_LST_ID = OL.ODR_LST_ID
+										 LEFT OUTER JOIN STR S
+										   ON OD.ODR_DTL_STR_ID = S.STR_ID
+										INNER JOIN CTY_CD C
+										   ON S.STR_CTY = C.CTY_ID
+										INNER JOIN LCT_CD L
+										   ON C.LCT_ID = L.LCT_ID
+										WHERE OL.DEL_YN = 'N'
+										  AND OL.USE_YN = 'Y'
+										  AND OL.ODR_LST_ODR_PRCS = '003-04'
+										  AND S.USE_YN = 'Y' 
+										  AND L.LCT_ID LIKE NVL(#{lctCdVO.lctId}, '%')
+										  AND C.CTY_ID LIKE NVL(#{ctyCdVO.ctyId}, '%')
+								  		<if test='startDt != null and startDt != ""'>
+										  AND OL.MDFY_DT >= #{startDt}
+										  AND #{endDt} >= OL.MDFY_DT
+										</if> )) P
+		   ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
+		INNER JOIN CMMN_CD C
+		   ON P.PRDT_SRT = C.CD_ID
+		<choose>
+			<when test='orderBy == "SUM_CNT DESC"'>
+		   ORDER BY SUM_CNT DESC NULLS LAST, C.CD_ID ASC, P.PRDT_NM ASC
+			</when>
+			<otherwise>
+		   ORDER BY SUM_PRC DESC NULLS LAST, C.CD_ID ASC, P.PRDT_NM ASC
+			</otherwise>
+		</choose>
+	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	<select id="groupSrtCdId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT *
+		  FROM (SELECT PRDT_SRT 
+					 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC 
+					 , SUM(ODR_DTL_PRDT_CNT) SUM_CNT
+				  FROM (SELECT OL.ODR_LST_ID
+							 , OD.ODR_DTL_STR_ID 
+							 , OD.ODR_DTL_PRDT_ID
+							 , P.PRDT_SRT 
+							 , OD.ODR_DTL_PRDT_CNT 
+							 , OD.ODR_DTL_PRC 
+						     , OD.MBR_ID
+						     , OL.ODR_LST_ODR_PRCS
+						     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+						     , OL.ODR_LST_RGSTR
+						     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+						     , OL.MDFYR
+						  FROM ODR_DTL OD
+				  		  LEFT OUTER JOIN ODR_LST OL
+							ON OD.ODR_LST_ID = OL.ODR_LST_ID
+						  LEFT OUTER JOIN STR S
+						    ON OD.ODR_DTL_STR_ID = S.STR_ID
+						 INNER JOIN PRDT P 
+						    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+						 INNER JOIN CTY_CD C
+						    ON S.STR_CTY = C.CTY_ID
+						 INNER JOIN LCT_CD L
+						    ON C.LCT_ID = L.LCT_ID
+						 WHERE OL.DEL_YN = 'N'
+						   AND OL.USE_YN = 'Y'
+						   AND OL.ODR_LST_ODR_PRCS = '003-04'
+						   AND S.USE_YN = 'Y' 
+						<if test='startDt != null and startDt != ""'>
+						   AND OL.MDFY_DT >= #{startDt}
+						   AND #{endDt} >= OL.MDFY_DT
+						</if> )
+				GROUP BY PRDT_SRT ) P
+				 FULL JOIN (SELECT *
+				 			  FROM CMMN_CD
+				 			 WHERE CD_ID LIKE '004-%') C
+		   ON P.PRDT_SRT = C.CD_ID
+	   		<choose>
+				<when test='orderBy == "SUM_CNT DESC"'>
+			   ORDER BY SUM_CNT DESC NULLS LAST, PRDT_SRT
+				</when>
+				<otherwise>
+			   ORDER BY SUM_PRC DESC NULLS LAST, PRDT_SRT
+			</otherwise>
+		</choose>
+		   
+	</select>
 
 
+<!-- 	<select id="groupStr" -->
+<!-- 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO" -->
+<!-- 			resultMap="odrDtlMap"> -->
+<!-- 	 	SELECT L.LCT_ID AS "lctCdVO.lctId" -->
+<!-- 		 	 , L.LCT_NM AS "lctCdVO.lctNm" -->
+<!-- 		 	 , C.CTY_ID AS "ctyCdVO.ctyId" -->
+<!-- 		 	 , C.CTY_NM AS "ctyCdVO.ctyNm"  -->
+<!-- 		 	 , STR.STR_ID -->
+<!-- 		 	 , STR.STR_NM -->
+<!-- 		 	 , SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC  -->
+<!-- 			 , SUM(OD.ODR_DTL_PRDT_CNT) SUM_CNT -->
+<!-- 		 	FROM ( -->
+<!-- 				SELECT OL.ODR_LST_ID -->
+<!-- 					 , OD.ODR_DTL_STR_ID  -->
+<!-- 				   	 , OD.ODR_DTL_PRDT_ID -->
+<!-- 					 , OD.ODR_DTL_PRDT_CNT  -->
+<!-- 					 , OD.ODR_DTL_PRC  -->
+<!-- 				     , OD.MBR_ID -->
+<!-- 				     , OL.ODR_LST_ODR_PRCS -->
+<!-- 				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT -->
+<!-- 				     , OL.ODR_LST_RGSTR -->
+<!-- 				     , TO_CHAR(OL.MDFY_DT, 'YYYYMMDD') MDFY_DT -->
+<!-- 				     , OL.MDFYR -->
+<!-- 				  FROM ODR_DTL OD -->
+<!-- 				  LEFT OUTER JOIN ODR_LST OL -->
+<!-- 					ON OD.ODR_LST_ID = OL.ODR_LST_ID -->
+<!-- 				  LEFT OUTER JOIN STR S -->
+<!-- 				    ON OD.ODR_DTL_STR_ID = S.STR_ID -->
+<!-- 				 WHERE OL.DEL_YN = 'N' -->
+<!-- 				   AND OL.USE_YN = 'Y' -->
+<!-- 				   AND OL.ODR_LST_ODR_PRCS = '003-04' -->
+<!-- 				   AND S.USE_YN = 'Y') OD -->
+<!-- 			INNER JOIN STR STR  -->
+<!-- 			        ON STR.STR_ID = OD.ODR_DTL_STR_ID   -->
+<!-- 			INNER JOIN LCT_CD L -->
+<!-- 			 		ON STR.STR_LCTN  = L.LCT_ID  -->
+<!-- 			INNER JOIN CTY_CD C  -->
+<!-- 			 		ON STR.STR_CTY = C.CTY_ID -->
+<!-- 		WHERE 1=1 -->
+<!-- 		<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'> -->
+<!-- 		  AND L.LCT_ID = #{ctyCdVO.lctId}  -->
+<!-- 		</if> -->
+<!-- 		<if test='ctyCdVO.ctyId != null and ctyCdVO.ctyId != ""'> -->
+<!-- 		  AND C.CTY_ID = #{ctyCdVO.ctyId} -->
+<!-- 		</if> -->
+<!-- 		<if test='startDt != null and startDt != ""'> -->
+<!-- 		  AND OD.MDFY_DT >= REPLACE(#{startDt}, '-' , '') -->
+<!-- 		  AND REPLACE(#{endDt}, '-', '') >= OD.MDFY_DT -->
+<!-- 		</if> -->
+		
+<!-- 		GROUP BY L.LCT_ID  -->
+<!-- 		 	   , L.LCT_NM  -->
+<!-- 		 	   , C.CTY_ID  -->
+<!-- 		 	   , C.CTY_NM  -->
+<!-- 		 	   , STR.STR_ID  -->
+<!-- 		 	   , STR.STR_NM -->
+<!-- 		ORDER BY L.LCT_ID  -->
+<!-- 		 	   , L.LCT_NM  -->
+<!-- 		 	   , C.CTY_ID  -->
+<!-- 		 	   , C.CTY_NM  -->
+<!-- 		 	   , STR.STR_ID  -->
+<!-- 		 	   , STR.STR_NM -->
+<!-- 	</select> -->
+	
+	
+<!--  groupStr 지역별 나오게 수정 -->
+	
+			<select id="groupStr"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+	 	SELECT 		 	 
+			<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>
+		 	   STR.STR_ID
+		 	 , STR.STR_NM
+		 	 , C.CTY_ID 
+		 	 , C.CTY_NM , 
+		 	  </if>
+		 	   L.LCT_ID AS "lctCdVO.lctId"
+		 	 , L.LCT_NM AS "lctCdVO.lctNm"
+		 	 , SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC 
+			 , SUM(OD.ODR_DTL_PRDT_CNT) SUM_CNT
+		 	FROM (
+				SELECT OL.ODR_LST_ID
+					 , OD.ODR_DTL_STR_ID 
+				   	 , OD.ODR_DTL_PRDT_ID
+					 , OD.ODR_DTL_PRDT_CNT 
+					 , OD.ODR_DTL_PRC 
+				     , OD.MBR_ID
+				     , OL.ODR_LST_ODR_PRCS
+				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT
+				     , OL.ODR_LST_RGSTR
+				     , TO_CHAR(OL.MDFY_DT, 'YYYYMMDD') MDFY_DT
+				     , OL.MDFYR
+				  FROM ODR_DTL OD
+				  LEFT OUTER JOIN ODR_LST OL
+					ON OD.ODR_LST_ID = OL.ODR_LST_ID
+				  LEFT OUTER JOIN STR S
+				    ON OD.ODR_DTL_STR_ID = S.STR_ID
+				 WHERE OL.DEL_YN = 'N'
+				   AND OL.USE_YN = 'Y'
+				   AND OL.ODR_LST_ODR_PRCS = '003-04'
+				   AND S.USE_YN = 'Y') OD
+			FULL JOIN STR STR 
+			        ON STR.STR_ID = OD.ODR_DTL_STR_ID  
+			INNER JOIN LCT_CD L
+			 		ON STR.STR_LCTN  = L.LCT_ID 
+			INNER JOIN CTY_CD C 
+			 		ON STR.STR_CTY = C.CTY_ID
+		WHERE 1=1
+		<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>
+		  AND L.LCT_ID = #{ctyCdVO.lctId} 
+		</if>
+		<if test='ctyCdVO.ctyId != null and ctyCdVO.ctyId != ""'>
+		  AND C.CTY_ID = #{ctyCdVO.ctyId}
+		</if>
+		<if test='startDt != null and startDt != ""'>
+		  AND OD.MDFY_DT >= REPLACE(#{startDt}, '-' , '')
+		  AND REPLACE(#{endDt}, '-', '') >= OD.MDFY_DT
+		</if>
+		GROUP BY
+		<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>
+		      STR.STR_ID 
+		    , STR.STR_NM
+		    , C.CTY_ID 
+		    , C.CTY_NM ,
+		</if>
+	          L.LCT_ID 
+		    , L.LCT_NM 
+		ORDER BY
+		<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>
+		      STR.STR_ID 
+		    , STR.STR_NM
+		    , C.CTY_ID 
+		    , C.CTY_NM ,
+		</if>
+	          L.LCT_ID 
+		    , L.LCT_NM 
+	</select>
+	
+	
+	
+	
+	
+<!-- 				<select id="groupStr" -->
+<!-- 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO" -->
+<!-- 			resultMap="odrDtlMap"> -->
+<!-- 	 	SELECT <if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>	 	  -->
+<!-- 		 	 , STR.STR_ID -->
+<!-- 		 	 , STR.STR_NM, -->
+<!-- 		 	 </if> -->
+<!-- 		 	   C.CTY_ID AS "ctyCdVO.ctyId" -->
+<!-- 		 	 , C.CTY_NM AS "ctyCdVO.ctyNm" 	 -->
+<!-- 		 	 , L.LCT_ID AS "lctCdVO.lctId" -->
+<!-- 		 	 , L.LCT_NM AS "lctCdVO.lctNm" -->
+<!-- 		 	 , SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC  -->
+<!-- 			 , SUM(OD.ODR_DTL_PRDT_CNT) SUM_CNT -->
+<!-- 		 	FROM ( -->
+<!-- 				SELECT OL.ODR_LST_ID -->
+<!-- 					 , OD.ODR_DTL_STR_ID  -->
+<!-- 				   	 , OD.ODR_DTL_PRDT_ID -->
+<!-- 					 , OD.ODR_DTL_PRDT_CNT  -->
+<!-- 					 , OD.ODR_DTL_PRC  -->
+<!-- 				     , OD.MBR_ID -->
+<!-- 				     , OL.ODR_LST_ODR_PRCS -->
+<!-- 				     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT -->
+<!-- 				     , OL.ODR_LST_RGSTR -->
+<!-- 				     , TO_CHAR(OL.MDFY_DT, 'YYYYMMDD') MDFY_DT -->
+<!-- 				     , OL.MDFYR -->
+<!-- 				  FROM ODR_DTL OD -->
+<!-- 				  LEFT OUTER JOIN ODR_LST OL -->
+<!-- 					ON OD.ODR_LST_ID = OL.ODR_LST_ID -->
+<!-- 				  LEFT OUTER JOIN STR S -->
+<!-- 				    ON OD.ODR_DTL_STR_ID = S.STR_ID -->
+<!-- 				 WHERE OL.DEL_YN = 'N' -->
+<!-- 				   AND OL.USE_YN = 'Y' -->
+<!-- 				   AND OL.ODR_LST_ODR_PRCS = '003-04' -->
+<!-- 				   AND S.USE_YN = 'Y') OD -->
+<!-- 			INNER JOIN STR STR  -->
+<!-- 			        ON STR.STR_ID = OD.ODR_DTL_STR_ID   -->
+<!-- 			INNER JOIN LCT_CD L -->
+<!-- 			 		ON STR.STR_LCTN  = L.LCT_ID  -->
+<!-- 			INNER JOIN CTY_CD C  -->
+<!-- 			 		ON STR.STR_CTY = C.CTY_ID -->
+<!-- 		WHERE 1=1 -->
+<!-- 		<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'> -->
+<!-- 		  AND L.LCT_ID = #{ctyCdVO.lctId}  -->
+<!-- 		</if> -->
+<!-- 		<if test='ctyCdVO.ctyId != null and ctyCdVO.ctyId != ""'> -->
+<!-- 		  AND C.CTY_ID = #{ctyCdVO.ctyId} -->
+<!-- 		</if> -->
+<!-- 		<if test='startDt != null and startDt != ""'> -->
+<!-- 		  AND OD.MDFY_DT >= REPLACE(#{startDt}, '-' , '') -->
+<!-- 		  AND REPLACE(#{endDt}, '-', '') >= OD.MDFY_DT -->
+<!-- 		</if> -->
+<!-- 		GROUP BY -->
+<!-- 		<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'> -->
+<!-- 		    STR.STR_ID  -->
+<!-- 		  , STR.STR_NM, -->
+		 
+<!-- 		</if> -->
+<!-- 		      C.CTY_ID  -->
+<!-- 		    , C.CTY_NM  -->
+<!-- 	        , L.LCT_ID  -->
+<!-- 		    , L.LCT_NM  -->
+<!-- 		ORDER BY -->
+<!-- 		<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'> -->
+<!-- 		      STR.STR_ID  -->
+<!-- 		    , STR.STR_NM, -->
+		 
+<!-- 		</if> -->
+<!-- 		      C.CTY_ID  -->
+<!-- 		    , C.CTY_NM  -->
+<!-- 	        , L.LCT_ID  -->
+<!-- 		    , L.LCT_NM  -->
+<!-- 	</select> -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="viewStrPayments"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT
+			<if test='strVO.strId != null and strVO.strId != ""'>
+		 	STR.STR_ID,
+		 	STR.STR_NM,
+			</if>
+			OD.MDFY_DT AS MDFY_DT ,
+			SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC ,
+			SUM(OD.ODR_DTL_PRDT_CNT) SUM_CNT
+		FROM
+		(
+			SELECT
+				OL.ODR_LST_ID ,
+				OD.ODR_DTL_STR_ID ,
+				OD.ODR_DTL_PRDT_ID ,
+				OD.ODR_DTL_PRDT_CNT ,
+				OD.ODR_DTL_PRC ,
+				OD.MBR_ID ,
+				OL.ODR_LST_ODR_PRCS ,
+				TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD HH24:MI:SS') ODR_LST_RGST_DT ,
+				OL.ODR_LST_RGSTR ,
+				TO_CHAR(OL.MDFY_DT, 'YYYYMMDD') MDFY_DT ,
+				OL.MDFYR
+			FROM
+				ODR_DTL OD
+			LEFT OUTER JOIN ODR_LST OL ON
+				OD.ODR_LST_ID = OL.ODR_LST_ID
+			LEFT OUTER JOIN STR S ON
+				OD.ODR_DTL_STR_ID = S.STR_ID
+			WHERE
+				OL.DEL_YN = 'N'
+				AND OL.USE_YN = 'Y'
+				AND OL.ODR_LST_ODR_PRCS = '003-04'
+				AND S.USE_YN = 'Y') OD
+		INNER JOIN STR STR ON
+			STR.STR_ID = OD.ODR_DTL_STR_ID
+		INNER JOIN LCT_CD L ON
+			STR.STR_LCTN = L.LCT_ID
+		INNER JOIN CTY_CD C ON
+			STR.STR_CTY = C.CTY_ID
+		WHERE
+		1=1
+		<if test='strVO.strId != null and strVO.strId != ""'>
+		AND STR.STR_ID = #{strVO.strId}
+		</if>
+		<if test='startDt != null and startDt != ""'>
+		AND OD.MDFY_DT >= REPLACE(#{startDt}, '-' , '')
+		AND REPLACE(#{endDt}, '-', '') >= OD.MDFY_DT
+	</if>
+	GROUP BY
+		<if test='strVO.strId != null and strVO.strId != ""'>
+		STR.STR_ID ,
+		STR.STR_NM ,
+		</if>
+		OD.MDFY_DT
+	ORDER BY
+		<if test='strVO.strId != null and strVO.strId != ""'>
+		STR.STR_ID ,
+		STR.STR_NM ,
+		</if>
+		OD.MDFY_DT			
+	</select>
+	
+	
+	
+	<!-- 시작날짜와 종료날짜 사이의 모든 날짜를 가져옴 -->
+	<select id="startEnd"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT D.ONE_DAY
+			 , SUM_PRC
+			 , SUM_CNT
+		  FROM (SELECT TO_CHAR(TRUNC(TO_DATE(#{startDt}, 'YYYY-MM-DD') + LEVEL - 1), 'YYYY-MM-DD') AS ONE_DAY
+				  FROM DUAL
+			   CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(TO_DATE(#{endDt}, 'YYYY-MM-DD')) 
+			  								- TRUNC(TO_DATE(#{startDt}, 'YYYY-MM-DD')) + 1 ) D
+		  LEFT JOIN (SELECT ONE_DAY
+						 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC
+						 , SUM(ODR_DTL_PRDT_CNT) SUM_CNT
+					  FROM (SELECT OL.ODR_LST_ID
+								 , OD.ODR_DTL_STR_ID 
+								 , OD.ODR_DTL_PRDT_ID
+								 , OD.ODR_DTL_PRDT_CNT 
+								 , OD.ODR_DTL_PRC 
+							     , OD.MBR_ID
+							     , OL.ODR_LST_ODR_PRCS
+							     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+							     , OL.ODR_LST_RGSTR
+							     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') ONE_DAY
+							     , OL.MDFYR
+							  FROM ODR_DTL OD
+							  LEFT OUTER JOIN ODR_LST OL
+								ON OD.ODR_LST_ID = OL.ODR_LST_ID
+							  LEFT OUTER JOIN STR S
+							    ON OD.ODR_DTL_STR_ID = S.STR_ID
+							 INNER JOIN CTY_CD C
+							    ON S.STR_CTY = C.CTY_ID
+							 INNER JOIN LCT_CD L
+							    ON C.LCT_ID = L.LCT_ID
+							 INNER JOIN PRDT P 
+							    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+							 INNER JOIN CMMN_CD CC 
+							    ON P.PRDT_SRT = CC.CD_ID 
+							 WHERE OL.DEL_YN = 'N'
+							   AND OL.USE_YN = 'Y'
+							   AND OL.ODR_LST_ODR_PRCS = '003-04'
+							   AND CC.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
+							   AND S.USE_YN = 'Y'
+							   AND L.LCT_ID LIKE NVL(#{lctCdVO.lctId}, '%')
+							   AND C.CTY_ID LIKE NVL(#{ctyCdVO.ctyId}, '%') )
+					 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+					   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+					 GROUP BY ONE_DAY ) O
+		   ON D.ONE_DAY = O.ONE_DAY
+		 <choose>
+			 <when test='orderBy != null and orderBy!= ""'>
+				ORDER BY ONE_DAY ASC
+			 </when>
+			 <otherwise>
+				ORDER BY ONE_DAY DESC
+			 </otherwise>
+		 </choose>
+	</select>
+	
+	
+<select id="sumMonth"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT SUBSTR(D.ONE_DAY, 0, 4) YEARLY
+			 , SUBSTR(D.ONE_DAY, 6, 2) MONTHLY
+			 , SUM_PRC
+			 , SUM_CNT
+		  FROM (SELECT DISTINCT TO_CHAR(TRUNC((SELECT TO_DATE(TO_CHAR(MIN(MDFY_DT), 'YYYY')||'-01', 'YYYY-MM')
+											  FROM ODR_LST
+											 WHERE ODR_LST_ODR_PRCS = '003-04') + LEVEL - 1), 'YYYY-MM') AS ONE_DAY
+				   FROM DUAL
+				CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(TO_DATE(TO_CHAR(SYSDATE, 'YYYY')||'-12', 'YYYY-MM')) 
+							  				- TRUNC((SELECT TO_DATE(TO_CHAR(MIN(MDFY_DT), 'YYYY')||'-01', 'YYYY-MM')
+													  FROM ODR_LST
+													 WHERE ODR_LST_ODR_PRCS = '003-04')) + 1 ) D
+				  LEFT JOIN (SELECT ONE_DAY
+								 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC
+								 , SUM(ODR_DTL_PRDT_CNT) SUM_CNT
+							  FROM (SELECT OL.ODR_LST_ID
+										 , OD.ODR_DTL_STR_ID 
+										 , OD.ODR_DTL_PRDT_ID
+										 , OD.ODR_DTL_PRDT_CNT 
+										 , OD.ODR_DTL_PRC 
+									     , OD.MBR_ID
+									     , OL.ODR_LST_ODR_PRCS
+									     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+									     , OL.ODR_LST_RGSTR
+									     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM') ONE_DAY
+									     , OL.MDFYR
+									  FROM ODR_DTL OD
+									  LEFT OUTER JOIN ODR_LST OL
+										ON OD.ODR_LST_ID = OL.ODR_LST_ID
+									  LEFT OUTER JOIN STR S
+									    ON OD.ODR_DTL_STR_ID = S.STR_ID
+									 INNER JOIN PRDT P 
+									    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+									 INNER JOIN CMMN_CD C 
+									    ON P.PRDT_SRT = C.CD_ID 
+									 WHERE OL.DEL_YN = 'N'
+									   AND OL.USE_YN = 'Y'
+									   AND OL.ODR_LST_ODR_PRCS = '003-04'
+									   AND C.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
+									   AND S.STR_LCTN LIKE NVL(#{odrLstVO.strVO.strLctn}, '%')
+									   AND S.STR_CTY LIKE NVL(#{odrLstVO.strVO.strCty}, '%')
+									   AND S.USE_YN = 'Y' )
+							 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+							   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+							 GROUP BY ONE_DAY ) O
+		 ON D.ONE_DAY = O.ONE_DAY
+		 ORDER BY YEARLY DESC, MONTHLY ASC
+	</select>
+	
+<select id="sumYear"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT D.ONE_DAY
+			 , SUM_PRC
+			 , SUM_CNT
+		  FROM (SELECT DISTINCT TO_CHAR(TRUNC((SELECT MIN(MDFY_DT)
+									  FROM ODR_LST
+									 WHERE ODR_LST_ODR_PRCS = '003-04') + LEVEL - 1), 'YYYY') AS ONE_DAY
+				  FROM DUAL
+			   CONNECT BY LEVEL <![CDATA[<=]]> TRUNC(sysdate) 
+							  				- TRUNC((SELECT MIN(MDFY_DT)
+													  FROM ODR_LST
+													 WHERE ODR_LST_ODR_PRCS = '003-04')) + 1) D
+		  LEFT JOIN (SELECT ONE_DAY
+						 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC
+						 , SUM(ODR_DTL_PRDT_CNT) SUM_CNT
+					  FROM (SELECT OL.ODR_LST_ID
+								 , OD.ODR_DTL_STR_ID 
+								 , OD.ODR_DTL_PRDT_ID
+								 , OD.ODR_DTL_PRDT_CNT 
+								 , OD.ODR_DTL_PRC 
+							     , OD.MBR_ID
+							     , OL.ODR_LST_ODR_PRCS
+							     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+							     , OL.ODR_LST_RGSTR
+							     , TO_CHAR(OL.MDFY_DT, 'YYYY') ONE_DAY
+							     , OL.MDFYR
+							  FROM ODR_DTL OD
+							  LEFT OUTER JOIN ODR_LST OL
+								ON OD.ODR_LST_ID = OL.ODR_LST_ID
+							  LEFT OUTER JOIN STR S
+							    ON OD.ODR_DTL_STR_ID = S.STR_ID
+							 INNER JOIN PRDT P 
+							    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+							 INNER JOIN CMMN_CD C 
+							    ON P.PRDT_SRT = C.CD_ID 
+							 WHERE OL.DEL_YN = 'N'
+							   AND OL.USE_YN = 'Y'
+							   AND OL.ODR_LST_ODR_PRCS = '003-04'
+							   AND C.CD_ID LIKE NVL(#{prdtVO.prdtSrt}, '%')
+							   AND S.USE_YN = 'Y' )
+					 WHERE ODR_DTL_STR_ID LIKE NVL(#{odrDtlStrId}, '%')
+					   AND ODR_DTL_PRDT_ID LIKE NVL (#{odrDtlPrdtId}, '%')
+					 GROUP BY ONE_DAY ) O
+		   ON D.ONE_DAY = O.ONE_DAY
+		 <choose>
+			 <when test='orderBy != null and orderBy!= ""'>
+				ORDER BY ONE_DAY ASC
+			 </when>
+			 <otherwise>
+				ORDER BY ONE_DAY DESC
+			 </otherwise>
+		 </choose>
+	</select>
+	
+	<select id="sumYearOfStr"
+			resultMap="odrDtlMap">
+		SELECT STR_NM
+			 , SUM_PRC
+			 , RANK
+		  FROM (
+				SELECT a.STR_NM
+					 , a.SUM_PRC
+				     , rownum RANK
+				  FROM (SELECT ST.STR_NM
+				    		 , ODDT.SUM_PRC
+				  		  FROM STR ST
+				 		 INNER JOIN (SELECT OD.ODR_DTL_STR_ID
+							              , SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC
+							           FROM ODR_DTL OD
+							           LEFT OUTER JOIN ODR_LST OL
+							             ON OD.ODR_LST_ID = OL.ODR_LST_ID
+							           LEFT OUTER JOIN STR S
+							             ON OD.ODR_DTL_STR_ID = S.STR_ID
+							          WHERE OL.DEL_YN = 'N'
+							            AND OL.USE_YN = 'Y'
+							            AND OL.ODR_LST_ODR_PRCS = '003-04'
+							            AND S.USE_YN = 'Y'
+							            AND TO_CHAR(OL.MDFY_DT,'YYYY') >= TO_CHAR(SYSDATE,'YYYY')
+							          GROUP BY OD.ODR_DTL_STR_ID) ODDT
+				   			ON ODDT.ODR_DTL_STR_ID = ST.STR_ID
+				   		 ORDER BY ODDT.SUM_PRC) a )
+		  		 WHERE 3 >= RANK
+		     		OR RANK > (SELECT count(1)-3
+					             FROM (SELECT 1
+						                 FROM ODR_LST OL
+						                 LEFT OUTER JOIN STR S
+						                   ON OL.STR_ID = S.STR_ID
+						                WHERE OL.DEL_YN = 'N'
+						                  AND OL.USE_YN = 'Y'
+						                  AND OL.ODR_LST_ODR_PRCS = '003-04'
+						                  AND S.USE_YN = 'Y'
+						                GROUP BY OL.STR_ID ))
+       	ORDER BY RANK DESC
+	</select>
 
 </mapper>

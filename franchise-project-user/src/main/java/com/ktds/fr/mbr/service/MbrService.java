@@ -26,9 +26,9 @@ public interface MbrService {
 
 	
 	//이용자 조회용
-	public List<MbrVO> readAllMbr(MbrVO mbrVO);
+//	public List<MbrVO> readAllMbr(MbrVO mbrVO);
 	//관리자 조회용
-	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO);
+//	public List<MbrVO> readAllAdminMbr(MbrVO mbrVO);
 	//회원 수정
 	public boolean updateOneMbr(MbrVO mbrVO);
 	//회원 삭제
@@ -46,7 +46,7 @@ public interface MbrService {
 	//PW 찾기용
 	public boolean updateMbrPwdByMbrIdAndMbrEml(MbrVO mbrVO);
 	//권한 및 소소 수정용
-	public boolean updateOneMbrLvlAndStrId(MbrVO mbrVO);
+//	public boolean updateOneMbrLvlAndStrId(MbrVO mbrVO);
 	//관리자 권한 해임용
-	public boolean deleteOneMbrAdminByMbrId(MbrVO mbrVO);
+//	public boolean deleteOneMbrAdminByMbrId(MbrVO mbrVO);
 }

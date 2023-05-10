@@ -25,7 +25,6 @@
 		});
 		
 		$(".blue-rpl-btn").click(function(){
-
 			var rplId = $(this).val(); 
 			console.log(rplId);
 			console.log($('.update_rpl_form').length);
@@ -394,7 +393,7 @@
 																<div class="rplbtn">
 																	<button data-value="${rpl.rplId}" class="black-rpl-btn">댓글달기</button> 
 																	<c:if test="${mbrVO.mbrId eq rpl.mbrId}">	
-																		<button value="${rpl.rplId}" class="blue-rpl-btn">수</button>
+																		<button value="${rpl.rplId}" class="blue-rpl-btn">수정</button>
 																	</c:if>						
 																	<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rpl.mbrId}">
 																		<button value="${rpl.rplId}" class="red-rpl-btn">삭제</button>		

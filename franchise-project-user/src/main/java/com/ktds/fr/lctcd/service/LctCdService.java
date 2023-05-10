@@ -8,4 +8,10 @@ public interface LctCdService {
 
 	public List<LctCdVO> readCategory(LctCdVO lctCdVO);
 	
+	/**
+	 * 매장조회용
+	 * @return
+	 */
+	public List<LctCdVO> read();
+	
 }

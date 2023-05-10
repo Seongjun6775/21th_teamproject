@@ -85,7 +85,11 @@
     font-weight: 800;
 /*     margin-right: 15px; */
 }
-
+.ntc-label{ 
+    border: 1px solid;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
 </style>
 </head>
 <body class="scroll">
@@ -95,47 +99,52 @@
 		<div class="content-setting title">리뷰</div>
 		<div class="overlay absolute"></div>
 	</div>
-		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px; position: relative;">	
-			<span class="fs-5 fw-bold"> 리뷰 > 리뷰목록 > 리뷰상세</span>
-			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
+	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
+		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 리뷰를 작성해보세요. </p>
+	</div>
+	<div id="menu" class="flex-column">	
+							
+		<div class="bg-white rounded shadow-sm" style="padding: 60px;  margin:20px; position: relative;">
+			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rvDetail.mbrId }">
 				<div style="position: absolute; right: 0;top: 0; margin: 20px;">
 					<button id="delete_btn" class="btn btn-outline-danger btn-default">삭제</button>
 					<button id="list_btn" class="btn btn-secondary" >목록</button>
 				</div>
 			</c:if>	
-	    </div>		
-		<div class="bg-white rounded shadow-sm" style="padding: 60px;  margin:20px;">
-			<div class="flex">			
+			<h2 class="fw-bold" style="margin: 30px 30px 80px 30px;">구매후기</h2>
+			<div class="flex">
 				<div class="input-group" style="flex: 1; margin-top: 10px;">
-					<label for="prdtCntnt" class="col-form-label label-left-border">상품이름</label>
+					<label for="prdtCntnt" class="col-form-label">상품이름</label>
 					<div>
-						<textarea id="prdtCntnt" style="height:20px; resize: none;" readonly
-								class="form-control">${rvDetail.prdtVO.prdtNm} 외 ${odrDtl.size() -1}건</textarea>
+						<textarea id="prdtCntnt" style="height:20px; resize: none; width: 45.5%;" readonly
+								class="form-control">${rvDetail.prdtVO.prdtNm} 외 ${odrDtl.size() -1}건</textarea> 
 					</div>
 				</div>
 			</div>
 			<div class="half-right">
 				<div class="input-group">
-					<label for="prdtNm" class="col-form-label label-left-border">제목</label>
+					<label for="prdtNm" class="col-form-label">제목</label>
 					<div>
 						<input type="text" class="form-control" readonly value="${rvDetail.rvTtl}"/>
 					</div>
 				</div>
 				<div class="input-group">
-					<label for="prdtNm" class="col-form-label label-left-border">평가</label>
+					<label for="prdtNm" class="col-form-label">평가</label> 
 					<div>
-						<input type="text" id="rvLkDslk" name="rvLkDslk" class="form-control" readonly value="${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}">
+						<input type="text" id="rvLkDslk" name="rvLkDslk" class="form-control fw-bold" readonly style="color:${rvDetail.rvLkDslk eq 'T' ? '#00f' : '#f00'};" value="${rvDetail.rvLkDslk eq 'T' ? '좋아요!' : '싫어요!'}">
 					</div>
 				</div>
 				<div class="input-group" style="flex: 1;">
-					<label for="prdtCntnt" class="col-form-label label-left-border" style="height: 40px;">내용</label>
+					<label for="prdtCntnt" class="col-form-label" style="height: 40px;">내용</label>
 					<div>
-						<textarea id="prdtCntnt" style="margin-top: 0.5rem; height:220px; resize: none;" readonly
+						<textarea id="prdtCntnt" style="height:220px; resize: none;" readonly
 								class="form-control">${rvDetail.rvCntnt}</textarea>
 					</div>
 				</div>
 			</div>
-		</div>										
+		</div>
+	</div>					
+	
 <jsp:include page="../include/footer_user.jsp" />
 </body>
 </html>

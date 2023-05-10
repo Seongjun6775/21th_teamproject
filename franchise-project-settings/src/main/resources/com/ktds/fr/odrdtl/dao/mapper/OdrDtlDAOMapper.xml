@@ -397,39 +397,104 @@
 				   AND #{endDt} >= MDFY_DT
 				</if>
 				GROUP BY ODR_DTL_PRDT_ID) OD
-		FULL JOIN (SELECT PRDT_ID 
-				 , PRDT_NM
-				 , PRDT_SRT
-			  FROM PRDT
-			 WHERE DEL_YN = 'N'
-			   AND USE_YN = 'Y'
-			   AND PRDT_SRT LIKE NVL(#{prdtVO.prdtSrt}, '%') 
-			 UNION  
-			SELECT PRDT_ID 
-				 , PRDT_NM
-				 , PRDT_SRT
-			  FROM PRDT
-			 WHERE PRDT_SRT LIKE NVL(#{prdtVO.prdtSrt}, '%') 
-			   AND PRDT_ID IN (SELECT DISTINCT ODR_DTL_PRDT_ID
-								  FROM (SELECT OD.ODR_DTL_PRDT_ID
-										     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
-										  FROM ODR_DTL OD
-								  		  LEFT OUTER JOIN ODR_LST OL
-											ON OD.ODR_LST_ID = OL.ODR_LST_ID
-										  LEFT OUTER JOIN STR S
-										    ON OD.ODR_DTL_STR_ID = S.STR_ID
-										 WHERE OL.DEL_YN = 'N'
-										   AND OL.USE_YN = 'Y'
-										   AND OL.ODR_LST_ODR_PRCS = '003-04'
-										   AND S.USE_YN = 'Y' )
+		FULL JOIN ( SELECT PRDT_ID 
+						 , PRDT_NM
+						 , PRDT_SRT
+					  FROM PRDT
+					 WHERE DEL_YN = 'N'
+					   AND USE_YN = 'Y'
+					   AND PRDT_SRT LIKE NVL(#{prdtVO.prdtSrt}, '%') 
+					 UNION  
+					SELECT PRDT_ID 
+						 , PRDT_NM
+						 , PRDT_SRT
+					  FROM PRDT
+					 WHERE PRDT_SRT LIKE NVL(#{prdtVO.prdtSrt}, '%') 
+					   AND PRDT_ID IN (SELECT DISTINCT ODR_DTL_PRDT_ID
+										 FROM ODR_DTL OD
+								  		 LEFT OUTER JOIN ODR_LST OL
+										   ON OD.ODR_LST_ID = OL.ODR_LST_ID
+										 LEFT OUTER JOIN STR S
+										   ON OD.ODR_DTL_STR_ID = S.STR_ID
+										INNER JOIN CTY_CD C
+										   ON S.STR_CTY = C.CTY_ID
+										INNER JOIN LCT_CD L
+										   ON C.LCT_ID = L.LCT_ID
+										WHERE OL.DEL_YN = 'N'
+										  AND OL.USE_YN = 'Y'
+										  AND OL.ODR_LST_ODR_PRCS = '003-04'
+										  AND S.USE_YN = 'Y' 
+										  AND L.LCT_ID LIKE NVL(#{lctCdVO.lctId}, '%')
+										  AND C.CTY_ID LIKE NVL(#{ctyCdVO.ctyId}, '%')
 								  		<if test='startDt != null and startDt != ""'>
-										 WHERE MDFY_DT >= #{startDt}
-										   AND #{endDt} >= MDFY_DT
-										</if>) ) P
+										  AND OL.MDFY_DT >= #{startDt}
+										  AND #{endDt} >= OL.MDFY_DT
+										</if> )) P
 		   ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID
 		INNER JOIN CMMN_CD C
 		   ON P.PRDT_SRT = C.CD_ID
-	   ORDER BY SUM_PRC DESC NULLS LAST, C.CD_ID ASC, P.PRDT_NM ASC
+		<choose>
+			<when test='orderBy == "SUM_CNT DESC"'>
+		   ORDER BY SUM_CNT DESC NULLS LAST, C.CD_ID ASC, P.PRDT_NM ASC
+			</when>
+			<otherwise>
+		   ORDER BY SUM_PRC DESC NULLS LAST, C.CD_ID ASC, P.PRDT_NM ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="groupSrtCdId"
+			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
+			resultMap="odrDtlMap">
+		SELECT *
+		  FROM (SELECT PRDT_SRT 
+					 , SUM(ODR_DTL_PRDT_CNT * ODR_DTL_PRC) SUM_PRC 
+					 , SUM(ODR_DTL_PRDT_CNT) SUM_CNT
+				  FROM (SELECT OL.ODR_LST_ID
+							 , OD.ODR_DTL_STR_ID 
+							 , OD.ODR_DTL_PRDT_ID
+							 , P.PRDT_SRT 
+							 , OD.ODR_DTL_PRDT_CNT 
+							 , OD.ODR_DTL_PRC 
+						     , OD.MBR_ID
+						     , OL.ODR_LST_ODR_PRCS
+						     , TO_CHAR(OL.ODR_LST_RGST_DT, 'YYYY-MM-DD') ODR_LST_RGST_DT
+						     , OL.ODR_LST_RGSTR
+						     , TO_CHAR(OL.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+						     , OL.MDFYR
+						  FROM ODR_DTL OD
+				  		  LEFT OUTER JOIN ODR_LST OL
+							ON OD.ODR_LST_ID = OL.ODR_LST_ID
+						  LEFT OUTER JOIN STR S
+						    ON OD.ODR_DTL_STR_ID = S.STR_ID
+						 INNER JOIN PRDT P 
+						    ON OD.ODR_DTL_PRDT_ID = P.PRDT_ID 
+						 INNER JOIN CTY_CD C
+						    ON S.STR_CTY = C.CTY_ID
+						 INNER JOIN LCT_CD L
+						    ON C.LCT_ID = L.LCT_ID
+						 WHERE OL.DEL_YN = 'N'
+						   AND OL.USE_YN = 'Y'
+						   AND OL.ODR_LST_ODR_PRCS = '003-04'
+						   AND S.USE_YN = 'Y' 
+						<if test='startDt != null and startDt != ""'>
+						   AND OL.MDFY_DT >= #{startDt}
+						   AND #{endDt} >= OL.MDFY_DT
+						</if> )
+				GROUP BY PRDT_SRT ) P
+				 FULL JOIN (SELECT *
+				 			  FROM CMMN_CD
+				 			 WHERE CD_ID LIKE '004-%') C
+		   ON P.PRDT_SRT = C.CD_ID
+	   		<choose>
+				<when test='orderBy == "SUM_CNT DESC"'>
+			   ORDER BY SUM_CNT DESC NULLS LAST, PRDT_SRT
+				</when>
+				<otherwise>
+			   ORDER BY SUM_PRC DESC NULLS LAST, PRDT_SRT
+			</otherwise>
+		</choose>
+		   
 	</select>
 
 
@@ -482,6 +547,7 @@
 <!-- 		  AND OD.MDFY_DT >= REPLACE(#{startDt}, '-' , '') -->
 <!-- 		  AND REPLACE(#{endDt}, '-', '') >= OD.MDFY_DT -->
 <!-- 		</if> -->
+		
 <!-- 		GROUP BY L.LCT_ID  -->
 <!-- 		 	   , L.LCT_NM  -->
 <!-- 		 	   , C.CTY_ID  -->
@@ -502,7 +568,8 @@
 			<select id="groupStr"
 			parameterType="com.ktds.fr.odrdtl.vo.OdrDtlVO"
 			resultMap="odrDtlMap">
-	 	SELECT <if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>		 	 
+	 	SELECT 		 	 
+			<if test='ctyCdVO.lctId != null and ctyCdVO.lctId != ""'>
 		 	   STR.STR_ID
 		 	 , STR.STR_NM
 		 	 , C.CTY_ID 
@@ -889,6 +956,47 @@
 				ORDER BY ONE_DAY DESC
 			 </otherwise>
 		 </choose>
+	</select>
+	
+	<select id="sumYearOfStr"
+			resultMap="odrDtlMap">
+		SELECT STR_NM
+			 , SUM_PRC
+			 , RANK
+		  FROM (
+				SELECT a.STR_NM
+					 , a.SUM_PRC
+				     , rownum RANK
+				  FROM (SELECT ST.STR_NM
+				    		 , ODDT.SUM_PRC
+				  		  FROM STR ST
+				 		 INNER JOIN (SELECT OD.ODR_DTL_STR_ID
+							              , SUM(OD.ODR_DTL_PRDT_CNT * OD.ODR_DTL_PRC) SUM_PRC
+							           FROM ODR_DTL OD
+							           LEFT OUTER JOIN ODR_LST OL
+							             ON OD.ODR_LST_ID = OL.ODR_LST_ID
+							           LEFT OUTER JOIN STR S
+							             ON OD.ODR_DTL_STR_ID = S.STR_ID
+							          WHERE OL.DEL_YN = 'N'
+							            AND OL.USE_YN = 'Y'
+							            AND OL.ODR_LST_ODR_PRCS = '003-04'
+							            AND S.USE_YN = 'Y'
+							            AND TO_CHAR(OL.MDFY_DT,'YYYY') >= TO_CHAR(SYSDATE,'YYYY')
+							          GROUP BY OD.ODR_DTL_STR_ID) ODDT
+				   			ON ODDT.ODR_DTL_STR_ID = ST.STR_ID
+				   		 ORDER BY ODDT.SUM_PRC) a )
+		  		 WHERE 3 >= RANK
+		     		OR RANK > (SELECT count(1)-3
+					             FROM (SELECT 1
+						                 FROM ODR_LST OL
+						                 LEFT OUTER JOIN STR S
+						                   ON OL.STR_ID = S.STR_ID
+						                WHERE OL.DEL_YN = 'N'
+						                  AND OL.USE_YN = 'Y'
+						                  AND OL.ODR_LST_ODR_PRCS = '003-04'
+						                  AND S.USE_YN = 'Y'
+						                GROUP BY OL.STR_ID ))
+       	ORDER BY RANK DESC
 	</select>
 
 </mapper>

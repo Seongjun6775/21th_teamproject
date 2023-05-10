@@ -2,7 +2,6 @@ package com.ktds.fr.hr.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -13,10 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ktds.fr.chsrl.dao.ChSrlDAO;
 import com.ktds.fr.common.api.exceptions.ApiException;
+import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.common.service.MailSendService;
 import com.ktds.fr.common.util.ObjectUtils;
 import com.ktds.fr.hr.dao.HrDAO;
 import com.ktds.fr.hr.vo.HrVO;
+import com.ktds.fr.mbr.dao.MbrDAO;
+import com.ktds.fr.mbr.vo.MbrVO;
 
 @Service
 public class HrServiceImpl implements HrService {
@@ -24,8 +28,18 @@ public class HrServiceImpl implements HrService {
 	@Autowired
 	private HrDAO hrDAO;
 	
+	@Autowired
+	private MbrDAO mbrDAO;
+	
+	@Autowired
+	private ChSrlDAO chSrlDAO;
+	
+	@Autowired
+	private MailSendService mailSendService;
+	
 	// 채용 지원서 작성 시 업로드된 파일이 저장될 경로입니다.
-	@Value("${upload.hr.path:/franchise-prj/files/hr/}")
+	@Value("${upload.hr.path:/files/hr/}")
+	/* @Value("${upload.hr.path:/files/hr/}") */
 	private String filePath;
 
 	/**
@@ -71,12 +85,17 @@ public class HrServiceImpl implements HrService {
 		return hrDAO.readAllMyHr(hrVO);
 	}
 	
+	@Override
+	public boolean countNtc() {
+		return hrDAO.countNtc() > 0;
+	}
+	
 	/**
 	 *  채용 게시판에서 글 하나를 상세조회합니다.
 	 */
 	@Override
 	public HrVO readOneHrByHrId(String hrId) {
-			return hrDAO.readOneHrByHrId(hrId);
+		return hrDAO.readOneHrByHrId(hrId);
 	}
 
 	/**
@@ -96,6 +115,11 @@ public class HrServiceImpl implements HrService {
 			hrVO.setOrgnFlNm(uploadFile.getOriginalFilename());
 			hrVO.setFlSize(uploadFile.getSize());
 			hrVO.setFlExt(StringUtils.getFilenameExtension(uploadFile.getOriginalFilename()));
+			
+			// hrVO에 저장된 파일이 정해진 파일 형식이 아닐 경우, 업로드를 취소합니다.
+			if (!hrVO.getFlExt().equals("hwp")) {
+				throw new ApiException("500", "지정된 파일 형식이 아닙니다.");
+			}
 			
 			// 파일 이름을 암호화하기 위해 임시 생성하는 파일입니다.
 			String uuidFileName = UUID.randomUUID().toString();
@@ -146,6 +170,19 @@ public class HrServiceImpl implements HrService {
 				updateYn = true;
 			}
 		}
+		// 채용 마감일의 추가로, 공지의 경우 이것 또한 달라졌는지 확인합니다.
+		if(originalData.getNtcYn().equals("Y")) {
+			if(originalData.getHrDdlnDt() == null || originalData.getHrDdlnDt().trim().length() == 0) {
+				if (hrVO.getHrDdlnDt() != null && hrVO.getHrDdlnDt().trim().length() != 0) {
+					newData.setHrDdlnDt(hrVO.getHrDdlnDt());
+					updateYn = true;
+				}
+			}
+			else if(!originalData.getHrDdlnDt().equals(hrVO.getHrDdlnDt())) {
+				newData.setHrDdlnDt(hrVO.getHrDdlnDt());
+				updateYn = true;
+			}
+		}
 		
 		// 이전에 업로드 되어 있던 파일이 있는지 확인합니다.
 		boolean isExisted = (originalData.getOrgnFlNm() != null && originalData.getOrgnFlNm().trim().length() != 0);
@@ -179,6 +216,11 @@ public class HrServiceImpl implements HrService {
 			if (!fileExt.equals(originalData.getFlExt())) {
 				newData.setFlExt(fileExt);
 				differentYn = true;
+			}
+			
+			// hrVO에 저장된 파일이 정해진 파일 형식이 아닐 경우, 업로드를 취소합니다.
+			if (!StringUtils.getFilenameExtension(uploadFile.getOriginalFilename()).equals("hwp")) {
+				throw new ApiException("500", "지정된 파일 형식이 아닙니다.");
 			}
 			
 			// 파일 이름을 암호화하기 위해 임시 생성하는 파일입니다.
@@ -246,11 +288,37 @@ public class HrServiceImpl implements HrService {
 	/**
 	 *  최고관리자 - 하나의 채용 지원에 대해서 채용 여부를 변경합니다(Y, N).
 	 */
-	@Override
-	public boolean updateHrAprByHrId(HrVO hrVO) {
-		return hrDAO.updateHrAprByHrId(hrVO) > 0;
-	}
-	
+//	@Override
+//	public boolean updateHrAprByHrId(HrVO hrVO) {
+//		// 미채용 클릭 시 에러가 나서 추가했습니다.
+//		// hrAprYn값이 'N'이라면, 그 채용 지원의 상태만 '미채용'으로 변경시키고 끝이 납니다.
+//		if (hrVO.getHrAprYn().equals("N")) {
+//			
+//			boolean updateResult = hrDAO.updateHrAprByHrId(hrVO) > 0;
+//			if(updateResult) {
+//				MbrVO mbrVO = mbrDAO.readOneMbrByMbrId(hrVO.getMbrVO().getMbrId());
+//				hrVO.getMbrVO().setMbrNm(mbrVO.getMbrNm());
+//				hrVO.getMbrVO().setMbrEml(mbrVO.getMbrEml());
+//				mailSendService.makeHrEamilForm(hrVO);
+//			}
+//			
+//			return updateResult; 
+//		}
+//		
+//		boolean updateResult = hrDAO.updateHrAprByHrId(hrVO) > 0;
+//		if(!updateResult) {
+//			throw new ApiException(ApiStatus.FAIL, "오류가 발생하여 실패했습니다.");
+//		}
+//		mbrDAO.updateOneMbrLvlAndStrId(hrVO.getMbrVO());
+//		hrVO.getMbrVO().setOriginMbrLvl("001-04");
+//		chSrlDAO.createOneChHist(hrVO.getMbrVO());
+//		MbrVO mbrVO = mbrDAO.readOneMbrByMbrId(hrVO.getMbrVO().getMbrId());
+//		hrVO.getMbrVO().setMbrNm(mbrVO.getMbrNm());
+//		hrVO.getMbrVO().setMbrEml(mbrVO.getMbrEml());
+//		mailSendService.makeHrEamilForm(hrVO);
+//		return updateResult;
+//	}
+//	
 	/**
 	 *  이미 접수 또는 심사중인 채용 지원이 있는지를 확인합니다.
 	 */

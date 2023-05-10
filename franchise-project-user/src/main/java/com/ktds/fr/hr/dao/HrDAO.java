@@ -10,6 +10,8 @@ public interface HrDAO {
 	
 	public List<HrVO> readAllMyHr(HrVO hrVO);
 	
+	public int countNtc();
+	
 	public HrVO readOneHrByHrId(String hrId);
 	
 	public int createNewHr(HrVO hrVO);
@@ -23,5 +25,14 @@ public interface HrDAO {
 	public int updateHrAprByHrId(HrVO hrVO);
 	
 	public int checkCreateYn(String mbrId);
+	
+	/**
+	 * 직원 조회용
+	 */
+	public HrVO readOneHrByMbrId(String mbrId);
+	/**
+	 * 직원 해임용
+	 */
+	public int deleteAllHrByMbrId(List<String> mbrIdList);
 
 }

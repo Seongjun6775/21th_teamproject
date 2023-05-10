@@ -216,7 +216,9 @@ public class RestMbrController {
 //		}
 //		return new ApiResponseVO(ApiStatus.OK);
 //	}
-	//권한 해임 -> 빼기
+
+//	//권한 해임 -> 빼기
+
 //	@GetMapping("mbr/admin/fire")
 //	public ApiResponseVO doFireAdmin(MbrVO mbrVO, @SessionAttribute("__MBR__")MbrVO session) {
 //		log.info("넘겨지니? {}",mbrVO.getMbrId());
