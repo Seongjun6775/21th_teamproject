@@ -127,9 +127,17 @@
 	   
 	   var dt = new DateTime();	   	   
 	   var date = dt.today();
-	  
+	   
+	   var date7; 
+	   
+	   var date7 = addDate(today, -7, 'YYYYMMDD');
+	   
+	   
 	   var myElementStrt = document.getElementById("search-keyword-startdt");
 	   myElementStrt.value = date;
+	   
+	   console.log("일주일 전")
+	   
 	   
 	   var myElementStrt = document.getElementById("search-keyword-enddt");
 	   myElementStrt.value = date;
