@@ -23,7 +23,7 @@
       });
       //'우리매장 참여이벤트' 버튼 클릭 시 팝업창으로 리스트 뜸
       $("#btn-ourStrEvnt").click(function() {
-         var pop = window.open("${context}/evntStr/ourList","resPopup","width=1200, height=600, scrollbars=yes, resizable=yes");
+         var pop = window.open("${context}/evntStr/ourList","resPopup","width=1200, height=800, scrollbars=yes, resizable=yes");
          pop.focus();
       });
          $("#all-check").click(function() {
