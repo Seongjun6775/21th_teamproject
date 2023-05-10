@@ -75,80 +75,27 @@
 			}
 		});
 		$("#new_btn").click(function() {
-			location.href = "${context}/user/rv/create";
-		});
-		$("#all_check").click(function() {
-			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
-		});
-		$("#all_check").change(function(){
-			$(".check-idx").prop("checked", $(this).prop("checked"));
-		});
-		$(".check-idx").change(function(){
-			var count = $(".check-idx").length;
-			var checkCount = $(".check-idx:checked").length;
-			
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		$("#delete_all_btn").click(function(){
-			
-			var checkLen = $(".check-idx:checked").length;
-			
-			if(checkLen == 0){
+			if(!${sessionScope.__MBR__ ne null }){
 				Swal.fire({
-			    	  icon: 'error',
-			    	  title: '삭제할 리뷰가 없습니다.',
-			    	  showConfirmButton: false,
-			    	  timer: 2500
-				});
-				/* alert("삭제할 리뷰가 없습니다."); */
-				return;
+					  title: '로그인 필요',
+					  text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#3085d6',
+					  cancelButtonColor: '#d33',
+					  cancelButtonText: '취소',
+					  confirmButtonText: '로그인'
+					}).then((result) => {
+						if(result.isConfirmed){
+							$("#img_btn").click();
+						}else{
+							$("#btn-modal-close").click();
+						}
+				}); 
+			}else{
+				location.href = "${context}/mbr/rv/create";
 			}
-			if(confirm("정말 삭제하시겠습니까?")) {
-				var form = $("<form></form>")
-				$(".check-idx:checked").each(function(){
-					var myMbrId = "${mbrVO.mbrId}";
-					var myMbrLvl = "${mbrVO.mbrLvl}";
-					var mbrId = $(this).closest("tr").find(".open-layer").text().trim();
-					if (myMbrLvl == "001-04" && myMbrId != mbrId) {
-						Swal.fire({
-					    	  icon: 'error',
-					    	  title: '자신의 리뷰만 삭제 가능합니다.',
-					    	  showConfirmButton: false,
-					    	  timer: 2500
-						});
-						/* alert("자신의 리뷰만 삭제 가능합니다."); */
-						return;		
-					}
-					console.log($(this).val());
-					form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'");
-				});
-				$.post("${context}/api/rv/delete", form.serialize(), function(response){
-					if(response.status == "200 OK"){
-						Swal.fire({
-					    	  icon: 'success',
-					    	  title: '리뷰가 삭제되었습니다.',
-					    	  showConfirmButton: true,
-					    	  confirmButtonColor: '#3085d6'
-						}).then((result)=>{
-							if(result.isConfirmed){
-								location.reload(); //새로고침
-							}
-						});
-						/* alert("리뷰가 삭제되었습니다.") */
-					}
-					else{
-						Swal.fire({
-					    	  icon: 'error',
-					    	  title: response.message,
-					    	  showConfirmButton: false,
-					    	  timer: 2500
-						});
-						/* alert(response.errorCode + "권한이 없습니다." + response.message); */
-					}
-				})
-			}
-		});	
-		
+		});			
 		$("#search_btn").click(function(){			
 			movePage(0);
 		});		 
@@ -246,11 +193,11 @@
 	<div class="visualArea flex relative">
 		<div class="content-setting title">리뷰</div>
 		<div class="overlay absolute"></div>
-	</div>	
+	</div>
 	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
 		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 리뷰를 작성해보세요. </p>
 	</div>
-	<div id="menu" class="flex-column">	
+	<div id="menu" class="flex-column">				
 	
 		<!-- searchbar -->
 		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
@@ -276,13 +223,13 @@
 					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
 					<th scope="col" style="padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
 					</c:if>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">주문서ID</th>
+					<!-- <th scope="col" style="padding: 20px 20px 8px 20px;">주문서ID</th> -->
 					<th scope="col" style="padding: 20px 20px 8px 20px;">매장명</th>
 					<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
 					<th scope="col" style="padding: 20px 20px 8px 20px;">회원ID</th>						
 					<th scope="col" style="padding: 20px 20px 8px 20px;">좋아요/싫어요</th>
 					<th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th> 
+					<!-- <th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th>  -->
 				</tr>
 			</thead>
 			<tbody>
@@ -298,7 +245,7 @@
 										   value="${rv.rvId}" style="width:13px;"/>
 								</td>
 								</c:if>
-								<td>${rv.odrLstId}</td>
+								<%-- <td>${rv.odrLstId}</td> --%>
 								<td>${rv.strVO.strNm}</td>
 								<td>${rv.rvTtl}</td>
 								<td class="ellipsis"
@@ -307,12 +254,12 @@
 										${rv.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : rv.mbrId}</a></td>																			
 								<td>${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}</td>					
 								<td>${rv.rvRgstDt}</td>					
-								<td>${rv.mdfyDt}</td>									
+								<%-- <td>${rv.mdfyDt}</td> --%>									
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-						<td colspan="8" class="no-item">
+						<td colspan="6" class="no-item">
 							등록된 리뷰가 없습니다.
 						</td>
 					</c:otherwise>
@@ -356,13 +303,8 @@
 					</c:if>
 				</ul>
 			</div>
-			<div style="position: absolute;right: 0;top: 0;">	
-				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
-					<button id="new_btn" class="btn btn-outline-success btn-default">등록</button>
-				</c:if>
-				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-outline-danger btn-default" >삭제</button>
-				</c:if>
+			<div style="position: absolute;right: 0;top: 0;">		
+				<button id="new_btn" class="btn btn-outline-success btn-default">등록</button>
 			</div>
 		</div>	
 	</div>

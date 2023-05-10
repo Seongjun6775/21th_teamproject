@@ -69,7 +69,7 @@ public class RvController {
 		model.addAttribute("mbrVO", mbrVO);
 		model.addAttribute("searchRvVO", searchRvVO);
 		
-		return "rv/listForUser";
+		return "rv/list2";
 	}
 	
 	// 2-1-②.리뷰 목록 조회 == 상위관리자, 이용자 (로그인 후)
@@ -105,7 +105,7 @@ public class RvController {
 		model.addAttribute("rvVO", rvVO);
 		model.addAttribute("odrDtl", odrDtl);
 		
-		return "rv/detailForUser";
+		return "rv/detail2";
 	}
 	
 	// 2-2.리뷰 상세 조회 == 상위관리자, 중간관리자, 하위관리자, 이용자 (로그인 후)
