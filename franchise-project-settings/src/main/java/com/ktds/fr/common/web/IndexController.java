@@ -14,6 +14,7 @@ import com.ktds.fr.lctcd.service.LctCdService;
 import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.nt.service.NtService;
+import com.ktds.fr.nt.vo.NtVO;
 import com.ktds.fr.odrdtl.service.OdrDtlService;
 import com.ktds.fr.odrdtl.vo.OdrDtlVO;
 import com.ktds.fr.odrlst.service.OdrLstService;
