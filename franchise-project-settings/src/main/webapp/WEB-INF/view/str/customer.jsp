@@ -120,7 +120,7 @@
 		<div id="menu" class="flex-column"> 
 		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px;">
 			<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>
-			<div style="display: inline-block; width: 62%;">
+			<div style="display: inline-block; width: 59%;">
 			<table class="table caption-top table-hover" style="text-align: center;">
 				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 					<tr>
@@ -192,14 +192,8 @@
 				</tbody>
 			</table>
 		</div>
-		<div style="display: inline-block;">
-			<div id="map" style="width:500px;height:450px;">좌측의 원하는 위치의 매장을 클릭하시면 지도가 보입니다!</div>
-			<p>
-				<em class="link"> <a href="javascript:void(0);"
-					onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
-						혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요. </a>
-				</em>
-			</p>
+		<div class="rounded" style="display: inline-block; background-color:#e0e0e0; padding:20px;">
+			<div id="map" style="display: inline-block; width:500px;height:450px;"></div>
 		</div>
 			<div class="pagenate">
 				<nav aria-label="Page navigation example">

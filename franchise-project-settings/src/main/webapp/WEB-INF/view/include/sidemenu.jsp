@@ -24,20 +24,21 @@
       <span class="text-light fs-5 fw-semibold">프렌차이즈</span> 
     </a>
     <ul class="list-unstyled ps-0">
-      <li class="mb-1">
-        <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-          회원
-        </button>
-        <div class="collapse " id="home-collapse">
-          <ul class="text-light btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li class="rounded"><a data-href="${context}/mbr/list" href="${context}/mbr/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">회원조회</a></li>
-            <li class="rounded"><a data-href="${context}/mbr/admin/list" href="${context}/mbr/admin/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">관리자조회</a></li>
-            <li class="rounded"><a data-href="${context}/hr/list,${context}/hr/hrmstrlist" href="${context}/hr/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">채용관리</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="border-top my-3"></li>
-      
+      <c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+	      <li class="mb-1">
+	        <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+	          회원
+	        </button>
+	        <div class="collapse " id="home-collapse">
+	          <ul class="text-light btn-toggle-nav list-unstyled fw-normal pb-1 small">
+	            <li class="rounded"><a data-href="${context}/mbr/list" href="${context}/mbr/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">회원조회</a></li>
+	            <li class="rounded"><a data-href="${context}/mbr/admin/list" href="${context}/mbr/admin/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">관리자조회</a></li>
+	            <li class="rounded"><a data-href="${context}/hr/list,${context}/hr/hrmstrlist" href="${context}/hr/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">채용관리</a></li>
+	          </ul>
+	        </div>
+	      </li>
+	      <li class="border-top my-3"></li>
+      </c:if>
       <c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
 	      <li class="mb-1">
 	        <button class="text-light btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#prdt-collapse" aria-expanded="false">
@@ -113,7 +114,9 @@
         <div class="collapse" id="order3-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 	        <li class="rounded"><a data-href="${context}/mngrbrd/list" href="${context}/mngrbrd/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">관리자게시판</a></li>
-            <li class="rounded"><a data-href="${context}/rpl/list" href="${context}/rpl/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">댓글관리</a></li>
+	        <c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
+            	<li class="rounded"><a data-href="${context}/rpl/list" href="${context}/rpl/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">댓글관리</a></li>
+            </c:if>
           </ul>
         </div>
       </li>

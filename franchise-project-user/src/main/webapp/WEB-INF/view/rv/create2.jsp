@@ -98,6 +98,9 @@
 											</option>
 									</c:forEach>
 								</c:when>
+								<c:otherwise>
+									<option value="">주문 기록이 없습니다.</option>
+								</c:otherwise>
 							</c:choose>
 						</select>					
 					</div>
@@ -117,7 +120,7 @@
 						name="rvTtl" 
 						style="margin:5px; width: 100%;"
 						class="form-control" maxlength="50"
-						placeholder="제목을 입력하세요(50자 제한)" />
+						placeholder="제목을 입력하세요" />
 				</div>
 				<div>
 					<label for="rvCntnt" style="margin: 5px; padding-left: 8px; border-left: solid #ffbe2e;">내용</label> 
@@ -125,7 +128,7 @@
 						name="rvCntnt" 
 						style="display: grid; margin: 5px; height: 400px; resize: none;"
 						maxlength="1000" class="form-control"
-						placeholder="내용을 입력하세요(1000자 제한)" ></textarea>
+						placeholder="내용을 입력하세요" ></textarea>
 				</div>
 				
 				<div class="align-right" style="margin-top: 10px;">
