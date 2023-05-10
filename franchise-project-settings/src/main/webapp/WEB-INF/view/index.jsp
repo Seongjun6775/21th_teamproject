@@ -118,17 +118,20 @@
     
    
    $().ready(function() {
-	  
 	   
 	   var dt = new DateTime();	   	   
 	   var date = dt.today();
 	  
+	   
+	   var date7 = dt.addDate( -7, 'YYYY-MM-DD');
+	   
+	   console.log("일주일 전", date7)
+	   
 	   var myElementStrt = document.getElementById("search-keyword-startdt");
-	   myElementStrt.value = date;
+	   myElementStrt.value = date7;
 	   
-	   var myElementStrt = document.getElementById("search-keyword-enddt");
-	   myElementStrt.value = date;
-	   
+	   var myElementenddt= document.getElementById("search-keyword-enddt");
+	   myElementenddt.value = date;
 	   
 	   
       console.log("ready function!")
