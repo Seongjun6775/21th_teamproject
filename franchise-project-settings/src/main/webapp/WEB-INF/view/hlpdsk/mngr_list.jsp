@@ -188,7 +188,9 @@
 			<table class="table caption-top table-hover" style="text-align: center;">
 				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;"> 
 					<tr>
-						<th scope="col" style="padding: 20px 20px 8px 20px;"><input type = "checkbox" id ="all_check"/></th>
+						<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01' }">
+							<th scope="col" style="padding: 20px 20px 8px 20px;"><input type = "checkbox" id ="all_check"/></th>
+						</c:if>
 						<th>글번호</th>
 						<th>문의/건의</th>	
 						<th style="">
@@ -214,9 +216,11 @@
 									data-hlpdskttl = "${hlpDsk.hlpDskTtl}"
 									data-mbrnm = "${mbrVO.mbrNm}"
 									data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
-									<td style="width: 20px;"> 
-										<input type ="checkbox" class="check_idx" value="${hlpDsk.hlpDskWrtId}">
-									</td>
+									<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01' }">
+										<td style="width: 20px;"> 
+											<input type ="checkbox" class="check_idx" value="${hlpDsk.hlpDskWrtId}">
+										</td>
+									</c:if>
 									<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>    
 									<td style="width: 130px;">${hlpDsk.hlpDskSbjct}</td>
 									<td style="width: 130px;">${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
@@ -269,9 +273,11 @@
 						</c:if>
 					</ul>
 				</div>	
-				<div style="position: absolute;right: 0;top: 0;">  
-					<button id="delete_btn" class="btn btn-outline-danger btn-default">일괄삭제</button> 
-				</div>
+				<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01' }">
+					<div style="position: absolute;right: 0;top: 0;">  
+						<button id="delete_btn" class="btn btn-outline-danger btn-default">삭제</button> 
+					</div>
+				</c:if>
 			</div>		
 		</div> 		
 <jsp:include page="../include/closeBody.jsp" />
