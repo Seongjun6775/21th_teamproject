@@ -35,9 +35,9 @@ $().ready(function() {
 		  }
 		
 		var Id = $(this).data().odrlstid;
-		var mbrNm = $(this).data().mbrnm;
+		var mbrId = $(this).data().mbrid;
 		var odrLstRgstDt = $(this).data().odrlstrgstdt;
-		$("#staticBackdropLabel").html(Id + " / " + mbrNm + " / " + odrLstRgstDt);
+		$("#staticBackdropLabel").html(Id + " / " + mbrId + " / " + odrLstRgstDt);
 // 		$("#staticBackdropLabel").empty();
 // 		$("#staticBackdropLabel").empty();
 // 		$("div[class=modal-body]").empty();
@@ -465,13 +465,13 @@ function movePage(pageNo) {
 														var="ordLst">
 												<c:if test="${ordLst.odrLstOdrPrcs eq '003-02'}">
 													<tr data-odrlstid="${ordLst.odrLstId}"
-														data-mbrnm="${ordLst.mbrVO.mbrNm}"
+														data-mbrid="${ordLst.mbrVO.mbrId}"
 														data-odrlstrgstdt="${ordLst.odrLstRgstDt}">
 														<td class="align-center">
 															<input type="checkbox" class="check-idx02" value="${ordLst.odrLstId}" />
 														</td>
 														<td>${ordLst.odrLstId}</td>							
-														<td>${ordLst.mbrVO.mbrNm}</td>							
+														<td>${ordLst.mbrVO.mbrId}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
 														<td class="ellipsis"
 															onclick="event.cancelBubble=true">
@@ -523,13 +523,13 @@ function movePage(pageNo) {
 														var="ordLst">
 												<c:if test="${ordLst.odrLstOdrPrcs eq '003-03'}">
 													<tr data-odrlstid="${ordLst.odrLstId}"
-														data-mbrnm="${ordLst.mbrVO.mbrNm}"
+														data-mbrid="${ordLst.mbrVO.mbrId}"
 														data-odrlstrgstdt="${ordLst.odrLstRgstDt}">
 														<td class="align-center">
 															<input type="checkbox" class="check-idx03" value="${ordLst.odrLstId}" />
 														</td>
 														<td>${ordLst.odrLstId}</td>							
-														<td>${ordLst.mbrVO.mbrNm}</td>							
+														<td>${ordLst.mbrVO.mbrId}</td>							
 														<td>${ordLst.odrLstRgstDt}</td>							
 														<td class="ellipsis"
 															onclick="event.cancelBubble=true">
@@ -572,11 +572,11 @@ function movePage(pageNo) {
 										<c:forEach items="${ordLstCompleteList}"
 													var="ordLst">
 											<tr data-odrlstid="${ordLst.odrLstId}"
-												data-mbrnm="${ordLst.mbrVO.mbrNm}"
+												data-mbrid="${ordLst.mbrVO.mbrId}"
 												data-odrlstrgstdt="${ordLst.odrLstRgstDt}">
 												<td></td>
 												<td>${ordLst.odrLstId}</td>							
-												<td>${ordLst.mbrVO.mbrNm}</td>							
+												<td>${ordLst.mbrVO.mbrId}</td>							
 												<td>${ordLst.odrLstRgstDt}</td>							
 												<td class="ellipsis"
 													onclick="event.cancelBubble=true">

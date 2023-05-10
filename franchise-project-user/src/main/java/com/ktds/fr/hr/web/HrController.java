@@ -28,7 +28,7 @@ public class HrController {
 	private HrService hrService;
 
 	// 파일 다운로드 시 파일을 찾아서 받아 올 경로입니다.
-	@Value("${upload.hr.path:/franchise-prj/files/hr/}")
+	@Value("${upload.hr.path:/files/hr/}")
 	private String filePath;
 
 	/*	*//**
