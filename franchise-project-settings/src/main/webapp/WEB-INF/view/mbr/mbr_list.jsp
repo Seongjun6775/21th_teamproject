@@ -195,7 +195,8 @@
 											data-mbrLeavDt="${mbr.mbrLeavDt}"
 											data-delYn="${mbr.delYn}"
 											>
-											<td>${fn:substring(mbr.mbrId, 0, fn:length(mbr.mbrId)-3)}***</td>
+											<%-- <td>${fn:substring(mbr.mbrId, 0, fn:length(mbr.mbrId)-3)}***</td> --%>
+											<td>${mbr.mbrId}</td>
 											<td class="ellipsis"
 											onclick="event.cancelBubble=true">
 											<a class="open-layer" href="javascript:void(0);" 
