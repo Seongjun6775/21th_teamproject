@@ -17,6 +17,8 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
+
+		
 		//이용자 페이지로 이동하기       
 		$("#btn-ongoingList").click(function() {
 			location.href = "${context}/evnt/ongoingList";
@@ -27,55 +29,91 @@
 			pop.focus();
 		});
 			$("#all-check").click(function() {
-						$(".check_idx").prop("checked",
-								$("#all-check").prop("checked"));
-						$("#all-check").click(function() {
-									$(".check_idx").prop("checked",
-											$("#all-check").prop("checked"));
-								});
-						$("#all-check").change(function() {
-									$(".check-idx").prop("checked",
-											$(this).prop("checked"));
-								});
-						$(".check-idx").change(function() {
-											var count = $(".check-idx").length;
-											var checkCount = $(".check-idx:checked").length;
-											$("#all-check").prop("checked",
-													count == checkCount);
-										});
-						//이벤트 리스트 조회(검색)
-						$("#btn-init").click(function() {
-							document.getElementById("evntTtl").value = "";
-							document.getElementById("evntCntnt").value = "";
-							document.getElementById("evntStrtDt").value = "";
-							document.getElementById("evntEndDt").value = "";
-							document.getElementById("useYn").value = "ALL";
+			
+				$(".check_idx").prop("checked",
+						$("#all-check").prop("checked"));
+				$("#all-check").click(function() {
+							$(".check_idx").prop("checked",
+									$("#all-check").prop("checked"));
 						});
-						//이벤트 등록(생성)          
-						$("#btn-create").click(function() {
-							location.href = "${context}/evnt/create";
+				$("#all-check").change(function() {
+							$(".check-idx").prop("checked",
+									$(this).prop("checked"));
 						});
-						// 이전 페이지        
-						$("#btn-prevPage").click(function() {
-											// 			alert("totalCount : " + Number(document.getElementById("totalCount").value) 
-											// 					+ ", lastPage : " + Number(document.getElementById("lastPage").value)
-											// 					+ ", lastGroup : " + Number(document.getElementById("lastGroup").value));
-											const pageNum = Number(document
-													.getElementById("pageNo").value) - 1;
-											if (pageNum < 0) {
-												Swal.fire({
-											    	  icon: 'warning',error, success,
-											    	  title: '첫 페이지 입니다.',
-											    	  showConfirmButton: false,
-											    	  timer: 2500
-												});
-												/* alert("첫 페이지 입니다."); */
-												return;
-											} else {
-												location.href = "${context}/evnt/list?pageNo="
-														+ pageNum;
-											}
+				$(".check-idx").change(function() {
+									var count = $(".check-idx").length;
+									var checkCount = $(".check-idx:checked").length;
+									$("#all-check").prop("checked",
+											count == checkCount);
+
+								});
+				//이벤트 리스트 조회(검색)
+				$("#btn-init").click(function() {
+					document.getElementById("evntTtl").value = "";
+					document.getElementById("evntCntnt").value = "";
+					document.getElementById("evntStrtDt").value = "";
+					document.getElementById("evntEndDt").value = "";
+					document.getElementById("useYn").value = "ALL";
+				});
+				//이벤트 등록(생성)          
+				$("#btn-create").click(function() {
+					location.href = "${context}/evnt/create";
+				});
+				// 이전 페이지        
+				$("#btn-prevPage").click(function() {
+									// 			alert("totalCount : " + Number(document.getElementById("totalCount").value) 
+									// 					+ ", lastPage : " + Number(document.getElementById("lastPage").value)
+									// 					+ ", lastGroup : " + Number(document.getElementById("lastGroup").value));
+									const pageNum = Number(document
+											.getElementById("pageNo").value) - 1;
+									if (pageNum < 0) {
+										Swal.fire({
+									    	  icon: 'warning',error, success,
+									    	  title: '첫 페이지 입니다.',
+									    	  showConfirmButton: false,
+									    	  timer: 2500
 										});
+										/* alert("첫 페이지 입니다."); */
+										return;
+									} else {
+										location.href = "${context}/evnt/list?pageNo="
+												+ pageNum;
+									}
+								});
+				// 다음 페이지
+				$("#btn-nextPage").click(function() {
+									const pageNum = Number(document.getElementById("pageNo").value) + 1;
+									if (pageNum >= Number(document.getElementById("lastPage").value)) {
+										Swal.fire({
+									    	  icon: 'warning',
+									    	  title: '마지막 페이지 입니다.',
+									    	  showConfirmButton: false,
+									    	  timer: 2500
+										});
+										/* alert("마지막 페이지 입니다."); */
+										return;
+									} else {
+										location.href = "${context}/evnt/list?pageNo="
+												+ pageNum;
+									}
+								});
+				//'우리매장 참여이벤트' 버튼 클릭 시 팝업창으로 리스트 뜸
+				$("#btn-ourStrEvnt").click(function() {									
+									var pop = window.open("${context}/evntStr/ourList","resPopup","width=1200, height=600, scrollbars=yes, resizable=yes");
+									pop.focus();
+								});
+				
+				// 체크 버튼 클릭 시 체크된 리스트 뜸
+				$("#btn-checkEvnts").click(function() {
+									var checkLen = $(".check-idx:checked").length;
+									if (checkLen == 0) {
+										Swal.fire({
+									    	  icon: 'warning',
+									    	  title: '체크한 대상이 없습니다.',
+									    	  showConfirmButton: false,
+									    	  timer: 2500
+										});
+
 						// 다음 페이지
 						$("#btn-nextPage").click(function() {
 											const pageNum = Number(document.getElementById("pageNo").value) + 1;
@@ -93,7 +131,13 @@
 														+ pageNum;
 											}
 										});
-				
+
+						//'우리매장 참여이벤트' 버튼 클릭 시 팝업창으로 리스트 뜸
+						$("#btn-ourStrEvnt").click(function() {									
+											var pop = window.open("${context}/evntStr/ourList","resPopup","width=1200, height=600, scrollbars=yes, resizable=yes");
+											pop.focus();
+										});
+
 						// 체크 버튼 클릭 시 체크된 리스트 뜸
 						$("#btn-checkEvnts").click(function() {
 											var checkLen = $(".check-idx:checked").length;
@@ -116,10 +160,39 @@
 											});
 										});
 						
+
+						//이용자 페이지로 이동하기       
+						$("#btn-ongoingList").click(function() {
+							location.href = "${context}/evnt/ongoingList";
+						});
+			 		});
+			
+
 		
 					});
-			});
+		/*	});*/
 			/* 
+
+
+										/* alert("체크한 대상이 없습니다."); */
+										return;
+									}
+									var form = $("<form></form>");
+									$(".check-idx:checked").each(function() {
+													console.log($(this).val());
+													form.append("<input type='hidden' name='evntIdList' value='"
+																		+ $(this).val()
+																		+ "'>'")
+									});
+								});
+				
+				//이용자 페이지로 이동하기       
+				$("#btn-ongoingList").click(function() {
+					location.href = "${context}/evnt/ongoingList";
+				});
+			 	
+			/*
+
 			$("#all-check").change(function() {
 						$(".check-idx").prop("checked",
 								$(this).prop("checked"));
@@ -193,6 +266,9 @@
 			$("#btn-ongoingList").click(function() {
 				location.href = "${context}/evnt/ongoingList";
 			}); */
+
+		}); 
+
 	
 	function movePage(pageNum) {
 		location.href = "${context}/evnt/list?pageNo=" + (pageNum);
@@ -213,7 +289,7 @@
 							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 						</svg>
 						
-							<input  class="form-control me-2" id="evntTtl" type="text" name="evntTtl" placeholder="이벤트제목" 
+							<input class="form-control me-2" id="evntTtl" type="text" name="evntTtl" placeholder="이벤트제목" 
 									value="${evntTtl}" style="width: 300px;" />
 								
 							<input class="form-control me-2" id="evntCntnt" type="text" name="evntCntnt" placeholder="이벤트내용"
@@ -234,7 +310,7 @@
 							<button type="submit" class="btn btn-outline-success" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;"id="search-btn">검색</button>
 							
 							<button id="btn-init" type="submit" style="background-color: #fff;">
-								<img  src="${context}/img/reset2.png" width="50"; height="50"></button>  
+							<img  src="${context}/img/reset2.png" width="50" height="50"></button>  
 						
 	
 						<!--             </form> -->
@@ -313,10 +389,10 @@
 					</div>
 					<div class="btn-group">
 							<c:if test="${mbrVO.mbrLvl eq '001-02'}">
-							<button type="submit" id="btn-ourStrEvnt" class="btn btn-secondary" style="border: solid 1px;">우리매장 참여중인 이벤트</button>
+							<button type="button" id="btn-ourStrEvnt" class="btn btn-secondary" style="border: solid 1px;">우리매장 참여중인 이벤트</button>
 							</c:if>
 			 			<%-- 	<button id="btn-checkEvnts" class="btn-primary">체크 이벤트..</button>--%>
-							<button id="btn-ongoingList" class=" btn btn-secondary" style="border: solid 1px;">이용자 페이지로 이동</button>
+							<button id="btn-ongoingList" class="btn btn-secondary" style="border: solid 1px;">이용자 페이지로 이동</button>
 						
 					 </div>
 				</div>
