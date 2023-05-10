@@ -107,7 +107,7 @@
 			location.href = "${context}/nt/ntcreate";
 		});
 		
-		$(".nt_table_grid > table > tbody > tr").click(function() {
+		$("table > tbody > tr").click(function() {
 			var data = $(this).data();
 			if (data.ntid != null && (data.ntid) != "") {
 				location.href="${context}/nt/ntmstrdetail/" + data.ntid;
@@ -158,7 +158,6 @@
 		queryString += "&endDt=" + endDt;
 		queryString += "&pageNo=" + pageNo;
 		queryString += "&checkNtRdDt=" + checkNtRdDt;
-		queryString += "&checkDelYn=" + checkDelYn;
 		
 		// URL 요청
 		location.href = "${context}/nt/ntmstrlist?" + queryString;
@@ -198,7 +197,6 @@
 				<option value="">검색 조건</option>
 				<option value="ntTtl" ${searchVal eq "ntTtl" ? 'selected' : '' }>제목</option>
 				<option value="sndrId" ${searchVal eq "sndrId" ? 'selected' : '' }>발신인</option>
-				<option value="rcvrId" ${searchVal eq "rcvrId" ? 'selected' : '' }>수신인</option>
 		    </select>
 		    <input class="form-control me-2" type="text" id="search-keyword" value="${keyword}" placeholder="Search" aria-label="Search">
 		    <button id="search_btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
@@ -221,13 +219,6 @@
 								<option value="N" ${checkNtRdDt eq "N" ? 'selected' : '' }>미수신</option>
 							</select>
 						</th>
-						<th scope="col" style="padding: 20px 20px 8px 20px;">
-							<select id="checkDelYn" class="select-align-center">
-								<option value="">삭제 여부</option>
-								<option value="Y" ${checkDelYn eq "Y" ? 'selected' : '' }>삭제됨</option>
-								<option value="N" ${checkDelYn eq "N" ? 'selected' : '' }>삭제되지 않음</option>
-							</select>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -245,15 +236,14 @@
 									            ${nt.delYn eq 'Y' ? 'disabled' : ''}/></td>
 									<td><a href="${context}/nt/ntmstrdetail/${nt.ntId}">${nt.ntTtl}</a></td>
 									<td class="ellipsis" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);" val="${nt.sndrId}">${nt.sndrId}</a></td>
-									<td class="ellipsis" onclick="event.cancelBubble=true"><a class="open-layer" href="javascript:void(0);" val="${nt.rcvrId}">${nt.rcvrId}</a></td>
+									<td class="ellipsis">${nt.rcvrId}</td>
 									<td>${nt.ntSndrDt}</td>
 									<td>${nt.ntRdDt ne null ? '수신' : '미수신'}</td>
-									<td>${nt.delYn eq 'Y' ? '삭제됨' : ''}</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<td colspan="7">쪽지 송수신 이력이 없습니다.</td>
+							<td colspan="6">쪽지 송수신 이력이 없습니다.</td>
 						</c:otherwise>
 					</c:choose>
 				</tbody>

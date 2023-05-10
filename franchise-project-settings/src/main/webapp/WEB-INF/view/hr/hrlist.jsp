@@ -32,11 +32,39 @@
 	}
 </script>
 <style>
+.select-align-center {
+	text-align-last: center;
+	width: auto;
+	border: none;
+    background-color: #0000;
+    font-weight: bold;
+}
 .btn-default {
 	border: solid 2px;
     font-weight: 800;
 /*     margin-right: 15px; */
-} 
+}
+
+.ntc-label{
+    border: 1px solid #ffc6c9;
+    background-color: #ffe3e4;
+    color: #ff4e59;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+
+table tr[class=ntc] td,
+table tr[class=ntc] a {
+	color: #F00;
+	font-weight: bold;
+}
+
+table:hover tr[class=ntc] td,
+table:hover tr[class=ntc] a {
+	color: #F00;
+	font-weight: bold;
+}
+
 </style>
 </head>
 <jsp:include page="../include/openBody.jsp" />
