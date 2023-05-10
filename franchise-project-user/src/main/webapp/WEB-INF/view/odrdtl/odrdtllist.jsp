@@ -273,7 +273,7 @@
 						<c:when test="${not empty odrDtlList}">
 						<c:set var="sum" value="0" />
 							<c:forEach items="${odrDtlList}" var="odr">
-								<div class=" flex" style="width:100%; background-color: #efefef; border-radius: 16px;"
+								<div class="odrdtl-card flex" style="width:100%; background-color: #efefef; border-radius: 16px;"
 									data-odrdtlid="${odr.odrDtlId}"
 									data-odrlstid="${odr.odrLstId}"
 									data-odrdtlprdtid="${odr.odrDtlPrdtId}"
