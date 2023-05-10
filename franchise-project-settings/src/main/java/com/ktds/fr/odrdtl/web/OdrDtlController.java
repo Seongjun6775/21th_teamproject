@@ -218,9 +218,13 @@ public class OdrDtlController {
 	@GetMapping("/paymentStr")
 	public String forSaleStr(Model model, OdrDtlVO odrDtlVO
 						, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+
+		
 		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
 			odrDtlVO.setOdrDtlStrId(mbrVO.getStrId());
 		}
+		
+
 		
 //		List<OdrDtlVO> odrDtlList = odrDtlService.forSale(odrDtlVO);
 		
@@ -258,6 +262,17 @@ public class OdrDtlController {
 		
 		return "odrdtl/paymentStr";
 
+	}
+	
+	@GetMapping("/payment/g")
+	public String g(Model model, OdrDtlVO odrDtlVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
+		model.addAttribute("srtList", srtList);
+		
+		return "odrdtl/g";
+		
 	}
 
 }

@@ -142,57 +142,74 @@
 					/* alert("선택된 항목이 없습니다."); */
 					return;
 				}
-				if (!confirm("체크한 항목이 일괄 등록됩니다.")) {
-					return;
-				}
 				
-				var form = $("<form></form>")
 				
-				$(".check-idx:checked").each(function() {
-					var chgPrice = $(this).closest("tr").find("input[type=text]").val();
-					var prdtPrc = $(this).closest("tr").data().prdtprc;
-					chgPrice = chgPrice.replaceAll(",","");
-//    				var evntId = $(this).();
-					console.log(chgPrice);
-					console.log(prdtPrc);
-					
-					if (chgPrice == null || chgPrice == "" || chgPrice.length == 0) {
-						chgPrice = prdtPrc;
-					}
-// 					console.log($(this).val());
- 					form.append("<input type='hiedden' name='prdtId' value='" + $(this).val() + "'>");
- 					form.append("<input type='hiedden' name='evntPrdtChngPrc' value='" + chgPrice + "'>");	
- 					
-//					console.log(document.getElementById("search-keyword-changePrice"));
-//					console.log(document.getElementById("search-keyword-changePrice").value);
-				});
- 					form.append("<input type='hiedden' name='evntId' value='${evntId}'>");
-							
-				$.post("${context}/api/evntPrdt/createCheckedEvntPrdtList", form.serialize(), function(response) {
-					if (response.status == "200 OK") {
-						Swal.fire({
-					    	  icon: 'success',
-					    	  title: response.message,
-					    	  showConfirmButton: true,
-					    	  confirmButtonColor: '#3085d6'
-						}).then((result)=>{
-							if(result.isConfirmed){
-								location.reload(); //새로고침
-							}
-						});
-						/* alert(response.message); */
-					}
-					else {
-						Swal.fire({
-					    	  icon: 'error',
-					    	  title: response.message,
-					    	  showConfirmButton: false,
-					    	  timer: 2500
-						});
-						/* alert(response.errorCode + " / " + response.message); */
-					}
-				});
-			})
+				Swal.fire({
+					  title: '일괄등록',
+					  text: "선택한 항목들을 등록하시겠습니까?",
+					  icon: 'question',
+					  showCancelButton: true,
+					  confirmButtonColor: '#3085d6',
+					  cancelButtonColor: '#d33',
+					  cancelButtonText: '취소',
+					  confirmButtonText: '등록'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						  	var form = $("<form></form>")
+							$(".check-idx:checked").each(function() {
+								var chgPrice = $(this).closest("tr").find("input[type=text]").val();
+								var prdtPrc = $(this).closest("tr").data().prdtprc;
+								chgPrice = chgPrice.replaceAll(",","");
+//			    				var evntId = $(this).();
+								console.log(chgPrice);
+								console.log(prdtPrc);
+								
+								if (chgPrice == null || chgPrice == "" || chgPrice.length == 0) {
+									chgPrice = prdtPrc;
+								}
+//			 					console.log($(this).val());
+			 					form.append("<input type='hiedden' name='prdtId' value='" + $(this).val() + "'>");
+			 					form.append("<input type='hiedden' name='evntPrdtChngPrc' value='" + chgPrice + "'>");	
+			 					
+//								console.log(document.getElementById("search-keyword-changePrice"));
+//								console.log(document.getElementById("search-keyword-changePrice").value);
+							});
+			 					form.append("<input type='hiedden' name='evntId' value='${evntId}'>");
+										
+							$.post("${context}/api/evntPrdt/createCheckedEvntPrdtList", form.serialize(), function(response) {
+								if (response.status == "200 OK") {
+									Swal.fire({
+								    	  icon: 'success',
+								    	  title: response.message,
+								    	  showConfirmButton: true,
+								    	  confirmButtonColor: '#3085d6'
+									}).then((result)=>{
+										if(result.isConfirmed){
+											location.reload(); //새로고침
+										}
+									});
+									/* alert(response.message); */
+								}
+								else {
+									Swal.fire({
+								    	  icon: 'error',
+								    	  title: response.message,
+								    	  showConfirmButton: false,
+								    	  timer: 2500
+									});
+									/* alert(response.errorCode + " / " + response.message); */
+								}
+							});
+					  }else{
+						  Swal.fire(
+						      '취소되었습니다.',
+						      '정상적으로 취소되었습니다.',
+						      'success'
+						    )
+						   return;
+					  }
+					})
+			});
 	});
 
 	function movePage(pageNo) {
@@ -273,7 +290,7 @@
 										<td style="text-align: center;"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber></td>
 										<td style="text-align: center;"><input type="text" 
 											id="search-keyword-changePrice" placeholder="변경할 가격 입력"
-											onkeyup="inputNumberFormat(this)" value=""></td>
+											onkeyup="inputNumberFormat(this)" value="" /></td>
 <%-- 										<td style="text-align: center;">${prdt.useYn}</td> --%>
 <%-- 										<td style="text-align: center;">${prdt.delYn}</td> --%>
 

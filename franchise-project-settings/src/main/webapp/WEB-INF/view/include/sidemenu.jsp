@@ -65,9 +65,9 @@
 				<c:otherwise>
 					<li class="rounded"><a data-href="${context}/str/list, ${context}/str/strdetailmgn, ${context}/str/customer" href="${context}/str/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장 조회</a></li>
 					<li class="rounded"><a data-href="${context}/strprdt/list" href="${context}/strprdt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">메뉴관리</a></li>
+		            <li class="rounded"><a data-href="${context}/str/odrlst" href="${context}/str/odrlst" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문관리</a></li>
 				</c:otherwise>
 			</c:choose>
-            <li class="rounded"><a data-href="${context}/str/odrlst" href="${context}/str/odrlst" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문관리</a></li>
             <li class="rounded"><a data-href="${context}/str/completeOdr" href="${context}/str/completeOdr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">처리주문조회</a></li>
               <li class="rounded"><a data-href="${context}/payment" href="${context}/payment/monthly" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매출관리</a></li>
 <%--               <li class="rounded"><a data-href="${context}/payment" href="${context}/payment" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매출관리</a></li> --%>
@@ -136,8 +136,10 @@
 	          고객센터
 	       </button></a>
        </li>
-      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/index_user" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li>
+
       <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/odrlst/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문목록</a></li> 
+      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed" style="position: fixed; bottom: 0; left: 60px; right: 0;"> 
+      	<a href="${context}/index_user" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li>
     </ul>
   </div>
   </div>

@@ -14,11 +14,32 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		
+		
+		if ("${sessionScope.__MBR__.mbrId}" == "") {
+			Swal.fire({
+			     title: '로그인 필요',
+			     text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '취소',
+			     confirmButtonText: '로그인'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			         $("#img_btn").click();
+			      }else{
+			         $("#btn-modal-close").click();
+			      }
+			});
+		}
+		
 		$("#cancel_btn").click(function() {
 			if (!confirm("작성을 취소하시겠습니까?")) {
 				return;
 			}
-			location.href="${context}/hr/list";
+			location.href="${context}/hr/hrlist";
 		});
 		
 		$("#save_btn").click(function() {
@@ -29,64 +50,87 @@
 			var ajaxUtil = new AjaxUtil();
 			ajaxUtil.upload("#hr_form", "${context}/api/hr/create", function(response) {
 				if (response.status == "200 OK") {
-					location.href = "${context}/hr/list";
+					location.href = "${context}/hr/hrlist";
 				}
 				else if (response.status == "500") {
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 				else {
-					alert(response.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+					/* alert(response.message); */
 				}
 			}, {"hrFile": "uploadFile"});
 		});
+		$('.bxs-file-plus').click(function(){
+			$("#hrfile").click();
+		});
 	});
 </script>
+ <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-			<h3>채용 지원 작성 페이지 테스트</h3>
-			<form id="hr_form" enctype="multipart/form-data">
-				<div>
-					<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
-				</div>
-				<div>
-					<label for="mbrId">작성자</label>
-					<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" disabled/>
-				</div>
-				<div style="display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : '' }">
-					<select id="hrLvl">
-						<option value=" ">직군을 선택하세요.</option>
-						<option value="005-01">점주</option>
-						<option value="005-02">직원</option>
-					</select>
-				</div>
-				<div>
-					<label for="hrTtl">제목</label>
-					<input type="text" id="hrTtl" name="hrTtl" />
-					
-				</div>
-				<div>
-					<label for="hrFile">파일 첨부</label>
-					<input type="file" id="hrFile" name="hrFile" />
-				</div>
-				<div>
-					<label for="hrCntnt">본문</label>
-					<textarea id="hrCntnt" name="hrCntnt" maxlength="4000"
-					 placeholder="4000자 까지 입력하실 수 있습니다"></textarea>
-				</div>
-			</form>
+<jsp:include page="../include/openBody.jsp" />
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin: 20px;">
+	        	<span class="fs-5 fw-bold"> 회원 > 채용 > 채용 ${mbrVO.mbrLvl == '001-01' ? '공지' : '지원'} 작성</span>
+      		</div>
 			
-			<div>
-				<button id="save_btn">작성</button>
-				<button id="cancel_btn">취소</button>
+			<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin:20px;">
+				<h2 class="fw-bold" style="margin: 20px;">채용 ${mbrVO.mbrLvl == '001-01' ? '공지' : '지원'} 작성</h2>
+				<form id="hr_form" enctype="multipart/form-data">
+					<div>
+						<div>
+							<input type="hidden" id="ntcYn" value="${mbrVO.mbrLvl == '001-01' ? 'Y' : 'N' }">
+						</div>
+						<div class="input-group" style="display: none; flex-direction: row-reverse;">
+							<div>
+								<input type="text" id="mbrId" name="mbrId" value="${mbrVO.mbrId}" class="form-control" readonly />
+							</div>
+							<label class="col-form-label" style="padding-right: 8px; border-right: solid #ffbe2e;">작성자</label>
+						</div>
+						<div style="display: flex; display:inline-block ; margin-bottom: 4px;">
+							<!-- <i class='bx bx-message-square-add' style="font-size: 30px;"></i> -->
+							<label for="hrFile" class="col-form-label" style=" border-left: solid #ffbe2e; padding:0 8px;">파일첨부</label> 
+							<input type="file" accept=".hwp" id="hrFile" name="hrFile" class="form-control" style="width: 76%; display:inline-block"/>
+						</div>
+						<div style="margin-bottom: 4px; display:  ${mbrVO.mbrLvl == '001-01' ? 'none' : 'flex' }">
+							<label for="hrLvl" class="col-form-label" style="padding: 5px; border-left: solid #ffbe2e; margin-right: 7px;">지원 직군</label>
+								<select id="hrLvl" name="hrLvl" class="form-select" style="width:200px; display:${mbrVO.mbrLvl == '001-01' ? 'none' : ''}">
+									<option value=" ">직군을 선택하세요.</option>
+									<option value="005-01">가맹점주</option>
+									<option value="005-02">점원</option>
+								</select>
+						</div>
+						<div style="display: ${mbrVO.mbrLvl == '001-01' ? 'inline-block' : 'none'}; margin-bottom: 4px; float:right;">
+							<label for="hrDdlnDt" class="col-form-label" style="padding: 5px; border-left: solid #ffbe2e; margin-right:30px;">마감일</label>
+							<input type="date" id="hrDdlnDt" name="hrDdlnDt" value="${hr.hrDdlnDt}" class="form-control" style="width: 150px; display:inline-block"/>
+						</div>
+						<div>
+							<label for="hrTtl" class="col-form-label" style="margin-top: 5px; margin-bottom:5px; padding-left: 8px; border-left: solid #ffbe2e;">제목</label>
+							<div>
+								<input type="text" id="hrTtl" class="form-control" name="hrTtl" />
+							</div>
+						</div>
+						<label for="hrCntnt" class="col-form-label" style="margin-top: 5px; padding-left: 8px; border-left: solid #ffbe2e;">본문</label>
+						<div class="input-group">
+							<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
+									 placeholder="특이사항이 있다면 자유롭게 기술 부탁드립니다." class="form-control"></textarea>
+						</div>
+					</div>
+				</form>
+			<div style="float: right; margin: 20px 0 20px 20px">
+				<button id="save_btn" class="btn btn-success">작성</button>
+				<button id="cancel_btn" class="btn btn-secondary">취소</button>
 			</div>
-			
-			<jsp:include page="../include/footer.jsp" />
 		</div>
-	</div>
-</body>
+<jsp:include page="../include/closeBody.jsp" />
 </html>

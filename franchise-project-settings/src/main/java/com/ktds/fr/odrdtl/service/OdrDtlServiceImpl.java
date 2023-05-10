@@ -168,6 +168,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 		}
 		return odrDtlDAO.groupPrdt(odrDtlVO);
 	}
+	
+	@Override
+	public List<OdrDtlVO> groupSrtCdId(OdrDtlVO odrDtlVO) {
+		return odrDtlDAO.groupSrtCdId(odrDtlVO);
+	}
 
 	@Override
 	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO) {
@@ -207,6 +212,11 @@ public class OdrDtlServiceImpl implements OdrDtlService {
 	@Override
 	public List<OdrDtlVO> sumYear(OdrDtlVO odrDtlVO) {
 		return odrDtlDAO.sumYear(odrDtlVO);
+	}
+
+	@Override
+	public List<OdrDtlVO> sumYearOfStr() {
+		return odrDtlDAO.sumYearOfStr();
 	}
 
 	public List<OdrDtlVO> viewStrPayments(OdrDtlVO odrDtlVO) {

@@ -11,7 +11,6 @@
 <script type="text/javascript">
 	$().ready(function() {
         $().ready(function(){
-        	
             $('.nav-item').mouseenter(function(){
                 $(this).find('.dropdown-menu').show();
             }).mouseleave(function(){
@@ -183,12 +182,21 @@ li.dropdown > ul > li > a  {
 .dropdown-menu{
 	--bs-dropdown-min-width: 12rem;
 }
+.btm_image{
+    font-size: 22px;
+    FONT-WEIGHT: 550;
+    margin: 10px;
+    margin-top: 45px;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 25px;
+}
 </style>
-
+<jsp:include page="./joinModal.jsp" />
   <nav class="navbar navbar-expand-lg shadow-sm border-bottom sticky-sm-top bg-white" style=" height: 130px; padding: 0 40px; ">
     <div class="container-fluid ">
-      <a  href="${context}/index_user"><img src = "${context}/img/붕어빵라이언누끼.png"  width="100"; height="100";/></a>
-      <a class="navbar-brand" href="${context}/index_user" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
+      <a  href="${context}/"><img src = "${context}/img/붕어빵라이언누끼.png"  width="100" height="100"/></a>
+      <a class="navbar-brand" href="${context}/" style="font-size: 25px; FONT-WEIGHT: 550; padding: 25px 25px 25px 0px;">프랜차이즈	</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -259,10 +267,10 @@ li.dropdown > ul > li > a  {
 	         	<a class="nav-link-right" style=" background-color: #d72300;" href="${context}/prdt/list2" >주문하기</a>
 	         </li>
 	         <li class="nav-item">
-	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의 ${sessionScope.__MBR__}</a>
+	         	<a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
 	         </li>
 	         <li class="nav-item">
-	         		<a class="nav-link-right" style="background-color: #ffbe2e; " href="${context}/hlpdsk/list_user">고객센터</a>
+	         		<a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list_user">고객센터</a>
 	         </li>
 	        </ul>
 	        </div>
@@ -316,7 +324,14 @@ li.dropdown > ul > li > a  {
 				</div>			
 			</div>
 	        <div style="padding: 5px; margin:20px;">
-	            <a href="${context}/logout"><button type="button" class="btm_image" id="img_btn" style="background-color: #fff;"><img  src="${context}/img/logout.png" width="50"; height="50"></button></a>
+	        	<c:choose>
+	        		<c:when test="${sessionScope.__MBR__ ne null}">
+			            <a href="${context}/mbr/logout" class="btm_image" id="img_btn" style=" background-color:  #448938;">로그인</a> 
+	        		</c:when>
+	        		<c:otherwise>
+			            <a class="btm_image" id="img_btn" style=" background-color: #d72300;" href="${context}/mbr/logout">로그아웃</a>  
+	        		</c:otherwise>
+	        	</c:choose>
 	        </div>
         </div>
     </div>

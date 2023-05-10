@@ -342,6 +342,7 @@ input[type="number"]::-webkit-inner-spin-button {
 	border: none;
     background-color: #0000;
     font-weight: bold;
+    box-shadow: inset 0 0 0 1px #e2e3e5 !important;
 }
 .readonly {
 	background-color: var(--bs-secondary-bg);
@@ -668,6 +669,11 @@ input[type="number"]::-webkit-inner-spin-button {
 	border: none;
 }
 
+
+
+.hidden {
+	display: none; 
+}
 
 
 

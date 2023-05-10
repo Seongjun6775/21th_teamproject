@@ -25,4 +25,39 @@
 	   		 , #{mdfyr}
 	   		 , SYSDATE)				
 	</insert>
+	
+	<insert id="createAllChHist" parameterType="arrayList" >
+	    INSERT INTO CH_SRL 
+		      ( CH_SRL_NUM_ID
+			 , MBR_ID
+			 , CH_SRL_ORGN_LVL
+			 , CH_SRL_CHNG_LVL
+			 , EXSTNG_STR
+			 , CHNG_STR
+			 , MDFYR
+			 , MDFY_DT)
+		SELECT
+			  'CS-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_CH_SRL_PK.NEXTVAL, 5, '0')
+		     , MBR_ID
+		 	 , CH_SRL_ORGN_LVL
+		     , CH_SRL_CHNG_LVL
+		     , EXSTNG_STR
+		     , CHNG_STR
+		     , MDFYR
+		     , MDFY_DT  
+	      FROM (
+	     <foreach collection="list" 
+		    		item="mbrVO" 
+			        separator=" UNION ALL ">
+	        SELECT #{mbrVO.mbrId} MBR_ID
+	             , #{mbrVO.originMbrLvl} CH_SRL_ORGN_LVL
+	             , #{mbrVO.mbrLvl} CH_SRL_CHNG_LVL
+	             , #{mbrVO.originStrId} EXSTNG_STR
+	             , #{mbrVO.strId} CHNG_STR
+	             , #{mbrVO.mdfyr} MDFYR
+	             , SYSDATE MDFY_DT
+	          FROM DUAL
+	    </foreach>
+	    	)
+	</insert>
 </mapper>

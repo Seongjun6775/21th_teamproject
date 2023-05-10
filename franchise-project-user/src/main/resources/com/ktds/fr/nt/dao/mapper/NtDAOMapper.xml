@@ -59,8 +59,8 @@
         <if test='delYn != null and delYn != ""'>
            AND DEL_YN = #{delYn}
         </if>
-        <include refid="Common.pageFooter" />
          ORDER BY NT_SNDR_DT DESC
+        <include refid="Common.pageFooter" />
 	</select>
 	
 	<update id="updateOneNtByNtId"
@@ -99,7 +99,7 @@
 		     , NT_TTL
 		     , NT_CNTNT
 		     , DEL_YN
-		  FROM FRAN.NT
+		  FROM NT
 		 WHERE NT_ID = #{_parameter}
 	</select>
 	
@@ -145,6 +145,15 @@
 		SELECT COUNT(1)
 		  FROM MBR
 		 WHERE MBR_ID = #{_parameter}
+	</select>
+	
+	<select id="countNewNt"
+			parameterType="string"
+			resultType="com.ktds.fr.nt.vo.NtVO">
+		SELECT NT_ID
+		  FROM NT
+		 WHERE RCVR_ID = #{_parameter}
+		   AND NT_RD_DT IS NULL
 	</select>
 	
 	

@@ -374,7 +374,8 @@
 														<td class="firstcell">
 															<input type="checkbox" class="check-idx form-check-input" value="${mbr.mbrId}"/>
 														</td>
-														<td>${fn:substring(mbr.mbrId, 0, fn:length(mbr.mbrId)-3)}***</td>
+														<%-- <td>${fn:substring(mbr.mbrId, 0, fn:length(mbr.mbrId)-3)}***</td> --%>
+														<td>${mbr.mbrId}</td>
 														<td>${mbr.mbrNm}</td>
 														<td>${mbr.mbrEml}</td>
 														<td>${mbr.strVO.strNm}</td>
