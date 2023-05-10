@@ -103,12 +103,12 @@
 				<header class="detailview-header">
 				    <div class="detailview-header-area">
 				    	<div style="float:right;">
-				    		<c:if test="${mbrVO.mbrLvl eq '001-01'}"> 
+				    		<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01' || sessionScope.__MBR__.mbrId eq hlpDsk.mbrVO.mbrId}"> 
 								<button id="delete_btn"class="btn btn-outline-danger btn-default">삭제</button> 
 							</c:if>
 				    	</div>
 				        <div class="detailview-header-left">
-				                    <p class="list-title">${hlpDsk.hlpDskTtl}</p>
+				                    <p class="list-title">${hlpDsk.hlpDskTtl} </p>
 				            <!-- 추가 정보 -->
 							<div class="etc">
 							    <div class="etc-table">
@@ -171,7 +171,7 @@
 			<c:if test="${hlpDsk.hlpDskPrcsYn eq 'N' && sessionScope.__MBR__.mbrLvl ne '001-04'}">
 				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 					<form id="create_form" >
-						<div class="qna_box row rounded" style="background: #adb5bd8a;padding:20px;" >
+						<div class="qna_box row rounded" style="background: #fed1a78c;padding:20px;" >
 							<button class="qna-btn" id="fix_btn" style="width:70%;">답변하기</button>
 						
 						<input type="hidden" id="mstrId" name="mstrId" value="${sessionScope.__MBR__.mbrId}" />

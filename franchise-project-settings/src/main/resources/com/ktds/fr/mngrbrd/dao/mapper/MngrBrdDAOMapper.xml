@@ -230,7 +230,7 @@
         , SYSDATE
         , SYSDATE
         , #{mdfyr}
-        , NVL(#{useYn},'N')  
+        , 'Y'
         , 'N'
         , NVL(#{ntcYn},'N'))	
 	</insert>
