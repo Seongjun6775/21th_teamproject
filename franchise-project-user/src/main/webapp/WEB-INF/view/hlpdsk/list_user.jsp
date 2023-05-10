@@ -239,16 +239,15 @@
 				     </div>
 				</div>
 				<!-- start -->
-				
-				<c:if test= "${not empty sessionScope.__MBR__}">	
-					<div class="rounded" style="border: solid 2px #e0e0e0;">
-					<div class="qna_box row" >	 
-						<a href="javascript:void(0);"class="qna-btn fw-bold"> 문의/건의 </a>
-					</div>
+				<div class="qna_box row" style="border: solid 2px #e0e0e0;">	 
+					<a href="javascript:void(0);"class="qna-btn fw-bold"> 문의/건의 </a>
+				</div> 
+			 <c:if test= "${not empty sessionScope.__MBR__}">
+								<div class="rounded" style="border: solid 2px #e0e0e0;">
 					<table class="table caption-top table-hover" style="text-align: center;">
 						<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 							<tr>
-								<th >글번호</th>
+							<!-- 	<th >글번호</th> -->
 								<th>문의/건의</th>	 
 								<th>답변상태</th>			
 								<th>제목</th>
@@ -267,7 +266,7 @@
 											data-mbrnm = "${mbrVO.mbrNm}"
 											data-mbrid = "${hlpDsk.mbrId}"
 											data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
-												<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>
+							<%-- 					<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td> --%>
 												<td style="width: 130px;">${hlpDsk.hlpDskSbjct}</td>
 												<td style="width: 130px;">${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
 												<td>
@@ -317,8 +316,8 @@
 							</c:if>
 						</ul>
 					</div> 
-				</div>
-				</c:if>			
+				</div>	
+				</c:if>		
 				<!-- end -->
 			</div> 		
 		</div>

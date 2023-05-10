@@ -269,7 +269,16 @@ li.dropdown > ul > li > a  {
                <a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
             </li>
             <li class="nav-item">
-                  <a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list_user">고객센터</a>
+           		  <c:if test= "${not empty sessionScope.__MBR__}">	
+                  	
+                  </c:if>				<c:choose>
+					<c:when test="${not empty sessionScope.__MBR__ }">
+					    <a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list">고객센터</a> 
+					</c:when>
+					<c:otherwise>
+					    <a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list_user">고객센터</a>  
+					</c:otherwise>
+				</c:choose>
             </li>
            </ul>
            </div>

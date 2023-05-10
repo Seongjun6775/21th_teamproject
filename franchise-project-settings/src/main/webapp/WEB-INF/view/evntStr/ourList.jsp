@@ -104,15 +104,15 @@
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
-							<th><input type="checkbox" id="all-check" /></th>
-							<th>이벤트 참여번호</th>
-							<th style="width: 200px">이벤트 ID</th>
-							<th style="width: 200px">이벤트 제목</th>
-							<th style="width: 200px">이벤트 내용</th>
-							<th style="width: 200px">시작일</th>
-							<th style="width: 200px">종료일</th>
-							<th style="width: 200px">이벤트 참여매장 ID</th>
-							<th style="width: 200px">이벤트 참여매장명</th>
+							<th style="width:100px"><input type="checkbox" id="all-check"/></th>
+<!-- 							<th>이벤트 참여번호</th>
+							<th style="width: 200px">이벤트 ID</th> -->
+							<th >이벤트 제목</th>
+							<th >이벤트 내용</th>
+							<th >시작일</th>
+							<th >종료일</th>
+				<!-- 			<th style="width: 200px">이벤트 참여매장 ID</th> -->
+							<th >이벤트 참여매장명</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -122,20 +122,20 @@
 									<tr>
 										<td class="firstcell">
 										<input type="checkbox" class="check-idx" value="${evntStr.evntStrId}" /></td>
-										<td>${evntStr.evntStrId}</td>
-										<td>${evntStr.evntId}</td>
+		<%-- 								<td>${evntStr.evntStrId}</td>
+										<td>${evntStr.evntId}</td> --%>
 										<td>${evntStr.evntTtl}</td>
 										<td>${evntStr.evntCntnt}</td>
 										<td>${evntStr.evntStrtDt}</td>
 										<td>${evntStr.evntEndDt}</td>
-										<td>${evntStr.strId}</td>
+				<%-- 						<td>${evntStr.strId}</td> --%>
 										<td>${evntStr.strNm}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="9">등록된 이벤트 참여매장 정보가 없습니다.</td>
+									<td colspan="6">등록된 이벤트 참여매장 정보가 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>

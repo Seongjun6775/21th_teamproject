@@ -51,6 +51,13 @@
 		});
 	});
 </script>
+<style>
+.btn-default {
+    border: solid 2px;
+    font-weight: 800;
+/*     margin-right: 15px; */
+}
+</style>
 </head>
 <body class="scroll">
 	<jsp:include page="../include/header_user.jsp" />
@@ -96,7 +103,7 @@
 						</div>
 					</form>	
 					<div style="padding: 10px;text-align: right;"> 
-						<button type="button" id="new_btn" class="btn btn-primary">등록</button>
+						<button type="button" id="new_btn" class="btn btn-outline-primary btn-default">등록</button>
 					</div> 					
 				</div>
 			</div>	
