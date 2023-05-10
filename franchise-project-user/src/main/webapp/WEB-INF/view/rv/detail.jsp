@@ -19,7 +19,7 @@
 	$().ready(function() {
 		
 		$("#list_btn").click(function() {
-			location.href="${context}/mbr/rv/list";
+			location.href="${context}/rv/list";
 		});
 		
 		$("#delete_btn").click(function(){
@@ -48,7 +48,7 @@
 					    	  confirmButtonColor: '#3085d6'
 						}).then((result)=>{
 							if(result.isConfirmed){
-								location.href = "${context}/mbr/rv/list" + response.redirectURL;
+								location.href = "${context}/rv/list" + response.redirectURL;
 							}
 						});
 						/* alert("리뷰가 삭제되었습니다.") */
@@ -272,7 +272,7 @@
 					</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			<!-- <button type="button" class="btn btn-primary">Understood</button> -->
+<!-- 							<button type="button" class="btn btn-primary">Understood</button> -->
 				</div>
 			</div>
 		</div>

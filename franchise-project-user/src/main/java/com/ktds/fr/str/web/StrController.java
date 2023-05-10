@@ -87,7 +87,7 @@ public class StrController {
 	}
 	
 	@GetMapping("/str/customer")
-	public String viewCustomerMapPage(String strId, Model model, StrVO strVO
+	public String viewCustomerMapPage(MbrVO mbr2VO, String strId, Model model, StrVO strVO
 			, @RequestParam(required = false, defaultValue = "") String searchIdx
 			, @RequestParam(required = false, defaultValue = "")String keyword ,CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
 		
@@ -106,15 +106,15 @@ public class StrController {
 	    	}
 			
 			List<StrVO> strList = strService.readAllStrMaster(strVO);
-			/* List<MbrVO> mbrList = mbrService.readAllMbr(mbr2VO); */
+//			List<MbrVO> mbrList = mbrService.readAllMbr(mbr2VO);
 			List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
 			List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
 			model.addAttribute("strList", strList);
-			/* model.addAttribute("mbrList", mbrList); */
+//			model.addAttribute("mbrList", mbrList);
 			model.addAttribute("ctyList", ctyList);
 			model.addAttribute("lctList", lctList);
 			model.addAttribute("strVO", strVO);
-			/* model.addAttribute("mbrVO", mbrVO); */
+//			model.addAttribute("mbrVO", mbrVO);
 			model.addAttribute("searchIdx", searchIdx);
 			model.addAttribute("keyword", keyword);
 			model.addAttribute("CtyCdVO", ctyCdVO);
@@ -159,19 +159,19 @@ public class StrController {
 	/**
 	 * 회원 기능과 연동
 	 */
-//	@GetMapping("/str/search/{mbrLvl}")
-//	public String viewStrSearchPage(@PathVariable String mbrLvl,StrVO strVO, Model model) {
-//		model.addAttribute("strNm", strVO.getStrNm());
-//		model.addAttribute("strAddr", strVO.getStrAddr());
-//		if(mbrLvl.equals("001-02")) {
-//			MbrVO mbrVO = new MbrVO();
-//			mbrVO.setMbrLvl(mbrLvl);
-//			strVO.setMbrVO(mbrVO);
-//		}
-//		List<StrVO> strList = strService.readAllStrNoPagenate(strVO);
-//		model.addAttribute("strList",strList);
-//		return "mbr/str_search";
-//	}
+	@GetMapping("/str/search/{mbrLvl}")
+	public String viewStrSearchPage(@PathVariable String mbrLvl,StrVO strVO, Model model) {
+		model.addAttribute("strNm", strVO.getStrNm());
+		model.addAttribute("strAddr", strVO.getStrAddr());
+		if(mbrLvl.equals("001-02")) {
+			MbrVO mbrVO = new MbrVO();
+			mbrVO.setMbrLvl(mbrLvl);
+			strVO.setMbrVO(mbrVO);
+		}
+		List<StrVO> strList = strService.readAllStrNoPagenate(strVO);
+		model.addAttribute("strList",strList);
+		return "mbr/str_search";
+	}
 	
 	/**
 	 * 매장의 직원들 정보 조회(전체)
@@ -190,59 +190,60 @@ public class StrController {
 	/**
 	 * 매장에 관련된 주문서 조회
 	 */
-//	@GetMapping("/str/odrlst")
-//	public String viewOdrLstForStr(Model model
-//			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-//		if (mbrVO.getMbrLvl().equals("001-03")) {
-//	    	return "redirect:/index" + mbrVO.getStrId();
-//	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
-//	    		return "redirect:/index" + mbrVO.getStrId();
-//	    	} else {
-//				StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
-//				OdrLstVO odrLstVO = new OdrLstVO();
-//				odrLstVO.setStrId(mbrVO.getStrId());
-//				
-//				List<OdrLstVO> ordLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
-//				odrLstVO.setOdrLstOdrPrcs("003-04");
-//				List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
-//				
-//				model.addAttribute("mbrVO", mbrVO);
-//				model.addAttribute("strVO", strVO);
-//				model.addAttribute("ordLstList", ordLstList);
-//				model.addAttribute("ordLstCompleteList", ordLstCompleteList);
-//				
-//				return "str/str_odrlst";
-//	    	}
-//		}
+	@GetMapping("/str/odrlst")
+	public String viewOdrLstForStr(Model model
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-03")) {
+	    	return "redirect:/index" + mbrVO.getStrId();
+	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
+	    		return "redirect:/index" + mbrVO.getStrId();
+	    	} else {
+				StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
+				OdrLstVO odrLstVO = new OdrLstVO();
+				odrLstVO.setStrId(mbrVO.getStrId());
+				
+				List<OdrLstVO> ordLstList = odrLstService.readAllOdrLstForStr(odrLstVO);
+				odrLstVO.setOdrLstOdrPrcs("003-04");
+				List<OdrLstVO> ordLstCompleteList = odrLstService.readAllOdrLstForStr(odrLstVO);
+				
+				model.addAttribute("mbrVO", mbrVO);
+				model.addAttribute("strVO", strVO);
+				model.addAttribute("ordLstList", ordLstList);
+				model.addAttribute("ordLstCompleteList", ordLstCompleteList);
+				
+				return "str/str_odrlst";
+	    	}
+		}
 	
 	/**
 	 * 처리된 주문서 조회 (완료+취소) 
 	 */
-//	@GetMapping("/str/completeOdr")
-//	public String viewcompleteOdrForStr(Model model
-//			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
-//		if (mbrVO.getMbrLvl().equals("001-03")) {
-//	    	return "redirect:/index" + mbrVO.getStrId();
-//	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
-//    		return "redirect:/index" + mbrVO.getStrId();
-//    	} else {
-//		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
-//		OdrLstVO odrLstVO = new OdrLstVO();
-//		odrLstVO.setStrId(mbrVO.getStrId());
-//		
-//		if (mbrVO.getMbrLvl().equals("001-01")) {
-//	    	odrLstVO.setStrId("%");
-//		}
-//		List<OdrLstVO> odrLstList = odrLstService.completeOdrForStr(odrLstVO);
-//		
-//		
-//		model.addAttribute("mbrVO", mbrVO);
-//		model.addAttribute("strVO", strVO);
-//		model.addAttribute("odrLstList", odrLstList);
-//		
-//		return "str/str_complete_odr";
-//	    }
-//	}
+	@GetMapping("/str/completeOdr")
+	public String viewcompleteOdrForStr(Model model
+			,OdrLstVO odrLstVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		if (mbrVO.getMbrLvl().equals("001-03")) {
+	    	return "redirect:/index" + mbrVO.getStrId();
+	    } else if (mbrVO.getMbrLvl().equals("001-04")) {
+    		return "redirect:/index" + mbrVO.getStrId();
+    	} else {
+		StrVO strVO = strService.readOneStrByMaster(mbrVO.getStrId());
+		odrLstVO.setStrId(mbrVO.getStrId());
+		
+		if (mbrVO.getMbrLvl().equals("001-01")) {
+	    	odrLstVO.setStrId("%");
+		}
+		List<OdrLstVO> odrLstList = odrLstService.completeOdrForStr(odrLstVO);
+		
+		
+		model.addAttribute("odrLstVO", odrLstVO);
+		model.addAttribute("mbrVO", mbrVO);
+		model.addAttribute("strVO", strVO);
+		model.addAttribute("odrLstList", odrLstList);
+		
+		return "str/str_complete_odr";
+	    }
+	}
 	
 	
 	

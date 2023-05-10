@@ -17,6 +17,16 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
+		
+		//이용자 페이지로 이동하기       
+		$("#btn-ongoingList").click(function() {
+			location.href = "${context}/evnt/ongoingList";
+		});
+		//'우리매장 참여이벤트' 버튼 클릭 시 팝업창으로 리스트 뜸
+		$("#btn-ourStrEvnt").click(function() {
+			var pop = window.open("${context}/evntStr/ourList","resPopup","width=1200, height=600, scrollbars=yes, resizable=yes");
+			pop.focus();
+		});
 			$("#all-check").click(function() {
 						$(".check_idx").prop("checked",
 								$("#all-check").prop("checked"));
@@ -84,11 +94,13 @@
 														+ pageNum;
 											}
 										});
+
 						//'우리매장 참여이벤트' 버튼 클릭 시 팝업창으로 리스트 뜸
 						$("#btn-ourStrEvnt").click(function() {									
 											var pop = window.open("${context}/evntStr/ourList","resPopup","width=1200, height=600, scrollbars=yes, resizable=yes");
 											pop.focus();
 										});
+
 						// 체크 버튼 클릭 시 체크된 리스트 뜸
 						$("#btn-checkEvnts").click(function() {
 											var checkLen = $(".check-idx:checked").length;
@@ -111,12 +123,19 @@
 											});
 										});
 						
+
 						//이용자 페이지로 이동하기       
 						$("#btn-ongoingList").click(function() {
 							location.href = "${context}/evnt/ongoingList";
 						});
 			 		});
-			/*
+			
+
+		
+					});
+		/*	});*/
+			/* 
+
 			$("#all-check").change(function() {
 						$(".check-idx").prop("checked",
 								$(this).prop("checked"));
@@ -190,7 +209,9 @@
 			$("#btn-ongoingList").click(function() {
 				location.href = "${context}/evnt/ongoingList";
 			}); */
+
 		}); 
+
 	
 	function movePage(pageNum) {
 		location.href = "${context}/evnt/list?pageNo=" + (pageNum);

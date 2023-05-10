@@ -4,15 +4,29 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Hr">
 	
+	<resultMap id="hrMap"
+				type="com.ktds.fr.hr.vo.HrVO"
+				autoMapping="true">
+		<id property="hrId" column="HR_ID" />
+		<association property="mbrVO"
+					  javaType="com.ktds.fr.mbr.vo.MbrVO">
+			<id property="mbrId" column="MBR_ID" />
+			<result property="mbrNm" column="MBR_NM" />
+		</association>
+	</resultMap>
+	
+	
+	
 	<select id="readAllHr"
 			parameterType="com.ktds.fr.hr.vo.HrVO"
-			resultType="com.ktds.fr.hr.vo.HrVO">
+			resultMap="hrMap">
 		<include refid="Common.pageHeader" />
 		SELECT ROWNUM RNUM
 			 , ROWNUM PK_COL
 			 , E.*
 		  FROM (SELECT H.HR_ID 
 				     , H.MBR_ID
+				     , M.MBR_NM
 				     , H.HR_TTL
 				     , H.HR_RGST_DT
 				     , H.HR_MDFY_DT
@@ -23,8 +37,11 @@
 				     , H.DEL_YN
 				     , H.NTC_YN
 				     , H.HR_LVL
+				     , H.HR_DDLN_DT
 				     , C.CD_NM
 				  FROM HR H
+				 INNER JOIN MBR M
+				    ON H.MBR_ID = M.MBR_ID
 				  LEFT JOIN CMMN_CD C
 				    ON H.HR_LVL = C.CD_ID
 				 WHERE H.HR_RGST_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
@@ -50,6 +67,68 @@
 		<include refid="Common.pageFooter" />
 	</select>
 	
+	<select id="readAllMyHr"
+			parameterType="com.ktds.fr.hr.vo.HrVO"
+			resultMap="hrMap">
+		<include refid="Common.pageHeader" />
+		SELECT ROWNUM RNUM
+			 , ROWNUM PK_COL
+			 , E.*
+		  FROM (SELECT U.*
+				  FROM (SELECT H.HR_ID 
+						     , H.MBR_ID
+						     , M.MBR_NM
+						     , H.HR_TTL
+						     , H.HR_RGST_DT
+						     , H.HR_MDFY_DT
+						     , H.HR_APR_YN
+						     , H.HR_APR_DT
+						     , H.HR_STAT
+						     , H.DEL_YN
+						     , H.NTC_YN
+						     , H.HR_LVL
+						     , H.HR_DDLN_DT
+						  FROM HR H
+						 INNER JOIN MBR M
+						    ON H.MBR_ID = M.MBR_ID
+						 WHERE H.NTC_YN = 'Y'
+						   AND H.DEL_YN = 'N'
+						   AND H.HR_DDLN_DT > SYSDATE
+						   AND ROWNUM <![CDATA[<=]]> 3
+						 ORDER BY HR_RGST_DT DESC) U
+				 UNION ALL
+				SELECT A.*
+				  FROM (SELECT H.HR_ID
+							 , H.MBR_ID
+							 , M.MBR_NM
+						     , H.HR_TTL
+						     , H.HR_RGST_DT
+						     , H.HR_MDFY_DT
+						     , H.HR_APR_YN
+							 , H.HR_APR_DT
+							 , H.HR_STAT
+							 , H.DEL_YN
+							 , H.NTC_YN
+							 , H.HR_LVL
+							 , H.HR_DDLN_DT
+						  FROM HR H
+						 INNER JOIN MBR M
+						    ON H.MBR_ID = M.MBR_ID
+						 WHERE H.DEL_YN = 'N'
+						   AND H.MBR_ID = #{mbrId}
+						 ORDER BY HR_RGST_DT DESC) A) E
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="countNtc"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM HR
+		 WHERE NTC_YN = 'Y'
+		   AND DEL_YN = 'N'
+		   AND HR_DDLN_DT > SYSDATE
+	</select>
+	
 	<insert id="createNewHr"
 			parameterType="com.ktds.fr.hr.vo.HrVO">
 		INSERT INTO HR
@@ -69,7 +148,8 @@
 		, USE_YN
 		, DEL_YN
 		, NTC_YN
-		, HR_LVL)
+		, HR_LVL
+		, HR_DDLN_DT)
 		VALUES
 		 ('HR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_HR_PK.NEXTVAL, 5, '0')
 		 , #{mbrId}
@@ -79,49 +159,24 @@
 		 , SYSDATE
 		 , NULL
 		 , NULL
-		 , '접수'
+		 , '002-01'
 		 , #{orgnFlNm}
 		 , #{uuidFlNm}
 		 , #{flSize}
 		 , #{flExt}
-		 , 'N'
+		 , 'Y'
 		 , 'N'
 		 , #{ntcYn}
-		 , #{hrLvl})
+		 , #{hrLvl}
+		 , TO_DATE(#{hrDdlnDt}, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
-	
-	<select id="readAllMyHr"
-			parameterType="com.ktds.fr.hr.vo.HrVO"
-			resultType="com.ktds.fr.hr.vo.HrVO">
-		<include refid="Common.pageHeader" />
-		SELECT ROWNUM RNUM
-			 , ROWNUM PK_COL
-			 , E.*
-		  FROM (SELECT HR_ID
-					 , MBR_ID
-				     , HR_TTL
-				     , HR_RGST_DT
-				     , HR_MDFY_DT
-				     , HR_APR_YN
-					 , HR_APR_DT
-					 , HR_STAT
-					 , DEL_YN
-					 , NTC_YN
-					 , HR_LVL
-				  FROM HR
-				 WHERE DEL_YN = 'N'
-				   AND (MBR_ID = #{mbrId}
-				    OR NTC_YN = 'Y')
-			     ORDER BY NTC_YN DESC
-		 			 , HR_RGST_DT DESC) E
-		<include refid="Common.pageFooter" />
-	</select>
 	
 	<select id="readOneHrByHrId"
 			parameterType="string"
-			resultType="com.ktds.fr.hr.vo.HrVO">
+			resultMap="hrMap">
 		SELECT H.HR_ID
 		     , H.MBR_ID
+		     , M.MBR_NM
 		     , H.HR_TTL
 		     , H.HR_CNTNT
 		     , H.HR_RGST_DT
@@ -137,7 +192,12 @@
 		     , H.DEL_YN
 		     , H.NTC_YN
 		     , H.HR_LVL
+		     , H.HR_DDLN_DT
+		     , M.STR_ID
+		     , M.MBR_LVL
 		  FROM HR H
+		 INNER JOIN MBR M
+		    ON H.MBR_ID = M.MBR_ID
 		  LEFT JOIN CMMN_CD C
 		    ON H.HR_LVL = C.CD_ID
 		 WHERE H.HR_ID = #{_parameter}
@@ -154,6 +214,7 @@
 		     , FL_SIZE = #{flSize}
 		     , FL_EXT = #{flExt}
 		     , HR_LVL = #{hrLvl}
+		     , HR_DDLN_DT = TO_DATE(#{hrDdlnDt},'YYYY-MM-DD HH24:MI:SS')
 		 WHERE HR_ID = #{hrId}
 	</update>
 	
@@ -168,7 +229,7 @@
 	<update id="updateHrStatByHrId"
 			parameterType="string">
 		UPDATE HR
-		   SET HR_STAT = '심사중'
+		   SET HR_STAT = '002-02'
 		 WHERE HR_ID = #{_parameter}
 	</update>
 	
@@ -177,7 +238,8 @@
 		UPDATE HR
 		   SET HR_APR_YN = #{hrAprYn}
 		     , HR_APR_DT = SYSDATE
-		     , HR_STAT = '심사완료'
+		     , HR_STAT = '002-03'
+		     , DEL_YN = 'Y'
 		 WHERE HR_ID = #{hrId}
 	</update>
 	
@@ -187,11 +249,41 @@
 		SELECT COUNT(1)
 		  FROM HR
 		 WHERE MBR_ID = #{_parameter}
-		   AND HR_STAT IN ('접수', '심사중')
+		   AND HR_STAT IN ('002-01', '002-02')
 		   AND DEL_YN = 'N'
 	</select>
-	
-	
-
+	<!-- 직원조회용 -->
+	<select id="readOneHrByMbrId"
+			parameterType="string"
+			resultType="com.ktds.fr.hr.vo.HrVO">
+		SELECT HR_ID
+		     , HR_APR_DT
+		     , HR_STAT
+		     , ORGN_FL_NM
+		     , UUID_FL_NM
+		     , FL_SIZE
+		     , FL_EXT
+		  FROM (SELECT HR_ID
+				     , HR_APR_DT
+				     , HR_STAT
+				     , ORGN_FL_NM
+				     , UUID_FL_NM
+				     , FL_SIZE
+				     , FL_EXT
+				  FROM HR 
+				 WHERE MBR_ID = #{_parameter}
+				 ORDER BY HR_APR_DT DESC)
+		 WHERE ROWNUM=1
+	</select>	
+	<!-- 직원 해임용 -->
+	<update id="deleteAllHrByMbrId"
+			parameterType="arrayList">
+		UPDATE HR
+		   SET DEL_YN = 'Y'
+		 WHERE MBR_ID IN
+		 <foreach collection="list" item="mbrId" separator=", " open="(" close=")">
+			 #{mbrId}
+		 </foreach> 
+	</update>
 
 </mapper>

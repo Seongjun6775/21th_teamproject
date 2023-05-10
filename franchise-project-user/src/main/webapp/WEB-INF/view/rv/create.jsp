@@ -13,16 +13,12 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <jsp:include page="../include/stylescript.jsp" />
-
-<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
-<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
-<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 
 	$().ready (function() {
 		
 		$("#new_btn").click(function() {
-			$.post("${context}/mbr/api/rv/create",		
+			$.post("${context}/api/rv/create",		
 					{
 						rvId:$("#rvId").val(),			
 						mbrId:$("#mbrId").val(),
@@ -40,7 +36,7 @@
 						    	  confirmButtonColor: '#3085d6'
 							}).then((result)=>{
 								if(result.isConfirmed){
-									location.href = "${context}/mbr/rv/list" + response.redirectURL;
+									location.href = "${context}" + response.redirectURL;
 								}
 							});
 							/* alert("리뷰가 등록되었습니다.") */
@@ -60,12 +56,11 @@
 	});		
 </script>
 </head>
-<body class="scroll">
-<jsp:include page="../include/header_user.jsp" />
+<jsp:include page="../include/openBody.jsp" />
 	<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin: 20px;">
 		<span class="fs-5 fw-bold">리뷰 > 리뷰관리 > 리뷰등록</span>
 	</div>
-	<div class="bg-white rounded shadow-sm" style="padding: 30px 50px; margin:20px; width:100%;">
+	<div class="bg-white rounded shadow-sm" style="padding: 30px 50px; margin:20px; width:60%;">
 		<h2 class="fw-bold" style="margin: 20px; display: flex; flex-direction: row-reverse;">구매후기</h2>				
 		<form id="create_form" method="post">
 			<div class="create-group">
@@ -111,9 +106,10 @@
 				<div class="align-right">
 					<button type="button" id="new_btn" class="btn btn-outline-primary">등록</button>
 				</div>
-			</div>					
+			</div>		
+	
 		</form>
 	</div>
 </body>
-<jsp:include page="../include/footer_user.jsp" />
+<jsp:include page="../include/closeBody.jsp" />
 </html>

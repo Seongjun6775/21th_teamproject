@@ -6,6 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ktds.fr.ctycd.dao.CtyCdDAO;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.lctcd.dao.LctCdDAO;
+import com.ktds.fr.lctcd.vo.LctCdVO;
 import com.ktds.fr.prdt.dao.PrdtDAO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.dao.StrDAO;
@@ -18,6 +22,12 @@ public class StrServiceImpl implements StrService {
 
 	@Autowired
 	private StrDAO strDAO;
+	
+	@Autowired
+	private LctCdDAO lctCdDAO;
+	
+	@Autowired
+	private CtyCdDAO ctyCdDAO;
 	
 	@Autowired
 	private StrPrdtDAO strPrdtDAO;
@@ -42,7 +52,22 @@ public class StrServiceImpl implements StrService {
 
 	@Override
 	public boolean createOneStr(StrVO strVO) {
+		
 		boolean isSuccess = strDAO.createOneStr(strVO) > 0;
+		//시 ,도 멤버 작성
+		if (isSuccess) {
+	        CtyCdVO ctyCdVO = strVO.getCtyCdVO();
+	        LctCdVO lctCdVO = strVO.getLctCdVO();
+
+	        // 시, 도시 정보가 존재하지 않으면 생성
+	        if (ctyCdDAO.read(ctyCdVO.getCtyId()) == null) {
+	        	strDAO.createOneStr(strVO);
+	        }
+
+	        if (lctCdDAO.read() == null) {
+	        	strDAO.createOneStr(strVO);
+	        }
+	    }
 		// 매장이 생성되었을 때, 생성된 매장에 현재 등록되어 있는 모든 상품을 등록
 		if (isSuccess) {
 			
@@ -105,10 +130,33 @@ public class StrServiceImpl implements StrService {
 	}
 
 	@Override
+	public List<CtyCdVO> readCategory(String lctId) {
+		return strDAO.readCategory(lctId);
+	}
+	
+	/**
+	 * 매장별 상품등록시 사용 ... 사용유무에 관계없이 목록가져옴
+	 */
+	@Override
 	public List<StrVO> readAll() {
 		return strDAO.readAll();
 	}
+	
+	/**
+	 *  손님이 매장 조회할 때 사용 ... 사용유무 Y
+	 */
+	@Override
+	public List<StrVO> readAllUseY(String ctyId) {
+		return strDAO.readAllUseY(ctyId);
+	}
 
+	/**
+	 * 매출조회 관련 / 지역, 도시 조회 시
+	 */
+	@Override
+	public List<StrVO> readAllLctCty(StrVO strVO) {
+		return strDAO.readAllLctCty(strVO);
+	}
 
 }
 
