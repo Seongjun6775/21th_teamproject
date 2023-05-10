@@ -76,6 +76,7 @@
 					$("#mdfyr").val(data.mdfyr);
 					$("#mdfyDt").val(data.mdfydt);
 					$("#useYn").prop("checked", data.useyn == "Y");
+					mkMap(data.straddr, data.strnm);
 				});
 				$("#new_btn").click(function() {
 					$("#isModify").val("false"); //등록모드
@@ -261,85 +262,85 @@
 						<div class="input-group col-12">
 						<span class="input-group-text">매장 ID</span>
 						<input type="text" id="strId" name="strId" readonly value="${strVO.strId}" class="form-control readonly"  style="background-color:orange" />
-					</div>
+						</div>
+						
+						<div class="input-group inline">
+							<span class="input-group-text">매장명</span>
+							<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
+						</div>
+						
+						<div class="input-group inline">
+							<span class="input-group-text">지역명</span>
+							<select class="form-select" name="strLctn" id="strLctn">
+								<option value="">지역명</option>
+								<c:choose>
+									<c:when test="${not empty lctList}">
+										<c:forEach items="${lctList}"
+													var="lct"> 
+											<option value="${lct.lctId}" ${lct.lctId eq strVO.strLctn ? 'selected' : ''}>${lct.lctNm} </option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">도시명</span>
+							<select class="form-select" name="strCty" id="strCty">
+								<option value="">도시</option>
+								<c:choose>
+									<c:when test="${not empty ctyList}">
+										<c:forEach items="${ctyList}"
+													var="cty" >
+											<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</select>
+						</div>
+						
+					    <div class="input-group inline">
+							<span class="input-group-text">매장주소</span>
+							<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
+						</div>
+					    <div class="input-group inline">
+					        <span class="input-group-text">전화번호</span>
+					        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
+					    </div>	
 					
-					<div class="input-group inline">
-						<span class="input-group-text">매장명</span>
-						<input type="text" id="strNm" name="strNm" maxlength="1000" value="${strVO.strNm}" class="form-control"/>
-					</div>
-					
-					<div class="input-group inline">
-						<span class="input-group-text">지역명</span>
-						<select class="form-select" name="strLctn" id="strLctn">
-							<option value="">지역명</option>
-							<c:choose>
-								<c:when test="${not empty lctList}">
-									<c:forEach items="${lctList}"
-												var="lct"> 
-										<option value="${lct.lctId}" ${lct.lctId eq strVO.strLctn ? 'selected' : ''}>${lct.lctNm} </option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</select>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">도시명</span>
-						<select class="form-select" name="strCty" id="strCty">
-							<option value="">도시</option>
-							<c:choose>
-								<c:when test="${not empty ctyList}">
-									<c:forEach items="${ctyList}"
-												var="cty" >
-										<option value="${cty.ctyId}" ${cty.ctyId eq	 strVO.strCty ? 'selected' : ''}>${cty.ctyNm}</option>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</select>
-					</div>
-					
-				    <div class="input-group inline">
-						<span class="input-group-text">매장주소</span>
-						<input class="form-control" type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
-					</div>
-				    <div class="input-group inline">
-				        <span class="input-group-text">전화번호</span>
-				        <input class="form-control" type="tel" name="strCallNum" id="strCallNum" title="전화번호를 입력하세요." placeholder="00*-000*-000*" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" value="${strVO.strCallNum}">
-				    </div>	
-				
-					<div class="input-group inline">
-						<span class="input-group-text">가맹점주ID</span>
-						<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}" placeholder="가맹점주ID가 없습니다."/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">오픈시간</span>
-						<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">종료시간</span>
-						<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">등록자</span>
-						<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">등록일</span>
-						<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}" style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">수정자</span>
-						<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
-					</div>
-					<div class="input-group inline">
-						<span class="input-group-text">수정일</span>
-						<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" style="background-color:orange"	/>
-					</div>
-					<div class="inline">
-						<label class="form-check-label">사용여부</label>
-						<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
-					</div>
-					<div style="float:right; display: flex; flex-direction: row-reverse;">
-							
+						<div class="input-group inline">
+							<span class="input-group-text">가맹점주ID</span>
+							<input class="form-control"  type="text" id="mbrId" name="mbrId" maxlength="20" value="${strVO.mbrId}" placeholder="가맹점주ID가 없습니다."/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">오픈시간</span>
+							<input class="form-control"  type="time" id="strOpnTm" name="strOpnTm" value="09:00:00"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">종료시간</span>
+							<input class="form-control"  type="time" id="strClsTm" name="strClsTm" value="18:00:00"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">등록자</span>
+							<input class="form-control readonly"  type="text" id="strRgstr" name="strRgstr" maxlength="20" readonly value="${strVO.strRgstr}"  style="background-color:orange"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">등록일</span>
+							<input class="form-control readonly"  type="text" id="strRgstDt" name="strRgstDt" readonly value="${strVO.strRgstDt}" style="background-color:orange"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">수정자</span>
+							<input class="form-control readonly"  type="text" id="mdfyr" name="mdfyr" maxlength="20" readonly value="${MbrVO.mbrId}"  style="background-color:orange"/>
+						</div>
+						<div class="input-group inline">
+							<span class="input-group-text">수정일</span>
+							<input class="form-control readonly"  type="text" id="mdfyDt" name="mdfyDt" readonly value="${strVO.mdfyDt}" style="background-color:orange"	/>
+						</div>
+						<div class="inline">
+							<label class="form-check-label">사용여부</label>
+							<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
+						</div>
+						<div style="float:right; display: flex; flex-direction: row-reverse;">
+								
 						</div>
 						<div id="map" style="width:500px;height:400px;"></div>
 					</div>

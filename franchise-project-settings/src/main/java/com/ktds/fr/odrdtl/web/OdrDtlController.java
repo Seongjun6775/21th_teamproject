@@ -263,5 +263,16 @@ public class OdrDtlController {
 		return "odrdtl/paymentStr";
 
 	}
+	
+	@GetMapping("/payment/g")
+	public String g(Model model, OdrDtlVO odrDtlVO
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
+		
+		List<CmmnCdVO> srtList = cmmnCdService.readCategory("004");
+		model.addAttribute("srtList", srtList);
+		
+		return "odrdtl/g";
+		
+	}
 
 }

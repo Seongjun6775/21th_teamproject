@@ -167,5 +167,46 @@ public class RestOdrDtlController {
 		return sumYear;
 	}
 	
+	
+	@PostMapping("/api/index/paymentPrdtOneWeek")
+	@ResponseBody
+	public List<OdrDtlVO> groupSrtCdId(@RequestBody OdrDtlVO odrDtlVO) {
+		
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		String strMonth = twoDigits(month);
+		String strDay = twoDigits(day);
+		String endDt = year + "-" + strMonth + "-" + strDay;
+		odrDtlVO.setEndDt(endDt);
+		
+		cal.add(Calendar.DATE, -6);
+		year = cal.get(Calendar.YEAR);
+		month = cal.get(Calendar.MONTH) + 1;
+		day = cal.get(Calendar.DAY_OF_MONTH);
+		
+		strMonth = twoDigits(month);
+		strDay = twoDigits(day);
+		String startDt = year+ "-" + strMonth + "-" + strDay;
+		odrDtlVO.setStartDt(startDt);
+		
+		List<OdrDtlVO> groupPrdt;
+		if(odrDtlVO.getPrdtVO().getPrdtSrt() == null || odrDtlVO.getPrdtVO().getPrdtSrt().equals("")) {
+			groupPrdt = odrDtlService.groupSrtCdId(odrDtlVO);
+		} else {
+			groupPrdt = odrDtlService.groupPrdt(odrDtlVO);
+		}
+		return groupPrdt;
+	}
+	
+	
+	
+	
+	private String twoDigits(int num) {
+		return num < 10 ? "0" + num : num + "";
+	}
+	
+	
 
 }

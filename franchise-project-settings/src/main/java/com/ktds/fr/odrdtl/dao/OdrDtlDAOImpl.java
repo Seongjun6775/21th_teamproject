@@ -75,6 +75,11 @@ public class OdrDtlDAOImpl extends SqlSessionDaoSupport implements OdrDtlDAO {
 	}
 	
 	@Override
+	public List<OdrDtlVO> groupSrtCdId(OdrDtlVO odrDtlVO) {
+		return getSqlSession().selectList("OdrDtl.groupSrtCdId", odrDtlVO);
+	}
+	
+	@Override
 	public List<OdrDtlVO> groupStr(OdrDtlVO odrDtlVO) {
 		return getSqlSession().selectList("OdrDtl.groupStr", odrDtlVO);
 	}
