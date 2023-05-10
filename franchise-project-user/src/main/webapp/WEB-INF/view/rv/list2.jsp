@@ -87,6 +87,7 @@
 					  confirmButtonText: '로그인'
 					}).then((result) => {
 						if(result.isConfirmed){
+							localStorage.setItem("_next_", "${context}/mbr/rv/create");
 							$("#img_btn").click();
 						}else{
 							$("#btn-modal-close").click();
@@ -194,9 +195,7 @@
 		<div class="content-setting title">리뷰</div>
 		<div class="overlay absolute"></div>
 	</div>
-	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
-		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 리뷰를 작성해보세요. </p>
-	</div>
+	
 	<div id="menu" class="flex-column">				
 	
 		<!-- searchbar -->

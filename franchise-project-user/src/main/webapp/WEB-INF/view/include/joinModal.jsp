@@ -70,10 +70,16 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 		}
 		$.post("${context}/login", data, function(resp){
 			if(resp.status == "200 OK"){
+				var next = localStorage.getItem("_next_");
 				localStorage.clear();
 				$("#btn-modal-close").click();
 				/* location.href = "${context}"+resp.redirectURL; */
-				location.reload();
+				if (!next) {
+					location.reload();
+				}
+				else {
+					location.href=next;
+				}
 			}
 			else if(resp.message=="계정정보없음"){
 				localStorage.setItem("failCount", parseInt(failCount)+1);

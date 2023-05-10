@@ -11,11 +11,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
 		
-		$(".odrlst_table_grid > table > tbody > tr").click(function() {
+		$("table > tbody > tr").click(function() {
 			var data = $(this).data();
 			if (data.odrlstid != null && (data.odrlstid) != "") {
 				location.href="${context}/odrdtl/list/" + data.odrlstid;
@@ -96,15 +98,29 @@
 		location.href = "${context}/odrlst/mbrodrlst?pageNo=" + pageNo;
 	}
 </script>
+<style>
+#menu {
+/* 	background-color: #F002; */
+	width: 1440px;
+	margin: 0 auto;
+	margin-bottom: 144px;
+}
+</style>
 </head>
-<jsp:include page="../include/openBody.jsp" />
-	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-		<span class="fs-5 fw-bold">주문목록</span>
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">주문목록
+			<div style="color: #ccc; padding-top: 10px;"></div>
+		</div>
+		<div class="overlay absolute"></div>
 	</div>
 			
 			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
 			<div class="odrlst_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; "> 
-				<div style="margin:13px;">총 ${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}건</div>
+			<div id="menu">
+				<div style="margin:13px;">총 <span style="font-weight: bold;">${myOdrLst.size() > 0 ? myOdrLst.get(0).totalCount : 0}</span>건</div>
 				<table class="table caption-top table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
@@ -181,7 +197,8 @@
 						</c:if>
 					</ul>
 				</div>
+				</div>
 			</div>
-			<jsp:include page="../include/footer.jsp" />
-<jsp:include page="../include/closeBody.jsp" />
+	<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>

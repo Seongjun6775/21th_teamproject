@@ -222,6 +222,7 @@
 		   AND OL.USE_YN = 'Y'
 		   AND OL.STR_ID = #{strId}
 		   AND OL.ODR_LST_ODR_PRCS != '003-01'
+		   AND OL.MDFY_DT > TO_CHAR(SYSDATE-1, 'YYYY-MM-DD')
 		<choose>
 			<when test='odrLstOdrPrcs == "003-04"'>
 		   AND OL.ODR_LST_ODR_PRCS = '003-04'

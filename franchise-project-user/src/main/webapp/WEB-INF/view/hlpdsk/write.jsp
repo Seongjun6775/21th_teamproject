@@ -10,7 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />	 
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}" />	
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" /> 
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
@@ -51,7 +52,16 @@
 	});
 </script>
 </head>
-<jsp:include page="../include/openBody.jsp" />
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+		<div class="visualArea flex relative">
+			<div class="content-setting title">고객센터
+				<div style="color: #ccc; padding-top: 10px;"></div>
+			</div>
+			<div class="overlay absolute"></div>
+		</div>
+			
+		<div id="menu" class="flex-column" style=" margin-bottom: 0;">
 			<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 		        <span class="fs-5 fw-bold">고객센터 > 문의/건의</span>
 		        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
@@ -89,6 +99,8 @@
 						<button type="button" id="new_btn" class="btn btn-primary">등록</button>
 					</div> 					
 				</div>
-			</div>			
-<jsp:include page="../include/closeBody.jsp" />
+			</div>	
+		</div>		
+	<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>
