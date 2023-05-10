@@ -4,15 +4,15 @@
 	height: auto;
 }
 
-.odrdtl-card {
-	margin: 0 auto;
-	margin-bottom: 30px;
-	background-color: #eee;
-	border-radius: 5px;
-	width: 85%;
-	height: 200px;
-	position: relative;
-}
+/* .odrdtl-card { */
+/* 	margin: 0 auto; */
+/* 	margin-bottom: 30px; */
+/* 	background-color: #eee; */
+/* 	border-radius: 5px; */
+/* 	width: 85%; */
+/* 	height: 200px; */
+/* 	position: relative; */
+/* } */
 
 .col-sm-3 {
 	display: inline-block;

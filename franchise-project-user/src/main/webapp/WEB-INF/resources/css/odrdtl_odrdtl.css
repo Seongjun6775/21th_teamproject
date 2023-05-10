@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .img-grid, .text-grid {
-	border: solid 1px #bbb;
+/* 	border: solid 1px #bbb; */
 	width: 100%;
 	height: 100%;
 }

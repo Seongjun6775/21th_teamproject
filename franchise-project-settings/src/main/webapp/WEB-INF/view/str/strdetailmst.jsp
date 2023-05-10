@@ -19,7 +19,7 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7121fa95573c132c57b4649cfa281f57&libraries=services"></script>
-	
+
 	<script type="text/javascript">
 	function mkMap(addr, strNm){
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -66,16 +66,15 @@
 		}); 
 	}
 		$().ready(function() {
-				$(".grid > table > tbody > tr").click(function(){
+			/* $(".table_grid > table > tbody > tr").click(function(){
 					$("#isModify").val("true"); //수정모드
 					var data = $(this).data();
 					$("#strId").val(data.strid);
 					$("#strNm").val(data.strnm);
-					$("#strLctn").val(data.strlctn);
-					$("#strCty").val(data.strcty);
+					changeLocation(data.strlctn, data.strcty)
 					$("#strAddr").val(data.straddr);
 					$("#strCallNum").val(data.strcallnum);
-					$("#mbrId").val(data.mbrid);
+					$("#mbrId").val(data.mbrid + "(" + data.mbrnm + ")");
 					$("#strOpnTm").val(data.stropntm);
 					$("#strClsTm").val(data.strclstm);
 					$("#strRgstr").val(data.strrgstr);
@@ -101,7 +100,7 @@
 					$("#mdfyr").val("");
 					$("#mdfyDt").val("");
 					$("#useYn").prop("checked", false);
-				});
+				}); */
 				
 				$("#list_btn").click(function(){
 					location.href= "${context}/str/list";
@@ -205,19 +204,19 @@
 							//수정
 							$.post("${context}/api/str/update",
 									{"strNm" : $("#strNm").val(),
-									 "strLctn" : $("#strLctn").val(),
-									 "strCty" : $("#strCty").val(),
-									 "strAddr" : $("#strAddr").val() + ' ' + $("#sample4_detailAddress").val(),
-									 "strCallNum" : $("#strCallNum").val(),
-									 "mbrId" : $("#mbrId").val(),
-									 "strOpnTm" : $("#strOpnTm").val(),
-									 "strClsTm" : $("#strClsTm").val(),
-									 "strRgstr" : $("#strRgstr").val(),
-									 "mdfyr" : $("#mdfyr").val(),
-									 "useYn" : $("#useYn").val(),
-									 "ctyCdVO.ctyNm" : $("#sample4_sigungu").val(),
-									 "lctCdVO.lctNm" : $("#sample4_sido").val(),
-								}, $("#strdetailmst_form").serialize(), function(response) {
+								 "strLctn" : $("#strLctn").val(),
+								 "strCty" : $("#strCty").val(),
+								 "strAddr" : $("#strAddr").val() + ' ' + $("#sample4_detailAddress").val(),
+								 "strCallNum" : $("#strCallNum").val(),
+								 "mbrId" : $("#mbrId").val(),
+								 "strOpnTm" : $("#strOpnTm").val(),
+								 "strClsTm" : $("#strClsTm").val(),
+								 "strRgstr" : $("#strRgstr").val(),
+								 "mdfyr" : $("#mdfyr").val(),
+								 "useYn" : $("#useYn").val(),
+								 "ctyCdVO.ctyNm" : $("#sample4_sigungu").val(),
+								 "lctCdVO.lctNm" : $("#sample4_sido").val(),
+							}, $("#strdetailmst_form").serialize(), function(response) {
 								console.log($("#strdetailmst_form").serialize());
 							if(response.status == "200 OK"){
 								Swal.fire({
@@ -244,6 +243,60 @@
 							});
 						}
 				});
+				function changeLocation(strlctn, cityVal) {
+					
+					$("#strLctn").val(strlctn);
+					
+					var select = $("#strCty");
+					var strLctn = $("#strLctn").val();
+					var option;
+					select.children().remove();
+					$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+						if(response.status=="200 OK"){
+							ctyChangedList = response.data;
+							for(var i=0; i<ctyChangedList.length; i++){
+								option="<option value='"+ ctyChangedList[i].ctyId +"'>"+ ctyChangedList[i].ctyNm +"</option>"
+								select.append(option);
+					        }
+							select.val(cityVal);
+						}
+						else{
+							Swal.fire({
+						    	  icon: 'error',
+						    	  title: '실패',
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+							});
+							/* alert("실패!"); */
+						}
+					})
+				}
+				
+				var ctyChangedList;
+				$("#strLctn").change(function() {
+					var select = $("#strCty");
+					var strLctn = $("#strLctn").val();
+					var option;
+					select.children().remove();
+					$.get("${context}/api/str/changecty", {"lctId": strLctn}, function(response){
+						if(response.status=="200 OK"){
+							ctyChangedList = response.data;
+							for(var i=0; i<ctyChangedList.length; i++){
+								option="<option value='"+ ctyChangedList[i].ctyId +"'>"+ ctyChangedList[i].ctyNm +"</option>"
+								select.append(option);
+					        }
+						}
+						else{
+							Swal.fire({
+						    	  icon: 'error',
+						    	  title: '실패',
+						    	  showConfirmButton: false,
+						    	  timer: 2500
+							});
+							/* alert("실패!"); */
+						}
+					})
+				});
 					$("#search-btn").click(function(){
 						movePage(0);
 					});
@@ -257,6 +310,12 @@
 						var count = $(".check_idx").length;
 						var checkCount = $(".check_idx:checked").length;
 						$("#all_check").prop("checked", count == checkCount);
+					});
+					$("#search-keyword-strLctn").change(function(){
+						movePage(0);
+					});
+					$("#search-keyword-strCty").change(function(){
+						movePage(0);
 					});
 				});
 				function movePage(pageNo){
@@ -388,7 +447,8 @@
 							<span class="input-group-text">매장주소</span>
 							<input class="form-control " type="text" id="strAddr" name="strAddr" maxlength="200" value="${strVO.strAddr}"/>
 						</div>
-						<div style="padding-left: 77%; padding-top: 3%"> 
+						<div style="float: right; margin-top: 12px;">
+						<div style="margin-left: 51%; margin-bottom: 3%;"> 
 							<input type="button" onclick="sample4_execDaumPostcode()" class="btn btn-outline-secondary btn-default" value="매장 찾기"><br>
 							<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
 							<input type="hidden" id="sample4_postcode" placeholder="우편번호">
@@ -399,7 +459,6 @@
 							<input type="hidden" id="sample4_detailAddress" placeholder="상세주소">
 							<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 						</div>
-						<div style="float: right; margin-top: 12px;">
 							<div style="display:inline-block; margin-right: 10px;">
 								<label class="form-check-label">사용여부</label>
 								<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
@@ -475,12 +534,10 @@
 						                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
 						                if(data.autoRoadAddress) {
 						                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-						                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
 						                    guideTextBox.style.display = 'block';
 
 						                } else if(data.autoJibunAddress) {
 						                    var expJibunAddr = data.autoJibunAddress;
-						                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
 						                    guideTextBox.style.display = 'block';
 						                } else {
 						                    guideTextBox.innerHTML = '';

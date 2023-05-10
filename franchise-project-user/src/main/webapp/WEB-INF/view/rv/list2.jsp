@@ -195,9 +195,7 @@
 		<div class="content-setting title">리뷰</div>
 		<div class="overlay absolute"></div>
 	</div>
-	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
-		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 리뷰를 작성해보세요. </p>
-	</div>
+	
 	<div id="menu" class="flex-column">				
 	
 		<!-- searchbar -->
@@ -313,10 +311,10 @@
 <jsp:include page="../include/footer_user.jsp" />
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
-			<div class="popup_content">
+			<!-- <div class="popup_content">
 				<a class="send-memo-btn" href="javascript:void(0);">
 					<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
-			</div>
+			</div> -->
 			<div>
 				<a class="search-rv-btn" href="javascript:void(0);">
 					<i class='bx bx-search-alt-2'></i>작성 리뷰 보기</a>
