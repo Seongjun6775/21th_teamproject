@@ -12,6 +12,8 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/hr_common.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -59,7 +61,7 @@
 			if (mbrId != "${mbrVO.mbrId}") {
 				Swal.fire({
 			    	  icon: 'error',
-			    	  title: '자기가 작성한 글만 삭제할 수 있습니다.',
+			    	  title: '자기가 작성한 글만\n삭제할 수 있습니다.',
 			    	  showConfirmButton: false,
 			    	  timer: 2500
 				});
@@ -78,40 +80,53 @@
 				return;
 			}
 			
-			if (!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			$.post("${context}/api/hr/delete/${hr.hrId}", function(response) {
-				if (response.status == "200 OK") {
-					Swal.fire({
-				    	  icon: 'success',
-				    	  title: '정상적으로 삭제되었습니다.',
-				    	  showConfirmButton: true,
-				    	  confirmButtonColor: '#3085d6'
-					}).then((result)=>{
-						if(result.isConfirmed){
-							location.href="${context}/hr/hrlist";
-						}
-					});
-					/* alert("정상적으로 삭제되었습니다."); */
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + " / " + response.message); */
-				}
+			Swal.fire({
+			     title: '지원서 삭제',
+			     text: "지원서를 삭제하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '아니오',
+			     confirmButtonText: '예'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			    	  $.post("${context}/api/hr/delete/${hr.hrId}", function(response) {
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 삭제되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}/hr/hrlist";
+									}
+								});
+								/* alert("정상적으로 삭제되었습니다."); */
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.errorCode + " / " + response.message); */
+							}
+						});
+			      }else{
+			         return;
+			      }
 			});
+			
 		});
 		
 		$("#update_btn").click(function() {
 			if (delYn == "Y") {
 				Swal.fire({
 			    	  icon: 'error',
-			    	  title: '이미 삭제된 글은 수정할 수 없습니다.',
+			    	  title: '이미 삭제된 글은\n수정할 수 없습니다.',
 			    	  showConfirmButton: false,
 			    	  timer: 2500
 				});
@@ -122,7 +137,7 @@
 			if (mbrId != "${mbrVO.mbrId}") {
 				Swal.fire({
 			    	  icon: 'error',
-			    	  title: '자기가 작성한 글만 수정할 수 있습니다.',
+			    	  title: '자기가 작성한 글만\n수정할 수 있습니다.',
 			    	  showConfirmButton: false,
 			    	  timer: 2500
 				});
@@ -133,7 +148,7 @@
 			if (hrStat != "002-01") {
 				Swal.fire({
 			    	  icon: 'error',
-			    	  title: '접수 상태의 게시글만 수정할 수 있습니다.',
+			    	  title: '접수 상태의 게시글만\n수정할 수 있습니다.',
 			    	  showConfirmButton: false,
 			    	  timer: 2500
 				});
@@ -161,17 +176,21 @@
 } 
 </style>
 </head>
-<jsp:include page="../include/openBody.jsp" />
-	<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
-	        <span class="fs-5 fw-bold">회원 > 채용 지원 > 상세 조회</span>
-	    	<div style="position: absolute;right: 0;top: 0; margin: 20px;">
-				<button id="list_btn" class="btn btn-secondary" >목록</button>
-	        </div>
-      	</div>
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">인재채용
+			<div style="color: #ccc; padding-top: 10px;"></div>
+		</div>
+		<div class="overlay absolute"></div>
+	</div>
+	
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:20px;">
 			<div style="float:right;">
 				<button id="update_btn" class="btn btn-outline-primary btn-default" >수정</button>
 				<button id="delete_btn" class="btn btn-outline-danger btn-default" style="margin-right:10px">삭제</button>
+				<button id="list_btn" class="btn btn-secondary" >목록</button>
 			</div>
 			
 			<div style="padding:10px;">
@@ -245,5 +264,6 @@
 				</div>
 			</div>
 		</div>
-<jsp:include page="../include/closeBody.jsp" />
+	<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>
