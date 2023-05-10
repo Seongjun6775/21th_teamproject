@@ -174,6 +174,13 @@
     font-weight: 800;
 /*     margin-right: 15px; */
 } 
+
+#menu {
+/* 	background-color: #F002; */
+	width: 1440px;
+	margin: 0 auto;
+	margin-bottom: 144px;
+}
 </style>
 </head>
 <body class="scroll">
@@ -185,7 +192,7 @@
 		</div>
 		<div class="overlay absolute"></div>
 	</div>
-	
+	<div id="menu">
 		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px;  margin:80px;">
 			<div style="float:right;">
 				<button id="update_btn" class="btn btn-outline-primary btn-default" >수정</button>
@@ -266,6 +273,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	<jsp:include page="../include/footer_user.jsp" />
 </body>
 </html>

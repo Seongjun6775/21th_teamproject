@@ -48,10 +48,10 @@
            AND NT_TTL LIKE '%' || #{ntTtl} || '%'
         </if>
         <if test='sndrId != null and sndrId != ""'>
-           AND SNDR_ID = #{sndrId}
+           AND SNDR_ID LIKE '%' || #{sndrId} || '%'
         </if>
         <if test='rcvrId != null and rcvrId != ""'>
-           AND RCVR_ID = #{rcvrId}
+           AND RCVR_ID LIKE '%' || #{rcvrId} || '%'
         </if>
         <if test='useYn != null and useYn != ""'>
            AND USE_YN = #{useYn}
@@ -125,7 +125,7 @@
            AND NT_TTL LIKE '%' || #{ntTtl} || '%'
         </if>
         <if test='sndrId != null and sndrId != ""'>
-           AND SNDR_ID = #{sndrId}
+           AND SNDR_ID LIKE '%' || #{sndrId} || '%'
         </if>
         <include refid="Common.pageFooter" />
 	</select>
