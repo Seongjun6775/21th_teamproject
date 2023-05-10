@@ -18,8 +18,23 @@
 			<id property="ctyId" column="STR_CTY"/>
 			<result property="ctyNm" column="CTY_NM"/>
 		</association>
+		<association property="mbrVO"
+					  javaType="com.ktds.fr.mbr.vo.MbrVO">
+			<id property="mbrId" column="MBR_ID"/>
+			<result property="mbrNm" column="MBR_NM"/>
+		</association>
 	</resultMap>
 
+<!-- 	<resultMap id="ctyCdVOMap" 
+				type="com.ktds.fr.ctycd.vo.CtyCdVO"
+				autoMapping="true">
+		<id property="ctyId" column="CTY_ID"/>
+		<association property="lctCdVO"
+					  javaType="com.ktds.fr.lctcd.vo.LctCdVO">
+			<id property="lctId" column="LCT_ID"/>
+			<result property="lctNm" column="LCT_NM"/>
+		</association>
+	</resultMap> -->
 
 
 	<select id="readAllStrMaster"
@@ -125,7 +140,6 @@
 		  LEFT JOIN CTY_CD C 
 		  	ON S.STR_CTY = C.CTY_ID
 		 WHERE S.STR_ID= #{_parameter}
-		 ORDER BY S.STR_ID ASC
 	</select>
 	
 	<select id="readBlockStrByMan"
@@ -165,7 +179,6 @@
 		  LEFT JOIN CTY_CD C 
 		  	ON S.STR_CTY = C.CTY_ID
 		 WHERE S.STR_ID= #{_parameter}
-		 ORDER BY S.STR_ID ASC
 	</select>
 	
 	<insert id="createOneStr"
@@ -222,7 +235,7 @@
 				 , STR_OPN_TM =TO_DATE(#{strOpnTm}, 'HH24:MI:SS')
 			 	 , STR_CLS_TM =TO_DATE(#{strClsTm}, 'HH24:MI:SS')
 				 , STR_RGSTR=#{strRgstr}
-			 	 , STR_RGST_DT=SYSDATE
+			 	 , STR_RGST_DT=TO_CHAR(STR_RGST_DT, 'YYYY-MM-DD')
 				 , MDFYR=#{mdfyr}
 				 , MDFY_DT=SYSDATE
 				 , USE_YN= NVL(#{useYn}, 'N')
@@ -237,7 +250,7 @@
 				 , TO_DATE(STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
 			 	 , TO_DATE(STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
 			 	 , STR_RGSTR=#{strRgstr}
-			 	 , STR_RGST_DT=SYSDATE
+			 	 , STR_RGST_DT=TO_CHAR(STR_RGST_DT, 'YYYY-MM-DD') STR_RGST_DT
 				 , MDFYR=#{mdfyr}
 				 , MDFY_DT=SYSDATE
 				 , USE_YN= NVL(#{useYn}, 'N')
@@ -266,8 +279,10 @@
 			 , S.DEL_YN
 		  FROM STR S
 		 WHERE S.DEL_YN = 'N'
+		<if test='mbrVO != null and mbrVO !=""'>
 		   AND S.USE_YN = 'N'
 		   AND S.MBR_ID IS NULL
+		</if>   
 		<if test='strNm != null and strNm != ""'>
 		   AND S.STR_NM LIKE '%' || #{strNm} || '%'
 		</if>
@@ -276,6 +291,93 @@
 		   AND S.STR_ADDR LIKE '%' || #{strAddr} || '%'
 		</if>
 	</select>
+	
+	<select id="readCategory"
+			parameterType="string"
+			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
+		SELECT C.CTY_ID
+	 		 , C.CTY_NM
+		  FROM CTY_CD C
+		  JOIN LCT_CD L
+		  	ON C.LCT_ID = L.LCT_ID
+		<if test='lctId != null and lctId != ""'>
+		 WHERE L.LCT_ID LIKE '%' || #{_parameter} || '%'
+		</if>
+		 ORDER BY C.CTY_ID ASC 
+	</select>
+	
+	<!-- 소비자용 매장조회 -->
+	<select id="readAllUseY"
+			parameterType="com.ktds.fr.str.vo.StrVO"
+			resultMap="strVOMap">
+		SELECT S.STR_ID
+			 , S.STR_NM
+			 , S.STR_LCTN
+			 , L.LCT_ID 
+			 , L.LCT_NM 
+			 , S.STR_CTY
+			 , C.CTY_ID
+			 , C.CTY_NM
+			 , S.STR_ADDR
+			 , S.STR_CALL_NUM
+			 , S.MBR_ID
+			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
+			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
+		  FROM STR S
+		  LEFT JOIN MBR M	
+		    ON S.MBR_ID = M.MBR_ID
+		  LEFT JOIN LCT_CD L
+		  	ON S.STR_LCTN = L.LCT_ID
+		  LEFT JOIN CTY_CD C 
+		  	ON S.STR_CTY = C.CTY_ID
+		 WHERE S.DEL_YN = 'N'
+		   AND S.USE_YN = 'Y'
+		   AND S.STR_CTY LIKE NVL(#{_parameter}, '%')
+		 ORDER BY S.STR_NM ASC
+	</select>
+	<!-- 회원 기능과 연동 -->
+	<select id="readOneStrByMbrId"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM STR
+		 WHERE MBR_ID= #{_parameter}
+	</select>
+	<!-- 회원 기능과 연동 -->
+	<update id="deleteOneManagerByMbrId"
+			parameterType="string">
+			UPDATE STR
+			   SET MBR_ID = '' 
+			 WHERE MBR_ID = #{_parameter}
+	</update>
+	<!-- 회원 기능과 연동 -->
+	<update id="updateOneStrByStrIdAndMbrId"
+			parameterType="com.ktds.fr.mbr.vo.MbrVO">
+			UPDATE STR
+			   SET MBR_ID = #{mbrId} 
+			 WHERE STR_ID = #{strId}
+	</update>
+	<!-- 회원 기능과 연동 -->
+	<select id="readAllStrByMbrId"
+			parameterType="arrayList"
+			resultType="string">
+		SELECT STR_ID
+		  FROM STR
+		 WHERE MBR_ID IN
+		 <foreach collection="list" item="mbrId" open="(" close=")" separator=", ">
+		 	#{mbrId}
+		 </foreach>	
+	</select>
+	<!-- 회원 기능과 연동 -->
+	<update id="deleteAllManagerByStrId"
+			parameterType="arrayList">
+			UPDATE STR
+			   SET MBR_ID = '' 
+			 WHERE STR_ID IN 
+			 <foreach collection="list" item="strId" open="(" close=")" separator=", ">
+			 	#{strId}
+			 </foreach>	
+	</update>
 	
 	<!-- 누락매장검색용 -->
 	<select id="readAll"
@@ -291,47 +393,36 @@
 			 , S.DEL_YN
 		  FROM STR S
 		 WHERE S.DEL_YN = 'N'
+		 ORDER BY S.STR_NM ASC 
 	</select>
 	
 	
-	<!-- 소비자용 매장조회 -->
-	<select id="id"
+	
+	
+	
+	
+	<!-- 매출조회 관련 / 지역, 도시 조회 시 -->
+	<select id="readAllLctCty"
 			parameterType="com.ktds.fr.str.vo.StrVO"
-			resultType="com.ktds.fr.str.vo.StrVO">
+			resultMap="strVOMap">
 		SELECT S.STR_ID
 			 , S.STR_NM
 			 , S.STR_LCTN
 			 , S.STR_CTY
-			 , S.STR_ADDR
-			 , S.STR_CALL_NUM
-			 , S.MBR_ID
-			 , TO_CHAR(S.STR_OPN_TM, 'HH24:MI:SS') STR_OPN_TM
-			 , TO_CHAR(S.STR_CLS_TM, 'HH24:MI:SS') STR_CLS_TM
 		  FROM STR S
-		 WHERE S.USE_YN = 'Y'
-		   AND S.DEL_YN = 'N'
+		  LEFT JOIN MBR M	
+		    ON S.MBR_ID = M.MBR_ID
+		  LEFT JOIN LCT_CD L
+		  	ON S.STR_LCTN = L.LCT_ID
+		  LEFT JOIN CTY_CD C 
+		  	ON S.STR_CTY = C.CTY_ID
+		 WHERE S.DEL_YN = 'N'
+		   AND S.USE_YN = 'Y'
+		   AND S.STR_LCTN LIKE NVL(#{strLctn}, '%')
+		   AND S.STR_CTY LIKE NVL(#{strCty}, '%')
+		 ORDER BY S.STR_NM ASC
 	</select>
 	
-	<!-- 회원 기능과 연동 -->
-	<select id="readOneStrByMbrId"
-			parameterType="string"
-			resultType="_int">
-		SELECT COUNT(1)
-		  FROM STR
-		 WHERE MBR_ID= #{_parameter}
-	</select>
-	<!-- 회원 기능과 연동 -->
-	<update id="deleteOneManagerByMbrId"
-			parameterType="string">
-			UPDATE STR
-			   SET MBR_ID = NULL 
-			 WHERE MBR_ID = #{_parameter}
-	</update>
-	<update id="updateOneStrByStrIdAndMbrId"
-			parameterType="com.ktds.fr.mbr.vo.MbrVO">
-			UPDATE STR
-			   SET MBR_ID = #{mbrId} 
-			 WHERE STR_ID = #{strId}
-	</update>
+	
 
 </mapper>

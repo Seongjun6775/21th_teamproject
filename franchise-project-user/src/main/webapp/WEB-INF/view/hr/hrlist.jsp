@@ -11,9 +11,31 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		
+		if ("${sessionScope.__MBR__.mbrId}" == "") {
+			Swal.fire({
+			     title: '로그인 필요',
+			     text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '취소',
+			     confirmButtonText: '로그인'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			         $("#img_btn").click();
+			      }else{
+			         $("#btn-modal-close").click();
+			      }
+			});
+		}
+		
 		$("#create-btn").click(function() {
 			location.href="${context}/hr/hrcreate"
 		});
@@ -39,12 +61,20 @@
 } 
 </style>
 </head>
-<jsp:include page="../include/openBody.jsp" />
-			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-				<span class="fs-5 fw-bold">회원 > 채용 지원</span>
-		    </div>
-			<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
-				<div style="margin: 13px;">총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">인재채용
+			<div style="color: #ccc; padding-top: 10px;"></div>
+		</div>
+		<div class="overlay absolute"></div>
+	</div>
+	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
+		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 최신 채용정보를 확인하세요. </p>
+	</div>
+	
+			<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:80px; height: 1200px;">
 				<table class="table caption-top table-hover" style="text-align: center;">
 				  <thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 				    <tr>
@@ -132,5 +162,6 @@
 	       		</div> 
 			</div>
 		</div>
-<jsp:include page="../include/closeBody.jsp" />
+	<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>

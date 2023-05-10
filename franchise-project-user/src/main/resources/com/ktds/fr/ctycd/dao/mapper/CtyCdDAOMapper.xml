@@ -25,10 +25,47 @@
 		  FROM CTY_CD C
 		  JOIN LCT_CD L
 		  	ON C.LCT_ID = L.LCT_ID
-		 <if test='ctyId != null and ctyId != ""'>
-		 WHERE C.CTY_ID LIKE '%' || #{ctyId} || '-%'
+		 WHERE 1 = 1
+		<if test='ctyId != null and ctyId != ""'>
+		   AND C.CTY_ID LIKE '%' || #{ctyId} || '%'
+		</if>
+		<if test='lctId != null and lctId != ""'>
+		   AND L.LCT_ID LIKE '%' || #{lctId} || '%'
 		</if>
 		 ORDER BY C.CTY_ID ASC 
+	</select>
+
+
+	<!-- 매장이 있는 도시만 줏어오기 -->
+	<select id="read"
+			parameterType="com.ktds.fr.ctycd.vo.CtyCdVO"
+			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
+		SELECT CTY_ID
+			 , CTY_NM
+			 , LCT_ID
+		  FROM CTY_CD 
+		 WHERE LCT_ID = NVL(#{lctId}, '-') 
+		   AND CTY_ID IN (SELECT DISTINCT STR_CTY
+				 			FROM STR
+				 		   WHERE USE_YN = 'Y'
+				 			 AND DEL_YN = 'N')
+		 ORDER BY CTY_NM ASC 
+	</select>
+	
+	<!-- 매장이 있는 도시만 + 선택없을 시 전부 -->
+	<select id="readCtyInLct"
+			parameterType="com.ktds.fr.ctycd.vo.CtyCdVO"
+			resultType="com.ktds.fr.ctycd.vo.CtyCdVO">
+		SELECT CTY_ID
+			 , CTY_NM
+			 , LCT_ID
+		  FROM CTY_CD 
+		 WHERE LCT_ID LIKE NVL(#{lctId}, '%') 
+		   AND CTY_ID IN (SELECT DISTINCT STR_CTY
+				 			FROM STR
+				 		   WHERE USE_YN = 'Y'
+				 			 AND DEL_YN = 'N')
+		 ORDER BY CTY_NM ASC 
 	</select>
 
 
