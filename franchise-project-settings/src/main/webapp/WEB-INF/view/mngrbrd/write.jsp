@@ -78,14 +78,14 @@
 				</div>
 		    </div>
 
-			<div class="bg-white rounded shadow-sm" style="padding: 40px 18px 23px 35px; margin:20px;">
+			<div class="bg-white rounded shadow-sm" style="padding: 40px 40px 23px 35px; margin:20px;">
 				<!-- <h2 class="fw-bold" style="margin: 20px;">작성</h2> -->
 				<div>
 					<form id="create_form" >
 						<div class="header-option-right">
-							<div class="create-group form-check-label" style="display: inline-block;">		
+						<%-- 	<div class="create-group form-check-label" style="display: inline-block;">		
 								게시여부<input type="checkbox" id="useYn" name="useYn"  value="Y" ${mngrBrd.useYn =='Y' ? 'checked' : ''}/>
-							</div>
+							</div> --%>
 							<c:if test="${sessionScope.__MBR__.mbrLvl eq '001-01'}">
 								<div class="create-group form-check-label" style="display: inline-block;">
 									공지여부<input type="checkbox" id="ntcYn" name="ntcYn" value="Y" ${mngrBrd.ntcYn =='Y' ? 'checked' : ''} />
