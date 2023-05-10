@@ -61,40 +61,40 @@ public class HrController {
 	 * @param hrVO 검색으로 받아올 기타 조건들
 	 * @return 최고관리자 채용 관리 페이지
 	 */
-	@GetMapping("/hr/hrmstrlist")
-	public String viewHrMstrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
-									, @RequestParam(required=false, defaultValue = "") String searchIdx
-									, @RequestParam(required=false, defaultValue = "") String keyword
-									, Model model, HrVO hrVO) {
-		System.out.println(hrVO.getViewCnt());
-		// 접근한 계정이 최고관리자인지 확인합니다.
-		if (mbrVO.getMbrLvl().equals("001-01")) {
-			// 검색 조건을 확인하여 값을 부여합니다.
-			if (searchIdx.equals("hrTtl")) {
-				hrVO.setHrTtl(keyword);
-			}
-			if (searchIdx.equals("mbrId")) {
-				hrVO.setMbrId(keyword);
-			}
-			// 리스트의 검색 초기값을 '삭제되지 않음( - )'으로 설정합니다.
-			if (hrVO.getDelYn() == null && hrVO.getDelYn() != "") {
-				hrVO.setDelYn("N");
-			}
-			// 채용 게시판의 모든 게시글을 가져와 hrList로 전송합니다.
-			List<HrVO> hrList = hrService.readAllHr(hrVO);
-			model.addAttribute("hrList", hrList);
-			// 권한 확인 및 검색을 위해 필요한 정보들을 model로 전송합니다.
-			model.addAttribute("mbrVO", mbrVO);
-			model.addAttribute("hrVO", hrVO);
-			model.addAttribute("searchIdx", searchIdx);
-			model.addAttribute("keyword", keyword);
-			
-			return "hr/hrmstrlist";
-		}
-		// 최고관리자가 아닐 경우, 다시 권한을 확인하여 적절한 페이지로 이동시킵니다.
-		return "redirect:/hr/list";
-	}
-	
+//	@GetMapping("/hr/hrmstrlist")
+//	public String viewHrMstrListPage(@SessionAttribute("__MBR__") MbrVO mbrVO
+//									, @RequestParam(required=false, defaultValue = "") String searchIdx
+//									, @RequestParam(required=false, defaultValue = "") String keyword
+//									, Model model, HrVO hrVO) {
+//		System.out.println(hrVO.getViewCnt());
+//		// 접근한 계정이 최고관리자인지 확인합니다.
+//		if (mbrVO.getMbrLvl().equals("001-01")) {
+//			// 검색 조건을 확인하여 값을 부여합니다.
+//			if (searchIdx.equals("hrTtl")) {
+//				hrVO.setHrTtl(keyword);
+//			}
+//			if (searchIdx.equals("mbrId")) {
+//				hrVO.setMbrId(keyword);
+//			}
+//			// 리스트의 검색 초기값을 '삭제되지 않음( - )'으로 설정합니다.
+//			if (hrVO.getDelYn() == null && hrVO.getDelYn() != "") {
+//				hrVO.setDelYn("N");
+//			}
+//			// 채용 게시판의 모든 게시글을 가져와 hrList로 전송합니다.
+//			List<HrVO> hrList = hrService.readAllHr(hrVO);
+//			model.addAttribute("hrList", hrList);
+//			// 권한 확인 및 검색을 위해 필요한 정보들을 model로 전송합니다.
+//			model.addAttribute("mbrVO", mbrVO);
+//			model.addAttribute("hrVO", hrVO);
+//			model.addAttribute("searchIdx", searchIdx);
+//			model.addAttribute("keyword", keyword);
+//			
+//			return "hr/hrmstrlist";
+//		}
+//		// 최고관리자가 아닐 경우, 다시 권한을 확인하여 적절한 페이지로 이동시킵니다.
+//		return "redirect:/hr/list";
+//	}
+//	
 	/**
 	 * 일반 회원들이 확인하는 채용 페이지입니다.
 	 * @param mbrVO 현재 접속중인 계정 정보
