@@ -68,10 +68,10 @@
 		AND EVNT.EVNT_CNTNT LIKE '%' || #{evntCntnt} || '%'
 		 </if>
 		 <if test="evntStrtDt != null and evntStrtDt != ''">
-		AND TO_CHAR(EVNT_STRT_DT, 'YYYY-MM-DD') = #{evntStrtDt}
+		AND EVNT_STRT_DT >= TO_DATE(#{evntStrtDt}, 'YYYY-MM-DD')
 		 </if>
 		 <if test="evntEndDt != null and evntEndDt != ''">
-		AND TO_CHAR(EVNT_END_DT, 'YYYY-MM-DD') = #{evntEndDt}
+		AND EVNT_END_DT <![CDATA[<]]>= TO_DATE(#{evntEndDt}, 'YYYY-MM-DD')
 		 </if>
 		 <if test="useYn != null and useYn != 'ALL'">
 		AND EVNT.USE_YN = #{useYn}
