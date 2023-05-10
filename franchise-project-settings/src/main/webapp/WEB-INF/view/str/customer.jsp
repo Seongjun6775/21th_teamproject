@@ -19,7 +19,7 @@
 
 <script type="text/javascript">
 	$().ready(function() {
-		$(".table_grid > table > tbody > tr").click(function(){
+		$("table > tbody > tr").click(function(){
 			$("#isModify").val("true"); //수정모드
 			var data = $(this).data();
 			$("#strId").val(data.strid);
@@ -118,8 +118,9 @@
 		<div class="overlay absolute"></div>
 	</div>
 		<div id="menu" class="flex-column"> 
-		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-			<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>	
+		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px;">
+			<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>
+			<div style="display: inline-block; width: 62%;">
 			<table class="table caption-top table-hover" style="text-align: center;">
 				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 					<tr>
@@ -190,6 +191,16 @@
 					</c:choose>
 				</tbody>
 			</table>
+		</div>
+		<div style="display: inline-block;">
+			<div id="map" style="width:500px;height:450px;">좌측의 원하는 위치의 매장을 클릭하시면 지도가 보입니다!</div>
+			<p>
+				<em class="link"> <a href="javascript:void(0);"
+					onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+						혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요. </a>
+				</em>
+			</p>
+		</div>
 			<div class="pagenate">
 				<nav aria-label="Page navigation example">
 					<ul class="pagination" style="text-align: center;">
@@ -221,13 +232,6 @@
 					</ul>
 				</nav>
 			</div>
-		<p style="margin-top: -12px">
-			<em class="link"> <a href="javascript:void(0);"
-				onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
-					혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요. </a>
-			</em>
-		</p>
-		<div id="map" style="width:500px;height:400px;">상단의 원하는 위치의 매장을 클릭하시면 지도가 보입니다!</div>
 	
 		<script type="text/javascript">
 		function mkMap(addr, strNm){
