@@ -311,10 +311,10 @@
 <jsp:include page="../include/footer_user.jsp" />
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
-			<div class="popup_content">
+			<!-- <div class="popup_content">
 				<a class="send-memo-btn" href="javascript:void(0);">
 					<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
-			</div>
+			</div> -->
 			<div>
 				<a class="search-rv-btn" href="javascript:void(0);">
 					<i class='bx bx-search-alt-2'></i>작성 리뷰 보기</a>
