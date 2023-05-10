@@ -203,7 +203,7 @@
 					if($("#isModify").val() == "false"){
 							//수정
 							$.post("${context}/api/str/update",
-									{"strNm" : $("#strNm").val(),
+								/* {"strNm" : $("#strNm").val(),
 								 "strLctn" : $("#strLctn").val(),
 								 "strCty" : $("#strCty").val(),
 								 "strAddr" : $("#strAddr").val() + ' ' + $("#sample4_detailAddress").val(),
@@ -216,7 +216,7 @@
 								 "useYn" : $("#useYn").val(),
 								 "ctyCdVO.ctyNm" : $("#sample4_sigungu").val(),
 								 "lctCdVO.lctNm" : $("#sample4_sido").val(),
-							}, $("#strdetailmst_form").serialize(), function(response) {
+							} */$("#strdetailmst_form").serialize(), function(response) {
 								console.log($("#strdetailmst_form").serialize());
 							if(response.status == "200 OK"){
 								Swal.fire({
@@ -463,7 +463,7 @@
 								<label class="form-check-label">사용여부</label>
 								<input class="form-check-input" type="checkbox" id="useYn" name="useYn" ${strVO.useYn == "Y" ? 'checked' : ''} value="Y"/>
 							</div>
-							<button id="save_btn" class="btn btn-outline-primary btn-default">매장 수정</button>
+							<button type="button" id="save_btn" class="btn btn-outline-primary btn-default">매장 수정</button>
 						</div>
 					</div>
 				</div>
