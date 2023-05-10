@@ -143,12 +143,8 @@
 		<div class="overlay absolute"></div>
 	</div>
 	<div id="menu">
-		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; margin:80px;">
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 50px 18px; ">
 			<h2 class="fw-bold" style="margin: 20px;">채용 ${mbrVO.mbrLvl == '001-01' ? '공지' : '지원'} 작성</h2>
-			<div style="float: right; margin: 20px 0 20px 20px">
-				<button id="save_btn" class="btn btn-success">작성</button>
-				<button id="cancel_btn" class="btn btn-secondary">취소</button>
-			</div>
 			<form id="hr_form" enctype="multipart/form-data">
 				<div>
 					<div>
@@ -189,6 +185,10 @@
 								 placeholder="특이사항이 있다면 자유롭게 기술 부탁드립니다." class="form-control"></textarea>
 					</div>
 				</div>
+			<div style="float: right; margin-top: 5px;">
+				<button type="button" id="save_btn" class="btn btn-success">작성</button>
+				<button type="button" id="cancel_btn" class="btn btn-secondary">취소</button>
+			</div>
 			</form>
 		</div>
 	</div>

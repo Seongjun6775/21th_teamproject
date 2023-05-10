@@ -63,10 +63,10 @@
 				<table class="table  table-hover" style="text-align: center;">
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
-							<th scope="col" class="col-1"  style="border-radius: 6px 0 0 0;">선택</th>
-							<th scope="col" class="col-1">매장명</th>
-							<th scope="col" class="col-1">매장주소</th>
-							<th scope="col" class="col-1">가맹점주</th>
+							<th scope="col" class=""  style="border-radius: 6px 0 0 0;">선택</th>
+							<th scope="col" class="">매장명</th>
+							<th scope="col" class="">매장주소</th>
+							<th scope="col" class="">가맹점주</th>
 						</tr>
 					</thead>
 					<tbody>
