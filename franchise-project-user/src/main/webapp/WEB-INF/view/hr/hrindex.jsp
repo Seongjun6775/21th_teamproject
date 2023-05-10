@@ -16,6 +16,33 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 
+$().ready(function() {
+	$(".list-btn").click(function() {
+		if ("${sessionScope.__MBR__.mbrId}" == "") {
+			Swal.fire({
+			     title: '로그인 필요',
+			     text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '취소',
+			     confirmButtonText: '로그인'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			         $("#img_btn").click();
+			      }else{
+			         $("#btn-modal-close").click();
+			      }
+			});
+		}
+		else {
+			location.href = "${context}/hr/hrlist";
+		}
+	});
+
+});
+
 
 
 </script>
@@ -45,7 +72,7 @@
 					지금 프랜차이즈에서 여러분의 열정을 펼쳐보세요!
 				</p>
 				<div style="margin-top: 50px;">
-					<a href="${context}/hr/list" style="background-color: #ffbe2e; border-radius: 35px;
+					<a href="javascript:void(0);" class="list-btn" style="background-color: #ffbe2e; border-radius: 35px;
 														font-size: 20px; padding: 30px; font-weight: bold; color: #FFF;">
 						매장 점원 지원
 					</a>
@@ -61,7 +88,7 @@
 					프랜차이즈와 함께 당신의 소중한 꿈을 이뤄보세요!
 				</p>
 				<div style="margin-top: 50px;">
-					<a href="${context}/hr/list" style="background-color: #ffbe2e; border-radius: 35px;
+					<a href="javascript:void(0);" class="list-btn" style="background-color: #ffbe2e; border-radius: 35px;
 														font-size: 20px; padding: 30px; font-weight: bold; color: #FFF;">
 						가맹점주 지원
 					</a>

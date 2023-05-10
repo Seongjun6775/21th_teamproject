@@ -20,8 +20,27 @@
 		var mbrId = ("${hr.mbrId}");
 		var hrStat = ("${hr.hrStat}");
 		
+		if ("${sessionScope.__MBR__.mbrId}" == "") {
+			Swal.fire({
+			     title: '로그인 필요',
+			     text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '취소',
+			     confirmButtonText: '로그인'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			         $("#img_btn").click();
+			      }else{
+			         $("#btn-modal-close").click();
+			      }
+			});
+		}
+		
 		$("#list_btn").click(function() {
-			location.href="${context}/hr/list";
+			location.href="${context}/hr/hrlist";
 		});
 		
 		$("#delete_btn").click(function() {
@@ -71,7 +90,7 @@
 				    	  confirmButtonColor: '#3085d6'
 					}).then((result)=>{
 						if(result.isConfirmed){
-							location.href="${context}/hr/list";
+							location.href="${context}/hr/hrlist";
 						}
 					});
 					/* alert("정상적으로 삭제되었습니다."); */

@@ -82,7 +82,7 @@
 					</div>
 				</div>
 			</div>
-					<div style="right: 0;top: 0; margin: 20px;">
+			<div style="right: 0;top: 0; margin: 20px;">
 				<button id="list_btn" class="btn btn-secondary" >목록</button>
 		</div>
 		</div>										

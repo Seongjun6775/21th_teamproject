@@ -1,6 +1,12 @@
 package com.ktds.fr.odrdtl.vo;
 
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.evnt.vo.EvntVO;
+import com.ktds.fr.evntprdt.vo.EvntPrdtVO;
+import com.ktds.fr.lctcd.vo.LctCdVO;
+import com.ktds.fr.mbr.vo.MbrVO;
+import com.ktds.fr.odrlst.vo.OdrLstVO;
 import com.ktds.fr.prdt.vo.PrdtVO;
 import com.ktds.fr.str.vo.StrVO;
 
@@ -38,10 +44,51 @@ public class OdrDtlVO extends AbstractVO{
 	 * 주문한 회원 ID
 	 */
 	private String mbrId;
-	
+	/**
+	 * 주문시 단가
+	 */
+	private int odrDtlPrc;
+	/**
+	 * 주문한 상품의 정보
+	 */
 	private PrdtVO prdtVO;
+	/**
+	 * 주문한 매장의 정보
+	 */
 	private StrVO strVO;
+	/**
+	 * 주문 상품의 이벤트 정보
+	 */
+	private EvntVO evntVO;
+	private EvntPrdtVO evntPrdtVO;
+	
+	private OdrLstVO odrLstVO;
 
+	
+	private MbrVO mbrVO;
+	
+	/**
+	 * 통계 검색용
+	 */
+	private String oneDay;
+	private String monthly;
+	private String yearly;
+	private String startDt;
+	private String endDt;
+	
+	private String groupBy;
+	private String orderBy;
+	
+	private long sumPrc;
+	private int sumCnt;
+	
+	/* 매장별 매출 조회용 */
+	private CtyCdVO ctyCdVO;
+	private LctCdVO lctCdVO;
+	/*일별 날짜*/
+	private String mdfyDt;
+	
+	
 	public String getOdrDtlId() {
 		return odrDtlId;
 	}
@@ -105,6 +152,14 @@ public class OdrDtlVO extends AbstractVO{
 	public void setMbrId(String mbrId) {
 		this.mbrId = mbrId;
 	}
+	
+	public int getOdrDtlPrc() {
+		return odrDtlPrc;
+	}
+
+	public void setOdrDtlPrc(int odrDtlPrc) {
+		this.odrDtlPrc = odrDtlPrc;
+	}
 
 	public PrdtVO getPrdtVO() {
 		return prdtVO;
@@ -121,6 +176,137 @@ public class OdrDtlVO extends AbstractVO{
 	public void setStrVO(StrVO strVO) {
 		this.strVO = strVO;
 	}
+
+	public EvntVO getEvntVO() {
+		return evntVO;
+	}
+
+	public void setEvntVO(EvntVO evntVO) {
+		this.evntVO = evntVO;
+	}
+
+	public EvntPrdtVO getEvntPrdtVO() {
+		return evntPrdtVO;
+	}
+
+	public void setEvntPrdtVO(EvntPrdtVO evntPrdtVO) {
+		this.evntPrdtVO = evntPrdtVO;
+	}
 	
+	public OdrLstVO getOdrLstVO() {
+		return odrLstVO;
+	}
+
+	public void setOdrLstVO(OdrLstVO odrLstVO) {
+		this.odrLstVO = odrLstVO;
+	}
+
+	
+
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
+
+	public String getOneDay() {
+		return oneDay;
+	}
+
+	public void setOneDay(String oneDay) {
+		this.oneDay = oneDay;
+	}
+
+	public String getMonthly() {
+		return monthly;
+	}
+
+	public void setMonthly(String monthly) {
+		this.monthly = monthly;
+	}
+
+	public String getYearly() {
+		return yearly;
+	}
+
+	public void setYearly(String yearly) {
+		this.yearly = yearly;
+	}
+
+	public String getStartDt() {
+		return startDt;
+	}
+
+	public void setStartDt(String startDt) {
+		this.startDt = startDt;
+	}
+
+	public String getEndDt() {
+		return endDt;
+	}
+
+	public void setEndDt(String endDt) {
+		this.endDt = endDt;
+	}
+
+	
+	public String getGroupBy() {
+		return groupBy;
+	}
+
+	public void setGroupBy(String groupBy) {
+		this.groupBy = groupBy;
+	}
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public long getSumPrc() {
+		return sumPrc;
+	}
+
+	public void setSumPrc(long sumPrc) {
+		this.sumPrc = sumPrc;
+	}
+
+	public int getSumCnt() {
+		return sumCnt;
+	}
+
+	public void setSumCnt(int sumCnt) {
+		this.sumCnt = sumCnt;
+	}
+	
+	public CtyCdVO getCtyCdVO() {
+		return ctyCdVO;
+	}
+
+	public void setCtyCdVO(CtyCdVO ctyCdVO) {
+		this.ctyCdVO = ctyCdVO;
+	}
+
+	public LctCdVO getLctCdVO() {
+		return lctCdVO;
+	}
+
+	public void setLctCdVO(LctCdVO lctCdVO) {
+		this.lctCdVO = lctCdVO;
+	}
+
+	public String getMdfyDt() {
+		return mdfyDt;
+	}
+
+	public void setMdfyDt(String mdfyDt) {
+		this.mdfyDt = mdfyDt;
+	}
+
 
 }

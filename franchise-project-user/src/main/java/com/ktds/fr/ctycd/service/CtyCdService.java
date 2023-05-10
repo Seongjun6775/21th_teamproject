@@ -8,4 +8,8 @@ public interface CtyCdService {
 
 	public List<CtyCdVO> readCategory(CtyCdVO ctyCdVO);
 	
+	// 지점조회
+	public List<CtyCdVO> read(String lctId);
+	public List<CtyCdVO> readCtyInLct(String lctId);
+	
 }
