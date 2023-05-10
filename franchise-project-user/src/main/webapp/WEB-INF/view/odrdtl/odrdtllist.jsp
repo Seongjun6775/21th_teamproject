@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
 <link rel="stylesheet" href="${context}/css/odrdtl_odrdtllist.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
 <link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
@@ -244,15 +245,30 @@
 	}
 	
 </script>
+
+<style>
+#menu {
+/* 	background-color: #F002; */
+	width: 1440px;
+	margin: 0 auto;
+	margin-bottom: 144px;
+}
+</style>
+
 </head>
-<jsp:include page="../include/openBody.jsp" />
-			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-				<span class="fs-5 fw-bold">주문목록 > 주문조회</span>
-			</div>
-			<div>총 ${odrDtlList.size() > 0 ? odrDtlList.get(0).totalCount : 0}건</div>
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">주문조회
+			<div style="color: #ccc; padding-top: 10px;"></div>
+		</div>
+		<div class="overlay absolute"></div>
+	</div>
 			<!-- <button id="check_del_btn" class="btn btn-danger btn-sm">일괄삭제</button> -->
 			<div class="odrdtl_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
-				<div>
+				<div id="menu">
+					<div>총 ${odrDtlList.size() > 0 ? odrDtlList.get(0).totalCount : 0}건</div>
 					<c:choose>
 						<c:when test="${not empty odrDtlList}">
 						<c:set var="sum" value="0" />
@@ -381,5 +397,6 @@
 				</div>
 			</div>
 				
-<jsp:include page="../include/closeBody.jsp" />
+	<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>

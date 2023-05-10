@@ -201,9 +201,11 @@
 			<div style="margin-top: 10px">
 			
 			<div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; text-align: right;">
-				<div class="hr_detail_header">등록일 : ${hr.hrRgstDt}</div>
+				<fmt:parseDate value="${hr.hrRgstDt}" var="parseHrRgstDt" pattern="yyyy-MM-dd" />
+				<div class="hr_detail_header">등록일 : <fmt:formatDate value="${parseHrRgstDt}" pattern="yyyy-MM-dd" /></div>
 				<c:if test="${hr.ntcYn eq 'Y'}">
-					<div class="hr_detail_header">마감일 : ${hr.hrDdlnDt}</div>
+					<fmt:parseDate value="${hr.hrDdlnDt}" var="parseHrDdlnDt" pattern="yyyy-MM-dd" />
+					<div class="hr_detail_header" style="font-weight: bold;">마감일 : <fmt:formatDate value="${parseHrDdlnDt}" pattern="yyyy-MM-dd" /></span></div>
 				</c:if>
 				<div class="hr_detail_header">작성자 : ${hr.mbrId}</div>
 				<div class="hr_detail_header">${hr.delYn == 'Y' ? '삭제 여부 : 삭제됨' : ''}</div>
