@@ -325,7 +325,7 @@ li.dropdown > ul > li > a  {
 			</div>
 	        <div style="padding: 5px; margin:20px;">
 	        	<c:choose>
-	        		<c:when test="${sessionScope.__MBR__ ne null}">
+	        		<c:when test="${empty sessionScope.__MBR__ }">
 			            <a href="${context}/mbr/logout" class="btm_image" id="img_btn" style=" background-color:  #448938;">로그인</a> 
 	        		</c:when>
 	        		<c:otherwise>
