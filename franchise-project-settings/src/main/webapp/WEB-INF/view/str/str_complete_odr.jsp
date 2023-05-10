@@ -128,7 +128,9 @@ $().ready(function() {
 		var checkCount = $(".check-idx00:checked").length;
 		$("#all-check").prop("checked", count == checkCount);
 	});
-
+	$("#listSize").change(function(){
+		movePage(0);
+	});
 	
 	
 	
@@ -138,12 +140,12 @@ $().ready(function() {
 
 
 function movePage(pageNo) {
-	var srt = $("#search-keyword-prdtSrt").val(); 
 	
-	var queryString = "?prdtSrt=" + srt;
-	queryString += "&prdtPageNo=" + pageNo;
+	var viewCnt = parseInt($("#listSize option:selected").val());
+	var queryString = "viewCnt=" + viewCnt;
+	queryString += "&pageNo=" + pageNo;
 	
-	location.href = "${context}/strprdt/${strVO.strId}"+ queryString; // URL 요청
+	location.href = "${context}/str/completeOdr?"+ queryString; // URL 요청
 } 
 
 </script>
@@ -155,30 +157,40 @@ function movePage(pageNo) {
 			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
 				<span class="fs-5 fw-bold">매장 > 처리주문조회</span>
 		    </div>
-		    
-		    <div class="bg-white rounded shadow-sm  " style="padding: 23px 18px 23px 18px; margin: 0 20px;">
-				<div>
-					<span class="fs-5 fw-bold">${strVO.strNm} (${strVO.strId})</span>
-				</div>
-				<div class="flex">
-					<div class="half-left">
-						<div>매니저 : ${strVO.mbrId}</div>
-						<div>연락처 : ${strVO.strCallNum}</div>
+			    
+			<c:if test="${sessionScope.__MBR__.mbrLvl ne '001-01'}">
+			    <div class="bg-white rounded shadow-sm  " style="padding: 23px 18px 23px 18px; margin: 0 20px;">
+					<div>
+						<span class="fs-5 fw-bold">${strVO.strNm} (${strVO.strId})</span>
 					</div>
-					<div class="half-right">
-						<div>주소 : ${strVO.strAddr}</div>
-						<fmt:parseDate value="${strVO.strOpnTm}" pattern="HH:mm:ss" var="strOpnTm"/>
-						<fmt:parseDate value="${strVO.strClsTm}" pattern="HH:mm:ss" var="strClsTm"/>
-						<div>영업시간 : <fmt:formatDate value="${strOpnTm}" pattern="HH:mm"/> 
-									  ~ <fmt:formatDate value="${strClsTm}" pattern="HH:mm"/></div>
-					</div>				
-				</div>
-		    </div>
+					<div class="flex">
+						<div class="half-left">
+							<div>매니저 : ${strVO.mbrId}</div>
+							<div>연락처 : ${strVO.strCallNum}</div>
+						</div>
+						<div class="half-right">
+							<div>주소 : ${strVO.strAddr}</div>
+							<fmt:parseDate value="${strVO.strOpnTm}" pattern="HH:mm:ss" var="strOpnTm"/>
+							<fmt:parseDate value="${strVO.strClsTm}" pattern="HH:mm:ss" var="strClsTm"/>
+							<div>영업시간 : <fmt:formatDate value="${strOpnTm}" pattern="HH:mm"/> 
+										  ~ <fmt:formatDate value="${strClsTm}" pattern="HH:mm"/></div>
+						</div>				
+					</div>
+			    </div>
+			</c:if>
 		    
 		    <!-- contents -->
-		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
+		    <div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
 
-				완료된 주문서와 취소된 주문서 목록을 불러옵니다.
+				<div style="margin: 13px;">
+					총 ${odrLstList.size() > 0 ? odrLstList.get(0).totalCount : 0 }건 / 게시물 개수
+					<select id="listSize" name="viewCnt" class="select-align-center">
+						<option value="10" ${odrLstVO.viewCnt eq 10 ? 'selected' : ''}>10개</option>
+						<option value="30" ${odrLstVO.viewCnt eq 30 ? 'selected' : ''}>30개</option>
+						<option value="50" ${odrLstVO.viewCnt eq 50 ? 'selected' : ''}>50개</option>
+						<option value="100" ${odrLstVO.viewCnt eq 100 ? 'selected' : ''}>100개</option>
+					</select>
+				</div>완료된 주문서와 취소된 주문서 목록을 불러옵니다.
 <!-- 			<div class="flex full"> -->
 				<div class="overflow">
 					<table class="table table-striped table-sm table-hover align-center">
@@ -222,6 +234,37 @@ function movePage(pageNo) {
 							</c:choose>
 						</tbody>
 					</table>
+					<div class="pagenate">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination" style="text-align: center;">
+								<c:set value = "${odrLstList.size() > 0 ? odrLstList.get(0).lastPage : 0}" var="lastPage"/>
+								<c:set value = "${odrLstList.size() > 0 ? odrLstList.get(0).lastGroup : 0}" var="lastGroup"/>
+								
+								<!-- Math.floodr(odrLstVO.pageNo / 10) -->
+								<fmt:parseNumber var="nowGroup" value="${Math.floor(odrLstVO.pageNo / 10)}" integerOnly = "true"/>
+								<c:set value="${nowGroup * 10}" var="groupStartPageNo"/>
+								<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo"/>
+								<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1 }" var="groupEndPageNo"/>
+								
+								<c:set value="${(nowGroup - 1 ) * 10}" var="prevGroupStartPageNo"/>
+								<c:set value="${(nowGroup + 1 ) * 10}" var="nextGroupStartPageNo"/>
+
+								<c:if test="${nowGroup > 0}">
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(0)">처음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
+								</c:if>
+								
+								<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
+									<li class="page-item"><a class="page-link text-secondary" class="${pageNo eq odrLstVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+								</c:forEach>
+								
+								<c:if test="${lastGroup >nowGroup}">
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
+									<li class="page-item"><a class="page-link text-secondary" href="javascript:movePage(${lastPage})">끝</a></li>
+								</c:if>
+							</ul>
+						</nav>
+					</div>
 					
 					
 					<!-- Button trigger modal -->

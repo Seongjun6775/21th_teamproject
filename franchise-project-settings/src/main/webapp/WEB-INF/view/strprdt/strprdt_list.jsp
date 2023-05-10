@@ -218,14 +218,13 @@ function movePage(pageNo) {
 						<th scope="col">
 							<select name="selectFilter"
 									id="search-keyword-str"
-									class="select-align-center" 
-									style="width:220px;">
+									class="select-align-center width140" >
 								<option value="">매장명</option>
 								<c:choose>
 									<c:when test="${not empty strList}">
 										<c:forEach items="${strList}"
 													var="str">
-											<option value="${str.strId}">${str.strNm} (${str.strId})</option>
+											<option value="${str.strId}">${str.strNm}</option>
 										</c:forEach>
 									</c:when>
 								</c:choose>
@@ -255,7 +254,7 @@ function movePage(pageNo) {
 								<c:when test="${not empty prdtList}">
 									<c:forEach items="${prdtList}"
 												var="prdt">
-										<option value="${prdt.prdtId}">${prdt.prdtNm} (${prdt.prdtId})</option>
+										<option value="${prdt.prdtId}">${prdt.prdtNm}</option>
 									</c:forEach>
 								</c:when>
 							</c:choose>
