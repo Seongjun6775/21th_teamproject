@@ -322,11 +322,13 @@ li.dropdown > ul > li > a  {
             <img  src="${context}/img/logout.png" width="50" height="50">
           </a> 
           <small class="fw-semibold" style="position: fixed; right: 70px;">${sessionScope.__MBR__.mbrNm}</small>
-          <ul class="dropdown-menu text-small profile" style="position: absolute;inset: 0px 0px auto auto;margin: 0px;transform: translate(10px, 60px);">
-            <li><a class="dropdown-item" href="#">${sessionScope.__MBR__.mbrNm}</a></li>
-           <!--  <li><a class="dropdown-item" href="#">Settings</a></li> -->
-            <li><a class="dropdown-item" href="${context}/mbr/pwdCheck">프로필</a></li>
-            <li><hr class="dropdown-divider"></li>
+          <ul class="dropdown-menu text-small profile" style="position: absolute;inset: 0px 0px auto auto;margin: 0px;transform: translate(10px, 70px);">
+            <c:if test="${not empty sessionScope.__MBR__ }">
+            	<li><a class="dropdown-item" href="#">${sessionScope.__MBR__.mbrNm}</a></li>
+	            <li><a class="dropdown-item" href="${context}/mbr/pwdCheck">프로필</a></li>
+            	<li><a class="dropdown-item" href="${context}/odrlst/list" >주문목록</a></li>
+	            <li><hr class="dropdown-divider"></li>
+            </c:if>
             <li style="text-align: center;">	
 				<c:choose>
 					<c:when test="${not empty sessionScope.__MBR__ }">
