@@ -159,7 +159,7 @@ function makeChart(nmlist, datalist, label ,labelText) {
 	            display: true,
 	            labels: {
 	            },
-	        }
+	        },
 		}
 	});
 	return ctx;

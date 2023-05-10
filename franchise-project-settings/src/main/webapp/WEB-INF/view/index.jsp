@@ -365,11 +365,11 @@
 	<div class="bg-white rounded shadow-sm flex"
 		style="padding: 23px 18px 23px 18px; margin: 20px;">
 		<div class="half-left align-center" style="overflow: hidden;">
-			<span class="fs-5 fw-bold">매장별 매출 그래프</span>
+			<span class="fs-5 fw-bold">최근 7일 매장별 매출 그래프</span>
 			<div id="columnchart_values"></div>
 		</div>
 		<div class="half-right align-center">
-			<span class="fs-5 fw-bold">매장별 상품 그래프</span>
+			<span class="fs-5 fw-bold">최근 7일 매장별 상품 그래프</span>
 			<div id="columnchart_values2" >
 				<div>
 					<jsp:include page="./odrdtl/indexChart2.jsp" />

@@ -236,7 +236,10 @@
 	<select id="completeOdrForStr"
 			parameterType="com.ktds.fr.odrlst.vo.OdrLstVO"
 			resultMap="odrLstMap">
-		SELECT OL.ODR_LST_ID
+			<include refid="Mbrcommon.pageHeader" />
+		SELECT OL.ODR_LST_ID PK_COL
+			 , OL.ODR_LST_ID
+			 , DENSE_RANK() OVER(ORDER BY OL.ODR_LST_RGST_DT DESC) RNUM
 		     , OL.MBR_ID
 		     , R.MBR_NM
 		     , OL.ODR_LST_ODR_PRCS
@@ -262,6 +265,7 @@
 		   AND OL.ODR_LST_ODR_PRCS IN ('003-04', '003-05')
 		   AND OL.STR_ID LIKE #{strId}
 		 ORDER BY OL.ODR_LST_RGST_DT DESC
+		  <include refid="Mbrcommon.pageFooter" /> 
 	</select>
 	
 	<update id="updateCheckAll"

@@ -42,14 +42,19 @@ $().ready(function() {
     $("#clickMonthSave").val(year +"-"+ month);
     $("#clickDaySave").val(year +"-"+ month +"-"+ day);
     
-    
     // 시작 시 화면 내용 채우기
-	sumMonth();
+	sumMonth(null, null, null, "${odrDtlVO.odrDtlStrId}");
 	groupPrdt($("#clickDaySave").val());
 	
-	ctyList($("#search-keyword-lct").val());
-	strList();
-	strList();
+	if ("${sessionScope.__MBR__.mbrLvl}" == '001-01') {
+		ctyList($("#search-keyword-lct").val());
+		strList();
+	}
+	if ("${sessionScope.__MBR__.mbrLvl}" != '001-01') {
+		$("#search-keyword-lct").parent().css("display","none");
+		$("#search-keyword-cty").parent().css("display","none");
+	}
+	
 	prdtList();
     
 	
@@ -132,12 +137,12 @@ $().ready(function() {
 		if ($("#checkCntPrc").is(":checked")) {
 			$("#checkCntPrc").prop("checked", false);
 			$(this).text("수량 보기");
-			$("#unit").text("단위: 원");
+			$(".unit").text("단위: 원");
 			$("#thCntPrc").text("금액합계")
 		} else {
 			$("#checkCntPrc").prop('checked', true);
 			$(this).text("금액 보기");
-			$("#unit").text("단위: 개");
+			$(".unit").text("단위: 개");
 			$("#thCntPrc").text("수량합계")
 		}
 		var prdtId = $("#search-keyword-prdt").val();
@@ -214,6 +219,7 @@ function groupPrdt(monthly, lct, cty) {
 			
 			var requirement = monthly.length > 8 ? monthly + " 하루" : monthly.length > 4 ? monthly + " 한달" : monthly + " 일년";
 			$("#requirement").html(requirement + " 데이터");
+			$("#requirement2").html(requirement + " 데이터");
 			
 			
 			
@@ -572,17 +578,17 @@ function prdtList(srt) {
 								id="search-keyword-str"
 								class="form-select width200" 
 								<c:if test="${sessionScope.__MBR__.mbrLvl ne '001-01'}"> disabled </c:if>>
-<!-- 							<option value="">전체</option> -->
-<%-- 							<c:choose> --%>
-<%-- 								<c:when test="${not empty strList}"> --%>
-<%-- 									<c:forEach items="${strList}" --%>
-<%-- 												var="str"> --%>
-<%-- 										<c:if test="${str.useYn eq 'Y'}"> --%>
-<%-- 											<option value="${str.strId}">${str.strNm} (${str.strId})</option> --%>
-<%-- 										</c:if> --%>
-<%-- 									</c:forEach> --%>
-<%-- 								</c:when> --%>
-<%-- 							</c:choose> --%>
+	 							<option value="">전체</option>
+	 							<c:choose> 
+	 								<c:when test="${not empty strList}"> 
+	 									<c:forEach items="${strList}"
+	 												var="str">
+	 										<c:if test="${str.useYn eq 'Y'}">
+	 											<option value="${str.strId}">${str.strNm}</option>
+	 										</c:if> 
+	 									</c:forEach> 
+	 								</c:when>
+	 							</c:choose> 
 						</select>
 					</div>
 					<div>
@@ -618,9 +624,10 @@ function prdtList(srt) {
 	
 		<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; max-height: 400px; margin: 20px;">
 			<div class="flex paymentTop">
-<!-- 					<div id="dayCnt"></div> -->
-<!-- 					<div id="paymentAvg"></div> -->
-				<div class="align-right"><span id="unit">단위: 원</span></div>
+				<div class="flex space-between">
+					<span>연도별 > 월간 통계</span>
+					<span class="unit">단위: 원</span>
+				</div>
 			</div>
 			<div class="overflow">
 				<table class="forStatistics table table-striped table-sm table-hover align-center">
@@ -653,7 +660,10 @@ function prdtList(srt) {
 			<div style="flex: 1;"> 
 				<div class="bg-white rounded shadow-sm flex-column" style="padding: 23px 18px 23px 18px; height: 640px; margin: 20px;">
 					<div class="flex paymentTop">
-						<div id="selectPrdtNm"></div>
+						<div class="flex space-between">
+							<span>일간 통계</span>
+							<span class="unit">단위: 원</span>
+						</div>
 					</div>
 					<div class="overflow">
 						<table class="table table-striped table-sm table-hover align-center">
@@ -692,7 +702,8 @@ function prdtList(srt) {
 			</div>
 		</div>
 		
-		<div class="bg-white rounded shadow-sm flex" style="padding: 23px 18px 23px 18px; margin: 20px;">
+		<div class="bg-white rounded shadow-sm flex-column relative" style="padding: 23px 18px 23px 18px; margin: 20px;">
+			<div id="requirement2" style="font-weight:bold;" class="absolute"></div>
 			<div id="myChart" class="overflow chart"></div>
 		</div>	
 		
