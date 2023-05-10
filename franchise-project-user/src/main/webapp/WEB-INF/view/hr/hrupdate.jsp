@@ -155,13 +155,10 @@
 		<div style="width: 100%; height: 100%; background-color: #00000065; position: absolute;"></div>
 	</div>
 	<div id="menu">
-		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:80px;">
+		<div class="bg-white rounded shadow-sm" style="padding: 23px 18px 25px 18px; overflow: auto; ">
 			<h2 class="fw-bold" style="margin: 20px;">채용 ${mbrVO.mbrLvl == '001-01' ? '공지' : '지원'} 수정</h2>
 			<form id="hr_form" enctype="multipart/form-data">
-				<div style="float: right;">
-					<button type="button" id="save_btn" class="btn btn-outline-primary btn-default" >수정</button>
-					<button type="button" id="cancel_btn" class="btn btn-outline-danger btn-default">취소</button>
-				</div>
+				
 				<div>
 					<input type="hidden" id="ntcYn" value="${hr.ntcYn}">
 				</div>
@@ -215,6 +212,10 @@
 				<div class="input-group">
 					<textarea id="hrCntnt" name="hrCntnt"  maxlength="4000" style="margin-top: 0.5rem;  height: 500px; resize: none;"
 							 placeholder="특이사항이 있다면 자유롭게 기술 부탁드립니다." class="form-control">${hr.hrCntnt}</textarea>
+				</div>
+				<div style="float: right; margin-top: 15px;" >
+					<button type="button" id="save_btn" class="btn btn-outline-primary btn-default" >수정</button>
+					<button type="button" id="cancel_btn" class="btn btn-outline-danger btn-default">취소</button>
 				</div>
 			</form>
 		</div>
