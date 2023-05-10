@@ -108,7 +108,7 @@
 		//url요청
 		location.href = "${context}/str/customer?" + queryString;
 		}
-		</script>
+	</script>
 </head>
 <body class="scroll">
 	<jsp:include page="../include/header_user.jsp" />
@@ -120,7 +120,7 @@
 		<div id="menu" class="flex-column"> 
 		<div class="table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px;">
 			<div style="margin: 13px;">총${strList.size() > 0 ? strList.get(0).totalCount : 0}건</div>
-			<div style="display: inline-block; width: 59%;">
+			<div style="display: inline-block; width: 59%; vertical-align: top;">
 			<table class="table caption-top table-hover" style="text-align: center;">
 				<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 					<tr>
@@ -193,7 +193,7 @@
 			</table>
 		</div>
 		<div class="rounded" style="display: inline-block; background-color:#e0e0e0; padding:20px;">
-			<div id="map" style="display: inline-block; width:500px;height:450px;"></div>
+			<div id="map" style="display: inline-block; width:500px;height:460px;"></div>
 		</div>
 			<div class="pagenate">
 				<nav aria-label="Page navigation example">
@@ -273,7 +273,6 @@
 			}); 
 		}
 	</script>
-	</div>
 	</div>
 	<jsp:include page="../include/footer_user.jsp" />
 </body>

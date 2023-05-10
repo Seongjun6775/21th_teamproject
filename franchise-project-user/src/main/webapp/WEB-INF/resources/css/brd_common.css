@@ -452,7 +452,6 @@ img.profile{
 
 .qna_box {
 	display:flex;
-	border: #ddd solid 1px;
     padding: 10px 4%;
     font-size: 15px;
     margin: 10px 0 0 0; 
@@ -460,8 +459,7 @@ img.profile{
 	width: 100%;
 	float: right;
 	justify-content: space-evenly;
-	
-}
+} 
 
 .qna-text{
 	width: 100%;
