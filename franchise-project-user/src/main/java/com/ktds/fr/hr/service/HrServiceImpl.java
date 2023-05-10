@@ -38,7 +38,7 @@ public class HrServiceImpl implements HrService {
 	private MailSendService mailSendService;
 	
 	// 채용 지원서 작성 시 업로드된 파일이 저장될 경로입니다.
-	@Value("${upload.hr.path:/files/hr/}")
+	@Value("${upload.hr.path:/franchise-prj/files/hr/}")
 	/* @Value("${upload.hr.path:/files/hr/}") */
 	private String filePath;
 
