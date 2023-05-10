@@ -47,7 +47,7 @@ $().ready(function() {
 	
 	
 	$("#btn-order").click(function() {
-		console.log("aa")
+		
 		Swal.fire({
 		     title: '로그인 필요',
 		     text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
@@ -137,8 +137,8 @@ function movePage(pageNo) {
 					<div>${prdtVO.prdtCntnt}</div>
 					
 					<div>
-						<button id="btn-order" class="btn btn-outline-warning">주문 페이지</button>
-<%-- 						<button id="btn-order" class="btn btn-outline-warning" onclick="location.href='${context}/strprdt/list2'">주문 페이지</button> --%>
+<!-- 						<button id="btn-order" class="btn btn-outline-warning">주문 페이지</button> -->
+						<button id="btn-order" class="btn btn-outline-warning" onclick="location.href='${context}/strprdt/list2'">주문 페이지</button>
 					</div>
 				</div>
 				
