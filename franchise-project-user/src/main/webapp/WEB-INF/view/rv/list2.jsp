@@ -87,6 +87,7 @@
 					  confirmButtonText: '로그인'
 					}).then((result) => {
 						if(result.isConfirmed){
+							localStorage.setItem("_next_", "${context}/mbr/rv/create");
 							$("#img_btn").click();
 						}else{
 							$("#btn-modal-close").click();

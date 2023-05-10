@@ -78,7 +78,7 @@
 		<div class="overlay absolute"></div>
 	</div>
 	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
-		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>리뷰를 작성해보세요. </p>
+		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 리뷰를 작성해보세요. </p>
 	</div>
 	<div id="menu" class="flex-column">
 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
