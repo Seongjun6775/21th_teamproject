@@ -12,6 +12,8 @@
 	$().ready(function() {
         $().ready(function(){
         	
+        	
+        	
             $('.nav-item').mouseenter(function(){
                 $(this).find('.dropdown-menu').show();
             }).mouseleave(function(){
@@ -318,7 +320,7 @@ li.dropdown > ul > li > a  {
 	        <div style="padding: 5px; margin:20px;">
 	        	<c:choose>
 	        		<c:when test="${sessionScope.__MBR__ ne null}">
-			            <a href="${context}/mbr/logout"><button type="button" class="btm_image" id="img_btn" style="background-color: #fff;"><img  src="${context}/img/logout.png" width="50" height="50"></button></a>
+			            <a href="${context}/mbr/logout"><button type="button" class="btm_image" id="img_btn_logout" style="background-color: #fff;"><img  src="${context}/img/logout.png" width="50" height="50"></button></a>
 	        		</c:when>
 	        		<c:otherwise>
 			            <button type="button" data-bs-toggle="modal"  data-bs-target="#loginModal" class="btm_image" id="img_btn" style="background-color: #fff;"><img  src="${context}/img/logout.png" width="50" height="50"></button>

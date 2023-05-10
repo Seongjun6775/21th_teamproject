@@ -6,7 +6,6 @@
 <script type="text/javascript" src="${context}/js/join.js"></script>
 <script type="text/javascript">
 // 특수문자 모두 제거    
-
 /* Swal.fire({
 	  title: '로그인 필요',
 	  text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
@@ -23,9 +22,6 @@
 			$("#btn-modal-close").click();
 		}
 }); */
-
-
-
 function chkId(obj){
     var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;   //정규식 구문
     if (RegExp.test(obj.value)) {
