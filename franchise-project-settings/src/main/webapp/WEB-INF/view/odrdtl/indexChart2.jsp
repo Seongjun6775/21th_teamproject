@@ -35,7 +35,13 @@ $().ready(function() {
 
 function groupData(monthly, lct, cty, srt) {
 	
+	var strId = ""
+	if ("${sessionScope.__MBR__.mbrLvl}" != "001-01") {
+		strId = "${sessionScope.__MBR__.strId}"
+	}
+	
 	var odrDtlVO = {
+		odrDtlStrId : strId,
 		monthly : monthly,
 		orderBy : null,
 		lctCdVO : {lctId : lct},
@@ -79,7 +85,7 @@ function groupData(monthly, lct, cty, srt) {
 			
 			
 	odrDtlVO = {
-// 		odrDtlStrId : $("#search-keyword-str").val(),
+		odrDtlStrId : strId,
 		monthly : monthly,
 		orderBy : "SUM_CNT DESC",
 		lctCdVO : {lctId : lct},
