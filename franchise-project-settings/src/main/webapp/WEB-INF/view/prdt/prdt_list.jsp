@@ -831,6 +831,7 @@ function movePage(pageNo) {
 									<div>
 										<input type="text" id="spare" name="spare" 
 												class="form-control"
+												style="border:none;"
 												readonly oninput="maxLengthCheck(this)" value=""/>
 									</div>
 								</div>
