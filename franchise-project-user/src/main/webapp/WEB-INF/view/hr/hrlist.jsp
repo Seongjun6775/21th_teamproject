@@ -11,6 +11,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -56,15 +58,30 @@
 	border: solid 2px;
     font-weight: 800;
 /*     margin-right: 15px; */
-} 
+}
+
+#menu {
+/* 	background-color: #F002; */
+	width: 1440px;
+	margin: 0 auto;
+	margin-bottom: 144px;
+}
 </style>
 </head>
-<jsp:include page="../include/openBody.jsp" />
-			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-				<span class="fs-5 fw-bold">회원 > 채용 지원</span>
-		    </div>
-			<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:20px;">
-				<div style="margin: 13px;">총 ${myHrList.size() > 0 ? myHrList.get(0).totalCount : 0}건</div>
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">인재채용
+			<div style="color: #ccc; padding-top: 10px;"></div>
+		</div>
+		<div class="overlay absolute"></div>
+	</div>
+	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
+		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 최신 채용정보를 확인하세요. </p>
+	</div>
+	<div id="menu">
+			<div id="hr_table_grid" class="bg-white rounded shadow-sm" style="padding: 23px 18px 23px 18px; overflow: auto;  margin:80px; height: 1200px;">
 				<table class="table caption-top table-hover" style="text-align: center;">
 				  <thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 				    <tr>
@@ -91,7 +108,8 @@
 									<td>${hr.hrId}</td>
 									<td>${hr.mbrId}</td>
 									<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
-									<td>${hr.hrRgstDt}</td>
+									<fmt:parseDate value="${hr.hrRgstDt}" var="parseHrRgstDt" pattern="yyyy-MM-dd" />
+									<td><fmt:formatDate value="${parseHrRgstDt}" pattern="yyyy-MM-dd" /></td>
 									<td>
 										<c:choose>
 											<c:when test="${hr.ntcYn eq 'Y'}"></c:when>
@@ -152,5 +170,7 @@
 	       		</div> 
 			</div>
 		</div>
-<jsp:include page="../include/closeBody.jsp" />
+	</div>
+	<jsp:include page="../include/footer_user.jsp" />
+</body>
 </html>

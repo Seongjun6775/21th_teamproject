@@ -84,11 +84,11 @@
 	      var options = {
 	        title: "",
 	        width: 1200,
-	        height: 500,
+	        height: 1000,
 	        bar: {groupWidth: "50%"},
 	        legend: { position: "none" },
 	      };
-	      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+	      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values1"));
 	      chart.draw(view, options);
 	  }
       
@@ -409,7 +409,7 @@
    <div class="bg-white rounded shadow-sm "
       style="padding: 23px 18px 23px 18px; height: 1000px; margin: 20px;">
       	<span class="fs-5 fw-bold">매장별 매출 그래프</span>
-		<div id="columnchart_values" ></div>
+		<div id="columnchart_values1" style="height:800px; overflow: hidden"></div>
    </div>
 
 

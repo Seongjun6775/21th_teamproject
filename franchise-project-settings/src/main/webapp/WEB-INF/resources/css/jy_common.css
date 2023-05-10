@@ -718,6 +718,12 @@ input[type="number"]::-webkit-inner-spin-button {
 #columnchart_values > div{
 	top: -50px;
 }
+#columnchart_values1 > div{
+	top: -120px;
+}
+#columnchart_values1 > div > div {
+	margin: auto;
+}
 #columnchart_values > div > div {
 	transform: scale(1.1);
 }
