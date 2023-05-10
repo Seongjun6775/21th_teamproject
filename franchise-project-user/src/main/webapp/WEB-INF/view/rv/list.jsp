@@ -11,12 +11,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}">
+<%-- <link rel="stylesheet" href="${context}/css/bootstrap.min.css?p=${date}"> --%>
 <jsp:include page="../include/stylescript.jsp" />
 
-<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+<link rel="stylesheet" href="${context}/css/brd_common.css?p=${date}"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
+<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 
 	$().ready(function() {
@@ -80,7 +80,7 @@
 			}
 		});
 		$("#new_btn").click(function() {
-			location.href = "${context}/rv/create";
+			location.href = "${context}/mbr/rv/create";
 		});
 		$("#all_check").click(function() {
 			$(".check_idx").prop("checked", $("#all_check").prop("checked"));
@@ -127,7 +127,7 @@
 					console.log($(this).val());
 					form.append("<input type='hidden' name='rvIdList' value='"+$(this).val() + "'>'");
 				});
-				$.post("${context}/api/rv/delete", form.serialize(), function(response){
+				$.post("${context}/mbr/api/rv/delete", form.serialize(), function(response){
 					if(response.status == "200 OK"){
 						Swal.fire({
 					    	  icon: 'success',
@@ -159,7 +159,7 @@
 		});		 
 		$(".rvRow td").not(".firstcell, .ellipsis").click(function() {
 			var rvid = $(this).closest(".rvRow").data("rvid")
-			location.href="${context}/rv/detail/" + rvid;
+			location.href="${context}/mbr/rv/detail/" + rvid;
 		})
 	});
 		function movePage(pageNo){
@@ -172,24 +172,91 @@
 			queryString += "&type="+selec + "&search=" + id;
 			
 			//URL요청
-			location.href="${context}/rv/list" + queryString;
+			location.href="${context}/mbr/rv/list" + queryString;
 			
 		}
 </script>
 <style>
-.btn-default {
-	border: solid 2px;
-    font-weight: 800;
-/*     margin-right: 15px; */
+*{
+  box-sizing: border-box; 
+}
+  
+.que:first-child{
+    border-top: 2px solid black;
+  }
+
+  
+.que{
+  position: relative;
+  padding: 17px 0;
+  cursor: pointer;
+  font-size: 14px;
+  border-bottom: 1px solid #dddddd;
+  
+}
+  
+.que::before{
+  display: inline-block;
+  content: 'Q';
+  font-size: 14px;
+  color: #ffbe2e;
+  margin: 0 5px;
+}
+
+.que.on>span{
+  font-weight: bold;
+  color: #ffbe2e;
+}
+  
+.anw {
+  display: none;
+  overflow: hidden;
+  font-size: 14px;
+  background-color: #f4f4f2;
+  padding: 30px;
+}
+  
+.anw::before {
+  display: inline-block;
+  content: 'A';
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin: 0 5px;
+}
+
+.arrow-wrap {
+  position: absolute;
+  top:50%; right: 10px;
+  transform: translate(0, -50%);
+}
+
+.que .arrow-top {
+  display: none;
+}
+.que .arrow-bottom {
+  display: block;
+}
+.que.on .arrow-bottom {
+  display: none;
+}
+.que.on .arrow-top {
+  display: block; 
 }
 </style>
 </head>
-<body>
-<jsp:include page="../include/openBody.jsp" />
-		<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
-			<span class="fs-5 fw-bold">리뷰 > 리뷰목록</span>
-	    </div>		
-		
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+
+	<div class="visualArea flex relative">
+		<div class="content-setting title">리뷰</div>
+		<div class="overlay absolute"></div>
+	</div>
+	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
+		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 리뷰를 작성해보세요. </p>
+	</div>
+	<div id="menu" class="flex-column">				
+	
 		<!-- searchbar -->
 		<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px;margin: 20px;display: flex;align-items: center;">
 		  <!-- <label class="fs-7" style="min-width: 80px;display: inline-block;" for="startDt">Search</label> -->
@@ -214,13 +281,13 @@
 					<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
 					<th scope="col" style="padding: 20px 20px 8px 20px;"><input type="checkbox" id="all_check" /></th>
 					</c:if>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">주문서ID</th>
+					<!-- <th scope="col" style="padding: 20px 20px 8px 20px;">주문서ID</th> -->
 					<th scope="col" style="padding: 20px 20px 8px 20px;">매장명</th>
 					<th scope="col" style="padding: 20px 20px 8px 20px;">제목</th>
 					<th scope="col" style="padding: 20px 20px 8px 20px;">회원ID</th>						
 					<th scope="col" style="padding: 20px 20px 8px 20px;">좋아요/싫어요</th>
 					<th scope="col" style="padding: 20px 20px 8px 20px;">등록일</th>
-					<th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th> 
+					<!-- <th scope="col" style="padding: 20px 20px 8px 20px;">수정일</th>  -->
 				</tr>
 			</thead>
 			<tbody>
@@ -236,7 +303,7 @@
 										   value="${rv.rvId}" style="width:13px;"/>
 								</td>
 								</c:if>
-								<td>${rv.odrLstId}</td>
+								<%-- <td>${rv.odrLstId}</td> --%>
 								<td>${rv.strVO.strNm}</td>
 								<td>${rv.rvTtl}</td>
 								<td class="ellipsis"
@@ -245,12 +312,12 @@
 										${rv.mbrId eq null ? '<i class="bx bx-error-alt" ></i>ID없음' : rv.mbrId}</a></td>																			
 								<td>${rv.rvLkDslk eq 'T' ? '좋아요' : '싫어요'}</td>					
 								<td>${rv.rvRgstDt}</td>					
-								<td>${rv.mdfyDt}</td>									
+								<%-- <td>${rv.mdfyDt}</td> --%>									
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-						<td colspan="8" class="no-item">
+						<td colspan="6" class="no-item">
 							등록된 리뷰가 없습니다.
 						</td>
 					</c:otherwise>
@@ -294,21 +361,18 @@
 					</c:if>
 				</ul>
 			</div>
-			<div style="position: absolute;right: 0;top: 0;">	
-				<c:if test="${mbrVO.mbrLvl eq '001-04'}">		
-					<button id="new_btn" class="btn btn-outline-success btn-default">등록</button>
-				</c:if>
-				<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrLvl eq '001-04'}">
-					<button id="delete_all_btn" class="btn btn-outline-danger btn-default" >삭제</button>
-				</c:if>
+			<div style="position: absolute;right: 0;top: 0;">		
+				<button id="new_btn" class="btn btn-outline-success btn-default">등록</button>
+				<button id="delete_all_btn" class="btn btn-outline-danger btn-default" >삭제</button>
 			</div>
 		</div>	
 	</div>
-<jsp:include page="../include/closeBody.jsp" />
+	</div>
+<jsp:include page="../include/footer_user.jsp" />
 	<div class="layer_popup" id="layer_popup" style="display: none;">
 		<div class="popup_box">
 			<div class="popup_content">
-				<a class="send-memo-btn" href="javascript:void(0);" style="display: ${mbrVO.mbrLvl eq '001-04' ? 'none' : ''}">
+				<a class="send-memo-btn" href="javascript:void(0);">
 					<i class='bx bx-mail-send' ></i>쪽지 보내기</a>
 			</div>
 			<div>
@@ -321,4 +385,5 @@
 			</div>
 		</div>
 	</div>	
+</body>	
 </html>

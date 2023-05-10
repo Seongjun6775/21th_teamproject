@@ -20,11 +20,11 @@
 
 	$().ready (function() {
 		$("#list_btn").click(function() {
-			location.href="${context}/user/rv/list";
+			location.href="${context}/mbr/rv/list";
 		});
 		
 		$("#new_btn").click(function() {
-			$.post("${context}/api/rv/create",		
+			$.post("${context}/mbr/api/rv/create",		
 					{
 						rvId:$("#rvId").val(),			
 						mbrId:$("#mbrId").val(),
@@ -42,7 +42,7 @@
 						    	  confirmButtonColor: '#3085d6'
 							}).then((result)=>{
 								if(result.isConfirmed){
-									location.href = "${context}" + response.redirectURL;
+									location.href = "${context}/mbr" + response.redirectURL;
 								}
 							});
 							/* alert("리뷰가 등록되었습니다.") */
@@ -78,7 +78,7 @@
 		<div class="overlay absolute"></div>
 	</div>
 	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
-		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>리뷰를 작성해보세요. </p>
+		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 리뷰를 작성해보세요. </p>
 	</div>
 	<div id="menu" class="flex-column">
 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
