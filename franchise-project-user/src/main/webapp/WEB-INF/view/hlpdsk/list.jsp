@@ -216,14 +216,15 @@ table > thead > tr > th:first-child{
 				     	<span>예, 저희는 최소 주문 금액제도에 따라 지역별, 매장별로 상이 할 수 있습니다.</span>
 				     </div>
 				</div> 
+				<div class="qna_box row" >	 
+					<a href="${context}/hlpdsk/write" class="qna-btn fw-bold"> 문의/건의 </a>
+				</div>
+				<c:if test= "${not empty sessionScope.__MBR__}">	
 				<div class="rounded" style="border: solid 2px #e0e0e0;">
-					<div class="qna_box row" >	 
-						<a href="${context}/hlpdsk/write" class="qna-btn fw-bold"> 문의/건의 </a>
-					</div>
 					<table class="table caption-top table-hover" style="text-align: center;">
 						<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 							<tr>
-								<th >글번호</th>
+							<!-- 	<th >글번호</th> -->
 								<th>문의/건의</th>	 
 								<th>답변상태</th>			
 								<th>제목</th>
@@ -242,7 +243,7 @@ table > thead > tr > th:first-child{
 											data-mbrnm = "${mbrVO.mbrNm}"
 											data-mbrid = "${hlpDsk.mbrId}"
 											data-hlpdskwrtdt = "${hlpDsk.hlpDskWrtDt}">
-												<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td>
+							<%-- 					<td style="width: 100px;">No.${hlpDsk.hlpDskWrtId.substring(12,17).replaceFirst("^0+(?!$)", "")}</td> --%>
 												<td style="width: 130px;">${hlpDsk.hlpDskSbjct}</td>
 												<td style="width: 130px;">${hlpDsk.hlpDskPrcsYn eq 'N' ? '답변대기중' : '답변완료'}</td>
 												<td>
@@ -292,7 +293,8 @@ table > thead > tr > th:first-child{
 							</c:if>
 						</ul>
 					</div> 
-				</div>			
+				</div>	
+				</c:if>		
 			</div> 		
 		</div>
 	<jsp:include page="../include/footer_user.jsp" />
