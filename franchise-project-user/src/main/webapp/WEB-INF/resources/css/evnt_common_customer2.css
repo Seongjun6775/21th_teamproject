@@ -420,7 +420,7 @@ input[type="number"]::-webkit-inner-spin-button {
 #menuCategory  > a:not(.menuOn):hover {
 	font-size: 26px;
 }
-.menuOn {
+.on {
 	font-weight: bold;
 	color: #333;
 	font-size: 26px;
