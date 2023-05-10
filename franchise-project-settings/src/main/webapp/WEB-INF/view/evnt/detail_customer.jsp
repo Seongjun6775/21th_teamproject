@@ -125,8 +125,7 @@
 			
                 </div>
               </div>
-            </div>
-          </div>
+</body>
 <%-- 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<table border=1 style="width: 600px;">
 				<tr>
