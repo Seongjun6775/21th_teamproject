@@ -28,23 +28,47 @@
 		$("#del_btn").click(function() {
 			var delYn = ("${nt.delYn}");
 			
-			if (!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			
-			$.post("${context}/api/nt/delete/" + ntId, function(response) {
-				if (response.status == "200 OK") {
-					location.href = "${context}/nt/ntmngrlist";
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + " / " + response.message); */
-				}
+			Swal.fire({
+				  title: '삭제 하시겠습니까?',
+				  icon: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '삭제하기'
+				}).then((result) => {
+					if(result.isConfirmed){
+						$.post("${context}/api/nt/delete/" + ntId, function(response) {
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 채용처리 되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href = "${context}/nt/ntmngrlist";
+									}
+								});
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
 			});
 		});
 		

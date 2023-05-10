@@ -164,39 +164,58 @@
 				return;
 			}
 			
-			if (!confirm("정말 채용하시겠습니까?")) {
-				return;
-			}
-			var form = $("<form></form>");
-			form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
-			form.append("<input type='hidden' name='hrLvl' value='${hr.hrLvl}'>");
-			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
-			form.append("<input type='hidden' name='hrAprYn' value='Y'>");
 			
-			
-			$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
-				if (response.status == "200 OK") {
-					Swal.fire({
-				    	  icon: 'success',
-				    	  title: '정상적으로 채용처리 되었습니다.',
-				    	  showConfirmButton: true,
-				    	  confirmButtonColor: '#3085d6'
-					}).then((result)=>{
-						if(result.isConfirmed){
-							location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
-						}
-					});
-					/* alert("정상적으로 채용 처리 되었습니다."); */
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + " / " + response.message); */
-				}
+			Swal.fire({
+				  title: '채용여부',
+				  text: '해당 지원자를 채용하시겠습니까?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '채용'
+				}).then((result) => {
+					if(result.isConfirmed){
+						var form = $("<form></form>");
+						form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
+						form.append("<input type='hidden' name='hrLvl' value='${hr.hrLvl}'>");
+						form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
+						form.append("<input type='hidden' name='hrAprYn' value='Y'>");
+						
+						
+						$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 채용처리 되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
+									}
+								});
+								/* alert("정상적으로 채용 처리 되었습니다."); */
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.errorCode + " / " + response.message); */
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
 			});
 		});
 		
@@ -234,39 +253,56 @@
 				return;
 			}
 			
-			if (!confirm("정말 미채용하시겠습니까?")) {
-				return;
-			}
-			
-			var form = $("<form></form>");
-			form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
-			form.append("<input type='hidden' name='hrLvl' value='${hr.hrLvl}'>");
-			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
-			form.append("<input type='hidden' name='hrAprYn' value='N'>");
-			
-			$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
-				if (response.status == "200 OK") {
-					Swal.fire({
-				    	  icon: 'success',
-				    	  title: '정상적으로 미채용 처리되었습니다.',
-				    	  showConfirmButton: true,
-				    	  confirmButtonColor: '#3085d6'
-					}).then((result)=>{
-						if(result.isConfirmed){
-							location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
-						}
-					});
-					/* alert("정상적으로 미채용 처리 되었습니다."); */
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + " / " + response.message); */
-				}
+			Swal.fire({
+				  title: '채용여부',
+				  text: '해당 지원자를 미채용하시겠습니까?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '미채용'
+				}).then((result) => {
+					if(result.isConfirmed){
+						var form = $("<form></form>");
+						form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
+						form.append("<input type='hidden' name='hrLvl' value='${hr.hrLvl}'>");
+						form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
+						form.append("<input type='hidden' name='hrAprYn' value='N'>");
+						
+						$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 미채용 처리되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
+									}
+								});
+								/* alert("정상적으로 미채용 처리 되었습니다."); */
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.errorCode + " / " + response.message); */
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
 			});
 		});
 		

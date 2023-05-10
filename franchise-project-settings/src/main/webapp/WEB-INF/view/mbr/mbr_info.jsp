@@ -56,30 +56,50 @@
 			location.href="${context}/mbr/change/pwd";
 		});
 		$("#signout_mbr_btn").click(function(event){
-			if(confirm("회원탈퇴를 진행하시겠습니까?")){
-				$.get("${context}/api/mbr/signout", function(resp){
-					if(resp.status == "200 OK"){
-						Swal.fire({
-					    	  icon: 'success',
-					    	  title: '정상적으로 탈퇴되었습니다.',
-					    	  showConfirmButton: false,
-					    	  timer: 2500
-				    	});
-						/* alert("정상적으로 탈퇴되었습니다."); */
-						location.href="${context}"+resp.redirectURL;
+			
+			Swal.fire({
+				  title: '회원탈퇴',
+				  text: '회원탈퇴를 진행하시겠습니까?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '회원탈퇴'
+				}).then((result) => {
+					if(result.isConfirmed){
+						$.get("${context}/api/mbr/signout", function(resp){
+							if(resp.status == "200 OK"){
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 탈퇴되었습니다.',
+							    	  text: '이용해 주셔서 감사합니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}"+resp.redirectURL;
+									}
+								});
+							}else{
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: resp.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+						    	});
+							}
+						});
 					}else{
 						Swal.fire({
-					    	  icon: 'error',
-					    	  title: resp.message,
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
 					    	  showConfirmButton: false,
 					    	  timer: 2500
-				    	});
-						/* alert(resp.message); */
+						});
+						return;
 					}
-				});
-			}else{
-				
-			}
+			});
 		});
 	});
 </script>

@@ -106,14 +106,17 @@
 			
 				$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
 					if(resp.status=="200 OK"){
+						
 						Swal.fire({
 					    	  icon: 'success',
 					    	  title: '변경이 완료되었습니다.',
-					    	  showConfirmButton: false,
-					    	  timer: 2500
-				    	});
-						/* alert("변경이 완료되었습니다."); */
-						location.reload();
+					    	  showConfirmButton: true,
+					    	  confirmButtonColor: '#3085d6'
+						}).then((result)=>{
+							if(result.isConfirmed){
+								location.reload();
+							}
+						});			
 					}
 					else{
 						Swal.fire({
@@ -128,32 +131,64 @@
 			}
 			else if (strNm.length > 0){
 				if(updateLvl == prevLvl || updateLvl.length==0){
-					var confirmAlert = confirm("선택한 관리자의 등급과 변경하려는 등급이 같습니다.\n이대로 진행하시겠습니까?");
-					if(confirmAlert){
-						$("#select-mbrLvl").val(prevLvl);
-						$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
-							if(resp.status=="200 OK"){
-								alert("변경이 완료되었습니다.");
-								location.reload();
+					
+					Swal.fire({
+						  title: '중복값',
+						  text: '변경하려는 같습니다.\n계속 진행하시겠습니까?',
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  cancelButtonText: '취소',
+						  confirmButtonText: '수락'
+						}).then((result) => {
+							if(result.isConfirmed){
+								$("#select-mbrLvl").val(prevLvl);
+								$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
+									if(resp.status=="200 OK"){
+										Swal.fire({
+									    	  icon: 'success',
+									    	  title: '변경이 완료되었습니다.',
+									    	  showConfirmButton: true,
+									    	  confirmButtonColor: '#3085d6'
+										}).then((result)=>{
+											if(result.isConfirmed){
+												location.reload();
+											}
+										});
+									}
+									else{
+										Swal.fire({
+									    	  icon: 'error',
+									    	  title: response.message,
+									    	  showConfirmButton: false,
+									    	  timer: 2500
+										});
+									}
+								});
+							}else{
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '취소 되었습니다.',
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								return;
 							}
-							else{
-								alert(resp.message);
-							}
-						});
-					}else{
-						return;
-					}
+					});
 				}else{
 					$.post("${context}/api/mbr/update/admin",$("#detail_form").serialize(),function(resp){
 						if(resp.status=="200 OK"){
 							Swal.fire({
 						    	  icon: 'success',
 						    	  title: '변경이 완료되었습니다.',
-						    	  showConfirmButton: false,
-						    	  timer: 2500
-					    	});
-							/* alert("변경이 완료되었습니다."); */
-							location.reload();
+						    	  showConfirmButton: true,
+						    	  confirmButtonColor: '#3085d6'
+							}).then((result)=>{
+								if(result.isConfirmed){
+									location.reload();
+								}
+							});
 						}
 						else{
 							Swal.fire({
@@ -188,25 +223,80 @@
 			str=window.open("${context}/str/search/"+mbrLvl,"매장검색", "width=670, height=680");
 		});
 		$("#fire-btn").click(function(event){
-			var confirmFire = confirm("선택된 관리자의 권한을 해지하시겠습니까?");
 			var checkLen = $(".check-idx:checked").length;
 			if(checkLen == 0){
-				alert("권한을 해지할 관리자를 선택하세요.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '선택하세요.',
+			    	  text:'권한을 해지할 관리자를 선택하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
 				return;
 			}
-			var mbrVOList=[];
-			$(".check-idx:checked").each(function(){
-				var mbrId = $(this).val();
-				var mbrLvl = $(this).closest("tr").data("mbrlvl");
-				var strId = $(this).closest("tr").data("strid");
-				var mbrVO={
-						"mbrId": mbrId,
-						"mbrLvl": mbrLvl,
-						"strId": strId
-				};
-				mbrVOList.push(mbrVO);
+			Swal.fire({
+				  title: '해임',
+				  text: '선택된 관리자를\n해임하시겠습니까?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '해임'
+				}).then((result) => {
+					if(result.isConfirmed){
+						var mbrVOList=[];
+						$(".check-idx:checked").each(function(){
+							var mbrId = $(this).val();
+							var mbrLvl = $(this).closest("tr").data("mbrlvl");
+							var strId = $(this).closest("tr").data("strid");
+							console.log(mbrLvl);
+							var mbrVO={
+									"mbrId": mbrId,
+									"mbrLvl": mbrLvl,
+									"strId": strId
+							};
+							mbrVOList.push(mbrVO);
+						});
+						$.ajax({
+						    type: "POST",
+						    url: "${context}/api/mbr/admin/fire",
+						    data: JSON.stringify(mbrVOList),
+						    contentType: "application/json",
+						    success: function(resp) {
+						    	if(resp.status == "200 OK"){
+						    		Swal.fire({
+								    	  icon: 'success',
+								    	  title: '관리자가 해임되었습니다.',
+								    	  showConfirmButton: true,
+								    	  confirmButtonColor: '#3085d6'
+									}).then((result)=>{
+										if(result.isConfirmed){
+											location.reload();
+										}
+									});
+								}else{
+									Swal.fire({
+								    	  icon: 'error',
+								    	  title: resp.message,
+								    	  showConfirmButton: false,
+								    	  timer: 2500
+							    	});
+								}
+						    }
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
 			});
-			if(confirmFire){
+
+			/* if(confirmFire){
 				$.ajax({
 				    type: "POST",
 				    url: "${context}/api/mbr/admin/fire",
@@ -217,11 +307,13 @@
 				    		Swal.fire({
 						    	  icon: 'success',
 						    	  title: '관리자가 해임되었습니다.',
-						    	  showConfirmButton: false,
-						    	  timer: 2500
-					    	});
-							/* alert("관리자가 해임되었습니다."); */
-							location.reload();
+						    	  showConfirmButton: true,
+						    	  confirmButtonColor: '#3085d6'
+							}).then((result)=>{
+								if(result.isConfirmed){
+									location.reload();
+								}
+							});
 						}else{
 							Swal.fire({
 						    	  icon: 'error',
@@ -229,11 +321,10 @@
 						    	  showConfirmButton: false,
 						    	  timer: 2500
 					    	});
-							/* alert(resp.message); */
 						}
 				    }
 				});
-			}
+			} */
 		});
 		$("#mbrLvl, #listSize").change(function(){
 			movePage(0);

@@ -105,24 +105,49 @@
 			console.log("${mngrBrd.mngrBrdId}");
 			var mngrBrdId = ("${mngrBrd.mngrBrdId}");
 			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			} 
-			$.get("${context}/api/mngrbrd/delete/"+ mngrBrdId, function(response){
-				if(response.status =="200 OK"){
-					var url= '${context}/mngrbrd/list'
-					location.replace(url); 
-				}
-				else{
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + "/" + response.message); */
-				}
-			})
+			Swal.fire({
+				  title: '삭제하시겠습니까?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '삭제'
+				}).then((result) => {
+					if(result.isConfirmed){
+						$.get("${context}/api/mngrbrd/delete/"+ mngrBrdId, function(response){
+							if(response.status =="200 OK"){
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '삭제되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										var url= '${context}/mngrbrd/list'
+										location.replace(url); 
+									}
+								});
+							}
+							else{
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
+			});
 		});
 		
 		$(".red-rpl-btn").click(function(){ 
@@ -130,9 +155,52 @@
 			console.log(rplId);
 			
 			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			} 
+			Swal.fire({
+				  title: '삭제하시겠습니까?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '삭제'
+				}).then((result) => {
+					if(result.isConfirmed){
+						$.get("${context}/api/mngrbrd/delete/"+ mngrBrdId, function(response){
+							if(response.status =="200 OK"){
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '삭제되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										var url= '${context}/mngrbrd/list'
+										location.replace(url); 
+									}
+								});
+							}
+							else{
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
+			});
+			
+			
+			
 			$.get("${context}/api/mngrbrd/rpl/delete/"+ rplId, function(response){
 				if(response.status =="200 OK"){
 					location.reload();

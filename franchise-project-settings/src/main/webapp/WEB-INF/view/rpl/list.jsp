@@ -44,29 +44,47 @@
 				/* alert("삭제할 댓글이 없습니다."); */
 				return;
 			} 
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			}
-			var form =$("<form></form>")	
 			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rplId' value='" + $(this).val() + "'>")
-			});
-			
-			$.post("${context}/api/rpl/delete",form.serialize(),function(response){
-				if(response.status =="200 OK"){
-					location.reload(); //새로고침	
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + "/" + response.message); */
-				}
+			Swal.fire({
+				  title: '삭제하시겠습니까?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '삭제'
+				}).then((result) => {
+					if(result.isConfirmed){
+						var form =$("<form></form>")	
+						
+						$(".check_idx:checked").each(function(){
+							console.log($(this).val());
+							form.append("<input type='hidden' name='rplId' value='" + $(this).val() + "'>")
+						});
+						
+						$.post("${context}/api/rpl/delete",form.serialize(),function(response){
+							if(response.status =="200 OK"){
+								location.reload(); //새로고침	
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.errorCode + "/" + response.message); */
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
 			});
 		});
 		

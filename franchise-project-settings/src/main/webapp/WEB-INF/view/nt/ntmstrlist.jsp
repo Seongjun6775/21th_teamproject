@@ -85,21 +85,47 @@
 				/* alert("선택한 쪽지가 없습니다."); */
 				return;
 			}
-			
-			
-			if (!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='ntId' value='" + $(this).val() + "'>")
+			Swal.fire({
+				  title: '삭제 하시겠습니까?',
+				  icon: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '삭제하기'
+				}).then((result) => {
+					if(result.isConfirmed){
+						var form = $("<form></form>")
+						
+						$(".check_idx:checked").each(function() {
+							console.log($(this).val());
+							form.append("<input type='hidden' name='ntId' value='" + $(this).val() + "'>")
+						});
+						
+						$.post("${context}/api/nt/delete", form.serialize(), function(response) {
+							if(response.status=="200 OK"){
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '삭제되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.reload();
+									}
+								});
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
 			});
-			
-			$.post("${context}/api/nt/delete", form.serialize(), function(response) {});
-			location.reload();
 		});
 		
 		

@@ -10,13 +10,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <script type="text/javascript">
 	$().ready(function(){
 		var valueUtil = new ValueUtil();
-		$("#mbrPwd").keyup(function(){
+		$("#chng_mbrPwd").keyup(function(){
 			var mbrPwd = $(this).val();
 			mbrPwd = mbrPwd.replace(/\s/gi, "");
-			$("#mbrPwd").val(mbrPwd);
+			$("#chng_mbrPwd").val(mbrPwd);
 		});
 		$("#newMbrPwd").keyup(function(){
 			var mbrPwd = $(this).val();
@@ -30,59 +31,97 @@
 		});
 		$("#pwd-check-btn").click(function(event){
 			event.preventDefault();
-			var mbrPwd = $("#mbrPwd").val();
+			var mbrPwd = $("#chng_mbrPwd").val();
 			var newMbrPwd = $("#newMbrPwd").val();
 			var newMbrPwdChck = $("#newMbrPwdChck").val();
-			console.log(mbrPwd);
-			if(!valueUtil.requires("#mbrPwd")){
+			if(!valueUtil.requires("#chng_mbrPwd")){
 				return;
 			}
-			if(!valueUtil.requires("#mbrPwd")){
+			if(!valueUtil.requires("#chng_mbrPwd")){
 				return;
 			}
 			//비밀번호 자리수가 8자 미만일때
 			if(mbrPwd.length < 8 || newMbrPwd.length < 8 || newMbrPwdChck.length < 8){
-				alert("비밀번호를 확인해 주세요.");
+				Swal.fire({
+			    	  icon: 'warning',
+			    	  title: '비밀번호를 하세요.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
 				return;
 			}
 			if(newMbrPwd != newMbrPwdChck){
-				alert("새 비밀번호의 두 값이 다릅니다.");
+				Swal.fire({
+			    	  icon: 'error',
+			    	  title: '다른값',
+			    	  text: '새 비밀번호의 두 값이 다릅니다.',
+			    	  showConfirmButton: false,
+			    	  timer: 2500
+				});
 				return;
 			}
 			$.post("${context}/mbr/pwd/update", {mbrPwd: mbrPwd, newMbrPwd: newMbrPwd}, function(resp){
 				if(resp.status == "200 OK"){
-					alert("비밀번호가 변경되었습니다.");
-					location.href="${context}"+resp.redirectURL;
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '비밀번호가 변경되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href="${context}"+resp.redirectURL;
+						}
+					});
+
 				}
 				else{
-					alert(resp.message);
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: '비밀번호가 다릅니다.',
+				    	  text: resp.status,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
 				}
 			});
 		});
 	});
 </script>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
-		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
-				<div class="checkGroup">
-					<form id="pwdChange_form" class="pwdChange_form">
-						<div class="checkBox">
-							<label for="mbrPwd">기존 비밀번호</label>
-							<input type="password" id="mbrPwd" name="mbrPwd" placeholder="기존 비밀번호" maxlength="8" data-field-name="기존비밀번호" autocomplete="off" >
-							<label for="newMbrPwd">새 비밀번호</label>
-							<input type="password" id="newMbrPwd" name="newMbrPwd" placeholder="새 비밀번호 입력" maxlength="8" data-field-name="새 비밀번호" autocomplete="off" >
-							<label for="newMbrPwdChck">새 비밀번호 확인</label>
-							<input type="password" id="newMbrPwdChck" name="newMbrPwdChck" placeholder="새 비밀번호 확인" maxlength="8" data-field-name="새 비밀번호확인" autocomplete="off" >
-							<button class="check-btn" id="pwd-check-btn">확인</button>
-						</div>
-					</form>
-				</div>
-			<jsp:include page="../include/footer.jsp" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+		<div class="visualArea flex relative">
+			<div class="content-setting title">회원</div>
+			<div class="overlay absolute"></div>
 		</div>
-	</div>
-</body>
+		<div id="menu" class="flex-column">	
+			<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+				<span class="fs-5 fw-bold">회원 > 회원정보 > 비밀번호 변경</span>
+		    </div>
+	    	<div class="bg-white rounded shadow-sm " style="padding: 10px 18px 10px 18px; margin: auto;width:396px; height:220px;  display: flex; justify-content: center; align-items: center;">
+	    		<div class="checkGroup">
+					<form id="pwdChange_form" class="">
+						
+							<div class="input-group">
+								<span class="input-group-text">기존 비밀번호</span>
+								<input type="password" class="form-control"  id="chng_mbrPwd" name="mbrPwd" placeholder="기존 비밀번호" maxlength="16" data-field-name="기존비밀번호" autocomplete="off" >
+							</div>
+							<div class="input-group">
+								<span class="input-group-text">새 비밀번호</span>
+								<input type="password" class="form-control"  id="newMbrPwd" name="newMbrPwd" placeholder="새 비밀번호 입력" maxlength="16" data-field-name="새 비밀번호" autocomplete="off" >
+							</div>
+							<div class="input-group">
+								<span class="input-group-text">새 비밀번호 확인</span>
+								<input type="password" class="form-control"  id="newMbrPwdChck" name="newMbrPwdChck" placeholder="새 비밀번호 확인" maxlength="16" data-field-name="새 비밀번호확인" autocomplete="off" >
+							</div>
+
+					</form>
+							<button class="btn btn-outline-primary"  id="pwd-check-btn">변경</button>
+				</div>
+	    	</div>
+    	</div>
+
+<jsp:include page="../include/closeBody.jsp" />
 </html>
