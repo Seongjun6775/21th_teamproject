@@ -5,13 +5,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktds.fr.common.api.exceptions.ApiArgsException;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
+import com.ktds.fr.ctycd.service.CtyCdService;
+import com.ktds.fr.ctycd.vo.CtyCdVO;
+import com.ktds.fr.lctcd.service.LctCdService;
 import com.ktds.fr.mbr.vo.MbrVO;
 import com.ktds.fr.prdt.service.PrdtService;
 import com.ktds.fr.prdt.vo.PrdtVO;
@@ -31,6 +36,13 @@ public class RestStrPrdtController {
 	
 	@Autowired
 	private PrdtService prdtService;
+	
+	@Autowired
+	private LctCdService lctService;
+	
+	@Autowired
+	private CtyCdService ctyService;
+	
 	
 	@PostMapping("/api/strprdt/update")
 	public ApiResponseVO updateAll(@RequestParam List<String> strPrdtIdList
@@ -81,5 +93,18 @@ public class RestStrPrdtController {
 		return new ApiResponseVO(ApiStatus.FAIL);
 	}
 	
+	@PostMapping("/api/strprdt/list2/lct")
+	public List<CtyCdVO> readLctCtyList(@RequestParam String lctId) {
+		List<CtyCdVO> ctyList = ctyService.read(lctId);
+		return ctyList;
+	}
+	@PostMapping("/api/strprdt/list2/cty")
+	public List<StrVO> readCtyStrList(@RequestParam String ctyId) {
+		List<StrVO> ctyList = strService.readAllUseY(ctyId);
+		return ctyList;
+	}
 
+	
+	
+	
 }

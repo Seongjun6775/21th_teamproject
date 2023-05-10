@@ -20,10 +20,11 @@ public class OdrLstController {
 	
 	@GetMapping("/odrlst/list")
 	public String viewOdrLstPage(@SessionAttribute("__MBR__") MbrVO mbrVO) {
-		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			return "redirect:/odrlst/mngrodrlst";
-		}
-		else if (mbrVO.getMbrLvl().equals("001-04")) {
+		// 현재 사용하지 않는 페이지입니다.
+//		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+//			return "redirect:/odrlst/mngrodrlst";
+//		}
+		if (mbrVO.getMbrLvl().equals("001-04")) {
 			return "redirect:/odrlst/mbrodrlst";
 		}
 		else {
@@ -31,17 +32,19 @@ public class OdrLstController {
 		}
 	}
 	
-	@GetMapping("/odrlst/mngrodrlst")
-	public String viewMngrOdrLstPage(@SessionAttribute("__MBR__") MbrVO mbrVO, OdrLstVO odrLstVO
-									, Model model) {
-		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
-			List<OdrLstVO> allOdrLst = odrLstService.readAllOdrLst(odrLstVO);
-			model.addAttribute("allOdrLst", allOdrLst);
-			model.addAttribute("mbrVO", mbrVO);
-			return "odrlst/mngrodrlst";
-		}
-		return "redirect:/odrlist/list";
-	}
+	// 현재 사용하지 않는 페이지입니다.
+//	@GetMapping("/odrlst/mngrodrlst")
+//	public String viewMngrOdrLstPage(@SessionAttribute("__MBR__") MbrVO mbrVO, OdrLstVO odrLstVO
+//									, Model model) {
+//		if (mbrVO.getMbrLvl().equals("001-02") || mbrVO.getMbrLvl().equals("001-03")) {
+//			List<OdrLstVO> allOdrLst = odrLstService.readAllOdrLst(odrLstVO);
+//			model.addAttribute("allOdrLst", allOdrLst);
+//			model.addAttribute("odrLstVO", odrLstVO);
+//			model.addAttribute("mbrVO", mbrVO);
+//			return "odrlst/mngrodrlst";
+//		}
+//		return "redirect:/odrlist/list";
+//	}
 	
 	@GetMapping("/odrlst/mbrodrlst")
 	public String viewMbrOdrLstPage(@SessionAttribute("__MBR__") MbrVO mbrVO, OdrLstVO odrLstVO
