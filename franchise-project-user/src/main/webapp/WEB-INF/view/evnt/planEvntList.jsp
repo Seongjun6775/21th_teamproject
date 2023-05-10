@@ -57,7 +57,12 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 .prdt:hover img {
 	transform: scale(1.2);
 }
-
+.menuOn {
+	font-weight: bold;
+	color: #333;
+	font-size: 26px;
+}
+</style>
 </style>
 
 </head>
@@ -82,8 +87,8 @@ MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 		<div id="menu" class="flex-column">
 		<div id="menuCategory" class="flex" >
 			<a href="${context}/evnt/ongoingList" class="btn">진행중인 이벤트</a>
-			<a href="${context}/evnt/pastEvntList" class="btn">종료된 이벤트</a>
-			<a href="${context}/evnt/planEvntList" class="btn">진행예정 이벤트</a>
+			<a href="${context}/evnt/pastEvntList" class="btn ">종료된 이벤트</a>
+			<a href="${context}/evnt/planEvntList" class="btn menuOn">진행예정 이벤트</a>
 		</div>
 
 		<div id="itemList" class="flow-wrap">
