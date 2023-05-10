@@ -1,3 +1,4 @@
+document.write('<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>');  
 function ValueUtil() {
 }
 
@@ -16,7 +17,14 @@ ValueUtil.prototype.requires = function() {
 	for (var index in arguments) {
 		if (this.isEmpty(arguments[index])) {
 			var fieldName = $(arguments[index]).data("field-name");
-			alert(fieldName + (this.getLastConsonantLetter(fieldName) ? "은" : "는") + " 필수값 입니다.");
+			Swal.fire({
+	    	  icon: 'error',
+	    	  title: '미입력',
+	    	  text: fieldName + (this.getLastConsonantLetter(fieldName) ? "은" : "는") + " 필수값 입니다.",
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+  			}); 
+			
 			return false;
 		}
 	}
@@ -31,7 +39,14 @@ ValueUtil.prototype.checkValidLength = function() {
 		if (minLength) {
 			if (element.val().length < minLength) {
 				var fieldName = element.data("field-name");
-				alert(fieldName + (this.endEndWord(fieldName) ? "은" : "는") + " " + minLength + "글자 이상 입력하세요");
+				Swal.fire({
+		    	  icon: 'error',
+		    	  title: '미입력',
+		    	  text: fieldName + (this.endEndWord(fieldName) ? "은" : "는") + " " + minLength + "글자 이상 입력하세요",
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+	  			}); 
+				
 				return false;
 			}
 		}
