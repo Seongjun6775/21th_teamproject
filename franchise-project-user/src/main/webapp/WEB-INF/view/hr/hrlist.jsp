@@ -101,7 +101,8 @@
 									<td>${hr.hrId}</td>
 									<td>${hr.mbrId}</td>
 									<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
-									<td>${hr.hrRgstDt}</td>
+									<fmt:parseDate value="${hr.hrRgstDt}" var="parseHrRgstDt" pattern="yyyy-MM-dd" />
+									<td><fmt:formatDate value="${parseHrRgstDt}" pattern="yyyy-MM-dd" /></td>
 									<td>
 										<c:choose>
 											<c:when test="${hr.ntcYn eq 'Y'}"></c:when>
