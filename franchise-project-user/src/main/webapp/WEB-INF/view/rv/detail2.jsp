@@ -100,18 +100,16 @@
 		<div class="overlay absolute"></div>
 	</div>
 	<div style="background-color: #ccc; height: 250px; display: flex;align-items: center;">
-		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>프랜차이즈의 리뷰를 작성해보세요. </p>
+		<p style="margin: 0 auto; color: #fff; font-weight: bold; font-size: 20px;">변화를 만나는 곳, 변화를 만드는 곳.<br>리뷰를 작성해보세요. </p>
 	</div>
 	<div id="menu" class="flex-column">	
-							
 		<div class="bg-white rounded shadow-sm" style="padding: 60px;  margin:20px; position: relative;">
-			<c:if test="${mbrVO.mbrLvl eq '001-01' || mbrVO.mbrId eq rvDetail.mbrId }">
 				<div style="position: absolute; right: 0;top: 0; margin: 20px;">
-					<button id="delete_btn" class="btn btn-outline-danger btn-default">삭제</button>
 					<button id="list_btn" class="btn btn-secondary" >목록</button>
 				</div>
-			</c:if>	
 			<h2 class="fw-bold" style="margin: 30px 30px 80px 30px;">구매후기</h2>
+			
+			
 			<div class="flex">
 				<div class="input-group" style="flex: 1; margin-top: 10px;">
 					<label for="prdtCntnt" class="col-form-label">상품이름</label>
