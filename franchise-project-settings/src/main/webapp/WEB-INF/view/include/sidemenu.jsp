@@ -136,8 +136,10 @@
 	          고객센터
 	       </button></a>
        </li>
-      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/index_user" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li>
+
       <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"><a href="${context}/odrlst/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">주문목록</a></li> 
+      <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed" style="position: fixed; bottom: 0; left: 60px; right: 0;"> 
+      	<a href="${context}/index_user" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li>
     </ul>
   </div>
   </div>

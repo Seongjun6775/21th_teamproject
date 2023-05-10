@@ -178,13 +178,7 @@ text-decoration: none;
 						<img src="${context}/img/붕어빵이벤트2.jpg" class="d-block w-100" alt="고양이1" >
 					</div>
 					<div class="carousel-item">
-						<img src="${context}/img/cat.jpg" class="d-block w-100" alt="고양이2">
-					</div>
-					<div class="carousel-item">
 						<img src="${context}/img/와플.png" class="d-block w-100" alt="고양이3">
-					</div>
-					<div class="carousel-item">
-						<img src="${context}/img/cat4.jpg" class="d-block w-100" alt="고양이4">
 					</div>
 				</div>
 <%-- 				<div style="display: flex; justify-content: center;">
