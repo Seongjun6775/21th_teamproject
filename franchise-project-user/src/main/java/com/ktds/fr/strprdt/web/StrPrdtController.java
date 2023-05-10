@@ -77,10 +77,12 @@ public class StrPrdtController {
 	}
 			
 	@GetMapping("/strprdt/list2")
-	public String strPrdtListCustomer(Model model) {
+	public String strPrdtListCustomer(Model model
+			, @SessionAttribute("__MBR__") MbrVO mbrVO) {
 		List<LctCdVO> lctList = lctService.read();
 		model.addAttribute("lctList",lctList);
-	
+		model.addAttribute("mbrVO", mbrVO);
+		
 		return "strprdt/str_select";
 	}
 	
