@@ -81,7 +81,6 @@
 			  }
 			});	
 		});
-		
 		// '참여매장등록하기' 버튼 클릭 시
 		$("#btn-createEvntStr").click(function() {
 			Swal.fire({

@@ -6,6 +6,26 @@
 <script type="text/javascript" src="${context}/js/join.js"></script>
 <script type="text/javascript">
 // 특수문자 모두 제거    
+
+/* Swal.fire({
+	  title: '로그인 필요',
+	  text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
+	  icon: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  cancelButtonText: '취소',
+	  confirmButtonText: '로그인'
+	}).then((result) => {
+		if(result.isConfirmed){
+			$("#img_btn").click();
+		}else{
+			$("#btn-modal-close").click();
+		}
+}); */
+
+
+
 function chkId(obj){
     var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;   //정규식 구문
     if (RegExp.test(obj.value)) {
@@ -55,7 +75,9 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 		$.post("${context}/login", data, function(resp){
 			if(resp.status == "200 OK"){
 				localStorage.clear();
-				location.href = "${context}"+resp.redirectURL;
+				$("#btn-modal-close").click();
+				/* location.href = "${context}"+resp.redirectURL; */
+				location.reload();
 			}
 			else if(resp.message=="계정정보없음"){
 				localStorage.setItem("failCount", parseInt(failCount)+1);
@@ -755,7 +777,7 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 			
 			<!-- </div> -->
 			<div class="modal-footer" style="border-top: 0px;">
-				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+				<button type="button" id="btn-modal-close" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
 			</div>
 		</div>
 	</div>
