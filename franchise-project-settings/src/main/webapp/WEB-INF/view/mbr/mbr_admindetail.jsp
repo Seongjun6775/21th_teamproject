@@ -13,16 +13,17 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <script type="text/javascript">
+	function Salert(str){
+		Swal.fire({
+	    	  icon: 'error',
+	    	  title: str,
+	    	  showConfirmButton: false,
+	    	  timer: 2500
+		});
+	}
 	$().ready(function(){
 		
-		function Salert(str){
-			Swal.fire({
-		    	  icon: 'error',
-		    	  title: str,
-		    	  showConfirmButton: false,
-		    	  timer: 2500
-	    	});
-		}
+		
 		
 		$("#fileDown").click(function(){
 			$.get("${context}/hr/hrfile/${mbr.hrVO.hrId}", function(resp){
@@ -43,122 +44,87 @@
 		});
 	});
 </script>
-
+<style>
+	.input-group{
+		width: 300px;
+		margin-top: 15px;
+	}
+</style>
 </head>
-<body>
-	<div class="main-layout">
-		<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/openBody.jsp" />
+<!-- contents -->
+	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">
+		<span class="fs-5 fw-bold">매장 > 조회 > 매장직원 조회</span>
+    </div>
+<!-- /contents -->
+<div class="admin_table_grid bg-white rounded shadow-sm" style="margin: 20px;padding: 30px; height: auto;">
+	<div class="rounded" style="margin: 20px;">
+		<div class="row" style="justify-content: space-between; margin: 0px;">
+			<div class="main-layout">
 		<div>
-			<jsp:include page="../include/strMgmtSideMenu.jsp" />
-			<jsp:include page="../include/content.jsp" />
 			<!-- 조회영역 -->
-			<div class="grid">
 				<div class="detail-header">
-					<h1>점원 조회</h1>
+					<h3>점원 조회</h3>
 				</div>
 				<div class="detail-content">
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>아이디</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" readonly value="${mbr.mbrId}"/>
-							</div>
-						</div>
+					<div class="input-group">
+						<span class="input-group-text">&nbsp;ID&nbsp;&nbsp;</span>
+						<input type="text" id="mbrId" name="mbrId" class="form-control" readonly value="${mbr.mbrId}">
 					</div>
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>이름</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" readonly value="${mbr.mbrNm}"/>
-							</div>
-						</div>
+
+					<div class="input-group">
+						<span class="input-group-text">이름</span>
+						<input type="text" class="form-control" readonly value="${mbr.mbrNm}">
 					</div>
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>이메일</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" readonly value="${mbr.mbrEml}"/>
-							</div>
-						</div>
+
+					<div class="input-group col-12">
+						<span class="input-group-text">&nbsp;@&nbsp;&nbsp;</span>
+						<input type="text" class="form-control" readonly value="${mbr.mbrEml}">
 					</div>
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>소속</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" readonly value="${mbr.strVO.strNm}"/>
-							</div>
-						</div>
+					
+					<div class="input-group col-12">
+						<span class="input-group-text">소속</span>
+						<input type="text" class="form-control rounded-end" readonly value="${mbr.strVO.strNm}">
 					</div>
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>직급</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" value="${mbr.cmmnCdVO.cdNm}"/>
-							</div>
-						</div>
+					
+					<div class="input-group col-12">
+						<span class="input-group-text">직급</span>
+						<input type="text" class="form-control rounded-end" readonly value="${mbr.cmmnCdVO.cdNm}">
 					</div>
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>이력서</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" style="width:200px;" value="${empty mbr.hrVO.orgnFlNm ? '파일이 없습니다.' : mbr.hrVO.orgnFlNm}"/>
-								<c:choose>
-									<c:when test ="${empty mbr.hrVO.hrId}">
-										<a href="javascript:Salert('파일이 없습니다.')"><i class='bx bx-file'></i></a>
-									</c:when>
-									<c:otherwise>
-										<a href="#" id="fileDown"><i class='bx bx-file'></i></a>
-									</c:otherwise>
-								</c:choose>
-							</div>
-						</div>
+					
+					<div class="input-group">
+						<span class="input-group-text">이력서</span>
+						<input type="text"  class="form-control"  value="${empty mbr.hrVO.orgnFlNm ? '파일이 없습니다.' : mbr.hrVO.orgnFlNm}">
+						<c:choose>
+							<c:when test ="${empty mbr.hrVO.hrId}">
+								<a href='javascript:Salert("파일이 없습니다.")'><i class='bx bx-file' style="font-size: 30px;"></i></a>
+							</c:when>
+							<c:otherwise>
+								<a href="#" id="fileDown"><i class='bx bx-file' style="font-size: 30px;"></i></a>
+							</c:otherwise>
+						</c:choose>
 					</div>
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>최근 로그인</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" readonly value="${mbr.mbrRcntLgnDt}"/>
-							</div>
-						</div>
+
+					<div class="input-group">
+						<span class="input-group-text">최근 로그인</span>
+						<input type="text"  class="form-control" readonly value="${mbr.mbrRcntLgnDt}">
 					</div>
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>차단 여부</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" readonly value="${mbr.mbrLgnBlckYn}"/>
-							</div>
-						</div>
+
+					<div class="input-group">
+						<span class="input-group-text">차단여부</span>
+						<input type="text" class="form-control" readonly value="${mbr.mbrLgnBlckYn}">
 					</div>
-					<div class="content-block">
-						<div class="content-subject">
-							<h1>가입일?</h1>
-						</div>
-						<div class="content-items">
-							<div class="item">
-								<input type="text" readonly value="${mbr.mbrRgstrDt}"/>
-							</div>
-						</div>
+
+					<div class="input-group">
+						<span class="input-group-text">가입일</span>
+						<input type="text" class="form-control" readonly value="${mbr.mbrRgstrDt}">
 					</div>
+
 				</div>
-			</div>
-			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
-</body>
+		</div>
+	</div>
+	</div>
+<jsp:include page="../include/closeBody.jsp" />
 </html>
