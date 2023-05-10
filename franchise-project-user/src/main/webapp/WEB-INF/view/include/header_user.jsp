@@ -186,7 +186,6 @@ li.dropdown > ul > li > a  {
     font-size: 22px;
     FONT-WEIGHT: 550;
     margin: 10px;
-    margin-top: 45px;
     color: #fff;
     padding: 10px 25px;
     border-radius: 25px;
@@ -315,21 +314,16 @@ li.dropdown > ul > li > a  {
 								</li>
 							</ul>
 						</li>
-						<li><a href="${context}/index" class="fs-4 fw-bold">관리자페이지로</a>
-							<ul>
-								<li><a class="fs-6 fw-bold">삭제예정</a></li>
-							</ul>
-						</li>
 					</ul>
 				</div>			
 			</div>
 	        <div style="padding: 5px; margin:20px;">
 	        	<c:choose>
 	        		<c:when test="${not empty sessionScope.__MBR__ }">
-			            <a href="${context}/mbr/logout" class="btm_image" id="img_btn_logout" style=" background-color:  #448938;">로그아웃</a> 
+			            <a href="${context}/mbr/logout" class="btm_image" id="img_btn_logout" style=" background-color: #d72300;">로그아웃</a> 
 	        		</c:when>
 	        		<c:otherwise>
-			            <button class="btm_image" id="img_btn" data-bs-toggle="modal" data-bs-target="#loginModal" style=" background-color: #d72300;" >로그인</button>  
+			            <button class="btm_image" id="img_btn" data-bs-toggle="modal" data-bs-target="#loginModal" style=" background-color: #ffbe2e;;" >로그인</button>  
 	        		</c:otherwise>
 	        	</c:choose>
 	        </div>
