@@ -243,6 +243,9 @@
 							});
 						}
 				});
+				$("#strCty").click(function(){
+					changeLocation(strVO.strLctn, strVO.strCty)
+				});
 				function changeLocation(strlctn, cityVal) {
 					
 					$("#strLctn").val(strlctn);
