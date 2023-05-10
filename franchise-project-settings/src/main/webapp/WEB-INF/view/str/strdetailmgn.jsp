@@ -256,7 +256,7 @@ $().ready(function() {
 							</div>	
 							<div class="input-group inline">
 								<span class="input-group-text">지역</span>
-								<select class="form-select readonly" id="strLctn" name="strLctn" >
+								<select class="form-select readonly" id="strLctn" name="strLctn" disabled="disabled" >
 									<option value="">지역명</option>
 									<c:choose>
 										<c:when test="${not empty lctList}">
@@ -270,7 +270,7 @@ $().ready(function() {
 								</div>	
 							<div class="input-group inline">
 								<span class="input-group-text">도시</span>
-								<select class="form-select readonly" id="strCty" name="strCty" >
+								<select class="form-select readonly" id="strCty" name="strCty" disabled="disabled">
 									<option value="" >도시명</option>
 									<c:choose>
 										<c:when test="${not empty ctyList}" >
