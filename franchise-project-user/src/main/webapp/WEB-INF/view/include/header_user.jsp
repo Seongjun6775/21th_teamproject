@@ -325,11 +325,11 @@ li.dropdown > ul > li > a  {
 			</div>
 	        <div style="padding: 5px; margin:20px;">
 	        	<c:choose>
-	        		<c:when test="${empty sessionScope.__MBR__ }">
-			            <a href="${context}/mbr/logout" class="btm_image" id="img_btn" style=" background-color:  #448938;">로그인</a> 
+	        		<c:when test="${not empty sessionScope.__MBR__ }">
+			            <a href="${context}/mbr/logout" class="btm_image" id="img_btn_logout" style=" background-color:  #448938;">로그아웃</a> 
 	        		</c:when>
 	        		<c:otherwise>
-			            <a class="btm_image" id="img_btn" style=" background-color: #d72300;" href="${context}/mbr/logout">로그아웃</a>  
+			            <button class="btm_image" id="img_btn" data-bs-toggle="modal" data-bs-target="#loginModal" style=" background-color: #d72300;" >로그인</button>  
 	        		</c:otherwise>
 	        	</c:choose>
 	        </div>
