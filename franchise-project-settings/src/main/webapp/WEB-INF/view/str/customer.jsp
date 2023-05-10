@@ -106,7 +106,7 @@
 		
 		
 		//url요청
-		location.href = "${context}/str/list?" + queryString;
+		location.href = "${context}/str/customer?" + queryString;
 		}
 		</script>
 </head>
