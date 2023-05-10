@@ -12,6 +12,7 @@
 	MbrVO mbrVO = (MbrVO) session.getAttribute("__MBR__");
 %>
 <link rel="stylesheet" href="../../css/evntCommon.css?p=${date}" />
+<link rel="stylesheet" href="${context}/css/jy_common.css?p=${date}" />
 <meta charset="UTF-8">
 <title>이벤트 상세 페이지</title>
 <jsp:include page="../include/stylescript.jsp" />
@@ -36,29 +37,34 @@
 }
 </style>
 </head>
-<jsp:include page="../include/openBody.jsp" />
+<body class="scroll">
+	<jsp:include page="../include/header_user.jsp" />
+	
+	<div class="visualArea flex relative">
+		<div class="content-setting title">이벤트</div>
+		<div class="overlay absolute"></div>
+	</div>
+	<div id="menu" class="flex-column rounded" > 
 	<div class="bg-white rounded shadow-sm  " style=" padding: 23px 18px 23px 18px; margin: 20px;">	
 			<span class="fs-5 fw-bold">이벤트 > 상세페이지</span>
-			<div style="float: right;">
-				<button type="submit" id="btn-cancle" class="btn btn-secondary">목록</button>
-			</div>
 	</div>
 	
-	
-		<div class="card hr_table_grid bg-white rounded shadow-sm" style="margin: 20px; padding:20px; border-radius:30px; display:inline-flex;">
-            <div class="bd-placeholder-img card-img-top" >
-            	<div style="text-align: center;; background-color: #FFFFF;">
-            		<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="height:100; width:70;" />
-            	</div>
-            </div>
+	<div class="card hr_table_grid bg-white rounded shadow-sm" style="margin: 20px; padding:20px; border-radius:30px; display:inline-flex;">
+           <div class="bd-placeholder-img card-img-top" >
+           	<div style="text-align: center;; background-color: #FFFFF;">
+           		<img src="${context}/evnt/img/${evntVO.uuidFlNm}" style="height:100; width:70;" />
+           	</div>
+           </div>
 
-            <div class="card-body">
-            	<p class="card-text" style="float: right;">이벤트 기간: ${evntVO.evntStrtDt} ~ ${evntVO.evntEndDt}</p>
-            	<p class="card-text fw-bold" >${evntVO.evntTtl}</p>
-            	<p class="card-text">${evntVO.evntCntnt}</p>
+           <div class="card-body">
+           	<p class="card-text" style="float: right;">이벤트 기간: ${evntVO.evntStrtDt} ~ ${evntVO.evntEndDt}</p>
+           	<p class="card-text fw-bold fs-4" >${evntVO.evntTtl}</p>
+           	<p class="card-text">${evntVO.evntCntnt}</p>
 
-            </div>
-          </div>
+           </div>
+		</div>
+	</div>
+    <jsp:include page="../include/footer_user.jsp" />
 <%-- 		<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<table border=1 style="width: 600px;">
 				<tr>
