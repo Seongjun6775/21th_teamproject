@@ -11,9 +11,6 @@
 <script type="text/javascript">
 	$().ready(function() {
         $().ready(function(){
-        	
-        	
-        	
             $('.nav-item').mouseenter(function(){
                 $(this).find('.dropdown-menu').show();
             }).mouseleave(function(){
