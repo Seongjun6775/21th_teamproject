@@ -125,6 +125,7 @@ public class StrController {
 	@GetMapping("/str/strdetailmst/{strId}")
 	public String viewStrDetailMstPage(@SessionAttribute("__MBR__") MbrVO mbrVO, @PathVariable String strId, Model model, CtyCdVO ctyCdVO, LctCdVO lctCdVO) {
 		StrVO strVO = strService.readOneStrByMaster(strId);
+		
 		List<CtyCdVO> ctyList = ctyCdService.readCategory(ctyCdVO);
 	    List<LctCdVO> lctList = lctCdService.readCategory(lctCdVO);
 	    mbrVO.setStrId(strId);
