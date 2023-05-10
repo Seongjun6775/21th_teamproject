@@ -133,6 +133,14 @@ body{
 }
 
 
+
+#menu > div + div {
+	margin: 16px 0;
+}
+
+
+
+
 .fullscreen{
 	position:fixed;
 	top:0px;
