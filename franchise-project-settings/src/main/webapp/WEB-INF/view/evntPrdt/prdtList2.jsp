@@ -260,7 +260,7 @@
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 							<th style="width: 50px; text-align: center; border-radius: 6px 0 0 0;"><input type="checkbox" id="all-check" /></th>
-							<th style="width: 200px; text-align: center;">상품 ID</th>
+					<!-- 		<th style="width: 200px; text-align: center;">상품 ID</th> -->
 							<th style="width: 200px; text-align: center;"><select class="select-align-center "
 								name="selectFilter" id="search-keyword-prdtSrt">
 									<option value="">분류</option>
@@ -285,7 +285,7 @@
 									<tr data-prdtprc="${prdt.prdtPrc}">
 										<td class="firstcell" style="text-align: center;"><input type="checkbox"
 											class="check-idx" value="${prdt.prdtId}" /></td>
-										<td style="text-align: center;">${prdt.prdtId}</td>
+							<%-- 			<td style="text-align: center;">${prdt.prdtId}</td> --%>
 										<td style="text-align: center;">${prdt.prdtNm}</td>
 										<td style="text-align: center;"><fmt:formatNumber>${prdt.prdtPrc}</fmt:formatNumber></td>
 										<td style="text-align: center;"><input type="text" 
@@ -299,7 +299,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="9">등록된 이벤트 대상 품목 정보가 없습니다.</td>
+									<td colspan="8">등록된 이벤트 대상 품목 정보가 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>

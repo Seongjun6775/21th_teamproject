@@ -269,7 +269,16 @@ li.dropdown > ul > li > a  {
                <a class="nav-link-right" style=" background-color: #502416;" href="${context}/hr/hrindex" >채용 문의</a>
             </li>
             <li class="nav-item">
-                  <a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list_user">고객센터</a>
+           		  <c:if test= "${not empty sessionScope.__MBR__}">	
+                  	
+                  </c:if>				<c:choose>
+					<c:when test="${not empty sessionScope.__MBR__ }">
+					    <a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list">고객센터</a> 
+					</c:when>
+					<c:otherwise>
+					    <a class="nav-link-right" style="background-color: #ffbe2e;" href="${context}/hlpdsk/list_user">고객센터</a>  
+					</c:otherwise>
+				</c:choose>
             </li>
            </ul>
            </div>
@@ -321,7 +330,9 @@ li.dropdown > ul > li > a  {
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <img  src="${context}/img/logout.png" width="50" height="50">
           </a> 
-          <small class="fw-semibold" style="position: fixed; right: 62px;">${sessionScope.__MBR__.mbrNm}님</small>
+          <c:if test="${not empty sessionScope.__MBR__ }">
+          	<small class="fw-semibold" style="position: fixed; right: 62px;">${sessionScope.__MBR__.mbrNm}님</small>
+          </c:if>
           <ul class="dropdown-menu text-small profile" style="position: absolute;inset: 0px 0px auto auto;margin: 0px;transform: translate(10px, 70px);">
             <c:if test="${not empty sessionScope.__MBR__ }">
             	<li><a class="dropdown-item" href="#">${sessionScope.__MBR__.mbrNm}</a></li>

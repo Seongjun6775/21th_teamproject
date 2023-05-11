@@ -36,36 +36,45 @@
 				return;
 			}
 			
-			var rdYn = ("${nt.ntRdDt}");
-			if (rdYn != "") {
-				Swal.fire({
-			    	  icon: 'error',
-			    	  title: '이미 확인된 쪽지는 지울 수 없습니다.',
-			    	  showConfirmButton: false,
-			    	  timer: 2500
-				});
-				/* alert("이미 확인된 쪽지는 지울 수 없습니다!") */
-				return;
-			}
-			
-			else if (!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			
-			$.post("${context}/api/nt/delete/" + ntId, function(response) {
-				if (response.status == "200 OK") {
-					location.href = "${context}/nt/ntmstrlist";
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + " / " + response.message); */
-				}
+			Swal.fire({
+			     title: '쪽지 삭제',
+			     text: "정말 삭제하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '아니오',
+			     confirmButtonText: '예'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			    	  $.post("${context}/api/nt/delete/" + ntId, function(response) {
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 삭제되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href = "${context}/nt/ntmstrlist";
+									}
+								});
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+							}
+						});
+			      }else{
+			         return;
+			      }
 			});
+			
+			
 		});
 		
 		$("#list_btn").click(function() {
@@ -180,7 +189,6 @@
       	<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 			<div class="nt-table" style="margin: 20px;">
 				<div style="float: right;">
-					<button id="upd_btn" class="btn btn-outline-success btn-default">수정</button> 
 					<button id="del_btn" class="btn btn-outline-danger btn-default">삭제</button>
 				</div>
 				<div>
@@ -195,8 +203,8 @@
 				</div>
 				<div>
 					<label class="d-inline fw-bolder" style="float: left;width: 67px;">수신자</label>
-					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25 ellipsis" style="padding: 5px;"onclick="event.cancelBubble=true">
-						<a class="open-layer" href="javascript:void(0);" val="${nt.rcvrId}">${nt.rcvrId}</a>
+					<div class="d-inline rounded-pill bg-warning text-dark bg-opacity-25 ellipsis" style="padding: 5px;">
+						${nt.rcvrId}
 					</div>
 				</div>
 				<div>

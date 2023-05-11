@@ -5,7 +5,8 @@
 <c:set var="date" value="<%=new Random().nextInt() %>" />
 <script type="text/javascript" src="${context}/js/join.js"></script>
 <script type="text/javascript">
-// 특수문자 모두 제거    
+// 특수문자 모두 제거
+//버전 1
 /* Swal.fire({
 	  title: '로그인 필요',
 	  text: "로그인이 필요합니다.\n로그인 하시겠습니까?",
@@ -22,6 +23,61 @@
 			$("#btn-modal-close").click();
 		}
 }); */
+//버전 2 start
+/*
+Swal.fire({
+	  title: '채용여부', 변경
+	  text: '해당 지원자를 미채용하시겠습니까?', 변경
+	  icon: 'warning || success || error || question',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  cancelButtonText: '취소(*취소 버튼명)',
+	  confirmButtonText: '미채용 (*수락 버튼 명)'
+	}).then((result) => {
+		if(result.isConfirmed){ -> 수락버튼 눌렀을 때 수행
+			var form = $("<form></form>");
+			form.append("<input type='hidden' name='mbrVO.mbrId' value='${hr.mbrId}'>");
+			form.append("<input type='hidden' name='hrLvl' value='${hr.hrLvl}'>");
+			form.append("<input type='hidden' name='hrId' value='${hr.hrId}'>");
+			form.append("<input type='hidden' name='hrAprYn' value='N'>");
+			
+			$.post("${context}/api/hr/updateapr", form.serialize(), function(response) {
+				if (response.status == "200 OK") {
+					ajax가 정상적으로 수행 하고 reload나 location.href로 바로 페이지 변경시 
+					아래 result.isConfirmed 부분에다가 위치
+					Swal.fire({
+				    	  icon: 'success',
+				    	  title: '정상적으로 미채용 처리되었습니다.',
+				    	  showConfirmButton: true,
+				    	  confirmButtonColor: '#3085d6'
+					}).then((result)=>{
+						if(result.isConfirmed){
+							location.href = "${context}/hr/hrmstrdetail/${hr.hrId}";
+						}
+					});
+				}
+				else {
+					Swal.fire({
+				    	  icon: 'error',
+				    	  title: response.message,
+				    	  showConfirmButton: false,
+				    	  timer: 2500
+					});
+				}
+			});
+		}else{
+			Swal.fire({
+		    	  icon: 'success',
+		    	  title: '취소 되었습니다.',
+		    	  showConfirmButton: false,
+		    	  timer: 2500
+			});
+			return;
+		}
+});
+*/
+//버전2 end
 function chkId(obj){
     var RegExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;   //정규식 구문
     if (RegExp.test(obj.value)) {
@@ -622,14 +678,14 @@ var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 });
 </script>
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-<!-- spinner -->
-<div id="overlay">
-  <div class="cv-spinner">
-    <span class="spinner"></span>
-  </div>
-</div>	
 <!-- Modal -->
-<div class="modal fade" id="loginModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<!-- spinner -->
+	<div id="overlay">
+	  <div class="cv-spinner">
+	    <span class="spinner"></span>
+	  </div>
+	</div>	
 	<div class="modal-dialog modal-dialog-scrollable">
 		<div class="modal-content" style="background: none; border: 0px; overflow: hidden;height: 790px; position: relative; top: 50%; left: 50%; transform: translateY(-50%) translateX(-50%);">
 			<!-- <div class="modal-header">

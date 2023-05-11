@@ -70,9 +70,7 @@ public class NtController {
 			else if (searchVal.equals("sndrId")) {
 				ntVO.setSndrId(keyword);
 			}
-			else if (searchVal.equals("rcvrId")) {
-				ntVO.setRcvrId(keyword);
-			}
+			ntVO.setRcvrId(mbrVO.getMbrId());
 			ntVO.setUseYn(checkNtRdDt);
 			ntVO.setDelYn(checkDelYn);
 			List<NtVO> allNtList = ntService.readAllNt(ntVO);

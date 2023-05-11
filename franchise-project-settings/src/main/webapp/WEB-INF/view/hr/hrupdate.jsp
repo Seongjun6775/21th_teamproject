@@ -19,44 +19,78 @@
 		document.getElementById("hrDdlnDt").value = ("${hr.hrDdlnDt}").substring(0,10);
 		
 		$("#cancel_btn").click(function() {
-			if (!confirm("수정을 취소하시겠습니까?")) {
-				return;
-			}
-			location.href="${context}/hr/list";
+			Swal.fire({
+			     title: '수정 취소',
+			     text: "수정을 취소하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '아니오',
+			     confirmButtonText: '예'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			    	  location.href="${context}/hr/list";
+			      }else{
+			         return;
+			      }
+			});
 		});
 		
 		$("#update_btn").click(function() {
 			
 			var hrDdlnDt = document.getElementById("hrDdlnDt").value;
-
-			if (!confirm("수정을 완료하시겠습니까?")) {
-				return;
-			}
-			
 			var ajaxUtil = new AjaxUtil();
-			ajaxUtil.upload("#hr_form", "${context}/api/hr/update/${hr.hrId}", function(response) {
-				if (response.status == "200 OK") {
-					location.href = "${context}/hr/list";
-				}
-				else if (response.status == "500") {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.message); */
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.message); */
-				}
-			}, {"hrFile": "uploadFile"});
+			
+			Swal.fire({
+			     title: '지원서 수정',
+			     text: "수정을 완료하시겠습니까?",
+			     icon: 'warning',
+			     showCancelButton: true,
+			     confirmButtonColor: '#3085d6',
+			     cancelButtonColor: '#d33',
+			     cancelButtonText: '아니오',
+			     confirmButtonText: '예'
+			   }).then((result) => {
+			      if(result.isConfirmed){
+			    	  ajaxUtil.upload("#hr_form", "${context}/api/hr/update/${hr.hrId}", function(response) {
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 수정되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href = "${context}/hr/list";
+									}
+								});
+							}
+							else if (response.status == "500") {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.message); */
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.message); */
+							}
+						}, {"hrFile": "uploadFile"});
+			      }else{
+			         return;
+			      }
+			});
+			
+			
 		});
 		
 		$("a[id='file-delete']").on("click", function(e) {

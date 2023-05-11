@@ -146,7 +146,7 @@ public class RestMbrController {
 				throw new ApiException(ApiStatus.FAIL, "비밀번호 변경에 실패하였습니다.");
 			}
 		}
-		return new ApiResponseVO(ApiStatus.OK,"/logout");
+		return new ApiResponseVO(ApiStatus.OK,"/mbr/logout");
 	}
 	//회원탈퇴
 	@GetMapping("/mbr/signout")
@@ -155,7 +155,7 @@ public class RestMbrController {
 		if(!deleteResult) {
 			throw new ApiException(ApiStatus.FAIL, "회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
 		}else {
-			return new ApiResponseVO(ApiStatus.OK,"/logout");
+			return new ApiResponseVO(ApiStatus.OK,"/mbr/logout");
 		}
 	}
 	//인증 메일 보내기

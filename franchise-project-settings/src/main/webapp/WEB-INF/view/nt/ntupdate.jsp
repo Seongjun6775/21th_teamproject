@@ -27,35 +27,77 @@
 				return;
 			}
 			
-			if (!confirm("쪽지를 수정하시겠습니까?")) {
-				return;
-			}
-			
-			$.post("${context}/api/nt/update/${nt.ntId}", $("#nt_form").serialize(), function(response){
-				
-				if (response.status == "200 OK") {
-					location.href="${context}/nt/ntmstrlist";
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + " / " + response.message); */
-				}
+			Swal.fire({
+				  title: '수정하시겠습니까?',
+				  icon: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '수정하기'
+				}).then((result) => {
+					if(result.isConfirmed){
+						$.post("${context}/api/nt/update/${nt.ntId}", $("#nt_form").serialize(), function(response){
+							
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '수정되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}/nt/ntmstrlist";
+									}
+								});
+								
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
 			});
 		});
 		
 		$("#cancel_btn").click(function() {
 			
-			if (!confirm("쪽지 수정을 취소하시겠습니까?")) {
-				return;
-			}
-			location.href="${context}/nt/ntmstrdetail/${nt.ntId}";
+			Swal.fire({
+				  title: '수정 취소',
+				  text: '쪽지 수정을 취소하시겠습니까?'
+				  icon: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '수정취소'
+				}).then((result) => {
+					if(result.isConfirmed){
+						location.href="${context}/nt/ntmstrdetail/${nt.ntId}";
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
+			});
 		});
-		
 	});
 </script>
  <style>

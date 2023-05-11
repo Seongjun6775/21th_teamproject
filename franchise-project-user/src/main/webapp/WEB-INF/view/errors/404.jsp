@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="refresh" content="3; url=${context}/">
 <title>404에러입니다!</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<link rel="stylesheet" href="${context}/css/str_common.css?p=${date}" />
@@ -19,15 +20,15 @@ $().ready(function() {
 	});
 });
 	</script>
+<style>
+	body{
+		width:100%;
+		height: auto;
+	    background: url(${context}/img/404.png) no-repeat center;
+	    background-size: cover;
+	}
+</style>
 </head>
 <body>
-	<div class="main-layout">
-
-		<div class="path"> 매장 관리 > 상세 조회 > 조회 오류</div>
-		<h1>중간관리자는 다른 매장을 볼 수 없습니다!</h1>
-		<div class="align-right">
-		<button id="index_btn" class="btn-index">처음 페이지로 돌아가기</button>
-		</div>
-	</div>
 </body>
 </html>

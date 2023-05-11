@@ -117,9 +117,9 @@
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 						   <th style="width: 50px; text-align: center; border-radius: 6px 0 0 0;"><input type="checkbox" id="all-check" /></th>
-							<th style="width: 100px ">이벤트 상품 ID</th>
+<!-- 							<th style="width: 100px ">이벤트 상품 ID</th>
 							<th style="width: 200px">이벤트 ID</th>
-							<th style="width: 200px">상품 ID</th>
+							<th style="width: 200px">상품 ID</th> -->
 							<th style="width: 200px">상품 이름</th>
 							<th style="width: 200px">상품 가격</th>
 							<th style="width: 200px; border-radius: 0 6px 0 0;">변경 후 가격</th>
@@ -134,9 +134,9 @@
 									<tr>
 									 <td class="firstcell">
 									    <input type="checkbox" class="check-idx" value="${evntPrdt.evntPrdtId}"/></td>
-										<td>${evntPrdt.evntPrdtId}</td>
+<%-- 										<td>${evntPrdt.evntPrdtId}</td>
 										<td>${evntPrdt.evntId}</td>
-										<td>${evntPrdt.prdtId}</td>
+										<td>${evntPrdt.prdtId}</td> --%>
 										<td>${evntPrdt.prdtNm}</td>
 										<td><fmt:formatNumber>${evntPrdt.prdtPrc}</fmt:formatNumber>원</td>
 										<td><fmt:formatNumber>${evntPrdt.evntPrdtChngPrc}</fmt:formatNumber>원</td>
@@ -147,7 +147,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="7">등록된 이벤트 대상 품목 정보가 없습니다.</td>
+									<td colspan="4">등록된 이벤트 대상 품목 정보가 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>

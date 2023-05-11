@@ -43,35 +43,78 @@
 				/* alert("자기 자신에게 쪽지를 보낼 수 없습니다!") */
 				return;
 			}
-			
-			
-			if (!confirm("쪽지를 전송하시겠습니까?")) {
-				return;
-			}
-			
-			$.post("${context}/api/nt/create", $("#nt_form").serialize(), function(response){
-				
-				if (response.status == "200 OK") {
-					location.href="${context}/nt/ntmstrlist";
-				}
-				else {
-					Swal.fire({
-				    	  icon: 'error',
-				    	  title: response.message,
-				    	  showConfirmButton: false,
-				    	  timer: 2500
-					});
-					/* alert(response.errorCode + " / " + response.message); */
-				}
+			Swal.fire({
+				  title: '쪽지보내기',
+				  text: '쪽지를 전송하시겠습니까?',
+				  icon: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '전송'
+				}).then((result) => {
+					if(result.isConfirmed){
+						$.post("${context}/api/nt/create", $("#nt_form").serialize(), function(response){
+							
+							if (response.status == "200 OK") {
+								Swal.fire({
+							    	  icon: 'success',
+							    	  title: '정상적으로 전송되었습니다.',
+							    	  showConfirmButton: true,
+							    	  confirmButtonColor: '#3085d6'
+								}).then((result)=>{
+									if(result.isConfirmed){
+										location.href="${context}/nt/ntmstrlist";
+									}
+								});
+							}
+							else {
+								Swal.fire({
+							    	  icon: 'error',
+							    	  title: response.message,
+							    	  showConfirmButton: false,
+							    	  timer: 2500
+								});
+								/* alert(response.errorCode + " / " + response.message); */
+							}
+						});
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
 			});
+
 		});
 		
 		$("#cancel_btn").click(function() {
 			
-			if (!confirm("쪽지 작성을 취소하시겠습니까?")) {
-				return;
-			}
-			location.href="${context}/nt/ntmstrlist";
+			Swal.fire({
+				  title: '취소',
+				  text: '쪽지 작성을 취소하시겠습니까?',
+				  icon: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: '취소',
+				  confirmButtonText: '작성취소'
+				}).then((result) => {
+					if(result.isConfirmed){
+						location.href="${context}/nt/ntmstrlist";
+					}else{
+						Swal.fire({
+					    	  icon: 'success',
+					    	  title: '취소 되었습니다.',
+					    	  showConfirmButton: false,
+					    	  timer: 2500
+						});
+						return;
+					}
+			});
 		});
 		
 		$("#rcvrId").click(function() {

@@ -440,6 +440,7 @@ img {
 }
 /*Info*/
 .infoGroup{
+	flex-direction: column;
 	display: flex;
     justify-content: center;
     height: auto;

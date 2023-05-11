@@ -2,6 +2,7 @@ package com.ktds.fr.mbr.vo;
 
 import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.vo.AbstractVO;
+import com.ktds.fr.hr.vo.HrVO;
 import com.ktds.fr.str.vo.StrVO;
 
 public class MbrVO extends AbstractVO {
@@ -47,6 +48,19 @@ public class MbrVO extends AbstractVO {
 	 * 매장 정보
 	 */
 	private StrVO strVO;
+
+	/**
+	 * 채용 정보
+	 */
+	private HrVO hrVO;
+
+	public HrVO getHrVO() {
+		return hrVO;
+	}
+
+	public void setHrVO(HrVO hrVO) {
+		this.hrVO = hrVO;
+	}
 
 	public StrVO getStrVO() {
 		return strVO;

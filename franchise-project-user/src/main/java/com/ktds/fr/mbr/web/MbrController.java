@@ -27,10 +27,10 @@ public class MbrController {
 	@Autowired
 	private CmmnCdService cmmnCdService;
 	
-	@GetMapping("/join")
-	public String viewJoinPage() {
-		return "mbr/joinSite";
-	}
+//	@GetMapping("/join")
+//	public String viewJoinPage() {
+//		return "mbr/joinSite";
+//	}
 	
 //	@GetMapping("/mbr/list")
 //	public String viewMbrListPage(@SessionAttribute("__MBR__")MbrVO session, Model model, MbrVO mbrVO) {

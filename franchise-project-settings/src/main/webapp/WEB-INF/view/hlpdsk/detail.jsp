@@ -171,7 +171,7 @@
 			<c:if test="${hlpDsk.hlpDskPrcsYn eq 'N' && sessionScope.__MBR__.mbrLvl ne '001-04'}">
 				<div class="hr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; ">
 					<form id="create_form" >
-						<div class="qna_box row rounded" style="background: #fed1a78c;padding:20px;" >
+						<div class="qna_box row rounded" style="background: #adb5bd36 ;padding:20px;" >
 							<button class="qna-btn" id="fix_btn" style="width:70%;">답변하기</button>
 						
 						<input type="hidden" id="mstrId" name="mstrId" value="${sessionScope.__MBR__.mbrId}" />

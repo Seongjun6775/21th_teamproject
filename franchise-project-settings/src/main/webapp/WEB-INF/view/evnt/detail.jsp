@@ -148,19 +148,19 @@
 		
 		//'참여매장목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntStr").click(function() {
-			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=1200, height=950, scrollbars=yes, resizable=no"); 
+			var pop = window.open("${context}/evntStr/list/${evntVO.evntId}", "resPopup", "width=600, height=850, scrollbars=yes, resizable=no"); 
 		       pop.focus();	
 		});
 		
 		//'이벤트상품목록' 버튼 클릭 시 팝업창으로 리스트 뜸
 		$("#btn-evntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=1200, height=950, scrollbars=yes, resizable=no"); 
+			var pop = window.open("${context}/evntPrdt/list/${evntVO.evntId}", "resPopup", "width=600, height=550, scrollbars=yes, resizable=no"); 
 		       pop.focus();	
 		});
 		
 		//'이벤트상품등록' 버튼 클릭 시 팝업창으로 뜸
 		$("#btn-createEvntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/prdtList2/${evntVO.evntId}" , "resPopup", "width=1200, height=950, scrollbars=yes, resizable=no"); 
+			var pop = window.open("${context}/evntPrdt/prdtList2/${evntVO.evntId}" , "resPopup", "width=600, height=850, scrollbars=yes, resizable=no"); 
 		       pop.focus();	
 		});
 	})

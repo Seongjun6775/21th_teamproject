@@ -18,7 +18,7 @@
 	    	  confirmButtonColor: '#3085d6'
 		}).then((result)=>{
 			if(result.isConfirmed){
-				location.href = "${context}/hr/list";
+				location.href = "${context}/hr/hrlist";
 			}
 		});
 		/* alert("다운로드 할 파일을 찾을 수 없습니다."); */

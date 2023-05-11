@@ -80,7 +80,7 @@
 			<div class="content-setting title">고객센터</div>
 			<div class="overlay absolute"></div>
 		</div>
-		<div id="menu" class="flex-column rounded" style="background-color: #fed1a78c;"> 
+		<div id="menu" class="flex-column rounded" style="background-color:#adb5bd36;"> 
 		<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 	        <span class="fs-5 fw-bold"> 고객센터 > 문의/건의</span>
 	        <div style="position: absolute;right: 0;top: 0; margin: 20px;">
@@ -127,7 +127,7 @@
 				<div class="bg-white rounded shadow-sm" style="position: relative; padding: 23px 18px 23px 18px; margin: 20px;">
 				<header class="detailview-header">
 				    <div class="detailview-header-area">
-				        <div class="detailview-header-left">
+				        <div class="detailview-header-left" style="background-color: #fff;">
 				        	<div class="list-title">답변완료</div> 
 	
 				            <!-- 추가 정보 -->

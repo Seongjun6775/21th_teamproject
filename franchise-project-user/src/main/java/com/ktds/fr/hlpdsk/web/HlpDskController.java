@@ -22,7 +22,9 @@ public class HlpDskController {
 	private HlpDskService hlpDskService;
 	
 	@GetMapping("/hlpdsk/list_user")
-	public String viewHlpDskUser() {
+	public String viewHlpDskUser(HlpDskVO hlpDskVO,Model model) {
+		List<HlpDskVO> myHlpDskList = hlpDskService.readAllMyHlpDsks(hlpDskVO);
+		model.addAttribute("myHlpDskList", myHlpDskList);
 		return "hlpdsk/list_user";
 	}
 	@GetMapping("/hlpdsk/list")

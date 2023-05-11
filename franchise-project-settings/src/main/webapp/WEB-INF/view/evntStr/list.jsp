@@ -48,11 +48,11 @@
 					<thead class="table-secondary" style="border-bottom: 2px solid #adb5bd;">
 						<tr>
 <!-- 						<th style="width: 100px">이벤트 참여번호</th> -->
-							<th>이벤트 ID</th>
+				<!-- 			<th>이벤트 ID</th> -->
 							<th>이벤트명</th>
-							<th>이벤트 참여매장 ID</th>
+				<!-- 			<th>이벤트 참여매장 ID</th> -->
 							<th>이벤트 참여매장명</th>
-							<th>가맹점주 ID</th>
+				<!-- 			<th>가맹점주 ID</th> -->
 							<th>가맹점주명</th>
 						</tr>
 					</thead>
@@ -62,11 +62,11 @@
 								<c:forEach items="${evntStrList}" var="evntStr">
 									<tr>
 <%-- 										<td style="text-align:center;">${evntStr.evntStrId}</td> --%>
-										<td style="text-align:center;">${evntStr.evntId}</td>
+<%-- 										<td style="text-align:center;">${evntStr.evntId}</td> --%>
 										<td style="text-align:center;">${evntStr.evntTtl}</td>
-										<td style="text-align:center;">${evntStr.strId}</td>
+<%-- 										<td style="text-align:center;">${evntStr.strId}</td> --%>
 										<td style="text-align:center;">${evntStr.strNm}</td>
-										<td style="text-align:center;">${evntStr.mbrId}</td>
+<%-- 										<td style="text-align:center;">${evntStr.mbrId}</td> --%>
 										<td style="text-align:center;">${evntStr.mbrNm}</td>
 									</tr>
 								</c:forEach>

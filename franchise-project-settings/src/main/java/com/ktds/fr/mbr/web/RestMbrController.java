@@ -54,9 +54,9 @@ public class RestMbrController {
 		if(mbr == null) {
 			throw new ApiException("403", "아이디 또는 비밀번호를 확인해 주세요. 5회이상 실패시 계정이 차단됩니다. "+ mbrVO.getMbrLgnFlCnt() + " / 5");
 		}
-//		else if(mbr.getMbrLvl().equals("001-04")) {
-//			throw new ApiException("400", "사용할 수 없는 계정입니다.")
-//		}
+		else if(mbr.getMbrLvl().equals("001-04")) {
+			throw new ApiException("400", "사용할 수 없는 계정입니다.");
+		}
 		else {
 			mbr.setMbrRcntLgnIp(request.getRemoteAddr());
 			session.setAttribute("__MBR__", mbr);

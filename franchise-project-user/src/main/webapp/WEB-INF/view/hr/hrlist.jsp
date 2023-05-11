@@ -66,6 +66,27 @@
 	margin: 0 auto;
 	margin-bottom: 144px;
 }
+
+.ntc-label{
+    border: 1px solid #ffc6c9;
+    background-color: #ffe3e4;
+    color: #ff4e59;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+
+table tr[class=ntc] td,
+table tr[class=ntc] a {
+	color: #F00;
+	font-weight: bold;
+}
+
+table:hover tr[class=ntc] td,
+table:hover tr[class=ntc] a {
+	color: #F00;
+	font-weight: bold;
+}
+
 </style>
 </head>
 <body class="scroll">
@@ -104,7 +125,7 @@
 								    data-hrapryn="${hr.hrAprYn}"
 								    data-hrstat="${hr.hrStat}"
 								    data-delyn="${hr.delYn}"
-								    style="${hr.ntcYn eq 'Y' ? 'font-weight: bold' : ''};">
+								    ${hr.ntcYn eq 'Y' ? 'class="ntc"' : ''}">
 									<td>${hr.hrId}</td>
 									<td>${hr.mbrId}</td>
 									<td><a href="${context}/hr/hrdetail/${hr.hrId}">${hr.hrTtl}</a></td>
@@ -112,7 +133,7 @@
 									<td><fmt:formatDate value="${parseHrRgstDt}" pattern="yyyy-MM-dd" /></td>
 									<td>
 										<c:choose>
-											<c:when test="${hr.ntcYn eq 'Y'}"></c:when>
+											<c:when test="${hr.ntcYn eq 'Y'}"><strong class="ntc-label">공지</strong></c:when>
 											<c:otherwise>
 												<c:choose>
 													<c:when test="${hr.hrStat eq '002-01'}">접수</c:when>

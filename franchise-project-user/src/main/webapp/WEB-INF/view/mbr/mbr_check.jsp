@@ -14,17 +14,17 @@
 <script type="text/javascript">
 	$().ready(function(){
 		var valueUtil = new ValueUtil();
-		$("#mbrPwd").keyup(function(){
+		$("#chck_mbrPwd").keyup(function(){
 			var mbrPwd = $(this).val();
 			mbrPwd = mbrPwd.replace(/\s/gi, "");
-			$("#mbrPwd").val(mbrPwd);
+			$("#chck_mbrPwd").val(mbrPwd);
 			console.log(mbrPwd)
 		});
-		$("#pwd-check-btn").click(function(event){
+		$("#pwd-check-btn2").click(function(event){
 			event.preventDefault();
-			var mbrPwd = $("#mbrPwd").val();
+			var mbrPwd = $("#chck_mbrPwd").val();
 			console.log(mbrPwd);
-			if(!valueUtil.requires("#mbrPwd")){
+			if(!valueUtil.requires("#chck_mbrPwd")){
 				return;
 			}
 			//비밀번호 자리수가 8자 미만일때
@@ -38,7 +38,7 @@
 				/* alert("비밀번호를 확인해 주세요."); */
 				return;
 			}
-			$.post("${context}/api/mbr/pwd/check", $("#pwdCheck_form").serialize(), function(resp){
+			$.post("${context}/mbr/pwd/check", $("#pwdCheck_form").serialize(), function(resp){
 				if(resp.status == "200 OK"){
 					location.href="${context}"+resp.redirectURL;
 				}
@@ -53,9 +53,9 @@
 				}
 			});
 		});
-		$("#mbrPwd").keydown(function (key) {
+		$("#chck_mbrPwd").keydown(function (key) {
 	        if (key.keyCode == 13) {
-	        	$("#pwd-check-btn").click();
+	        	$("#pwd-check-btn2").click();
 	        }
 	    });
 	});
@@ -79,12 +79,11 @@
 					<form id="pwdCheck_form" class="needs-validation" style="margin-bottom: 10px;">
 						<div class="input-group mt-16">
 							<span class="input-group-text"><i class='bx bx-lock'></i></span>
-							<input type="password" id="mbrPwd" name="mbrPwd" class="form-control" placeholder="비밀번호 입력" autocomplete="off" maxlength="8" data-field-name="비밀번호">
-							<!-- <input type="password" id="mbrPwd" name="mbrPwd" placeholder="비밀번호 입력" maxlength="8" data-field-name="비밀번호" autocomplete="off" > -->
+							<input type="password" id="chck_mbrPwd" name="mbrPwd" class="form-control" placeholder="비밀번호 입력" autocomplete="off" maxlength="20" data-field-name="비밀번호">
 						</div>
 					</form>
 					<div class="btn-div">
-						<button class="btn btn-outline-primary btn-default" id="pwd-check-btn">확인</button>
+						<button class="btn btn-outline-primary btn-default" id="pwd-check-btn2">확인</button>
 					</div>
 				</div>
 	    	</div>
