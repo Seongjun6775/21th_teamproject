@@ -160,7 +160,7 @@
 		
 		//'이벤트상품등록' 버튼 클릭 시 팝업창으로 뜸
 		$("#btn-createEvntPrdt").click(function() {
-			var pop = window.open("${context}/evntPrdt/prdtList2/${evntVO.evntId}" , "resPopup", "width=600, height=850, scrollbars=yes, resizable=no"); 
+			var pop = window.open("${context}/evntPrdt/prdtList2/${evntVO.evntId}" , "resPopup", "width=900, height=850, scrollbars=yes, resizable=no"); 
 		       pop.focus();	
 		});
 	})

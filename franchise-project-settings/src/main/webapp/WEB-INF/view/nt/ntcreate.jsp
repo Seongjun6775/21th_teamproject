@@ -157,7 +157,7 @@
 						<input type="text" id="ntTtl" name="ntTtl" class="form-control" placeholder="쪽지 제목"/>
 					</div>
 					<div>
-						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder="쪽지 본문 : 4000자 까지 입력 가능합니다."
+						<textarea id="ntCntnt" name="ntCntnt" maxlength="4000" placeholder=""
 								  class="form-control"  style="word-break: bredk-all; resize:none;"></textarea>
 					</div>
 				</form>

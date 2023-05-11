@@ -72,7 +72,7 @@
             <li class="rounded"><a data-href="${context}/str/completeOdr" href="${context}/str/completeOdr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">처리주문조회</a></li>
               <li class="rounded"><a data-href="${context}/payment" href="${context}/payment/monthly" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매출관리</a></li>
 <%--               <li class="rounded"><a data-href="${context}/payment" href="${context}/payment" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매출관리</a></li> --%>
-            <li class="rounded"><a data-href="${context}/paymentStr" href="${context}/paymentStr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">매장별 매출관리</a></li>
+            <li class="rounded"><a data-href="${context}/paymentStr" href="${context}/paymentStr" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">지역별 매출관리</a></li>
           </ul>
         </div>
       </li>
@@ -83,7 +83,9 @@
         <div class="collapse" id="order1-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 	        <li class="rounded"><a data-href="${context}/evnt/list" href="${context}/evnt/list" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">이벤트 조회</a></li>
-	        <li class="rounded"><a data-href="${context}/evnt/create" href="${context}/evnt/create" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">이벤트 등록</a></li>
+	        <c:if test="${sessionScope.__MBR__.mbrLvl == '001-01' || sessionScope.__MBR__.mbrLvl == '001-01'}">		
+	        	<li class="rounded"><a data-href="${context}/evnt/create" href="${context}/evnt/create" class="text-light link-body-emphasis d-inline-flex text-decoration-none rounded">이벤트 등록</a></li>
+          	</c:if>
           </ul>
         </div>
       </li>
@@ -132,14 +134,16 @@
           </ul>
         </div>
       </li>
-      <li class="border-top my-3"></li>	
-      <li class="mb-1">
-	      <a href="${context}/hlpdsk/list">
-	      <button class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"
-	       style="--bs-btn-font-weight: 700;" data-bs-toggle="collapse" aria-expanded="false">
-	          고객센터
-	       </button></a>
-       </li> 
+      <c:if test="${sessionScope.__MBR__.mbrLvl == '001-01' || sessionScope.__MBR__.mbrLvl == '001-01'}">		
+	      <li class="border-top my-3"></li>	
+	      <li class="mb-1">
+		      <a href="${context}/hlpdsk/list">
+		      <button class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed"
+		       style="--bs-btn-font-weight: 700;" data-bs-toggle="collapse" aria-expanded="false">
+		          고객센터
+		       </button></a>
+	       </li> 
+       </c:if>
 <%--       <li class="text-light btn d-inline-flex align-items-center rounded border-0 collapsed" style="position: fixed; bottom: 0; left: 60px; right: 0;"> 
       	<a href="${context}/index_user" class="text-light link-dark d-inline-flex text-decoration-none rounded">소비자화면</a></li> --%>
     </ul>
