@@ -1,5 +1,7 @@
 package com.ktds.fr.lgnhist.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,10 @@ public class LgnHistDAOImpl extends SqlSessionDaoSupport implements LgnHistDAO {
 		return getSqlSession().insert("LgnHist.createMbrLgnHist",lgnHistVO);
 	}
 	
+	@Override
+	public List<LgnHistVO> readMbrLgnHist(String mbrId) {
+		return getSqlSession().selectList("LgnHist.readMbrLgnHist", mbrId);
+	}
 	
 
 }

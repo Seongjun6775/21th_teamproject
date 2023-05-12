@@ -1,5 +1,7 @@
 package com.ktds.fr.lgnhist.vo;
 
+import com.ktds.fr.mbr.vo.MbrVO;
+
 public class LgnHistVO {
 
 	private String lgnHistId;
@@ -7,6 +9,16 @@ public class LgnHistVO {
 	private String lgnHistActn;
 	private String lgnHistDt;
 	private String lgnHistIp;
+	
+	private MbrVO mbrVO;
+	
+	public MbrVO getMbrVO() {
+		return mbrVO;
+	}
+
+	public void setMbrVO(MbrVO mbrVO) {
+		this.mbrVO = mbrVO;
+	}
 
 	public String getLgnHistId() {
 		return lgnHistId;

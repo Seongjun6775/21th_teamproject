@@ -20,6 +20,7 @@ import com.ktds.fr.cmmncd.vo.CmmnCdVO;
 import com.ktds.fr.common.api.vo.ApiResponseVO;
 import com.ktds.fr.common.api.vo.ApiStatus;
 import com.ktds.fr.common.util.SessionManager;
+import com.ktds.fr.lgnhist.service.LgnHistService;
 import com.ktds.fr.lgnhist.vo.LgnHistVO;
 import com.ktds.fr.mbr.service.MbrService;
 import com.ktds.fr.mbr.vo.MbrVO;
@@ -34,6 +35,9 @@ public class MbrController {
 
 	@Autowired
 	private CmmnCdService cmmnCdService;
+	
+	@Autowired
+	private LgnHistService lgnHistService;
 	
 	@GetMapping("/join")
 	public String viewJoinPage() {
@@ -114,6 +118,14 @@ public class MbrController {
 		model.addAttribute("mbrId", mbrVO.getMbrId());
 		model.addAttribute("mbrNm", mbrVO.getMbrNm());
 		return "mbr/mbr_search";
+	}
+	
+	//회원 이력 조회
+	@GetMapping("/mbr/select/{mbrId}")
+	public String viewMbrHistPage(@PathVariable String mbrId, Model model) {
+		List<LgnHistVO> histList = lgnHistService.readMbrLgnHist(mbrId);
+		model.addAttribute("histList" ,histList);
+		return "mbr/mbr_select";
 	}
 
 }

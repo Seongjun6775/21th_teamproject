@@ -18,7 +18,14 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <script type="text/javascript">
+	var selectMbr;
 	$().ready(function(){
+		$(".mbr_table_grid > table > tbody > tr").click(function(){
+			var data = $(this).data();
+			selectMbr=window.open("${context}/mbr/select/"+data.mbrid,"회원이력","width=670, height=680");
+		});
+		
+		
 		$("#search-btn").click(function(){
 			movePage(0);
 		});
@@ -135,7 +142,7 @@
 						<button id="search-btn" class="btn btn-outline-success" type="submit" style="border: solid 2px;font-size: 17px;FONT-WEIGHT: 800;margin: 10px; min-width:80px;">검색</button>
 				</div>
 				<!-- 조회영역 -->
-				<div class="admin_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
+				<div class="mbr_table_grid bg-white rounded shadow-sm" style="padding: 30px; margin: 20px; height: auto;">
 					<div style="margin: 13px;">
 						총 ${mbrList.size() > 0 ? mbrList.get(0).totalCount : 0 }건 / 게시물 개수
 						<select id="listSize" name="viewCnt" class="select-align-center">

@@ -18,4 +18,21 @@
 			 , SYSDATE
 			 , #{lgnHistIp})		
 	</insert>
+	
+	<select id="readMbrLgnHist"
+			parameterType="string"
+			resultType="com.ktds.fr.lgnhist.vo.LgnHistVO">
+		SELECT LH.MBR_ID
+			 , LH.LGN_HIST_ACTN
+			 , LH.LGN_HIST_IP
+			 , LH.LGN_HIST_DT
+			 , M.MBR_LGN_BLCK_YN
+			 , M.MBR_LVL
+			 , M.MBR_NM
+			 , M.DEL_YN
+		  FROM LGN_HIST LH
+		 INNER JOIN MBR M
+		 	ON M.MBR_ID = LH.MBR_ID
+		 WHERE LH.MBR_ID = #{_parameter}
+	</select>
 </mapper>
