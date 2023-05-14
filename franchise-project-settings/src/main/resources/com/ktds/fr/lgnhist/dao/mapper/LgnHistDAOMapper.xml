@@ -19,20 +19,37 @@
 			 , #{lgnHistIp})		
 	</insert>
 	
+	<resultMap id="LgnHistMap" type="com.ktds.fr.lgnhist.vo.LgnHistVO" autoMapping="true">
+		<id property="lgnHistId" column="LGN_HIST_ID" />
+		<association property="mbrVO" 
+					 javaType="com.ktds.fr.mbr.vo.MbrVO"
+					 autoMapping="true">
+				<id property="mbrId" column="MBR_ID" />
+		</association>
+
+	</resultMap>
+	
 	<select id="readMbrLgnHist"
-			parameterType="string"
-			resultType="com.ktds.fr.lgnhist.vo.LgnHistVO">
-		SELECT LH.MBR_ID
+			parameterType="com.ktds.fr.lgnhist.vo.LgnHistVO"
+			resultMap="LgnHistMap">
+		SELECT LH.LGN_HIST_ID
+			 , LH.MBR_ID
 			 , LH.LGN_HIST_ACTN
 			 , LH.LGN_HIST_IP
-			 , LH.LGN_HIST_DT
+			 , TO_CHAR(LH.LGN_HIST_DT, 'YYYY-MM-DD HH24:MI:SS') LGN_HIST_DT
 			 , M.MBR_LGN_BLCK_YN
 			 , M.MBR_LVL
 			 , M.MBR_NM
 			 , M.DEL_YN
+			 , CD.CD_NM
 		  FROM LGN_HIST LH
 		 INNER JOIN MBR M
 		 	ON M.MBR_ID = LH.MBR_ID
-		 WHERE LH.MBR_ID = #{_parameter}
+		 INNER JOIN CMMN_CD CD
+		 	ON CD.CD_ID = M.MBR_LVL
+		 WHERE LH.MBR_ID = #{mbrId}
+		   AND LH.LGN_HIST_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND LH.LGN_HIST_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		 ORDER BY LH.LGN_HIST_DT DESC
 	</select>
 </mapper>

@@ -121,10 +121,11 @@ public class MbrController {
 	}
 	
 	//회원 이력 조회
-	@GetMapping("/mbr/select/{mbrId}")
-	public String viewMbrHistPage(@PathVariable String mbrId, Model model) {
-		List<LgnHistVO> histList = lgnHistService.readMbrLgnHist(mbrId);
+	@GetMapping("/mbr/select")
+	public String viewMbrHistPage(LgnHistVO lgnHistVO, Model model) {
+		List<LgnHistVO> histList = lgnHistService.readMbrLgnHist(lgnHistVO);
 		model.addAttribute("histList" ,histList);
+		model.addAttribute("lgnHistVO" ,lgnHistVO);
 		return "mbr/mbr_select";
 	}
 

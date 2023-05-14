@@ -16,7 +16,7 @@
 	<script type="text/javascript">
 $().ready(function() {
 	$("#index_btn").click(function(){
-		location.href= "${context}/index";
+		location.reload();
 	});
 });
 	</script>

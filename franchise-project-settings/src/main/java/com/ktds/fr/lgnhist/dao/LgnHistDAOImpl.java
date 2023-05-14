@@ -24,8 +24,8 @@ public class LgnHistDAOImpl extends SqlSessionDaoSupport implements LgnHistDAO {
 	}
 	
 	@Override
-	public List<LgnHistVO> readMbrLgnHist(String mbrId) {
-		return getSqlSession().selectList("LgnHist.readMbrLgnHist", mbrId);
+	public List<LgnHistVO> readMbrLgnHist(LgnHistVO lgnHistVO) {
+		return getSqlSession().selectList("LgnHist.readMbrLgnHist", lgnHistVO);
 	}
 	
 

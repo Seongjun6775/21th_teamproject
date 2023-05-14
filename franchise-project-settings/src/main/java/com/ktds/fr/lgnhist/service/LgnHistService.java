@@ -7,5 +7,5 @@ import com.ktds.fr.lgnhist.vo.LgnHistVO;
 public interface LgnHistService {
 	
 	//회원 이력 조회용
-	public List<LgnHistVO> readMbrLgnHist(String mbrId);
+	public List<LgnHistVO> readMbrLgnHist(LgnHistVO lgnHistVO);
 }

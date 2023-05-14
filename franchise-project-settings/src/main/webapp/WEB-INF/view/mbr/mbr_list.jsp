@@ -22,7 +22,7 @@
 	$().ready(function(){
 		$(".mbr_table_grid > table > tbody > tr").click(function(){
 			var data = $(this).data();
-			selectMbr=window.open("${context}/mbr/select/"+data.mbrid,"회원이력","width=670, height=680");
+			selectMbr=window.open("${context}/mbr/select?mbrId="+data.mbrid,"회원이력","width=670, height=680");
 		});
 		
 		
@@ -107,7 +107,6 @@
 		    	  showConfirmButton: false,
 		    	  timer: 2500
 	    	});
-			/* alert("시작 일자를 확인해 주세요");*/
 			return;
 		}
 		var queryString = "mbrLvl=" + mbrLvl;
